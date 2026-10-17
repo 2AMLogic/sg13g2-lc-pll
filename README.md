@@ -64,7 +64,7 @@ loads a tank that `sg13g2-vco` grades without a buffer.
 These are `sg13g2-vco`'s targets, not measured values. If that repo's
 spec changes, this table follows it.
 
-## Target specification (DRAFT — engineering to ratify, see issue #1)
+## Target specification (DRAFT — engineering to ratify, see issue #2)
 
 | Parameter | Target | Fallback | Stretch |
 |---|---|---|---|
