@@ -7,7 +7,8 @@ open PDK, built around the program's LC VCO,
 driving [klayout-tools](https://github.com/2AMLogic/klayout-tools) and the
 open-source xschem + ngspice flow.
 
-**Status: just opened, specification phase.** Nothing is designed yet.
+**Status: specification ratified (targets only).** Nothing is designed or
+simulated yet; no spec row is met.
 
 **Built agent-native.** Every specification, decision record, testbench, and
 line of documentation here is produced by AI agents working from a ratified
@@ -64,13 +65,16 @@ loads a tank that `sg13g2-vco` grades without a buffer.
 These are `sg13g2-vco`'s targets, not measured values. If that repo's
 spec changes, this table follows it.
 
-## Target specification (DRAFT — engineering to ratify, see issue #1)
+## Target specification (ratified as targets by DR-001, issue #2; none measured)
+
+Full rows, methods, corner sets and gates: [`spec/target-spec.md`](spec/target-spec.md).
 
 | Parameter | Target | Fallback | Stretch |
 |---|---|---|---|
 | Output frequency | 5.0 GHz, within the VCO's ratified band | one fixed channel | full 4.5–5.5 GHz band |
 | Reference input | 50 MHz | 100 MHz | 25 MHz |
-| Division | integer-N, programmable | fixed N | fractional-N |
+| Division | integer-N, N = 100 (5.0 GHz / 50 MHz); P = 8/9 prescaler | fixed N | N = 90-110 (4.5-5.5 GHz); fractional-N out of scope |
+| Loop bandwidth / phase margin | f_c 1 MHz (0.5-2.0), PM ≥ 45° | — | PM ≥ 60° |
 | Integrated rms jitter (simulated) | ≤ 1 ps, 10 kHz–10 MHz | ≤ 2 ps | ≤ 0.5 ps |
 | Reference spur | ≤ −50 dBc | ≤ −40 dBc | ≤ −60 dBc |
 | Lock time | ≤ 20 µs | ≤ 50 µs | ≤ 10 µs |
@@ -80,7 +84,7 @@ spec changes, this table follows it.
 Maturity ladder: spec ratified → VCO interface agreed with `sg13g2-vco` →
 prescaler simulated across PVT → loop simulated across PVT → integrated
 layout DRC/LVS-clean → post-layout re-verification → shuttle seat → measured
-silicon. **Current position: pre-spec.**
+silicon. **Current position: spec ratified (targets); next is the VCO interface agreement and the prescaler.**
 
 ## Repo layout
 
