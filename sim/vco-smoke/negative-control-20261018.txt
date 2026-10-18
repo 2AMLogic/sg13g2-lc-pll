@@ -1,0 +1,12 @@
+# scripts/test-fetch-vco.sh negative controls, 2026-10-18T02:49:09Z (UTC)
+# fetch-vco.sh pinned to 2AMLogic/sg13g2-vco@17e49a8f9aa4f858cff804ff33c3c484ed826095
+PASS fetch pinned files (rc=0)
+PASS verify clean tree (rc=0)
+PASS tampered file (--verify) (rc=1)
+PASS re-fetch repairs tamper (rc=0)
+PASS short commit refused (rc=1)
+PASS ref instead of SHA refused (rc=1)
+PASS non-fetched mode refused (rc=1)
+PASS wrong sha256 refused (rc=1)
+PASS missing file at commit refused (rc=1)
+9 passed, 0 failed

@@ -86,12 +86,26 @@ prescaler simulated across PVT → loop simulated across PVT → integrated
 layout DRC/LVS-clean → post-layout re-verification → shuttle seat → measured
 silicon. **Current position: spec ratified (targets); next is the VCO interface agreement and the prescaler.**
 
+## Pinned VCO and smoke run
+
+`reuse.lock.json` pins `2AMLogic/sg13g2-vco` to a full commit with a sha256 per
+consumed file (`fetched` mode: no VCO bytes are committed). One command fetches
+and verifies them, then runs the VCO's own netlist once (typical corner, one
+local `ngspice -b`) and writes a dated record under `sim/vco-smoke/records/`:
+
+```bash
+scripts/run-vco-smoke.sh     # prerequisites and pins: sim/vco-smoke/README.md, sim/pins.json
+```
+
+This is a toolchain and pin check, not a loop result.
+
 ## Repo layout
 
 ```
 spec/          ratified spec + decision records
 design/        schematics / netlists (xschem)
-sim/           testbenches + PVT corner results (ngspice)
+sim/           pins (pins.json), VCO smoke run, testbenches + PVT corner results (ngspice)
+scripts/       fetch-vco.sh / run-vco-smoke.sh / test-fetch-vco.sh
 layout/        GDS + DRC/LVS reports (klayout-tools driven)
 measurements/  silicon characterization (empty until tape-out)
 ```
