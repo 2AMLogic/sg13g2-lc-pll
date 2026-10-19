@@ -20,7 +20,7 @@ _None._
 
 `loom:important`; taken before unlabelled work.
 
-_None._
+- **#3**: Pin sg13g2-vco in reuse.lock.json and smoke-simulate the pinned netlist
 
 ## Ready
 
@@ -69,7 +69,7 @@ _None._
 |------|-------|
 | Operator merge-risk holds | 2 |
 | Very important | 0 |
-| Important | 0 |
+| Important | 1 |
 | Ready (`loom:issue`) | 0 |
 | In Progress (`loom:building`) | 2 |
 | PRs awaiting review | 0 |
