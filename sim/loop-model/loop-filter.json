@@ -1,0 +1,21 @@
+{
+  "design_point": {
+    "n": 100,
+    "f_ref_hz": 50000000.0,
+    "f_c_hz": 1000000.0,
+    "kvco_hz_per_v": 480000000.0,
+    "icp_a": 0.0002
+  },
+  "topology": "series R1-C1, shunt C2, unloaded R3-C3 pole; spec section 2 row 5",
+  "sizing": {
+    "zero_ratio": 4.0,
+    "pole2_ratio": 4.0,
+    "pole3_ratio": 8.0,
+    "r3": "R1"
+  },
+  "r1_ohm": 7035.647142611697,
+  "c1_f": 9.048489207366109e-11,
+  "c2_f": 6.032326138244074e-12,
+  "r3_ohm": 7035.647142611697,
+  "c3_f": 2.827652877301909e-12
+}

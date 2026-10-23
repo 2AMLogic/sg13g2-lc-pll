@@ -1,0 +1,593 @@
+{
+  "method": {
+    "method": "L (linear phase-domain model), spec/target-spec.md section 4",
+    "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+    "model": "L(s) = I_cp*Kvco*Z(s)/(N*s); Z = (R1-C1 || C2) then unloaded R3-C3 low-pass",
+    "assumptions": [
+      "R3-C3 is an unloaded RC after the first stage (no loading of C2 node by R3)",
+      "R3 = R1 by sizing choice; R3 thermal noise is not included",
+      "first-order: no in-loop peaking beyond L(s), no sampling-time effects, no CP nonlinearity",
+      "supply/substrate coupling into the tank is not modelled (graded post-layout)"
+    ],
+    "inputs": {
+      "N": {
+        "value": 100,
+        "source": "spec section 2 row 3"
+      },
+      "f_ref_hz": {
+        "value": 50000000.0,
+        "source": "spec section 2 row 2"
+      },
+      "f_out_hz": {
+        "value": 5000000000.0,
+        "source": "N * f_ref; spec section 2 row 1"
+      },
+      "f_c_target_hz": {
+        "value": 1000000.0,
+        "source": "spec section 2 row 5"
+      },
+      "f_c_band_hz": {
+        "value": [
+          500000.0,
+          2000000.0
+        ],
+        "source": "spec section 2 row 5"
+      },
+      "pm_min_deg": {
+        "value": 45.0,
+        "source": "spec section 2 row 5"
+      },
+      "icp_design_a": {
+        "value": 0.0002,
+        "source": "spec section 2 row 6"
+      },
+      "icp_range_a": {
+        "value": [
+          0.0001,
+          0.0004
+        ],
+        "source": "spec section 2 row 6"
+      },
+      "kvco_design_hz_per_v": {
+        "value": 480000000.0,
+        "source": "spec section 3 (geometric mid)"
+      },
+      "kvco_range_hz_per_v": {
+        "value": [
+          381000000.0,
+          606000000.0
+        ],
+        "source": "spec section 3"
+      },
+      "kvco_grid_hz_per_v": {
+        "value": [
+          381000000.0,
+          430000000.0,
+          480000000.0,
+          540000000.0,
+          606000000.0
+        ],
+        "source": "this model: grid across spec section 3 range"
+      },
+      "icp_grid_a": {
+        "value": [
+          0.0001,
+          0.00015,
+          0.0002,
+          0.0003,
+          0.0004
+        ],
+        "source": "this model: grid across spec section 2 row 6 range"
+      },
+      "vco_phase_noise": {
+        "value": "1/f^2 line through -105 dBc/Hz @ 1 MHz",
+        "source": "spec section 4 / sg13g2-vco row 4 TARGET; target, not measured"
+      },
+      "r1_thermal_noise": {
+        "value": "4kT*R1, T = 300.15 K",
+        "source": "spec section 4"
+      },
+      "placeholders_zero": {
+        "value": [
+          "reference_x_N2",
+          "pfd_cp_x_N2",
+          "divider_prescaler"
+        ],
+        "source": "spec section 4; owed by method N (later issue)"
+      }
+    },
+    "estimator": {
+      "band_hz": [
+        10000.0,
+        10000000.0
+      ],
+      "points_per_decade": 30,
+      "integration": "trapezoid on log f",
+      "sigma_phi_sq": "2 * integral L(f) df",
+      "sigma_t": "sigma_phi / (2 pi f_out)"
+    },
+    "gate": "exit non-zero if any Kvco in the design range at I_cp = 200 uA has f_c outside [0.5, 2.0] MHz or PM < 45 deg; other grid points are reported and flagged, not gated"
+  },
+  "loop_filter": {
+    "r1_ohm": 7035.647142611697,
+    "c1_f": 9.048489207366109e-11,
+    "c2_f": 6.032326138244074e-12,
+    "r3_ohm": 7035.647142611697,
+    "c3_f": 2.827652877301909e-12
+  },
+  "design_point": {
+    "kvco_hz_per_v": 480000000.0,
+    "icp_a": 0.0002,
+    "f_c_hz": 999999.9999999995,
+    "pm_deg": 54.802496715245255
+  },
+  "points": [
+    {
+      "kvco_hz_per_v": 381000000.0,
+      "icp_a": 0.0001,
+      "f_c_hz": 453161.21041178965,
+      "pm_deg": 51.40979339525045,
+      "jitter_rms_s": 6.183915705828821e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.0003104988473242505,
+        "r1_thermal": 6.69228534701841e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": [
+        "f_c outside [0.5, 2.0] MHz"
+      ]
+    },
+    {
+      "kvco_hz_per_v": 430000000.0,
+      "icp_a": 0.0001,
+      "f_c_hz": 499844.83924625756,
+      "pm_deg": 52.729779554363105,
+      "jitter_rms_s": 6.000579223104578e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.0002794745705093935,
+        "r1_thermal": 7.589979167589555e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": [
+        "f_c outside [0.5, 2.0] MHz"
+      ]
+    },
+    {
+      "kvco_hz_per_v": 480000000.0,
+      "icp_a": 0.0001,
+      "f_c_hz": 547532.8492547951,
+      "pm_deg": 53.749164550728544,
+      "jitter_rms_s": 5.865402465787768e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.0002543923635975899,
+        "r1_thermal": 8.515110449997098e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 540000000.0,
+      "icp_a": 0.0001,
+      "f_c_hz": 604782.3805462201,
+      "pm_deg": 54.62021663251472,
+      "jitter_rms_s": 5.754778818929678e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00023048019728407585,
+        "r1_thermal": 9.63762217221002e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 606000000.0,
+      "icp_a": 0.0001,
+      "f_c_hz": 667700.1524018781,
+      "pm_deg": 55.225399289802375,
+      "jitter_rms_s": 5.681553987453261e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00020970904201898907,
+        "r1_thermal": 0.00010888233790699116,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 381000000.0,
+      "icp_a": 0.00015,
+      "f_c_hz": 634825.0386324362,
+      "pm_deg": 54.94993986778463,
+      "jitter_rms_s": 5.185978218225571e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.0002199593960498017,
+        "r1_thermal": 4.547739725540458e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 430000000.0,
+      "icp_a": 0.00015,
+      "f_c_hz": 704807.9866886839,
+      "pm_deg": 55.4422008453861,
+      "jitter_rms_s": 5.044733308270558e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00019946299748065298,
+        "r1_thermal": 5.17118628665195e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 480000000.0,
+      "icp_a": 0.00015,
+      "f_c_hz": 775926.9544504354,
+      "pm_deg": 55.62347187902511,
+      "jitter_rms_s": 4.942590213419921e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00018293555400952498,
+        "r1_thermal": 5.817096626198185e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 540000000.0,
+      "icp_a": 0.00015,
+      "f_c_hz": 860682.0589953648,
+      "pm_deg": 55.519366075112046,
+      "jitter_rms_s": 4.861782294152246e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00016723209638996596,
+        "r1_thermal": 6.605502310490951e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 606000000.0,
+      "icp_a": 0.00015,
+      "f_c_hz": 952940.7472192898,
+      "pm_deg": 55.106948470661074,
+      "jitter_rms_s": 4.81219992162666e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00015365313120950776,
+        "r1_thermal": 7.48999438063589e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 381000000.0,
+      "icp_a": 0.0002,
+      "f_c_hz": 815571.1240936206,
+      "pm_deg": 55.61271499373147,
+      "jitter_rms_s": 4.61179317924948e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00017513258435983666,
+        "r1_thermal": 3.47804423498589e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": true,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 430000000.0,
+      "icp_a": 0.0002,
+      "f_c_hz": 907418.6827860582,
+      "pm_deg": 55.344020088799766,
+      "jitter_rms_s": 4.4973548745268554e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00015996877930544426,
+        "r1_thermal": 3.9655821793064865e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": true,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 480000000.0,
+      "icp_a": 0.0002,
+      "f_c_hz": 999999.9999999995,
+      "pm_deg": 54.802496715245255,
+      "jitter_rms_s": 4.4166782200984915e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00014779191719357197,
+        "r1_thermal": 4.473491479402058e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": true,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 540000000.0,
+      "icp_a": 0.0002,
+      "f_c_hz": 1109307.1820293518,
+      "pm_deg": 53.90505738315054,
+      "jitter_rms_s": 4.3558313105125515e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00013628506610322734,
+        "r1_thermal": 5.09735675169328e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": true,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 606000000.0,
+      "icp_a": 0.0002,
+      "f_c_hz": 1227023.061624765,
+      "pm_deg": 52.71024083085892,
+      "jitter_rms_s": 4.3228517037205383e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00012640955599133738,
+        "r1_thermal": 5.802420386607358e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": true,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 381000000.0,
+      "icp_a": 0.0003,
+      "f_c_hz": 1165833.3944175185,
+      "pm_deg": 53.35634766312921,
+      "jitter_rms_s": 3.9681045665577986e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00013126598411654323,
+        "r1_thermal": 2.4139364351546872e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 430000000.0,
+      "icp_a": 0.0003,
+      "f_c_hz": 1295256.9214773227,
+      "pm_deg": 51.936090383309505,
+      "jitter_rms_s": 3.8891029159746564e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.000121596072234782,
+        "r1_thermal": 2.768289340022304e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 480000000.0,
+      "icp_a": 0.0003,
+      "f_c_hz": 1423595.756389521,
+      "pm_deg": 50.35903059987557,
+      "jitter_rms_s": 3.8377657261473655e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.0001139453254560303,
+        "r1_thermal": 3.1418607724839354e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 540000000.0,
+      "icp_a": 0.0003,
+      "f_c_hz": 1572507.208966871,
+      "pm_deg": 48.38501718729575,
+      "jitter_rms_s": 3.8055207777997563e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00010686144266823001,
+        "r1_thermal": 3.607005368486093e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 606000000.0,
+      "icp_a": 0.0003,
+      "f_c_hz": 1729905.902462006,
+      "pm_deg": 46.187723869780136,
+      "jitter_rms_s": 3.798067604649026e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00010095992051669058,
+        "r1_thermal": 4.141225685942003e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 381000000.0,
+      "icp_a": 0.0004,
+      "f_c_hz": 1493782.0121540406,
+      "pm_deg": 49.44445815738575,
+      "jitter_rms_s": 3.619204671580029e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00011039766435801968,
+        "r1_thermal": 1.888075486203908e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 430000000.0,
+      "icp_a": 0.0004,
+      "f_c_hz": 1652832.5313085725,
+      "pm_deg": 47.27478585413362,
+      "jitter_rms_s": 3.5653875942386783e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 0.00010367238101002584,
+        "r1_thermal": 2.178991858197454e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 480000000.0,
+      "icp_a": 0.0004,
+      "f_c_hz": 1808423.258167392,
+      "pm_deg": 45.06341137205876,
+      "jitter_rms_s": 3.5360030550456093e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 9.850552928774579e-05,
+        "r1_thermal": 2.489726917766104e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": []
+    },
+    {
+      "kvco_hz_per_v": 540000000.0,
+      "icp_a": 0.0004,
+      "f_c_hz": 1986537.571883299,
+      "pm_deg": 42.47116266561011,
+      "jitter_rms_s": 3.526668059050137e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 9.392649939028747e-05,
+        "r1_thermal": 2.8825595992137657e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": [
+        "PM < 45 deg"
+      ]
+    },
+    {
+      "kvco_hz_per_v": 606000000.0,
+      "icp_a": 0.0004,
+      "f_c_hz": 2172277.6005301466,
+      "pm_deg": 39.738376057602416,
+      "jitter_rms_s": 3.541624962274722e-13,
+      "sigma_phi_sq_rad2_by_term": {
+        "vco_target_line": 9.037498296434749e-05,
+        "r1_thermal": 3.342052477157081e-05,
+        "reference_x_N2": 0.0,
+        "pfd_cp_x_N2": 0.0,
+        "divider_prescaler": 0.0
+      },
+      "jitter_label": "method L, partial (VCO target line + R1 only); VCO input is target, not measured",
+      "gated": false,
+      "violations": [
+        "f_c outside [0.5, 2.0] MHz",
+        "PM < 45 deg"
+      ]
+    }
+  ],
+  "flagged_outside_spec_not_gated": [
+    {
+      "kvco_hz_per_v": 381000000.0,
+      "icp_a": 0.0001,
+      "violations": [
+        "f_c outside [0.5, 2.0] MHz"
+      ]
+    },
+    {
+      "kvco_hz_per_v": 430000000.0,
+      "icp_a": 0.0001,
+      "violations": [
+        "f_c outside [0.5, 2.0] MHz"
+      ]
+    },
+    {
+      "kvco_hz_per_v": 540000000.0,
+      "icp_a": 0.0004,
+      "violations": [
+        "PM < 45 deg"
+      ]
+    },
+    {
+      "kvco_hz_per_v": 606000000.0,
+      "icp_a": 0.0004,
+      "violations": [
+        "f_c outside [0.5, 2.0] MHz",
+        "PM < 45 deg"
+      ]
+    }
+  ],
+  "gate_pass": true,
+  "gate_violations": []
+}
