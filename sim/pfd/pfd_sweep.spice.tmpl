@@ -22,6 +22,7 @@ VO vo 0 2.0
 
 .control
 pre_osdi @@OSDI_PSP@@
+save i(VO)
 tran 25p @@TSTOP@@ 0 25p
 * i(VO): current into the + node of VO = sourced by the CP (UP positive).
 wrdata @@DATA_OUT@@ i(VO)
