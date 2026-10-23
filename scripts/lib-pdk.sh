@@ -1,6 +1,9 @@
 # shellcheck shell=bash
-# Sourced by scripts/run-cp-dc.sh and scripts/run-pfd-sweep.sh: locate the PDK, refuse one
-# whose model libraries (or PSP103 OSDI) do not hash to sim/pins.json, find ngspice.
+# Sourced by scripts/run-cp-dc.sh, scripts/run-pfd-sweep.sh and scripts/run-vco-smoke.sh: locate
+# the PDK, refuse one whose model libraries (or PSP103 OSDI) do not hash to sim/pins.json, find
+# ngspice, cap its threads.
+# Set PDK_SKIP_PSP103=1 before sourcing to skip the PSP103 OSDI check (the VCO smoke bench
+# compiles mosvar.va instead and does not use PSP103; OSDI_PSP is then unset).
 # Sets: PDK_ROOT PDK_DIR MODELS OSDI_PSP NGSPICE NG_VER NG_PIN_STATUS PINS. Expects ROOT and die().
 PINS="${ROOT}/sim/pins.json"
 if [ -z "${PDK_ROOT:-}" ]; then
@@ -15,9 +18,11 @@ while IFS=$'\t' read -r name want; do
   got="$(sha256sum "${MODELS}/${name}" 2>/dev/null | cut -d' ' -f1)"
   [ "${got}" = "${want}" ] || die "${MODELS}/${name} is ${got:-missing}, pinned ${want}: not the pinned PDK (IHP-Open-PDK $(jq -r .pdk.release_tag "${PINS}"))"
 done < <(jq -r '.pdk.model_libs_sha256 | to_entries[] | [.key, .value] | @tsv' "${PINS}")
-OSDI_PSP="${PDK_DIR}/$(jq -r .psp103.osdi "${PINS}")"
-got="$(sha256sum "${OSDI_PSP}" 2>/dev/null | cut -d' ' -f1)"
-[ "${got}" = "$(jq -r .psp103.osdi_sha256 "${PINS}")" ] || die "${OSDI_PSP} is ${got:-missing}, not the pinned psp103.osdi"
+if [ "${PDK_SKIP_PSP103:-0}" != 1 ]; then
+  OSDI_PSP="${PDK_DIR}/$(jq -r .psp103.osdi "${PINS}")"
+  got="$(sha256sum "${OSDI_PSP}" 2>/dev/null | cut -d' ' -f1)"
+  [ "${got}" = "$(jq -r .psp103.osdi_sha256 "${PINS}")" ] || die "${OSDI_PSP} is ${got:-missing}, not the pinned psp103.osdi"
+fi
 NGSPICE="${NGSPICE:-$(command -v ngspice || true)}"
 [ -x "${NGSPICE}" ] || die "ngspice not found; set NGSPICE"
 NG_VER="$("${NGSPICE}" --version 2>&1 | grep -o 'ngspice-[0-9.]*' | head -1 || true)"

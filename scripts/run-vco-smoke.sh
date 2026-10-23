@@ -18,25 +18,14 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PINS="${ROOT}/sim/pins.json"
 FETCHED="${ROOT}/.fetched"
 die() { echo "run-vco-smoke: error: $*" >&2; exit 1; }
 
 "${ROOT}/scripts/fetch-vco.sh"
 
-# ---- PDK: locate and check against the pinned model-library hashes ----------
-if [ -z "${PDK_ROOT:-}" ]; then
-  for c in "${HOME}/share/pdk" /usr/share/pdk /usr/local/share/pdk; do
-    [ -d "${c}/ihp-sg13g2/libs.tech/ngspice/models" ] && { PDK_ROOT="${c}"; break; }
-  done
-fi
-[ -n "${PDK_ROOT:-}" ] || die "no ihp-sg13g2 install found; set PDK_ROOT to the parent of ihp-sg13g2/ (IHP-Open-PDK $(jq -r .pdk.release_tag "${PINS}"))"
-PDK_DIR="${PDK_ROOT}/ihp-sg13g2"
-MODELS="${PDK_DIR}/libs.tech/ngspice/models"
-while IFS=$'\t' read -r name want; do
-  got="$(sha256sum "${MODELS}/${name}" 2>/dev/null | cut -d' ' -f1)"
-  [ "${got}" = "${want}" ] || die "${MODELS}/${name} is ${got:-missing}, pinned ${want}: not the pinned PDK (IHP-Open-PDK $(jq -r .pdk.release_tag "${PINS}"))"
-done < <(jq -r '.pdk.model_libs_sha256 | to_entries[] | [.key, .value] | @tsv' "${PINS}")
+# ---- PDK + ngspice: shared check against sim/pins.json, 2-thread cap (PSP103 is not used here) ----
+PDK_SKIP_PSP103=1
+source "${ROOT}/scripts/lib-pdk.sh"
 
 # ---- OSDI: compile the PDK's own mosvar.va (never trust a prebuilt binary blindly)
 VA_DIR="${PDK_DIR}/libs.tech/verilog-a/mosvar"
@@ -54,10 +43,6 @@ unset LD_LIBRARY_PATH
 osdi_sha="$(sha256sum "${OSDI}" | cut -d' ' -f1)"
 
 # ---- render the deck: placeholder substitution only --------------------------
-NGSPICE="${NGSPICE:-$(command -v ngspice || true)}"
-[ -x "${NGSPICE}" ] || die "ngspice not found; set NGSPICE"
-NG_VER="$("${NGSPICE}" --version 2>&1 | grep -o 'ngspice-[0-9.]*' | head -1 || true)"
-source "${ROOT}/scripts/lib-ngpin.sh"
 IND="${FETCHED}/sg13g2-vco/sim/inductor-model/sg13g2_inductor_em.spice"
 TMPL="${FETCHED}/sg13g2-vco/design/vco.spice"
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
