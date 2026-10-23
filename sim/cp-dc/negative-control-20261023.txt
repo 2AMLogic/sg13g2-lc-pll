@@ -1,0 +1,8 @@
+# scripts/test-cp-dc-negative.sh, 2026-10-23T17:21:46Z (UTC), commit 2d82c85
+skew applied:
+> XM1 tail IBP VDD VDD sg13_hv_pmos w=4.6u l=1u ng=1 m=10
+> XM2 sw ICP tail VDD sg13_hv_pmos w=4.6u l=1u ng=1 m=10
+record: /tmp/tmp.1TMr76Bfcc/rec/20261023-172146-2d82c85.md
+window(<=2.0%): NA V .. NA V (contains 1.65 V: 0); max mismatch within 1.65..V_top = 0.000 %
+mismatch at 2.00 V with the skewed up leg: 20.008 %
+PASS: the bench flags the skewed charge pump (mismatch > 2 %, no window around 1.65 V)
