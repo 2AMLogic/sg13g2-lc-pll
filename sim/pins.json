@@ -1,0 +1,36 @@
+{
+  "_comment": "Toolchain pins for the sg13g2-vco smoke bench (scripts/run-vco-smoke.sh). Matches the sg13g2-vco repo's sim/pdk.json (IHP-Open-PDK v0.3.0, openvaf-r v24.0.1mob) except where 'differs_from_vco_repo' says otherwise. Read by scripts/run-vco-smoke.sh, which refuses a PDK whose model libraries do not hash to model_libs_sha256.",
+  "pdk": {
+    "source": "IHP-GmbH/IHP-Open-PDK",
+    "release_tag": "v0.3.0",
+    "release_url": "https://github.com/IHP-GmbH/IHP-Open-PDK/archive/refs/tags/v0.3.0.tar.gz",
+    "tarball_sha256": "f6afb7a8d2adf3e40acd3fd2c7892fc93510e6f760565409a8df2b5b242254fc",
+    "tarball_sha256_source": "sg13g2-vco sim/pdk.json (from 2AMLogic/klayout-tools scripts/fetch-ihp-sg13g2.sh); not re-derived here: the installed PDK carries no revision marker, so the files the bench loads are pinned by hash instead",
+    "layout": "PDK_ROOT/ihp-sg13g2 (open_pdks-shaped)",
+    "model_libs_sha256": {
+      "cornerHBT.lib": "bae3d705445de8d6b8de4aa798a0e3e5e7cab617d6495d9c56473bc5377de462",
+      "cornerMOShv.lib": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+      "cornerCAP.lib": "4fc4a0f17ca2aef66ca38c2d2e7cead3307b69508d304ed073129565ec1c3e56",
+      "sg13g2_hbt_mod.lib": "ae9288f885dd30fab24b07ed1e7e02e69eac9154022a0a6da576985183b0bd79",
+      "sg13g2_moshv_mod.lib": "d4b348b494998d7057bdde6fb111c60153d8b86175fafcfc6de461737e7a644b",
+      "sg13g2_svaricaphv_mod.lib": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a",
+      "capacitors_mod.lib": "94b569e695fd8a223a5a49a5b5a6b0d8a62408820bf0c2ed9dbcb0a8ab7d957e"
+    }
+  },
+  "osdi": {
+    "model": "mosvar (sg13_hv_svaricap)",
+    "verilog_a_source": "libs.tech/verilog-a/mosvar/mosvar.va",
+    "verilog_a_sha256": "146eec0c2a9c3c437c53109f8ec42af68f75bd9d341e79797d2feda0340a19f6",
+    "compiler": "OpenVAF/OpenVAF-Reloaded v24.0.1mob (openvaf-r, linux-x86_64), same pin as sg13g2-vco",
+    "compiler_tarball_sha256": "3297e32f68becf5e0d4709d7f731d7d26f87f88dc136041334677d3ab36279e3",
+    "osdi_version_emitted": "0.4",
+    "compiled_osdi_sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41",
+    "note": "The compiled library is byte-identical to the prebuilt libs.tech/ngspice/osdi/mosvar.osdi shipped in the v0.3.0 tarball. It targets OSDI v0.4; ngspice-42 only supports v0.3 and cannot load it."
+  },
+  "ngspice": {
+    "version": "47",
+    "minimum_for_this_bench": "a build that loads OSDI v0.4 (ngspice-42 does not)",
+    "differs_from_vco_repo": "sg13g2-vco's sim/ records used ngspice-46; ngspice-46 was not obtainable on this host (the source URL 404s and no build is provisioned), so the bench ran on a ngspice-47 source build. Select the binary with NGSPICE=/path/to/ngspice.",
+    "init": "set ngbehavior=hsa (the PDK's compatibility mode; written by the script into a scratch .spiceinit)"
+  }
+}

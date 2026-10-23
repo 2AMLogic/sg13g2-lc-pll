@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "imports": [
+    {
+      "from": "2AMLogic/sg13g2-vco",
+      "commit": "17e49a8f9aa4f858cff804ff33c3c484ed826095",
+      "mode": "fetched",
+      "files": [
+        {
+          "upstream": "design/vco.spice",
+          "local": ".fetched/sg13g2-vco/design/vco.spice",
+          "sha256": "090983d6ee9e901a40e3d51bfb01f45742425d6190c3724da13ef4d18be49404"
+        },
+        {
+          "upstream": "design/vco.sch",
+          "local": ".fetched/sg13g2-vco/design/vco.sch",
+          "sha256": "a6ed7196dcc9d37c888e1557e9ccf0e49d168a25898bc463134e4c09d6e74fad"
+        },
+        {
+          "upstream": "layout/vco.gds",
+          "local": ".fetched/sg13g2-vco/layout/vco.gds",
+          "sha256": "937e5b16c3b2bd5555138287a71f5d5673f91db4317a00016c986a568ca1b3c6"
+        },
+        {
+          "upstream": "layout/vco_manifest.json",
+          "local": ".fetched/sg13g2-vco/layout/vco_manifest.json",
+          "sha256": "dbfd64b9c28e281786abd9ee7084c1da8220c88ab10a1c685bbe8b2fd325967b"
+        },
+        {
+          "upstream": "sim/inductor-model/sg13g2_inductor_em.spice",
+          "local": ".fetched/sg13g2-vco/sim/inductor-model/sg13g2_inductor_em.spice",
+          "sha256": "6f24f9857ab7810c91bda5f6307e78f1dfcbe2afd750bb023e28156ded06d6a0"
+        }
+      ]
+    }
+  ],
+  "in_tree": []
+}
