@@ -62,7 +62,7 @@ if grep -vE '^[[:space:]]*\*' "${WORK}/pfd_sweep.spice" | grep -q '@@'; then die
 printf 'set ngbehavior=hsa\n' > "${WORK}/.spiceinit"
 
 COMMIT="$(git -C "${ROOT}" rev-parse --short=7 HEAD)"
-DIRTY=""; [ -z "$(git -C "${ROOT}" status --porcelain -- design sim scripts reuse.lock.json ':!sim/*/records' ':!sim/*/negative-control-*' 2>/dev/null)" ] || DIRTY="-dirty"
+DIRTY=""; [ -z "$(git -C "${ROOT}" status --porcelain -- design sim scripts reuse.lock.json ':(exclude)sim/*/records/*' ':(exclude)sim/*/negative-control-*' 2>/dev/null)" ] || DIRTY="-dirty"
 ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
