@@ -4,6 +4,10 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-10-23
 
+- **PR #27**: refactor: source shared lib-pdk.sh in the VCO smoke bench
+- **PR #25**: feat: warn and record when ngspice differs from the pinned version
+- **Issue #26** (closed): Consolidate run-vco-smoke.sh PDK/pin check into lib-pdk.sh (copy has drifted: no thread cap)
+- **Issue #22** (closed): sim/pins.json ngspice pin says 47; CP/PFD records ran on ngspice-46
 - **PR #21**: feat: charge-pump design sources, CP/PFD benches, and the PFD pin with its failed 50 MHz re-grade
 - **PR #20**: feat(sim): method-L loop model and loop-filter sizing over Kvco and I_cp
 - **Issue #18** (closed): Linear phase-domain loop model: size the type-II 3rd-order loop filter and grade f_c / PM over the Kvco and I_cp range (spec rows 5, 6, 8 method L)
