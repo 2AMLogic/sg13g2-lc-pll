@@ -32,6 +32,78 @@
           "sha256": "6f24f9857ab7810c91bda5f6307e78f1dfcbe2afd750bb023e28156ded06d6a0"
         }
       ]
+    },
+    {
+      "from": "2AMLogic/sg13g2-pll",
+      "commit": "83e59fe81db0b09dbefcff35a55965bea0c2a76f",
+      "mode": "fetched",
+      "files": [
+        {
+          "upstream": "design/netlist/pfd.spice",
+          "local": ".fetched/sg13g2-pll/design/netlist/pfd.spice",
+          "sha256": "76871aa2b93155a09e244188394c37b2de1a5f45cf3d9e103fcab9daf8556be6"
+        },
+        {
+          "upstream": "design/pfd.sch",
+          "local": ".fetched/sg13g2-pll/design/pfd.sch",
+          "sha256": "07b18bb5ddf6c6154b94719f1e9f1c68daef541c1e52de0fed16218d8a6b92b0"
+        },
+        {
+          "upstream": "design/pfd.sym",
+          "local": ".fetched/sg13g2-pll/design/pfd.sym",
+          "sha256": "ab19c5e83b603bd969abffef5277c242feb7b350b459f17eb1248e777a984fbb"
+        },
+        {
+          "upstream": "design/edgedet.sch",
+          "local": ".fetched/sg13g2-pll/design/edgedet.sch",
+          "sha256": "ebb49a2ae24fa33b1fd2363d316bb93f7d9f00e687903e59ec88dacffa82c79f"
+        },
+        {
+          "upstream": "design/edgedet.sym",
+          "local": ".fetched/sg13g2-pll/design/edgedet.sym",
+          "sha256": "b7cc36f1aeb3095b3ca58a98969ac3d270a2930f51f78f09ba98d8e942073cd9"
+        },
+        {
+          "upstream": "design/srlatch.sch",
+          "local": ".fetched/sg13g2-pll/design/srlatch.sch",
+          "sha256": "84817826b6ae7777ec976b8f1879fab15e4713f11ad6415eadc3f48c075a25d3"
+        },
+        {
+          "upstream": "design/srlatch.sym",
+          "local": ".fetched/sg13g2-pll/design/srlatch.sym",
+          "sha256": "2db929c911ca0f41c0076a5c3329d28e1f18a105d69a0a6466a9b35d783ce28f"
+        },
+        {
+          "upstream": "design/nand2_hv.sch",
+          "local": ".fetched/sg13g2-pll/design/nand2_hv.sch",
+          "sha256": "7a17cf6dd3b9b8e43e52327dcec4cd61690af4ef84b32f28ca276b5a7b655172"
+        },
+        {
+          "upstream": "design/nand2_hv.sym",
+          "local": ".fetched/sg13g2-pll/design/nand2_hv.sym",
+          "sha256": "20e11ffc679a7ae806cb1febdfad38ea1607a8f6593580b3920ff133f42ddda1"
+        },
+        {
+          "upstream": "design/inv_hv.sch",
+          "local": ".fetched/sg13g2-pll/design/inv_hv.sch",
+          "sha256": "bd62c12aaac492a4f7eeade395fc1204a9f5d7857ef1417811a12f752592023f"
+        },
+        {
+          "upstream": "design/inv_hv.sym",
+          "local": ".fetched/sg13g2-pll/design/inv_hv.sym",
+          "sha256": "d2ddd76550b9112f04a3076e997ed9bcfe7601d8592571b7015be0787e21e151"
+        },
+        {
+          "upstream": "design/inv2x_hv.sch",
+          "local": ".fetched/sg13g2-pll/design/inv2x_hv.sch",
+          "sha256": "1347b87e212d8b2b5da92ad08dcdd844cee73d9bb95d799d3f55edfde1ea5fa7"
+        },
+        {
+          "upstream": "design/inv2x_hv.sym",
+          "local": ".fetched/sg13g2-pll/design/inv2x_hv.sym",
+          "sha256": "7620c011e336f4c05da9fccf8f013f21c9e8d6ee288ab6193ea1a6296c4cb176"
+        }
+      ]
     }
   ],
   "in_tree": []

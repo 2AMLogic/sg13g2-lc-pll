@@ -1,0 +1,13 @@
+# scripts/test-fetch-pll.sh negative controls, 2026-10-23T16:53:13Z (UTC)
+# fetch-pll.sh pinned to 2AMLogic/sg13g2-pll@83e59fe81db0b09dbefcff35a55965bea0c2a76f
+PASS fetch pinned files (rc=0)
+PASS verify clean tree (rc=0)
+PASS tampered file (--verify) (rc=1)
+PASS re-fetch repairs tamper (rc=0)
+PASS short commit refused (rc=1)
+PASS ref instead of SHA refused (rc=1)
+PASS non-fetched mode refused (rc=1)
+PASS wrong sha256 refused (rc=1)
+PASS missing file at commit refused (rc=1)
+PASS import absent from lock refused (rc=1)
+10 passed, 0 failed

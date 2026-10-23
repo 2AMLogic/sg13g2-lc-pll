@@ -1,0 +1,31 @@
+* sg13g2-lc-pll :: sim/cp-dc -- charge-pump static current bench.
+* ONE .dc sweep of the output voltage, typical corner, nominal 3.3 V supply, 27 C.
+* Two copies of the same cp subcircuit share the sweep: copy A has UP forced on and DN
+* off (its output current is I_up), copy B has DN forced on and UP off (I_dn). The B
+* output follows the A output through a unity VCVS, so both see the same V_out at every
+* point. Each copy has its own IREF = 20 uA source. Placeholders (@@...@@) are filled by
+* scripts/run-cp-dc.sh; nothing else is substituted.
+.lib @@MODELS_DIR@@/cornerMOShv.lib mos_tt
+.option scale=1 temp=27
+.include @@CP_NETLIST@@
+
+VDD vdd 0 3.3
+VHI hi 0 3.3
+VA outa 0 2.0
+EB nb 0 outa 0 1
+VMB nb outb 0
+IRA vdd irefa dc 20u
+IRB vdd irefb dc 20u
+XA hi 0 irefa outa vdd 0 cp
+XB 0 hi irefb outb vdd 0 cp
+
+.dc VA 1.0 3.3 0.05
+
+.control
+pre_osdi @@OSDI_PSP@@
+run
+* i(VA): current into the + node of VA = sourced by copy A (I_up).
+* i(VMB): current from nb into outb = sunk by copy B (I_dn).
+wrdata @@DATA_OUT@@ i(VA) i(VMB)
+.endc
+.end
