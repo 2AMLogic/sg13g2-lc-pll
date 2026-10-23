@@ -96,10 +96,11 @@ NSW="$(wc -l < "${WORK}/curve.txt")"
 
 # ---- metrics (all in awk over curve.txt)
 # slope/intercept: least squares over phi 3..8 ns (the linear region); zero crossing
-#   phi0 = -intercept/slope (the static phase offset of the PFD + CP pair).
-# dead zone: the longest run of consecutive swept steps whose local slope dQ/dphi is below
-#   10 % of the fitted slope, width = phi span of that run; no such step -> 0 ps (resolution
-#   = the step, 10 ps near zero). Only meaningful if the function check passes.
+#   (the zero crossing below, not this fit, is the static phase offset of the PFD + CP pair).
+# dead zone: the longest run of >= 3 consecutive swept steps whose local slope dQ/dphi is below
+#   10 % of the fitted slope (one or two flat steps are noise, not a dead zone), width = phi span
+#   of that run; none -> 0 ps (resolution = the step, 10 ps near zero). Only meaningful if the
+#   function check passes. zero crossing: first sign change of Q, linearly interpolated.
 # monotonic: dQ between consecutive phase points; pass if no step is below -TOL_FC.
 TOL_FC=0.5
 FLAT_FRAC=0.1
@@ -113,10 +114,11 @@ METRICS="$(awk -v tol="${TOL_FC}" -v ff="${FLAT_FRAC}" '
         best=0; bs=0; be=0; rs=0
         for (i=2;i<=n;i++) {
           s=(q[i]-q[i-1])/(p[i]-p[i-1])
-          if (slope>0 && s < ff*slope) { if (!rs) rs=i-1; if (p[i]-p[rs] > best) { best=p[i]-p[rs]; bs=p[rs]; be=p[i] } }
+          if (slope>0 && s < ff*slope) { if (!rs) { rs=i-1; ns=0 } ns++; if (ns>=3 && p[i]-p[rs] > best) { best=p[i]-p[rs]; bs=p[rs]; be=p[i] } }
           else rs=0 }
-        phi0 = (slope>0) ? -icept/slope : 0
-        printf "%.3f %d %d %d %d %d %d %.4f %.3f %.1f\n", worst, p[wi-1], p[wi], (worst>=-tol), best, bs, be, slope, icept, phi0 }
+        phi0="none"
+        for (i=2;i<=n;i++) if (q[i-1]<0 && q[i]>=0) { phi0=sprintf("%.0f", p[i-1]+(0-q[i-1])*(p[i]-p[i-1])/(q[i]-q[i-1])); break }
+        printf "%.3f %d %d %d %d %d %d %.4f %.3f %s\n", worst, p[wi-1], p[wi], (worst>=-tol), best, bs, be, slope, icept, phi0 }
 ' "${WORK}/curve.txt")"
 read -r WORST P_A P_B MONO DZ_SPAN DZ_LO DZ_HI SLOPE ICEPT PHI0 <<<"${METRICS}"
 Q_MIN="$(awk 'NR==1||$2<m{m=$2} END{printf "%.1f", m}' "${WORK}/curve.txt")"
@@ -139,7 +141,7 @@ elif [ "${DZ_SPAN}" -gt 0 ]; then
   DZ_TXT="${DZ_SPAN} ps (flat from phi = ${DZ_LO} ps to ${DZ_HI} ps, local slope < ${FLAT_FRAC} x the fitted slope); phase step 10 ps for |phi| <= 1 ns, 50 ps to 3 ns, 250 ps beyond"
   DZ_HEAD="dead zone ${DZ_SPAN} ps"
 else
-  DZ_TXT="0 ps: no step of the swept curve has a local slope below ${FLAT_FRAC} x the fitted slope; resolution = the 10 ps phase step near the zero crossing (zero crossing at phi = ${PHI0} ps)"
+  DZ_TXT="0 ps: no run of 3 or more steps of the swept curve has a local slope below ${FLAT_FRAC} x the fitted slope; resolution = the 10 ps phase step near the zero crossing (zero crossing at phi = ${PHI0} ps)"
   DZ_HEAD="dead zone 0 ps (step 10 ps)"
 fi
 [ "${MONO}" = 1 ] && MONO_HEAD="monotonic" || MONO_HEAD="NOT monotonic"
@@ -162,9 +164,9 @@ fi
   echo "- **Commit**: \`${COMMIT}${DIRTY}\` of this repository"
   echo "- **Method**: REF is a fixed 50 MHz clock (T_ref = 20 ns, 100 ps edges). FB is a PWL source whose rising edge in cycle k is delayed by phi_k relative to REF's rising edge (phi > 0: FB lags, PFD pulses UP). The phase is stepped inside the one transient: 10 ps steps for |phi| <= 1 ns, 50 ps steps for 1-3 ns, 250 ps steps for 3 ns to 10 ns; ${NSW} swept cycles after 4 warm-up cycles at +1 ns (excluded). Inputs are never run at different frequencies, so the PFD never sees a cycle slip."
   echo "- **Estimator**: the CP output is held at 2.0 V; Q_k = integral of the current sourced into that node (trapezoid on ngspice's own time points) over cycle k's window, [first input edge of cycle k - 1 ns, the same for cycle k+1). Averaged CP current = Q_k / T_ref. The ideal sign is Q = +I_cp x phi (UP sources)."
-  echo "- **Dead zone**: the longest run of consecutive swept steps whose local slope dQ/dphi is below ${FLAT_FRAC} x the fitted linear-region slope; width = the phi span of that run, 0 ps if no step qualifies. The phase step is 10 ps for |phi| <= 1 ns, so a dead zone narrower than 10 ps reads 0 ps. Result: ${DZ_TXT}."
+  echo "- **Dead zone**: the longest run of 3 or more consecutive swept steps whose local slope dQ/dphi is below ${FLAT_FRAC} x the fitted linear-region slope (one or two flat steps are noise); width = the phi span of that run, 0 ps if no run qualifies. The phase step is 10 ps for |phi| <= 1 ns, so a dead zone narrower than 10 ps reads 0 ps. Result: ${DZ_TXT}."
   echo "- **Monotonicity**: Q_k compared with Q_(k-1) in increasing phi. ${MONO_TXT}."
-  echo "- **Linear region** (phi 3 to 8 ns, least squares): slope ${SLOPE} fC/ps = ${SLOPE_UA} uA (the nominal I_cp is 200 uA), intercept ${ICEPT} fC, zero crossing phi0 = ${PHI0} ps (static phase offset of this PFD + CP pair, meaningful only when the function check passes). Charge range over the sweep: ${Q_MIN} fC to ${Q_MAX} fC; Q at phi = 0: ${Q_AT0} fC."
+  echo "- **Linear region** (phi 3 to 8 ns, least squares): slope ${SLOPE} fC/ps = ${SLOPE_UA} uA (the nominal I_cp is 200 uA), intercept ${ICEPT} fC, first zero crossing of Q (interpolated) at phi0 = ${PHI0} ps (the static phase offset of this PFD + CP pair; meaningful only when the function check passes). Charge range over the sweep: ${Q_MIN} fC to ${Q_MAX} fC; Q at phi = 0: ${Q_AT0} fC."
   echo "- **Host**: $(hostname), $(date -u +%Y-%m-%dT%H:%M:%SZ)"
   echo
   echo "| phi (ps) | Q (fC) | averaged I (uA) |"
