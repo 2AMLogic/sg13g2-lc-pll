@@ -6,6 +6,6 @@
     "worktree:return": "./.loom/scripts/worktree-return.sh",
     "check:ci": "pnpm test",
     "check:all": "pnpm test",
-    "test": "bash scripts/test-fetch-vco.sh"
+    "test": "bash scripts/test-fetch-vco.sh && python3 -m pytest -q -p no:cacheprovider sim/loop-model"
   }
 }
