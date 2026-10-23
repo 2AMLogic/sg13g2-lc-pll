@@ -1,7 +1,7 @@
 # shellcheck shell=bash
 # Sourced by scripts/run-cp-dc.sh and scripts/run-pfd-sweep.sh: locate the PDK, refuse one
 # whose model libraries (or PSP103 OSDI) do not hash to sim/pins.json, find ngspice.
-# Sets: PDK_ROOT PDK_DIR MODELS OSDI_PSP NGSPICE NG_VER PINS. Expects ROOT and die().
+# Sets: PDK_ROOT PDK_DIR MODELS OSDI_PSP NGSPICE NG_VER NG_PIN_STATUS PINS. Expects ROOT and die().
 PINS="${ROOT}/sim/pins.json"
 if [ -z "${PDK_ROOT:-}" ]; then
   for c in "${HOME}/share/pdk" /usr/share/pdk /usr/local/share/pdk; do
@@ -20,7 +20,8 @@ got="$(sha256sum "${OSDI_PSP}" 2>/dev/null | cut -d' ' -f1)"
 [ "${got}" = "$(jq -r .psp103.osdi_sha256 "${PINS}")" ] || die "${OSDI_PSP} is ${got:-missing}, not the pinned psp103.osdi"
 NGSPICE="${NGSPICE:-$(command -v ngspice || true)}"
 [ -x "${NGSPICE}" ] || die "ngspice not found; set NGSPICE"
-NG_VER="$("${NGSPICE}" --version 2>&1 | grep -o 'ngspice-[0-9.]*' | head -1)"
+NG_VER="$("${NGSPICE}" --version 2>&1 | grep -o 'ngspice-[0-9.]*' | head -1 || true)"
+source "$(dirname "${BASH_SOURCE[0]}")/lib-ngpin.sh"
 # Shared 8-core host: ngspice's OpenMP threads default to every core. Keep to 2 (host rule).
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-2}"
 [ "${OMP_NUM_THREADS}" -le 2 ] || die "OMP_NUM_THREADS=${OMP_NUM_THREADS}: keep ngspice to <= 2 threads on the shared host"

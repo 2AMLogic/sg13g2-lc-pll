@@ -30,7 +30,7 @@
   "ngspice": {
     "version": "47",
     "minimum_for_this_bench": "a build that loads OSDI v0.4 (ngspice-42 does not)",
-    "differs_from_vco_repo": "sg13g2-vco's sim/ records used ngspice-46; ngspice-46 was not obtainable on this host (the source URL 404s and no build is provisioned), so the bench ran on a ngspice-47 source build. Select the binary with NGSPICE=/path/to/ngspice.",
+    "differs_from_vco_repo": "The records on file were produced by two versions: sim/vco-smoke/records/20261018-024845-17e49a8.md ran on ngspice-47 (a source build in a throwaway clone), sim/cp-dc and sim/pfd records ran on ngspice-46. ngspice-46 is the version present on the standing host, so no run on the standing host matches the pin; sg13g2-vco's own sim/ records used ngspice-46. scripts/lib-ngpin.sh compares the binary with 'version' on every run, warns on a mismatch without aborting, and writes a 'Pin check' line into each new record. Select the binary with NGSPICE=/path/to/ngspice.",
     "init": "set ngbehavior=hsa (the PDK's compatibility mode; written by the script into a scratch .spiceinit)"
   },
   "psp103": {
