@@ -2,6 +2,12 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-10-23
+
+- **PR #21**: feat: charge-pump design sources, CP/PFD benches, and the PFD pin with its failed 50 MHz re-grade
+- **PR #20**: feat(sim): method-L loop model and loop-filter sizing over Kvco and I_cp
+- **Issue #18** (closed): Linear phase-domain loop model: size the type-II 3rd-order loop filter and grade f_c / PM over the Kvco and I_cp range (spec rows 5, 6, 8 method L)
+
 ### 2026-10-21
 
 - **PR #14**: Bump Repo Skills 0.24.3 -> 0.24.7
