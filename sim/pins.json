@@ -1,5 +1,5 @@
 {
-  "_comment": "Toolchain pins for the sg13g2-vco smoke bench (scripts/run-vco-smoke.sh). Matches the sg13g2-vco repo's sim/pdk.json (IHP-Open-PDK v0.3.0, openvaf-r v24.0.1mob) except where 'differs_from_vco_repo' says otherwise. Read by scripts/run-vco-smoke.sh, which refuses a PDK whose model libraries do not hash to model_libs_sha256.",
+  "_comment": "Toolchain pins for the sg13g2-vco smoke bench (scripts/run-vco-smoke.sh) and the CP/PFD benches (scripts/run-cp-dc.sh, scripts/run-pfd-sweep.sh, which also read the psp103 pin). Matches the sg13g2-vco repo's sim/pdk.json (IHP-Open-PDK v0.3.0, openvaf-r v24.0.1mob) except where 'differs_from_vco_repo' says otherwise. Read by scripts/run-vco-smoke.sh, which refuses a PDK whose model libraries do not hash to model_libs_sha256.",
   "pdk": {
     "source": "IHP-GmbH/IHP-Open-PDK",
     "release_tag": "v0.3.0",
@@ -32,5 +32,13 @@
     "minimum_for_this_bench": "a build that loads OSDI v0.4 (ngspice-42 does not)",
     "differs_from_vco_repo": "sg13g2-vco's sim/ records used ngspice-46; ngspice-46 was not obtainable on this host (the source URL 404s and no build is provisioned), so the bench ran on a ngspice-47 source build. Select the binary with NGSPICE=/path/to/ngspice.",
     "init": "set ngbehavior=hsa (the PDK's compatibility mode; written by the script into a scratch .spiceinit)"
+  },
+  "psp103": {
+    "model": "PSP103 (sg13_hv_nmos / sg13_hv_pmos)",
+    "verilog_a_source": "libs.tech/verilog-a/psp103/psp103.va",
+    "verilog_a_sha256": "127be82891919323e60eec7ae02b0c034b396800884e8daf5561c9d3588684ba",
+    "osdi": "libs.tech/ngspice/osdi/psp103.osdi",
+    "osdi_sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796",
+    "note": "The HV MOS models in cornerMOShv.lib are PSP103 and need this OSDI library (pre_osdi). It is the prebuilt library shipped in the PDK tree, hash-checked rather than recompiled: unlike mosvar it is not rebuilt here, so no openvaf-r is needed for the CP/PFD benches."
   }
 }
