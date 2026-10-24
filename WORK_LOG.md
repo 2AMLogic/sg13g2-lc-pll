@@ -2,6 +2,11 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-10-24
+
+- **PR #6**: ci: grade T1 tier state with klt signoff against a committed verdict
+- **Issue #4** (closed): Commit a T1 block manifest and a klt signoff CI job (T1 item 10)
+
 ### 2026-10-23
 
 - **PR #27**: refactor: source shared lib-pdk.sh in the VCO smoke bench
