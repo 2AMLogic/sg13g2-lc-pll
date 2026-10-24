@@ -22,8 +22,15 @@ into the active-high `R` input of both `srlatch` cells; read from the netlist, t
 reset. The diagnostic variant (`PFD_VARIANT=reset-fix`, one inverter removed; not a design and not the
 adopted PFD) gives a linear curve with slope 192 uA, a zero crossing at phi = 861 ps, a 0 ps dead zone
 at the 10 ps step, and a monotonic curve, which supports that reading. Per spec section 7 the failure
-needs a decision, not a silent substitution: a superseding decision record before any locally designed
-(or locally edited) PFD is committed, and a report to `sg13g2-pll`. Neither is done in this change.
+needs a decision, not a silent substitution.
+
+**Path (settled 2026-10-23)**: upstream fix and re-pin, no local PFD. The defect is reported as
+`2AMLogic/sg13g2-pll#283` (sibling of its #56, which fixed the same parity defect in the
+`design/sg13cmos5l/` copy only). Until that fix is merged, the adopted PFD stays ungraded here: the
+records above are the failed re-grade, the diagnostic variant is not a grade, and no edited PFD is
+committed. Once merged: bump the `sg13g2-pll` pin in `reuse.lock.json`, run `scripts/test-fetch-pll.sh`,
+then `scripts/run-pfd-sweep.sh` unmodified and append a new record. A locally designed PFD would need a
+superseding decision record first; that is only on the table if upstream declines.
 
 - `records/` is dated and append-only. `negative-control-*.txt`: output of `scripts/test-fetch-pll.sh`.
 - ngspice is held to 2 OpenMP threads (shared host); the sweep takes several minutes.
