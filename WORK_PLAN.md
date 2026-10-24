@@ -32,7 +32,7 @@ Human-approved issues ready for implementation (`loom:issue`).
 
 Issues currently being built (`loom:building`).
 
-- **#4**: Commit a T1 block manifest and a klt signoff CI job (T1 item 10)
+_None._
 
 ## PRs Awaiting Review
 
@@ -44,14 +44,13 @@ PRs waiting on Judge (`loom:review-requested`).
 
 PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 
-- **#6**: ci: grade T1 tier state with klt signoff against a committed verdict
+_None._
 
 ## Proposed
 
 Issues carrying `loom:curated`.
 
 - **#3**: Pin sg13g2-vco in reuse.lock.json and smoke-simulate the pinned netlist *(curated)*
-- **#4**: Commit a T1 block manifest and a klt signoff CI job (T1 item 10) *(curated)*
 - **#19**: PFD + charge-pump schematic (SG13G2 HV MOS) with a DC compliance / up-down mismatch testbench for spec row 7 *(curated)*
 
 ## Proposed (Architect / Hermit)
@@ -70,10 +69,10 @@ _None._
 | Very important | 0 |
 | Important | 2 |
 | Ready (`loom:issue`) | 1 |
-| In Progress (`loom:building`) | 1 |
+| In Progress (`loom:building`) | 0 |
 | PRs awaiting review | 1 |
-| Approved PRs awaiting merge | 1 |
-| Curated | 3 |
+| Approved PRs awaiting merge | 0 |
+| Curated | 2 |
 | Architect / Hermit proposals | 0 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
