@@ -1,0 +1,11 @@
+{
+  "item": 1,
+  "block": "prescaler",
+  "files": [
+    {
+      "path": "design/netlist/prescaler.spice",
+      "sha256": "c79c7b09c608405d67e2a0e266c63a2446c32081b5decb8e13e0a9853efc4ed4",
+      "derived_from": "design/prescaler.sch"
+    }
+  ]
+}
