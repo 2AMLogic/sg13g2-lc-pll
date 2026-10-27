@@ -1,0 +1,34 @@
+name: harness
+
+# Keeps the evidence harness valid on every PR: the PDK-free script tests and the
+# loop-model tests, through scripts/ci-harness.sh (the same command package.json `test`
+# and manifests/repo-hygiene.inventory.json run). The PDK/ngspice tests
+# (scripts/test-ngpin.sh, scripts/test-cp-dc-negative.sh) and `design/netlist.sh --check`
+# (needs xschem) are NOT run here: the runner has no pinned ihp-sg13g2 install. They are
+# local-only and listed as such in README.md "Reproduce the records".
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  harness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install test dependencies
+        run: pip install numpy pytest
+
+      - name: Harness tests
+        run: scripts/ci-harness.sh
