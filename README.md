@@ -73,7 +73,7 @@ Full rows, methods, corner sets and gates: [`spec/target-spec.md`](spec/target-s
 |---|---|---|---|
 | Output frequency | 5.0 GHz, within the VCO's ratified band | one fixed channel | full 4.5–5.5 GHz band |
 | Reference input | 50 MHz | 100 MHz | 25 MHz |
-| Division | integer-N, N = 100 (5.0 GHz / 50 MHz); P = 8/9 prescaler | fixed N | N = 90-110 (4.5-5.5 GHz); fractional-N out of scope |
+| Division | integer-N, N = 100 (5.0 GHz / 50 MHz); P = 8/10 prescaler (DR-002) | fixed N | even N in 90-110 (4.5-5.5 GHz); fractional-N out of scope |
 | Loop bandwidth / phase margin | f_c 1 MHz (0.5-2.0), PM ≥ 45° | — | PM ≥ 60° |
 | Integrated rms jitter (simulated) | ≤ 1 ps, 10 kHz–10 MHz | ≤ 2 ps | ≤ 0.5 ps |
 | Reference spur | ≤ −50 dBc | ≤ −40 dBc | ≤ −60 dBc |
