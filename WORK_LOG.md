@@ -2,6 +2,11 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-10-29
+
+- **PR #42**: ci: add harness workflow, reproduce-records README and item 10 attestation
+- **Issue #33** (closed): T1 item 10 (repo hygiene): README reproduction steps, harness tests in CI, klt signoff --attest 10
+
 ### 2026-10-28
 
 - **PR #50**: docs(measurements): add characterization report skeleton and item 8 inventory
