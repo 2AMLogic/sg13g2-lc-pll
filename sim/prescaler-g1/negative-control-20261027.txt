@@ -1,0 +1,19 @@
+skew a applied:
+> RT teT VSS 60k m=1
+skew b applied:
+> XQE1 VDD IN OUT VSS npn13G2v Nx=4 El=1
+> XQE2 VDD INB OUTB VSS npn13G2v Nx=4 El=1
+
+== control A: starved first-stage latch tail ==
+warning: Pin check: ngspice-46 != pinned 47 (mismatch)
+record: /tmp/tmp.T8V0bcwJcJ/reca/20261027-022712-9096754.md
+C_diff(AC, 5.0 GHz) = 1.053 fF (budget 2.1 fF: WITHIN); transient cross-check 1.087 fF; G_diff = -1.83906E-05 S
+toggle limit: none of the swept frequencies toggled; required >= 5.5 GHz: FAIL
+PASS: the bench flags the starved stage (toggle verdict FAIL)
+
+== control B: oversized input followers ==
+warning: Pin check: ngspice-46 != pinned 47 (mismatch)
+record: /tmp/tmp.T8V0bcwJcJ/recb/20261027-022733-9096754.md
+C_diff(AC, 5.0 GHz) = 4.654 fF (budget 2.1 fF: EXCEEDS); transient cross-check 4.444 fF; G_diff = -7.14814E-05 S
+toggle limit: at least 6 GHz (every swept frequency passed; the limit is above the sweep); required >= 5.5 GHz: PASS
+PASS: the bench flags the oversized input (capacitance verdict EXCEEDS)

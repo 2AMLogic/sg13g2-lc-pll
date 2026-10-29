@@ -1,0 +1,3665 @@
+
+
+The temperature limiting function received NaN.
+Please check your power dissipation and improve your heat sink Rth!
+    This message will be shown only once.
+
+Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+Note: Compatibility modes selected: hs a
+
+
+Circuit: * sg13g2-lc-pll :: sim/prescaler-g1 -- prescaler first-stage load and speed bench (gate g1).
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+ Reference value :  0.00000e+00Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 1
+OP_IDD 0.0019586
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+ Reference value :  5.00000e+09Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 1
+AC_RESULT 1.29857E-15 -2.91704E-05
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+iref                                  0.877288
+mc                                           0
+x1.reref                              0.114905
+x1.xqref.s1                        2.80367e-10
+x1.xqref.t                            0.479047
+inp                                        3.3
+x1.x2.ckp                              2.53726
+x1.x2.xef.xqe1.s1                  1.05865e-09
+x1.x2.xef.xqe1.t                      0.485525
+inn                                        3.3
+x1.x2.ckn                              2.53726
+x1.x2.xef.xqe2.s1                  1.05865e-09
+x1.x2.xef.xqe2.t                      0.485525
+x1.x2.xef.f1                          0.115916
+x1.x2.xef.xqf1.s1                   8.1366e-10
+x1.x2.xef.xqf1.t                       1.53405
+x1.x2.xef.f2                          0.115916
+x1.x2.xef.xqf2.s1                   8.1366e-10
+x1.x2.xef.xqf2.t                       1.53405
+x1.x2.mp                                     3
+x1.x2.mn                                   3.2
+x1.hn                                        3
+x1.x2.xm.e1                            2.41762
+x1.x2.xm.xqt1.s1                   1.02827e-09
+x1.x2.xm.xqt1.t                    0.000568968
+x1.hp                                      3.2
+x1.x2.xm.xqt2.s1                   9.60566e-10
+x1.x2.xm.xqt2.t                       0.733076
+x1.x2.xm.e2                            2.41762
+x1.x2.xm.xqh1.s1                   1.02827e-09
+x1.x2.xm.xqh1.t                    0.000568968
+x1.x2.xm.xqh2.s1                   9.60566e-10
+x1.x2.xm.xqh2.t                       0.733076
+x1.x2.xm.t                             1.75493
+x1.x2.xm.xqc1.s1                   7.73468e-10
+x1.x2.xm.xqc1.t                       0.835525
+x1.x2.xm.xqc2.s1                   7.73468e-10
+x1.x2.xm.xqc2.t                       0.835525
+x1.x2.xm.tet                          0.115397
+x1.x2.xm.xqt.s1                    1.52763e-09
+x1.x2.xm.xqt.t                         1.22108
+x1.x2.xs.e1                            2.41789
+x1.x2.xs.xqt1.s1                   9.64019e-10
+x1.x2.xs.xqt1.t                    0.000418881
+x1.x2.xs.xqt2.s1                   1.02482e-09
+x1.x2.xs.xqt2.t                       0.984085
+x1.x2.xs.e2                            2.41762
+x1.x2.xs.xqh1.s1                   9.60566e-10
+x1.x2.xs.xqh1.t                       0.733071
+x1.x2.xs.xqh2.s1                   1.02827e-09
+x1.x2.xs.xqh2.t                    0.000568964
+x1.x2.xs.t                             1.75493
+x1.x2.xs.xqc1.s1                   7.73554e-10
+x1.x2.xs.xqc1.t                       0.835864
+x1.x2.xs.xqc2.s1                   7.73468e-10
+x1.x2.xs.xqc2.t                        0.83552
+x1.x2.xs.tet                          0.115397
+x1.x2.xs.xqt.s1                    1.52763e-09
+x1.x2.xs.xqt.t                         1.22108
+x1.x45.xmc.bm                      1.66788e-07
+x1.x45.xmc.vr                          1.64888
+x1.x45.mcp                             3.07073
+x1.x45.mcn                             3.29986
+x1.x45.xmc.t                          0.868714
+x1.x45.xmc.xqm1.s1                 1.06035e-09
+x1.x45.xmc.xqm1.t                   1.2771e-10
+x1.x45.xmc.xqm2.s1                  9.8337e-10
+x1.x45.xmc.xqm2.t                      2.76021
+x1.x45.xmc.tet                         0.11484
+x1.x45.xmc.xqt.s1                  4.36426e-10
+x1.x45.xmc.xqt.t                      0.514507
+x1.x45.mcl                             2.30834
+x1.x45.xmcl.xqe1.s1                1.05867e-09
+x1.x45.xmcl.xqe1.t                    0.626967
+x1.x45.mclb                            2.53718
+x1.x45.xmcl.xqe2.s1                1.05866e-09
+x1.x45.xmcl.xqe2.t                    0.484377
+x1.x45.xmcl.f1                        0.115776
+x1.x45.xmcl.xqf1.s1                7.40117e-10
+x1.x45.xmcl.xqf1.t                     1.38716
+x1.x45.xmcl.f2                        0.115916
+x1.x45.xmcl.xqf2.s1                8.13635e-10
+x1.x45.xmcl.xqf2.t                       1.534
+x1.x45.m                               3.06976
+x1.x45.mb                              3.29984
+outp                                   3.18493
+x1.x45.xgm.n1                          2.65062
+x1.x45.xgm.xqa1.s1                 1.06034e-09
+x1.x45.xgm.xqa1.t                  7.66573e-05
+outn                                   3.18493
+x1.x45.xgm.xqa2.s1                 9.86431e-10
+x1.x45.xgm.xqa2.t                  4.94819e-05
+x1.x45.xgm.t                           1.75572
+x1.x45.xgm.xqb1.s1                  8.5178e-10
+x1.x45.xgm.xqb1.t                   0.00021111
+x1.x45.xgm.xqb2.s1                 9.82998e-10
+x1.x45.xgm.xqb2.t                      1.65555
+x1.x45.xgm.tet                        0.115419
+x1.x45.xgm.xqt.s1                  8.84254e-10
+x1.x45.xgm.xqt.t                       1.12436
+x1.x45.xc23.ckp                        2.43722
+x1.x45.xc23.xck.xqe1.s1            1.05865e-09
+x1.x45.xc23.xck.xqe1.t                0.551448
+x1.x45.xc23.ckn                        2.23768
+x1.x45.xc23.xck.xqe2.s1            1.05867e-09
+x1.x45.xc23.xck.xqe2.t                0.671322
+x1.x45.xc23.xck.f1                    0.115855
+x1.x45.xc23.xck.xqf1.s1             7.8152e-10
+x1.x45.xc23.xck.xqf1.t                 1.46976
+x1.x45.xc23.xck.f2                    0.115733
+x1.x45.xc23.xck.xqf2.s1            7.17415e-10
+x1.x45.xc23.xck.xqf2.t                 1.34195
+x1.x45.c1                              3.18465
+x1.x45.xc23.q1l                        2.42209
+x1.x45.xc23.xq1l.xqe1.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe1.t               0.556901
+x1.x45.c1b                             3.18464
+x1.x45.xc23.q1lb                       2.42208
+x1.x45.xc23.xq1l.xqe2.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe2.t               0.556903
+x1.x45.xc23.xq1l.f1                   0.115845
+x1.x45.xc23.xq1l.xqf1.s1           7.76659e-10
+x1.x45.xc23.xq1l.xqf1.t                1.46005
+x1.x45.xc23.xq1l.f2                   0.115845
+x1.x45.xc23.xq1l.xqf2.s1           7.76657e-10
+x1.x45.xc23.xq1l.xqf2.t                1.46004
+x1.x45.xc23.d1                         3.18374
+x1.x45.xc23.d1b                        3.18598
+x1.x45.xc23.q2b                        3.29953
+x1.x45.xc23.xg1.n1                     2.53727
+x1.x45.xc23.xg1.xqa1.s1            1.02205e-09
+x1.x45.xc23.xg1.xqa1.t                0.404553
+x1.x45.xc23.q2                          3.0702
+x1.x45.xc23.xg1.xqa2.s1            1.02305e-09
+x1.x45.xc23.xg1.xqa2.t             7.22964e-05
+x1.x45.xc23.xg1.t                      1.65996
+x1.x45.xc23.xg1.xqb1.s1            8.13658e-10
+x1.x45.xc23.xg1.xqb1.t                0.547693
+x1.x45.xc23.xg1.xqb2.s1            1.02132e-09
+x1.x45.xc23.xg1.xqb2.t                0.968068
+x1.x45.xc23.xg1.tet                   0.115357
+x1.x45.xc23.xg1.xqt.s1             8.35908e-10
+x1.x45.xc23.xg1.xqt.t                  1.05823
+x1.x45.xc23.d2                         3.07002
+x1.x45.xc23.d2b                        3.29969
+x1.x45.xc23.xg2.n1                     2.53744
+x1.x45.xc23.xg2.xqa1.s1             1.0603e-09
+x1.x45.xc23.xg2.xqa1.t             8.33301e-05
+x1.x45.xc23.xg2.xqa2.s1            9.84806e-10
+x1.x45.xc23.xg2.xqa2.t                0.332853
+x1.x45.xc23.xg2.t                      1.65992
+x1.x45.xc23.xg2.xqb1.s1            8.13709e-10
+x1.x45.xc23.xg2.xqb1.t                0.548835
+x1.x45.xc23.xg2.xqb2.s1            9.84789e-10
+x1.x45.xc23.xg2.xqb2.t                0.894274
+x1.x45.xc23.xg2.tet                   0.115357
+x1.x45.xc23.xg2.xqt.s1             8.35886e-10
+x1.x45.xc23.xg2.xqt.t                   1.0582
+x1.x45.xc23.xf1.m                      3.18046
+x1.x45.xc23.xf1.mb                     3.18969
+x1.x45.xc23.xf1.xm.e1                  2.42247
+x1.x45.xc23.xf1.xm.xqt1.s1          1.0233e-09
+x1.x45.xc23.xf1.xm.xqt1.t             0.463143
+x1.x45.xc23.xf1.xm.xqt2.s1          1.0202e-09
+x1.x45.xc23.xf1.xm.xqt2.t             0.495785
+x1.x45.xc23.xf1.xm.e2                  2.62117
+x1.x45.xc23.xf1.xm.xqh1.s1         1.02496e-09
+x1.x45.xc23.xf1.xm.xqh1.t          0.000172591
+x1.x45.xc23.xf1.xm.xqh2.s1         1.02199e-09
+x1.x45.xc23.xf1.xm.xqh2.t          0.000240771
+x1.x45.xc23.xf1.xm.t                   1.65506
+x1.x45.xc23.xf1.xm.xqc1.s1         7.75034e-10
+x1.x45.xc23.xf1.xm.xqc1.t              0.96644
+x1.x45.xc23.xf1.xm.xqc2.s1         8.42317e-10
+x1.x45.xc23.xf1.xm.xqc2.t          0.000709425
+x1.x45.xc23.xf1.xm.tet                0.115354
+x1.x45.xc23.xf1.xm.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xm.xqt.t               1.05485
+x1.x45.xc23.xf1.xs.e1                  2.62117
+x1.x45.xc23.xf1.xs.xqt1.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt1.t          0.000171058
+x1.x45.xc23.xf1.xs.xqt2.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt2.t          0.000242578
+x1.x45.xc23.xf1.xs.e2                  2.42224
+x1.x45.xc23.xf1.xs.xqh1.s1         1.02161e-09
+x1.x45.xc23.xf1.xs.xqh1.t             0.479518
+x1.x45.xc23.xf1.xs.xqh2.s1         1.02162e-09
+x1.x45.xc23.xf1.xs.xqh2.t             0.479394
+x1.x45.xc23.xf1.xs.t                   1.65506
+x1.x45.xc23.xf1.xs.xqc1.s1         8.42317e-10
+x1.x45.xc23.xf1.xs.xqc1.t          0.000709433
+x1.x45.xc23.xf1.xs.xqc2.s1         7.74959e-10
+x1.x45.xc23.xf1.xs.xqc2.t             0.966147
+x1.x45.xc23.xf1.xs.tet                0.115354
+x1.x45.xc23.xf1.xs.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xs.xqt.t               1.05485
+x1.x45.xc23.xf2.m                       3.0702
+x1.x45.xc23.xf2.mb                     3.29996
+x1.x45.xc23.xf2.xm.e1                  2.51729
+x1.x45.xc23.xf2.xm.xqt1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqt1.t           0.00018529
+x1.x45.xc23.xf2.xm.xqt2.s1         9.83125e-10
+x1.x45.xc23.xf2.xm.xqt2.t             0.695644
+x1.x45.xc23.xf2.xm.e2                  2.71742
+x1.x45.xc23.xf2.xm.xqh1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqh1.t          7.17896e-08
+x1.x45.xc23.xf2.xm.xqh2.s1         9.86577e-10
+x1.x45.xc23.xf2.xm.xqh2.t          0.000258088
+x1.x45.xc23.xf2.xm.t                   1.65518
+x1.x45.xc23.xf2.xm.xqc1.s1         8.05499e-10
+x1.x45.xc23.xf2.xm.xqc1.t              1.08555
+x1.x45.xc23.xf2.xm.xqc2.s1         8.73239e-10
+x1.x45.xc23.xf2.xm.xqc2.t          0.000776595
+x1.x45.xc23.xf2.xm.tet                0.115354
+x1.x45.xc23.xf2.xm.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xm.xqt.t               1.05493
+x1.x45.xc23.xf2.xs.e1                  2.71742
+x1.x45.xc23.xf2.xs.xqt1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqt1.t          7.17379e-08
+x1.x45.xc23.xf2.xs.xqt2.s1         9.86577e-10
+x1.x45.xc23.xf2.xs.xqt2.t          0.000258091
+x1.x45.xc23.xf2.xs.e2                  2.51713
+x1.x45.xc23.xf2.xs.xqh1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqh1.t          0.000187643
+x1.x45.xc23.xf2.xs.xqh2.s1         9.83125e-10
+x1.x45.xc23.xf2.xs.xqh2.t              0.69585
+x1.x45.xc23.xf2.xs.t                   1.65518
+x1.x45.xc23.xf2.xs.xqc1.s1         8.73239e-10
+x1.x45.xc23.xf2.xs.xqc1.t          0.000776602
+x1.x45.xc23.xf2.xs.xqc2.s1         8.05446e-10
+x1.x45.xc23.xf2.xs.xqc2.t              1.08534
+x1.x45.xc23.xf2.xs.tet                0.115354
+x1.x45.xc23.xf2.xs.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xs.xqt.t               1.05493
+x1.x45.xt.ckp                          2.42209
+x1.x45.xt.xef.xqe1.s1              1.05866e-09
+x1.x45.xt.xef.xqe1.t                    0.5569
+x1.x45.xt.ckn                          2.42208
+x1.x45.xt.xef.xqe2.s1              1.05866e-09
+x1.x45.xt.xef.xqe2.t                  0.556904
+x1.x45.xt.xef.f1                      0.115845
+x1.x45.xt.xef.xqf1.s1              7.76659e-10
+x1.x45.xt.xef.xqf1.t                   1.46005
+x1.x45.xt.xef.f2                      0.115845
+x1.x45.xt.xef.xqf2.s1              7.76657e-10
+x1.x45.xt.xef.xqf2.t                   1.46004
+x1.x45.xt.mp                           3.18493
+x1.x45.xt.mn                           3.18493
+x1.x45.xt.xm.e1                         2.4415
+x1.x45.xt.xm.xqt1.s1               1.02257e-09
+x1.x45.xt.xm.xqt1.t                   0.233936
+x1.x45.xt.xm.xqt2.s1               1.02257e-09
+x1.x45.xt.xm.xqt2.t                   0.233936
+x1.x45.xt.xm.e2                        2.44151
+x1.x45.xt.xm.xqh1.s1               1.02257e-09
+x1.x45.xt.xm.xqh1.t                   0.233871
+x1.x45.xt.xm.xqh2.s1               1.02257e-09
+x1.x45.xt.xm.xqh2.t                   0.233871
+x1.x45.xt.xm.t                         1.65964
+x1.x45.xt.xm.xqc1.s1               7.82873e-10
+x1.x45.xt.xm.xqc1.t                   0.492657
+x1.x45.xt.xm.xqc2.s1               7.82876e-10
+x1.x45.xt.xm.xqc2.t                   0.492531
+x1.x45.xt.xm.tet                      0.115357
+x1.x45.xt.xm.xqt.s1                8.35747e-10
+x1.x45.xt.xm.xqt.t                     1.05801
+x1.x45.xt.xs.e1                        2.44151
+x1.x45.xt.xs.xqt1.s1               1.02257e-09
+x1.x45.xt.xs.xqt1.t                   0.233871
+x1.x45.xt.xs.xqt2.s1               1.02257e-09
+x1.x45.xt.xs.xqt2.t                   0.233871
+x1.x45.xt.xs.e2                         2.4415
+x1.x45.xt.xs.xqh1.s1               1.02257e-09
+x1.x45.xt.xs.xqh1.t                   0.233936
+x1.x45.xt.xs.xqh2.s1               1.02257e-09
+x1.x45.xt.xs.xqh2.t                   0.233936
+x1.x45.xt.xs.t                         1.65964
+x1.x45.xt.xs.xqc1.s1               7.82876e-10
+x1.x45.xt.xs.xqc1.t                   0.492531
+x1.x45.xt.xs.xqc2.s1               7.82873e-10
+x1.x45.xt.xs.xqc2.t                   0.492657
+x1.x45.xt.xs.tet                      0.115357
+x1.x45.xt.xs.xqt.s1                8.35747e-10
+x1.x45.xt.xs.xqt.t                     1.05801
+vin#branch                        -6.01969e-08
+vip#branch                        -6.01969e-08
+vmc#branch                          8.3394e-12
+vdd#branch                         -0.00210799
+
+ Reference value :  0.00000e+00 Reference value :  5.96560e-10 Reference value :  1.52456e-09 Reference value :  2.45056e-09 Reference value :  3.35456e-09 Reference value :  4.22456e-09 Reference value :  4.82456e-09 Reference value :  5.39656e-09 Reference value :  5.96256e-09 Reference value :  6.71056e-09 Reference value :  7.64656e-09 Reference value :  8.55056e-09 Reference value :  9.45056e-09 Reference value :  1.03406e-08 Reference value :  1.11366e-08 Reference value :  1.18386e-08 Reference value :  1.27366e-08 Reference value :  1.36606e-08 Reference value :  1.45826e-08 Reference value :  1.54426e-08 Reference value :  1.63886e-08 Reference value :  1.72986e-08 Reference value :  1.81506e-08 Reference value :  1.89786e-08 Reference value :  1.98506e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 10009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+iref                                  0.877288
+mc                                           0
+x1.reref                              0.114905
+x1.xqref.s1                        2.80367e-10
+x1.xqref.t                            0.479047
+inp                                        3.3
+x1.x2.ckp                              2.53726
+x1.x2.xef.xqe1.s1                  1.05865e-09
+x1.x2.xef.xqe1.t                      0.485525
+inn                                        3.3
+x1.x2.ckn                              2.53726
+x1.x2.xef.xqe2.s1                  1.05865e-09
+x1.x2.xef.xqe2.t                      0.485525
+x1.x2.xef.f1                          0.115916
+x1.x2.xef.xqf1.s1                   8.1366e-10
+x1.x2.xef.xqf1.t                       1.53405
+x1.x2.xef.f2                          0.115916
+x1.x2.xef.xqf2.s1                   8.1366e-10
+x1.x2.xef.xqf2.t                       1.53405
+x1.x2.mp                                     3
+x1.x2.mn                                   3.2
+x1.hn                                        3
+x1.x2.xm.e1                            2.41762
+x1.x2.xm.xqt1.s1                   1.02827e-09
+x1.x2.xm.xqt1.t                    0.000568968
+x1.hp                                      3.2
+x1.x2.xm.xqt2.s1                   9.60566e-10
+x1.x2.xm.xqt2.t                       0.733076
+x1.x2.xm.e2                            2.41762
+x1.x2.xm.xqh1.s1                   1.02827e-09
+x1.x2.xm.xqh1.t                    0.000568968
+x1.x2.xm.xqh2.s1                   9.60566e-10
+x1.x2.xm.xqh2.t                       0.733076
+x1.x2.xm.t                             1.75493
+x1.x2.xm.xqc1.s1                   7.73468e-10
+x1.x2.xm.xqc1.t                       0.835525
+x1.x2.xm.xqc2.s1                   7.73468e-10
+x1.x2.xm.xqc2.t                       0.835525
+x1.x2.xm.tet                          0.115397
+x1.x2.xm.xqt.s1                    1.52763e-09
+x1.x2.xm.xqt.t                         1.22108
+x1.x2.xs.e1                            2.41789
+x1.x2.xs.xqt1.s1                   9.64019e-10
+x1.x2.xs.xqt1.t                    0.000418881
+x1.x2.xs.xqt2.s1                   1.02482e-09
+x1.x2.xs.xqt2.t                       0.984085
+x1.x2.xs.e2                            2.41762
+x1.x2.xs.xqh1.s1                   9.60566e-10
+x1.x2.xs.xqh1.t                       0.733071
+x1.x2.xs.xqh2.s1                   1.02827e-09
+x1.x2.xs.xqh2.t                    0.000568964
+x1.x2.xs.t                             1.75493
+x1.x2.xs.xqc1.s1                   7.73554e-10
+x1.x2.xs.xqc1.t                       0.835864
+x1.x2.xs.xqc2.s1                   7.73468e-10
+x1.x2.xs.xqc2.t                        0.83552
+x1.x2.xs.tet                          0.115397
+x1.x2.xs.xqt.s1                    1.52763e-09
+x1.x2.xs.xqt.t                         1.22108
+x1.x45.xmc.bm                      1.66788e-07
+x1.x45.xmc.vr                          1.64888
+x1.x45.mcp                             3.07073
+x1.x45.mcn                             3.29986
+x1.x45.xmc.t                          0.868714
+x1.x45.xmc.xqm1.s1                 1.06035e-09
+x1.x45.xmc.xqm1.t                   1.2771e-10
+x1.x45.xmc.xqm2.s1                  9.8337e-10
+x1.x45.xmc.xqm2.t                      2.76021
+x1.x45.xmc.tet                         0.11484
+x1.x45.xmc.xqt.s1                  4.36426e-10
+x1.x45.xmc.xqt.t                      0.514507
+x1.x45.mcl                             2.30834
+x1.x45.xmcl.xqe1.s1                1.05867e-09
+x1.x45.xmcl.xqe1.t                    0.626967
+x1.x45.mclb                            2.53718
+x1.x45.xmcl.xqe2.s1                1.05866e-09
+x1.x45.xmcl.xqe2.t                    0.484377
+x1.x45.xmcl.f1                        0.115776
+x1.x45.xmcl.xqf1.s1                7.40117e-10
+x1.x45.xmcl.xqf1.t                     1.38716
+x1.x45.xmcl.f2                        0.115916
+x1.x45.xmcl.xqf2.s1                8.13635e-10
+x1.x45.xmcl.xqf2.t                       1.534
+x1.x45.m                               3.06976
+x1.x45.mb                              3.29984
+outp                                   3.18493
+x1.x45.xgm.n1                          2.65062
+x1.x45.xgm.xqa1.s1                 1.06034e-09
+x1.x45.xgm.xqa1.t                  7.66573e-05
+outn                                   3.18493
+x1.x45.xgm.xqa2.s1                 9.86431e-10
+x1.x45.xgm.xqa2.t                  4.94819e-05
+x1.x45.xgm.t                           1.75572
+x1.x45.xgm.xqb1.s1                  8.5178e-10
+x1.x45.xgm.xqb1.t                   0.00021111
+x1.x45.xgm.xqb2.s1                 9.82998e-10
+x1.x45.xgm.xqb2.t                      1.65555
+x1.x45.xgm.tet                        0.115419
+x1.x45.xgm.xqt.s1                  8.84254e-10
+x1.x45.xgm.xqt.t                       1.12436
+x1.x45.xc23.ckp                        2.43722
+x1.x45.xc23.xck.xqe1.s1            1.05865e-09
+x1.x45.xc23.xck.xqe1.t                0.551448
+x1.x45.xc23.ckn                        2.23768
+x1.x45.xc23.xck.xqe2.s1            1.05867e-09
+x1.x45.xc23.xck.xqe2.t                0.671322
+x1.x45.xc23.xck.f1                    0.115855
+x1.x45.xc23.xck.xqf1.s1             7.8152e-10
+x1.x45.xc23.xck.xqf1.t                 1.46976
+x1.x45.xc23.xck.f2                    0.115733
+x1.x45.xc23.xck.xqf2.s1            7.17415e-10
+x1.x45.xc23.xck.xqf2.t                 1.34195
+x1.x45.c1                              3.18465
+x1.x45.xc23.q1l                        2.42209
+x1.x45.xc23.xq1l.xqe1.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe1.t               0.556901
+x1.x45.c1b                             3.18464
+x1.x45.xc23.q1lb                       2.42208
+x1.x45.xc23.xq1l.xqe2.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe2.t               0.556903
+x1.x45.xc23.xq1l.f1                   0.115845
+x1.x45.xc23.xq1l.xqf1.s1           7.76659e-10
+x1.x45.xc23.xq1l.xqf1.t                1.46005
+x1.x45.xc23.xq1l.f2                   0.115845
+x1.x45.xc23.xq1l.xqf2.s1           7.76657e-10
+x1.x45.xc23.xq1l.xqf2.t                1.46004
+x1.x45.xc23.d1                         3.18374
+x1.x45.xc23.d1b                        3.18598
+x1.x45.xc23.q2b                        3.29953
+x1.x45.xc23.xg1.n1                     2.53727
+x1.x45.xc23.xg1.xqa1.s1            1.02205e-09
+x1.x45.xc23.xg1.xqa1.t                0.404553
+x1.x45.xc23.q2                          3.0702
+x1.x45.xc23.xg1.xqa2.s1            1.02305e-09
+x1.x45.xc23.xg1.xqa2.t             7.22964e-05
+x1.x45.xc23.xg1.t                      1.65996
+x1.x45.xc23.xg1.xqb1.s1            8.13658e-10
+x1.x45.xc23.xg1.xqb1.t                0.547693
+x1.x45.xc23.xg1.xqb2.s1            1.02132e-09
+x1.x45.xc23.xg1.xqb2.t                0.968068
+x1.x45.xc23.xg1.tet                   0.115357
+x1.x45.xc23.xg1.xqt.s1             8.35908e-10
+x1.x45.xc23.xg1.xqt.t                  1.05823
+x1.x45.xc23.d2                         3.07002
+x1.x45.xc23.d2b                        3.29969
+x1.x45.xc23.xg2.n1                     2.53744
+x1.x45.xc23.xg2.xqa1.s1             1.0603e-09
+x1.x45.xc23.xg2.xqa1.t             8.33301e-05
+x1.x45.xc23.xg2.xqa2.s1            9.84806e-10
+x1.x45.xc23.xg2.xqa2.t                0.332853
+x1.x45.xc23.xg2.t                      1.65992
+x1.x45.xc23.xg2.xqb1.s1            8.13709e-10
+x1.x45.xc23.xg2.xqb1.t                0.548835
+x1.x45.xc23.xg2.xqb2.s1            9.84789e-10
+x1.x45.xc23.xg2.xqb2.t                0.894274
+x1.x45.xc23.xg2.tet                   0.115357
+x1.x45.xc23.xg2.xqt.s1             8.35886e-10
+x1.x45.xc23.xg2.xqt.t                   1.0582
+x1.x45.xc23.xf1.m                      3.18046
+x1.x45.xc23.xf1.mb                     3.18969
+x1.x45.xc23.xf1.xm.e1                  2.42247
+x1.x45.xc23.xf1.xm.xqt1.s1          1.0233e-09
+x1.x45.xc23.xf1.xm.xqt1.t             0.463143
+x1.x45.xc23.xf1.xm.xqt2.s1          1.0202e-09
+x1.x45.xc23.xf1.xm.xqt2.t             0.495785
+x1.x45.xc23.xf1.xm.e2                  2.62117
+x1.x45.xc23.xf1.xm.xqh1.s1         1.02496e-09
+x1.x45.xc23.xf1.xm.xqh1.t          0.000172591
+x1.x45.xc23.xf1.xm.xqh2.s1         1.02199e-09
+x1.x45.xc23.xf1.xm.xqh2.t          0.000240771
+x1.x45.xc23.xf1.xm.t                   1.65506
+x1.x45.xc23.xf1.xm.xqc1.s1         7.75034e-10
+x1.x45.xc23.xf1.xm.xqc1.t              0.96644
+x1.x45.xc23.xf1.xm.xqc2.s1         8.42317e-10
+x1.x45.xc23.xf1.xm.xqc2.t          0.000709425
+x1.x45.xc23.xf1.xm.tet                0.115354
+x1.x45.xc23.xf1.xm.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xm.xqt.t               1.05485
+x1.x45.xc23.xf1.xs.e1                  2.62117
+x1.x45.xc23.xf1.xs.xqt1.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt1.t          0.000171058
+x1.x45.xc23.xf1.xs.xqt2.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt2.t          0.000242578
+x1.x45.xc23.xf1.xs.e2                  2.42224
+x1.x45.xc23.xf1.xs.xqh1.s1         1.02161e-09
+x1.x45.xc23.xf1.xs.xqh1.t             0.479518
+x1.x45.xc23.xf1.xs.xqh2.s1         1.02162e-09
+x1.x45.xc23.xf1.xs.xqh2.t             0.479394
+x1.x45.xc23.xf1.xs.t                   1.65506
+x1.x45.xc23.xf1.xs.xqc1.s1         8.42317e-10
+x1.x45.xc23.xf1.xs.xqc1.t          0.000709433
+x1.x45.xc23.xf1.xs.xqc2.s1         7.74959e-10
+x1.x45.xc23.xf1.xs.xqc2.t             0.966147
+x1.x45.xc23.xf1.xs.tet                0.115354
+x1.x45.xc23.xf1.xs.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xs.xqt.t               1.05485
+x1.x45.xc23.xf2.m                       3.0702
+x1.x45.xc23.xf2.mb                     3.29996
+x1.x45.xc23.xf2.xm.e1                  2.51729
+x1.x45.xc23.xf2.xm.xqt1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqt1.t           0.00018529
+x1.x45.xc23.xf2.xm.xqt2.s1         9.83125e-10
+x1.x45.xc23.xf2.xm.xqt2.t             0.695644
+x1.x45.xc23.xf2.xm.e2                  2.71742
+x1.x45.xc23.xf2.xm.xqh1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqh1.t          7.17896e-08
+x1.x45.xc23.xf2.xm.xqh2.s1         9.86577e-10
+x1.x45.xc23.xf2.xm.xqh2.t          0.000258088
+x1.x45.xc23.xf2.xm.t                   1.65518
+x1.x45.xc23.xf2.xm.xqc1.s1         8.05499e-10
+x1.x45.xc23.xf2.xm.xqc1.t              1.08555
+x1.x45.xc23.xf2.xm.xqc2.s1         8.73239e-10
+x1.x45.xc23.xf2.xm.xqc2.t          0.000776595
+x1.x45.xc23.xf2.xm.tet                0.115354
+x1.x45.xc23.xf2.xm.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xm.xqt.t               1.05493
+x1.x45.xc23.xf2.xs.e1                  2.71742
+x1.x45.xc23.xf2.xs.xqt1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqt1.t          7.17379e-08
+x1.x45.xc23.xf2.xs.xqt2.s1         9.86577e-10
+x1.x45.xc23.xf2.xs.xqt2.t          0.000258091
+x1.x45.xc23.xf2.xs.e2                  2.51713
+x1.x45.xc23.xf2.xs.xqh1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqh1.t          0.000187643
+x1.x45.xc23.xf2.xs.xqh2.s1         9.83125e-10
+x1.x45.xc23.xf2.xs.xqh2.t              0.69585
+x1.x45.xc23.xf2.xs.t                   1.65518
+x1.x45.xc23.xf2.xs.xqc1.s1         8.73239e-10
+x1.x45.xc23.xf2.xs.xqc1.t          0.000776602
+x1.x45.xc23.xf2.xs.xqc2.s1         8.05446e-10
+x1.x45.xc23.xf2.xs.xqc2.t              1.08534
+x1.x45.xc23.xf2.xs.tet                0.115354
+x1.x45.xc23.xf2.xs.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xs.xqt.t               1.05493
+x1.x45.xt.ckp                          2.42209
+x1.x45.xt.xef.xqe1.s1              1.05866e-09
+x1.x45.xt.xef.xqe1.t                    0.5569
+x1.x45.xt.ckn                          2.42208
+x1.x45.xt.xef.xqe2.s1              1.05866e-09
+x1.x45.xt.xef.xqe2.t                  0.556904
+x1.x45.xt.xef.f1                      0.115845
+x1.x45.xt.xef.xqf1.s1              7.76659e-10
+x1.x45.xt.xef.xqf1.t                   1.46005
+x1.x45.xt.xef.f2                      0.115845
+x1.x45.xt.xef.xqf2.s1              7.76657e-10
+x1.x45.xt.xef.xqf2.t                   1.46004
+x1.x45.xt.mp                           3.18493
+x1.x45.xt.mn                           3.18493
+x1.x45.xt.xm.e1                         2.4415
+x1.x45.xt.xm.xqt1.s1               1.02257e-09
+x1.x45.xt.xm.xqt1.t                   0.233936
+x1.x45.xt.xm.xqt2.s1               1.02257e-09
+x1.x45.xt.xm.xqt2.t                   0.233936
+x1.x45.xt.xm.e2                        2.44151
+x1.x45.xt.xm.xqh1.s1               1.02257e-09
+x1.x45.xt.xm.xqh1.t                   0.233871
+x1.x45.xt.xm.xqh2.s1               1.02257e-09
+x1.x45.xt.xm.xqh2.t                   0.233871
+x1.x45.xt.xm.t                         1.65964
+x1.x45.xt.xm.xqc1.s1               7.82873e-10
+x1.x45.xt.xm.xqc1.t                   0.492657
+x1.x45.xt.xm.xqc2.s1               7.82876e-10
+x1.x45.xt.xm.xqc2.t                   0.492531
+x1.x45.xt.xm.tet                      0.115357
+x1.x45.xt.xm.xqt.s1                8.35747e-10
+x1.x45.xt.xm.xqt.t                     1.05801
+x1.x45.xt.xs.e1                        2.44151
+x1.x45.xt.xs.xqt1.s1               1.02257e-09
+x1.x45.xt.xs.xqt1.t                   0.233871
+x1.x45.xt.xs.xqt2.s1               1.02257e-09
+x1.x45.xt.xs.xqt2.t                   0.233871
+x1.x45.xt.xs.e2                         2.4415
+x1.x45.xt.xs.xqh1.s1               1.02257e-09
+x1.x45.xt.xs.xqh1.t                   0.233936
+x1.x45.xt.xs.xqh2.s1               1.02257e-09
+x1.x45.xt.xs.xqh2.t                   0.233936
+x1.x45.xt.xs.t                         1.65964
+x1.x45.xt.xs.xqc1.s1               7.82876e-10
+x1.x45.xt.xs.xqc1.t                   0.492531
+x1.x45.xt.xs.xqc2.s1               7.82873e-10
+x1.x45.xt.xs.xqc2.t                   0.492657
+x1.x45.xt.xs.tet                      0.115357
+x1.x45.xt.xs.xqt.s1                8.35747e-10
+x1.x45.xt.xs.xqt.t                     1.05801
+vin#branch                        -6.01969e-08
+vip#branch                        -6.01969e-08
+vmc#branch                          8.3394e-12
+vdd#branch                         -0.00210799
+
+ Reference value :  0.00000e+00 Reference value :  8.06560e-10 Reference value :  1.68056e-09 Reference value :  2.54256e-09 Reference value :  3.40456e-09 Reference value :  4.26256e-09 Reference value :  4.98656e-09 Reference value :  5.84256e-09 Reference value :  6.74056e-09 Reference value :  7.65056e-09 Reference value :  8.54456e-09 Reference value :  9.43656e-09 Reference value :  1.02766e-08 Reference value :  1.11606e-08 Reference value :  1.19626e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+iref                                  0.877288
+mc                                           0
+x1.reref                              0.114905
+x1.xqref.s1                        2.80367e-10
+x1.xqref.t                            0.479047
+inp                                        3.3
+x1.x2.ckp                              2.53726
+x1.x2.xef.xqe1.s1                  1.05865e-09
+x1.x2.xef.xqe1.t                      0.485525
+inn                                        3.3
+x1.x2.ckn                              2.53726
+x1.x2.xef.xqe2.s1                  1.05865e-09
+x1.x2.xef.xqe2.t                      0.485525
+x1.x2.xef.f1                          0.115916
+x1.x2.xef.xqf1.s1                   8.1366e-10
+x1.x2.xef.xqf1.t                       1.53405
+x1.x2.xef.f2                          0.115916
+x1.x2.xef.xqf2.s1                   8.1366e-10
+x1.x2.xef.xqf2.t                       1.53405
+x1.x2.mp                                     3
+x1.x2.mn                                   3.2
+x1.hn                                        3
+x1.x2.xm.e1                            2.41762
+x1.x2.xm.xqt1.s1                   1.02827e-09
+x1.x2.xm.xqt1.t                    0.000568968
+x1.hp                                      3.2
+x1.x2.xm.xqt2.s1                   9.60566e-10
+x1.x2.xm.xqt2.t                       0.733076
+x1.x2.xm.e2                            2.41762
+x1.x2.xm.xqh1.s1                   1.02827e-09
+x1.x2.xm.xqh1.t                    0.000568968
+x1.x2.xm.xqh2.s1                   9.60566e-10
+x1.x2.xm.xqh2.t                       0.733076
+x1.x2.xm.t                             1.75493
+x1.x2.xm.xqc1.s1                   7.73468e-10
+x1.x2.xm.xqc1.t                       0.835525
+x1.x2.xm.xqc2.s1                   7.73468e-10
+x1.x2.xm.xqc2.t                       0.835525
+x1.x2.xm.tet                          0.115397
+x1.x2.xm.xqt.s1                    1.52763e-09
+x1.x2.xm.xqt.t                         1.22108
+x1.x2.xs.e1                            2.41789
+x1.x2.xs.xqt1.s1                   9.64019e-10
+x1.x2.xs.xqt1.t                    0.000418881
+x1.x2.xs.xqt2.s1                   1.02482e-09
+x1.x2.xs.xqt2.t                       0.984085
+x1.x2.xs.e2                            2.41762
+x1.x2.xs.xqh1.s1                   9.60566e-10
+x1.x2.xs.xqh1.t                       0.733071
+x1.x2.xs.xqh2.s1                   1.02827e-09
+x1.x2.xs.xqh2.t                    0.000568964
+x1.x2.xs.t                             1.75493
+x1.x2.xs.xqc1.s1                   7.73554e-10
+x1.x2.xs.xqc1.t                       0.835864
+x1.x2.xs.xqc2.s1                   7.73468e-10
+x1.x2.xs.xqc2.t                        0.83552
+x1.x2.xs.tet                          0.115397
+x1.x2.xs.xqt.s1                    1.52763e-09
+x1.x2.xs.xqt.t                         1.22108
+x1.x45.xmc.bm                      1.66788e-07
+x1.x45.xmc.vr                          1.64888
+x1.x45.mcp                             3.07073
+x1.x45.mcn                             3.29986
+x1.x45.xmc.t                          0.868714
+x1.x45.xmc.xqm1.s1                 1.06035e-09
+x1.x45.xmc.xqm1.t                   1.2771e-10
+x1.x45.xmc.xqm2.s1                  9.8337e-10
+x1.x45.xmc.xqm2.t                      2.76021
+x1.x45.xmc.tet                         0.11484
+x1.x45.xmc.xqt.s1                  4.36426e-10
+x1.x45.xmc.xqt.t                      0.514507
+x1.x45.mcl                             2.30834
+x1.x45.xmcl.xqe1.s1                1.05867e-09
+x1.x45.xmcl.xqe1.t                    0.626967
+x1.x45.mclb                            2.53718
+x1.x45.xmcl.xqe2.s1                1.05866e-09
+x1.x45.xmcl.xqe2.t                    0.484377
+x1.x45.xmcl.f1                        0.115776
+x1.x45.xmcl.xqf1.s1                7.40117e-10
+x1.x45.xmcl.xqf1.t                     1.38716
+x1.x45.xmcl.f2                        0.115916
+x1.x45.xmcl.xqf2.s1                8.13635e-10
+x1.x45.xmcl.xqf2.t                       1.534
+x1.x45.m                               3.06976
+x1.x45.mb                              3.29984
+outp                                   3.18493
+x1.x45.xgm.n1                          2.65062
+x1.x45.xgm.xqa1.s1                 1.06034e-09
+x1.x45.xgm.xqa1.t                  7.66573e-05
+outn                                   3.18493
+x1.x45.xgm.xqa2.s1                 9.86431e-10
+x1.x45.xgm.xqa2.t                  4.94819e-05
+x1.x45.xgm.t                           1.75572
+x1.x45.xgm.xqb1.s1                  8.5178e-10
+x1.x45.xgm.xqb1.t                   0.00021111
+x1.x45.xgm.xqb2.s1                 9.82998e-10
+x1.x45.xgm.xqb2.t                      1.65555
+x1.x45.xgm.tet                        0.115419
+x1.x45.xgm.xqt.s1                  8.84254e-10
+x1.x45.xgm.xqt.t                       1.12436
+x1.x45.xc23.ckp                        2.43722
+x1.x45.xc23.xck.xqe1.s1            1.05865e-09
+x1.x45.xc23.xck.xqe1.t                0.551448
+x1.x45.xc23.ckn                        2.23768
+x1.x45.xc23.xck.xqe2.s1            1.05867e-09
+x1.x45.xc23.xck.xqe2.t                0.671322
+x1.x45.xc23.xck.f1                    0.115855
+x1.x45.xc23.xck.xqf1.s1             7.8152e-10
+x1.x45.xc23.xck.xqf1.t                 1.46976
+x1.x45.xc23.xck.f2                    0.115733
+x1.x45.xc23.xck.xqf2.s1            7.17415e-10
+x1.x45.xc23.xck.xqf2.t                 1.34195
+x1.x45.c1                              3.18465
+x1.x45.xc23.q1l                        2.42209
+x1.x45.xc23.xq1l.xqe1.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe1.t               0.556901
+x1.x45.c1b                             3.18464
+x1.x45.xc23.q1lb                       2.42208
+x1.x45.xc23.xq1l.xqe2.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe2.t               0.556903
+x1.x45.xc23.xq1l.f1                   0.115845
+x1.x45.xc23.xq1l.xqf1.s1           7.76659e-10
+x1.x45.xc23.xq1l.xqf1.t                1.46005
+x1.x45.xc23.xq1l.f2                   0.115845
+x1.x45.xc23.xq1l.xqf2.s1           7.76657e-10
+x1.x45.xc23.xq1l.xqf2.t                1.46004
+x1.x45.xc23.d1                         3.18374
+x1.x45.xc23.d1b                        3.18598
+x1.x45.xc23.q2b                        3.29953
+x1.x45.xc23.xg1.n1                     2.53727
+x1.x45.xc23.xg1.xqa1.s1            1.02205e-09
+x1.x45.xc23.xg1.xqa1.t                0.404553
+x1.x45.xc23.q2                          3.0702
+x1.x45.xc23.xg1.xqa2.s1            1.02305e-09
+x1.x45.xc23.xg1.xqa2.t             7.22964e-05
+x1.x45.xc23.xg1.t                      1.65996
+x1.x45.xc23.xg1.xqb1.s1            8.13658e-10
+x1.x45.xc23.xg1.xqb1.t                0.547693
+x1.x45.xc23.xg1.xqb2.s1            1.02132e-09
+x1.x45.xc23.xg1.xqb2.t                0.968068
+x1.x45.xc23.xg1.tet                   0.115357
+x1.x45.xc23.xg1.xqt.s1             8.35908e-10
+x1.x45.xc23.xg1.xqt.t                  1.05823
+x1.x45.xc23.d2                         3.07002
+x1.x45.xc23.d2b                        3.29969
+x1.x45.xc23.xg2.n1                     2.53744
+x1.x45.xc23.xg2.xqa1.s1             1.0603e-09
+x1.x45.xc23.xg2.xqa1.t             8.33301e-05
+x1.x45.xc23.xg2.xqa2.s1            9.84806e-10
+x1.x45.xc23.xg2.xqa2.t                0.332853
+x1.x45.xc23.xg2.t                      1.65992
+x1.x45.xc23.xg2.xqb1.s1            8.13709e-10
+x1.x45.xc23.xg2.xqb1.t                0.548835
+x1.x45.xc23.xg2.xqb2.s1            9.84789e-10
+x1.x45.xc23.xg2.xqb2.t                0.894274
+x1.x45.xc23.xg2.tet                   0.115357
+x1.x45.xc23.xg2.xqt.s1             8.35886e-10
+x1.x45.xc23.xg2.xqt.t                   1.0582
+x1.x45.xc23.xf1.m                      3.18046
+x1.x45.xc23.xf1.mb                     3.18969
+x1.x45.xc23.xf1.xm.e1                  2.42247
+x1.x45.xc23.xf1.xm.xqt1.s1          1.0233e-09
+x1.x45.xc23.xf1.xm.xqt1.t             0.463143
+x1.x45.xc23.xf1.xm.xqt2.s1          1.0202e-09
+x1.x45.xc23.xf1.xm.xqt2.t             0.495785
+x1.x45.xc23.xf1.xm.e2                  2.62117
+x1.x45.xc23.xf1.xm.xqh1.s1         1.02496e-09
+x1.x45.xc23.xf1.xm.xqh1.t          0.000172591
+x1.x45.xc23.xf1.xm.xqh2.s1         1.02199e-09
+x1.x45.xc23.xf1.xm.xqh2.t          0.000240771
+x1.x45.xc23.xf1.xm.t                   1.65506
+x1.x45.xc23.xf1.xm.xqc1.s1         7.75034e-10
+x1.x45.xc23.xf1.xm.xqc1.t              0.96644
+x1.x45.xc23.xf1.xm.xqc2.s1         8.42317e-10
+x1.x45.xc23.xf1.xm.xqc2.t          0.000709425
+x1.x45.xc23.xf1.xm.tet                0.115354
+x1.x45.xc23.xf1.xm.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xm.xqt.t               1.05485
+x1.x45.xc23.xf1.xs.e1                  2.62117
+x1.x45.xc23.xf1.xs.xqt1.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt1.t          0.000171058
+x1.x45.xc23.xf1.xs.xqt2.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt2.t          0.000242578
+x1.x45.xc23.xf1.xs.e2                  2.42224
+x1.x45.xc23.xf1.xs.xqh1.s1         1.02161e-09
+x1.x45.xc23.xf1.xs.xqh1.t             0.479518
+x1.x45.xc23.xf1.xs.xqh2.s1         1.02162e-09
+x1.x45.xc23.xf1.xs.xqh2.t             0.479394
+x1.x45.xc23.xf1.xs.t                   1.65506
+x1.x45.xc23.xf1.xs.xqc1.s1         8.42317e-10
+x1.x45.xc23.xf1.xs.xqc1.t          0.000709433
+x1.x45.xc23.xf1.xs.xqc2.s1         7.74959e-10
+x1.x45.xc23.xf1.xs.xqc2.t             0.966147
+x1.x45.xc23.xf1.xs.tet                0.115354
+x1.x45.xc23.xf1.xs.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xs.xqt.t               1.05485
+x1.x45.xc23.xf2.m                       3.0702
+x1.x45.xc23.xf2.mb                     3.29996
+x1.x45.xc23.xf2.xm.e1                  2.51729
+x1.x45.xc23.xf2.xm.xqt1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqt1.t           0.00018529
+x1.x45.xc23.xf2.xm.xqt2.s1         9.83125e-10
+x1.x45.xc23.xf2.xm.xqt2.t             0.695644
+x1.x45.xc23.xf2.xm.e2                  2.71742
+x1.x45.xc23.xf2.xm.xqh1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqh1.t          7.17896e-08
+x1.x45.xc23.xf2.xm.xqh2.s1         9.86577e-10
+x1.x45.xc23.xf2.xm.xqh2.t          0.000258088
+x1.x45.xc23.xf2.xm.t                   1.65518
+x1.x45.xc23.xf2.xm.xqc1.s1         8.05499e-10
+x1.x45.xc23.xf2.xm.xqc1.t              1.08555
+x1.x45.xc23.xf2.xm.xqc2.s1         8.73239e-10
+x1.x45.xc23.xf2.xm.xqc2.t          0.000776595
+x1.x45.xc23.xf2.xm.tet                0.115354
+x1.x45.xc23.xf2.xm.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xm.xqt.t               1.05493
+x1.x45.xc23.xf2.xs.e1                  2.71742
+x1.x45.xc23.xf2.xs.xqt1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqt1.t          7.17379e-08
+x1.x45.xc23.xf2.xs.xqt2.s1         9.86577e-10
+x1.x45.xc23.xf2.xs.xqt2.t          0.000258091
+x1.x45.xc23.xf2.xs.e2                  2.51713
+x1.x45.xc23.xf2.xs.xqh1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqh1.t          0.000187643
+x1.x45.xc23.xf2.xs.xqh2.s1         9.83125e-10
+x1.x45.xc23.xf2.xs.xqh2.t              0.69585
+x1.x45.xc23.xf2.xs.t                   1.65518
+x1.x45.xc23.xf2.xs.xqc1.s1         8.73239e-10
+x1.x45.xc23.xf2.xs.xqc1.t          0.000776602
+x1.x45.xc23.xf2.xs.xqc2.s1         8.05446e-10
+x1.x45.xc23.xf2.xs.xqc2.t              1.08534
+x1.x45.xc23.xf2.xs.tet                0.115354
+x1.x45.xc23.xf2.xs.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xs.xqt.t               1.05493
+x1.x45.xt.ckp                          2.42209
+x1.x45.xt.xef.xqe1.s1              1.05866e-09
+x1.x45.xt.xef.xqe1.t                    0.5569
+x1.x45.xt.ckn                          2.42208
+x1.x45.xt.xef.xqe2.s1              1.05866e-09
+x1.x45.xt.xef.xqe2.t                  0.556904
+x1.x45.xt.xef.f1                      0.115845
+x1.x45.xt.xef.xqf1.s1              7.76659e-10
+x1.x45.xt.xef.xqf1.t                   1.46005
+x1.x45.xt.xef.f2                      0.115845
+x1.x45.xt.xef.xqf2.s1              7.76657e-10
+x1.x45.xt.xef.xqf2.t                   1.46004
+x1.x45.xt.mp                           3.18493
+x1.x45.xt.mn                           3.18493
+x1.x45.xt.xm.e1                         2.4415
+x1.x45.xt.xm.xqt1.s1               1.02257e-09
+x1.x45.xt.xm.xqt1.t                   0.233936
+x1.x45.xt.xm.xqt2.s1               1.02257e-09
+x1.x45.xt.xm.xqt2.t                   0.233936
+x1.x45.xt.xm.e2                        2.44151
+x1.x45.xt.xm.xqh1.s1               1.02257e-09
+x1.x45.xt.xm.xqh1.t                   0.233871
+x1.x45.xt.xm.xqh2.s1               1.02257e-09
+x1.x45.xt.xm.xqh2.t                   0.233871
+x1.x45.xt.xm.t                         1.65964
+x1.x45.xt.xm.xqc1.s1               7.82873e-10
+x1.x45.xt.xm.xqc1.t                   0.492657
+x1.x45.xt.xm.xqc2.s1               7.82876e-10
+x1.x45.xt.xm.xqc2.t                   0.492531
+x1.x45.xt.xm.tet                      0.115357
+x1.x45.xt.xm.xqt.s1                8.35747e-10
+x1.x45.xt.xm.xqt.t                     1.05801
+x1.x45.xt.xs.e1                        2.44151
+x1.x45.xt.xs.xqt1.s1               1.02257e-09
+x1.x45.xt.xs.xqt1.t                   0.233871
+x1.x45.xt.xs.xqt2.s1               1.02257e-09
+x1.x45.xt.xs.xqt2.t                   0.233871
+x1.x45.xt.xs.e2                         2.4415
+x1.x45.xt.xs.xqh1.s1               1.02257e-09
+x1.x45.xt.xs.xqh1.t                   0.233936
+x1.x45.xt.xs.xqh2.s1               1.02257e-09
+x1.x45.xt.xs.xqh2.t                   0.233936
+x1.x45.xt.xs.t                         1.65964
+x1.x45.xt.xs.xqc1.s1               7.82876e-10
+x1.x45.xt.xs.xqc1.t                   0.492531
+x1.x45.xt.xs.xqc2.s1               7.82873e-10
+x1.x45.xt.xs.xqc2.t                   0.492657
+x1.x45.xt.xs.tet                      0.115357
+x1.x45.xt.xs.xqt.s1                8.35747e-10
+x1.x45.xt.xs.xqt.t                     1.05801
+vin#branch                        -6.01969e-08
+vip#branch                        -6.01969e-08
+vmc#branch                          8.3394e-12
+vdd#branch                         -0.00210799
+
+ Reference value :  3.05600e-11 Reference value :  7.66560e-10 Reference value :  1.61056e-09 Reference value :  2.44056e-09 Reference value :  3.20856e-09 Reference value :  3.96256e-09 Reference value :  4.73656e-09 Reference value :  5.56256e-09 Reference value :  6.37856e-09 Reference value :  7.20056e-09 Reference value :  8.04656e-09 Reference value :  8.84856e-09 Reference value :  9.54056e-09 Reference value :  1.03606e-08 Reference value :  1.11466e-08 Reference value :  1.19446e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+iref                                  0.877288
+mc                                           0
+x1.reref                              0.114905
+x1.xqref.s1                        2.80367e-10
+x1.xqref.t                            0.479047
+inp                                        3.3
+x1.x2.ckp                              2.53726
+x1.x2.xef.xqe1.s1                  1.05865e-09
+x1.x2.xef.xqe1.t                      0.485525
+inn                                        3.3
+x1.x2.ckn                              2.53726
+x1.x2.xef.xqe2.s1                  1.05865e-09
+x1.x2.xef.xqe2.t                      0.485525
+x1.x2.xef.f1                          0.115916
+x1.x2.xef.xqf1.s1                   8.1366e-10
+x1.x2.xef.xqf1.t                       1.53405
+x1.x2.xef.f2                          0.115916
+x1.x2.xef.xqf2.s1                   8.1366e-10
+x1.x2.xef.xqf2.t                       1.53405
+x1.x2.mp                                     3
+x1.x2.mn                                   3.2
+x1.hn                                        3
+x1.x2.xm.e1                            2.41762
+x1.x2.xm.xqt1.s1                   1.02827e-09
+x1.x2.xm.xqt1.t                    0.000568968
+x1.hp                                      3.2
+x1.x2.xm.xqt2.s1                   9.60566e-10
+x1.x2.xm.xqt2.t                       0.733076
+x1.x2.xm.e2                            2.41762
+x1.x2.xm.xqh1.s1                   1.02827e-09
+x1.x2.xm.xqh1.t                    0.000568968
+x1.x2.xm.xqh2.s1                   9.60566e-10
+x1.x2.xm.xqh2.t                       0.733076
+x1.x2.xm.t                             1.75493
+x1.x2.xm.xqc1.s1                   7.73468e-10
+x1.x2.xm.xqc1.t                       0.835525
+x1.x2.xm.xqc2.s1                   7.73468e-10
+x1.x2.xm.xqc2.t                       0.835525
+x1.x2.xm.tet                          0.115397
+x1.x2.xm.xqt.s1                    1.52763e-09
+x1.x2.xm.xqt.t                         1.22108
+x1.x2.xs.e1                            2.41789
+x1.x2.xs.xqt1.s1                   9.64019e-10
+x1.x2.xs.xqt1.t                    0.000418881
+x1.x2.xs.xqt2.s1                   1.02482e-09
+x1.x2.xs.xqt2.t                       0.984085
+x1.x2.xs.e2                            2.41762
+x1.x2.xs.xqh1.s1                   9.60566e-10
+x1.x2.xs.xqh1.t                       0.733071
+x1.x2.xs.xqh2.s1                   1.02827e-09
+x1.x2.xs.xqh2.t                    0.000568964
+x1.x2.xs.t                             1.75493
+x1.x2.xs.xqc1.s1                   7.73554e-10
+x1.x2.xs.xqc1.t                       0.835864
+x1.x2.xs.xqc2.s1                   7.73468e-10
+x1.x2.xs.xqc2.t                        0.83552
+x1.x2.xs.tet                          0.115397
+x1.x2.xs.xqt.s1                    1.52763e-09
+x1.x2.xs.xqt.t                         1.22108
+x1.x45.xmc.bm                      1.66788e-07
+x1.x45.xmc.vr                          1.64888
+x1.x45.mcp                             3.07073
+x1.x45.mcn                             3.29986
+x1.x45.xmc.t                          0.868714
+x1.x45.xmc.xqm1.s1                 1.06035e-09
+x1.x45.xmc.xqm1.t                   1.2771e-10
+x1.x45.xmc.xqm2.s1                  9.8337e-10
+x1.x45.xmc.xqm2.t                      2.76021
+x1.x45.xmc.tet                         0.11484
+x1.x45.xmc.xqt.s1                  4.36426e-10
+x1.x45.xmc.xqt.t                      0.514507
+x1.x45.mcl                             2.30834
+x1.x45.xmcl.xqe1.s1                1.05867e-09
+x1.x45.xmcl.xqe1.t                    0.626967
+x1.x45.mclb                            2.53718
+x1.x45.xmcl.xqe2.s1                1.05866e-09
+x1.x45.xmcl.xqe2.t                    0.484377
+x1.x45.xmcl.f1                        0.115776
+x1.x45.xmcl.xqf1.s1                7.40117e-10
+x1.x45.xmcl.xqf1.t                     1.38716
+x1.x45.xmcl.f2                        0.115916
+x1.x45.xmcl.xqf2.s1                8.13635e-10
+x1.x45.xmcl.xqf2.t                       1.534
+x1.x45.m                               3.06976
+x1.x45.mb                              3.29984
+outp                                   3.18493
+x1.x45.xgm.n1                          2.65062
+x1.x45.xgm.xqa1.s1                 1.06034e-09
+x1.x45.xgm.xqa1.t                  7.66573e-05
+outn                                   3.18493
+x1.x45.xgm.xqa2.s1                 9.86431e-10
+x1.x45.xgm.xqa2.t                  4.94819e-05
+x1.x45.xgm.t                           1.75572
+x1.x45.xgm.xqb1.s1                  8.5178e-10
+x1.x45.xgm.xqb1.t                   0.00021111
+x1.x45.xgm.xqb2.s1                 9.82998e-10
+x1.x45.xgm.xqb2.t                      1.65555
+x1.x45.xgm.tet                        0.115419
+x1.x45.xgm.xqt.s1                  8.84254e-10
+x1.x45.xgm.xqt.t                       1.12436
+x1.x45.xc23.ckp                        2.43722
+x1.x45.xc23.xck.xqe1.s1            1.05865e-09
+x1.x45.xc23.xck.xqe1.t                0.551448
+x1.x45.xc23.ckn                        2.23768
+x1.x45.xc23.xck.xqe2.s1            1.05867e-09
+x1.x45.xc23.xck.xqe2.t                0.671322
+x1.x45.xc23.xck.f1                    0.115855
+x1.x45.xc23.xck.xqf1.s1             7.8152e-10
+x1.x45.xc23.xck.xqf1.t                 1.46976
+x1.x45.xc23.xck.f2                    0.115733
+x1.x45.xc23.xck.xqf2.s1            7.17415e-10
+x1.x45.xc23.xck.xqf2.t                 1.34195
+x1.x45.c1                              3.18465
+x1.x45.xc23.q1l                        2.42209
+x1.x45.xc23.xq1l.xqe1.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe1.t               0.556901
+x1.x45.c1b                             3.18464
+x1.x45.xc23.q1lb                       2.42208
+x1.x45.xc23.xq1l.xqe2.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe2.t               0.556903
+x1.x45.xc23.xq1l.f1                   0.115845
+x1.x45.xc23.xq1l.xqf1.s1           7.76659e-10
+x1.x45.xc23.xq1l.xqf1.t                1.46005
+x1.x45.xc23.xq1l.f2                   0.115845
+x1.x45.xc23.xq1l.xqf2.s1           7.76657e-10
+x1.x45.xc23.xq1l.xqf2.t                1.46004
+x1.x45.xc23.d1                         3.18374
+x1.x45.xc23.d1b                        3.18598
+x1.x45.xc23.q2b                        3.29953
+x1.x45.xc23.xg1.n1                     2.53727
+x1.x45.xc23.xg1.xqa1.s1            1.02205e-09
+x1.x45.xc23.xg1.xqa1.t                0.404553
+x1.x45.xc23.q2                          3.0702
+x1.x45.xc23.xg1.xqa2.s1            1.02305e-09
+x1.x45.xc23.xg1.xqa2.t             7.22964e-05
+x1.x45.xc23.xg1.t                      1.65996
+x1.x45.xc23.xg1.xqb1.s1            8.13658e-10
+x1.x45.xc23.xg1.xqb1.t                0.547693
+x1.x45.xc23.xg1.xqb2.s1            1.02132e-09
+x1.x45.xc23.xg1.xqb2.t                0.968068
+x1.x45.xc23.xg1.tet                   0.115357
+x1.x45.xc23.xg1.xqt.s1             8.35908e-10
+x1.x45.xc23.xg1.xqt.t                  1.05823
+x1.x45.xc23.d2                         3.07002
+x1.x45.xc23.d2b                        3.29969
+x1.x45.xc23.xg2.n1                     2.53744
+x1.x45.xc23.xg2.xqa1.s1             1.0603e-09
+x1.x45.xc23.xg2.xqa1.t             8.33301e-05
+x1.x45.xc23.xg2.xqa2.s1            9.84806e-10
+x1.x45.xc23.xg2.xqa2.t                0.332853
+x1.x45.xc23.xg2.t                      1.65992
+x1.x45.xc23.xg2.xqb1.s1            8.13709e-10
+x1.x45.xc23.xg2.xqb1.t                0.548835
+x1.x45.xc23.xg2.xqb2.s1            9.84789e-10
+x1.x45.xc23.xg2.xqb2.t                0.894274
+x1.x45.xc23.xg2.tet                   0.115357
+x1.x45.xc23.xg2.xqt.s1             8.35886e-10
+x1.x45.xc23.xg2.xqt.t                   1.0582
+x1.x45.xc23.xf1.m                      3.18046
+x1.x45.xc23.xf1.mb                     3.18969
+x1.x45.xc23.xf1.xm.e1                  2.42247
+x1.x45.xc23.xf1.xm.xqt1.s1          1.0233e-09
+x1.x45.xc23.xf1.xm.xqt1.t             0.463143
+x1.x45.xc23.xf1.xm.xqt2.s1          1.0202e-09
+x1.x45.xc23.xf1.xm.xqt2.t             0.495785
+x1.x45.xc23.xf1.xm.e2                  2.62117
+x1.x45.xc23.xf1.xm.xqh1.s1         1.02496e-09
+x1.x45.xc23.xf1.xm.xqh1.t          0.000172591
+x1.x45.xc23.xf1.xm.xqh2.s1         1.02199e-09
+x1.x45.xc23.xf1.xm.xqh2.t          0.000240771
+x1.x45.xc23.xf1.xm.t                   1.65506
+x1.x45.xc23.xf1.xm.xqc1.s1         7.75034e-10
+x1.x45.xc23.xf1.xm.xqc1.t              0.96644
+x1.x45.xc23.xf1.xm.xqc2.s1         8.42317e-10
+x1.x45.xc23.xf1.xm.xqc2.t          0.000709425
+x1.x45.xc23.xf1.xm.tet                0.115354
+x1.x45.xc23.xf1.xm.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xm.xqt.t               1.05485
+x1.x45.xc23.xf1.xs.e1                  2.62117
+x1.x45.xc23.xf1.xs.xqt1.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt1.t          0.000171058
+x1.x45.xc23.xf1.xs.xqt2.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt2.t          0.000242578
+x1.x45.xc23.xf1.xs.e2                  2.42224
+x1.x45.xc23.xf1.xs.xqh1.s1         1.02161e-09
+x1.x45.xc23.xf1.xs.xqh1.t             0.479518
+x1.x45.xc23.xf1.xs.xqh2.s1         1.02162e-09
+x1.x45.xc23.xf1.xs.xqh2.t             0.479394
+x1.x45.xc23.xf1.xs.t                   1.65506
+x1.x45.xc23.xf1.xs.xqc1.s1         8.42317e-10
+x1.x45.xc23.xf1.xs.xqc1.t          0.000709433
+x1.x45.xc23.xf1.xs.xqc2.s1         7.74959e-10
+x1.x45.xc23.xf1.xs.xqc2.t             0.966147
+x1.x45.xc23.xf1.xs.tet                0.115354
+x1.x45.xc23.xf1.xs.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xs.xqt.t               1.05485
+x1.x45.xc23.xf2.m                       3.0702
+x1.x45.xc23.xf2.mb                     3.29996
+x1.x45.xc23.xf2.xm.e1                  2.51729
+x1.x45.xc23.xf2.xm.xqt1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqt1.t           0.00018529
+x1.x45.xc23.xf2.xm.xqt2.s1         9.83125e-10
+x1.x45.xc23.xf2.xm.xqt2.t             0.695644
+x1.x45.xc23.xf2.xm.e2                  2.71742
+x1.x45.xc23.xf2.xm.xqh1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqh1.t          7.17896e-08
+x1.x45.xc23.xf2.xm.xqh2.s1         9.86577e-10
+x1.x45.xc23.xf2.xm.xqh2.t          0.000258088
+x1.x45.xc23.xf2.xm.t                   1.65518
+x1.x45.xc23.xf2.xm.xqc1.s1         8.05499e-10
+x1.x45.xc23.xf2.xm.xqc1.t              1.08555
+x1.x45.xc23.xf2.xm.xqc2.s1         8.73239e-10
+x1.x45.xc23.xf2.xm.xqc2.t          0.000776595
+x1.x45.xc23.xf2.xm.tet                0.115354
+x1.x45.xc23.xf2.xm.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xm.xqt.t               1.05493
+x1.x45.xc23.xf2.xs.e1                  2.71742
+x1.x45.xc23.xf2.xs.xqt1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqt1.t          7.17379e-08
+x1.x45.xc23.xf2.xs.xqt2.s1         9.86577e-10
+x1.x45.xc23.xf2.xs.xqt2.t          0.000258091
+x1.x45.xc23.xf2.xs.e2                  2.51713
+x1.x45.xc23.xf2.xs.xqh1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqh1.t          0.000187643
+x1.x45.xc23.xf2.xs.xqh2.s1         9.83125e-10
+x1.x45.xc23.xf2.xs.xqh2.t              0.69585
+x1.x45.xc23.xf2.xs.t                   1.65518
+x1.x45.xc23.xf2.xs.xqc1.s1         8.73239e-10
+x1.x45.xc23.xf2.xs.xqc1.t          0.000776602
+x1.x45.xc23.xf2.xs.xqc2.s1         8.05446e-10
+x1.x45.xc23.xf2.xs.xqc2.t              1.08534
+x1.x45.xc23.xf2.xs.tet                0.115354
+x1.x45.xc23.xf2.xs.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xs.xqt.t               1.05493
+x1.x45.xt.ckp                          2.42209
+x1.x45.xt.xef.xqe1.s1              1.05866e-09
+x1.x45.xt.xef.xqe1.t                    0.5569
+x1.x45.xt.ckn                          2.42208
+x1.x45.xt.xef.xqe2.s1              1.05866e-09
+x1.x45.xt.xef.xqe2.t                  0.556904
+x1.x45.xt.xef.f1                      0.115845
+x1.x45.xt.xef.xqf1.s1              7.76659e-10
+x1.x45.xt.xef.xqf1.t                   1.46005
+x1.x45.xt.xef.f2                      0.115845
+x1.x45.xt.xef.xqf2.s1              7.76657e-10
+x1.x45.xt.xef.xqf2.t                   1.46004
+x1.x45.xt.mp                           3.18493
+x1.x45.xt.mn                           3.18493
+x1.x45.xt.xm.e1                         2.4415
+x1.x45.xt.xm.xqt1.s1               1.02257e-09
+x1.x45.xt.xm.xqt1.t                   0.233936
+x1.x45.xt.xm.xqt2.s1               1.02257e-09
+x1.x45.xt.xm.xqt2.t                   0.233936
+x1.x45.xt.xm.e2                        2.44151
+x1.x45.xt.xm.xqh1.s1               1.02257e-09
+x1.x45.xt.xm.xqh1.t                   0.233871
+x1.x45.xt.xm.xqh2.s1               1.02257e-09
+x1.x45.xt.xm.xqh2.t                   0.233871
+x1.x45.xt.xm.t                         1.65964
+x1.x45.xt.xm.xqc1.s1               7.82873e-10
+x1.x45.xt.xm.xqc1.t                   0.492657
+x1.x45.xt.xm.xqc2.s1               7.82876e-10
+x1.x45.xt.xm.xqc2.t                   0.492531
+x1.x45.xt.xm.tet                      0.115357
+x1.x45.xt.xm.xqt.s1                8.35747e-10
+x1.x45.xt.xm.xqt.t                     1.05801
+x1.x45.xt.xs.e1                        2.44151
+x1.x45.xt.xs.xqt1.s1               1.02257e-09
+x1.x45.xt.xs.xqt1.t                   0.233871
+x1.x45.xt.xs.xqt2.s1               1.02257e-09
+x1.x45.xt.xs.xqt2.t                   0.233871
+x1.x45.xt.xs.e2                         2.4415
+x1.x45.xt.xs.xqh1.s1               1.02257e-09
+x1.x45.xt.xs.xqh1.t                   0.233936
+x1.x45.xt.xs.xqh2.s1               1.02257e-09
+x1.x45.xt.xs.xqh2.t                   0.233936
+x1.x45.xt.xs.t                         1.65964
+x1.x45.xt.xs.xqc1.s1               7.82876e-10
+x1.x45.xt.xs.xqc1.t                   0.492531
+x1.x45.xt.xs.xqc2.s1               7.82873e-10
+x1.x45.xt.xs.xqc2.t                   0.492657
+x1.x45.xt.xs.tet                      0.115357
+x1.x45.xt.xs.xqt.s1                8.35747e-10
+x1.x45.xt.xs.xqt.t                     1.05801
+vin#branch                        -6.01969e-08
+vip#branch                        -6.01969e-08
+vmc#branch                          8.3394e-12
+vdd#branch                         -0.00210799
+
+ Reference value :  8.05600e-11 Reference value :  7.88560e-10 Reference value :  1.39656e-09 Reference value :  1.99456e-09 Reference value :  2.61056e-09 Reference value :  3.36056e-09 Reference value :  4.03856e-09 Reference value :  4.80856e-09 Reference value :  5.51656e-09 Reference value :  6.18256e-09 Reference value :  6.86656e-09 Reference value :  7.60256e-09 Reference value :  8.24656e-09 Reference value :  8.95856e-09 Reference value :  9.55456e-09 Reference value :  1.01146e-08 Reference value :  1.07686e-08 Reference value :  1.13806e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+iref                                  0.877288
+mc                                           0
+x1.reref                              0.114905
+x1.xqref.s1                        2.80367e-10
+x1.xqref.t                            0.479047
+inp                                        3.3
+x1.x2.ckp                              2.53726
+x1.x2.xef.xqe1.s1                  1.05865e-09
+x1.x2.xef.xqe1.t                      0.485525
+inn                                        3.3
+x1.x2.ckn                              2.53726
+x1.x2.xef.xqe2.s1                  1.05865e-09
+x1.x2.xef.xqe2.t                      0.485525
+x1.x2.xef.f1                          0.115916
+x1.x2.xef.xqf1.s1                   8.1366e-10
+x1.x2.xef.xqf1.t                       1.53405
+x1.x2.xef.f2                          0.115916
+x1.x2.xef.xqf2.s1                   8.1366e-10
+x1.x2.xef.xqf2.t                       1.53405
+x1.x2.mp                                     3
+x1.x2.mn                                   3.2
+x1.hn                                        3
+x1.x2.xm.e1                            2.41762
+x1.x2.xm.xqt1.s1                   1.02827e-09
+x1.x2.xm.xqt1.t                    0.000568968
+x1.hp                                      3.2
+x1.x2.xm.xqt2.s1                   9.60566e-10
+x1.x2.xm.xqt2.t                       0.733076
+x1.x2.xm.e2                            2.41762
+x1.x2.xm.xqh1.s1                   1.02827e-09
+x1.x2.xm.xqh1.t                    0.000568968
+x1.x2.xm.xqh2.s1                   9.60566e-10
+x1.x2.xm.xqh2.t                       0.733076
+x1.x2.xm.t                             1.75493
+x1.x2.xm.xqc1.s1                   7.73468e-10
+x1.x2.xm.xqc1.t                       0.835525
+x1.x2.xm.xqc2.s1                   7.73468e-10
+x1.x2.xm.xqc2.t                       0.835525
+x1.x2.xm.tet                          0.115397
+x1.x2.xm.xqt.s1                    1.52763e-09
+x1.x2.xm.xqt.t                         1.22108
+x1.x2.xs.e1                            2.41789
+x1.x2.xs.xqt1.s1                   9.64019e-10
+x1.x2.xs.xqt1.t                    0.000418881
+x1.x2.xs.xqt2.s1                   1.02482e-09
+x1.x2.xs.xqt2.t                       0.984085
+x1.x2.xs.e2                            2.41762
+x1.x2.xs.xqh1.s1                   9.60566e-10
+x1.x2.xs.xqh1.t                       0.733071
+x1.x2.xs.xqh2.s1                   1.02827e-09
+x1.x2.xs.xqh2.t                    0.000568964
+x1.x2.xs.t                             1.75493
+x1.x2.xs.xqc1.s1                   7.73554e-10
+x1.x2.xs.xqc1.t                       0.835864
+x1.x2.xs.xqc2.s1                   7.73468e-10
+x1.x2.xs.xqc2.t                        0.83552
+x1.x2.xs.tet                          0.115397
+x1.x2.xs.xqt.s1                    1.52763e-09
+x1.x2.xs.xqt.t                         1.22108
+x1.x45.xmc.bm                      1.66788e-07
+x1.x45.xmc.vr                          1.64888
+x1.x45.mcp                             3.07073
+x1.x45.mcn                             3.29986
+x1.x45.xmc.t                          0.868714
+x1.x45.xmc.xqm1.s1                 1.06035e-09
+x1.x45.xmc.xqm1.t                   1.2771e-10
+x1.x45.xmc.xqm2.s1                  9.8337e-10
+x1.x45.xmc.xqm2.t                      2.76021
+x1.x45.xmc.tet                         0.11484
+x1.x45.xmc.xqt.s1                  4.36426e-10
+x1.x45.xmc.xqt.t                      0.514507
+x1.x45.mcl                             2.30834
+x1.x45.xmcl.xqe1.s1                1.05867e-09
+x1.x45.xmcl.xqe1.t                    0.626967
+x1.x45.mclb                            2.53718
+x1.x45.xmcl.xqe2.s1                1.05866e-09
+x1.x45.xmcl.xqe2.t                    0.484377
+x1.x45.xmcl.f1                        0.115776
+x1.x45.xmcl.xqf1.s1                7.40117e-10
+x1.x45.xmcl.xqf1.t                     1.38716
+x1.x45.xmcl.f2                        0.115916
+x1.x45.xmcl.xqf2.s1                8.13635e-10
+x1.x45.xmcl.xqf2.t                       1.534
+x1.x45.m                               3.06976
+x1.x45.mb                              3.29984
+outp                                   3.18493
+x1.x45.xgm.n1                          2.65062
+x1.x45.xgm.xqa1.s1                 1.06034e-09
+x1.x45.xgm.xqa1.t                  7.66573e-05
+outn                                   3.18493
+x1.x45.xgm.xqa2.s1                 9.86431e-10
+x1.x45.xgm.xqa2.t                  4.94819e-05
+x1.x45.xgm.t                           1.75572
+x1.x45.xgm.xqb1.s1                  8.5178e-10
+x1.x45.xgm.xqb1.t                   0.00021111
+x1.x45.xgm.xqb2.s1                 9.82998e-10
+x1.x45.xgm.xqb2.t                      1.65555
+x1.x45.xgm.tet                        0.115419
+x1.x45.xgm.xqt.s1                  8.84254e-10
+x1.x45.xgm.xqt.t                       1.12436
+x1.x45.xc23.ckp                        2.43722
+x1.x45.xc23.xck.xqe1.s1            1.05865e-09
+x1.x45.xc23.xck.xqe1.t                0.551448
+x1.x45.xc23.ckn                        2.23768
+x1.x45.xc23.xck.xqe2.s1            1.05867e-09
+x1.x45.xc23.xck.xqe2.t                0.671322
+x1.x45.xc23.xck.f1                    0.115855
+x1.x45.xc23.xck.xqf1.s1             7.8152e-10
+x1.x45.xc23.xck.xqf1.t                 1.46976
+x1.x45.xc23.xck.f2                    0.115733
+x1.x45.xc23.xck.xqf2.s1            7.17415e-10
+x1.x45.xc23.xck.xqf2.t                 1.34195
+x1.x45.c1                              3.18465
+x1.x45.xc23.q1l                        2.42209
+x1.x45.xc23.xq1l.xqe1.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe1.t               0.556901
+x1.x45.c1b                             3.18464
+x1.x45.xc23.q1lb                       2.42208
+x1.x45.xc23.xq1l.xqe2.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe2.t               0.556903
+x1.x45.xc23.xq1l.f1                   0.115845
+x1.x45.xc23.xq1l.xqf1.s1           7.76659e-10
+x1.x45.xc23.xq1l.xqf1.t                1.46005
+x1.x45.xc23.xq1l.f2                   0.115845
+x1.x45.xc23.xq1l.xqf2.s1           7.76657e-10
+x1.x45.xc23.xq1l.xqf2.t                1.46004
+x1.x45.xc23.d1                         3.18374
+x1.x45.xc23.d1b                        3.18598
+x1.x45.xc23.q2b                        3.29953
+x1.x45.xc23.xg1.n1                     2.53727
+x1.x45.xc23.xg1.xqa1.s1            1.02205e-09
+x1.x45.xc23.xg1.xqa1.t                0.404553
+x1.x45.xc23.q2                          3.0702
+x1.x45.xc23.xg1.xqa2.s1            1.02305e-09
+x1.x45.xc23.xg1.xqa2.t             7.22964e-05
+x1.x45.xc23.xg1.t                      1.65996
+x1.x45.xc23.xg1.xqb1.s1            8.13658e-10
+x1.x45.xc23.xg1.xqb1.t                0.547693
+x1.x45.xc23.xg1.xqb2.s1            1.02132e-09
+x1.x45.xc23.xg1.xqb2.t                0.968068
+x1.x45.xc23.xg1.tet                   0.115357
+x1.x45.xc23.xg1.xqt.s1             8.35908e-10
+x1.x45.xc23.xg1.xqt.t                  1.05823
+x1.x45.xc23.d2                         3.07002
+x1.x45.xc23.d2b                        3.29969
+x1.x45.xc23.xg2.n1                     2.53744
+x1.x45.xc23.xg2.xqa1.s1             1.0603e-09
+x1.x45.xc23.xg2.xqa1.t             8.33301e-05
+x1.x45.xc23.xg2.xqa2.s1            9.84806e-10
+x1.x45.xc23.xg2.xqa2.t                0.332853
+x1.x45.xc23.xg2.t                      1.65992
+x1.x45.xc23.xg2.xqb1.s1            8.13709e-10
+x1.x45.xc23.xg2.xqb1.t                0.548835
+x1.x45.xc23.xg2.xqb2.s1            9.84789e-10
+x1.x45.xc23.xg2.xqb2.t                0.894274
+x1.x45.xc23.xg2.tet                   0.115357
+x1.x45.xc23.xg2.xqt.s1             8.35886e-10
+x1.x45.xc23.xg2.xqt.t                   1.0582
+x1.x45.xc23.xf1.m                      3.18046
+x1.x45.xc23.xf1.mb                     3.18969
+x1.x45.xc23.xf1.xm.e1                  2.42247
+x1.x45.xc23.xf1.xm.xqt1.s1          1.0233e-09
+x1.x45.xc23.xf1.xm.xqt1.t             0.463143
+x1.x45.xc23.xf1.xm.xqt2.s1          1.0202e-09
+x1.x45.xc23.xf1.xm.xqt2.t             0.495785
+x1.x45.xc23.xf1.xm.e2                  2.62117
+x1.x45.xc23.xf1.xm.xqh1.s1         1.02496e-09
+x1.x45.xc23.xf1.xm.xqh1.t          0.000172591
+x1.x45.xc23.xf1.xm.xqh2.s1         1.02199e-09
+x1.x45.xc23.xf1.xm.xqh2.t          0.000240771
+x1.x45.xc23.xf1.xm.t                   1.65506
+x1.x45.xc23.xf1.xm.xqc1.s1         7.75034e-10
+x1.x45.xc23.xf1.xm.xqc1.t              0.96644
+x1.x45.xc23.xf1.xm.xqc2.s1         8.42317e-10
+x1.x45.xc23.xf1.xm.xqc2.t          0.000709425
+x1.x45.xc23.xf1.xm.tet                0.115354
+x1.x45.xc23.xf1.xm.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xm.xqt.t               1.05485
+x1.x45.xc23.xf1.xs.e1                  2.62117
+x1.x45.xc23.xf1.xs.xqt1.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt1.t          0.000171058
+x1.x45.xc23.xf1.xs.xqt2.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt2.t          0.000242578
+x1.x45.xc23.xf1.xs.e2                  2.42224
+x1.x45.xc23.xf1.xs.xqh1.s1         1.02161e-09
+x1.x45.xc23.xf1.xs.xqh1.t             0.479518
+x1.x45.xc23.xf1.xs.xqh2.s1         1.02162e-09
+x1.x45.xc23.xf1.xs.xqh2.t             0.479394
+x1.x45.xc23.xf1.xs.t                   1.65506
+x1.x45.xc23.xf1.xs.xqc1.s1         8.42317e-10
+x1.x45.xc23.xf1.xs.xqc1.t          0.000709433
+x1.x45.xc23.xf1.xs.xqc2.s1         7.74959e-10
+x1.x45.xc23.xf1.xs.xqc2.t             0.966147
+x1.x45.xc23.xf1.xs.tet                0.115354
+x1.x45.xc23.xf1.xs.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xs.xqt.t               1.05485
+x1.x45.xc23.xf2.m                       3.0702
+x1.x45.xc23.xf2.mb                     3.29996
+x1.x45.xc23.xf2.xm.e1                  2.51729
+x1.x45.xc23.xf2.xm.xqt1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqt1.t           0.00018529
+x1.x45.xc23.xf2.xm.xqt2.s1         9.83125e-10
+x1.x45.xc23.xf2.xm.xqt2.t             0.695644
+x1.x45.xc23.xf2.xm.e2                  2.71742
+x1.x45.xc23.xf2.xm.xqh1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqh1.t          7.17896e-08
+x1.x45.xc23.xf2.xm.xqh2.s1         9.86577e-10
+x1.x45.xc23.xf2.xm.xqh2.t          0.000258088
+x1.x45.xc23.xf2.xm.t                   1.65518
+x1.x45.xc23.xf2.xm.xqc1.s1         8.05499e-10
+x1.x45.xc23.xf2.xm.xqc1.t              1.08555
+x1.x45.xc23.xf2.xm.xqc2.s1         8.73239e-10
+x1.x45.xc23.xf2.xm.xqc2.t          0.000776595
+x1.x45.xc23.xf2.xm.tet                0.115354
+x1.x45.xc23.xf2.xm.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xm.xqt.t               1.05493
+x1.x45.xc23.xf2.xs.e1                  2.71742
+x1.x45.xc23.xf2.xs.xqt1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqt1.t          7.17379e-08
+x1.x45.xc23.xf2.xs.xqt2.s1         9.86577e-10
+x1.x45.xc23.xf2.xs.xqt2.t          0.000258091
+x1.x45.xc23.xf2.xs.e2                  2.51713
+x1.x45.xc23.xf2.xs.xqh1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqh1.t          0.000187643
+x1.x45.xc23.xf2.xs.xqh2.s1         9.83125e-10
+x1.x45.xc23.xf2.xs.xqh2.t              0.69585
+x1.x45.xc23.xf2.xs.t                   1.65518
+x1.x45.xc23.xf2.xs.xqc1.s1         8.73239e-10
+x1.x45.xc23.xf2.xs.xqc1.t          0.000776602
+x1.x45.xc23.xf2.xs.xqc2.s1         8.05446e-10
+x1.x45.xc23.xf2.xs.xqc2.t              1.08534
+x1.x45.xc23.xf2.xs.tet                0.115354
+x1.x45.xc23.xf2.xs.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xs.xqt.t               1.05493
+x1.x45.xt.ckp                          2.42209
+x1.x45.xt.xef.xqe1.s1              1.05866e-09
+x1.x45.xt.xef.xqe1.t                    0.5569
+x1.x45.xt.ckn                          2.42208
+x1.x45.xt.xef.xqe2.s1              1.05866e-09
+x1.x45.xt.xef.xqe2.t                  0.556904
+x1.x45.xt.xef.f1                      0.115845
+x1.x45.xt.xef.xqf1.s1              7.76659e-10
+x1.x45.xt.xef.xqf1.t                   1.46005
+x1.x45.xt.xef.f2                      0.115845
+x1.x45.xt.xef.xqf2.s1              7.76657e-10
+x1.x45.xt.xef.xqf2.t                   1.46004
+x1.x45.xt.mp                           3.18493
+x1.x45.xt.mn                           3.18493
+x1.x45.xt.xm.e1                         2.4415
+x1.x45.xt.xm.xqt1.s1               1.02257e-09
+x1.x45.xt.xm.xqt1.t                   0.233936
+x1.x45.xt.xm.xqt2.s1               1.02257e-09
+x1.x45.xt.xm.xqt2.t                   0.233936
+x1.x45.xt.xm.e2                        2.44151
+x1.x45.xt.xm.xqh1.s1               1.02257e-09
+x1.x45.xt.xm.xqh1.t                   0.233871
+x1.x45.xt.xm.xqh2.s1               1.02257e-09
+x1.x45.xt.xm.xqh2.t                   0.233871
+x1.x45.xt.xm.t                         1.65964
+x1.x45.xt.xm.xqc1.s1               7.82873e-10
+x1.x45.xt.xm.xqc1.t                   0.492657
+x1.x45.xt.xm.xqc2.s1               7.82876e-10
+x1.x45.xt.xm.xqc2.t                   0.492531
+x1.x45.xt.xm.tet                      0.115357
+x1.x45.xt.xm.xqt.s1                8.35747e-10
+x1.x45.xt.xm.xqt.t                     1.05801
+x1.x45.xt.xs.e1                        2.44151
+x1.x45.xt.xs.xqt1.s1               1.02257e-09
+x1.x45.xt.xs.xqt1.t                   0.233871
+x1.x45.xt.xs.xqt2.s1               1.02257e-09
+x1.x45.xt.xs.xqt2.t                   0.233871
+x1.x45.xt.xs.e2                         2.4415
+x1.x45.xt.xs.xqh1.s1               1.02257e-09
+x1.x45.xt.xs.xqh1.t                   0.233936
+x1.x45.xt.xs.xqh2.s1               1.02257e-09
+x1.x45.xt.xs.xqh2.t                   0.233936
+x1.x45.xt.xs.t                         1.65964
+x1.x45.xt.xs.xqc1.s1               7.82876e-10
+x1.x45.xt.xs.xqc1.t                   0.492531
+x1.x45.xt.xs.xqc2.s1               7.82873e-10
+x1.x45.xt.xs.xqc2.t                   0.492657
+x1.x45.xt.xs.tet                      0.115357
+x1.x45.xt.xs.xqt.s1                8.35747e-10
+x1.x45.xt.xs.xqt.t                     1.05801
+vin#branch                        -6.01969e-08
+vip#branch                        -6.01969e-08
+vmc#branch                          8.3394e-12
+vdd#branch                         -0.00210799
+
+ Reference value :  0.00000e+00 Reference value :  6.60560e-10 Reference value :  1.32856e-09 Reference value :  1.80656e-09 Reference value :  2.33456e-09 Reference value :  3.02856e-09 Reference value :  3.76456e-09 Reference value :  4.31056e-09 Reference value :  5.04256e-09 Reference value :  5.67456e-09 Reference value :  6.32256e-09 Reference value :  6.92056e-09 Reference value :  7.59056e-09 Reference value :  8.10656e-09 Reference value :  8.70656e-09 Reference value :  9.22256e-09 Reference value :  9.72256e-09 Reference value :  1.03766e-08 Reference value :  1.10486e-08 Reference value :  1.18006e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+iref                                  0.877288
+mc                                           0
+x1.reref                              0.114905
+x1.xqref.s1                        2.80367e-10
+x1.xqref.t                            0.479047
+inp                                        3.3
+x1.x2.ckp                              2.53726
+x1.x2.xef.xqe1.s1                  1.05865e-09
+x1.x2.xef.xqe1.t                      0.485525
+inn                                        3.3
+x1.x2.ckn                              2.53726
+x1.x2.xef.xqe2.s1                  1.05865e-09
+x1.x2.xef.xqe2.t                      0.485525
+x1.x2.xef.f1                          0.115916
+x1.x2.xef.xqf1.s1                   8.1366e-10
+x1.x2.xef.xqf1.t                       1.53405
+x1.x2.xef.f2                          0.115916
+x1.x2.xef.xqf2.s1                   8.1366e-10
+x1.x2.xef.xqf2.t                       1.53405
+x1.x2.mp                                     3
+x1.x2.mn                                   3.2
+x1.hn                                        3
+x1.x2.xm.e1                            2.41762
+x1.x2.xm.xqt1.s1                   1.02827e-09
+x1.x2.xm.xqt1.t                    0.000568968
+x1.hp                                      3.2
+x1.x2.xm.xqt2.s1                   9.60566e-10
+x1.x2.xm.xqt2.t                       0.733076
+x1.x2.xm.e2                            2.41762
+x1.x2.xm.xqh1.s1                   1.02827e-09
+x1.x2.xm.xqh1.t                    0.000568968
+x1.x2.xm.xqh2.s1                   9.60566e-10
+x1.x2.xm.xqh2.t                       0.733076
+x1.x2.xm.t                             1.75493
+x1.x2.xm.xqc1.s1                   7.73468e-10
+x1.x2.xm.xqc1.t                       0.835525
+x1.x2.xm.xqc2.s1                   7.73468e-10
+x1.x2.xm.xqc2.t                       0.835525
+x1.x2.xm.tet                          0.115397
+x1.x2.xm.xqt.s1                    1.52763e-09
+x1.x2.xm.xqt.t                         1.22108
+x1.x2.xs.e1                            2.41789
+x1.x2.xs.xqt1.s1                   9.64019e-10
+x1.x2.xs.xqt1.t                    0.000418881
+x1.x2.xs.xqt2.s1                   1.02482e-09
+x1.x2.xs.xqt2.t                       0.984085
+x1.x2.xs.e2                            2.41762
+x1.x2.xs.xqh1.s1                   9.60566e-10
+x1.x2.xs.xqh1.t                       0.733071
+x1.x2.xs.xqh2.s1                   1.02827e-09
+x1.x2.xs.xqh2.t                    0.000568964
+x1.x2.xs.t                             1.75493
+x1.x2.xs.xqc1.s1                   7.73554e-10
+x1.x2.xs.xqc1.t                       0.835864
+x1.x2.xs.xqc2.s1                   7.73468e-10
+x1.x2.xs.xqc2.t                        0.83552
+x1.x2.xs.tet                          0.115397
+x1.x2.xs.xqt.s1                    1.52763e-09
+x1.x2.xs.xqt.t                         1.22108
+x1.x45.xmc.bm                      1.66788e-07
+x1.x45.xmc.vr                          1.64888
+x1.x45.mcp                             3.07073
+x1.x45.mcn                             3.29986
+x1.x45.xmc.t                          0.868714
+x1.x45.xmc.xqm1.s1                 1.06035e-09
+x1.x45.xmc.xqm1.t                   1.2771e-10
+x1.x45.xmc.xqm2.s1                  9.8337e-10
+x1.x45.xmc.xqm2.t                      2.76021
+x1.x45.xmc.tet                         0.11484
+x1.x45.xmc.xqt.s1                  4.36426e-10
+x1.x45.xmc.xqt.t                      0.514507
+x1.x45.mcl                             2.30834
+x1.x45.xmcl.xqe1.s1                1.05867e-09
+x1.x45.xmcl.xqe1.t                    0.626967
+x1.x45.mclb                            2.53718
+x1.x45.xmcl.xqe2.s1                1.05866e-09
+x1.x45.xmcl.xqe2.t                    0.484377
+x1.x45.xmcl.f1                        0.115776
+x1.x45.xmcl.xqf1.s1                7.40117e-10
+x1.x45.xmcl.xqf1.t                     1.38716
+x1.x45.xmcl.f2                        0.115916
+x1.x45.xmcl.xqf2.s1                8.13635e-10
+x1.x45.xmcl.xqf2.t                       1.534
+x1.x45.m                               3.06976
+x1.x45.mb                              3.29984
+outp                                   3.18493
+x1.x45.xgm.n1                          2.65062
+x1.x45.xgm.xqa1.s1                 1.06034e-09
+x1.x45.xgm.xqa1.t                  7.66573e-05
+outn                                   3.18493
+x1.x45.xgm.xqa2.s1                 9.86431e-10
+x1.x45.xgm.xqa2.t                  4.94819e-05
+x1.x45.xgm.t                           1.75572
+x1.x45.xgm.xqb1.s1                  8.5178e-10
+x1.x45.xgm.xqb1.t                   0.00021111
+x1.x45.xgm.xqb2.s1                 9.82998e-10
+x1.x45.xgm.xqb2.t                      1.65555
+x1.x45.xgm.tet                        0.115419
+x1.x45.xgm.xqt.s1                  8.84254e-10
+x1.x45.xgm.xqt.t                       1.12436
+x1.x45.xc23.ckp                        2.43722
+x1.x45.xc23.xck.xqe1.s1            1.05865e-09
+x1.x45.xc23.xck.xqe1.t                0.551448
+x1.x45.xc23.ckn                        2.23768
+x1.x45.xc23.xck.xqe2.s1            1.05867e-09
+x1.x45.xc23.xck.xqe2.t                0.671322
+x1.x45.xc23.xck.f1                    0.115855
+x1.x45.xc23.xck.xqf1.s1             7.8152e-10
+x1.x45.xc23.xck.xqf1.t                 1.46976
+x1.x45.xc23.xck.f2                    0.115733
+x1.x45.xc23.xck.xqf2.s1            7.17415e-10
+x1.x45.xc23.xck.xqf2.t                 1.34195
+x1.x45.c1                              3.18465
+x1.x45.xc23.q1l                        2.42209
+x1.x45.xc23.xq1l.xqe1.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe1.t               0.556901
+x1.x45.c1b                             3.18464
+x1.x45.xc23.q1lb                       2.42208
+x1.x45.xc23.xq1l.xqe2.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe2.t               0.556903
+x1.x45.xc23.xq1l.f1                   0.115845
+x1.x45.xc23.xq1l.xqf1.s1           7.76659e-10
+x1.x45.xc23.xq1l.xqf1.t                1.46005
+x1.x45.xc23.xq1l.f2                   0.115845
+x1.x45.xc23.xq1l.xqf2.s1           7.76657e-10
+x1.x45.xc23.xq1l.xqf2.t                1.46004
+x1.x45.xc23.d1                         3.18374
+x1.x45.xc23.d1b                        3.18598
+x1.x45.xc23.q2b                        3.29953
+x1.x45.xc23.xg1.n1                     2.53727
+x1.x45.xc23.xg1.xqa1.s1            1.02205e-09
+x1.x45.xc23.xg1.xqa1.t                0.404553
+x1.x45.xc23.q2                          3.0702
+x1.x45.xc23.xg1.xqa2.s1            1.02305e-09
+x1.x45.xc23.xg1.xqa2.t             7.22964e-05
+x1.x45.xc23.xg1.t                      1.65996
+x1.x45.xc23.xg1.xqb1.s1            8.13658e-10
+x1.x45.xc23.xg1.xqb1.t                0.547693
+x1.x45.xc23.xg1.xqb2.s1            1.02132e-09
+x1.x45.xc23.xg1.xqb2.t                0.968068
+x1.x45.xc23.xg1.tet                   0.115357
+x1.x45.xc23.xg1.xqt.s1             8.35908e-10
+x1.x45.xc23.xg1.xqt.t                  1.05823
+x1.x45.xc23.d2                         3.07002
+x1.x45.xc23.d2b                        3.29969
+x1.x45.xc23.xg2.n1                     2.53744
+x1.x45.xc23.xg2.xqa1.s1             1.0603e-09
+x1.x45.xc23.xg2.xqa1.t             8.33301e-05
+x1.x45.xc23.xg2.xqa2.s1            9.84806e-10
+x1.x45.xc23.xg2.xqa2.t                0.332853
+x1.x45.xc23.xg2.t                      1.65992
+x1.x45.xc23.xg2.xqb1.s1            8.13709e-10
+x1.x45.xc23.xg2.xqb1.t                0.548835
+x1.x45.xc23.xg2.xqb2.s1            9.84789e-10
+x1.x45.xc23.xg2.xqb2.t                0.894274
+x1.x45.xc23.xg2.tet                   0.115357
+x1.x45.xc23.xg2.xqt.s1             8.35886e-10
+x1.x45.xc23.xg2.xqt.t                   1.0582
+x1.x45.xc23.xf1.m                      3.18046
+x1.x45.xc23.xf1.mb                     3.18969
+x1.x45.xc23.xf1.xm.e1                  2.42247
+x1.x45.xc23.xf1.xm.xqt1.s1          1.0233e-09
+x1.x45.xc23.xf1.xm.xqt1.t             0.463143
+x1.x45.xc23.xf1.xm.xqt2.s1          1.0202e-09
+x1.x45.xc23.xf1.xm.xqt2.t             0.495785
+x1.x45.xc23.xf1.xm.e2                  2.62117
+x1.x45.xc23.xf1.xm.xqh1.s1         1.02496e-09
+x1.x45.xc23.xf1.xm.xqh1.t          0.000172591
+x1.x45.xc23.xf1.xm.xqh2.s1         1.02199e-09
+x1.x45.xc23.xf1.xm.xqh2.t          0.000240771
+x1.x45.xc23.xf1.xm.t                   1.65506
+x1.x45.xc23.xf1.xm.xqc1.s1         7.75034e-10
+x1.x45.xc23.xf1.xm.xqc1.t              0.96644
+x1.x45.xc23.xf1.xm.xqc2.s1         8.42317e-10
+x1.x45.xc23.xf1.xm.xqc2.t          0.000709425
+x1.x45.xc23.xf1.xm.tet                0.115354
+x1.x45.xc23.xf1.xm.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xm.xqt.t               1.05485
+x1.x45.xc23.xf1.xs.e1                  2.62117
+x1.x45.xc23.xf1.xs.xqt1.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt1.t          0.000171058
+x1.x45.xc23.xf1.xs.xqt2.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt2.t          0.000242578
+x1.x45.xc23.xf1.xs.e2                  2.42224
+x1.x45.xc23.xf1.xs.xqh1.s1         1.02161e-09
+x1.x45.xc23.xf1.xs.xqh1.t             0.479518
+x1.x45.xc23.xf1.xs.xqh2.s1         1.02162e-09
+x1.x45.xc23.xf1.xs.xqh2.t             0.479394
+x1.x45.xc23.xf1.xs.t                   1.65506
+x1.x45.xc23.xf1.xs.xqc1.s1         8.42317e-10
+x1.x45.xc23.xf1.xs.xqc1.t          0.000709433
+x1.x45.xc23.xf1.xs.xqc2.s1         7.74959e-10
+x1.x45.xc23.xf1.xs.xqc2.t             0.966147
+x1.x45.xc23.xf1.xs.tet                0.115354
+x1.x45.xc23.xf1.xs.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xs.xqt.t               1.05485
+x1.x45.xc23.xf2.m                       3.0702
+x1.x45.xc23.xf2.mb                     3.29996
+x1.x45.xc23.xf2.xm.e1                  2.51729
+x1.x45.xc23.xf2.xm.xqt1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqt1.t           0.00018529
+x1.x45.xc23.xf2.xm.xqt2.s1         9.83125e-10
+x1.x45.xc23.xf2.xm.xqt2.t             0.695644
+x1.x45.xc23.xf2.xm.e2                  2.71742
+x1.x45.xc23.xf2.xm.xqh1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqh1.t          7.17896e-08
+x1.x45.xc23.xf2.xm.xqh2.s1         9.86577e-10
+x1.x45.xc23.xf2.xm.xqh2.t          0.000258088
+x1.x45.xc23.xf2.xm.t                   1.65518
+x1.x45.xc23.xf2.xm.xqc1.s1         8.05499e-10
+x1.x45.xc23.xf2.xm.xqc1.t              1.08555
+x1.x45.xc23.xf2.xm.xqc2.s1         8.73239e-10
+x1.x45.xc23.xf2.xm.xqc2.t          0.000776595
+x1.x45.xc23.xf2.xm.tet                0.115354
+x1.x45.xc23.xf2.xm.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xm.xqt.t               1.05493
+x1.x45.xc23.xf2.xs.e1                  2.71742
+x1.x45.xc23.xf2.xs.xqt1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqt1.t          7.17379e-08
+x1.x45.xc23.xf2.xs.xqt2.s1         9.86577e-10
+x1.x45.xc23.xf2.xs.xqt2.t          0.000258091
+x1.x45.xc23.xf2.xs.e2                  2.51713
+x1.x45.xc23.xf2.xs.xqh1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqh1.t          0.000187643
+x1.x45.xc23.xf2.xs.xqh2.s1         9.83125e-10
+x1.x45.xc23.xf2.xs.xqh2.t              0.69585
+x1.x45.xc23.xf2.xs.t                   1.65518
+x1.x45.xc23.xf2.xs.xqc1.s1         8.73239e-10
+x1.x45.xc23.xf2.xs.xqc1.t          0.000776602
+x1.x45.xc23.xf2.xs.xqc2.s1         8.05446e-10
+x1.x45.xc23.xf2.xs.xqc2.t              1.08534
+x1.x45.xc23.xf2.xs.tet                0.115354
+x1.x45.xc23.xf2.xs.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xs.xqt.t               1.05493
+x1.x45.xt.ckp                          2.42209
+x1.x45.xt.xef.xqe1.s1              1.05866e-09
+x1.x45.xt.xef.xqe1.t                    0.5569
+x1.x45.xt.ckn                          2.42208
+x1.x45.xt.xef.xqe2.s1              1.05866e-09
+x1.x45.xt.xef.xqe2.t                  0.556904
+x1.x45.xt.xef.f1                      0.115845
+x1.x45.xt.xef.xqf1.s1              7.76659e-10
+x1.x45.xt.xef.xqf1.t                   1.46005
+x1.x45.xt.xef.f2                      0.115845
+x1.x45.xt.xef.xqf2.s1              7.76657e-10
+x1.x45.xt.xef.xqf2.t                   1.46004
+x1.x45.xt.mp                           3.18493
+x1.x45.xt.mn                           3.18493
+x1.x45.xt.xm.e1                         2.4415
+x1.x45.xt.xm.xqt1.s1               1.02257e-09
+x1.x45.xt.xm.xqt1.t                   0.233936
+x1.x45.xt.xm.xqt2.s1               1.02257e-09
+x1.x45.xt.xm.xqt2.t                   0.233936
+x1.x45.xt.xm.e2                        2.44151
+x1.x45.xt.xm.xqh1.s1               1.02257e-09
+x1.x45.xt.xm.xqh1.t                   0.233871
+x1.x45.xt.xm.xqh2.s1               1.02257e-09
+x1.x45.xt.xm.xqh2.t                   0.233871
+x1.x45.xt.xm.t                         1.65964
+x1.x45.xt.xm.xqc1.s1               7.82873e-10
+x1.x45.xt.xm.xqc1.t                   0.492657
+x1.x45.xt.xm.xqc2.s1               7.82876e-10
+x1.x45.xt.xm.xqc2.t                   0.492531
+x1.x45.xt.xm.tet                      0.115357
+x1.x45.xt.xm.xqt.s1                8.35747e-10
+x1.x45.xt.xm.xqt.t                     1.05801
+x1.x45.xt.xs.e1                        2.44151
+x1.x45.xt.xs.xqt1.s1               1.02257e-09
+x1.x45.xt.xs.xqt1.t                   0.233871
+x1.x45.xt.xs.xqt2.s1               1.02257e-09
+x1.x45.xt.xs.xqt2.t                   0.233871
+x1.x45.xt.xs.e2                         2.4415
+x1.x45.xt.xs.xqh1.s1               1.02257e-09
+x1.x45.xt.xs.xqh1.t                   0.233936
+x1.x45.xt.xs.xqh2.s1               1.02257e-09
+x1.x45.xt.xs.xqh2.t                   0.233936
+x1.x45.xt.xs.t                         1.65964
+x1.x45.xt.xs.xqc1.s1               7.82876e-10
+x1.x45.xt.xs.xqc1.t                   0.492531
+x1.x45.xt.xs.xqc2.s1               7.82873e-10
+x1.x45.xt.xs.xqc2.t                   0.492657
+x1.x45.xt.xs.tet                      0.115357
+x1.x45.xt.xs.xqt.s1                8.35747e-10
+x1.x45.xt.xs.xqt.t                     1.05801
+vin#branch                        -6.01969e-08
+vip#branch                        -6.01969e-08
+vmc#branch                          8.3394e-12
+vdd#branch                         -0.00210799
+
+ Reference value :  0.00000e+00 Reference value :  7.10560e-10 Reference value :  1.40456e-09 Reference value :  2.00056e-09 Reference value :  2.62656e-09 Reference value :  3.32456e-09 Reference value :  4.04256e-09 Reference value :  4.70856e-09 Reference value :  5.25456e-09 Reference value :  5.93656e-09 Reference value :  6.64856e-09 Reference value :  7.33256e-09 Reference value :  7.97056e-09 Reference value :  8.67056e-09 Reference value :  9.29056e-09 Reference value :  1.00146e-08 Reference value :  1.06006e-08 Reference value :  1.12006e-08 Reference value :  1.19066e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+iref                                  0.877288
+mc                                           0
+x1.reref                              0.114905
+x1.xqref.s1                        2.80367e-10
+x1.xqref.t                            0.479047
+inp                                        3.3
+x1.x2.ckp                              2.53726
+x1.x2.xef.xqe1.s1                  1.05865e-09
+x1.x2.xef.xqe1.t                      0.485525
+inn                                        3.3
+x1.x2.ckn                              2.53726
+x1.x2.xef.xqe2.s1                  1.05865e-09
+x1.x2.xef.xqe2.t                      0.485525
+x1.x2.xef.f1                          0.115916
+x1.x2.xef.xqf1.s1                   8.1366e-10
+x1.x2.xef.xqf1.t                       1.53405
+x1.x2.xef.f2                          0.115916
+x1.x2.xef.xqf2.s1                   8.1366e-10
+x1.x2.xef.xqf2.t                       1.53405
+x1.x2.mp                                     3
+x1.x2.mn                                   3.2
+x1.hn                                        3
+x1.x2.xm.e1                            2.41762
+x1.x2.xm.xqt1.s1                   1.02827e-09
+x1.x2.xm.xqt1.t                    0.000568968
+x1.hp                                      3.2
+x1.x2.xm.xqt2.s1                   9.60566e-10
+x1.x2.xm.xqt2.t                       0.733076
+x1.x2.xm.e2                            2.41762
+x1.x2.xm.xqh1.s1                   1.02827e-09
+x1.x2.xm.xqh1.t                    0.000568968
+x1.x2.xm.xqh2.s1                   9.60566e-10
+x1.x2.xm.xqh2.t                       0.733076
+x1.x2.xm.t                             1.75493
+x1.x2.xm.xqc1.s1                   7.73468e-10
+x1.x2.xm.xqc1.t                       0.835525
+x1.x2.xm.xqc2.s1                   7.73468e-10
+x1.x2.xm.xqc2.t                       0.835525
+x1.x2.xm.tet                          0.115397
+x1.x2.xm.xqt.s1                    1.52763e-09
+x1.x2.xm.xqt.t                         1.22108
+x1.x2.xs.e1                            2.41789
+x1.x2.xs.xqt1.s1                   9.64019e-10
+x1.x2.xs.xqt1.t                    0.000418881
+x1.x2.xs.xqt2.s1                   1.02482e-09
+x1.x2.xs.xqt2.t                       0.984085
+x1.x2.xs.e2                            2.41762
+x1.x2.xs.xqh1.s1                   9.60566e-10
+x1.x2.xs.xqh1.t                       0.733071
+x1.x2.xs.xqh2.s1                   1.02827e-09
+x1.x2.xs.xqh2.t                    0.000568964
+x1.x2.xs.t                             1.75493
+x1.x2.xs.xqc1.s1                   7.73554e-10
+x1.x2.xs.xqc1.t                       0.835864
+x1.x2.xs.xqc2.s1                   7.73468e-10
+x1.x2.xs.xqc2.t                        0.83552
+x1.x2.xs.tet                          0.115397
+x1.x2.xs.xqt.s1                    1.52763e-09
+x1.x2.xs.xqt.t                         1.22108
+x1.x45.xmc.bm                      1.66788e-07
+x1.x45.xmc.vr                          1.64888
+x1.x45.mcp                             3.07073
+x1.x45.mcn                             3.29986
+x1.x45.xmc.t                          0.868714
+x1.x45.xmc.xqm1.s1                 1.06035e-09
+x1.x45.xmc.xqm1.t                   1.2771e-10
+x1.x45.xmc.xqm2.s1                  9.8337e-10
+x1.x45.xmc.xqm2.t                      2.76021
+x1.x45.xmc.tet                         0.11484
+x1.x45.xmc.xqt.s1                  4.36426e-10
+x1.x45.xmc.xqt.t                      0.514507
+x1.x45.mcl                             2.30834
+x1.x45.xmcl.xqe1.s1                1.05867e-09
+x1.x45.xmcl.xqe1.t                    0.626967
+x1.x45.mclb                            2.53718
+x1.x45.xmcl.xqe2.s1                1.05866e-09
+x1.x45.xmcl.xqe2.t                    0.484377
+x1.x45.xmcl.f1                        0.115776
+x1.x45.xmcl.xqf1.s1                7.40117e-10
+x1.x45.xmcl.xqf1.t                     1.38716
+x1.x45.xmcl.f2                        0.115916
+x1.x45.xmcl.xqf2.s1                8.13635e-10
+x1.x45.xmcl.xqf2.t                       1.534
+x1.x45.m                               3.06976
+x1.x45.mb                              3.29984
+outp                                   3.18493
+x1.x45.xgm.n1                          2.65062
+x1.x45.xgm.xqa1.s1                 1.06034e-09
+x1.x45.xgm.xqa1.t                  7.66573e-05
+outn                                   3.18493
+x1.x45.xgm.xqa2.s1                 9.86431e-10
+x1.x45.xgm.xqa2.t                  4.94819e-05
+x1.x45.xgm.t                           1.75572
+x1.x45.xgm.xqb1.s1                  8.5178e-10
+x1.x45.xgm.xqb1.t                   0.00021111
+x1.x45.xgm.xqb2.s1                 9.82998e-10
+x1.x45.xgm.xqb2.t                      1.65555
+x1.x45.xgm.tet                        0.115419
+x1.x45.xgm.xqt.s1                  8.84254e-10
+x1.x45.xgm.xqt.t                       1.12436
+x1.x45.xc23.ckp                        2.43722
+x1.x45.xc23.xck.xqe1.s1            1.05865e-09
+x1.x45.xc23.xck.xqe1.t                0.551448
+x1.x45.xc23.ckn                        2.23768
+x1.x45.xc23.xck.xqe2.s1            1.05867e-09
+x1.x45.xc23.xck.xqe2.t                0.671322
+x1.x45.xc23.xck.f1                    0.115855
+x1.x45.xc23.xck.xqf1.s1             7.8152e-10
+x1.x45.xc23.xck.xqf1.t                 1.46976
+x1.x45.xc23.xck.f2                    0.115733
+x1.x45.xc23.xck.xqf2.s1            7.17415e-10
+x1.x45.xc23.xck.xqf2.t                 1.34195
+x1.x45.c1                              3.18465
+x1.x45.xc23.q1l                        2.42209
+x1.x45.xc23.xq1l.xqe1.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe1.t               0.556901
+x1.x45.c1b                             3.18464
+x1.x45.xc23.q1lb                       2.42208
+x1.x45.xc23.xq1l.xqe2.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe2.t               0.556903
+x1.x45.xc23.xq1l.f1                   0.115845
+x1.x45.xc23.xq1l.xqf1.s1           7.76659e-10
+x1.x45.xc23.xq1l.xqf1.t                1.46005
+x1.x45.xc23.xq1l.f2                   0.115845
+x1.x45.xc23.xq1l.xqf2.s1           7.76657e-10
+x1.x45.xc23.xq1l.xqf2.t                1.46004
+x1.x45.xc23.d1                         3.18374
+x1.x45.xc23.d1b                        3.18598
+x1.x45.xc23.q2b                        3.29953
+x1.x45.xc23.xg1.n1                     2.53727
+x1.x45.xc23.xg1.xqa1.s1            1.02205e-09
+x1.x45.xc23.xg1.xqa1.t                0.404553
+x1.x45.xc23.q2                          3.0702
+x1.x45.xc23.xg1.xqa2.s1            1.02305e-09
+x1.x45.xc23.xg1.xqa2.t             7.22964e-05
+x1.x45.xc23.xg1.t                      1.65996
+x1.x45.xc23.xg1.xqb1.s1            8.13658e-10
+x1.x45.xc23.xg1.xqb1.t                0.547693
+x1.x45.xc23.xg1.xqb2.s1            1.02132e-09
+x1.x45.xc23.xg1.xqb2.t                0.968068
+x1.x45.xc23.xg1.tet                   0.115357
+x1.x45.xc23.xg1.xqt.s1             8.35908e-10
+x1.x45.xc23.xg1.xqt.t                  1.05823
+x1.x45.xc23.d2                         3.07002
+x1.x45.xc23.d2b                        3.29969
+x1.x45.xc23.xg2.n1                     2.53744
+x1.x45.xc23.xg2.xqa1.s1             1.0603e-09
+x1.x45.xc23.xg2.xqa1.t             8.33301e-05
+x1.x45.xc23.xg2.xqa2.s1            9.84806e-10
+x1.x45.xc23.xg2.xqa2.t                0.332853
+x1.x45.xc23.xg2.t                      1.65992
+x1.x45.xc23.xg2.xqb1.s1            8.13709e-10
+x1.x45.xc23.xg2.xqb1.t                0.548835
+x1.x45.xc23.xg2.xqb2.s1            9.84789e-10
+x1.x45.xc23.xg2.xqb2.t                0.894274
+x1.x45.xc23.xg2.tet                   0.115357
+x1.x45.xc23.xg2.xqt.s1             8.35886e-10
+x1.x45.xc23.xg2.xqt.t                   1.0582
+x1.x45.xc23.xf1.m                      3.18046
+x1.x45.xc23.xf1.mb                     3.18969
+x1.x45.xc23.xf1.xm.e1                  2.42247
+x1.x45.xc23.xf1.xm.xqt1.s1          1.0233e-09
+x1.x45.xc23.xf1.xm.xqt1.t             0.463143
+x1.x45.xc23.xf1.xm.xqt2.s1          1.0202e-09
+x1.x45.xc23.xf1.xm.xqt2.t             0.495785
+x1.x45.xc23.xf1.xm.e2                  2.62117
+x1.x45.xc23.xf1.xm.xqh1.s1         1.02496e-09
+x1.x45.xc23.xf1.xm.xqh1.t          0.000172591
+x1.x45.xc23.xf1.xm.xqh2.s1         1.02199e-09
+x1.x45.xc23.xf1.xm.xqh2.t          0.000240771
+x1.x45.xc23.xf1.xm.t                   1.65506
+x1.x45.xc23.xf1.xm.xqc1.s1         7.75034e-10
+x1.x45.xc23.xf1.xm.xqc1.t              0.96644
+x1.x45.xc23.xf1.xm.xqc2.s1         8.42317e-10
+x1.x45.xc23.xf1.xm.xqc2.t          0.000709425
+x1.x45.xc23.xf1.xm.tet                0.115354
+x1.x45.xc23.xf1.xm.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xm.xqt.t               1.05485
+x1.x45.xc23.xf1.xs.e1                  2.62117
+x1.x45.xc23.xf1.xs.xqt1.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt1.t          0.000171058
+x1.x45.xc23.xf1.xs.xqt2.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt2.t          0.000242578
+x1.x45.xc23.xf1.xs.e2                  2.42224
+x1.x45.xc23.xf1.xs.xqh1.s1         1.02161e-09
+x1.x45.xc23.xf1.xs.xqh1.t             0.479518
+x1.x45.xc23.xf1.xs.xqh2.s1         1.02162e-09
+x1.x45.xc23.xf1.xs.xqh2.t             0.479394
+x1.x45.xc23.xf1.xs.t                   1.65506
+x1.x45.xc23.xf1.xs.xqc1.s1         8.42317e-10
+x1.x45.xc23.xf1.xs.xqc1.t          0.000709433
+x1.x45.xc23.xf1.xs.xqc2.s1         7.74959e-10
+x1.x45.xc23.xf1.xs.xqc2.t             0.966147
+x1.x45.xc23.xf1.xs.tet                0.115354
+x1.x45.xc23.xf1.xs.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xs.xqt.t               1.05485
+x1.x45.xc23.xf2.m                       3.0702
+x1.x45.xc23.xf2.mb                     3.29996
+x1.x45.xc23.xf2.xm.e1                  2.51729
+x1.x45.xc23.xf2.xm.xqt1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqt1.t           0.00018529
+x1.x45.xc23.xf2.xm.xqt2.s1         9.83125e-10
+x1.x45.xc23.xf2.xm.xqt2.t             0.695644
+x1.x45.xc23.xf2.xm.e2                  2.71742
+x1.x45.xc23.xf2.xm.xqh1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqh1.t          7.17896e-08
+x1.x45.xc23.xf2.xm.xqh2.s1         9.86577e-10
+x1.x45.xc23.xf2.xm.xqh2.t          0.000258088
+x1.x45.xc23.xf2.xm.t                   1.65518
+x1.x45.xc23.xf2.xm.xqc1.s1         8.05499e-10
+x1.x45.xc23.xf2.xm.xqc1.t              1.08555
+x1.x45.xc23.xf2.xm.xqc2.s1         8.73239e-10
+x1.x45.xc23.xf2.xm.xqc2.t          0.000776595
+x1.x45.xc23.xf2.xm.tet                0.115354
+x1.x45.xc23.xf2.xm.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xm.xqt.t               1.05493
+x1.x45.xc23.xf2.xs.e1                  2.71742
+x1.x45.xc23.xf2.xs.xqt1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqt1.t          7.17379e-08
+x1.x45.xc23.xf2.xs.xqt2.s1         9.86577e-10
+x1.x45.xc23.xf2.xs.xqt2.t          0.000258091
+x1.x45.xc23.xf2.xs.e2                  2.51713
+x1.x45.xc23.xf2.xs.xqh1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqh1.t          0.000187643
+x1.x45.xc23.xf2.xs.xqh2.s1         9.83125e-10
+x1.x45.xc23.xf2.xs.xqh2.t              0.69585
+x1.x45.xc23.xf2.xs.t                   1.65518
+x1.x45.xc23.xf2.xs.xqc1.s1         8.73239e-10
+x1.x45.xc23.xf2.xs.xqc1.t          0.000776602
+x1.x45.xc23.xf2.xs.xqc2.s1         8.05446e-10
+x1.x45.xc23.xf2.xs.xqc2.t              1.08534
+x1.x45.xc23.xf2.xs.tet                0.115354
+x1.x45.xc23.xf2.xs.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xs.xqt.t               1.05493
+x1.x45.xt.ckp                          2.42209
+x1.x45.xt.xef.xqe1.s1              1.05866e-09
+x1.x45.xt.xef.xqe1.t                    0.5569
+x1.x45.xt.ckn                          2.42208
+x1.x45.xt.xef.xqe2.s1              1.05866e-09
+x1.x45.xt.xef.xqe2.t                  0.556904
+x1.x45.xt.xef.f1                      0.115845
+x1.x45.xt.xef.xqf1.s1              7.76659e-10
+x1.x45.xt.xef.xqf1.t                   1.46005
+x1.x45.xt.xef.f2                      0.115845
+x1.x45.xt.xef.xqf2.s1              7.76657e-10
+x1.x45.xt.xef.xqf2.t                   1.46004
+x1.x45.xt.mp                           3.18493
+x1.x45.xt.mn                           3.18493
+x1.x45.xt.xm.e1                         2.4415
+x1.x45.xt.xm.xqt1.s1               1.02257e-09
+x1.x45.xt.xm.xqt1.t                   0.233936
+x1.x45.xt.xm.xqt2.s1               1.02257e-09
+x1.x45.xt.xm.xqt2.t                   0.233936
+x1.x45.xt.xm.e2                        2.44151
+x1.x45.xt.xm.xqh1.s1               1.02257e-09
+x1.x45.xt.xm.xqh1.t                   0.233871
+x1.x45.xt.xm.xqh2.s1               1.02257e-09
+x1.x45.xt.xm.xqh2.t                   0.233871
+x1.x45.xt.xm.t                         1.65964
+x1.x45.xt.xm.xqc1.s1               7.82873e-10
+x1.x45.xt.xm.xqc1.t                   0.492657
+x1.x45.xt.xm.xqc2.s1               7.82876e-10
+x1.x45.xt.xm.xqc2.t                   0.492531
+x1.x45.xt.xm.tet                      0.115357
+x1.x45.xt.xm.xqt.s1                8.35747e-10
+x1.x45.xt.xm.xqt.t                     1.05801
+x1.x45.xt.xs.e1                        2.44151
+x1.x45.xt.xs.xqt1.s1               1.02257e-09
+x1.x45.xt.xs.xqt1.t                   0.233871
+x1.x45.xt.xs.xqt2.s1               1.02257e-09
+x1.x45.xt.xs.xqt2.t                   0.233871
+x1.x45.xt.xs.e2                         2.4415
+x1.x45.xt.xs.xqh1.s1               1.02257e-09
+x1.x45.xt.xs.xqh1.t                   0.233936
+x1.x45.xt.xs.xqh2.s1               1.02257e-09
+x1.x45.xt.xs.xqh2.t                   0.233936
+x1.x45.xt.xs.t                         1.65964
+x1.x45.xt.xs.xqc1.s1               7.82876e-10
+x1.x45.xt.xs.xqc1.t                   0.492531
+x1.x45.xt.xs.xqc2.s1               7.82873e-10
+x1.x45.xt.xs.xqc2.t                   0.492657
+x1.x45.xt.xs.tet                      0.115357
+x1.x45.xt.xs.xqt.s1                8.35747e-10
+x1.x45.xt.xs.xqt.t                     1.05801
+vin#branch                        -6.01969e-08
+vip#branch                        -6.01969e-08
+vmc#branch                          8.3394e-12
+vdd#branch                         -0.00210799
+
+ Reference value :  2.85600e-11 Reference value :  7.04560e-10 Reference value :  1.39856e-09 Reference value :  1.98856e-09 Reference value :  2.59256e-09 Reference value :  3.13456e-09 Reference value :  3.73656e-09 Reference value :  4.23456e-09 Reference value :  4.80256e-09 Reference value :  5.51456e-09 Reference value :  6.24256e-09 Reference value :  6.86856e-09 Reference value :  7.52256e-09 Reference value :  8.04856e-09 Reference value :  8.60056e-09 Reference value :  9.09656e-09 Reference value :  9.60456e-09 Reference value :  1.01126e-08 Reference value :  1.06346e-08 Reference value :  1.11366e-08 Reference value :  1.16646e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+iref                                  0.877288
+mc                                           0
+x1.reref                              0.114905
+x1.xqref.s1                        2.80367e-10
+x1.xqref.t                            0.479047
+inp                                        3.3
+x1.x2.ckp                              2.53726
+x1.x2.xef.xqe1.s1                  1.05865e-09
+x1.x2.xef.xqe1.t                      0.485525
+inn                                        3.3
+x1.x2.ckn                              2.53726
+x1.x2.xef.xqe2.s1                  1.05865e-09
+x1.x2.xef.xqe2.t                      0.485525
+x1.x2.xef.f1                          0.115916
+x1.x2.xef.xqf1.s1                   8.1366e-10
+x1.x2.xef.xqf1.t                       1.53405
+x1.x2.xef.f2                          0.115916
+x1.x2.xef.xqf2.s1                   8.1366e-10
+x1.x2.xef.xqf2.t                       1.53405
+x1.x2.mp                                     3
+x1.x2.mn                                   3.2
+x1.hn                                        3
+x1.x2.xm.e1                            2.41762
+x1.x2.xm.xqt1.s1                   1.02827e-09
+x1.x2.xm.xqt1.t                    0.000568968
+x1.hp                                      3.2
+x1.x2.xm.xqt2.s1                   9.60566e-10
+x1.x2.xm.xqt2.t                       0.733076
+x1.x2.xm.e2                            2.41762
+x1.x2.xm.xqh1.s1                   1.02827e-09
+x1.x2.xm.xqh1.t                    0.000568968
+x1.x2.xm.xqh2.s1                   9.60566e-10
+x1.x2.xm.xqh2.t                       0.733076
+x1.x2.xm.t                             1.75493
+x1.x2.xm.xqc1.s1                   7.73468e-10
+x1.x2.xm.xqc1.t                       0.835525
+x1.x2.xm.xqc2.s1                   7.73468e-10
+x1.x2.xm.xqc2.t                       0.835525
+x1.x2.xm.tet                          0.115397
+x1.x2.xm.xqt.s1                    1.52763e-09
+x1.x2.xm.xqt.t                         1.22108
+x1.x2.xs.e1                            2.41789
+x1.x2.xs.xqt1.s1                   9.64019e-10
+x1.x2.xs.xqt1.t                    0.000418881
+x1.x2.xs.xqt2.s1                   1.02482e-09
+x1.x2.xs.xqt2.t                       0.984085
+x1.x2.xs.e2                            2.41762
+x1.x2.xs.xqh1.s1                   9.60566e-10
+x1.x2.xs.xqh1.t                       0.733071
+x1.x2.xs.xqh2.s1                   1.02827e-09
+x1.x2.xs.xqh2.t                    0.000568964
+x1.x2.xs.t                             1.75493
+x1.x2.xs.xqc1.s1                   7.73554e-10
+x1.x2.xs.xqc1.t                       0.835864
+x1.x2.xs.xqc2.s1                   7.73468e-10
+x1.x2.xs.xqc2.t                        0.83552
+x1.x2.xs.tet                          0.115397
+x1.x2.xs.xqt.s1                    1.52763e-09
+x1.x2.xs.xqt.t                         1.22108
+x1.x45.xmc.bm                      1.66788e-07
+x1.x45.xmc.vr                          1.64888
+x1.x45.mcp                             3.07073
+x1.x45.mcn                             3.29986
+x1.x45.xmc.t                          0.868714
+x1.x45.xmc.xqm1.s1                 1.06035e-09
+x1.x45.xmc.xqm1.t                   1.2771e-10
+x1.x45.xmc.xqm2.s1                  9.8337e-10
+x1.x45.xmc.xqm2.t                      2.76021
+x1.x45.xmc.tet                         0.11484
+x1.x45.xmc.xqt.s1                  4.36426e-10
+x1.x45.xmc.xqt.t                      0.514507
+x1.x45.mcl                             2.30834
+x1.x45.xmcl.xqe1.s1                1.05867e-09
+x1.x45.xmcl.xqe1.t                    0.626967
+x1.x45.mclb                            2.53718
+x1.x45.xmcl.xqe2.s1                1.05866e-09
+x1.x45.xmcl.xqe2.t                    0.484377
+x1.x45.xmcl.f1                        0.115776
+x1.x45.xmcl.xqf1.s1                7.40117e-10
+x1.x45.xmcl.xqf1.t                     1.38716
+x1.x45.xmcl.f2                        0.115916
+x1.x45.xmcl.xqf2.s1                8.13635e-10
+x1.x45.xmcl.xqf2.t                       1.534
+x1.x45.m                               3.06976
+x1.x45.mb                              3.29984
+outp                                   3.18493
+x1.x45.xgm.n1                          2.65062
+x1.x45.xgm.xqa1.s1                 1.06034e-09
+x1.x45.xgm.xqa1.t                  7.66573e-05
+outn                                   3.18493
+x1.x45.xgm.xqa2.s1                 9.86431e-10
+x1.x45.xgm.xqa2.t                  4.94819e-05
+x1.x45.xgm.t                           1.75572
+x1.x45.xgm.xqb1.s1                  8.5178e-10
+x1.x45.xgm.xqb1.t                   0.00021111
+x1.x45.xgm.xqb2.s1                 9.82998e-10
+x1.x45.xgm.xqb2.t                      1.65555
+x1.x45.xgm.tet                        0.115419
+x1.x45.xgm.xqt.s1                  8.84254e-10
+x1.x45.xgm.xqt.t                       1.12436
+x1.x45.xc23.ckp                        2.43722
+x1.x45.xc23.xck.xqe1.s1            1.05865e-09
+x1.x45.xc23.xck.xqe1.t                0.551448
+x1.x45.xc23.ckn                        2.23768
+x1.x45.xc23.xck.xqe2.s1            1.05867e-09
+x1.x45.xc23.xck.xqe2.t                0.671322
+x1.x45.xc23.xck.f1                    0.115855
+x1.x45.xc23.xck.xqf1.s1             7.8152e-10
+x1.x45.xc23.xck.xqf1.t                 1.46976
+x1.x45.xc23.xck.f2                    0.115733
+x1.x45.xc23.xck.xqf2.s1            7.17415e-10
+x1.x45.xc23.xck.xqf2.t                 1.34195
+x1.x45.c1                              3.18465
+x1.x45.xc23.q1l                        2.42209
+x1.x45.xc23.xq1l.xqe1.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe1.t               0.556901
+x1.x45.c1b                             3.18464
+x1.x45.xc23.q1lb                       2.42208
+x1.x45.xc23.xq1l.xqe2.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe2.t               0.556903
+x1.x45.xc23.xq1l.f1                   0.115845
+x1.x45.xc23.xq1l.xqf1.s1           7.76659e-10
+x1.x45.xc23.xq1l.xqf1.t                1.46005
+x1.x45.xc23.xq1l.f2                   0.115845
+x1.x45.xc23.xq1l.xqf2.s1           7.76657e-10
+x1.x45.xc23.xq1l.xqf2.t                1.46004
+x1.x45.xc23.d1                         3.18374
+x1.x45.xc23.d1b                        3.18598
+x1.x45.xc23.q2b                        3.29953
+x1.x45.xc23.xg1.n1                     2.53727
+x1.x45.xc23.xg1.xqa1.s1            1.02205e-09
+x1.x45.xc23.xg1.xqa1.t                0.404553
+x1.x45.xc23.q2                          3.0702
+x1.x45.xc23.xg1.xqa2.s1            1.02305e-09
+x1.x45.xc23.xg1.xqa2.t             7.22964e-05
+x1.x45.xc23.xg1.t                      1.65996
+x1.x45.xc23.xg1.xqb1.s1            8.13658e-10
+x1.x45.xc23.xg1.xqb1.t                0.547693
+x1.x45.xc23.xg1.xqb2.s1            1.02132e-09
+x1.x45.xc23.xg1.xqb2.t                0.968068
+x1.x45.xc23.xg1.tet                   0.115357
+x1.x45.xc23.xg1.xqt.s1             8.35908e-10
+x1.x45.xc23.xg1.xqt.t                  1.05823
+x1.x45.xc23.d2                         3.07002
+x1.x45.xc23.d2b                        3.29969
+x1.x45.xc23.xg2.n1                     2.53744
+x1.x45.xc23.xg2.xqa1.s1             1.0603e-09
+x1.x45.xc23.xg2.xqa1.t             8.33301e-05
+x1.x45.xc23.xg2.xqa2.s1            9.84806e-10
+x1.x45.xc23.xg2.xqa2.t                0.332853
+x1.x45.xc23.xg2.t                      1.65992
+x1.x45.xc23.xg2.xqb1.s1            8.13709e-10
+x1.x45.xc23.xg2.xqb1.t                0.548835
+x1.x45.xc23.xg2.xqb2.s1            9.84789e-10
+x1.x45.xc23.xg2.xqb2.t                0.894274
+x1.x45.xc23.xg2.tet                   0.115357
+x1.x45.xc23.xg2.xqt.s1             8.35886e-10
+x1.x45.xc23.xg2.xqt.t                   1.0582
+x1.x45.xc23.xf1.m                      3.18046
+x1.x45.xc23.xf1.mb                     3.18969
+x1.x45.xc23.xf1.xm.e1                  2.42247
+x1.x45.xc23.xf1.xm.xqt1.s1          1.0233e-09
+x1.x45.xc23.xf1.xm.xqt1.t             0.463143
+x1.x45.xc23.xf1.xm.xqt2.s1          1.0202e-09
+x1.x45.xc23.xf1.xm.xqt2.t             0.495785
+x1.x45.xc23.xf1.xm.e2                  2.62117
+x1.x45.xc23.xf1.xm.xqh1.s1         1.02496e-09
+x1.x45.xc23.xf1.xm.xqh1.t          0.000172591
+x1.x45.xc23.xf1.xm.xqh2.s1         1.02199e-09
+x1.x45.xc23.xf1.xm.xqh2.t          0.000240771
+x1.x45.xc23.xf1.xm.t                   1.65506
+x1.x45.xc23.xf1.xm.xqc1.s1         7.75034e-10
+x1.x45.xc23.xf1.xm.xqc1.t              0.96644
+x1.x45.xc23.xf1.xm.xqc2.s1         8.42317e-10
+x1.x45.xc23.xf1.xm.xqc2.t          0.000709425
+x1.x45.xc23.xf1.xm.tet                0.115354
+x1.x45.xc23.xf1.xm.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xm.xqt.t               1.05485
+x1.x45.xc23.xf1.xs.e1                  2.62117
+x1.x45.xc23.xf1.xs.xqt1.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt1.t          0.000171058
+x1.x45.xc23.xf1.xs.xqt2.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt2.t          0.000242578
+x1.x45.xc23.xf1.xs.e2                  2.42224
+x1.x45.xc23.xf1.xs.xqh1.s1         1.02161e-09
+x1.x45.xc23.xf1.xs.xqh1.t             0.479518
+x1.x45.xc23.xf1.xs.xqh2.s1         1.02162e-09
+x1.x45.xc23.xf1.xs.xqh2.t             0.479394
+x1.x45.xc23.xf1.xs.t                   1.65506
+x1.x45.xc23.xf1.xs.xqc1.s1         8.42317e-10
+x1.x45.xc23.xf1.xs.xqc1.t          0.000709433
+x1.x45.xc23.xf1.xs.xqc2.s1         7.74959e-10
+x1.x45.xc23.xf1.xs.xqc2.t             0.966147
+x1.x45.xc23.xf1.xs.tet                0.115354
+x1.x45.xc23.xf1.xs.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xs.xqt.t               1.05485
+x1.x45.xc23.xf2.m                       3.0702
+x1.x45.xc23.xf2.mb                     3.29996
+x1.x45.xc23.xf2.xm.e1                  2.51729
+x1.x45.xc23.xf2.xm.xqt1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqt1.t           0.00018529
+x1.x45.xc23.xf2.xm.xqt2.s1         9.83125e-10
+x1.x45.xc23.xf2.xm.xqt2.t             0.695644
+x1.x45.xc23.xf2.xm.e2                  2.71742
+x1.x45.xc23.xf2.xm.xqh1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqh1.t          7.17896e-08
+x1.x45.xc23.xf2.xm.xqh2.s1         9.86577e-10
+x1.x45.xc23.xf2.xm.xqh2.t          0.000258088
+x1.x45.xc23.xf2.xm.t                   1.65518
+x1.x45.xc23.xf2.xm.xqc1.s1         8.05499e-10
+x1.x45.xc23.xf2.xm.xqc1.t              1.08555
+x1.x45.xc23.xf2.xm.xqc2.s1         8.73239e-10
+x1.x45.xc23.xf2.xm.xqc2.t          0.000776595
+x1.x45.xc23.xf2.xm.tet                0.115354
+x1.x45.xc23.xf2.xm.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xm.xqt.t               1.05493
+x1.x45.xc23.xf2.xs.e1                  2.71742
+x1.x45.xc23.xf2.xs.xqt1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqt1.t          7.17379e-08
+x1.x45.xc23.xf2.xs.xqt2.s1         9.86577e-10
+x1.x45.xc23.xf2.xs.xqt2.t          0.000258091
+x1.x45.xc23.xf2.xs.e2                  2.51713
+x1.x45.xc23.xf2.xs.xqh1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqh1.t          0.000187643
+x1.x45.xc23.xf2.xs.xqh2.s1         9.83125e-10
+x1.x45.xc23.xf2.xs.xqh2.t              0.69585
+x1.x45.xc23.xf2.xs.t                   1.65518
+x1.x45.xc23.xf2.xs.xqc1.s1         8.73239e-10
+x1.x45.xc23.xf2.xs.xqc1.t          0.000776602
+x1.x45.xc23.xf2.xs.xqc2.s1         8.05446e-10
+x1.x45.xc23.xf2.xs.xqc2.t              1.08534
+x1.x45.xc23.xf2.xs.tet                0.115354
+x1.x45.xc23.xf2.xs.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xs.xqt.t               1.05493
+x1.x45.xt.ckp                          2.42209
+x1.x45.xt.xef.xqe1.s1              1.05866e-09
+x1.x45.xt.xef.xqe1.t                    0.5569
+x1.x45.xt.ckn                          2.42208
+x1.x45.xt.xef.xqe2.s1              1.05866e-09
+x1.x45.xt.xef.xqe2.t                  0.556904
+x1.x45.xt.xef.f1                      0.115845
+x1.x45.xt.xef.xqf1.s1              7.76659e-10
+x1.x45.xt.xef.xqf1.t                   1.46005
+x1.x45.xt.xef.f2                      0.115845
+x1.x45.xt.xef.xqf2.s1              7.76657e-10
+x1.x45.xt.xef.xqf2.t                   1.46004
+x1.x45.xt.mp                           3.18493
+x1.x45.xt.mn                           3.18493
+x1.x45.xt.xm.e1                         2.4415
+x1.x45.xt.xm.xqt1.s1               1.02257e-09
+x1.x45.xt.xm.xqt1.t                   0.233936
+x1.x45.xt.xm.xqt2.s1               1.02257e-09
+x1.x45.xt.xm.xqt2.t                   0.233936
+x1.x45.xt.xm.e2                        2.44151
+x1.x45.xt.xm.xqh1.s1               1.02257e-09
+x1.x45.xt.xm.xqh1.t                   0.233871
+x1.x45.xt.xm.xqh2.s1               1.02257e-09
+x1.x45.xt.xm.xqh2.t                   0.233871
+x1.x45.xt.xm.t                         1.65964
+x1.x45.xt.xm.xqc1.s1               7.82873e-10
+x1.x45.xt.xm.xqc1.t                   0.492657
+x1.x45.xt.xm.xqc2.s1               7.82876e-10
+x1.x45.xt.xm.xqc2.t                   0.492531
+x1.x45.xt.xm.tet                      0.115357
+x1.x45.xt.xm.xqt.s1                8.35747e-10
+x1.x45.xt.xm.xqt.t                     1.05801
+x1.x45.xt.xs.e1                        2.44151
+x1.x45.xt.xs.xqt1.s1               1.02257e-09
+x1.x45.xt.xs.xqt1.t                   0.233871
+x1.x45.xt.xs.xqt2.s1               1.02257e-09
+x1.x45.xt.xs.xqt2.t                   0.233871
+x1.x45.xt.xs.e2                         2.4415
+x1.x45.xt.xs.xqh1.s1               1.02257e-09
+x1.x45.xt.xs.xqh1.t                   0.233936
+x1.x45.xt.xs.xqh2.s1               1.02257e-09
+x1.x45.xt.xs.xqh2.t                   0.233936
+x1.x45.xt.xs.t                         1.65964
+x1.x45.xt.xs.xqc1.s1               7.82876e-10
+x1.x45.xt.xs.xqc1.t                   0.492531
+x1.x45.xt.xs.xqc2.s1               7.82873e-10
+x1.x45.xt.xs.xqc2.t                   0.492657
+x1.x45.xt.xs.tet                      0.115357
+x1.x45.xt.xs.xqt.s1                8.35747e-10
+x1.x45.xt.xs.xqt.t                     1.05801
+vin#branch                        -6.01969e-08
+vip#branch                        -6.01969e-08
+vmc#branch                          8.3394e-12
+vdd#branch                         -0.00210799
+
+ Reference value :  0.00000e+00 Reference value :  4.50560e-10 Reference value :  8.82560e-10 Reference value :  1.37256e-09 Reference value :  1.98056e-09 Reference value :  2.58056e-09 Reference value :  3.15856e-09 Reference value :  3.78256e-09 Reference value :  4.28256e-09 Reference value :  4.70656e-09 Reference value :  5.25856e-09 Reference value :  5.92256e-09 Reference value :  6.51856e-09 Reference value :  7.12856e-09 Reference value :  7.60456e-09 Reference value :  8.15656e-09 Reference value :  8.79456e-09 Reference value :  9.31056e-09 Reference value :  9.79856e-09 Reference value :  1.04066e-08 Reference value :  1.09826e-08 Reference value :  1.15606e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+iref                                  0.877288
+mc                                           0
+x1.reref                              0.114905
+x1.xqref.s1                        2.80367e-10
+x1.xqref.t                            0.479047
+inp                                        3.3
+x1.x2.ckp                              2.53726
+x1.x2.xef.xqe1.s1                  1.05865e-09
+x1.x2.xef.xqe1.t                      0.485525
+inn                                        3.3
+x1.x2.ckn                              2.53726
+x1.x2.xef.xqe2.s1                  1.05865e-09
+x1.x2.xef.xqe2.t                      0.485525
+x1.x2.xef.f1                          0.115916
+x1.x2.xef.xqf1.s1                   8.1366e-10
+x1.x2.xef.xqf1.t                       1.53405
+x1.x2.xef.f2                          0.115916
+x1.x2.xef.xqf2.s1                   8.1366e-10
+x1.x2.xef.xqf2.t                       1.53405
+x1.x2.mp                                     3
+x1.x2.mn                                   3.2
+x1.hn                                        3
+x1.x2.xm.e1                            2.41762
+x1.x2.xm.xqt1.s1                   1.02827e-09
+x1.x2.xm.xqt1.t                    0.000568968
+x1.hp                                      3.2
+x1.x2.xm.xqt2.s1                   9.60566e-10
+x1.x2.xm.xqt2.t                       0.733076
+x1.x2.xm.e2                            2.41762
+x1.x2.xm.xqh1.s1                   1.02827e-09
+x1.x2.xm.xqh1.t                    0.000568968
+x1.x2.xm.xqh2.s1                   9.60566e-10
+x1.x2.xm.xqh2.t                       0.733076
+x1.x2.xm.t                             1.75493
+x1.x2.xm.xqc1.s1                   7.73468e-10
+x1.x2.xm.xqc1.t                       0.835525
+x1.x2.xm.xqc2.s1                   7.73468e-10
+x1.x2.xm.xqc2.t                       0.835525
+x1.x2.xm.tet                          0.115397
+x1.x2.xm.xqt.s1                    1.52763e-09
+x1.x2.xm.xqt.t                         1.22108
+x1.x2.xs.e1                            2.41789
+x1.x2.xs.xqt1.s1                   9.64019e-10
+x1.x2.xs.xqt1.t                    0.000418881
+x1.x2.xs.xqt2.s1                   1.02482e-09
+x1.x2.xs.xqt2.t                       0.984085
+x1.x2.xs.e2                            2.41762
+x1.x2.xs.xqh1.s1                   9.60566e-10
+x1.x2.xs.xqh1.t                       0.733071
+x1.x2.xs.xqh2.s1                   1.02827e-09
+x1.x2.xs.xqh2.t                    0.000568964
+x1.x2.xs.t                             1.75493
+x1.x2.xs.xqc1.s1                   7.73554e-10
+x1.x2.xs.xqc1.t                       0.835864
+x1.x2.xs.xqc2.s1                   7.73468e-10
+x1.x2.xs.xqc2.t                        0.83552
+x1.x2.xs.tet                          0.115397
+x1.x2.xs.xqt.s1                    1.52763e-09
+x1.x2.xs.xqt.t                         1.22108
+x1.x45.xmc.bm                      1.66788e-07
+x1.x45.xmc.vr                          1.64888
+x1.x45.mcp                             3.07073
+x1.x45.mcn                             3.29986
+x1.x45.xmc.t                          0.868714
+x1.x45.xmc.xqm1.s1                 1.06035e-09
+x1.x45.xmc.xqm1.t                   1.2771e-10
+x1.x45.xmc.xqm2.s1                  9.8337e-10
+x1.x45.xmc.xqm2.t                      2.76021
+x1.x45.xmc.tet                         0.11484
+x1.x45.xmc.xqt.s1                  4.36426e-10
+x1.x45.xmc.xqt.t                      0.514507
+x1.x45.mcl                             2.30834
+x1.x45.xmcl.xqe1.s1                1.05867e-09
+x1.x45.xmcl.xqe1.t                    0.626967
+x1.x45.mclb                            2.53718
+x1.x45.xmcl.xqe2.s1                1.05866e-09
+x1.x45.xmcl.xqe2.t                    0.484377
+x1.x45.xmcl.f1                        0.115776
+x1.x45.xmcl.xqf1.s1                7.40117e-10
+x1.x45.xmcl.xqf1.t                     1.38716
+x1.x45.xmcl.f2                        0.115916
+x1.x45.xmcl.xqf2.s1                8.13635e-10
+x1.x45.xmcl.xqf2.t                       1.534
+x1.x45.m                               3.06976
+x1.x45.mb                              3.29984
+outp                                   3.18493
+x1.x45.xgm.n1                          2.65062
+x1.x45.xgm.xqa1.s1                 1.06034e-09
+x1.x45.xgm.xqa1.t                  7.66573e-05
+outn                                   3.18493
+x1.x45.xgm.xqa2.s1                 9.86431e-10
+x1.x45.xgm.xqa2.t                  4.94819e-05
+x1.x45.xgm.t                           1.75572
+x1.x45.xgm.xqb1.s1                  8.5178e-10
+x1.x45.xgm.xqb1.t                   0.00021111
+x1.x45.xgm.xqb2.s1                 9.82998e-10
+x1.x45.xgm.xqb2.t                      1.65555
+x1.x45.xgm.tet                        0.115419
+x1.x45.xgm.xqt.s1                  8.84254e-10
+x1.x45.xgm.xqt.t                       1.12436
+x1.x45.xc23.ckp                        2.43722
+x1.x45.xc23.xck.xqe1.s1            1.05865e-09
+x1.x45.xc23.xck.xqe1.t                0.551448
+x1.x45.xc23.ckn                        2.23768
+x1.x45.xc23.xck.xqe2.s1            1.05867e-09
+x1.x45.xc23.xck.xqe2.t                0.671322
+x1.x45.xc23.xck.f1                    0.115855
+x1.x45.xc23.xck.xqf1.s1             7.8152e-10
+x1.x45.xc23.xck.xqf1.t                 1.46976
+x1.x45.xc23.xck.f2                    0.115733
+x1.x45.xc23.xck.xqf2.s1            7.17415e-10
+x1.x45.xc23.xck.xqf2.t                 1.34195
+x1.x45.c1                              3.18465
+x1.x45.xc23.q1l                        2.42209
+x1.x45.xc23.xq1l.xqe1.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe1.t               0.556901
+x1.x45.c1b                             3.18464
+x1.x45.xc23.q1lb                       2.42208
+x1.x45.xc23.xq1l.xqe2.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe2.t               0.556903
+x1.x45.xc23.xq1l.f1                   0.115845
+x1.x45.xc23.xq1l.xqf1.s1           7.76659e-10
+x1.x45.xc23.xq1l.xqf1.t                1.46005
+x1.x45.xc23.xq1l.f2                   0.115845
+x1.x45.xc23.xq1l.xqf2.s1           7.76657e-10
+x1.x45.xc23.xq1l.xqf2.t                1.46004
+x1.x45.xc23.d1                         3.18374
+x1.x45.xc23.d1b                        3.18598
+x1.x45.xc23.q2b                        3.29953
+x1.x45.xc23.xg1.n1                     2.53727
+x1.x45.xc23.xg1.xqa1.s1            1.02205e-09
+x1.x45.xc23.xg1.xqa1.t                0.404553
+x1.x45.xc23.q2                          3.0702
+x1.x45.xc23.xg1.xqa2.s1            1.02305e-09
+x1.x45.xc23.xg1.xqa2.t             7.22964e-05
+x1.x45.xc23.xg1.t                      1.65996
+x1.x45.xc23.xg1.xqb1.s1            8.13658e-10
+x1.x45.xc23.xg1.xqb1.t                0.547693
+x1.x45.xc23.xg1.xqb2.s1            1.02132e-09
+x1.x45.xc23.xg1.xqb2.t                0.968068
+x1.x45.xc23.xg1.tet                   0.115357
+x1.x45.xc23.xg1.xqt.s1             8.35908e-10
+x1.x45.xc23.xg1.xqt.t                  1.05823
+x1.x45.xc23.d2                         3.07002
+x1.x45.xc23.d2b                        3.29969
+x1.x45.xc23.xg2.n1                     2.53744
+x1.x45.xc23.xg2.xqa1.s1             1.0603e-09
+x1.x45.xc23.xg2.xqa1.t             8.33301e-05
+x1.x45.xc23.xg2.xqa2.s1            9.84806e-10
+x1.x45.xc23.xg2.xqa2.t                0.332853
+x1.x45.xc23.xg2.t                      1.65992
+x1.x45.xc23.xg2.xqb1.s1            8.13709e-10
+x1.x45.xc23.xg2.xqb1.t                0.548835
+x1.x45.xc23.xg2.xqb2.s1            9.84789e-10
+x1.x45.xc23.xg2.xqb2.t                0.894274
+x1.x45.xc23.xg2.tet                   0.115357
+x1.x45.xc23.xg2.xqt.s1             8.35886e-10
+x1.x45.xc23.xg2.xqt.t                   1.0582
+x1.x45.xc23.xf1.m                      3.18046
+x1.x45.xc23.xf1.mb                     3.18969
+x1.x45.xc23.xf1.xm.e1                  2.42247
+x1.x45.xc23.xf1.xm.xqt1.s1          1.0233e-09
+x1.x45.xc23.xf1.xm.xqt1.t             0.463143
+x1.x45.xc23.xf1.xm.xqt2.s1          1.0202e-09
+x1.x45.xc23.xf1.xm.xqt2.t             0.495785
+x1.x45.xc23.xf1.xm.e2                  2.62117
+x1.x45.xc23.xf1.xm.xqh1.s1         1.02496e-09
+x1.x45.xc23.xf1.xm.xqh1.t          0.000172591
+x1.x45.xc23.xf1.xm.xqh2.s1         1.02199e-09
+x1.x45.xc23.xf1.xm.xqh2.t          0.000240771
+x1.x45.xc23.xf1.xm.t                   1.65506
+x1.x45.xc23.xf1.xm.xqc1.s1         7.75034e-10
+x1.x45.xc23.xf1.xm.xqc1.t              0.96644
+x1.x45.xc23.xf1.xm.xqc2.s1         8.42317e-10
+x1.x45.xc23.xf1.xm.xqc2.t          0.000709425
+x1.x45.xc23.xf1.xm.tet                0.115354
+x1.x45.xc23.xf1.xm.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xm.xqt.t               1.05485
+x1.x45.xc23.xf1.xs.e1                  2.62117
+x1.x45.xc23.xf1.xs.xqt1.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt1.t          0.000171058
+x1.x45.xc23.xf1.xs.xqt2.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt2.t          0.000242578
+x1.x45.xc23.xf1.xs.e2                  2.42224
+x1.x45.xc23.xf1.xs.xqh1.s1         1.02161e-09
+x1.x45.xc23.xf1.xs.xqh1.t             0.479518
+x1.x45.xc23.xf1.xs.xqh2.s1         1.02162e-09
+x1.x45.xc23.xf1.xs.xqh2.t             0.479394
+x1.x45.xc23.xf1.xs.t                   1.65506
+x1.x45.xc23.xf1.xs.xqc1.s1         8.42317e-10
+x1.x45.xc23.xf1.xs.xqc1.t          0.000709433
+x1.x45.xc23.xf1.xs.xqc2.s1         7.74959e-10
+x1.x45.xc23.xf1.xs.xqc2.t             0.966147
+x1.x45.xc23.xf1.xs.tet                0.115354
+x1.x45.xc23.xf1.xs.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xs.xqt.t               1.05485
+x1.x45.xc23.xf2.m                       3.0702
+x1.x45.xc23.xf2.mb                     3.29996
+x1.x45.xc23.xf2.xm.e1                  2.51729
+x1.x45.xc23.xf2.xm.xqt1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqt1.t           0.00018529
+x1.x45.xc23.xf2.xm.xqt2.s1         9.83125e-10
+x1.x45.xc23.xf2.xm.xqt2.t             0.695644
+x1.x45.xc23.xf2.xm.e2                  2.71742
+x1.x45.xc23.xf2.xm.xqh1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqh1.t          7.17896e-08
+x1.x45.xc23.xf2.xm.xqh2.s1         9.86577e-10
+x1.x45.xc23.xf2.xm.xqh2.t          0.000258088
+x1.x45.xc23.xf2.xm.t                   1.65518
+x1.x45.xc23.xf2.xm.xqc1.s1         8.05499e-10
+x1.x45.xc23.xf2.xm.xqc1.t              1.08555
+x1.x45.xc23.xf2.xm.xqc2.s1         8.73239e-10
+x1.x45.xc23.xf2.xm.xqc2.t          0.000776595
+x1.x45.xc23.xf2.xm.tet                0.115354
+x1.x45.xc23.xf2.xm.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xm.xqt.t               1.05493
+x1.x45.xc23.xf2.xs.e1                  2.71742
+x1.x45.xc23.xf2.xs.xqt1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqt1.t          7.17379e-08
+x1.x45.xc23.xf2.xs.xqt2.s1         9.86577e-10
+x1.x45.xc23.xf2.xs.xqt2.t          0.000258091
+x1.x45.xc23.xf2.xs.e2                  2.51713
+x1.x45.xc23.xf2.xs.xqh1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqh1.t          0.000187643
+x1.x45.xc23.xf2.xs.xqh2.s1         9.83125e-10
+x1.x45.xc23.xf2.xs.xqh2.t              0.69585
+x1.x45.xc23.xf2.xs.t                   1.65518
+x1.x45.xc23.xf2.xs.xqc1.s1         8.73239e-10
+x1.x45.xc23.xf2.xs.xqc1.t          0.000776602
+x1.x45.xc23.xf2.xs.xqc2.s1         8.05446e-10
+x1.x45.xc23.xf2.xs.xqc2.t              1.08534
+x1.x45.xc23.xf2.xs.tet                0.115354
+x1.x45.xc23.xf2.xs.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xs.xqt.t               1.05493
+x1.x45.xt.ckp                          2.42209
+x1.x45.xt.xef.xqe1.s1              1.05866e-09
+x1.x45.xt.xef.xqe1.t                    0.5569
+x1.x45.xt.ckn                          2.42208
+x1.x45.xt.xef.xqe2.s1              1.05866e-09
+x1.x45.xt.xef.xqe2.t                  0.556904
+x1.x45.xt.xef.f1                      0.115845
+x1.x45.xt.xef.xqf1.s1              7.76659e-10
+x1.x45.xt.xef.xqf1.t                   1.46005
+x1.x45.xt.xef.f2                      0.115845
+x1.x45.xt.xef.xqf2.s1              7.76657e-10
+x1.x45.xt.xef.xqf2.t                   1.46004
+x1.x45.xt.mp                           3.18493
+x1.x45.xt.mn                           3.18493
+x1.x45.xt.xm.e1                         2.4415
+x1.x45.xt.xm.xqt1.s1               1.02257e-09
+x1.x45.xt.xm.xqt1.t                   0.233936
+x1.x45.xt.xm.xqt2.s1               1.02257e-09
+x1.x45.xt.xm.xqt2.t                   0.233936
+x1.x45.xt.xm.e2                        2.44151
+x1.x45.xt.xm.xqh1.s1               1.02257e-09
+x1.x45.xt.xm.xqh1.t                   0.233871
+x1.x45.xt.xm.xqh2.s1               1.02257e-09
+x1.x45.xt.xm.xqh2.t                   0.233871
+x1.x45.xt.xm.t                         1.65964
+x1.x45.xt.xm.xqc1.s1               7.82873e-10
+x1.x45.xt.xm.xqc1.t                   0.492657
+x1.x45.xt.xm.xqc2.s1               7.82876e-10
+x1.x45.xt.xm.xqc2.t                   0.492531
+x1.x45.xt.xm.tet                      0.115357
+x1.x45.xt.xm.xqt.s1                8.35747e-10
+x1.x45.xt.xm.xqt.t                     1.05801
+x1.x45.xt.xs.e1                        2.44151
+x1.x45.xt.xs.xqt1.s1               1.02257e-09
+x1.x45.xt.xs.xqt1.t                   0.233871
+x1.x45.xt.xs.xqt2.s1               1.02257e-09
+x1.x45.xt.xs.xqt2.t                   0.233871
+x1.x45.xt.xs.e2                         2.4415
+x1.x45.xt.xs.xqh1.s1               1.02257e-09
+x1.x45.xt.xs.xqh1.t                   0.233936
+x1.x45.xt.xs.xqh2.s1               1.02257e-09
+x1.x45.xt.xs.xqh2.t                   0.233936
+x1.x45.xt.xs.t                         1.65964
+x1.x45.xt.xs.xqc1.s1               7.82876e-10
+x1.x45.xt.xs.xqc1.t                   0.492531
+x1.x45.xt.xs.xqc2.s1               7.82873e-10
+x1.x45.xt.xs.xqc2.t                   0.492657
+x1.x45.xt.xs.tet                      0.115357
+x1.x45.xt.xs.xqt.s1                8.35747e-10
+x1.x45.xt.xs.xqt.t                     1.05801
+vin#branch                        -6.01969e-08
+vip#branch                        -6.01969e-08
+vmc#branch                          8.3394e-12
+vdd#branch                         -0.00210799
+
+ Reference value :  0.00000e+00 Reference value :  5.20560e-10 Reference value :  1.02656e-09 Reference value :  1.60256e-09 Reference value :  2.20256e-09 Reference value :  2.83256e-09 Reference value :  3.38856e-09 Reference value :  4.05256e-09 Reference value :  4.61256e-09 Reference value :  5.28256e-09 Reference value :  5.94856e-09 Reference value :  6.58056e-09 Reference value :  7.09256e-09 Reference value :  7.63656e-09 Reference value :  8.17656e-09 Reference value :  8.66256e-09 Reference value :  9.14056e-09 Reference value :  9.70256e-09 Reference value :  1.01826e-08 Reference value :  1.06806e-08 Reference value :  1.11746e-08 Reference value :  1.17406e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+iref                                  0.877288
+mc                                           0
+x1.reref                              0.114905
+x1.xqref.s1                        2.80367e-10
+x1.xqref.t                            0.479047
+inp                                        3.3
+x1.x2.ckp                              2.53726
+x1.x2.xef.xqe1.s1                  1.05865e-09
+x1.x2.xef.xqe1.t                      0.485525
+inn                                        3.3
+x1.x2.ckn                              2.53726
+x1.x2.xef.xqe2.s1                  1.05865e-09
+x1.x2.xef.xqe2.t                      0.485525
+x1.x2.xef.f1                          0.115916
+x1.x2.xef.xqf1.s1                   8.1366e-10
+x1.x2.xef.xqf1.t                       1.53405
+x1.x2.xef.f2                          0.115916
+x1.x2.xef.xqf2.s1                   8.1366e-10
+x1.x2.xef.xqf2.t                       1.53405
+x1.x2.mp                                     3
+x1.x2.mn                                   3.2
+x1.hn                                        3
+x1.x2.xm.e1                            2.41762
+x1.x2.xm.xqt1.s1                   1.02827e-09
+x1.x2.xm.xqt1.t                    0.000568968
+x1.hp                                      3.2
+x1.x2.xm.xqt2.s1                   9.60566e-10
+x1.x2.xm.xqt2.t                       0.733076
+x1.x2.xm.e2                            2.41762
+x1.x2.xm.xqh1.s1                   1.02827e-09
+x1.x2.xm.xqh1.t                    0.000568968
+x1.x2.xm.xqh2.s1                   9.60566e-10
+x1.x2.xm.xqh2.t                       0.733076
+x1.x2.xm.t                             1.75493
+x1.x2.xm.xqc1.s1                   7.73468e-10
+x1.x2.xm.xqc1.t                       0.835525
+x1.x2.xm.xqc2.s1                   7.73468e-10
+x1.x2.xm.xqc2.t                       0.835525
+x1.x2.xm.tet                          0.115397
+x1.x2.xm.xqt.s1                    1.52763e-09
+x1.x2.xm.xqt.t                         1.22108
+x1.x2.xs.e1                            2.41789
+x1.x2.xs.xqt1.s1                   9.64019e-10
+x1.x2.xs.xqt1.t                    0.000418881
+x1.x2.xs.xqt2.s1                   1.02482e-09
+x1.x2.xs.xqt2.t                       0.984085
+x1.x2.xs.e2                            2.41762
+x1.x2.xs.xqh1.s1                   9.60566e-10
+x1.x2.xs.xqh1.t                       0.733071
+x1.x2.xs.xqh2.s1                   1.02827e-09
+x1.x2.xs.xqh2.t                    0.000568964
+x1.x2.xs.t                             1.75493
+x1.x2.xs.xqc1.s1                   7.73554e-10
+x1.x2.xs.xqc1.t                       0.835864
+x1.x2.xs.xqc2.s1                   7.73468e-10
+x1.x2.xs.xqc2.t                        0.83552
+x1.x2.xs.tet                          0.115397
+x1.x2.xs.xqt.s1                    1.52763e-09
+x1.x2.xs.xqt.t                         1.22108
+x1.x45.xmc.bm                      1.66788e-07
+x1.x45.xmc.vr                          1.64888
+x1.x45.mcp                             3.07073
+x1.x45.mcn                             3.29986
+x1.x45.xmc.t                          0.868714
+x1.x45.xmc.xqm1.s1                 1.06035e-09
+x1.x45.xmc.xqm1.t                   1.2771e-10
+x1.x45.xmc.xqm2.s1                  9.8337e-10
+x1.x45.xmc.xqm2.t                      2.76021
+x1.x45.xmc.tet                         0.11484
+x1.x45.xmc.xqt.s1                  4.36426e-10
+x1.x45.xmc.xqt.t                      0.514507
+x1.x45.mcl                             2.30834
+x1.x45.xmcl.xqe1.s1                1.05867e-09
+x1.x45.xmcl.xqe1.t                    0.626967
+x1.x45.mclb                            2.53718
+x1.x45.xmcl.xqe2.s1                1.05866e-09
+x1.x45.xmcl.xqe2.t                    0.484377
+x1.x45.xmcl.f1                        0.115776
+x1.x45.xmcl.xqf1.s1                7.40117e-10
+x1.x45.xmcl.xqf1.t                     1.38716
+x1.x45.xmcl.f2                        0.115916
+x1.x45.xmcl.xqf2.s1                8.13635e-10
+x1.x45.xmcl.xqf2.t                       1.534
+x1.x45.m                               3.06976
+x1.x45.mb                              3.29984
+outp                                   3.18493
+x1.x45.xgm.n1                          2.65062
+x1.x45.xgm.xqa1.s1                 1.06034e-09
+x1.x45.xgm.xqa1.t                  7.66573e-05
+outn                                   3.18493
+x1.x45.xgm.xqa2.s1                 9.86431e-10
+x1.x45.xgm.xqa2.t                  4.94819e-05
+x1.x45.xgm.t                           1.75572
+x1.x45.xgm.xqb1.s1                  8.5178e-10
+x1.x45.xgm.xqb1.t                   0.00021111
+x1.x45.xgm.xqb2.s1                 9.82998e-10
+x1.x45.xgm.xqb2.t                      1.65555
+x1.x45.xgm.tet                        0.115419
+x1.x45.xgm.xqt.s1                  8.84254e-10
+x1.x45.xgm.xqt.t                       1.12436
+x1.x45.xc23.ckp                        2.43722
+x1.x45.xc23.xck.xqe1.s1            1.05865e-09
+x1.x45.xc23.xck.xqe1.t                0.551448
+x1.x45.xc23.ckn                        2.23768
+x1.x45.xc23.xck.xqe2.s1            1.05867e-09
+x1.x45.xc23.xck.xqe2.t                0.671322
+x1.x45.xc23.xck.f1                    0.115855
+x1.x45.xc23.xck.xqf1.s1             7.8152e-10
+x1.x45.xc23.xck.xqf1.t                 1.46976
+x1.x45.xc23.xck.f2                    0.115733
+x1.x45.xc23.xck.xqf2.s1            7.17415e-10
+x1.x45.xc23.xck.xqf2.t                 1.34195
+x1.x45.c1                              3.18465
+x1.x45.xc23.q1l                        2.42209
+x1.x45.xc23.xq1l.xqe1.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe1.t               0.556901
+x1.x45.c1b                             3.18464
+x1.x45.xc23.q1lb                       2.42208
+x1.x45.xc23.xq1l.xqe2.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe2.t               0.556903
+x1.x45.xc23.xq1l.f1                   0.115845
+x1.x45.xc23.xq1l.xqf1.s1           7.76659e-10
+x1.x45.xc23.xq1l.xqf1.t                1.46005
+x1.x45.xc23.xq1l.f2                   0.115845
+x1.x45.xc23.xq1l.xqf2.s1           7.76657e-10
+x1.x45.xc23.xq1l.xqf2.t                1.46004
+x1.x45.xc23.d1                         3.18374
+x1.x45.xc23.d1b                        3.18598
+x1.x45.xc23.q2b                        3.29953
+x1.x45.xc23.xg1.n1                     2.53727
+x1.x45.xc23.xg1.xqa1.s1            1.02205e-09
+x1.x45.xc23.xg1.xqa1.t                0.404553
+x1.x45.xc23.q2                          3.0702
+x1.x45.xc23.xg1.xqa2.s1            1.02305e-09
+x1.x45.xc23.xg1.xqa2.t             7.22964e-05
+x1.x45.xc23.xg1.t                      1.65996
+x1.x45.xc23.xg1.xqb1.s1            8.13658e-10
+x1.x45.xc23.xg1.xqb1.t                0.547693
+x1.x45.xc23.xg1.xqb2.s1            1.02132e-09
+x1.x45.xc23.xg1.xqb2.t                0.968068
+x1.x45.xc23.xg1.tet                   0.115357
+x1.x45.xc23.xg1.xqt.s1             8.35908e-10
+x1.x45.xc23.xg1.xqt.t                  1.05823
+x1.x45.xc23.d2                         3.07002
+x1.x45.xc23.d2b                        3.29969
+x1.x45.xc23.xg2.n1                     2.53744
+x1.x45.xc23.xg2.xqa1.s1             1.0603e-09
+x1.x45.xc23.xg2.xqa1.t             8.33301e-05
+x1.x45.xc23.xg2.xqa2.s1            9.84806e-10
+x1.x45.xc23.xg2.xqa2.t                0.332853
+x1.x45.xc23.xg2.t                      1.65992
+x1.x45.xc23.xg2.xqb1.s1            8.13709e-10
+x1.x45.xc23.xg2.xqb1.t                0.548835
+x1.x45.xc23.xg2.xqb2.s1            9.84789e-10
+x1.x45.xc23.xg2.xqb2.t                0.894274
+x1.x45.xc23.xg2.tet                   0.115357
+x1.x45.xc23.xg2.xqt.s1             8.35886e-10
+x1.x45.xc23.xg2.xqt.t                   1.0582
+x1.x45.xc23.xf1.m                      3.18046
+x1.x45.xc23.xf1.mb                     3.18969
+x1.x45.xc23.xf1.xm.e1                  2.42247
+x1.x45.xc23.xf1.xm.xqt1.s1          1.0233e-09
+x1.x45.xc23.xf1.xm.xqt1.t             0.463143
+x1.x45.xc23.xf1.xm.xqt2.s1          1.0202e-09
+x1.x45.xc23.xf1.xm.xqt2.t             0.495785
+x1.x45.xc23.xf1.xm.e2                  2.62117
+x1.x45.xc23.xf1.xm.xqh1.s1         1.02496e-09
+x1.x45.xc23.xf1.xm.xqh1.t          0.000172591
+x1.x45.xc23.xf1.xm.xqh2.s1         1.02199e-09
+x1.x45.xc23.xf1.xm.xqh2.t          0.000240771
+x1.x45.xc23.xf1.xm.t                   1.65506
+x1.x45.xc23.xf1.xm.xqc1.s1         7.75034e-10
+x1.x45.xc23.xf1.xm.xqc1.t              0.96644
+x1.x45.xc23.xf1.xm.xqc2.s1         8.42317e-10
+x1.x45.xc23.xf1.xm.xqc2.t          0.000709425
+x1.x45.xc23.xf1.xm.tet                0.115354
+x1.x45.xc23.xf1.xm.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xm.xqt.t               1.05485
+x1.x45.xc23.xf1.xs.e1                  2.62117
+x1.x45.xc23.xf1.xs.xqt1.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt1.t          0.000171058
+x1.x45.xc23.xf1.xs.xqt2.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt2.t          0.000242578
+x1.x45.xc23.xf1.xs.e2                  2.42224
+x1.x45.xc23.xf1.xs.xqh1.s1         1.02161e-09
+x1.x45.xc23.xf1.xs.xqh1.t             0.479518
+x1.x45.xc23.xf1.xs.xqh2.s1         1.02162e-09
+x1.x45.xc23.xf1.xs.xqh2.t             0.479394
+x1.x45.xc23.xf1.xs.t                   1.65506
+x1.x45.xc23.xf1.xs.xqc1.s1         8.42317e-10
+x1.x45.xc23.xf1.xs.xqc1.t          0.000709433
+x1.x45.xc23.xf1.xs.xqc2.s1         7.74959e-10
+x1.x45.xc23.xf1.xs.xqc2.t             0.966147
+x1.x45.xc23.xf1.xs.tet                0.115354
+x1.x45.xc23.xf1.xs.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xs.xqt.t               1.05485
+x1.x45.xc23.xf2.m                       3.0702
+x1.x45.xc23.xf2.mb                     3.29996
+x1.x45.xc23.xf2.xm.e1                  2.51729
+x1.x45.xc23.xf2.xm.xqt1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqt1.t           0.00018529
+x1.x45.xc23.xf2.xm.xqt2.s1         9.83125e-10
+x1.x45.xc23.xf2.xm.xqt2.t             0.695644
+x1.x45.xc23.xf2.xm.e2                  2.71742
+x1.x45.xc23.xf2.xm.xqh1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqh1.t          7.17896e-08
+x1.x45.xc23.xf2.xm.xqh2.s1         9.86577e-10
+x1.x45.xc23.xf2.xm.xqh2.t          0.000258088
+x1.x45.xc23.xf2.xm.t                   1.65518
+x1.x45.xc23.xf2.xm.xqc1.s1         8.05499e-10
+x1.x45.xc23.xf2.xm.xqc1.t              1.08555
+x1.x45.xc23.xf2.xm.xqc2.s1         8.73239e-10
+x1.x45.xc23.xf2.xm.xqc2.t          0.000776595
+x1.x45.xc23.xf2.xm.tet                0.115354
+x1.x45.xc23.xf2.xm.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xm.xqt.t               1.05493
+x1.x45.xc23.xf2.xs.e1                  2.71742
+x1.x45.xc23.xf2.xs.xqt1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqt1.t          7.17379e-08
+x1.x45.xc23.xf2.xs.xqt2.s1         9.86577e-10
+x1.x45.xc23.xf2.xs.xqt2.t          0.000258091
+x1.x45.xc23.xf2.xs.e2                  2.51713
+x1.x45.xc23.xf2.xs.xqh1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqh1.t          0.000187643
+x1.x45.xc23.xf2.xs.xqh2.s1         9.83125e-10
+x1.x45.xc23.xf2.xs.xqh2.t              0.69585
+x1.x45.xc23.xf2.xs.t                   1.65518
+x1.x45.xc23.xf2.xs.xqc1.s1         8.73239e-10
+x1.x45.xc23.xf2.xs.xqc1.t          0.000776602
+x1.x45.xc23.xf2.xs.xqc2.s1         8.05446e-10
+x1.x45.xc23.xf2.xs.xqc2.t              1.08534
+x1.x45.xc23.xf2.xs.tet                0.115354
+x1.x45.xc23.xf2.xs.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xs.xqt.t               1.05493
+x1.x45.xt.ckp                          2.42209
+x1.x45.xt.xef.xqe1.s1              1.05866e-09
+x1.x45.xt.xef.xqe1.t                    0.5569
+x1.x45.xt.ckn                          2.42208
+x1.x45.xt.xef.xqe2.s1              1.05866e-09
+x1.x45.xt.xef.xqe2.t                  0.556904
+x1.x45.xt.xef.f1                      0.115845
+x1.x45.xt.xef.xqf1.s1              7.76659e-10
+x1.x45.xt.xef.xqf1.t                   1.46005
+x1.x45.xt.xef.f2                      0.115845
+x1.x45.xt.xef.xqf2.s1              7.76657e-10
+x1.x45.xt.xef.xqf2.t                   1.46004
+x1.x45.xt.mp                           3.18493
+x1.x45.xt.mn                           3.18493
+x1.x45.xt.xm.e1                         2.4415
+x1.x45.xt.xm.xqt1.s1               1.02257e-09
+x1.x45.xt.xm.xqt1.t                   0.233936
+x1.x45.xt.xm.xqt2.s1               1.02257e-09
+x1.x45.xt.xm.xqt2.t                   0.233936
+x1.x45.xt.xm.e2                        2.44151
+x1.x45.xt.xm.xqh1.s1               1.02257e-09
+x1.x45.xt.xm.xqh1.t                   0.233871
+x1.x45.xt.xm.xqh2.s1               1.02257e-09
+x1.x45.xt.xm.xqh2.t                   0.233871
+x1.x45.xt.xm.t                         1.65964
+x1.x45.xt.xm.xqc1.s1               7.82873e-10
+x1.x45.xt.xm.xqc1.t                   0.492657
+x1.x45.xt.xm.xqc2.s1               7.82876e-10
+x1.x45.xt.xm.xqc2.t                   0.492531
+x1.x45.xt.xm.tet                      0.115357
+x1.x45.xt.xm.xqt.s1                8.35747e-10
+x1.x45.xt.xm.xqt.t                     1.05801
+x1.x45.xt.xs.e1                        2.44151
+x1.x45.xt.xs.xqt1.s1               1.02257e-09
+x1.x45.xt.xs.xqt1.t                   0.233871
+x1.x45.xt.xs.xqt2.s1               1.02257e-09
+x1.x45.xt.xs.xqt2.t                   0.233871
+x1.x45.xt.xs.e2                         2.4415
+x1.x45.xt.xs.xqh1.s1               1.02257e-09
+x1.x45.xt.xs.xqh1.t                   0.233936
+x1.x45.xt.xs.xqh2.s1               1.02257e-09
+x1.x45.xt.xs.xqh2.t                   0.233936
+x1.x45.xt.xs.t                         1.65964
+x1.x45.xt.xs.xqc1.s1               7.82876e-10
+x1.x45.xt.xs.xqc1.t                   0.492531
+x1.x45.xt.xs.xqc2.s1               7.82873e-10
+x1.x45.xt.xs.xqc2.t                   0.492657
+x1.x45.xt.xs.tet                      0.115357
+x1.x45.xt.xs.xqt.s1                8.35747e-10
+x1.x45.xt.xs.xqt.t                     1.05801
+vin#branch                        -6.01969e-08
+vip#branch                        -6.01969e-08
+vmc#branch                          8.3394e-12
+vdd#branch                         -0.00210799
+
+ Reference value :  0.00000e+00 Reference value :  4.34560e-10 Reference value :  9.00560e-10 Reference value :  1.36056e-09 Reference value :  1.89256e-09 Reference value :  2.45856e-09 Reference value :  3.06456e-09 Reference value :  3.60056e-09 Reference value :  4.18656e-09 Reference value :  4.67056e-09 Reference value :  5.23256e-09 Reference value :  5.85456e-09 Reference value :  6.47056e-09 Reference value :  7.08256e-09 Reference value :  7.68656e-09 Reference value :  8.12656e-09 Reference value :  8.71856e-09 Reference value :  9.36256e-09 Reference value :  9.90856e-09 Reference value :  1.04966e-08 Reference value :  1.09566e-08 Reference value :  1.15286e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+iref                                  0.877288
+mc                                           0
+x1.reref                              0.114905
+x1.xqref.s1                        2.80367e-10
+x1.xqref.t                            0.479047
+inp                                        3.3
+x1.x2.ckp                              2.53726
+x1.x2.xef.xqe1.s1                  1.05865e-09
+x1.x2.xef.xqe1.t                      0.485525
+inn                                        3.3
+x1.x2.ckn                              2.53726
+x1.x2.xef.xqe2.s1                  1.05865e-09
+x1.x2.xef.xqe2.t                      0.485525
+x1.x2.xef.f1                          0.115916
+x1.x2.xef.xqf1.s1                   8.1366e-10
+x1.x2.xef.xqf1.t                       1.53405
+x1.x2.xef.f2                          0.115916
+x1.x2.xef.xqf2.s1                   8.1366e-10
+x1.x2.xef.xqf2.t                       1.53405
+x1.x2.mp                                     3
+x1.x2.mn                                   3.2
+x1.hn                                        3
+x1.x2.xm.e1                            2.41762
+x1.x2.xm.xqt1.s1                   1.02827e-09
+x1.x2.xm.xqt1.t                    0.000568968
+x1.hp                                      3.2
+x1.x2.xm.xqt2.s1                   9.60566e-10
+x1.x2.xm.xqt2.t                       0.733076
+x1.x2.xm.e2                            2.41762
+x1.x2.xm.xqh1.s1                   1.02827e-09
+x1.x2.xm.xqh1.t                    0.000568968
+x1.x2.xm.xqh2.s1                   9.60566e-10
+x1.x2.xm.xqh2.t                       0.733076
+x1.x2.xm.t                             1.75493
+x1.x2.xm.xqc1.s1                   7.73468e-10
+x1.x2.xm.xqc1.t                       0.835525
+x1.x2.xm.xqc2.s1                   7.73468e-10
+x1.x2.xm.xqc2.t                       0.835525
+x1.x2.xm.tet                          0.115397
+x1.x2.xm.xqt.s1                    1.52763e-09
+x1.x2.xm.xqt.t                         1.22108
+x1.x2.xs.e1                            2.41789
+x1.x2.xs.xqt1.s1                   9.64019e-10
+x1.x2.xs.xqt1.t                    0.000418881
+x1.x2.xs.xqt2.s1                   1.02482e-09
+x1.x2.xs.xqt2.t                       0.984085
+x1.x2.xs.e2                            2.41762
+x1.x2.xs.xqh1.s1                   9.60566e-10
+x1.x2.xs.xqh1.t                       0.733071
+x1.x2.xs.xqh2.s1                   1.02827e-09
+x1.x2.xs.xqh2.t                    0.000568964
+x1.x2.xs.t                             1.75493
+x1.x2.xs.xqc1.s1                   7.73554e-10
+x1.x2.xs.xqc1.t                       0.835864
+x1.x2.xs.xqc2.s1                   7.73468e-10
+x1.x2.xs.xqc2.t                        0.83552
+x1.x2.xs.tet                          0.115397
+x1.x2.xs.xqt.s1                    1.52763e-09
+x1.x2.xs.xqt.t                         1.22108
+x1.x45.xmc.bm                      1.66788e-07
+x1.x45.xmc.vr                          1.64888
+x1.x45.mcp                             3.07073
+x1.x45.mcn                             3.29986
+x1.x45.xmc.t                          0.868714
+x1.x45.xmc.xqm1.s1                 1.06035e-09
+x1.x45.xmc.xqm1.t                   1.2771e-10
+x1.x45.xmc.xqm2.s1                  9.8337e-10
+x1.x45.xmc.xqm2.t                      2.76021
+x1.x45.xmc.tet                         0.11484
+x1.x45.xmc.xqt.s1                  4.36426e-10
+x1.x45.xmc.xqt.t                      0.514507
+x1.x45.mcl                             2.30834
+x1.x45.xmcl.xqe1.s1                1.05867e-09
+x1.x45.xmcl.xqe1.t                    0.626967
+x1.x45.mclb                            2.53718
+x1.x45.xmcl.xqe2.s1                1.05866e-09
+x1.x45.xmcl.xqe2.t                    0.484377
+x1.x45.xmcl.f1                        0.115776
+x1.x45.xmcl.xqf1.s1                7.40117e-10
+x1.x45.xmcl.xqf1.t                     1.38716
+x1.x45.xmcl.f2                        0.115916
+x1.x45.xmcl.xqf2.s1                8.13635e-10
+x1.x45.xmcl.xqf2.t                       1.534
+x1.x45.m                               3.06976
+x1.x45.mb                              3.29984
+outp                                   3.18493
+x1.x45.xgm.n1                          2.65062
+x1.x45.xgm.xqa1.s1                 1.06034e-09
+x1.x45.xgm.xqa1.t                  7.66573e-05
+outn                                   3.18493
+x1.x45.xgm.xqa2.s1                 9.86431e-10
+x1.x45.xgm.xqa2.t                  4.94819e-05
+x1.x45.xgm.t                           1.75572
+x1.x45.xgm.xqb1.s1                  8.5178e-10
+x1.x45.xgm.xqb1.t                   0.00021111
+x1.x45.xgm.xqb2.s1                 9.82998e-10
+x1.x45.xgm.xqb2.t                      1.65555
+x1.x45.xgm.tet                        0.115419
+x1.x45.xgm.xqt.s1                  8.84254e-10
+x1.x45.xgm.xqt.t                       1.12436
+x1.x45.xc23.ckp                        2.43722
+x1.x45.xc23.xck.xqe1.s1            1.05865e-09
+x1.x45.xc23.xck.xqe1.t                0.551448
+x1.x45.xc23.ckn                        2.23768
+x1.x45.xc23.xck.xqe2.s1            1.05867e-09
+x1.x45.xc23.xck.xqe2.t                0.671322
+x1.x45.xc23.xck.f1                    0.115855
+x1.x45.xc23.xck.xqf1.s1             7.8152e-10
+x1.x45.xc23.xck.xqf1.t                 1.46976
+x1.x45.xc23.xck.f2                    0.115733
+x1.x45.xc23.xck.xqf2.s1            7.17415e-10
+x1.x45.xc23.xck.xqf2.t                 1.34195
+x1.x45.c1                              3.18465
+x1.x45.xc23.q1l                        2.42209
+x1.x45.xc23.xq1l.xqe1.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe1.t               0.556901
+x1.x45.c1b                             3.18464
+x1.x45.xc23.q1lb                       2.42208
+x1.x45.xc23.xq1l.xqe2.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe2.t               0.556903
+x1.x45.xc23.xq1l.f1                   0.115845
+x1.x45.xc23.xq1l.xqf1.s1           7.76659e-10
+x1.x45.xc23.xq1l.xqf1.t                1.46005
+x1.x45.xc23.xq1l.f2                   0.115845
+x1.x45.xc23.xq1l.xqf2.s1           7.76657e-10
+x1.x45.xc23.xq1l.xqf2.t                1.46004
+x1.x45.xc23.d1                         3.18374
+x1.x45.xc23.d1b                        3.18598
+x1.x45.xc23.q2b                        3.29953
+x1.x45.xc23.xg1.n1                     2.53727
+x1.x45.xc23.xg1.xqa1.s1            1.02205e-09
+x1.x45.xc23.xg1.xqa1.t                0.404553
+x1.x45.xc23.q2                          3.0702
+x1.x45.xc23.xg1.xqa2.s1            1.02305e-09
+x1.x45.xc23.xg1.xqa2.t             7.22964e-05
+x1.x45.xc23.xg1.t                      1.65996
+x1.x45.xc23.xg1.xqb1.s1            8.13658e-10
+x1.x45.xc23.xg1.xqb1.t                0.547693
+x1.x45.xc23.xg1.xqb2.s1            1.02132e-09
+x1.x45.xc23.xg1.xqb2.t                0.968068
+x1.x45.xc23.xg1.tet                   0.115357
+x1.x45.xc23.xg1.xqt.s1             8.35908e-10
+x1.x45.xc23.xg1.xqt.t                  1.05823
+x1.x45.xc23.d2                         3.07002
+x1.x45.xc23.d2b                        3.29969
+x1.x45.xc23.xg2.n1                     2.53744
+x1.x45.xc23.xg2.xqa1.s1             1.0603e-09
+x1.x45.xc23.xg2.xqa1.t             8.33301e-05
+x1.x45.xc23.xg2.xqa2.s1            9.84806e-10
+x1.x45.xc23.xg2.xqa2.t                0.332853
+x1.x45.xc23.xg2.t                      1.65992
+x1.x45.xc23.xg2.xqb1.s1            8.13709e-10
+x1.x45.xc23.xg2.xqb1.t                0.548835
+x1.x45.xc23.xg2.xqb2.s1            9.84789e-10
+x1.x45.xc23.xg2.xqb2.t                0.894274
+x1.x45.xc23.xg2.tet                   0.115357
+x1.x45.xc23.xg2.xqt.s1             8.35886e-10
+x1.x45.xc23.xg2.xqt.t                   1.0582
+x1.x45.xc23.xf1.m                      3.18046
+x1.x45.xc23.xf1.mb                     3.18969
+x1.x45.xc23.xf1.xm.e1                  2.42247
+x1.x45.xc23.xf1.xm.xqt1.s1          1.0233e-09
+x1.x45.xc23.xf1.xm.xqt1.t             0.463143
+x1.x45.xc23.xf1.xm.xqt2.s1          1.0202e-09
+x1.x45.xc23.xf1.xm.xqt2.t             0.495785
+x1.x45.xc23.xf1.xm.e2                  2.62117
+x1.x45.xc23.xf1.xm.xqh1.s1         1.02496e-09
+x1.x45.xc23.xf1.xm.xqh1.t          0.000172591
+x1.x45.xc23.xf1.xm.xqh2.s1         1.02199e-09
+x1.x45.xc23.xf1.xm.xqh2.t          0.000240771
+x1.x45.xc23.xf1.xm.t                   1.65506
+x1.x45.xc23.xf1.xm.xqc1.s1         7.75034e-10
+x1.x45.xc23.xf1.xm.xqc1.t              0.96644
+x1.x45.xc23.xf1.xm.xqc2.s1         8.42317e-10
+x1.x45.xc23.xf1.xm.xqc2.t          0.000709425
+x1.x45.xc23.xf1.xm.tet                0.115354
+x1.x45.xc23.xf1.xm.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xm.xqt.t               1.05485
+x1.x45.xc23.xf1.xs.e1                  2.62117
+x1.x45.xc23.xf1.xs.xqt1.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt1.t          0.000171058
+x1.x45.xc23.xf1.xs.xqt2.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt2.t          0.000242578
+x1.x45.xc23.xf1.xs.e2                  2.42224
+x1.x45.xc23.xf1.xs.xqh1.s1         1.02161e-09
+x1.x45.xc23.xf1.xs.xqh1.t             0.479518
+x1.x45.xc23.xf1.xs.xqh2.s1         1.02162e-09
+x1.x45.xc23.xf1.xs.xqh2.t             0.479394
+x1.x45.xc23.xf1.xs.t                   1.65506
+x1.x45.xc23.xf1.xs.xqc1.s1         8.42317e-10
+x1.x45.xc23.xf1.xs.xqc1.t          0.000709433
+x1.x45.xc23.xf1.xs.xqc2.s1         7.74959e-10
+x1.x45.xc23.xf1.xs.xqc2.t             0.966147
+x1.x45.xc23.xf1.xs.tet                0.115354
+x1.x45.xc23.xf1.xs.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xs.xqt.t               1.05485
+x1.x45.xc23.xf2.m                       3.0702
+x1.x45.xc23.xf2.mb                     3.29996
+x1.x45.xc23.xf2.xm.e1                  2.51729
+x1.x45.xc23.xf2.xm.xqt1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqt1.t           0.00018529
+x1.x45.xc23.xf2.xm.xqt2.s1         9.83125e-10
+x1.x45.xc23.xf2.xm.xqt2.t             0.695644
+x1.x45.xc23.xf2.xm.e2                  2.71742
+x1.x45.xc23.xf2.xm.xqh1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqh1.t          7.17896e-08
+x1.x45.xc23.xf2.xm.xqh2.s1         9.86577e-10
+x1.x45.xc23.xf2.xm.xqh2.t          0.000258088
+x1.x45.xc23.xf2.xm.t                   1.65518
+x1.x45.xc23.xf2.xm.xqc1.s1         8.05499e-10
+x1.x45.xc23.xf2.xm.xqc1.t              1.08555
+x1.x45.xc23.xf2.xm.xqc2.s1         8.73239e-10
+x1.x45.xc23.xf2.xm.xqc2.t          0.000776595
+x1.x45.xc23.xf2.xm.tet                0.115354
+x1.x45.xc23.xf2.xm.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xm.xqt.t               1.05493
+x1.x45.xc23.xf2.xs.e1                  2.71742
+x1.x45.xc23.xf2.xs.xqt1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqt1.t          7.17379e-08
+x1.x45.xc23.xf2.xs.xqt2.s1         9.86577e-10
+x1.x45.xc23.xf2.xs.xqt2.t          0.000258091
+x1.x45.xc23.xf2.xs.e2                  2.51713
+x1.x45.xc23.xf2.xs.xqh1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqh1.t          0.000187643
+x1.x45.xc23.xf2.xs.xqh2.s1         9.83125e-10
+x1.x45.xc23.xf2.xs.xqh2.t              0.69585
+x1.x45.xc23.xf2.xs.t                   1.65518
+x1.x45.xc23.xf2.xs.xqc1.s1         8.73239e-10
+x1.x45.xc23.xf2.xs.xqc1.t          0.000776602
+x1.x45.xc23.xf2.xs.xqc2.s1         8.05446e-10
+x1.x45.xc23.xf2.xs.xqc2.t              1.08534
+x1.x45.xc23.xf2.xs.tet                0.115354
+x1.x45.xc23.xf2.xs.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xs.xqt.t               1.05493
+x1.x45.xt.ckp                          2.42209
+x1.x45.xt.xef.xqe1.s1              1.05866e-09
+x1.x45.xt.xef.xqe1.t                    0.5569
+x1.x45.xt.ckn                          2.42208
+x1.x45.xt.xef.xqe2.s1              1.05866e-09
+x1.x45.xt.xef.xqe2.t                  0.556904
+x1.x45.xt.xef.f1                      0.115845
+x1.x45.xt.xef.xqf1.s1              7.76659e-10
+x1.x45.xt.xef.xqf1.t                   1.46005
+x1.x45.xt.xef.f2                      0.115845
+x1.x45.xt.xef.xqf2.s1              7.76657e-10
+x1.x45.xt.xef.xqf2.t                   1.46004
+x1.x45.xt.mp                           3.18493
+x1.x45.xt.mn                           3.18493
+x1.x45.xt.xm.e1                         2.4415
+x1.x45.xt.xm.xqt1.s1               1.02257e-09
+x1.x45.xt.xm.xqt1.t                   0.233936
+x1.x45.xt.xm.xqt2.s1               1.02257e-09
+x1.x45.xt.xm.xqt2.t                   0.233936
+x1.x45.xt.xm.e2                        2.44151
+x1.x45.xt.xm.xqh1.s1               1.02257e-09
+x1.x45.xt.xm.xqh1.t                   0.233871
+x1.x45.xt.xm.xqh2.s1               1.02257e-09
+x1.x45.xt.xm.xqh2.t                   0.233871
+x1.x45.xt.xm.t                         1.65964
+x1.x45.xt.xm.xqc1.s1               7.82873e-10
+x1.x45.xt.xm.xqc1.t                   0.492657
+x1.x45.xt.xm.xqc2.s1               7.82876e-10
+x1.x45.xt.xm.xqc2.t                   0.492531
+x1.x45.xt.xm.tet                      0.115357
+x1.x45.xt.xm.xqt.s1                8.35747e-10
+x1.x45.xt.xm.xqt.t                     1.05801
+x1.x45.xt.xs.e1                        2.44151
+x1.x45.xt.xs.xqt1.s1               1.02257e-09
+x1.x45.xt.xs.xqt1.t                   0.233871
+x1.x45.xt.xs.xqt2.s1               1.02257e-09
+x1.x45.xt.xs.xqt2.t                   0.233871
+x1.x45.xt.xs.e2                         2.4415
+x1.x45.xt.xs.xqh1.s1               1.02257e-09
+x1.x45.xt.xs.xqh1.t                   0.233936
+x1.x45.xt.xs.xqh2.s1               1.02257e-09
+x1.x45.xt.xs.xqh2.t                   0.233936
+x1.x45.xt.xs.t                         1.65964
+x1.x45.xt.xs.xqc1.s1               7.82876e-10
+x1.x45.xt.xs.xqc1.t                   0.492531
+x1.x45.xt.xs.xqc2.s1               7.82873e-10
+x1.x45.xt.xs.xqc2.t                   0.492657
+x1.x45.xt.xs.tet                      0.115357
+x1.x45.xt.xs.xqt.s1                8.35747e-10
+x1.x45.xt.xs.xqt.t                     1.05801
+vin#branch                        -6.01969e-08
+vip#branch                        -6.01969e-08
+vmc#branch                          8.3394e-12
+vdd#branch                         -0.00210799
+
+ Reference value :  0.00000e+00 Reference value :  5.06560e-10 Reference value :  1.01456e-09 Reference value :  1.45856e-09 Reference value :  1.99456e-09 Reference value :  2.38456e-09 Reference value :  2.74456e-09 Reference value :  3.39856e-09 Reference value :  4.00456e-09 Reference value :  4.56856e-09 Reference value :  5.21856e-09 Reference value :  5.77256e-09 Reference value :  6.37056e-09 Reference value :  6.95656e-09 Reference value :  7.51856e-09 Reference value :  8.06856e-09 Reference value :  8.64056e-09 Reference value :  9.23056e-09 Reference value :  9.85056e-09 Reference value :  1.04126e-08 Reference value :  1.08626e-08 Reference value :  1.13326e-08 Reference value :  1.18186e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+iref                                  0.877288
+mc                                           0
+x1.reref                              0.114905
+x1.xqref.s1                        2.80367e-10
+x1.xqref.t                            0.479047
+inp                                        3.3
+x1.x2.ckp                              2.53726
+x1.x2.xef.xqe1.s1                  1.05865e-09
+x1.x2.xef.xqe1.t                      0.485525
+inn                                        3.3
+x1.x2.ckn                              2.53726
+x1.x2.xef.xqe2.s1                  1.05865e-09
+x1.x2.xef.xqe2.t                      0.485525
+x1.x2.xef.f1                          0.115916
+x1.x2.xef.xqf1.s1                   8.1366e-10
+x1.x2.xef.xqf1.t                       1.53405
+x1.x2.xef.f2                          0.115916
+x1.x2.xef.xqf2.s1                   8.1366e-10
+x1.x2.xef.xqf2.t                       1.53405
+x1.x2.mp                                     3
+x1.x2.mn                                   3.2
+x1.hn                                        3
+x1.x2.xm.e1                            2.41762
+x1.x2.xm.xqt1.s1                   1.02827e-09
+x1.x2.xm.xqt1.t                    0.000568968
+x1.hp                                      3.2
+x1.x2.xm.xqt2.s1                   9.60566e-10
+x1.x2.xm.xqt2.t                       0.733076
+x1.x2.xm.e2                            2.41762
+x1.x2.xm.xqh1.s1                   1.02827e-09
+x1.x2.xm.xqh1.t                    0.000568968
+x1.x2.xm.xqh2.s1                   9.60566e-10
+x1.x2.xm.xqh2.t                       0.733076
+x1.x2.xm.t                             1.75493
+x1.x2.xm.xqc1.s1                   7.73468e-10
+x1.x2.xm.xqc1.t                       0.835525
+x1.x2.xm.xqc2.s1                   7.73468e-10
+x1.x2.xm.xqc2.t                       0.835525
+x1.x2.xm.tet                          0.115397
+x1.x2.xm.xqt.s1                    1.52763e-09
+x1.x2.xm.xqt.t                         1.22108
+x1.x2.xs.e1                            2.41789
+x1.x2.xs.xqt1.s1                   9.64019e-10
+x1.x2.xs.xqt1.t                    0.000418881
+x1.x2.xs.xqt2.s1                   1.02482e-09
+x1.x2.xs.xqt2.t                       0.984085
+x1.x2.xs.e2                            2.41762
+x1.x2.xs.xqh1.s1                   9.60566e-10
+x1.x2.xs.xqh1.t                       0.733071
+x1.x2.xs.xqh2.s1                   1.02827e-09
+x1.x2.xs.xqh2.t                    0.000568964
+x1.x2.xs.t                             1.75493
+x1.x2.xs.xqc1.s1                   7.73554e-10
+x1.x2.xs.xqc1.t                       0.835864
+x1.x2.xs.xqc2.s1                   7.73468e-10
+x1.x2.xs.xqc2.t                        0.83552
+x1.x2.xs.tet                          0.115397
+x1.x2.xs.xqt.s1                    1.52763e-09
+x1.x2.xs.xqt.t                         1.22108
+x1.x45.xmc.bm                      1.66788e-07
+x1.x45.xmc.vr                          1.64888
+x1.x45.mcp                             3.07073
+x1.x45.mcn                             3.29986
+x1.x45.xmc.t                          0.868714
+x1.x45.xmc.xqm1.s1                 1.06035e-09
+x1.x45.xmc.xqm1.t                   1.2771e-10
+x1.x45.xmc.xqm2.s1                  9.8337e-10
+x1.x45.xmc.xqm2.t                      2.76021
+x1.x45.xmc.tet                         0.11484
+x1.x45.xmc.xqt.s1                  4.36426e-10
+x1.x45.xmc.xqt.t                      0.514507
+x1.x45.mcl                             2.30834
+x1.x45.xmcl.xqe1.s1                1.05867e-09
+x1.x45.xmcl.xqe1.t                    0.626967
+x1.x45.mclb                            2.53718
+x1.x45.xmcl.xqe2.s1                1.05866e-09
+x1.x45.xmcl.xqe2.t                    0.484377
+x1.x45.xmcl.f1                        0.115776
+x1.x45.xmcl.xqf1.s1                7.40117e-10
+x1.x45.xmcl.xqf1.t                     1.38716
+x1.x45.xmcl.f2                        0.115916
+x1.x45.xmcl.xqf2.s1                8.13635e-10
+x1.x45.xmcl.xqf2.t                       1.534
+x1.x45.m                               3.06976
+x1.x45.mb                              3.29984
+outp                                   3.18493
+x1.x45.xgm.n1                          2.65062
+x1.x45.xgm.xqa1.s1                 1.06034e-09
+x1.x45.xgm.xqa1.t                  7.66573e-05
+outn                                   3.18493
+x1.x45.xgm.xqa2.s1                 9.86431e-10
+x1.x45.xgm.xqa2.t                  4.94819e-05
+x1.x45.xgm.t                           1.75572
+x1.x45.xgm.xqb1.s1                  8.5178e-10
+x1.x45.xgm.xqb1.t                   0.00021111
+x1.x45.xgm.xqb2.s1                 9.82998e-10
+x1.x45.xgm.xqb2.t                      1.65555
+x1.x45.xgm.tet                        0.115419
+x1.x45.xgm.xqt.s1                  8.84254e-10
+x1.x45.xgm.xqt.t                       1.12436
+x1.x45.xc23.ckp                        2.43722
+x1.x45.xc23.xck.xqe1.s1            1.05865e-09
+x1.x45.xc23.xck.xqe1.t                0.551448
+x1.x45.xc23.ckn                        2.23768
+x1.x45.xc23.xck.xqe2.s1            1.05867e-09
+x1.x45.xc23.xck.xqe2.t                0.671322
+x1.x45.xc23.xck.f1                    0.115855
+x1.x45.xc23.xck.xqf1.s1             7.8152e-10
+x1.x45.xc23.xck.xqf1.t                 1.46976
+x1.x45.xc23.xck.f2                    0.115733
+x1.x45.xc23.xck.xqf2.s1            7.17415e-10
+x1.x45.xc23.xck.xqf2.t                 1.34195
+x1.x45.c1                              3.18465
+x1.x45.xc23.q1l                        2.42209
+x1.x45.xc23.xq1l.xqe1.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe1.t               0.556901
+x1.x45.c1b                             3.18464
+x1.x45.xc23.q1lb                       2.42208
+x1.x45.xc23.xq1l.xqe2.s1           1.05866e-09
+x1.x45.xc23.xq1l.xqe2.t               0.556903
+x1.x45.xc23.xq1l.f1                   0.115845
+x1.x45.xc23.xq1l.xqf1.s1           7.76659e-10
+x1.x45.xc23.xq1l.xqf1.t                1.46005
+x1.x45.xc23.xq1l.f2                   0.115845
+x1.x45.xc23.xq1l.xqf2.s1           7.76657e-10
+x1.x45.xc23.xq1l.xqf2.t                1.46004
+x1.x45.xc23.d1                         3.18374
+x1.x45.xc23.d1b                        3.18598
+x1.x45.xc23.q2b                        3.29953
+x1.x45.xc23.xg1.n1                     2.53727
+x1.x45.xc23.xg1.xqa1.s1            1.02205e-09
+x1.x45.xc23.xg1.xqa1.t                0.404553
+x1.x45.xc23.q2                          3.0702
+x1.x45.xc23.xg1.xqa2.s1            1.02305e-09
+x1.x45.xc23.xg1.xqa2.t             7.22964e-05
+x1.x45.xc23.xg1.t                      1.65996
+x1.x45.xc23.xg1.xqb1.s1            8.13658e-10
+x1.x45.xc23.xg1.xqb1.t                0.547693
+x1.x45.xc23.xg1.xqb2.s1            1.02132e-09
+x1.x45.xc23.xg1.xqb2.t                0.968068
+x1.x45.xc23.xg1.tet                   0.115357
+x1.x45.xc23.xg1.xqt.s1             8.35908e-10
+x1.x45.xc23.xg1.xqt.t                  1.05823
+x1.x45.xc23.d2                         3.07002
+x1.x45.xc23.d2b                        3.29969
+x1.x45.xc23.xg2.n1                     2.53744
+x1.x45.xc23.xg2.xqa1.s1             1.0603e-09
+x1.x45.xc23.xg2.xqa1.t             8.33301e-05
+x1.x45.xc23.xg2.xqa2.s1            9.84806e-10
+x1.x45.xc23.xg2.xqa2.t                0.332853
+x1.x45.xc23.xg2.t                      1.65992
+x1.x45.xc23.xg2.xqb1.s1            8.13709e-10
+x1.x45.xc23.xg2.xqb1.t                0.548835
+x1.x45.xc23.xg2.xqb2.s1            9.84789e-10
+x1.x45.xc23.xg2.xqb2.t                0.894274
+x1.x45.xc23.xg2.tet                   0.115357
+x1.x45.xc23.xg2.xqt.s1             8.35886e-10
+x1.x45.xc23.xg2.xqt.t                   1.0582
+x1.x45.xc23.xf1.m                      3.18046
+x1.x45.xc23.xf1.mb                     3.18969
+x1.x45.xc23.xf1.xm.e1                  2.42247
+x1.x45.xc23.xf1.xm.xqt1.s1          1.0233e-09
+x1.x45.xc23.xf1.xm.xqt1.t             0.463143
+x1.x45.xc23.xf1.xm.xqt2.s1          1.0202e-09
+x1.x45.xc23.xf1.xm.xqt2.t             0.495785
+x1.x45.xc23.xf1.xm.e2                  2.62117
+x1.x45.xc23.xf1.xm.xqh1.s1         1.02496e-09
+x1.x45.xc23.xf1.xm.xqh1.t          0.000172591
+x1.x45.xc23.xf1.xm.xqh2.s1         1.02199e-09
+x1.x45.xc23.xf1.xm.xqh2.t          0.000240771
+x1.x45.xc23.xf1.xm.t                   1.65506
+x1.x45.xc23.xf1.xm.xqc1.s1         7.75034e-10
+x1.x45.xc23.xf1.xm.xqc1.t              0.96644
+x1.x45.xc23.xf1.xm.xqc2.s1         8.42317e-10
+x1.x45.xc23.xf1.xm.xqc2.t          0.000709425
+x1.x45.xc23.xf1.xm.tet                0.115354
+x1.x45.xc23.xf1.xm.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xm.xqt.t               1.05485
+x1.x45.xc23.xf1.xs.e1                  2.62117
+x1.x45.xc23.xf1.xs.xqt1.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt1.t          0.000171058
+x1.x45.xc23.xf1.xs.xqt2.s1         1.02334e-09
+x1.x45.xc23.xf1.xs.xqt2.t          0.000242578
+x1.x45.xc23.xf1.xs.e2                  2.42224
+x1.x45.xc23.xf1.xs.xqh1.s1         1.02161e-09
+x1.x45.xc23.xf1.xs.xqh1.t             0.479518
+x1.x45.xc23.xf1.xs.xqh2.s1         1.02162e-09
+x1.x45.xc23.xf1.xs.xqh2.t             0.479394
+x1.x45.xc23.xf1.xs.t                   1.65506
+x1.x45.xc23.xf1.xs.xqc1.s1         8.42317e-10
+x1.x45.xc23.xf1.xs.xqc1.t          0.000709433
+x1.x45.xc23.xf1.xs.xqc2.s1         7.74959e-10
+x1.x45.xc23.xf1.xs.xqc2.t             0.966147
+x1.x45.xc23.xf1.xs.tet                0.115354
+x1.x45.xc23.xf1.xs.xqt.s1          8.33434e-10
+x1.x45.xc23.xf1.xs.xqt.t               1.05485
+x1.x45.xc23.xf2.m                       3.0702
+x1.x45.xc23.xf2.mb                     3.29996
+x1.x45.xc23.xf2.xm.e1                  2.51729
+x1.x45.xc23.xf2.xm.xqt1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqt1.t           0.00018529
+x1.x45.xc23.xf2.xm.xqt2.s1         9.83125e-10
+x1.x45.xc23.xf2.xm.xqt2.t             0.695644
+x1.x45.xc23.xf2.xm.e2                  2.71742
+x1.x45.xc23.xf2.xm.xqh1.s1         1.06038e-09
+x1.x45.xc23.xf2.xm.xqh1.t          7.17896e-08
+x1.x45.xc23.xf2.xm.xqh2.s1         9.86577e-10
+x1.x45.xc23.xf2.xm.xqh2.t          0.000258088
+x1.x45.xc23.xf2.xm.t                   1.65518
+x1.x45.xc23.xf2.xm.xqc1.s1         8.05499e-10
+x1.x45.xc23.xf2.xm.xqc1.t              1.08555
+x1.x45.xc23.xf2.xm.xqc2.s1         8.73239e-10
+x1.x45.xc23.xf2.xm.xqc2.t          0.000776595
+x1.x45.xc23.xf2.xm.tet                0.115354
+x1.x45.xc23.xf2.xm.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xm.xqt.t               1.05493
+x1.x45.xc23.xf2.xs.e1                  2.71742
+x1.x45.xc23.xf2.xs.xqt1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqt1.t          7.17379e-08
+x1.x45.xc23.xf2.xs.xqt2.s1         9.86577e-10
+x1.x45.xc23.xf2.xs.xqt2.t          0.000258091
+x1.x45.xc23.xf2.xs.e2                  2.51713
+x1.x45.xc23.xf2.xs.xqh1.s1         1.06025e-09
+x1.x45.xc23.xf2.xs.xqh1.t          0.000187643
+x1.x45.xc23.xf2.xs.xqh2.s1         9.83125e-10
+x1.x45.xc23.xf2.xs.xqh2.t              0.69585
+x1.x45.xc23.xf2.xs.t                   1.65518
+x1.x45.xc23.xf2.xs.xqc1.s1         8.73239e-10
+x1.x45.xc23.xf2.xs.xqc1.t          0.000776602
+x1.x45.xc23.xf2.xs.xqc2.s1         8.05446e-10
+x1.x45.xc23.xf2.xs.xqc2.t              1.08534
+x1.x45.xc23.xf2.xs.tet                0.115354
+x1.x45.xc23.xf2.xs.xqt.s1          8.33497e-10
+x1.x45.xc23.xf2.xs.xqt.t               1.05493
+x1.x45.xt.ckp                          2.42209
+x1.x45.xt.xef.xqe1.s1              1.05866e-09
+x1.x45.xt.xef.xqe1.t                    0.5569
+x1.x45.xt.ckn                          2.42208
+x1.x45.xt.xef.xqe2.s1              1.05866e-09
+x1.x45.xt.xef.xqe2.t                  0.556904
+x1.x45.xt.xef.f1                      0.115845
+x1.x45.xt.xef.xqf1.s1              7.76659e-10
+x1.x45.xt.xef.xqf1.t                   1.46005
+x1.x45.xt.xef.f2                      0.115845
+x1.x45.xt.xef.xqf2.s1              7.76657e-10
+x1.x45.xt.xef.xqf2.t                   1.46004
+x1.x45.xt.mp                           3.18493
+x1.x45.xt.mn                           3.18493
+x1.x45.xt.xm.e1                         2.4415
+x1.x45.xt.xm.xqt1.s1               1.02257e-09
+x1.x45.xt.xm.xqt1.t                   0.233936
+x1.x45.xt.xm.xqt2.s1               1.02257e-09
+x1.x45.xt.xm.xqt2.t                   0.233936
+x1.x45.xt.xm.e2                        2.44151
+x1.x45.xt.xm.xqh1.s1               1.02257e-09
+x1.x45.xt.xm.xqh1.t                   0.233871
+x1.x45.xt.xm.xqh2.s1               1.02257e-09
+x1.x45.xt.xm.xqh2.t                   0.233871
+x1.x45.xt.xm.t                         1.65964
+x1.x45.xt.xm.xqc1.s1               7.82873e-10
+x1.x45.xt.xm.xqc1.t                   0.492657
+x1.x45.xt.xm.xqc2.s1               7.82876e-10
+x1.x45.xt.xm.xqc2.t                   0.492531
+x1.x45.xt.xm.tet                      0.115357
+x1.x45.xt.xm.xqt.s1                8.35747e-10
+x1.x45.xt.xm.xqt.t                     1.05801
+x1.x45.xt.xs.e1                        2.44151
+x1.x45.xt.xs.xqt1.s1               1.02257e-09
+x1.x45.xt.xs.xqt1.t                   0.233871
+x1.x45.xt.xs.xqt2.s1               1.02257e-09
+x1.x45.xt.xs.xqt2.t                   0.233871
+x1.x45.xt.xs.e2                         2.4415
+x1.x45.xt.xs.xqh1.s1               1.02257e-09
+x1.x45.xt.xs.xqh1.t                   0.233936
+x1.x45.xt.xs.xqh2.s1               1.02257e-09
+x1.x45.xt.xs.xqh2.t                   0.233936
+x1.x45.xt.xs.t                         1.65964
+x1.x45.xt.xs.xqc1.s1               7.82876e-10
+x1.x45.xt.xs.xqc1.t                   0.492531
+x1.x45.xt.xs.xqc2.s1               7.82873e-10
+x1.x45.xt.xs.xqc2.t                   0.492657
+x1.x45.xt.xs.tet                      0.115357
+x1.x45.xt.xs.xqt.s1                8.35747e-10
+x1.x45.xt.xs.xqt.t                     1.05801
+vin#branch                        -6.01969e-08
+vip#branch                        -6.01969e-08
+vmc#branch                          8.3394e-12
+vdd#branch                         -0.00210799
+
+ Reference value :  0.00000e+00 Reference value :  5.62560e-10 Reference value :  1.15056e-09 Reference value :  1.78456e-09 Reference value :  2.31656e-09 Reference value :  2.84256e-09 Reference value :  3.40056e-09 Reference value :  3.99856e-09 Reference value :  4.60656e-09 Reference value :  5.13056e-09 Reference value :  5.70656e-09 Reference value :  6.33856e-09 Reference value :  6.89256e-09 Reference value :  7.44656e-09 Reference value :  7.93456e-09 Reference value :  8.40856e-09 Reference value :  8.87056e-09 Reference value :  9.35856e-09 Reference value :  9.88456e-09 Reference value :  1.03406e-08 Reference value :  1.08046e-08 Reference value :  1.13046e-08 Reference value :  1.18706e-08
+No. of Data Rows : 6009
+Note: Simulation executed from .control section 
