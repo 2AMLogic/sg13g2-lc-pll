@@ -100,3 +100,6 @@ flow/build/
 
 # sg13g2-vco bytes fetched by scripts/fetch-vco.sh (fetched mode, never committed)
 .fetched/
+
+# Repo Skills Codex-side machine-local install metadata (never committed)
+.agents/skills/repo/.install-local.json
