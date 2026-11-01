@@ -9,8 +9,8 @@ record.
 
 - **`sg13g2-lc-pll.json`**: the block manifest. `block: sg13g2-lc-pll`,
   `kind: analog` (an integer-N LC PLL with no mixed-signal partition decided
-  today; if that changes, `kind` may change with it). `evidence` is empty:
-  no design artifact is cited yet, so every T1 item is `unmet` /
+  today; if that changes, `kind` may change with it). `evidence` cites only item 10
+  (`manifests/repo-hygiene.attest.json`); every other T1 item is `unmet` /
   `no_evidence`. Evidence is added one item at a time, each citation pinning
   the `content_hash` of the artifact it cites.
 - **`design-evidence-tiers.md`**: the T1-T4 checklist the grader parses.
@@ -22,16 +22,16 @@ record.
   When upstream moves, re-vendor and regenerate the record in the same PR.
 - **`sg13g2-lc-pll.signoff.json`**: **the verdict of record**, the committed
   output of the command below. Never hand-edit it. Besides the 11 T1 items
-  (all `unmet` / `no_evidence`), `klt` 0.7.0 also lists 3 non-T1 rows
+  (item 10 `met`, the rest `unmet` / `no_evidence`), `klt` 0.8.0 also lists 3 non-T1 rows
   (`tier_not_supported`); these are part of its output, not a design claim.
 
 ## Regenerate (cold start)
 
-The `klt` pin is `klayout-tools==0.7.0` (PyPI), the same pin as
+The `klt` pin is `klayout-tools==0.8.0` (PyPI), the same pin as
 `.github/workflows/signoff.yml`. Keep the two in step.
 
 ```console
-uvx --from "klayout-tools==0.7.0" klt signoff \
+uvx --from "klayout-tools==0.8.0" klt signoff \
     --manifest manifests/sg13g2-lc-pll.json \
     --tiers-doc manifests/design-evidence-tiers.md \
     --format json > manifests/sg13g2-lc-pll.signoff.json
@@ -52,4 +52,22 @@ against the committed record.
 
 ## Current verdict
 
-**Not-T1, 0 of 11 T1 items met.** No evidence is cited yet.
+**Not-T1, 1 of 11 T1 items met** (item 10, repo hygiene).
+
+## Item 10 attestation
+
+`repo-hygiene.inventory.json` lists README, LICENSE, the workflows and the checks
+(`scripts/ci-harness.sh`, the command CI runs; `design/netlist.sh --check` is `local_only`,
+it needs xschem). `repo-hygiene.attest.json` is the tool-produced envelope; the
+manifest cites it by the inventory's sha256. The inventory pins the bytes of `README.md`
+and the workflows, so editing them means re-attesting in the same PR. `klt`'s tool
+environment needs numpy and pytest for the harness command:
+
+```console
+uvx --from "klayout-tools==0.8.0" --with numpy --with pytest klt signoff \
+    --attest 10 --inventory manifests/repo-hygiene.inventory.json \
+    -o manifests/repo-hygiene.attest.json
+```
+
+Add `--check manifests/repo-hygiene.attest.json` (instead of `-o`) to verify it still
+reproduces. `klayout-tools` 0.7.0 has no `--attest`; the pin was bumped to 0.8.0 for it.

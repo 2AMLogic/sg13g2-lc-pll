@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "kind": "t1-attestation-inventory",
+  "t1_item": 10,
+  "description": "Repo hygiene: README, LICENSE and the CI workflows, backed by the same harness command CI runs. design/netlist.sh --check needs xschem and the PDK, so it is local_only (skipped under --check, outcome committed).",
+  "hygiene": [
+    "README.md",
+    "LICENSE",
+    ".github/workflows/harness.yml",
+    ".github/workflows/signoff.yml"
+  ],
+  "checks": [
+    {"name": "harness-tests", "argv": ["bash", "scripts/ci-harness.sh"]},
+    {"name": "netlist-fresh", "argv": ["bash", "design/netlist.sh", "--check"], "local_only": true}
+  ]
+}

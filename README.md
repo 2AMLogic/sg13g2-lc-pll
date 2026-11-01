@@ -99,13 +99,42 @@ scripts/run-vco-smoke.sh     # prerequisites and pins: sim/vco-smoke/README.md, 
 
 This is a toolchain and pin check, not a loop result.
 
+## Reproduce the records
+
+Every committed record has one command. All write a new dated file next to the old ones
+(`sim/` is append-only); none is a corner grid, all are typical corner, nominal supply, simulated.
+PDK/ngspice prerequisites and pins: [`sim/pins.json`](sim/pins.json) (an `ihp-sg13g2` install at
+`PDK_ROOT`, `ngspice` via `NGSPICE`, `jq`, `curl` or `gh`, `klt` for the netlist drift check).
+
+| Record | Command | Writes | Needs |
+|---|---|---|---|
+| VCO smoke run | `scripts/run-vco-smoke.sh` | `sim/vco-smoke/records/` | PDK, ngspice, openvaf-r, network |
+| Charge-pump DC | `scripts/run-cp-dc.sh` | `sim/cp-dc/records/` | PDK, ngspice, `klt` |
+| PFD phase sweep (50 MHz) | `scripts/run-pfd-sweep.sh` | `sim/pfd/records/` | PDK, ngspice, `klt`, network |
+| Loop model (method L) | `python3 sim/loop-model/loop_model.py --out sim/loop-model/results/loop-model.json` | `sim/loop-model/results/loop-model.json` | python3, numpy |
+
+Harness tests. The first group is PDK-free and runs in CI (`.github/workflows/harness.yml`, via
+`scripts/ci-harness.sh`, which `npm test` also runs); the second needs the PDK and ngspice (or
+xschem) and is **local-only**, never run by CI and never reported as passed there:
+
+```bash
+scripts/ci-harness.sh          # CI: test-fetch-vco.sh, test-fetch-pll.sh, loop-model pytest (needs numpy, pytest)
+scripts/test-ngpin.sh          # local-only: ngspice pin check (PDK + ngspice)
+scripts/test-cp-dc-negative.sh # local-only: skewed CP must be flagged (PDK + ngspice)
+design/netlist.sh --check      # local-only: committed netlist matches the schematic (klt + xschem + PDK)
+```
+
+Repo hygiene (T1 item 10) is attested by `manifests/repo-hygiene.inventory.json` and the envelope
+`manifests/repo-hygiene.attest.json`; see [`manifests/README.md`](manifests/README.md).
+
 ## Repo layout
 
 ```
 spec/          ratified spec + decision records
 design/        schematics / netlists (xschem)
 sim/           pins (pins.json), VCO smoke run, testbenches + PVT corner results (ngspice)
-scripts/       fetch-vco.sh / run-vco-smoke.sh / test-fetch-vco.sh
+scripts/       fetch-vco/-pll, run-vco-smoke/-cp-dc/-pfd-sweep, test-* harness tests, ci-harness.sh, lib-pdk/-ngpin
+manifests/     block manifest, signoff verdict of record, repo-hygiene inventory + attestation
 layout/        GDS + DRC/LVS reports (klayout-tools driven)
 measurements/  silicon characterization (empty until tape-out)
 ```

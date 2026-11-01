@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "kind": "generic",
+  "status": "pass",
+  "t1_item": 10,
+  "summary": "T1 item 10 (Repo hygiene): 6/6 attestation checks passed (klt signoff --attest)",
+  "source": "manifests/repo-hygiene.inventory.json",
+  "attestation": {
+    "producer": "klt signoff --attest",
+    "inventory_schema_version": 1,
+    "hash_algorithm": "sha256-raw-bytes",
+    "check_count": 6,
+    "passed_count": 6,
+    "checks": [
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": ".github/workflows/harness.yml",
+        "passed": true,
+        "content_hash": "sha256:96fc2560e4d3e020b08c52777c42281214647fe9b2f363c3288ee2ee78373cf5"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": ".github/workflows/signoff.yml",
+        "passed": true,
+        "content_hash": "sha256:1d159ead5b4b9adf7acae7fae55135f4513a5e2c58e7740532f3ccd9c9b93daf"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "LICENSE",
+        "passed": true,
+        "content_hash": "sha256:cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "README.md",
+        "passed": true,
+        "content_hash": "sha256:e37d0a71b9ff2a7dc8c53d2657321cc2d574f4daf372cdc7fe657f62e3e27504"
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "harness-tests",
+        "argv": [
+          "bash",
+          "scripts/ci-harness.sh"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "netlist-fresh",
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true,
+        "local_only": true
+      }
+    ]
+  },
+  "provenance": {
+    "klt_version": "0.8.0",
+    "klayout_version": null,
+    "pdk": null,
+    "deck": null,
+    "input": {
+      "path": {
+        "path": "manifests/repo-hygiene.inventory.json",
+        "scope": "repo"
+      },
+      "content_hash": "sha256:bb87e8207498fb63f9fb931057bd72d2d2403c6d363c613b38f6d6f6259e9b91"
+    }
+  }
+}
