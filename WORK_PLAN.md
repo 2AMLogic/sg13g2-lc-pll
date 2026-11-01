@@ -9,6 +9,7 @@ Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a h
 
 - **#42**: ci: add harness workflow, reproduce-records README and item 10 attestation
 - **#44**: feat: CML prescaler (/2 + /4/5) schematics with G1 load and G3 flavour evidence
+- **#46**: docs(spec): DR-002 restates prescaler as P = 8/10, even N only
 
 ## Very Important
 
@@ -35,6 +36,7 @@ Issues currently being built (`loom:building`).
 
 - **#31**: T1 item 1 (design sources): prescaler schematics (CML divide-by-2 + divide-by-4/5) and close gates G1/G3
 - **#33**: T1 item 10 (repo hygiene): README reproduction steps, harness tests in CI, klt signoff --attest 10
+- **#43**: spec rows 3/4: fixed /2 then /4/5 gives /8 or /10, not /8 or /9
 
 ## PRs Awaiting Review
 
@@ -48,6 +50,7 @@ PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 
 - **#42**: ci: add harness workflow, reproduce-records README and item 10 attestation
 - **#44**: feat: CML prescaler (/2 + /4/5) schematics with G1 load and G3 flavour evidence
+- **#46**: docs(spec): DR-002 restates prescaler as P = 8/10, even N only
 
 ## Proposed
 
@@ -57,6 +60,7 @@ Issues carrying `loom:curated`.
 - **#19**: PFD + charge-pump schematic (SG13G2 HV MOS) with a DC compliance / up-down mismatch testbench for spec row 7 *(curated)*
 - **#31**: T1 item 1 (design sources): prescaler schematics (CML divide-by-2 + divide-by-4/5) and close gates G1/G3 *(curated)*
 - **#33**: T1 item 10 (repo hygiene): README reproduction steps, harness tests in CI, klt signoff --attest 10 *(curated)*
+- **#48**: T1 item 8 (characterization): per-row characterization report over the DR-001 rows, attested with klt signoff --attest 8 *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -70,14 +74,14 @@ _None._
 
 | Bucket | Count |
 |------|-------|
-| Operator merge-risk holds | 2 |
+| Operator merge-risk holds | 3 |
 | Very important | 0 |
 | Important | 2 |
 | Ready (`loom:issue`) | 1 |
-| In Progress (`loom:building`) | 2 |
+| In Progress (`loom:building`) | 3 |
 | PRs awaiting review | 1 |
-| Approved PRs awaiting merge | 2 |
-| Curated | 4 |
+| Approved PRs awaiting merge | 3 |
+| Curated | 5 |
 | Architect / Hermit proposals | 0 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->

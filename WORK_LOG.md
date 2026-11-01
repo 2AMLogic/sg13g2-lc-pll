@@ -2,6 +2,10 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-10-28
+
+- **PR #50**: docs(measurements): add characterization report skeleton and item 8 inventory
+
 ### 2026-10-24
 
 - **PR #6**: ci: grade T1 tier state with klt signoff against a committed verdict
