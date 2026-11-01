@@ -1,4 +1,4 @@
-# DR-002: Prescaler ratio P = 8/10 (supersedes DR-001 Rows 3 and 4)
+# DR-003: Prescaler ratio P = 8/10 (supersedes DR-001 Rows 3 and 4)
 
 - **Status**: proposed. Ratified when the operator merges this record after the
   EE and market key reviews have run as input (ratification protocol, as in
@@ -29,8 +29,8 @@ architecture.
 Option (a) of issue #43: keep the fixed ÷2 followed by the ÷4/5 stage and
 restate the prescaler as **P = 8/10**, N = 8M + 2A (even N only).
 
-- Row 3: N = 8M + 2A, A ∈ [0, 3] (2A covers every even residue mod 8), A ≤ M,
-  M ≥ 7. Target N = 100 is unchanged: M = 12, A = 2 (96 + 4). Stretch band
+- Row 3: N = 8M + 2A, A ∈ [0, 3] (2A covers every even residue mod 8), A ≤ M
+  (so M ≥ A, M ≥ 3 at worst; the earlier "M ≥ 7" was DR-001's A ∈ [0, 7] carried over). Target N = 100 is unchanged: M = 12, A = 2 (96 + 4). Stretch band
   90-110 covers even N only: N = 90: M = 11, A = 1; N = 110: M = 13, A = 3.
   Odd N in the band are not reachable.
 - Row 4: P = 8/10. The prescaler output at 5.5 GHz is still 5.5/8 =
@@ -47,11 +47,12 @@ rate (new architecture, most redesign, nothing gained for N = 100).
 ## Evidence
 
 Issue #31 measured the whole prescaler at ÷8 (modulus control low) and ÷10
-(modulus control high) in `sim/prescaler-g3/`, at the nominal corner only,
-**simulated, not measured**. That evidence is in PR #44 and is **not yet on
-`main`**; the operator's ruling asks for it to land on `main` and be cited
-here. Until PR #44 merges, this record cites it by PR only. Replace this
-paragraph with the merged path and commit when it lands.
+(modulus control high) at 5.0-12.0 GHz input, nominal corner only,
+**simulated, not measured**: `sim/prescaler-g3/records/20261027-022747-9096754.md`
+at commit `9096754` (PR #44, branch `feature/issue-31`; netlist sha256
+`c79c7b09…`, unchanged at PR #44's later heads). **PR #44 is still open, so
+that path is not yet on `main`.** When it merges, replace this paragraph's
+commit with the merge commit on `main`; ratify this record only after that.
 
 ## Consequences
 
@@ -60,3 +61,6 @@ paragraph with the merged path and commit when it lands.
 - Any downstream counter design (M and A counters) uses A ≤ 3 and the 2-VCO-
   cycle weight per swallowed prescaler cycle.
 - Gates are unchanged; no row is measured.
+- Catalog consequence: the stretch band offers 100 MHz channel steps (even N
+  only) instead of 50 MHz, so a customer needing 50 MHz spacing needs the
+  25 MHz reference stretch (N = 180-220); the N = 100 target is unaffected.
