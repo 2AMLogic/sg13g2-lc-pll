@@ -5,3 +5,4 @@
 - [`decision-records/`](decision-records/): one record per spec decision.
   `DR-001` ratifies the target spec. Records are append-only: a changed row
   needs a superseding record.
+  `DR-002` resolves gate G3 (second-stage flavour: HBT CML).

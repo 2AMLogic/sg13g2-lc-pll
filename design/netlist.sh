@@ -16,7 +16,7 @@
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BLOCKS=(cp)
+BLOCKS=(cp prescaler mos_latch)
 CHECK=0
 SEL=()
 for a in "$@"; do

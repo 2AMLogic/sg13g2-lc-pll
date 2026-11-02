@@ -1,0 +1,49 @@
+* sg13g2-lc-pll :: sim/prescaler-g3 (pairs) -- the /4/5 stage's device-flavour question, isolated.
+* NOMINAL ONLY: hbt_typ / mos_tt, 27 C, 3.3 V. Four bare /2 circuits (two latches, crossed feedback, no
+* input buffer) driven by the SAME ideal differential clock at a common mode of @@CCM@@ V (about where the
+* prescaler's emitter followers put the clock bases), same reference current (IREF = 50 uA), same load
+* resistors and swing:
+*   HBT : cml_latch x2 (the latch used in the /4/5 stage, tail = 2 x IREF = 100 uA, RL = 2.4 kohm)
+*   MOS : mos_latch x2 (sg13_hv_nmos, tail = 2 x IREF, RL = 2.4 kohm), widths @@MOSW1@@ / @@MOSW2@@ / @@MOSW3@@
+* One transient per clock frequency. Placeholders are filled by scripts/run-prescaler-g3.sh.
+.lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
+.lib @@MODELS_DIR@@/cornerMOShv.lib mos_tt
+.option temp=27 scale=1
+.include @@PRESC_NETLIST@@
+.include @@MOS_NETLIST1@@
+.include @@MOS_NETLIST2@@
+.include @@MOS_NETLIST3@@
+
+VDD vdd 0 3.3
+IRH vdd ibh dc 50u
+XQREF ibh ibh reref 0 npn13G2v Nx=1 El=1
+RREF reref 0 2400
+IRM1 vdd ibm1 dc 50u
+XMREF1 ibm1 ibm1 0 0 sg13_hv_nmos w=@@MOSW1@@ l=0.45u ng=1 m=1
+IRM2 vdd ibm2 dc 50u
+XMREF2 ibm2 ibm2 0 0 sg13_hv_nmos w=@@MOSW2@@ l=0.45u ng=1 m=1
+IRM3 vdd ibm3 dc 50u
+XMREF3 ibm3 ibm3 0 0 sg13_hv_nmos w=@@MOSW3@@ l=0.45u ng=1 m=1
+VCP ckp 0 dc @@CCM@@ sin(@@CCM@@ @@CAMP@@ 2.5e9)
+VCN ckn 0 dc @@CCM@@ sin(@@CCM@@ -@@CAMP@@ 2.5e9)
+XHM hqn hqp ckp ckn ibh hmp hmn vdd 0 cml_latch
+XHS hmp hmn ckn ckp ibh hqp hqn vdd 0 cml_latch
+XM1M m1qn m1qp ckp ckn ibm1 m1mp m1mn vdd 0 mos_latch_w1
+XM1S m1mp m1mn ckn ckp ibm1 m1qp m1qn vdd 0 mos_latch_w1
+XM2M m2qn m2qp ckp ckn ibm2 m2mp m2mn vdd 0 mos_latch_w2
+XM2S m2mp m2mn ckn ckp ibm2 m2qp m2qn vdd 0 mos_latch_w2
+XM3M m3qn m3qp ckp ckn ibm3 m3mp m3mn vdd 0 mos_latch_w3
+XM3S m3mp m3mn ckn ckp ibm3 m3qp m3qn vdd 0 mos_latch_w3
+.ic v(hqp)=3.2 v(hqn)=3.0 v(hmp)=3.0 v(hmn)=3.2 v(m1qp)=3.2 v(m1qn)=3.0 v(m1mp)=3.0 v(m1mn)=3.2 v(m2qp)=3.2 v(m2qn)=3.0 v(m2mp)=3.0 v(m2mn)=3.2 v(m3qp)=3.2 v(m3qn)=3.0 v(m3mp)=3.0 v(m3mn)=3.2
+.save v(hqp) v(hqn) v(m1qp) v(m1qn) v(m2qp) v(m2qn) v(m3qp) v(m3qn)
+
+.control
+pre_osdi @@OSDI_PSP@@
+foreach f @@FLIST@@
+  alter vcp sin = [ @@CCM@@ @@CAMP@@ $f ]
+  alter vcn sin = [ @@CCM@@ -@@CAMP@@ $f ]
+  tran 1p @@TRAN_STOP@@ 0 2p
+  wrdata @@OUT_DIR@@/pair_$f v(hqp)-v(hqn) v(m1qp)-v(m1qn) v(m2qp)-v(m2qn) v(m3qp)-v(m3qn)
+end
+.endc
+.end
