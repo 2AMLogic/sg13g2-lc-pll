@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "kind": "t1-attestation-inventory",
+  "t1_item": 1,
+  "description": "Design sources: every committed xschem schematic and symbol under design/, the netlist generator and its xschem config, reuse.lock.json (pins of the VCO, PFD and lock detector, which are fetched, not committed) and the loop-filter sizing file; plus each netlist derived from them. Freshness is design/netlist.sh --check (klt netlist, then diff), which needs xschem and the SG13G2 PDK, so it is local_only.",
+  "sources": [
+    "design/acounter.sch",
+    "design/acounter.sym",
+    "design/cml2cmos.sch",
+    "design/cml2cmos.sym",
+    "design/cml_and2.sch",
+    "design/cml_and2.sym",
+    "design/cml_dff.sch",
+    "design/cml_dff.sym",
+    "design/cml_div23.sch",
+    "design/cml_div23.sym",
+    "design/cml_ef.sch",
+    "design/cml_ef.sym",
+    "design/cml_latch.sch",
+    "design/cml_latch.sym",
+    "design/cp.sch",
+    "design/cp.sym",
+    "design/cp_bias.sch",
+    "design/cp_bias.sym",
+    "design/cp_dumpbuf.sch",
+    "design/cp_dumpbuf.sym",
+    "design/cp_leg_n.sch",
+    "design/cp_leg_n.sym",
+    "design/cp_leg_p.sch",
+    "design/cp_leg_p.sym",
+    "design/div2_cml.sch",
+    "design/div2_cml.sym",
+    "design/div2_cml_ls.sch",
+    "design/div2_cml_ls.sym",
+    "design/div2_ef_hs.sch",
+    "design/div2_ef_hs.sym",
+    "design/div2_latch_hs.sch",
+    "design/div2_latch_hs.sym",
+    "design/div45_dm.sch",
+    "design/div45_dm.sym",
+    "design/divider.sch",
+    "design/divider.sym",
+    "design/loopfilter.sch",
+    "design/loopfilter.sym",
+    "design/mc_conv.sch",
+    "design/mc_conv.sym",
+    "design/mcounter.sch",
+    "design/mcounter.sym",
+    "design/mos_latch.sch",
+    "design/mos_latch.sym",
+    "design/pll_top.sch",
+    "design/pll_top.sym",
+    "design/prescaler.sch",
+    "design/prescaler.sym",
+    "design/vco.sym",
+    "design/netlist.sh",
+    "design/xschemrc",
+    "reuse.lock.json",
+    "sim/loop-model/loop-filter.json"
+  ],
+  "derived": [
+    {
+      "path": "design/netlist/cp.spice",
+      "generator": "klt netlist (design/netlist.sh)",
+      "check": {
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "cp"
+        ],
+        "local_only": true
+      }
+    },
+    {
+      "path": "design/netlist/prescaler.spice",
+      "generator": "klt netlist (design/netlist.sh)",
+      "check": {
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "prescaler"
+        ],
+        "local_only": true
+      }
+    },
+    {
+      "path": "design/netlist/mos_latch.spice",
+      "generator": "klt netlist (design/netlist.sh)",
+      "check": {
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "mos_latch"
+        ],
+        "local_only": true
+      }
+    },
+    {
+      "path": "design/netlist/loopfilter.spice",
+      "generator": "klt netlist (design/netlist.sh)",
+      "check": {
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "loopfilter"
+        ],
+        "local_only": true
+      }
+    },
+    {
+      "path": "design/netlist/cml2cmos.spice",
+      "generator": "klt netlist (design/netlist.sh)",
+      "check": {
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "cml2cmos"
+        ],
+        "local_only": true
+      }
+    },
+    {
+      "path": "design/netlist/mcounter.spice",
+      "generator": "klt netlist (design/netlist.sh)",
+      "check": {
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "mcounter"
+        ],
+        "local_only": true
+      }
+    },
+    {
+      "path": "design/netlist/acounter.spice",
+      "generator": "klt netlist (design/netlist.sh)",
+      "check": {
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "acounter"
+        ],
+        "local_only": true
+      }
+    },
+    {
+      "path": "design/netlist/divider.spice",
+      "generator": "klt netlist (design/netlist.sh)",
+      "check": {
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "divider"
+        ],
+        "local_only": true
+      }
+    },
+    {
+      "path": "design/netlist/pll_top.spice",
+      "generator": "klt netlist (design/netlist.sh)",
+      "check": {
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "pll_top"
+        ],
+        "local_only": true
+      }
+    }
+  ]
+}

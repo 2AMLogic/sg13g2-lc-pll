@@ -20,6 +20,13 @@ design/
   div45_dm.sch/.sym         /4/5: /2/3 cell + /2 toggle + modulus gating (MC high = /5)
   cml_div23, cml_dff, cml_latch, cml_ef, cml_and2, div2_cml_ls, mc_conv   /4/5 stage cells
   mos_latch.sch/.sym        G3 comparison only (HV-NMOS version of the CML latch); not in the prescaler
+  loopfilter.sch/.sym       type-II 3rd-order passive filter (R1-C1, C2, R3-C3), values from sim/loop-model/loop-filter.json
+  cml2cmos.sch/.sym         prescaler CML output -> CMOS clock
+  mcounter.sch/.sym         program counter M (4-bit down counter, loads M at terminal count)
+  acounter.sch/.sym         swallow counter A (2-bit down counter, MC = count != 0)
+  divider.sch/.sym          cml2cmos + mcounter + acounter + retimed feedback flop
+  vco.sym                   BLACK-BOX interface symbol for the pinned sg13g2-vco (no schematic, no .subckt emitted)
+  pll_top.sch/.sym          loop top: pfd, cp, loopfilter, vco, prescaler, divider, lock_detector
 ```
 
 ## Deriving the netlist
@@ -78,3 +85,61 @@ only (`sim/prescaler-g1/`, `sim/prescaler-g3/`); no corner grid.
 
 `design/netlist/prescaler.inventory.json` lists the prescaler netlist (path + sha256) for the item-1
 `--inventory` file that #32 assembles. `scripts/check-prescaler-inventory.sh` fails if it is stale.
+
+## Loop blocks (`loopfilter`, `divider`, `pll_top`)
+
+Item-1 sources for the rest of the loop (issue #32). The schematics were emitted by a script and are
+plain xschem; edit them in xschem and regenerate the netlists (`design/netlist.sh`).
+
+**Loop filter.** `loopfilter` is `sim/loop-model/loop-filter.json` as devices: `VIN` -R1- node -C1- `VSS`
+(zero), C2 `VIN` to `VSS`, then the unloaded pole `VIN` -R3- `VCTRL` -C3- `VSS`. R1 = R3 = 7035.6 ohm,
+C1 = 90.48 pF, C2 = 6.032 pF, C3 = 2.828 pF (the JSON, not spec section 7's "R1 about 6.5 kohm": the spec
+number is the older estimate and the JSON is the sizing source; `spec/` is not edited here). Devices:
+`rppd` (260 ohm/sq, w = 2 um, l = 53.9 um) and `cap_cmim` (1.5 fF/um2; C1 is 12 x 70.9 um square because a
+`cap_cmim` PCell is capped at 8 pF). Sizing is by square count and area density: the as-drawn values are
+about 7.0 kohm, 90.48 / 6.03 / 2.83 pF (C2 and C3 are 0.05 % and 0.09 % low from the 5 nm grid). The `rppd`
+end resistance, the MIM sidewall term and corner spread are not modelled here; they belong to the
+filter's simulation (#34). Connected to a high-impedance VCO input, so the model's "unloaded R3-C3" holds
+only as far as the varactor's DC load is negligible.
+
+**Divider.** `divider` takes the prescaler's CML `OUTP`/`OUTN`, converts them to a CMOS clock (`cml2cmos`:
+HV-NMOS pair, PMOS mirror, tail 4 x `IREF` from the prescaler reference node, two inverters), and runs a
+pulse-swallow counter: `mcounter` counts `M` clocks (loads `M[3:0]` when Q = 0001), `acounter` holds `A`
+(2 bits) and drives `MC` high for `A` clocks after each load. With the prescaler's P = 8 (`MC` low) or
+10 (`MC` high), **N = 8 M + 2 A, A in [0, 3], even N only** (operator ruling on issue #43; the spec text
+still says P = 8/9 until PR #46 lands, and is not edited here). N = 100 is M = 12 (1100), A = 2 (10);
+the stretch band's bounds are N = 90 (M = 11, A = 1) and N = 110 (M = 13, A = 3). No odd N is claimed. The
+counter needs M >= A. `FB` is the terminal-count pulse retimed by one `CK` flop (one prescaler-output period
+wide). `M0..M3` and `A0..A1` are static code inputs; `pll_top` ties them for N = 100.
+
+The counter cells are the pinned `sg13g2-pll` cells (`dff_tg_hv`, `xor2_hv`, `nand2_hv`, `nand3_hv`, `nor2_hv`,
+`inv_hv`, `tgate_hv`; `reuse.lock.json`, fetched and sha256-verified): adopted, with the swallow logic designed
+here, since the sibling `divider_chain` is a /2/3 cascade, not an M/A counter. Their sizing is the sibling's
+first-pass sizing; speed at the prescaler output frequency (the prescaler divides 5.0 GHz by 8, so the
+first counter stage sees 625 MHz) is **not claimed here**; it is graded by #34 / #39.
+
+**Lock detector.** `lock_detector` is adopted by pin (`sg13g2-pll@e71ff61`, with `delaywin_hv`, `schmitt_hv`,
+`xor2_hv` and their cells), instantiated unmodified in `pll_top` on `UP`/`DN`. Spec section 7 makes the
+adoption conditional on a 50 MHz re-grade (gate G5): that re-grade is **not** done by this issue (see the
+PR); until it is, the lock detector is adopted un-graded at 50 MHz (tracked in a follow-up issue linked from the PR).
+
+**Top.** `pll_top` wires `REF` -> `pfd` -> `cp` -> `loopfilter` -> `vco` -> `prescaler` -> `divider` -> `pfd`
+(`FB`), with `lock_detector` on `UP`/`DN`. Ports: `REF`, `IREFCP` (charge pump, 20 uA), `IREFPS` (prescaler
+and divider tails, 50 uA), `LOCK`, `VCTRL`, `FB`, `VDD`, `VDDV` (VCO supply branch, tie to `VDD` in a
+testbench: the isolation network of spec section 5 is not designed here), `VSS`. The netlist is
+self-contained except for the VCO.
+
+**The VCO is a black box in the top, on purpose.** The pinned `sg13g2-vco` has no symbol and no `.subckt`:
+its `design/vco.spice` is a flat bench (supply and control sources, a `.control` block, `@@` placeholder
+tokens), so it cannot be instantiated as a block unmodified, and CLAUDE.md forbids forking it. `design/vco.sym`
+is a `type=primitive` interface symbol (`VCTRL OUTP OUTN VDD VSS`, the nets of the pinned netlist) so the top
+carries one `XVCO ... vco` instance line and no stub `.subckt`. A loop testbench must supply `vco` itself
+(for example by wrapping the pinned file's device lines in a `.subckt vco VCTRL OUTP OUTN VDD VSS`, without
+editing the pinned bytes). The gap is filed on `sg13g2-vco` (see the PR).
+
+**Checks.** `scripts/run-divider-elab.sh` elaborates the divider for five N codes (100, 90, 110, A = 0, A = 3) and counts
+`FB` period and `MC`-high clocks for N = 100 and 90 at a relaxed 100 MHz clock, nominal corner, writing an append-only
+record under `sim/divider-elab/records/`. It found two real defects while this was written (a DC-coupled level converter that
+could not reach the inverter threshold, and a case-insensitive net-name collision between a port `A0` and a state bit `a0`);
+SPICE names are case-insensitive, so keep port and internal net names distinct. Item-1 attestation:
+`manifests/design-sources.inventory.json` -> `manifests/design-sources.attest.json` (`klt signoff --attest 1`).

@@ -102,6 +102,86 @@
           "upstream": "design/inv2x_hv.sym",
           "local": ".fetched/sg13g2-pll/design/inv2x_hv.sym",
           "sha256": "7620c011e336f4c05da9fccf8f013f21c9e8d6ee288ab6193ea1a6296c4cb176"
+        },
+        {
+          "upstream": "design/lock_detector.sch",
+          "local": ".fetched/sg13g2-pll/design/lock_detector.sch",
+          "sha256": "93c537a6522d7f6f3689be395e8ff52449cd1416470b531621e96b2cff58f160"
+        },
+        {
+          "upstream": "design/lock_detector.sym",
+          "local": ".fetched/sg13g2-pll/design/lock_detector.sym",
+          "sha256": "2f36959587ab4ab0aaa32b266ff839494eda542d6431cc9cb63e4ebc9631a539"
+        },
+        {
+          "upstream": "design/delaywin_hv.sch",
+          "local": ".fetched/sg13g2-pll/design/delaywin_hv.sch",
+          "sha256": "9cb7895e84eb68eb31414835178cfff32c2e872a5aa93d27ccacb35682579d7b"
+        },
+        {
+          "upstream": "design/delaywin_hv.sym",
+          "local": ".fetched/sg13g2-pll/design/delaywin_hv.sym",
+          "sha256": "76beafdbf2b64176776156a7baecbc76626d690524e1215a81fd5b85f58bb920"
+        },
+        {
+          "upstream": "design/schmitt_hv.sch",
+          "local": ".fetched/sg13g2-pll/design/schmitt_hv.sch",
+          "sha256": "058c9df75140546ec72f717b87af08b0e994d9a5ffcaff3dc5c8032dc24fb61b"
+        },
+        {
+          "upstream": "design/schmitt_hv.sym",
+          "local": ".fetched/sg13g2-pll/design/schmitt_hv.sym",
+          "sha256": "f50838a0fd6f7ccb35513544a3e6acec9753ed796daac5029d5dd42a01d1d797"
+        },
+        {
+          "upstream": "design/xor2_hv.sch",
+          "local": ".fetched/sg13g2-pll/design/xor2_hv.sch",
+          "sha256": "6abbc19f67575528e8218663e9334abea6f16d2150246e8c7b8cc186160af81f"
+        },
+        {
+          "upstream": "design/xor2_hv.sym",
+          "local": ".fetched/sg13g2-pll/design/xor2_hv.sym",
+          "sha256": "3bd90c563551aefc35a49b7b0e764d277dfae93b6854e359930ca7cad49c757d"
+        },
+        {
+          "upstream": "design/dff_tg_hv.sch",
+          "local": ".fetched/sg13g2-pll/design/dff_tg_hv.sch",
+          "sha256": "81df47990458f60ff6073bc4bc1f04aebfb08a65cbc04f1cbc2be5b30c5ab04b"
+        },
+        {
+          "upstream": "design/dff_tg_hv.sym",
+          "local": ".fetched/sg13g2-pll/design/dff_tg_hv.sym",
+          "sha256": "8d11f43c1cbfb3f618b3244d829218025e2baa69d41865d110a9022285715afb"
+        },
+        {
+          "upstream": "design/tgate_hv.sch",
+          "local": ".fetched/sg13g2-pll/design/tgate_hv.sch",
+          "sha256": "b2df3bb6a974b0454a302cd2b667f7fff816ebbe98d1ced4bc1b198b05490480"
+        },
+        {
+          "upstream": "design/tgate_hv.sym",
+          "local": ".fetched/sg13g2-pll/design/tgate_hv.sym",
+          "sha256": "74ece2497543ec8eb4640b3e66c9fc2e55ed96567c5d1b0a838bf7283c4ccf86"
+        },
+        {
+          "upstream": "design/nor2_hv.sch",
+          "local": ".fetched/sg13g2-pll/design/nor2_hv.sch",
+          "sha256": "27cacafbfca85efae70eae2a2219bd704b2478e5840f32c04a2770addf5a4ffa"
+        },
+        {
+          "upstream": "design/nor2_hv.sym",
+          "local": ".fetched/sg13g2-pll/design/nor2_hv.sym",
+          "sha256": "e6b2c441353d1765b03cc35c591d5b3681f17ac248b669cbcfe7889a9c8ce6a9"
+        },
+        {
+          "upstream": "design/nand3_hv.sch",
+          "local": ".fetched/sg13g2-pll/design/nand3_hv.sch",
+          "sha256": "9d54c35ba671aa2d72b3a06d9ed4bf8b9f3457aee995dbb52c4e95145e58253a"
+        },
+        {
+          "upstream": "design/nand3_hv.sym",
+          "local": ".fetched/sg13g2-pll/design/nand3_hv.sym",
+          "sha256": "77028f01bf3ca9e7b21529ccad224dc82ed85c1241fa5a8be096cb522df871f4"
         }
       ]
     }

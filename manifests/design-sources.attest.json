@@ -1,0 +1,608 @@
+{
+  "schema_version": 1,
+  "kind": "generic",
+  "status": "pass",
+  "t1_item": 1,
+  "summary": "T1 item 1 (Design sources): 71/71 attestation checks passed (klt signoff --attest)",
+  "source": "manifests/design-sources.inventory.json",
+  "attestation": {
+    "producer": "klt signoff --attest",
+    "inventory_schema_version": 1,
+    "hash_algorithm": "sha256-raw-bytes",
+    "check_count": 71,
+    "passed_count": 71,
+    "checks": [
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/acounter.sch",
+        "passed": true,
+        "content_hash": "sha256:c89828d46fee7c69683c5eb2a2dff42eda75362b3e92a804235006aa7ec41b5e"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/acounter.sym",
+        "passed": true,
+        "content_hash": "sha256:bbd9cab82cf99aa9168153cc76bda81e5d0fc00f078852ca4d043f5596dc340f"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cml2cmos.sch",
+        "passed": true,
+        "content_hash": "sha256:a95c8b6af27878b3838f72101f365f4f15ef16f715cc2d0f8031a17956017df4"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cml2cmos.sym",
+        "passed": true,
+        "content_hash": "sha256:17185ad60c5ac87bbb77387a56266c324911904d2c247954b78672eae4f634a7"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cml_and2.sch",
+        "passed": true,
+        "content_hash": "sha256:c7f37d5497c244fc303da924164ad414959a49fc4bbc8a4be2cffc6d3be26f0b"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cml_and2.sym",
+        "passed": true,
+        "content_hash": "sha256:ed485ef985c22205f84153bf43c8c1183fe08e42da0a05cd623361ce0516f71d"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cml_dff.sch",
+        "passed": true,
+        "content_hash": "sha256:121a2597ab59c81c184890b0106332471a34219cf9f5f36d91476acea7071fdd"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cml_dff.sym",
+        "passed": true,
+        "content_hash": "sha256:754628d3c1c2af459030f6b871673ae7ac4abba08ffc5c6f12e2c29312e589c6"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cml_div23.sch",
+        "passed": true,
+        "content_hash": "sha256:a5f35bfb6cbd39e9476083e23676dd77a124c893cadfa470d405d71f8ba40101"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cml_div23.sym",
+        "passed": true,
+        "content_hash": "sha256:d21857944e9713eece4dea5a3a4dbbe4019d2829563455351206b97194fc4f04"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cml_ef.sch",
+        "passed": true,
+        "content_hash": "sha256:f904be0f60948d4f5e81281d4c086a5c1a683c783a0198d1e1b6dfdbb17aef49"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cml_ef.sym",
+        "passed": true,
+        "content_hash": "sha256:9b9d65e86c20cd62b345c0b8213887b221cbfd9e681c5eda74fd20c3e0b12f56"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cml_latch.sch",
+        "passed": true,
+        "content_hash": "sha256:2017898d375f25167e9d54e427a956168bc63d903e18451392c1fed34fa8b427"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cml_latch.sym",
+        "passed": true,
+        "content_hash": "sha256:a4e16a36b062a3470f47861f14621a4906b0a059b074422b326c8d0a31dab6eb"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cp.sch",
+        "passed": true,
+        "content_hash": "sha256:059d39c373977c5c290ba88f30da42f15fc72bcda861228e3ef7eda2d2c16d70"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cp.sym",
+        "passed": true,
+        "content_hash": "sha256:668a3593e189aea665c545b4825eb5497bc794a56fad12f7b411e3835a7932fb"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cp_bias.sch",
+        "passed": true,
+        "content_hash": "sha256:0de5d555f1931c72dd1eee586596e8742c12722dde75f086ade0ad075907eeb5"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cp_bias.sym",
+        "passed": true,
+        "content_hash": "sha256:2b6827c0916ddd64fa21f5b92dcfba11bb25fd11104961e92dd1cc4529fcf76a"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cp_dumpbuf.sch",
+        "passed": true,
+        "content_hash": "sha256:ec174d52b1f43a3b5dd0df1a06f1098b1d86fd1b98783b7ef09e8630f774a133"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cp_dumpbuf.sym",
+        "passed": true,
+        "content_hash": "sha256:1d2786f9f4e0857e7fd370c980bcec32a9d9c8fbf218fa44e87fc4098b454d6d"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cp_leg_n.sch",
+        "passed": true,
+        "content_hash": "sha256:71ae8e25c84e4ea776cd0c0ed844a04732bdd886320dc99fc5237974a9364b61"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cp_leg_n.sym",
+        "passed": true,
+        "content_hash": "sha256:43485739feea9fa03e5206968b870c9cce469e99a485e72c4b4ca2be4f352456"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cp_leg_p.sch",
+        "passed": true,
+        "content_hash": "sha256:7fea8562e9aad3d4f10bd04da833fb073bca1d344212e85f6bb5732586907a01"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cp_leg_p.sym",
+        "passed": true,
+        "content_hash": "sha256:0fce3cca74afc23259f753645bbff385fd3f6a9698bd3a3390455a6c9db0f04e"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/div2_cml.sch",
+        "passed": true,
+        "content_hash": "sha256:12fddb6d7fb8151701fe3dfbf18c8470cb7b419d861e01ce85ec036565cdaea0"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/div2_cml.sym",
+        "passed": true,
+        "content_hash": "sha256:e2a32be92faf6406d4ace2cc9039926016712dc44cf02860e1f04954f737ba55"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/div2_cml_ls.sch",
+        "passed": true,
+        "content_hash": "sha256:c5f8770b5359e76ef34d1b408c032f61c48dabff341d9d34f783c517e81f9006"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/div2_cml_ls.sym",
+        "passed": true,
+        "content_hash": "sha256:de398305a4e76084ed0bb2fd2d8236fe34d375ca364d6eac01abbc5243f94ba1"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/div2_ef_hs.sch",
+        "passed": true,
+        "content_hash": "sha256:9e5c66afdee630042fdfb71b0aa475a2860bb33d8f87549f0c77899e696891a4"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/div2_ef_hs.sym",
+        "passed": true,
+        "content_hash": "sha256:93ea6dcc4fb34dee05864a25a7962009d544d54bde97c094b8edc0032511c010"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/div2_latch_hs.sch",
+        "passed": true,
+        "content_hash": "sha256:49c2bf7cfcb882961c270f29c659cecc3e3380804f9e9e97d9908a628459d6ec"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/div2_latch_hs.sym",
+        "passed": true,
+        "content_hash": "sha256:33031c4ace86fdbae0eabf5b1ea4f059354278ad12b05ed4cee8bca9ff8ea28d"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/div45_dm.sch",
+        "passed": true,
+        "content_hash": "sha256:0dad55cc07a36aea4874fa9faee633de0ffb048fed6afbee78fcb1d5c00cc46e"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/div45_dm.sym",
+        "passed": true,
+        "content_hash": "sha256:f501b5218ca5c9f278b944cff8cd875c7ed8634adef7986cc87ed9cec8c35b84"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/divider.sch",
+        "passed": true,
+        "content_hash": "sha256:7585ef5d493fd269d568ee11c25d8cb1225b5949c29f3c762825186bdf5a4244"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/divider.sym",
+        "passed": true,
+        "content_hash": "sha256:e53e66377fbb682dae38610a9bf55060b8f3481a046b1b302f7c851a86e236ad"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/loopfilter.sch",
+        "passed": true,
+        "content_hash": "sha256:7a99fa8108bf1a5f6cc02b59d2671d4f29ddcf910efde232241dcca81ffac4ae"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/loopfilter.sym",
+        "passed": true,
+        "content_hash": "sha256:52188f2d95618ac144486938a91951e707d4411b305d06cacbdd21f165675a78"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/mc_conv.sch",
+        "passed": true,
+        "content_hash": "sha256:a9ea91b53abf515375ff2a9d09e4d100a2448d7ba973b7147f81000a311b2d3e"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/mc_conv.sym",
+        "passed": true,
+        "content_hash": "sha256:f872cd98f05cc1cb1a6ad79bd012f584cc33490ea539502266dddc7929fc0668"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/mcounter.sch",
+        "passed": true,
+        "content_hash": "sha256:584b4aa0abcdfc4a9f0195eebaff02ca9495fd599accb4d0dfd08e6fbbfe5646"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/mcounter.sym",
+        "passed": true,
+        "content_hash": "sha256:99f3e64053ebec08913d4eea466559fc1254b429ef67db7e514a6d6a05dc08ef"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/mos_latch.sch",
+        "passed": true,
+        "content_hash": "sha256:e3335ac62076a634f950e722b1a91ecae9348937e8998f50b0349974a7ae2151"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/mos_latch.sym",
+        "passed": true,
+        "content_hash": "sha256:0dd1641313cefd0932a807b343a28e29d36bc19732a80ad0a745babc603d2fac"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/netlist.sh",
+        "passed": true,
+        "content_hash": "sha256:1e5267f26484df4e5affc9644cf31dbf895de7b9df914f3752598d27e95bdce6"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/pll_top.sch",
+        "passed": true,
+        "content_hash": "sha256:4047fe40e77de29342f4effe9d0688ebdb52ebc1fb6590265ba759ce378efbbc"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/pll_top.sym",
+        "passed": true,
+        "content_hash": "sha256:e1650034d2958c4d32356c16a5821db3af372bf24cb265d748cd03d80604294f"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/prescaler.sch",
+        "passed": true,
+        "content_hash": "sha256:fbec395c6773386ff10322ebc9c62e5be436e2cc2fbe4a4d2b6208ba6f7686fc"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/prescaler.sym",
+        "passed": true,
+        "content_hash": "sha256:94866ac153b71c5b77cf1d8c9d192436bb9c26696feb50f281007f2f57b403fa"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/vco.sym",
+        "passed": true,
+        "content_hash": "sha256:a95abd9b04ef7f65226535fb4e07238cae5be02715a44d7e2a9556f98e16318e"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/xschemrc",
+        "passed": true,
+        "content_hash": "sha256:fb3ea48502cb2edfb6e79f6d42e5ba3e19a5d0423e7cd035a0fa4c07d9273dce"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "reuse.lock.json",
+        "passed": true,
+        "content_hash": "sha256:630ac47d5d00415233d9bb21bcf3506181c127c0b1fd7b91fcbb4d7f1108c644"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "sim/loop-model/loop-filter.json",
+        "passed": true,
+        "content_hash": "sha256:4caddf618beb06cdd374c1273c555203666be51ad336449efd18f3f3f037ad3d"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/acounter.spice",
+        "passed": true,
+        "content_hash": "sha256:5ac73d5809a18127cfa1b70292dc90c6198c4aecb643efb1c1c5edfb478eebb9"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/cml2cmos.spice",
+        "passed": true,
+        "content_hash": "sha256:b70d41bf74bcf81aaffb207f2bf04a97b57ab70d079d55fc2af5adf053ae585d"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/cp.spice",
+        "passed": true,
+        "content_hash": "sha256:7b4c336adfa63d7c3f5fbf0e9d4df819a145f26e80e323a4def3413810995bbf"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/divider.spice",
+        "passed": true,
+        "content_hash": "sha256:12248f7ef355b425b41586c0cb4fc9692bcc36f6aef19c318b628aaa8d5cbd32"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/loopfilter.spice",
+        "passed": true,
+        "content_hash": "sha256:35341299a4ecc524d2c91db5dc5c5f2cb8284a414d70e5b37401c7f85a90ea04"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/mcounter.spice",
+        "passed": true,
+        "content_hash": "sha256:1eedfa735072dfe15406cc04f710c471c40d2e485904dce88970c9352a12042b"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/mos_latch.spice",
+        "passed": true,
+        "content_hash": "sha256:97512510284a01ebc2630ae72f8acafd4b4c598381e27852bcaf314ebf4bb2d7"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/pll_top.spice",
+        "passed": true,
+        "content_hash": "sha256:6283370b49b9f1e617619f61171070c0f0562cd27a9f8f4d77b2cd56013cf8e0"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/prescaler.spice",
+        "passed": true,
+        "content_hash": "sha256:c79c7b09c608405d67e2a0e266c63a2446c32081b5decb8e13e0a9853efc4ed4"
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/acounter.spice",
+        "generator": "klt netlist (design/netlist.sh)",
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "acounter"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true,
+        "local_only": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/cml2cmos.spice",
+        "generator": "klt netlist (design/netlist.sh)",
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "cml2cmos"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true,
+        "local_only": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/cp.spice",
+        "generator": "klt netlist (design/netlist.sh)",
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "cp"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true,
+        "local_only": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/divider.spice",
+        "generator": "klt netlist (design/netlist.sh)",
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "divider"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true,
+        "local_only": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/loopfilter.spice",
+        "generator": "klt netlist (design/netlist.sh)",
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "loopfilter"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true,
+        "local_only": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/mcounter.spice",
+        "generator": "klt netlist (design/netlist.sh)",
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "mcounter"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true,
+        "local_only": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/mos_latch.spice",
+        "generator": "klt netlist (design/netlist.sh)",
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "mos_latch"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true,
+        "local_only": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/pll_top.spice",
+        "generator": "klt netlist (design/netlist.sh)",
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "pll_top"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true,
+        "local_only": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/prescaler.spice",
+        "generator": "klt netlist (design/netlist.sh)",
+        "argv": [
+          "bash",
+          "design/netlist.sh",
+          "--check",
+          "prescaler"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true,
+        "local_only": true
+      }
+    ]
+  },
+  "provenance": {
+    "klt_version": "0.8.0",
+    "klayout_version": null,
+    "pdk": null,
+    "deck": null,
+    "input": {
+      "path": {
+        "path": "manifests/design-sources.inventory.json",
+        "scope": "repo"
+      },
+      "content_hash": "sha256:584300d6e350f328343fbb5bb9d7fa0c9e240fc4b2d7fe1ae135271b801ea43c"
+    }
+  }
+}
