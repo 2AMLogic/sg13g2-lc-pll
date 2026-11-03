@@ -1,0 +1,45 @@
+* sg13g2-lc-pll :: sim/loop-tran -- closed-loop transient: lock time (spec row 10) and reference spur (row 9).
+* REAL: the pinned sg13g2-pll PFD, design/cp.sch charge pump, design/loopfilter.sch (3rd-order, sized by
+*       sim/loop-model), 3.3 V rail, 50 MHz reference.
+* STAND-IN (not the design): VCO + prescaler + M/A counters are ONE behavioural block, a voltage-controlled
+*       oscillator at f_out(Vctrl)/N whose phase (in cycles of the FB clock) is the integral of that frequency on
+*       the capacitor Cphi (1 F, so V(phi) = cycles). f_out(Vctrl) = F0 + KV*(Vctrl - VC0) is a straight line: the
+*       VCO's graded f(Vctrl) curve does not exist yet (spec gate G4), and the pinned VCO did not oscillate in the
+*       smoke record. FB is a tanh-shaped 0 / 3.3 V square wave from that phase. No noise anywhere.
+* Placeholders (@@...@@) are filled by scripts/run-loop-tran.sh; nothing else is substituted.
+.lib @@MODELS_DIR@@/cornerMOShv.lib mos_tt
+.lib @@MODELS_DIR@@/cornerCAP.lib cap_typ
+.lib @@MODELS_DIR@@/cornerRES.lib res_typ
+.option scale=1 temp=27
+.include @@PFD_NETLIST@@
+.include @@CP_NETLIST@@
+.include @@LF_NETLIST@@
+
+.param NDIV=@@NDIV@@ F0=5.0e9 VC0=@@VC0@@ KV=@@KV_SIGNED@@ PHI0=@@PHI0@@ VSTART=@@VSTART@@
+
+VDD vdd 0 3.3
+VREF ref 0 PULSE(0 3.3 0 100p 100p 9.9n 20n)
+XPFD ref fb up dn vdd 0 pfd
+XCP up dn iref vcp vdd 0 cp
+IREF vdd iref dc 20u
+XLF vcp vctrl 0 loopfilter
+
+* behavioural VCO / N: phase accumulator and FB clock
+Bph 0 phi I = (F0 + KV*(v(vctrl) - VC0))/NDIV
+Cphi phi 0 1
+Rphi phi 0 1e12
+Bfb fb 0 V = 1.65 + 1.65*tanh(25*sin(6.283185307*v(phi)))
+
+.ic v(phi)=PHI0 v(vcp)=VSTART v(vctrl)=VSTART v(xlf.nz1)=VSTART
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-14
+
+.control
+pre_osdi @@OSDI_PSP@@
+pre_osdi @@OSDI_R3@@
+save v(ref) v(fb) v(vctrl) v(vcp) i(VDD)
+tran 100p @@TSTOP@@ 0 @@TMAX@@
+* columns written (wr_singlescale): time, v(ref), v(fb), v(vctrl), v(vcp), i(VDD)
+set wr_singlescale
+wrdata @@DATA_OUT@@ v(ref) v(fb) v(vctrl) v(vcp) i(VDD)
+.endc
+.end

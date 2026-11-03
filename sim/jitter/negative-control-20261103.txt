@@ -1,0 +1,1 @@
+PASS: the bench flags a loop filter that breaks the row 5 gate (C2 = C1)

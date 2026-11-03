@@ -1,0 +1,2 @@
+PASS flipped VCO slope: reported NOT LOCKED, no lock time, no spur
+PASS UP switch disconnected: reported NOT LOCKED, no lock time, no spur
