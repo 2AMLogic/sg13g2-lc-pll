@@ -59,6 +59,14 @@ Findings, not relaxed:
   The remaining corners are owed.
   A retry on 2026-11-03 returned no new corners (Spot interruptions, 0.3 jobs/min launch rate); see
   `loop-power/records/20261103-stage1-retry.md`.
+- **Start-up probe (2026-11-03)**: at TYP 27 C 3.300 V the divider divides with both the ramp and the nominal record's start-up (tfb 60.0 ns,
+  fleet jobs `klt-sim-81ecd652e3a8`, `klt-sim-e4b79b1f4c85`), so the ramp is not the cause at that point; the same point was non-converged in
+  the stage-1 grid, so grid non-convergence is partly a fleet effect. Artifact vs design finding for the other corners stays **unresolved**
+  (`loop-power/records/20261103-startup-probe.md`). The host's ngspice-42 cannot load the pinned OSDI, so it ran on the fleet.
+- **Stage 1, missing-unit attempt (2026-11-03)**: `make_requests.py --missing <stage-1 record>` writes the 95 absent units as two requests
+  (93 + 2). 10 of 95 returned (the 93-unit job `klt-sim-74803425bf64` failed: 8 `timeout`, 85 `budget_exceeded`; `--max-units-per-job` was not
+  applied under `--batch-set`); none of those 10 divides. Stage 1 is now 50 of 135 returned; 85 are owed, not run locally. See
+  `loop-power/records/20261103-193448-b6ec1f3-stage1.md`.
 - PFD + CP + bias is one nominal-corner constant (1.71 mW), not a corner value.
 
 ## `vco-prescaler-load/`: gate G2, VCO rows 1, 2, 6, 7 with the prescaler on the tank (issue #87)
@@ -94,7 +102,7 @@ G2 stays open: row 1 does not close, 125 C is ungraded, row 6 is a proxy.
 | 1, 9, 10 | **gap** | benches run on a behavioural VCO/divider stand-in; G4, G2, #61. A stand-in envelope is never reported as a pass |
 | 5 | **gap** | method L (`sim/loop-model`) is not a `klt sim` request |
 | 8 | **gap** | method L partial, method T not run (G6) |
-| 11 | **gap, stage 2 reads `fail`** | `loop-power/`: stage 2 ran (18 corners, 5 divide to 50 MHz, 13 do not); stage 1 incomplete (40 of 135 returned, none usable) |
+| 11 | **gap, stage 2 reads `fail`** | `loop-power/`: stage 2 ran (18 corners, 5 divide to 50 MHz, 13 do not); stage 1 incomplete (50 of 135 returned, none divides; 85 owed); start-up artifact vs design finding unresolved |
 
 The prescaler follower Vce against BVCEO (2.2 V min) at the minimum-supply corner is **not**
 reported: the CP netlist contains no prescaler. It belongs to the envelopes that include it.
