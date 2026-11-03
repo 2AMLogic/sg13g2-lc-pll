@@ -131,10 +131,7 @@ carries one `XVCO ... vco` instance line and no stub `.subckt`. A loop testbench
 (for example by wrapping the pinned file's device lines in a `.subckt vco VCTRL OUTP OUTN VDD VSS`, without
 editing the pinned bytes). The gap is filed on `sg13g2-vco` (see the PR).
 
-**Speed gap (issue #61).** The divider as drawn does **not** divide at the prescaler output rate: with FB/MC stuck at 0 at 625 and
-687.5 MHz (simulated, nominal corner, ngspice-47, not measured). Bisect (`sim/divider-elab/records/20261103-bisect-issue61.md`):
-`cml2cmos` reaches full CMOS levels and `dff_tg_hv` toggles to 800 MHz; the `mcounter` next-state logic stops dividing between
-520 and 550 MHz even with an ideal CMOS clock. `scripts/run-divider-elab.sh` now exits nonzero on this. Open until the counter is retimed or a spec decision is made.
+**Speed (issue #61).** The first-pass counters did not divide at the prescaler output rate (bisect: `sim/divider-elab/records/20261103-bisect-issue61.md`; the `mcounter` next-state logic, about eight gates deep, stopped between 520 and 550 MHz). Fixed by retiming, with the adopted cells unchanged: `mcounter` now registers its terminal count (`TC`/`TCN` are flop outputs, high exactly when Q = 0001) and per-bit borrow flags (`b1..b3`, lower bits of Q are zero), so every flop-to-flop path is at most three gates; `acounter` is a two-gate next state with a registered `MC`; the extra clock load on `cml2cmos` is isolated by a one-inverter-plus-three-parallel-`inv_hv` buffer (`CK` -> `CKL`) in `divider`. Requires **M >= 3** (the registered terminal count assumes Q = 0001 is not the loaded value). Verified by `scripts/run-divider-elab.sh`: FB divides N = 100 at 625 and 687.5 MHz through the real `cml2cmos` (simulated, nominal corner `hbt_typ`/`mos_tt`/`cap_typ`, 27 C, 3.3 V, not measured). A prototype of the counter alone divided by 12 at 800 MHz and failed at 900 MHz (nominal, ideal clock; scratch, not a committed record). Not done: A = 0 and A = 3 at speed, any corner other than nominal.
 
 **Checks.** `scripts/run-divider-elab.sh` elaborates the divider for five N codes (100, 90, 110, A = 0, A = 3) and counts
 `FB` period and `MC`-high clocks for N = 100 and 90 at a relaxed 100 MHz clock, then runs the speed check (625 and 687.5 MHz, real chain and an ideal-clock bisect control, nominal corner), writing an append-only

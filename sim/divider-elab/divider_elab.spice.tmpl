@@ -1,6 +1,7 @@
 * sg13g2-lc-pll :: sim/divider-elab -- ELABORATION of the divider netlist for five N codes (issue #32).
-* One ngspice process, one .op. This proves only that design/netlist/divider.spice parses, resolves every
-* subcircuit and model, and has a DC solution with each code tied; it grades no behaviour. Nominal corner
+* One ngspice process, one short transient (30 ns, 100 MHz clock; the registered-flag counters of issue #61 have no usable
+* DC .op: the tied-input operating point of the latch-rich netlist does not converge). This proves only that
+* design/netlist/divider.spice parses, resolves every subcircuit and model, and runs with each code tied; it grades no behaviour. Nominal corner
 * (hbt_typ, mos_tt, cap_typ), 27 C, 3.3 V. Placeholders (@@...@@) are filled by scripts/run-divider-elab.sh.
 * N = 8 M + 2 A (prescaler P = 8/10, issue #43): 100 = (12,2); 90 = (11,1); 110 = (13,3); A = 0 and A = 3 at M = 12.
 .lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
@@ -14,8 +15,8 @@ V1 one 0 dc 3.3
 IRF vdd iref dc 50u
 XQR iref iref rr 0 npn13G2v Nx=1 El=1
 RR rr 0 2400
-VIP inp 0 dc 3.18
-VIN inn 0 dc 3.18
+VIP inp 0 dc 3.18 sin(3.18 0.2 100meg)
+VIN inn 0 dc 3.18 sin(3.18 -0.2 100meg)
 * M3 M2 M1 M0   A1 A0
 Xn100 inp inn iref 0 0 one one 0 one mc100 fb100 vdd 0 divider
 Xn90  inp inn iref one one 0 one one 0 mc90 fb90 vdd 0 divider
@@ -26,7 +27,7 @@ Xa3   inp inn iref 0 0 one one one one mca3 fba3 vdd 0 divider
 
 .control
 pre_osdi @@OSDI_PSP@@
-op
+tran 100p 30n 0 100p
 echo "ELAB_OK n100 n90 n110 a0 a3"
 .endc
 .end
