@@ -137,8 +137,13 @@ carries one `XVCO ... vco` instance line and no stub `.subckt`. A loop testbench
 (for example by wrapping the pinned file's device lines in a `.subckt vco VCTRL OUTP OUTN VDD VSS`, without
 editing the pinned bytes). The gap is filed on `sg13g2-vco` (see the PR).
 
+**Speed gap (issue #61).** The divider as drawn does **not** divide at the prescaler output rate: with FB/MC stuck at 0 at 625 and
+687.5 MHz (simulated, nominal corner, ngspice-47, not measured). Bisect (`sim/divider-elab/records/20261103-bisect-issue61.md`):
+`cml2cmos` reaches full CMOS levels and `dff_tg_hv` toggles to 800 MHz; the `mcounter` next-state logic stops dividing between
+520 and 550 MHz even with an ideal CMOS clock. `scripts/run-divider-elab.sh` now exits nonzero on this. Open until the counter is retimed or a spec decision is made.
+
 **Checks.** `scripts/run-divider-elab.sh` elaborates the divider for five N codes (100, 90, 110, A = 0, A = 3) and counts
-`FB` period and `MC`-high clocks for N = 100 and 90 at a relaxed 100 MHz clock, nominal corner, writing an append-only
+`FB` period and `MC`-high clocks for N = 100 and 90 at a relaxed 100 MHz clock, then runs the speed check (625 and 687.5 MHz, real chain and an ideal-clock bisect control, nominal corner), writing an append-only
 record under `sim/divider-elab/records/`. It found two real defects while this was written (a DC-coupled level converter that
 could not reach the inverter threshold, and a case-insensitive net-name collision between a port `A0` and a state bit `a0`);
 SPICE names are case-insensitive, so keep port and internal net names distinct. Item-1 attestation:
