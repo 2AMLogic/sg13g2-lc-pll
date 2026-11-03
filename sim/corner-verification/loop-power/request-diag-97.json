@@ -1,0 +1,170 @@
+{
+ "_comment": [
+  "Issue #97 diagnostic: 4 TYP corners with internal-node swing probes (CK from cml2cmos, CKL buffered clock, TC, psp/psn mean). Same body/start-up as request-stage2.json."
+ ],
+ "netlist": "loop_power_body.spice",
+ "netlist_source": "schematic",
+ "engine": "ngspice",
+ "backend": "batch",
+ "models": {
+  "pdk": "ihp-sg13g2"
+ },
+ "analysis": {
+  "kind": "tran",
+  "args": "4p 120n 0 4p"
+ },
+ "measurements": [
+  {
+   "name": "ipavg",
+   "unit": "A",
+   "spec_row": "11",
+   "spice": ".meas tran ipavg avg i(vddp) from=40n to=120n"
+  },
+  {
+   "name": "idavg",
+   "unit": "A",
+   "spec_row": "11",
+   "spice": ".meas tran idavg avg i(vddd) from=40n to=120n"
+  },
+  {
+   "name": "tfb",
+   "unit": "s",
+   "spec_row": "11",
+   "on_unreached": "null",
+   "spice": ".meas tran tfb trig v(fb) val=1.65 td=40n rise=1 targ v(fb) val=1.65 td=40n rise=4"
+  },
+  {
+   "name": "fbmax",
+   "unit": "V",
+   "spice": ".meas tran fbmax max v(fb) from=40n to=120n"
+  },
+  {
+   "name": "fbmin",
+   "unit": "V",
+   "spice": ".meas tran fbmin min v(fb) from=40n to=120n"
+  },
+  {
+   "name": "pspp",
+   "unit": "V",
+   "spice": ".meas tran pspp pp v(psp) from=40n to=120n"
+  },
+  {
+   "name": "ck_max",
+   "unit": "V",
+   "spice": ".meas tran ck_max max v(xdiv.ck) from=40n to=120n"
+  },
+  {
+   "name": "ck_min",
+   "unit": "V",
+   "spice": ".meas tran ck_min min v(xdiv.ck) from=40n to=120n"
+  },
+  {
+   "name": "ckl_max",
+   "unit": "V",
+   "spice": ".meas tran ckl_max max v(xdiv.ckl) from=40n to=120n"
+  },
+  {
+   "name": "ckl_min",
+   "unit": "V",
+   "spice": ".meas tran ckl_min min v(xdiv.ckl) from=40n to=120n"
+  },
+  {
+   "name": "tc_max",
+   "unit": "V",
+   "spice": ".meas tran tc_max max v(xdiv.tc) from=40n to=120n"
+  },
+  {
+   "name": "tc_min",
+   "unit": "V",
+   "spice": ".meas tran tc_min min v(xdiv.tc) from=40n to=120n"
+  },
+  {
+   "name": "cmo_max",
+   "unit": "V",
+   "spice": ".meas tran cmo_max max v(xdiv.xcv.cmo) from=40n to=120n"
+  },
+  {
+   "name": "cmo_min",
+   "unit": "V",
+   "spice": ".meas tran cmo_min min v(xdiv.xcv.cmo) from=40n to=120n"
+  },
+  {
+   "name": "d1_max",
+   "unit": "V",
+   "spice": ".meas tran d1_max max v(xdiv.xcv.d1) from=40n to=120n"
+  },
+  {
+   "name": "d1_min",
+   "unit": "V",
+   "spice": ".meas tran d1_min min v(xdiv.xcv.d1) from=40n to=120n"
+  },
+  {
+   "name": "tail_max",
+   "unit": "V",
+   "spice": ".meas tran tail_max max v(xdiv.xcv.tail) from=40n to=120n"
+  },
+  {
+   "name": "tail_min",
+   "unit": "V",
+   "spice": ".meas tran tail_min min v(xdiv.xcv.tail) from=40n to=120n"
+  },
+  {
+   "name": "gp_max",
+   "unit": "V",
+   "spice": ".meas tran gp_max max v(xdiv.xcv.gp) from=40n to=120n"
+  },
+  {
+   "name": "gp_min",
+   "unit": "V",
+   "spice": ".meas tran gp_min min v(xdiv.xcv.gp) from=40n to=120n"
+  },
+  {
+   "name": "psp_avg",
+   "unit": "V",
+   "spice": ".meas tran psp_avg avg v(psp) from=40n to=120n"
+  },
+  {
+   "name": "psn_avg",
+   "unit": "V",
+   "spice": ".meas tran psn_avg avg v(psn) from=40n to=120n"
+  }
+ ],
+ "corners": {
+  "process": [
+   {
+    "name": "TYP",
+    "sections": [
+     {
+      "lib": "libs.tech/ngspice/models/cornerMOShv.lib",
+      "section": "mos_tt"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerCAP.lib",
+      "section": "cap_typ"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+      "section": "hbt_typ"
+     }
+    ]
+   }
+  ],
+  "temperature_c": [
+   27,
+   125
+  ],
+  "params": {
+   "vddv": [
+    2.97,
+    3.63
+   ]
+  }
+ },
+ "options": {
+  "timeout_s": 600,
+  "keep_artifacts": true,
+  "osdi_preload": [
+   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"
+  ]
+ }
+}
