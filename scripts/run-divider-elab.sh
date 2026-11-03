@@ -8,7 +8,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 die() { echo "run-divider-elab: error: $*" >&2; exit 1; }
 source "${ROOT}/scripts/lib-pdk.sh"
 "${ROOT}/design/netlist.sh" --check divider >/dev/null 2>&1 || die "design/netlist/divider.spice is stale (run design/netlist.sh)"
-REC_DIR="${ROOT}/sim/divider-elab/records"; mkdir -p "${REC_DIR}"
+REC_DIR="${RECORD_DIR:-${ROOT}/sim/divider-elab/records}"; mkdir -p "${REC_DIR}"
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 printf 'set ngbehavior=hsa\n' > "${WORK}/.spiceinit"
 NET="${ROOT}/design/netlist/divider.spice"
