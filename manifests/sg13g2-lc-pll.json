@@ -2,6 +2,10 @@
   "block": "sg13g2-lc-pll",
   "kind": "analog",
   "evidence": {
+    "1": {
+      "file": "manifests/design-sources.attest.json",
+      "content_hash": "sha256:584300d6e350f328343fbb5bb9d7fa0c9e240fc4b2d7fe1ae135271b801ea43c"
+    },
     "10": {
       "file": "manifests/repo-hygiene.attest.json",
       "content_hash": "sha256:bb87e8207498fb63f9fb931057bd72d2d2403c6d363c613b38f6d6f6259e9b91"
