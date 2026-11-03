@@ -1,0 +1,45 @@
+* sg13g2-lc-pll :: sim/jitter -- method T cost bench (gate G6): transient noise on the closed-loop stand-in.
+* Same circuit as sim/loop-tran/loop_tran.spice.tmpl (REAL pinned PFD, design/cp.sch, design/loopfilter.sch;
+*       STAND-IN behavioural VCO+prescaler+counters at f_out(Vctrl)/N, the DIVIDED-DOWN output) plus ONE
+*       transient-noise current source Inz on the phase accumulator: white frequency noise, i.e. a 1/f^2 phase
+*       noise line. Its level is the section 3 TARGET line (-105 dBc/Hz @ 1 MHz), a placeholder to size cost,
+*       NOT a graded noise number. No other noise source (R1 thermal, reference, PFD/CP are not in this deck).
+* Placeholders (@@...@@) are filled by scripts/run-jitter-t-cost.sh; nothing else is substituted.
+* wrdata columns (wr_singlescale): time, v(fb)
+.lib @@MODELS_DIR@@/cornerMOShv.lib mos_tt
+.lib @@MODELS_DIR@@/cornerCAP.lib cap_typ
+.lib @@MODELS_DIR@@/cornerRES.lib res_typ
+.option scale=1 temp=27
+.include @@PFD_NETLIST@@
+.include @@CP_NETLIST@@
+.include @@LF_NETLIST@@
+
+.param NDIV=@@NDIV@@ F0=5.0e9 VC0=@@VC0@@ KV=@@KV_SIGNED@@ PHI0=@@PHI0@@ VSTART=@@VSTART@@
+
+VDD vdd 0 3.3
+VREF ref 0 PULSE(0 3.3 0 100p 100p 9.9n 20n)
+XPFD ref fb up dn vdd 0 pfd
+XCP up dn iref vcp vdd 0 cp
+IREF vdd iref dc 20u
+XLF vcp vctrl 0 loopfilter
+
+Bph 0 phi I = (F0 + KV*(v(vctrl) - VC0))/NDIV
+Cphi phi 0 1
+Rphi phi 0 1e12
+* transient noise: white frequency noise (NA A rms per NT-s sample = NA*NT cycles of FB; 1 F so V(phi) = cycles)
+Inz 0 phi dc 0 trnoise(@@NOISE_NA@@ @@NOISE_NT@@ 0 0 0 0 0)
+Bfb fb 0 V = 1.65 + 1.65*tanh(25*sin(6.283185307*v(phi)))
+
+.ic v(phi)=PHI0 v(vcp)=VSTART v(vctrl)=VSTART v(xlf.nz1)=VSTART
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-14
+
+.control
+pre_osdi @@OSDI_PSP@@
+pre_osdi @@OSDI_R3@@
+save v(fb)
+set rndseed=@@SEED@@
+tran 100p @@TSTOP@@ 0 @@TMAX@@
+set wr_singlescale
+wrdata @@DATA_OUT@@ v(fb)
+.endc
+.end
