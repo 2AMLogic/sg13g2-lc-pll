@@ -62,7 +62,7 @@ def main():
         print(f"gen_cells: {name}: {r['status']}: {r['device_units']} units drawn, {len(r['undrawn_devices'])} undrawn, {r['area_um2']} um2, "
               f"{len(r['port_labels'])}/{len(r['ports'])} ports labelled"
               + (f" (UNLABELLED: {r['ports_unlabelled']})" if r["ports_unlabelled"] else ""))
-    klt_v = subprocess.run(["klt", "--version"], capture_output=True, text=True).stdout.strip()
+    klt_v = subprocess.run(common.klt_cmd() + ["--version"], capture_output=True, text=True).stdout.strip()
     doc = {"schema": 1, "klt": klt_v, "pdk": common.PDK,
            "command": ".venv/bin/python layout/gen_cells.py --write", "cells": recs}
     if a.write:

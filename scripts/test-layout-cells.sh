@@ -26,8 +26,9 @@ fail = 0
 
 def labels(gds, cell):
     ly = db.Layout(); ly.read(gds); c = ly.cell(cell)
-    return sorted({it.shape().text_string for li in ly.layer_indexes()
-                   for it in c.begin_shapes_rec(li) if it.shape().is_text()})
+    # The cell's own labels only: PDK-authored sub-cells (the sg13g2 HBT) carry their own B/C/E text.
+    return sorted({s.text_string for li in ly.layer_indexes()
+                   for s in c.shapes(li).each() if s.is_text()})
 
 def check(rec, gds):
     ports = common.read_subckts(os.path.join(root, rec["netlist"]))[rec["subckt"]]["ports"]

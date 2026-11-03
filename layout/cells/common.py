@@ -33,17 +33,20 @@ PDK = "ihp-sg13g2"
 MOS_MODELS = {"sg13_hv_nmos": "nfet", "sg13_hv_pmos": "pfet"}
 RES_MODELS = {"rppd": "rppd", "rhigh": "rhigh"}
 CAP_MODELS = {"cap_cmim"}
-# Devices no klt generator draws on sg13g2 (SiGe HBT: bjt_array rejects the family, the PDK's
-# pycell library is unusable without its pycell4klayout-api submodule, and the PDK ships no
-# npn GDS). They are recorded in the provenance as undrawn, never silently dropped.
+# SiGe HBT cells placed from the PDK's own sg13g2_pr.gds by `klt gen bjt_array` (needs a klt
+# carrying klayout-tools#4855; the host klt predates it, see klt_cmd()). Nx=<n> emitters are
+# expanded into n unit cells (as `m=`), an approximation stated in the provenance.
+HBT_MODELS = {"npn13G2v": "npn13G2v"}
+# Devices no klt generator draws on sg13g2. They are recorded in the provenance as undrawn,
+# never silently dropped.
 UNDRAWN_MODELS = {
-    "npn13G2v": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)",
     "ideal_res": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical "
                  "rppd/rhigh is a schematic decision, out of scope for layout generation",
 }
-LEAF_MODELS = set(MOS_MODELS) | set(RES_MODELS) | CAP_MODELS | set(UNDRAWN_MODELS)
+LEAF_MODELS = set(MOS_MODELS) | set(HBT_MODELS) | set(RES_MODELS) | CAP_MODELS | set(UNDRAWN_MODELS)
 VOLTAGE_FLAVOR = "hv"   # thick-oxide marker (DR-002 Decision 0: 3.3 V devices throughout)
 
+MOS_W_FLOOR_UM = 0.42   # below this mos_array needs dogbone_terminals (klayout-tools#4851)
 GROUP_SPACING_UM = 4.0
 BLOCK_TARGET_WIDTH_UM = 220.0
 
@@ -154,13 +157,18 @@ def _slug(v):
 
 def plan(block, devices):
     """Group leaf devices into klt gen requests. Each unit gets the device's nets."""
-    mos, res, caps = {}, {}, {}
+    mos, res, caps, hbt = {}, {}, {}, {}
     for d in devices:
         who, p = d["path"], d["params"]
         n = _mult(p, who)
         if d["model"] in UNDRAWN_MODELS:
             continue
-        if d["model"] in MOS_MODELS:
+        if d["model"] in HBT_MODELS:
+            if float(p.get("el", "1")) != 1:
+                raise PlanError(f"{who}: El={p.get('el')} unsupported (PDK cell has a fixed emitter)")
+            nx = int(_num(p, "nx", who))
+            hbt.setdefault(HBT_MODELS[d["model"]], []).extend([d] * (n * nx))
+        elif d["model"] in MOS_MODELS:
             key = (MOS_MODELS[d["model"]], _num(p, "w", who), _num(p, "l", who), int(_num(p, "ng", who)) if "ng" in p else 1)
             mos.setdefault(key, []).extend([d] * n)
         elif d["model"] in RES_MODELS:
@@ -175,9 +183,21 @@ def plan(block, devices):
             "generator": "mos_array", "klass": flav, "count": len(mem),
             "params": {"w_um": w, "l_um": l, "fingers": ng, "rows": rows, "cols": len(mem) // rows,
                        "dummy": 0, "flavor": flav, "voltage_flavor": VOLTAGE_FLAVOR,
-                       "topology": "array", "gate_contact": True},
+                       "topology": "array", "gate_contact": True,
+                       **({"dogbone_terminals": True} if w < MOS_W_FLOOR_UM else {})},
             "terminals": [{"port": f"U{i}_{t}", "net": m["nets"][k], "unit": m["path"]}
                           for i, m in enumerate(mem) for k, t in enumerate("DGS")],
+        })
+    for flav, mem in sorted(hbt.items()):
+        rows = max(r for r in range(1, math.isqrt(len(mem)) + 1) if len(mem) % r == 0)
+        groups.append({
+            "id": f"{block}_hbt_{flav.lower()}",
+            "generator": "bjt_array", "klass": flav, "count": len(mem),
+            "params": {"flavor": flav, "rows": rows, "cols": len(mem) // rows, "dummy": 0,
+                       "topology": "array",
+                       "add_collector_ring": False},
+            "terminals": [{"port": f"Q{i + 1}_{t}", "net": m["nets"][k], "unit": m["path"]}
+                          for i, m in enumerate(mem) for k, t in enumerate("CBE")],
         })
     for (flav, w, l), mem in sorted(res.items()):
         groups.append({
@@ -202,9 +222,14 @@ def plan(block, devices):
 # --- klt driving ---------------------------------------------------------------------------
 
 
+def klt_cmd():
+    """The klt argv prefix: $KLT_CMD (e.g. `uvx --from git+...@<sha> klt`) or plain `klt`."""
+    return os.environ.get("KLT_CMD", "klt").split()
+
+
 def klt(args, cwd, pdk_root=None):
     a = list(args)
-    p = subprocess.run(["klt"] + a, capture_output=True, text=True, cwd=cwd)
+    p = subprocess.run(klt_cmd() + a, capture_output=True, text=True, cwd=cwd)
     raw = p.stdout.strip() or p.stderr.strip()
     try:
         rep = json.loads(raw) if raw else {}
@@ -263,7 +288,7 @@ def build_block(cell, subckt, netlist, out_dir, input_first=()):
                 "groups": [], "commands": [], "area_um2": 0.0}
     # Prefer groups driving the named inputs first.
     def first_rank(g):
-        return 0 if any(t["net"] in input_first and t["port"].split("_")[1] == "G" for t in g["terminals"]) else 1
+        return 0 if any(t["net"] in input_first and t["port"].split("_")[1] in ("G", "B") for t in g["terminals"]) else 1
     groups.sort(key=lambda g: (first_rank(g), g["id"]))
 
     reports, cmds, refused = {}, [], []
