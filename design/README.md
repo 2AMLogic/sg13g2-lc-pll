@@ -59,7 +59,7 @@ and `scripts/run-pfd-sweep.sh` both refuse to run if `--check` reports the commi
 - **PFD**: **adopted by pin, not copied**. `reuse.lock.json` pins `2AMLogic/sg13g2-pll@e71ff61`
   `design/netlist/pfd.spice` plus the `pfd`, `edgedet`, `srlatch`, `nand2_hv`, `inv_hv`, `inv2x_hv`
   schematics and symbols (sha256-verified, fetched into the gitignored `.fetched/`):
-  `scripts/fetch-pll.sh`, negative controls in `scripts/test-fetch-pll.sh`. Spec section 7 makes the
+  `scripts/fetch-pll.sh`, negative controls in `scripts/test-fetch-vco.sh 2AMLogic/sg13g2-pll fetch-pll.sh design/pfd.sch`. Spec section 7 makes the
   adoption conditional on a 50 MHz re-grade; `sim/pfd/` is that re-grade. The first pin (`83e59fe`)
   failed it (reset-chain parity); the re-pin to `e71ff61` (upstream fix `sg13g2-pll#284`) passes it
   (see `sim/pfd/README.md` and its newest record). No locally designed PFD is committed.

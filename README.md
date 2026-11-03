@@ -122,7 +122,7 @@ Harness tests. The first group is PDK-free and runs in CI (`.github/workflows/ha
 xschem) and is **local-only**, never run by CI and never reported as passed there:
 
 ```bash
-scripts/ci-harness.sh          # CI: test-fetch-vco.sh, test-fetch-pll.sh, loop-model pytest (needs numpy, pytest)
+scripts/ci-harness.sh          # CI: test-fetch-vco.sh (both pins), loop-model pytest (needs numpy, pytest)
 scripts/test-ngpin.sh          # local-only: ngspice pin check (PDK + ngspice)
 scripts/test-cp-dc-negative.sh # local-only: skewed CP must be flagged (PDK + ngspice)
 design/netlist.sh --check      # local-only: committed netlist matches the schematic (klt + xschem + PDK)
