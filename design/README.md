@@ -120,8 +120,7 @@ first counter stage sees 625 MHz) is **not claimed here**; it is graded by #34 /
 
 **Lock detector.** `lock_detector` is adopted by pin (`sg13g2-pll@e71ff61`, with `delaywin_hv`, `schmitt_hv`,
 `xor2_hv` and their cells), instantiated unmodified in `pll_top` on `UP`/`DN`. Spec section 7 makes the
-adoption conditional on a 50 MHz re-grade (gate G5): that re-grade is **not** done by this issue (see the
-PR); until it is, the lock detector is adopted un-graded at 50 MHz (tracked in a follow-up issue linked from the PR).
+adoption conditional on a 50 MHz re-grade (gate G5). That re-grade is recorded in [`sim/lock-detector/`](../sim/lock-detector/README.md) (simulated; nominal and the C-grid, no layout): the delay window clears the 2.5 ns floor, but the lock thresholds sit at 25-50 % of T_ref and `LOCK` is active-low as netlisted, so the cell is adopted with that finding, not as a graded pass.
 
 **Top.** `pll_top` wires `REF` -> `pfd` -> `cp` -> `loopfilter` -> `vco` -> `prescaler` -> `divider` -> `pfd`
 (`FB`), with `lock_detector` on `UP`/`DN`. Ports: `REF`, `IREFCP` (charge pump, 20 uA), `IREFPS` (prescaler

@@ -111,6 +111,7 @@ PDK/ngspice prerequisites and pins: [`sim/pins.json`](sim/pins.json) (an `ihp-sg
 | VCO smoke run | `scripts/run-vco-smoke.sh` | `sim/vco-smoke/records/` | PDK, ngspice, openvaf-r, network |
 | Charge-pump DC | `scripts/run-cp-dc.sh` | `sim/cp-dc/records/` | PDK, ngspice, `klt` |
 | PFD phase sweep (50 MHz) | `scripts/run-pfd-sweep.sh` | `sim/pfd/records/` | PDK, ngspice, `klt`, network |
+| Lock detector 50 MHz re-grade | `scripts/run-lock-detector.sh nominal\|closed\|grid1\|grid2` | `sim/lock-detector/records/` | PDK, ngspice, `klt` (batch fleet for the C-grid), network |
 | Loop model (method L) | `python3 sim/loop-model/loop_model.py --out sim/loop-model/results/loop-model.json` | `sim/loop-model/results/loop-model.json` | python3, numpy |
 
 Harness tests. The first group is PDK-free and runs in CI (`.github/workflows/harness.yml`, via

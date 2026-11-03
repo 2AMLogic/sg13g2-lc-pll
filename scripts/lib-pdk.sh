@@ -23,6 +23,12 @@ if [ "${PDK_SKIP_PSP103:-0}" != 1 ]; then
   got="$(sha256sum "${OSDI_PSP}" 2>/dev/null | cut -d' ' -f1)"
   [ "${got}" = "$(jq -r .psp103.osdi_sha256 "${PINS}")" ] || die "${OSDI_PSP} is ${got:-missing}, not the pinned psp103.osdi"
 fi
+# PDK_NEED_R3CMC=1 (lock_detector's rhigh pull-up): also hash-check the r3_cmc OSDI library.
+if [ "${PDK_NEED_R3CMC:-0}" = 1 ]; then
+  OSDI_R3CMC="${PDK_DIR}/$(jq -r .r3_cmc.osdi "${PINS}")"
+  got="$(sha256sum "${OSDI_R3CMC}" 2>/dev/null | cut -d' ' -f1)"
+  [ "${got}" = "$(jq -r .r3_cmc.osdi_sha256 "${PINS}")" ] || die "${OSDI_R3CMC} is ${got:-missing}, not the pinned r3_cmc.osdi"
+fi
 NGSPICE="${NGSPICE:-$(command -v ngspice || true)}"
 [ -x "${NGSPICE}" ] || die "ngspice not found; set NGSPICE"
 NG_VER="$("${NGSPICE}" --version 2>&1 | grep -o 'ngspice-[0-9.]*' | head -1 || true)"
