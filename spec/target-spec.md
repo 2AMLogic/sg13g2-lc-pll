@@ -239,7 +239,7 @@ The loop is graded on the **same grid** as the VCO so the two are comparable.
 | Gate | What closes it |
 |---|---|
 | G1 | Prescaler first-stage input capacitance and max toggle frequency simulated |
-| G2 | VCO rows 1, 2, 6, 7 re-checked with the prescaler load (#87; nominal-corner record in `sim/vco-prescaler-load/records/`, C-grid still open) |
+| G2 | VCO rows 1, 2, 6, 7 re-checked with the prescaler load (#87; nominal-corner record in `sim/vco-prescaler-load/records/`; C-grid records in `sim/corner-verification/vco-prescaler-load/records/`, 125 C and row 1 open, VCO side `sg13g2-vco` #280) |
 | G3 | Second-stage device flavor chosen |
 | G4 | VCO graded f(Vctrl) over the 135 + 18 grid (`sg13g2-vco` #50, #53): gives V_hi,req and local Kvco |
 | G5 | `sg13g2-pll` blocks re-graded at 50 MHz (PFD, lock detector) |

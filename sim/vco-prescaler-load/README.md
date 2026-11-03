@@ -15,9 +15,9 @@ prescaler netlist drift check). `OPENVAF_LD_LIBRARY_PATH` must be a directory th
 - `analyze.py` holds the estimators (frequency, Vpp, t90, tank resonance from an AC current probe).
 - `records/` is dated and append-only.
 
-**Not covered**: the C-grid. The varactor is an OSDI model (`mosvar`) and `klt sim` cannot express an OSDI deck
-(klayout-tools#2511), so the grid cannot go to the batch fleet and must not be hand-launched on the dispatch host.
-G2 stays open until it can. Routing capacitance is not in the load (the G1 device-level number is 1.373 fF against a
+**Not covered here**: the C-grid; it ran through `klt sim` on the batch fleet, see
+`sim/corner-verification/vco-prescaler-load/` (the mosvar OSDI is preloaded from the PDK on the runner, `options.osdi_preload`).
+Routing capacitance is not in the load (the G1 device-level number is 1.373 fF against a
 2.1 fF device-plus-routing budget). The row 6 ratio g_m / loss >= 3.0 is not extracted; only startup time is compared.
 Simulated, not measured.
 
