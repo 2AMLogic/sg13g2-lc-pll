@@ -11,7 +11,10 @@ record.
   `kind: analog` (an integer-N LC PLL with no mixed-signal partition decided
   today; if that changes, `kind` may change with it). `evidence` cites items 1, 9 and 10
   (`manifests/design-sources.attest.json`, `manifests/testbenches.attest.json`,
-  `manifests/repo-hygiene.attest.json`); every other T1 item is `unmet` /
+  `manifests/repo-hygiene.attest.json`) and item 6 (the `klt yield` report of the
+  charge-pump Monte Carlo, `sim/cp-mc/records/`, graded `unmet` / `check_failed`:
+  the campaign fails the row-7 mismatch target; `spec_rows."6"` declares the two
+  rows' unevidenceable parts as gaps); every other T1 item is `unmet` /
   `no_evidence`. Evidence is added one item at a time, each citation pinning
   the `content_hash` of the artifact it cites.
 - **`design-evidence-tiers.md`**: the T1-T4 checklist the grader parses.

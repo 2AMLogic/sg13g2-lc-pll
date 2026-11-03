@@ -1,0 +1,14 @@
+klt sim: notice: splitting 1320 units into 2 batch jobs of at most 660 units each (request.batch.job_ceiling_check / max_units_per_job)
+klt: batch job klt-sim-131d0257f7c9 submitting to s3://<bucket>/jobs/klt-sim-131d0257f7c9
+klt: batch job klt-sim-4e8237c20fcc submitting to s3://<bucket>/jobs/klt-sim-4e8237c20fcc
+klt sim: shards 1/2 launched, 0 launching, 1 pending, 1 collected; launch rate unknown, ETA unknown
+klt sim: batch job klt-sim-4e8237c20fcc: submitted
+klt sim: batch job klt-sim-131d0257f7c9: submitted
+klt sim: batch job klt-sim-131d0257f7c9 launched; re-attach with `klt sim <request> --backend batch --attach klt-sim-131d0257f7c9`
+klt sim: batch job klt-sim-131d0257f7c9 state=no status.json yet elapsed=1s
+klt sim: shards 2/2 launched, 0 launching, 0 pending, 0 collected; launch rate 67.2/min, ETA 0m
+klt sim: batch job klt-sim-4e8237c20fcc launched; re-attach with `klt sim <request> --backend batch --attach klt-sim-4e8237c20fcc`
+klt sim: batch job klt-sim-4e8237c20fcc state=no status.json yet elapsed=1s
+klt sim: batch job klt-sim-131d0257f7c9: failed
+klt sim: batch job klt-sim-4e8237c20fcc: failed
+klt sim: 2 of 2 batch job(s) were submitted but never launched; rerun with --resume and the same outdir to launch them (shard map: /tmp/cpmc-work6/nom/out/batch-shards.json)

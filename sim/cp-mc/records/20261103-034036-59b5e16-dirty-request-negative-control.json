@@ -1,0 +1,488 @@
+{
+  "description": "sg13g2-lc-pll charge-pump up/down mismatch Monte Carlo. Simulated, not measured. mm = |I_up - I_dn| / 200 uA x 100 at one V_out (static DC, one CP instance, one mismatch draw per sample); vr = 2 |I_up - I_dn| (t_rst/T_ref = 0.1, stated allowance) |Z_filter(50 MHz)| (83.1029 ohm from sim/loop-model/loop-filter.json) = first-harmonic reference ripple from the mismatch only, NOT the locked-loop spur.",
+  "netlist": "cp_mc.spice",
+  "engine": "ngspice",
+  "backend": "batch",
+  "models": {
+    "pdk": "sg13g2",
+    "lib": "libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "corners": {
+    "units": [
+      {
+        "process": "mos_tt_mismatch",
+        "temperature_c": -40,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_tt_mismatch",
+        "temperature_c": 27,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_tt_mismatch",
+        "temperature_c": 125,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_ss_mismatch",
+        "temperature_c": -40,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_ss_mismatch",
+        "temperature_c": 27,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_ss_mismatch",
+        "temperature_c": 125,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_ff_mismatch",
+        "temperature_c": -40,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_ff_mismatch",
+        "temperature_c": 27,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_ff_mismatch",
+        "temperature_c": 125,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_sf_mismatch",
+        "temperature_c": -40,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_sf_mismatch",
+        "temperature_c": 27,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_sf_mismatch",
+        "temperature_c": 125,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_fs_mismatch",
+        "temperature_c": -40,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_fs_mismatch",
+        "temperature_c": 27,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_fs_mismatch",
+        "temperature_c": 125,
+        "supply_v": {
+          "vdd": 3.3
+        }
+      },
+      {
+        "process": "mos_ss_mismatch",
+        "temperature_c": -40,
+        "supply_v": {
+          "vdd": 2.97
+        }
+      },
+      {
+        "process": "mos_ss_mismatch",
+        "temperature_c": 27,
+        "supply_v": {
+          "vdd": 2.97
+        }
+      },
+      {
+        "process": "mos_ss_mismatch",
+        "temperature_c": 125,
+        "supply_v": {
+          "vdd": 2.97
+        }
+      },
+      {
+        "process": "mos_tt_mismatch",
+        "temperature_c": -40,
+        "supply_v": {
+          "vdd": 2.97
+        }
+      },
+      {
+        "process": "mos_tt_mismatch",
+        "temperature_c": 27,
+        "supply_v": {
+          "vdd": 2.97
+        }
+      },
+      {
+        "process": "mos_tt_mismatch",
+        "temperature_c": 125,
+        "supply_v": {
+          "vdd": 2.97
+        }
+      },
+      {
+        "process": "mos_ff_mismatch",
+        "temperature_c": -40,
+        "supply_v": {
+          "vdd": 2.97
+        }
+      },
+      {
+        "process": "mos_ff_mismatch",
+        "temperature_c": 27,
+        "supply_v": {
+          "vdd": 2.97
+        }
+      },
+      {
+        "process": "mos_ff_mismatch",
+        "temperature_c": 125,
+        "supply_v": {
+          "vdd": 2.97
+        }
+      },
+      {
+        "process": "mos_ss_mismatch",
+        "temperature_c": -40,
+        "supply_v": {
+          "vdd": 3.63
+        }
+      },
+      {
+        "process": "mos_ss_mismatch",
+        "temperature_c": 27,
+        "supply_v": {
+          "vdd": 3.63
+        }
+      },
+      {
+        "process": "mos_ss_mismatch",
+        "temperature_c": 125,
+        "supply_v": {
+          "vdd": 3.63
+        }
+      },
+      {
+        "process": "mos_tt_mismatch",
+        "temperature_c": -40,
+        "supply_v": {
+          "vdd": 3.63
+        }
+      },
+      {
+        "process": "mos_tt_mismatch",
+        "temperature_c": 27,
+        "supply_v": {
+          "vdd": 3.63
+        }
+      },
+      {
+        "process": "mos_tt_mismatch",
+        "temperature_c": 125,
+        "supply_v": {
+          "vdd": 3.63
+        }
+      },
+      {
+        "process": "mos_ff_mismatch",
+        "temperature_c": -40,
+        "supply_v": {
+          "vdd": 3.63
+        }
+      },
+      {
+        "process": "mos_ff_mismatch",
+        "temperature_c": 27,
+        "supply_v": {
+          "vdd": 3.63
+        }
+      },
+      {
+        "process": "mos_ff_mismatch",
+        "temperature_c": 125,
+        "supply_v": {
+          "vdd": 3.63
+        }
+      }
+    ]
+  },
+  "monte_carlo": {
+    "n": 20,
+    "seed": 20261103,
+    "vary": "mismatch",
+    "quantiles": [
+      1,
+      50,
+      99
+    ],
+    "k_sigma": 3
+  },
+  "analysis_steps": [
+    {
+      "name": "up_v165",
+      "analysis": {
+        "kind": "op",
+        "args": ""
+      },
+      "alter": {
+        "VSU": 1,
+        "VSD": 0,
+        "VO": 1.65
+      },
+      "measurements": [
+        {
+          "name": "cur",
+          "expr": "i(VO)",
+          "unit": "A"
+        }
+      ]
+    },
+    {
+      "name": "dn_v165",
+      "analysis": {
+        "kind": "op",
+        "args": ""
+      },
+      "alter": {
+        "VSU": 0,
+        "VSD": 1,
+        "VO": 1.65
+      },
+      "measurements": [
+        {
+          "name": "cur",
+          "expr": "i(VO)",
+          "unit": "A"
+        }
+      ]
+    },
+    {
+      "name": "up_v200",
+      "analysis": {
+        "kind": "op",
+        "args": ""
+      },
+      "alter": {
+        "VSU": 1,
+        "VSD": 0,
+        "VO": 2.0
+      },
+      "measurements": [
+        {
+          "name": "cur",
+          "expr": "i(VO)",
+          "unit": "A"
+        }
+      ]
+    },
+    {
+      "name": "dn_v200",
+      "analysis": {
+        "kind": "op",
+        "args": ""
+      },
+      "alter": {
+        "VSU": 0,
+        "VSD": 1,
+        "VO": 2.0
+      },
+      "measurements": [
+        {
+          "name": "cur",
+          "expr": "i(VO)",
+          "unit": "A"
+        }
+      ]
+    },
+    {
+      "name": "up_v225",
+      "analysis": {
+        "kind": "op",
+        "args": ""
+      },
+      "alter": {
+        "VSU": 1,
+        "VSD": 0,
+        "VO": 2.25
+      },
+      "measurements": [
+        {
+          "name": "cur",
+          "expr": "i(VO)",
+          "unit": "A"
+        }
+      ]
+    },
+    {
+      "name": "dn_v225",
+      "analysis": {
+        "kind": "op",
+        "args": ""
+      },
+      "alter": {
+        "VSU": 0,
+        "VSD": 1,
+        "VO": 2.25
+      },
+      "measurements": [
+        {
+          "name": "cur",
+          "expr": "i(VO)",
+          "unit": "A"
+        }
+      ]
+    },
+    {
+      "name": "up_v245",
+      "analysis": {
+        "kind": "op",
+        "args": ""
+      },
+      "alter": {
+        "VSU": 1,
+        "VSD": 0,
+        "VO": 2.45
+      },
+      "measurements": [
+        {
+          "name": "cur",
+          "expr": "i(VO)",
+          "unit": "A"
+        }
+      ]
+    },
+    {
+      "name": "dn_v245",
+      "analysis": {
+        "kind": "op",
+        "args": ""
+      },
+      "alter": {
+        "VSU": 0,
+        "VSD": 1,
+        "VO": 2.45
+      },
+      "measurements": [
+        {
+          "name": "cur",
+          "expr": "i(VO)",
+          "unit": "A"
+        }
+      ]
+    }
+  ],
+  "measurements": [
+    {
+      "name": "mm_v165_pct",
+      "expr": "100*abs(up_v165.cur + dn_v165.cur)/0.0002",
+      "unit": "%",
+      "limits": {
+        "max": 2.0
+      }
+    },
+    {
+      "name": "vr_v165_mv",
+      "expr": "1e3*2*abs(up_v165.cur + dn_v165.cur)*0.1*83.1029431",
+      "unit": "mV",
+      "limits": {
+        "max": 0.52
+      }
+    },
+    {
+      "name": "mm_v200_pct",
+      "expr": "100*abs(up_v200.cur + dn_v200.cur)/0.0002",
+      "unit": "%",
+      "limits": {
+        "max": 2.0
+      }
+    },
+    {
+      "name": "vr_v200_mv",
+      "expr": "1e3*2*abs(up_v200.cur + dn_v200.cur)*0.1*83.1029431",
+      "unit": "mV",
+      "limits": {
+        "max": 0.52
+      }
+    },
+    {
+      "name": "mm_v225_pct",
+      "expr": "100*abs(up_v225.cur + dn_v225.cur)/0.0002",
+      "unit": "%",
+      "limits": {
+        "max": 2.0
+      }
+    },
+    {
+      "name": "vr_v225_mv",
+      "expr": "1e3*2*abs(up_v225.cur + dn_v225.cur)*0.1*83.1029431",
+      "unit": "mV",
+      "limits": {
+        "max": 0.52
+      }
+    },
+    {
+      "name": "mm_v245_pct",
+      "expr": "100*abs(up_v245.cur + dn_v245.cur)/0.0002",
+      "unit": "%",
+      "limits": {
+        "max": 2.0
+      }
+    },
+    {
+      "name": "vr_v245_mv",
+      "expr": "1e3*2*abs(up_v245.cur + dn_v245.cur)*0.1*83.1029431",
+      "unit": "mV",
+      "limits": {
+        "max": 0.52
+      }
+    }
+  ],
+  "options": {
+    "timeout_s": 5,
+    "stage_model_inputs": true,
+    "osdi_preload": [
+      "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"
+    ],
+    "threads_per_worker": 1,
+    "ngspice_init": [
+      "set ngbehavior=hsa",
+      "set num_threads=1"
+    ]
+  }
+}

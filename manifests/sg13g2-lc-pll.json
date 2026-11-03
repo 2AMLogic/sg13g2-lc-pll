@@ -6,6 +6,16 @@
       "file": "manifests/design-sources.attest.json",
       "content_hash": "sha256:584300d6e350f328343fbb5bb9d7fa0c9e240fc4b2d7fe1ae135271b801ea43c"
     },
+    "6": [
+      {
+        "file": "sim/cp-mc/records/20261103-034036-59b5e16-dirty-yield-target.json",
+        "content_hash": "sha256:fc020d445bcd4148539b39e526d222793e67a98e727de36a6e645281de1c9592",
+        "rows": [
+          "7.mismatch",
+          "9.cp_ripple"
+        ]
+      }
+    ],
     "9": {
       "file": "manifests/testbenches.attest.json",
       "content_hash": "sha256:b059e0abc0acf128ce530e9153271cf8b47df8e44565441e3ee0bde40c9fb082"
@@ -14,5 +24,23 @@
       "file": "manifests/repo-hygiene.attest.json",
       "content_hash": "sha256:bb87e8207498fb63f9fb931057bd72d2d2403c6d363c613b38f6d6f6259e9b91"
     }
+  },
+  "spec_rows": {
+    "6": [
+      {
+        "id": "7.mismatch"
+      },
+      {
+        "id": "7.v_hi_req",
+        "gap": "V_hi,req unresolved: owed by the VCO graded f(Vctrl) grid (gate G4, sg13g2-vco #50/#53); the upper compliance edge cannot be pinned"
+      },
+      {
+        "id": "9.cp_ripple"
+      },
+      {
+        "id": "9.locked_loop_spur",
+        "gap": "method T (locked transient, FFT of v(Vctrl) at f_ref) not run; this campaign covers only the CP-mismatch contribution to the reference ripple"
+      }
+    ]
   }
 }
