@@ -81,11 +81,6 @@ only (`sim/prescaler-g1/`, `sim/prescaler-g3/`); no corner grid.
 **Ratio caveat**: a fixed /2 followed by a /4/5 gives total /8 or /10, not the /8 or /9 that spec rows
 3 and 4 state; see the issue filed against the spec. The cells implement /4/5 as the issue asks.
 
-## Item-1 inventory entry
-
-`design/netlist/prescaler.inventory.json` lists the prescaler netlist (path + sha256) for the item-1
-`--inventory` file that #32 assembles. `scripts/check-prescaler-inventory.sh` fails if it is stale.
-
 ## Loop blocks (`loopfilter`, `divider`, `pll_top`)
 
 Item-1 sources for the rest of the loop (issue #32). The schematics were emitted by a script and are
