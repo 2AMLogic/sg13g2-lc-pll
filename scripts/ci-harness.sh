@@ -14,4 +14,5 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${ROOT}"
 bash scripts/test-fetch-vco.sh
 bash scripts/test-fetch-pll.sh
-python3 -m pytest -q -p no:cacheprovider sim/loop-model
+python3 scripts/gen_prescaler_vce_request.py --check
+python3 -m pytest -q -p no:cacheprovider sim/loop-model sim/prescaler-g1

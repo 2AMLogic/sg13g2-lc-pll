@@ -4,6 +4,8 @@ IREF is the reference current sunk from VDD by the caller (I_cp = K*IREF, K = le
 the net IREF is also the gate bias of every NMOS mirror device (diode XBN1). Every other bias
 branch carries the same unit current. High-swing cascode bias per polarity: the cascode-bias diode
 (XBNC / XBPC) is narrower than the leg cascode so the mirror device keeps Vds above Vdsat.
+XBPC is 4u (3u originally): at 3u the source leg overshot (FAST / 3.63 V / -40 C: I_up - I_dn = 2.19 % of
+I_cp at V_out = 1.65 V, row 7 bound 2 %), 4u = the XBN1 unit width, i.e. the leg cascode density at K = 9.5.
 Device flavour: SG13G2 3.3 V thick-oxide CMOS (sg13_hv_nmos / sg13_hv_pmos), as the adopted
 sg13g2-pll PFD. Connectivity is label-driven (lab_pin stubs on every terminal), the same
 convention as sg13g2-pll's schematics. Sizing is simulation-grounded only at the typical
@@ -49,7 +51,7 @@ C {lab_pin.sym} -20 600 0 0 {name=l25 lab=IBP}
 C {lab_pin.sym} 20 570 2 0 {name=l26 lab=VDD}
 C {lab_pin.sym} 20 630 2 0 {name=l27 lab=px}
 C {lab_pin.sym} 20 600 2 0 {name=l28 lab=VDD}
-C {sg13g2_pr/sg13_hv_pmos.sym} 300 600 0 0 {name=BPC model=sg13_hv_pmos w=3u l=1u ng=1 m=1 spiceprefix=X}
+C {sg13g2_pr/sg13_hv_pmos.sym} 300 600 0 0 {name=BPC model=sg13_hv_pmos w=4u l=1u ng=1 m=1 spiceprefix=X}
 C {lab_pin.sym} 280 600 0 0 {name=l29 lab=ICP}
 C {lab_pin.sym} 320 570 2 0 {name=l30 lab=px}
 C {lab_pin.sym} 320 630 2 0 {name=l31 lab=ICP}

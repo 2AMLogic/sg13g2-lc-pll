@@ -1,0 +1,18 @@
+* sg13g2-lc-pll :: sim/prescaler-g1 -- prescaler HBT Vce stress across PVT, for `klt sim`.
+* Circuit body only (klt sim owns the .lib/.temp/.control cards). Same stimulus as
+* prescaler_g1.spice.tmpl: 0.4 Vpp differential 5.0 GHz sine on INP/INN at a common mode equal to
+* the supply (the tank inductors return to VDD), IREF = 50 uA, MC = 0 (/4 mode), ideal resistors.
+* vddv is the supply axis (corners.params): the SIN common mode must move with the supply, which
+* corners.supply_v cannot do (alter has no effect on a SIN source).
+.param vddv=3.3
+VDD vdd 0 {vddv}
+IRF vdd iref dc 50u
+VMC mc 0 dc 0
+X1 inp inn mc iref outp outn vdd 0 prescaler
+VIP inp 0 dc {vddv} sin({vddv} 0.1 5e9)
+VIN inn 0 dc {vddv} sin({vddv} -0.1 5e9)
+* Only the master latch of the /2 is seeded, to break the symmetry. Forcing the /2 output nodes
+* (x1.hp/x1.hn) too made the transient operating point fail ('timestep too small') at 125 C in the
+* SLOW/TYP/FAST 3.63 V and FAST 2.97 V corners; the divider still starts and toggles (checked).
+.ic v(x1.x2.mp)={vddv-0.3} v(x1.x2.mn)={vddv-0.1}
+.include ../../design/netlist/prescaler.spice

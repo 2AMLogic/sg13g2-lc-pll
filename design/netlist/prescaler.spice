@@ -66,10 +66,14 @@ XT C1 C1B IB OUTP OUTN VDD VSS div2_cml_ls
 *.iopin VSS
 XQE1 VDD IN OUT VSS npn13G2v Nx=1 El=1
 XQE2 VDD INB OUTB VSS npn13G2v Nx=1 El=1
-XQF1 OUT IB f1 VSS npn13G2v Nx=1 El=1
+XQF1 qc1 IB f1 VSS npn13G2v Nx=1 El=1
 RF1 f1 VSS 2400 m=1
-XQF2 OUTB IB f2 VSS npn13G2v Nx=1 El=1
+XQF2 qc2 IB f2 VSS npn13G2v Nx=1 El=1
 RF2 f2 VSS 2400 m=1
+XDF1 OUT OUT d1 VSS npn13G2v Nx=1 El=1
+XDF2 OUTB OUTB d2 VSS npn13G2v Nx=1 El=1
+RDF1 d1 qc1 4k m=1
+RDF2 d2 qc2 4k m=1
 .ends
 
 
@@ -94,8 +98,9 @@ XQH1 QB Q e2 VSS npn13G2v Nx=1 El=1
 XQH2 Q QB e2 VSS npn13G2v Nx=1 El=1
 XQC1 e1 CK t VSS npn13G2v Nx=1 El=1
 XQC2 e2 CKB t VSS npn13G2v Nx=1 El=1
-XQT t IB teT VSS npn13G2v Nx=4 El=1
+XQT tc IB teT VSS npn13G2v Nx=4 El=1
 RT teT VSS 600 m=1
+RTC t tc 1.2k m=1
 .ends
 
 
@@ -110,8 +115,8 @@ RT teT VSS 600 m=1
 *.iopin VDD
 *.iopin VSS
 RIN MC bm 20k m=1
-RD1 VDD vr 20k m=1
-RD2 vr VSS 20k m=1
+RD1 VDD vr 12k m=1
+RD2 vr VSS 28k m=1
 RL1 VDD MCP 2400 m=1
 RL2 VDD MCN 2400 m=1
 XQM1 MCN bm t VSS npn13G2v Nx=1 El=1
@@ -134,10 +139,14 @@ RT teT VSS 1200 m=1
 *.iopin VSS
 XQE1 VDD IN OUT VSS npn13G2v Nx=1 El=1
 XQE2 VDD INB OUTB VSS npn13G2v Nx=1 El=1
-XQF1 OUT IB f1 VSS npn13G2v Nx=1 El=1
+XQF1 qc1 IB f1 VSS npn13G2v Nx=1 El=1
 RF1 f1 VSS 2400 m=1
-XQF2 OUTB IB f2 VSS npn13G2v Nx=1 El=1
+XQF2 qc2 IB f2 VSS npn13G2v Nx=1 El=1
 RF2 f2 VSS 2400 m=1
+XDF1 OUT OUT d1 VSS npn13G2v Nx=1 El=1
+XDF2 OUTB OUTB d2 VSS npn13G2v Nx=1 El=1
+RDF1 d1 qc1 4k m=1
+RDF2 d2 qc2 4k m=1
 .ends
 
 
@@ -160,8 +169,9 @@ XQA1 QB A n1 VSS npn13G2v Nx=1 El=1
 XQA2 Q AB n1 VSS npn13G2v Nx=1 El=1
 XQB1 n1 B t VSS npn13G2v Nx=1 El=1
 XQB2 Q BB t VSS npn13G2v Nx=1 El=1
-XQT t IB teT VSS npn13G2v Nx=2 El=1
+XQT tc IB teT VSS npn13G2v Nx=2 El=1
 RT teT VSS 1200 m=1
+RTC t tc 2.4k m=1
 .ends
 
 
@@ -243,7 +253,8 @@ XQH1 QB Q e2 VSS npn13G2v Nx=1 El=1
 XQH2 Q QB e2 VSS npn13G2v Nx=1 El=1
 XQC1 e1 CK t VSS npn13G2v Nx=1 El=1
 XQC2 e2 CKB t VSS npn13G2v Nx=1 El=1
-XQT t IB teT VSS npn13G2v Nx=2 El=1
+XQT tc IB teT VSS npn13G2v Nx=2 El=1
 RT teT VSS 1200 m=1
+RTC t tc 2.4k m=1
 .ends
 

@@ -81,11 +81,6 @@ only (`sim/prescaler-g1/`, `sim/prescaler-g3/`); no corner grid.
 **Ratio caveat**: a fixed /2 followed by a /4/5 gives total /8 or /10, not the /8 or /9 that spec rows
 3 and 4 state; see the issue filed against the spec. The cells implement /4/5 as the issue asks.
 
-## Item-1 inventory entry
-
-`design/netlist/prescaler.inventory.json` lists the prescaler netlist (path + sha256) for the item-1
-`--inventory` file that #32 assembles. `scripts/check-prescaler-inventory.sh` fails if it is stale.
-
 ## Loop blocks (`loopfilter`, `divider`, `pll_top`)
 
 Item-1 sources for the rest of the loop (issue #32). The schematics were emitted by a script and are
@@ -120,8 +115,7 @@ first counter stage sees 625 MHz) is **not claimed here**; it is graded by #34 /
 
 **Lock detector.** `lock_detector` is adopted by pin (`sg13g2-pll@e71ff61`, with `delaywin_hv`, `schmitt_hv`,
 `xor2_hv` and their cells), instantiated unmodified in `pll_top` on `UP`/`DN`. Spec section 7 makes the
-adoption conditional on a 50 MHz re-grade (gate G5): that re-grade is **not** done by this issue (see the
-PR); until it is, the lock detector is adopted un-graded at 50 MHz (tracked in a follow-up issue linked from the PR).
+adoption conditional on a 50 MHz re-grade (gate G5). That re-grade is recorded in [`sim/lock-detector/`](../sim/lock-detector/README.md) (simulated; nominal and the C-grid, no layout): the delay window clears the 2.5 ns floor, but the lock thresholds sit at 25-50 % of T_ref and `LOCK` is active-low as netlisted, so the cell is adopted with that finding, not as a graded pass.
 
 **Top.** `pll_top` wires `REF` -> `pfd` -> `cp` -> `loopfilter` -> `vco` -> `prescaler` -> `divider` -> `pfd`
 (`FB`), with `lock_detector` on `UP`/`DN`. Ports: `REF`, `IREFCP` (charge pump, 20 uA), `IREFPS` (prescaler
@@ -137,8 +131,13 @@ carries one `XVCO ... vco` instance line and no stub `.subckt`. A loop testbench
 (for example by wrapping the pinned file's device lines in a `.subckt vco VCTRL OUTP OUTN VDD VSS`, without
 editing the pinned bytes). The gap is filed on `sg13g2-vco` (see the PR).
 
+**Speed gap (issue #61).** The divider as drawn does **not** divide at the prescaler output rate: with FB/MC stuck at 0 at 625 and
+687.5 MHz (simulated, nominal corner, ngspice-47, not measured). Bisect (`sim/divider-elab/records/20261103-bisect-issue61.md`):
+`cml2cmos` reaches full CMOS levels and `dff_tg_hv` toggles to 800 MHz; the `mcounter` next-state logic stops dividing between
+520 and 550 MHz even with an ideal CMOS clock. `scripts/run-divider-elab.sh` now exits nonzero on this. Open until the counter is retimed or a spec decision is made.
+
 **Checks.** `scripts/run-divider-elab.sh` elaborates the divider for five N codes (100, 90, 110, A = 0, A = 3) and counts
-`FB` period and `MC`-high clocks for N = 100 and 90 at a relaxed 100 MHz clock, nominal corner, writing an append-only
+`FB` period and `MC`-high clocks for N = 100 and 90 at a relaxed 100 MHz clock, then runs the speed check (625 and 687.5 MHz, real chain and an ideal-clock bisect control, nominal corner), writing an append-only
 record under `sim/divider-elab/records/`. It found two real defects while this was written (a DC-coupled level converter that
 could not reach the inverter threshold, and a case-insensitive net-name collision between a port `A0` and a state bit `a0`);
 SPICE names are case-insensitive, so keep port and internal net names distinct. Item-1 attestation:
