@@ -29,7 +29,10 @@ def z_mag(flt, f):
 def tag(v):
     return "v%03d" % round(v * 100)
 
-def units(probe):
+def units(probe, corner_set="full"):
+    if corner_set == "attr":
+        # attribution grid (sim/cp-mc/attribute.py): MOS {tt,ss,ff} x T at 3.3 V, 9 units
+        return [{"process": "mos_%s_mismatch" % m, "temperature_c": t, "supply_v": {"vdd": 3.3}} for m in ("tt", "ss", "ff") for t in TEMPS]
     if probe:
         return [{"process": "mos_tt_mismatch", "temperature_c": 27, "supply_v": {"vdd": 3.3}}]
     u = [{"process": "mos_%s_mismatch" % m, "temperature_c": t, "supply_v": {"vdd": 3.3}} for m in MOS for t in TEMPS]
@@ -45,6 +48,8 @@ def main():
     ap.add_argument("--n", type=int, required=True)
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--probe", action="store_true")
+    ap.add_argument("--corner-set", choices=("full", "attr"), default="full")
+    ap.add_argument("--label", default="")
     a = ap.parse_args()
     out = Path(a.outdir); out.mkdir(parents=True, exist_ok=True)
     flt = json.loads((ROOT / "sim/loop-model/loop-filter.json").read_text())
@@ -67,7 +72,7 @@ def main():
         meas.append({"name": "vr_%s_mv" % t, "expr": "1e3*2*%s*%.6g*%.9g" % (d, TRST_FRAC, zf), "unit": "mV",
                      "limits": {"max": VR_LIMIT_MV}})
     req = {
-        "description": ("sg13g2-lc-pll charge-pump up/down mismatch Monte Carlo. Simulated, not measured. "
+        "description": (a.label + " sg13g2-lc-pll charge-pump up/down mismatch Monte Carlo. Simulated, not measured. "
                         "mm = |I_up - I_dn| / %g uA x 100 at one V_out (static DC, one CP instance, one mismatch draw per sample); "
                         "vr = 2 |I_up - I_dn| (t_rst/T_ref = %g, stated allowance) |Z_filter(%g MHz)| (%.6g ohm from sim/loop-model/loop-filter.json) "
                         "= first-harmonic reference ripple from the mismatch only, NOT the locked-loop spur."
@@ -76,7 +81,7 @@ def main():
         "engine": "ngspice",
         "backend": "batch",
         "models": {"pdk": "sg13g2", "lib": "libs.tech/ngspice/models/cornerMOShv.lib"},
-        "corners": {"units": units(a.probe)},
+        "corners": {"units": units(a.probe, a.corner_set)},
         "monte_carlo": {"n": a.n, "seed": a.seed, "vary": "mismatch", "quantiles": [1, 50, 99], "k_sigma": 3},
         "analysis_steps": steps,
         "measurements": meas,

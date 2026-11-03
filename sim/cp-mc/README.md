@@ -51,3 +51,18 @@ Earlier attempts on the fleet are not evidence and left no result: a single 6600
 unit 10 s or more instead of 0.2 s (fleet oversubscription; fixed by `options.threads_per_worker = 1`), so 2262 of
 3300 units hit a 15 s timeout. The `-klt-sim-stderr.txt` files in `records/` are the stderr of the passes that
 produced the committed record (the fleet launched the shards over several `--resume` passes for lack of capacity).
+
+## Per-device-group attribution and resize probes (issue #78)
+
+```bash
+scripts/run-cp-attr.sh --dry-run   # build + validate the per-group requests
+scripts/run-cp-attr.sh             # 11 Monte Carlo runs on the batch fleet; writes records/<id>-attribution.md
+```
+
+`attribute.py` leaves mismatch on in one device group at a time (`mm_ok=0`, the IHP mismatch subckt's instance
+parameter, on every other MOS) and subtracts a mismatch-off run (the deterministic P/N offset). Groups add in
+mean-square (sum / all-on 0.96 to 1.10 in the committed record). `records/20261103-051327-*-attribution.md` used
+a coarser grouping (`bn_copy` = XBN2 + XBNS) that the current `attribute.py` no longer defines; it is kept as
+evidence. Finding at 1.65 V: XBNS (the unmultiplied 4u/1u sink of the cascode-bias branch) carries 66 % of the
+random mean-square. `records/20261103-a520f7c-resize-probes.md` records why enlarging it (and XBPA) was not
+adopted: the branch is a balance of two series current sources and every resize broke the C-grid. Row 7 stays unmet.

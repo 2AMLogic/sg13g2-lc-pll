@@ -23,7 +23,7 @@ DRY=0; [ "${1:-}" = "--dry-run" ] && DRY=1
 N="${CP_MC_N:-200}"; NC="${CP_MC_N_CONTROL:-20}"; SEED="${CP_MC_SEED:-20261103}"
 REC_DIR="${RECORD_DIR:-${ROOT}/sim/cp-mc/records}"; mkdir -p "${REC_DIR}"
 YPY="${YIELD_PY:-${ROOT}/.venv/bin/python}"
-"${ROOT}/design/netlist.sh" --check >/dev/null 2>&1 || die "design/netlist/cp.spice is stale against design/cp.sch (run design/netlist.sh)"
+"${ROOT}/design/netlist.sh" --check cp >/dev/null 2>&1 || die "design/netlist/cp.spice is stale against design/cp.sch (run design/netlist.sh)"
 if [ -n "${CP_MC_WORK:-}" ]; then WORK="${CP_MC_WORK}"; mkdir -p "${WORK}"; else WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT; fi
 
 # Negative control: the same deterministic skew as scripts/test-cp-dc-negative.sh (up-leg mirror + cascode 3.8u -> 4.6u, ~ +20 % I_up).
