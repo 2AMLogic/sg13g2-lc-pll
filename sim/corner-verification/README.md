@@ -57,6 +57,8 @@ Findings, not relaxed:
 - **Stage 1 is incomplete**: 40 of 135 corners returned (shard jobs failed or were interrupted, and 11 of 27 shards were never submitted
   because the batch submitter hit its time limit while the fleet was out of capacity); none of the returned corners divides. Not run locally.
   The remaining corners are owed.
+  A retry on 2026-11-03 returned no new corners (Spot interruptions, 0.3 jobs/min launch rate); see
+  `loop-power/records/20261103-stage1-retry.md`.
 - PFD + CP + bias is one nominal-corner constant (1.71 mW), not a corner value.
 
 ## Row status
