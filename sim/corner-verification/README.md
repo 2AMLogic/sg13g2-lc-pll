@@ -38,6 +38,27 @@ as a whole, so the manifest cites it and item 5 reads `unmet / check_failed`.
 The window top at 2.97 V is 1.9-2.2 V, far below the VCO window top of 3.30 V. Whether that
 matters is decided by V_hi,req (gate G4, VCO graded f(Vctrl)); it is not graded here.
 
+## `loop-power/`: row 11 (issue #70)
+
+`make_requests.py` writes `request-stage{1,2}.json` (stage 1 = 5 MOS x 3 MIM x 3 HBT x 3 T at 3.300 V = 135; stage 2 = SLOW/TYP/FAST x 3 T x
+{2.970, 3.630} V = 18); `loop_power_body.spice` is the prescaler + M/A divider at N = 100 driven at 5.0 GHz (same circuit as
+`sim/loop-power`); `make_record.py` grades the downloaded corner artifacts into `loop-power/records/`. Both stages went to the Spot batch
+fleet as sharded jobs (`--max-units-per-job`, the fleet's 3600 s whole-job ceiling); nothing ran on the dispatch host. Simulator: ngspice 46
+on the fleet, pin is 47.
+
+Findings, not relaxed:
+
+- **Stage 2 (18 corners, all returned and converged)**: only 5 divide to 50 MHz (all at 2.970 V, mostly -40 and 27 C); 13 do not (every
+  3.630 V corner, and 125 C). Those 13 are not-a-row-11-number. Over the 5 dividing corners the sum with the nominal PFD/CP/bias constant is
+  18.63-19.96 mW before the owed lock detector, reference and clock buffering, so row 11 is **not** shown to pass.
+- **Start-up caveat**: the HBT prescaler DC operating point did not converge from the powered state at most corners, so the bench ramps the
+  supplies and drive from 0 V (see the file header). A first pass without the ramp converged 4 of 18. A divide failure here may be a start-up
+  artifact of that ramp and is not proven to be a design failure; the earlier nominal record used a different start-up and divided.
+- **Stage 1 is incomplete**: 40 of 135 corners returned (shard jobs failed or were interrupted, and 11 of 27 shards were never submitted
+  because the batch submitter hit its time limit while the fleet was out of capacity); none of the returned corners divides. Not run locally.
+  The remaining corners are owed.
+- PFD + CP + bias is one nominal-corner constant (1.71 mW), not a corner value.
+
 ## Row status
 
 | Row | State | Why |
@@ -47,7 +68,7 @@ matters is decided by V_hi,req (gate G4, VCO graded f(Vctrl)); it is not graded 
 | 1, 9, 10 | **gap** | benches run on a behavioural VCO/divider stand-in; G4, G2, #61. A stand-in envelope is never reported as a pass |
 | 5 | **gap** | method L (`sim/loop-model`) is not a `klt sim` request |
 | 8 | **gap** | method L partial, method T not run (G6) |
-| 11 | **gap** | divider does not divide at 625 MHz (#61) |
+| 11 | **gap, stage 2 reads `fail`** | `loop-power/`: stage 2 ran (18 corners, 5 divide to 50 MHz, 13 do not); stage 1 incomplete (40 of 135 returned, none usable) |
 
 The prescaler follower Vce against BVCEO (2.2 V min) at the minimum-supply corner is **not**
 reported: the CP netlist contains no prescaler. It belongs to the envelopes that include it.
