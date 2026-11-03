@@ -68,6 +68,7 @@ Findings, not relaxed:
   applied under `--batch-set`); none of those 10 divides. Stage 1 is now 50 of 135 returned; 85 are owed, not run locally. See
   `loop-power/records/20261103-193448-b6ec1f3-stage1.md`.
 - PFD + CP + bias is one nominal-corner constant (1.71 mW), not a corner value.
+- **Start-up question and stage-1 increment (2026-11-03)**: the stage-2 grid on the nominal start-up converges at 3 of 18 corners and never divides where the ramp does not, so non-division at 3.630 V and 125 C is treated as a design finding (#97, related #84); `loop_power_body.spice` is unchanged. Stage 1 is now 71 of 135 returned (21 new from a 29-request per-shard resubmission stopped after 68 min), 5 divide (22.41-24.07 mW with the nominal PFD/CP/bias constant), 64 owed, not run locally. See `loop-power/records/20261103-stage1-accounting-and-startup.md` and `loop-power/records/20261103-215804-0a8000d-stage1.md`.
 
 ## `vco-prescaler-load/`: gate G2, VCO rows 1, 2, 6, 7 with the prescaler on the tank (issue #87)
 
@@ -102,7 +103,7 @@ G2 stays open: row 1 does not close, 125 C is ungraded, row 6 is a proxy.
 | 1, 9, 10 | **gap** | benches run on a behavioural VCO/divider stand-in; G4, G2, #61. A stand-in envelope is never reported as a pass |
 | 5 | **gap** | method L (`sim/loop-model`) is not a `klt sim` request |
 | 8 | **gap** | method L partial, method T not run (G6) |
-| 11 | **gap, stage 2 reads `fail`** | `loop-power/`: stage 2 ran (18 corners, 5 divide to 50 MHz, 13 do not); stage 1 incomplete (50 of 135 returned, none divides; 85 owed); start-up artifact vs design finding unresolved |
+| 11 | **gap, stage 2 reads `fail`** | `loop-power/`: stage 2 ran (18 corners, 5 divide to 50 MHz, 13 do not); stage 1 incomplete (71 of 135 returned, 5 divide at 22.4-24.1 mW; 64 owed); non-division at 3.630 V / 125 C read as a design finding (#97), not a start-up artifact |
 
 The prescaler follower Vce against BVCEO (2.2 V min) at the minimum-supply corner is **not**
 reported: the CP netlist contains no prescaler. It belongs to the envelopes that include it.

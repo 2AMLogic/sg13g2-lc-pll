@@ -16,6 +16,7 @@ MOS = ["tt", "ss", "ff", "sf", "fs"]
 MIM = ["typ", "bcs", "wcs"]
 HBT = ["typ", "bcs", "wcs"]
 W0, TSTOP = "40n", "120n"
+MAX_UNITS = 5  # units per batch job under --batch-set (--max-units-per-job is not applied there, klayout-tools #4889)
 
 
 def sections(mos, mim, hbt):
@@ -70,6 +71,14 @@ def req(stage):
     return d
 
 
+def nominal_startup_stage2():
+    """Stage 2 (18 sub-corners) on the nominal record's start-up body (DC supplies, DC IREF, .nodeset): issue #70 artifact-vs-design question."""
+    d = req(2)
+    d["netlist"] = "loop_power_body_nominal_startup.spice"
+    d["_comment"].append("START-UP QUESTION: same 18 stage-2 corners as request-stage2.json on loop_power_body_nominal_startup.spice, to compare divide/no-divide against the ramp body (13 of 18 did not divide).")
+    return d
+
+
 def returned(record):
     """(process, T) units that appear in a stage-1 record table (a row = a corner that came back)."""
     done = set()
@@ -93,18 +102,27 @@ def missing_requests(records):
         if miss:
             by_t.setdefault(miss, []).append(p)
     out = []
-    for i, (miss, procs) in enumerate(sorted(by_t.items())):
-        d = json.loads(json.dumps(full))
-        d["corners"]["process"], d["corners"]["temperature_c"] = procs, list(miss)
-        d["_comment"].append("MISSING-UNIT resubmission %d: %d processes x T=%s (units absent from %s)." % (
-            i, len(procs), list(miss), ", ".join(os.path.basename(r) for r in records)))
-        out.append((i, d, len(procs) * len(miss)))
+    i = 0
+    for miss, procs in sorted(by_t.items()):
+        step = max(1, MAX_UNITS // len(miss))  # each request is one batch job of <= MAX_UNITS units (shard cap applies per request)
+        for k in range(0, len(procs), step):
+            chunk = procs[k:k + step]
+            d = json.loads(json.dumps(full))
+            d["corners"]["process"], d["corners"]["temperature_c"] = chunk, list(miss)
+            d["_comment"].append("MISSING-UNIT resubmission %d: %d processes x T=%s (units absent from %s)." % (
+                i, len(chunk), list(miss), ", ".join(os.path.basename(r) for r in records)))
+            out.append((i, d, len(chunk) * len(miss)))
+            i += 1
     return out
 
 
 if __name__ == "__main__":
     import sys
-    if len(sys.argv) > 1 and sys.argv[1] == "--missing":
+    if len(sys.argv) > 1 and sys.argv[1] == "--nominal-startup-stage2":
+        with open(os.path.join(HERE, "request-stage2-nominal-startup.json"), "w") as f:
+            json.dump(nominal_startup_stage2(), f, indent=1)
+            f.write("\n")
+    elif len(sys.argv) > 1 and sys.argv[1] == "--missing":
         reqs = missing_requests(sys.argv[2:])
         for i, d, n in reqs:
             with open(os.path.join(HERE, "request-stage1-missing%d.json" % i), "w") as f:
