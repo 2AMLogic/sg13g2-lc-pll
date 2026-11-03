@@ -61,6 +61,30 @@ Findings, not relaxed:
   `loop-power/records/20261103-stage1-retry.md`.
 - PFD + CP + bias is one nominal-corner constant (1.71 mW), not a corner value.
 
+## `vco-prescaler-load/`: gate G2, VCO rows 1, 2, 6, 7 with the prescaler on the tank (issue #87)
+
+`make_requests.py` writes the circuit bodies (`vco_{loaded,unloaded}.spice`: the fetched, sha256-verified pinned VCO deck, element lines verbatim,
+supply and Vctrl as `.param` axes, plus the prescaler instance when loaded) and the requests; `make_record.py` grades the downloaded reports into
+`vco-prescaler-load/records/`. Stage 2 (SLOW/TYP/FAST x 3 T x {2.970, 3.630} V x Vctrl {0, 1.65, 3.3} V = 54 units, loaded and unloaded) and
+stage 1 (135 units at 3.300 V, Vctrl 1.65 V, loaded only) went to the Spot batch fleet; nothing ran on the dispatch host. The varactor OSDI is
+`$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/mosvar.osdi`, resolved on the runner (byte-identical to the pinned compile). Simulator ngspice 46 on
+the fleet, pin 47. Simulated, not measured. Fleet jobs: stage 2 `klt-sim-e55abdb69dac` (loaded) and `klt-sim-d42725e9af99` (unloaded), 125 C
+`klt-sim-cb2cf885e9cb` / `klt-sim-3d331c63fa67`; stage 1 `klt-sim-f4d4f892ccf2`, `-b09e18b5da16`, `-03fff013900a`, `-a8d6993e1753`, `-f2d460923309`.
+
+Findings, not relaxed:
+
+- **Row 1 fails with and without the load**: 0 of 162 converged corners oscillate inside 4.5-5.5 GHz (3.69-4.30 GHz). The load shifts f by -20 to -7 MHz
+  and adds 10-36 mV of swing; it is not the cause.
+- **Row 7 swing holds** at every converged corner (min 0.446 V loaded, limit 0.40 V). The row 6 ratio g_m / loss is not extracted; only a startup-time
+  proxy (0.2 V reached, 138-182 ps) is recorded.
+- **125 C did not start at any corner** (loaded and unloaded): the transient aborts at its first timepoint (HBT, `timestep_too_small`). 125 C is
+  therefore **not graded** for any of rows 1, 6, 7; whether this is a netlist or a start-up artifact is not established (filed on `sg13g2-vco` #280).
+- Two whole-stage jobs hit the fleet's 3600 s ceiling (about 820 s per corner): the 125 C units were lost and re-run on their own; one shard job of a
+  `--batch-set` was refused by the runner check and two stayed `interrupted`, so those were not used (klayout-tools#4885). The stage 2
+  records merge the converged units of the jobs listed above; a later report supersedes an earlier one for the same corner.
+
+G2 stays open: row 1 does not close, 125 C is ungraded, row 6 is a proxy.
+
 ## Row status
 
 | Row | State | Why |
