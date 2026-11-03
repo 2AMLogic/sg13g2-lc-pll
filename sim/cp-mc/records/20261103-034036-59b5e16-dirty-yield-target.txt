@@ -1,0 +1,123 @@
+samples: /tmp/cpmc-work6/samples.json
+limits: /home/ubuntu/GitHub/sg13g2-lc-pll/.loom/worktrees/issue-40/sim/cp-mc/limits-target.json
+source: sample-set  samples_analyzed: 52800
+confidence: 0.95  target_ci_halfwidth: 0.01
+status: fail  measurements: 8
+
+mm_v165_pct [%]  status: fail  N: 6600
+  limits: min(>=)=- max(<=)=2 target_yield=0.9973
+  fit (normal): mean=1.51407 stddev=1.1795 normality=rejected
+  yield (empirical, clopper-pearson): 0.717879 [0.706851, 0.728714] at 95%, N=6600
+  yield (normal, normal-delta): 0.659823 [0.650614, 0.669033] at 95%, N=6600
+  capability: cp=- cpk=0.1373 [0.1290, 0.1457] sigma_to_spec=0.4120 limiting=upper
+  sample size: insufficient (N=6600, required>=7781, observed +/-0.010931 vs target +/-0.01)
+    to claim target_yield=0.9973: unreachable at the observed pass rate
+  negative control (up-leg mirror+cascode widened 3.8u->4.6u (~+20 % I_up), same seed and grid): detected -- yield 0.000000 [0.000000, 0.005574] vs nominal 0.717879, N=660
+  warning: measurement 'mm_v165_pct': the sample set is not consistent with a normal distribution (Anderson-Darling A2* = 142.5735 > 0.787); treat the parametric yield estimate and Cpk as indicative only and prefer the empirical estimate
+  warning: measurement 'mm_v165_pct': N = 6600 resolves the yield only to +/-0.0109 at 95% confidence; 7781 samples are needed for the requested +/-0.01
+  warning: measurement 'mm_v165_pct': the observed pass rate (0.717879) is at or below the 0.9973 target, so no sample count can support the claim -- this is the design falling short, not the campaign
+  warning: measurement 'mm_v165_pct': samples were pooled across 33 originating corners; each corner is its own population, so the pooled estimate is a worst-case envelope rather than a distribution anyone sampled
+
+vr_v165_mv [mV]  status: pass  N: 6600
+  limits: min(>=)=- max(<=)=0.52 target_yield=0.9973
+  fit (normal): mean=0.0503294 stddev=0.0392079 normality=rejected
+  yield (empirical, clopper-pearson): 1.000000 [0.999441, 1.000000] at 95%, N=6600
+  yield (normal, normal-delta): 1.000000 [1.000000, 1.000000] at 95%, N=6600
+  capability: cp=- cpk=3.9930 [3.9244, 4.0616] sigma_to_spec=11.9790 limiting=upper
+  sample size: sufficient (N=6600, required>=183, observed +/-0.000279 vs target +/-0.01)
+    to claim target_yield=0.9973: N>=1365
+  negative control (up-leg mirror+cascode widened 3.8u->4.6u (~+20 % I_up), same seed and grid): detected -- yield 0.007576 [0.002464, 0.017590] vs nominal 1.000000, N=660
+  warning: measurement 'vr_v165_mv': the sample set is not consistent with a normal distribution (Anderson-Darling A2* = 142.5735 > 0.787); treat the parametric yield estimate and Cpk as indicative only and prefer the empirical estimate
+  warning: measurement 'vr_v165_mv': no sample fell outside the limits, so the empirical yield is bounded only from below -- "at least 99.9441% at 95% confidence, N = 6600" is the honest statement, not "100% yield"
+  warning: measurement 'vr_v165_mv': samples were pooled across 33 originating corners; each corner is its own population, so the pooled estimate is a worst-case envelope rather than a distribution anyone sampled
+
+mm_v200_pct [%]  status: fail  N: 6600
+  limits: min(>=)=- max(<=)=2 target_yield=0.9973
+  fit (normal): mean=1.44294 stddev=1.09559 normality=rejected
+  yield (empirical, clopper-pearson): 0.735303 [0.724481, 0.745916] at 95%, N=6600
+  yield (normal, normal-delta): 0.694432 [0.685445, 0.703420] at 95%, N=6600
+  capability: cp=- cpk=0.1695 [0.1609, 0.1780] sigma_to_spec=0.5085 limiting=upper
+  sample size: insufficient (N=6600, required>=7477, observed +/-0.010718 vs target +/-0.01)
+    to claim target_yield=0.9973: unreachable at the observed pass rate
+  negative control (up-leg mirror+cascode widened 3.8u->4.6u (~+20 % I_up), same seed and grid): detected -- yield 0.000000 [0.000000, 0.005574] vs nominal 0.735303, N=660
+  warning: measurement 'mm_v200_pct': the sample set is not consistent with a normal distribution (Anderson-Darling A2* = 127.3738 > 0.787); treat the parametric yield estimate and Cpk as indicative only and prefer the empirical estimate
+  warning: measurement 'mm_v200_pct': N = 6600 resolves the yield only to +/-0.0107 at 95% confidence; 7477 samples are needed for the requested +/-0.01
+  warning: measurement 'mm_v200_pct': the observed pass rate (0.735303) is at or below the 0.9973 target, so no sample count can support the claim -- this is the design falling short, not the campaign
+  warning: measurement 'mm_v200_pct': samples were pooled across 33 originating corners; each corner is its own population, so the pooled estimate is a worst-case envelope rather than a distribution anyone sampled
+
+vr_v200_mv [mV]  status: pass  N: 6600
+  limits: min(>=)=- max(<=)=0.52 target_yield=0.9973
+  fit (normal): mean=0.0479652 stddev=0.0364186 normality=rejected
+  yield (empirical, clopper-pearson): 1.000000 [0.999441, 1.000000] at 95%, N=6600
+  yield (normal, normal-delta): 1.000000 [1.000000, 1.000000] at 95%, N=6600
+  capability: cp=- cpk=4.3205 [4.2463, 4.3946] sigma_to_spec=12.9614 limiting=upper
+  sample size: sufficient (N=6600, required>=183, observed +/-0.000279 vs target +/-0.01)
+    to claim target_yield=0.9973: N>=1365
+  negative control (up-leg mirror+cascode widened 3.8u->4.6u (~+20 % I_up), same seed and grid): detected -- yield 0.039394 [0.025892, 0.057191] vs nominal 1.000000, N=660
+  warning: measurement 'vr_v200_mv': the sample set is not consistent with a normal distribution (Anderson-Darling A2* = 127.3738 > 0.787); treat the parametric yield estimate and Cpk as indicative only and prefer the empirical estimate
+  warning: measurement 'vr_v200_mv': no sample fell outside the limits, so the empirical yield is bounded only from below -- "at least 99.9441% at 95% confidence, N = 6600" is the honest statement, not "100% yield"
+  warning: measurement 'vr_v200_mv': samples were pooled across 33 originating corners; each corner is its own population, so the pooled estimate is a worst-case envelope rather than a distribution anyone sampled
+
+mm_v225_pct [%]  status: fail  N: 6600
+  limits: min(>=)=- max(<=)=2 target_yield=0.9973
+  fit (normal): mean=2.29662 stddev=2.3544 normality=rejected
+  yield (empirical, clopper-pearson): 0.607576 [0.595674, 0.619382] at 95%, N=6600
+  yield (normal, normal-delta): 0.449872 [0.440286, 0.459459] at 95%, N=6600
+  capability: cp=- cpk=-0.0420 [-0.0501, -0.0339] sigma_to_spec=-0.1260 limiting=upper
+  sample size: insufficient (N=6600, required>=9160, observed +/-0.011854 vs target +/-0.01)
+    to claim target_yield=0.9973: unreachable at the observed pass rate
+  negative control (up-leg mirror+cascode widened 3.8u->4.6u (~+20 % I_up), same seed and grid): detected -- yield 0.001515 [0.000038, 0.008413] vs nominal 0.607576, N=660
+  warning: measurement 'mm_v225_pct': the sample set is not consistent with a normal distribution (Anderson-Darling A2* = 403.5541 > 0.787); treat the parametric yield estimate and Cpk as indicative only and prefer the empirical estimate
+  warning: measurement 'mm_v225_pct': N = 6600 resolves the yield only to +/-0.0119 at 95% confidence; 9160 samples are needed for the requested +/-0.01
+  warning: measurement 'mm_v225_pct': the observed pass rate (0.607576) is at or below the 0.9973 target, so no sample count can support the claim -- this is the design falling short, not the campaign
+  warning: measurement 'mm_v225_pct': samples were pooled across 33 originating corners; each corner is its own population, so the pooled estimate is a worst-case envelope rather than a distribution anyone sampled
+
+vr_v225_mv [mV]  status: pass  N: 6600
+  limits: min(>=)=- max(<=)=0.52 target_yield=0.9973
+  fit (normal): mean=0.0763423 stddev=0.078263 normality=rejected
+  yield (empirical, clopper-pearson): 1.000000 [0.999441, 1.000000] at 95%, N=6600
+  yield (normal, normal-delta): 1.000000 [1.000000, 1.000000] at 95%, N=6600
+  capability: cp=- cpk=1.8896 [1.8564, 1.9228] sigma_to_spec=5.6688 limiting=upper
+  sample size: sufficient (N=6600, required>=183, observed +/-0.000279 vs target +/-0.01)
+    to claim target_yield=0.9973: N>=1365
+  negative control (up-leg mirror+cascode widened 3.8u->4.6u (~+20 % I_up), same seed and grid): detected -- yield 0.206061 [0.175816, 0.238960] vs nominal 1.000000, N=660
+  warning: measurement 'vr_v225_mv': the sample set is not consistent with a normal distribution (Anderson-Darling A2* = 403.5541 > 0.787); treat the parametric yield estimate and Cpk as indicative only and prefer the empirical estimate
+  warning: measurement 'vr_v225_mv': no sample fell outside the limits, so the empirical yield is bounded only from below -- "at least 99.9441% at 95% confidence, N = 6600" is the honest statement, not "100% yield"
+  warning: measurement 'vr_v225_mv': samples were pooled across 33 originating corners; each corner is its own population, so the pooled estimate is a worst-case envelope rather than a distribution anyone sampled
+
+mm_v245_pct [%]  status: fail  N: 6600
+  limits: min(>=)=- max(<=)=2 target_yield=0.9973
+  fit (normal): mean=5.36509 stddev=6.50253 normality=rejected
+  yield (empirical, clopper-pearson): 0.439091 [0.427071, 0.451164] at 95%, N=6600
+  yield (normal, normal-delta): 0.302402 [0.293438, 0.311366] at 95%, N=6600
+  capability: cp=- cpk=-0.1725 [-0.1811, -0.1639] sigma_to_spec=-0.5175 limiting=upper
+  sample size: insufficient (N=6600, required>=9462, observed +/-0.012046 vs target +/-0.01)
+    to claim target_yield=0.9973: unreachable at the observed pass rate
+  negative control (up-leg mirror+cascode widened 3.8u->4.6u (~+20 % I_up), same seed and grid): detected -- yield 0.040909 [0.027129, 0.058965] vs nominal 0.439091, N=660
+  warning: measurement 'mm_v245_pct': the sample set is not consistent with a normal distribution (Anderson-Darling A2* = 651.0454 > 0.787); treat the parametric yield estimate and Cpk as indicative only and prefer the empirical estimate
+  warning: measurement 'mm_v245_pct': N = 6600 resolves the yield only to +/-0.0120 at 95% confidence; 9462 samples are needed for the requested +/-0.01
+  warning: measurement 'mm_v245_pct': the observed pass rate (0.439091) is at or below the 0.9973 target, so no sample count can support the claim -- this is the design falling short, not the campaign
+  warning: measurement 'mm_v245_pct': samples were pooled across 33 originating corners; each corner is its own population, so the pooled estimate is a worst-case envelope rather than a distribution anyone sampled
+
+vr_v245_mv [mV]  status: fail  N: 6600
+  limits: min(>=)=- max(<=)=0.52 target_yield=0.9973
+  fit (normal): mean=0.178342 stddev=0.216152 normality=rejected
+  yield (empirical, clopper-pearson): 0.884697 [0.876745, 0.892307] at 95%, N=6600
+  yield (normal, normal-delta): 0.943020 [0.938881, 0.947158] at 95%, N=6600
+  capability: cp=- cpk=0.5269 [0.5148, 0.5389] sigma_to_spec=1.5806 limiting=upper
+  sample size: sufficient (N=6600, required>=3919, observed +/-0.007781 vs target +/-0.01)
+    to claim target_yield=0.9973: unreachable at the observed pass rate
+  negative control (up-leg mirror+cascode widened 3.8u->4.6u (~+20 % I_up), same seed and grid): detected -- yield 0.380303 [0.343116, 0.418566] vs nominal 0.884697, N=660
+  warning: measurement 'vr_v245_mv': the sample set is not consistent with a normal distribution (Anderson-Darling A2* = 651.0454 > 0.787); treat the parametric yield estimate and Cpk as indicative only and prefer the empirical estimate
+  warning: measurement 'vr_v245_mv': the observed pass rate (0.884697) is at or below the 0.9973 target, so no sample count can support the claim -- this is the design falling short, not the campaign
+  warning: measurement 'vr_v245_mv': samples were pooled across 33 originating corners; each corner is its own population, so the pooled estimate is a worst-case envelope rather than a distribution anyone sampled
+
+warnings:
+  measurement 'up_v165.cur' declares no spec limits and was skipped; supply limits via --limits to include it
+  measurement 'dn_v165.cur' declares no spec limits and was skipped; supply limits via --limits to include it
+  measurement 'up_v200.cur' declares no spec limits and was skipped; supply limits via --limits to include it
+  measurement 'dn_v200.cur' declares no spec limits and was skipped; supply limits via --limits to include it
+  measurement 'up_v225.cur' declares no spec limits and was skipped; supply limits via --limits to include it
+  measurement 'dn_v225.cur' declares no spec limits and was skipped; supply limits via --limits to include it
+  measurement 'up_v245.cur' declares no spec limits and was skipped; supply limits via --limits to include it
+  measurement 'dn_v245.cur' declares no spec limits and was skipped; supply limits via --limits to include it

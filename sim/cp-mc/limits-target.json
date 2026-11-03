@@ -1,0 +1,14 @@
+{
+  "confidence": 0.95,
+  "target_ci_halfwidth": 0.01,
+  "measurements": {
+    "mm_v165_pct": {"max": 2.0, "target_yield": 0.9973},
+    "mm_v200_pct": {"max": 2.0, "target_yield": 0.9973},
+    "mm_v225_pct": {"max": 2.0, "target_yield": 0.9973},
+    "mm_v245_pct": {"max": 2.0, "target_yield": 0.9973},
+    "vr_v165_mv": {"max": 0.52, "target_yield": 0.9973},
+    "vr_v200_mv": {"max": 0.52, "target_yield": 0.9973},
+    "vr_v225_mv": {"max": 0.52, "target_yield": 0.9973},
+    "vr_v245_mv": {"max": 0.52, "target_yield": 0.9973}
+  }
+}

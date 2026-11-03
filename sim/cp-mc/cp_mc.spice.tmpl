@@ -1,0 +1,17 @@
+* sg13g2-lc-pll :: sim/cp-mc -- charge-pump up/down mismatch, Monte Carlo deck (klt sim request).
+* ONE copy of the cp subcircuit (one set of per-instance mismatch draws). Four operating-point
+* steps per sample, selected by `alter` of VSU/VSD/VO in the request (UP/DN = VDD x VSU/VSD, so the logic level follows the corner supply): UP forced on / DN off, then DN on / UP off,
+* at each of two output voltages. The model section (.lib ..._mismatch), supply, temperature and
+* seed are injected by klt sim; nothing here sets them. @@CP_SUBCKTS@@ is replaced by
+* scripts/run-cp-mc.sh with the text of the cp netlist (design/netlist/cp.spice or a skewed copy).
+@@CP_SUBCKTS@@
+
+VDD vdd 0 3.3
+VSU su 0 0
+VSD sd 0 0
+BUP up 0 V=v(vdd)*v(su)
+BDN dn 0 V=v(vdd)*v(sd)
+IREF vdd iref dc 20u
+VO out 0 2.0
+XCP up dn iref out vdd 0 cp
+.end
