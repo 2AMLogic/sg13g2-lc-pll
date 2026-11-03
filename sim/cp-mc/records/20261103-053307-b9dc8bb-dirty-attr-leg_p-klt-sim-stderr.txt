@@ -1,0 +1,13 @@
+klt sim: notice: splitting 900 units into 2 batch jobs of at most 450 units each (request.batch.job_ceiling_check / max_units_per_job)
+klt: batch job klt-sim-2061ed7a2383 submitting to s3://<bucket>/jobs/klt-sim-2061ed7a2383
+klt: batch job klt-sim-64bed8395572 submitting to s3://<bucket>/jobs/klt-sim-64bed8395572
+klt sim: batch job klt-sim-2061ed7a2383: submitted
+klt sim: shards 0/2 launched, 1 launching, 1 pending, 0 collected; launch rate unknown, ETA unknown
+klt sim: batch job klt-sim-64bed8395572: submitted
+klt sim: batch job klt-sim-2061ed7a2383 launched; re-attach with `klt sim <request> --backend batch --attach klt-sim-2061ed7a2383`
+klt sim: shards 2/2 launched, 0 launching, 0 pending, 0 collected; launch rate 315.4/min, ETA 0m
+klt sim: batch job klt-sim-64bed8395572 launched; re-attach with `klt sim <request> --backend batch --attach klt-sim-64bed8395572`
+klt sim: batch job klt-sim-2061ed7a2383 state=no status.json yet elapsed=1s
+klt sim: batch job klt-sim-64bed8395572 state=no status.json yet elapsed=1s
+klt sim: batch job klt-sim-2061ed7a2383: failed
+klt sim: batch job klt-sim-64bed8395572: failed
