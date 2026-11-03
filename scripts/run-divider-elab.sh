@@ -36,7 +36,7 @@ grep -vE 'Reference value' "${WORK}/tran.log" > "${REC_DIR}/${ID}-ngspice.txt"
   echo
   echo "- **Netlist**: \`design/netlist/divider.spice\` sha256 \`$(sha256sum "${NET}" | cut -d' ' -f1)\`, checked fresh against \`design/divider.sch\` before the run"
   echo "- **Simulator**: \`${NG_VER}\`, three local \`ngspice -b\` runs; PDK model libraries hash-checked against \`sim/pins.json\`; corners \`hbt_typ\`, \`mos_tt\`, \`cap_typ\`, 27 C, 3.3 V. **Nominal only: no corner grid.**"
-  echo "- **Elaboration** (\`.op\`, one deck, five codes tied): N = 100 (M=12, A=2), 90 (11,1), 110 (13,3), and A = 0 and A = 3 at M = 12 all parse and solve. Elaboration only."
+  echo "- **Elaboration** (30 ns transient, one deck, five codes tied): N = 100 (M=12, A=2), 90 (11,1), 110 (13,3), and A = 0 and A = 3 at M = 12 all parse and run. Elaboration only."
   echo "- **Count check method** (transient 640 ns, 100 MHz clock, ideal sources): input 0.4 Vpp differential at 3.18 V common mode; the clock is the converter output \`xd100.ck\`. A window is the interval between consecutive rising \`FB\` edges; clocks are rising \`CK\` edges in it, MC-high clocks are those where MC was high 0.3 ns before the edge; N = 8 x clocks + 2 x MC-high (prescaler P = 8/10, issue #43)."
   echo
   echo "| code | FB window (ns) | CK cycles | MC-high cycles | N |"

@@ -16,9 +16,13 @@
 *.iopin VDD
 *.iopin VSS
 XCV INP INN IREF CK VDD VSS cml2cmos
-XM CK M0 M1 M2 M3 TC TCN VDD VSS mcounter
-XA CK TC TCN A0 A1 MC VDD VSS acounter
-XFB TC CK FB VDD VSS dff_tg_hv
+XM CKL M0 M1 M2 M3 TC TCN VDD VSS mcounter
+XA CKL TC TCN A0 A1 MC VDD VSS acounter
+XFB TC CKL FB VDD VSS dff_tg_hv
+XBA CK ckb VDD VSS inv_hv
+XBB ckb CKL VDD VSS inv_hv
+XBC ckb CKL VDD VSS inv_hv
+XBD ckb CKL VDD VSS inv_hv
 .ends
 
 * expanding   symbol:  cml2cmos.sym # of pins=6
@@ -65,29 +69,53 @@ XQ0 D0 CK q0 VDD VSS dff_tg_hv
 XQ1 D1 CK q1 VDD VSS dff_tg_hv
 XQ2 D2 CK q2 VDD VSS dff_tg_hv
 XQ3 D3 CK q3 VDD VSS dff_tg_hv
-XTC1 q1 q2 n12 VDD VSS nor2_hv
-XTC2 q3 q3b VDD VSS inv_hv
-XTC3 q0 n12 q3b TCN VDD VSS nand3_hv
-XTC4 TCN TC VDD VSS inv_hv
-XD0 q0 dec0 VDD VSS inv_hv
-XD1 q1 dec0 dec1 VDD VSS xor2_hv
-XD2A q1 q0 n10 VDD VSS nor2_hv
-XD2 q2 n10 dec2 VDD VSS xor2_hv
-XD3A n10 n10b VDD VSS inv_hv
-XD3B q2 n10b n210 VDD VSS nor2_hv
-XD3 q3 n210 dec3 VDD VSS xor2_hv
-XNL0A dec0 TCN L0_na VDD VSS nand2_hv
-XNL0B M0 TC L0_nb VDD VSS nand2_hv
-XNL0Y L0_na L0_nb D0 VDD VSS nand2_hv
-XNL1A dec1 TCN L1_na VDD VSS nand2_hv
-XNL1B M1 TC L1_nb VDD VSS nand2_hv
-XNL1Y L1_na L1_nb D1 VDD VSS nand2_hv
-XNL2A dec2 TCN L2_na VDD VSS nand2_hv
-XNL2B M2 TC L2_nb VDD VSS nand2_hv
-XNL2Y L2_na L2_nb D2 VDD VSS nand2_hv
-XNL3A dec3 TCN L3_na VDD VSS nand2_hv
-XNL3B M3 TC L3_nb VDD VSS nand2_hv
-XNL3Y L3_na L3_nb D3 VDD VSS nand2_hv
+XFT DT CK TC VDD VSS dff_tg_hv
+XFTN DTN CK TCN VDD VSS dff_tg_hv
+XFB1 DB1 CK b1 VDD VSS dff_tg_hv
+XFB2 DB2 CK b2 VDD VSS dff_tg_hv
+XFB3 DB3 CK b3 VDD VSS dff_tg_hv
+XIQ0 q0 q0n VDD VSS inv_hv
+XIQ1 q1 q1n VDD VSS inv_hv
+XIQ2 q2 q2n VDD VSS inv_hv
+XIQ3 q3 q3n VDD VSS inv_hv
+XIB1 b1 b1n VDD VSS inv_hv
+XIB2 b2 b2n VDD VSS inv_hv
+XIB3 b3 b3n VDD VSS inv_hv
+XZ1 M0 mz1 VDD VSS inv_hv
+XZ2 M0 M1 mz2 VDD VSS nor2_hv
+XZ3A M0 M1 z01 VDD VSS nor2_hv
+XZ3C M2 M2n VDD VSS inv_hv
+XZ3B z01 M2n mz3n VDD VSS nand2_hv
+XZ3D mz3n mz3 VDD VSS inv_hv
+XL0A q0n TCN l0a VDD VSS nand2_hv
+XL0B M0 TC l0b VDD VSS nand2_hv
+XL0Y l0a l0b D0 VDD VSS nand2_hv
+XA1 b1 q1n a1 VDD VSS nand2_hv
+XB1 b1n TCN q1 c1 VDD VSS nand3_hv
+XL1B M1 TC l1b VDD VSS nand2_hv
+XL1Y a1 c1 l1b D1 VDD VSS nand3_hv
+XA2 b2 q2n a2 VDD VSS nand2_hv
+XB2 b2n TCN q2 c2 VDD VSS nand3_hv
+XL2B M2 TC l2b VDD VSS nand2_hv
+XL2Y a2 c2 l2b D2 VDD VSS nand3_hv
+XA3 b3 q3n a3 VDD VSS nand2_hv
+XB3 b3n TCN q3 c3 VDD VSS nand3_hv
+XL3B M3 TC l3b VDD VSS nand2_hv
+XL3Y a3 c3 l3b D3 VDD VSS nand3_hv
+XP1A TC mz1 p1a VDD VSS nand2_hv
+XP1B TCN q0 p1b VDD VSS nand2_hv
+XP1Y p1a p1b DB1 VDD VSS nand2_hv
+XP2A TC mz2 p2a VDD VSS nand2_hv
+XP2B TCN q0 q1n p2b VDD VSS nand3_hv
+XP2Y p2a p2b DB2 VDD VSS nand2_hv
+XP3E q1 q2 e12 VDD VSS nor2_hv
+XP3A TC mz3 p3a VDD VSS nand2_hv
+XP3B TCN q0 e12 p3b VDD VSS nand3_hv
+XP3Y p3a p3b DB3 VDD VSS nand2_hv
+XT1 q3 q2 f32 VDD VSS nor2_hv
+XT2 q0 q1n g10 VDD VSS nor2_hv
+XT3 f32 g10 DTN VDD VSS nand2_hv
+XT4 DTN DT VDD VSS inv_hv
 .ends
 
 
@@ -105,17 +133,20 @@ XNL3Y L3_na L3_nb D3 VDD VSS nand2_hv
 *.iopin VSS
 XQ0 D0 CK s0 VDD VSS dff_tg_hv
 XQ1 D1 CK s1 VDD VSS dff_tg_hv
-XZ1 s0 s1 zb VDD VSS nor2_hv
-XZ2 zb MC VDD VSS inv_hv
-XD0 s0 MC dec0 VDD VSS xor2_hv
-XD1A s0 zb brw VDD VSS nor2_hv
-XD1 s1 brw dec1 VDD VSS xor2_hv
-XNL0A dec0 TCN L0_na VDD VSS nand2_hv
-XNL0B A0 TC L0_nb VDD VSS nand2_hv
-XNL0Y L0_na L0_nb D0 VDD VSS nand2_hv
-XNL1A dec1 TCN L1_na VDD VSS nand2_hv
-XNL1B A1 TC L1_nb VDD VSS nand2_hv
-XNL1Y L1_na L1_nb D1 VDD VSS nand2_hv
+XQM DM CK MC VDD VSS dff_tg_hv
+XS0 s0 s0n VDD VSS inv_hv
+XL0A TCN s1 s0n l0a VDD VSS nand3_hv
+XL0B A0 TC l0b VDD VSS nand2_hv
+XL0Y l0a l0b D0 VDD VSS nand2_hv
+XL1A TCN s1 s0 l1a VDD VSS nand3_hv
+XL1B A1 TC l1b VDD VSS nand2_hv
+XL1Y l1a l1b D1 VDD VSS nand2_hv
+XNA0 A0 A0n VDD VSS inv_hv
+XNA1 A1 A1n VDD VSS inv_hv
+XNZ A0n A1n anz VDD VSS nand2_hv
+XMA TC anz m1 VDD VSS nand2_hv
+XMB TCN s1 m2 VDD VSS nand2_hv
+XMY m1 m2 DM VDD VSS nand2_hv
 .ends
 
 
@@ -171,6 +202,22 @@ XMN2 Y B VSS VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
 .ends
 
 
+* expanding   symbol:  nand2_hv.sym # of pins=5
+** sym_path: .fetched/sg13g2-pll/design/nand2_hv.sym
+** sch_path: .fetched/sg13g2-pll/design/nand2_hv.sch
+.subckt nand2_hv A1 A2 Y VDD VSS
+*.opin Y
+*.ipin A1
+*.ipin A2
+*.iopin VDD
+*.iopin VSS
+XMP1 Y A1 VDD VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
+XMP2 Y A2 VDD VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
+XMN1 Y A1 mid1 VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
+XMN2 mid1 A2 VSS VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
+.ends
+
+
 * expanding   symbol:  nand3_hv.sym # of pins=6
 ** sym_path: .fetched/sg13g2-pll/design/nand3_hv.sym
 ** sch_path: .fetched/sg13g2-pll/design/nand3_hv.sch
@@ -187,38 +234,6 @@ XMP3 Y A3 VDD VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
 XMN1 Y A1 mid1 VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
 XMN2 mid1 A2 mid2 VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
 XMN3 mid2 A3 VSS VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
-.ends
-
-
-* expanding   symbol:  xor2_hv.sym # of pins=5
-** sym_path: .fetched/sg13g2-pll/design/xor2_hv.sym
-** sch_path: .fetched/sg13g2-pll/design/xor2_hv.sch
-.subckt xor2_hv A B Y VDD VSS
-*.ipin A
-*.ipin B
-*.opin Y
-*.iopin VDD
-*.iopin VSS
-XN1 A B n1 VDD VSS nand2_hv
-XN2 A n1 n2 VDD VSS nand2_hv
-XN3 B n1 n3 VDD VSS nand2_hv
-XN4 n2 n3 Y VDD VSS nand2_hv
-.ends
-
-
-* expanding   symbol:  nand2_hv.sym # of pins=5
-** sym_path: .fetched/sg13g2-pll/design/nand2_hv.sym
-** sch_path: .fetched/sg13g2-pll/design/nand2_hv.sch
-.subckt nand2_hv A1 A2 Y VDD VSS
-*.opin Y
-*.ipin A1
-*.ipin A2
-*.iopin VDD
-*.iopin VSS
-XMP1 Y A1 VDD VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
-XMP2 Y A2 VDD VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
-XMN1 Y A1 mid1 VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
-XMN2 mid1 A2 VSS VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
 .ends
 
 

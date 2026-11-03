@@ -12,17 +12,20 @@
 *.iopin VSS
 XQ0 D0 CK s0 VDD VSS dff_tg_hv
 XQ1 D1 CK s1 VDD VSS dff_tg_hv
-XZ1 s0 s1 zb VDD VSS nor2_hv
-XZ2 zb MC VDD VSS inv_hv
-XD0 s0 MC dec0 VDD VSS xor2_hv
-XD1A s0 zb brw VDD VSS nor2_hv
-XD1 s1 brw dec1 VDD VSS xor2_hv
-XNL0A dec0 TCN L0_na VDD VSS nand2_hv
-XNL0B A0 TC L0_nb VDD VSS nand2_hv
-XNL0Y L0_na L0_nb D0 VDD VSS nand2_hv
-XNL1A dec1 TCN L1_na VDD VSS nand2_hv
-XNL1B A1 TC L1_nb VDD VSS nand2_hv
-XNL1Y L1_na L1_nb D1 VDD VSS nand2_hv
+XQM DM CK MC VDD VSS dff_tg_hv
+XS0 s0 s0n VDD VSS inv_hv
+XL0A TCN s1 s0n l0a VDD VSS nand3_hv
+XL0B A0 TC l0b VDD VSS nand2_hv
+XL0Y l0a l0b D0 VDD VSS nand2_hv
+XL1A TCN s1 s0 l1a VDD VSS nand3_hv
+XL1B A1 TC l1b VDD VSS nand2_hv
+XL1Y l1a l1b D1 VDD VSS nand2_hv
+XNA0 A0 A0n VDD VSS inv_hv
+XNA1 A1 A1n VDD VSS inv_hv
+XNZ A0n A1n anz VDD VSS nand2_hv
+XMA TC anz m1 VDD VSS nand2_hv
+XMB TCN s1 m2 VDD VSS nand2_hv
+XMY m1 m2 DM VDD VSS nand2_hv
 .ends
 
 * expanding   symbol:  dff_tg_hv.sym # of pins=5
@@ -48,22 +51,6 @@ XBQ SB Q VDD VSS inv_hv
 .ends
 
 
-* expanding   symbol:  nor2_hv.sym # of pins=5
-** sym_path: .fetched/sg13g2-pll/design/nor2_hv.sym
-** sch_path: .fetched/sg13g2-pll/design/nor2_hv.sch
-.subckt nor2_hv A B Y VDD VSS
-*.ipin A
-*.ipin B
-*.opin Y
-*.iopin VDD
-*.iopin VSS
-XMP1 midp A VDD VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
-XMP2 Y B midp VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
-XMN1 Y A VSS VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
-XMN2 Y B VSS VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
-.ends
-
-
 * expanding   symbol:  inv_hv.sym # of pins=4
 ** sym_path: .fetched/sg13g2-pll/design/inv_hv.sym
 ** sch_path: .fetched/sg13g2-pll/design/inv_hv.sch
@@ -77,19 +64,22 @@ XMN Y A VSS VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
 .ends
 
 
-* expanding   symbol:  xor2_hv.sym # of pins=5
-** sym_path: .fetched/sg13g2-pll/design/xor2_hv.sym
-** sch_path: .fetched/sg13g2-pll/design/xor2_hv.sch
-.subckt xor2_hv A B Y VDD VSS
-*.ipin A
-*.ipin B
+* expanding   symbol:  nand3_hv.sym # of pins=6
+** sym_path: .fetched/sg13g2-pll/design/nand3_hv.sym
+** sch_path: .fetched/sg13g2-pll/design/nand3_hv.sch
+.subckt nand3_hv A1 A2 A3 Y VDD VSS
 *.opin Y
+*.ipin A1
+*.ipin A2
+*.ipin A3
 *.iopin VDD
 *.iopin VSS
-XN1 A B n1 VDD VSS nand2_hv
-XN2 A n1 n2 VDD VSS nand2_hv
-XN3 B n1 n3 VDD VSS nand2_hv
-XN4 n2 n3 Y VDD VSS nand2_hv
+XMP1 Y A1 VDD VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
+XMP2 Y A2 VDD VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
+XMP3 Y A3 VDD VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
+XMN1 Y A1 mid1 VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
+XMN2 mid1 A2 mid2 VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
+XMN3 mid2 A3 VSS VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
 .ends
 
 
