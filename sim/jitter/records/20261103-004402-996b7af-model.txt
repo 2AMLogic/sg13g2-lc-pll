@@ -1,0 +1,25 @@
+Kvco 381 MHz/V  Icp 100 uA  f_c 0.453 MHz  PM  51.4 deg  jitter 0.618 ps (L, partial, VCO target)  flagged: f_c outside [0.5, 2.0] MHz
+Kvco 430 MHz/V  Icp 100 uA  f_c 0.500 MHz  PM  52.7 deg  jitter 0.600 ps (L, partial, VCO target)  flagged: f_c outside [0.5, 2.0] MHz
+Kvco 480 MHz/V  Icp 100 uA  f_c 0.548 MHz  PM  53.7 deg  jitter 0.587 ps (L, partial, VCO target)
+Kvco 540 MHz/V  Icp 100 uA  f_c 0.605 MHz  PM  54.6 deg  jitter 0.575 ps (L, partial, VCO target)
+Kvco 606 MHz/V  Icp 100 uA  f_c 0.668 MHz  PM  55.2 deg  jitter 0.568 ps (L, partial, VCO target)
+Kvco 381 MHz/V  Icp 150 uA  f_c 0.635 MHz  PM  54.9 deg  jitter 0.519 ps (L, partial, VCO target)
+Kvco 430 MHz/V  Icp 150 uA  f_c 0.705 MHz  PM  55.4 deg  jitter 0.504 ps (L, partial, VCO target)
+Kvco 480 MHz/V  Icp 150 uA  f_c 0.776 MHz  PM  55.6 deg  jitter 0.494 ps (L, partial, VCO target)
+Kvco 540 MHz/V  Icp 150 uA  f_c 0.861 MHz  PM  55.5 deg  jitter 0.486 ps (L, partial, VCO target)
+Kvco 606 MHz/V  Icp 150 uA  f_c 0.953 MHz  PM  55.1 deg  jitter 0.481 ps (L, partial, VCO target)
+Kvco 381 MHz/V  Icp 200 uA  f_c 0.816 MHz  PM  55.6 deg  jitter 0.461 ps (L, partial, VCO target)
+Kvco 430 MHz/V  Icp 200 uA  f_c 0.907 MHz  PM  55.3 deg  jitter 0.450 ps (L, partial, VCO target)
+Kvco 480 MHz/V  Icp 200 uA  f_c 1.000 MHz  PM  54.8 deg  jitter 0.442 ps (L, partial, VCO target)
+Kvco 540 MHz/V  Icp 200 uA  f_c 1.109 MHz  PM  53.9 deg  jitter 0.436 ps (L, partial, VCO target)
+Kvco 606 MHz/V  Icp 200 uA  f_c 1.227 MHz  PM  52.7 deg  jitter 0.432 ps (L, partial, VCO target)
+Kvco 381 MHz/V  Icp 300 uA  f_c 1.166 MHz  PM  53.4 deg  jitter 0.397 ps (L, partial, VCO target)
+Kvco 430 MHz/V  Icp 300 uA  f_c 1.295 MHz  PM  51.9 deg  jitter 0.389 ps (L, partial, VCO target)
+Kvco 480 MHz/V  Icp 300 uA  f_c 1.424 MHz  PM  50.4 deg  jitter 0.384 ps (L, partial, VCO target)
+Kvco 540 MHz/V  Icp 300 uA  f_c 1.573 MHz  PM  48.4 deg  jitter 0.381 ps (L, partial, VCO target)
+Kvco 606 MHz/V  Icp 300 uA  f_c 1.730 MHz  PM  46.2 deg  jitter 0.380 ps (L, partial, VCO target)
+Kvco 381 MHz/V  Icp 400 uA  f_c 1.494 MHz  PM  49.4 deg  jitter 0.362 ps (L, partial, VCO target)
+Kvco 430 MHz/V  Icp 400 uA  f_c 1.653 MHz  PM  47.3 deg  jitter 0.357 ps (L, partial, VCO target)
+Kvco 480 MHz/V  Icp 400 uA  f_c 1.808 MHz  PM  45.1 deg  jitter 0.354 ps (L, partial, VCO target)
+Kvco 540 MHz/V  Icp 400 uA  f_c 1.987 MHz  PM  42.5 deg  jitter 0.353 ps (L, partial, VCO target)  flagged: PM < 45 deg
+Kvco 606 MHz/V  Icp 400 uA  f_c 2.172 MHz  PM  39.7 deg  jitter 0.354 ps (L, partial, VCO target)  flagged: f_c outside [0.5, 2.0] MHz; PM < 45 deg

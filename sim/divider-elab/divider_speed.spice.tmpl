@@ -1,0 +1,38 @@
+* sg13g2-lc-pll :: sim/divider-elab -- divider SPEED check (issue #61). N = 100 (M=12, A=2), nominal corner
+* (hbt_typ, mos_tt, cap_typ), 27 C, 3.3 V. Four instances in one run:
+*   real chain  = cml2cmos + counters, fed by an ideal 0.4 Vpp differential sine at 3.18 V common mode
+*   counters    = the same counters + FB flop fed by an ideal 0..3.3 V clock (cml2cmos bypassed; bisect control)
+* at the two prescaler output rates: 625 MHz (5.0 GHz / 8) and 687.5 MHz (5.5 GHz / 8).
+.lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
+.lib @@MODELS_DIR@@/cornerMOShv.lib mos_tt
+.lib @@MODELS_DIR@@/cornerCAP.lib cap_typ
+.option temp=27
+.include @@DIV_NETLIST@@
+VDD vdd 0 3.3
+V1 one 0 dc 3.3
+IRF vdd iref dc 50u
+XQR iref iref rr 0 npn13G2v Nx=1 El=1
+RR rr 0 2400
+VZ zero 0 0
+VP1 inp1 0 dc 3.18 sin(3.18 0.2 625meg)
+VN1 inn1 0 dc 3.18 sin(3.18 -0.2 625meg)
+VP2 inp2 0 dc 3.18 sin(3.18 0.2 687.5meg)
+VN2 inn2 0 dc 3.18 sin(3.18 -0.2 687.5meg)
+Xr625 inp1 inn1 iref 0 0 one one 0 one mcr1 fbr1 vdd 0 divider
+Xr687 inp2 inn2 iref 0 0 one one 0 one mcr2 fbr2 vdd 0 divider
+* ideal-clock counters (M = 12: m3 m2 m1 m0 = 1100; A = 2: a1 a0 = 10)
+VCK3 ck3 0 pulse(0 3.3 0 80p 80p 720p 1600p)
+VCK4 ck4 0 pulse(0 3.3 0 72.7p 72.7p 654.5p 1454.5p)
+XM3 ck3 zero zero one one tc3 tcn3 vdd 0 mcounter
+XA3 ck3 tc3 tcn3 zero one mci3 vdd 0 acounter
+XF3 tc3 ck3 fbi3 vdd 0 dff_tg_hv
+XM4 ck4 zero zero one one tc4 tcn4 vdd 0 mcounter
+XA4 ck4 tc4 tcn4 zero one mci4 vdd 0 acounter
+XF4 tc4 ck4 fbi4 vdd 0 dff_tg_hv
+.save v(xr625.ck) v(mcr1) v(fbr1) v(xr687.ck) v(mcr2) v(fbr2) v(ck3) v(mci3) v(fbi3) v(ck4) v(mci4) v(fbi4)
+.control
+pre_osdi @@OSDI_PSP@@
+tran 20p 150n 0 20p
+wrdata @@OUT_DIR@@/speed.data v(xr625.ck) v(mcr1) v(fbr1) v(xr687.ck) v(mcr2) v(fbr2) v(ck3) v(mci3) v(fbi3) v(ck4) v(mci4) v(fbi4)
+.endc
+.end

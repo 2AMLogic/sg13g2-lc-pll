@@ -44,11 +44,11 @@
     "note": "The HV MOS models in cornerMOShv.lib are PSP103 and need this OSDI library (pre_osdi). It is the prebuilt library shipped in the PDK tree, hash-checked rather than recompiled: unlike mosvar it is not rebuilt here, so no openvaf-r is needed for the CP/PFD benches."
   },
   "r3_cmc": {
-    "model": "r3_cmc (rhigh poly resistor, used by the sg13g2-pll lock_detector pull-up)",
+    "model": "r3_cmc (polysilicon resistor OSDI: rppd in design/loopfilter.sch, rhigh in the sg13g2-pll lock_detector pull-up)",
     "verilog_a_source": "libs.tech/verilog-a/r3_cmc/r3_cmc.va",
     "verilog_a_sha256": "398746f45048a9e075913e85a982258b929c9042257339bf1fc47d7e25303551",
     "osdi": "libs.tech/ngspice/osdi/r3_cmc.osdi",
     "osdi_sha256": "4fead17bc2e9cbfe3df6f106e9dbd6f2cdcd48c002af9c56c2ca0b0712fce350",
-    "note": "Prebuilt library shipped in the PDK tree, hash-checked (pre_osdi), not recompiled. Needed only by scripts/run-lock-detector.sh (PDK_NEED_R3CMC=1)."
+    "note": "Prebuilt library shipped in the PDK tree, hash-checked (pre_osdi), not recompiled. One pin, two users: the loop-filter rppd (sim/loop-tran) and the lock-detector rhigh pull-up (scripts/run-lock-detector.sh); both load it as OSDI_R3 from scripts/lib-pdk.sh. Needs cornerRES.lib / resistors_mod.lib (pinned above)."
   }
 }

@@ -23,7 +23,6 @@ MODE="${1:-}"; shift || true
 case "${MODE}" in nominal|closed|grid1|grid2|report) ;; *) die "usage: $0 nominal|grid1|grid2 [--dry-run]" ;; esac
 DRY=0; [ "${1:-}" = "--dry-run" ] && DRY=1
 
-PDK_NEED_R3CMC=1
 source "${ROOT}/scripts/lib-pdk.sh"
 "${ROOT}/scripts/fetch-pll.sh" >/dev/null || die "fetch/verify of the pinned sg13g2-pll files failed"
 REC_DIR="${RECORD_DIR:-${ROOT}/sim/lock-detector/records}"; mkdir -p "${REC_DIR}"
@@ -50,7 +49,7 @@ if [ "${MODE}" = closed ]; then
     echo "XPFD ref fb up dn vdd 0 pfd"; echo "XLD up dn lock vdd 0 lock_detector"
     echo ".options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-14"
     echo ".ic v(xld.vwin)=${V0}"
-    echo ".control"; echo "pre_osdi ${OSDI_PSP}"; echo "pre_osdi ${OSDI_R3CMC}"
+    echo ".control"; echo "pre_osdi ${OSDI_PSP}"; echo "pre_osdi ${OSDI_R3}"
     echo "tran 100p ${TUS}u 0 100p uic"
     echo "let n = 1"
     echo "while n <= 10"
@@ -91,7 +90,7 @@ if [ "${MODE}" = nominal ]; then
     cat "${WORK}/meas.txt"
     echo ".control"
     echo "pre_osdi ${OSDI_PSP}"
-    echo "pre_osdi ${OSDI_R3CMC}"
+    echo "pre_osdi ${OSDI_R3}"
     echo "tran 50p ${TSTOP_PS}p 0 50p"
     echo ".endc"
     echo ".end"

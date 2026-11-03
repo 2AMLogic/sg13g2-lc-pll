@@ -5,7 +5,7 @@
   "tier": null,
   "t1_item_count": 11,
   "build_t1_item_count": 11,
-  "t1_met_count": 2,
+  "t1_met_count": 3,
   "source_doc": "manifests/design-evidence-tiers.md",
   "source_doc_content_hash": "sha256:a26b90262320d0fbd32b3f549a02b6300832706041797a559d8bf6bdb62efdc7",
   "build": {
@@ -101,9 +101,75 @@
         "Both require the spec table itself to be ratified \u2014 verdicts against a draft spec are provisional by construction."
       ],
       "status": "unmet",
-      "reason": "no_evidence",
+      "reason": "check_failed",
       "graded_by_build": true,
-      "citation": null
+      "citation": null,
+      "citations_graded": [
+        {
+          "citation": "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage1.json",
+          "rows": [
+            "6"
+          ],
+          "status": "met",
+          "reason": null
+        },
+        {
+          "citation": "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage2.json",
+          "rows": [
+            "6"
+          ],
+          "status": "unmet",
+          "reason": "check_failed"
+        }
+      ],
+      "detail": {
+        "critical_metric_blockers": [
+          {
+            "metric": "sim__corner__failed_count",
+            "value": 1,
+            "higher_is_better": false
+          }
+        ],
+        "failed_citations": [
+          "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage2.json"
+        ],
+        "failed_rows": [],
+        "uncovered_rows": [],
+        "declared_gaps": [
+          {
+            "id": "1",
+            "gap": "lock at 5.0 GHz runs on a behavioural VCO/divider stand-in (sim/loop-tran); needs graded VCO f(Vctrl) (G4), VCO+prescaler load re-check (G2), divider at 625 MHz (#61). Not enveloped: a stand-in sweep is not a row-1 result"
+          },
+          {
+            "id": "5",
+            "gap": "method L (sim/loop-model) is not a klt sim request; no C-grid envelope yet. Child issue filed at loom:triage"
+          },
+          {
+            "id": "7",
+            "gap": "upper edge V_hi,req needs the VCO graded f(Vctrl) (G4); the lower edge FAILS at FAST/3.63 V/-40 C (mismatch 2.19 % > 2 % at 1.65 V), see sim/corner-verification/cp-dc/README.md"
+          },
+          {
+            "id": "8",
+            "gap": "method L partial, method T not run (G6); needs the real chain"
+          },
+          {
+            "id": "9",
+            "gap": "reference spur runs on the stand-in VCO (G4, G2, #61)"
+          },
+          {
+            "id": "10",
+            "gap": "lock time runs on the stand-in VCO and divider (G4, G2, #61)"
+          },
+          {
+            "id": "11",
+            "gap": "loop power: divider does not divide at 625 MHz (#61); no C-grid envelope yet"
+          }
+        ],
+        "unratified_rows": [],
+        "row_sources": {
+          "6": "derived"
+        }
+      }
     },
     {
       "tier": "T1",
@@ -150,10 +216,35 @@
       "partition": null,
       "text": "every claimed measurement's testbench committed, with a documented cold-start invocation a third party can run; pinned PDK revision.",
       "notes": [],
-      "status": "unmet",
-      "reason": "no_evidence",
+      "status": "met",
+      "reason": null,
       "graded_by_build": true,
-      "citation": null
+      "citation": {
+        "file": "manifests/testbenches.attest.json",
+        "command": null,
+        "kind": "generic",
+        "check_status": "pass",
+        "content_hash": "sha256:b059e0abc0acf128ce530e9153271cf8b47df8e44565441e3ee0bde40c9fb082",
+        "input_verified": true,
+        "exit_status": 0,
+        "artifact_binding": {
+          "t1_item": 9,
+          "path": {
+            "path": "sim/testbench-inventory.json",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:b059e0abc0acf128ce530e9153271cf8b47df8e44565441e3ee0bde40c9fb082",
+          "input_verified": true,
+          "summary": "T1 item 9 (Testbenches shipped): 34/34 attestation checks passed (klt signoff --attest)",
+          "source": "sim/testbench-inventory.json",
+          "attestation": {
+            "producer": "klt signoff --attest",
+            "inventory_schema_version": 1,
+            "check_count": 34,
+            "passed_count": 34
+          }
+        }
+      }
     },
     {
       "tier": "T1",

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "kind": "t1-attestation-inventory",
+  "t1_item": 9,
+  "description": "Testbench inventory for spec rows 1-11 (the per-row table with owner issues is sim/testbench-inventory.md). cold_start is scripts/run-benches.sh: it runs every unattended simulation bench once (nominal corner, one local ngspice at a time, records to a scratch dir) and fails if any cannot run to completion. NOT in cold_start: scripts/run-vco-smoke.sh (needs openvaf-r and the network; its only committed record is a failure, sim/vco-smoke/records/20261018-024845-17e49a8.md), so its files are inventoried as present but it is not attested to run. Corner grids and Monte Carlo are #39/#40 through klt sim. Negative controls shipped: cp-dc, prescaler-g1, loop-tran, jitter (and the fetch/pin tests); pfd-sweep, prescaler-g3 and divider-elab have none yet (sim/testbench-inventory.md).",
+  "testbenches": [
+    "scripts/run-benches.sh",
+    "scripts/run-cp-dc.sh",
+    "sim/cp-dc/cp_dc.spice.tmpl",
+    "scripts/test-cp-dc-negative.sh",
+    "scripts/run-pfd-sweep.sh",
+    "sim/pfd/pfd_sweep.spice.tmpl",
+    "scripts/run-prescaler-g1.sh",
+    "sim/prescaler-g1/prescaler_g1.spice.tmpl",
+    "scripts/test-prescaler-g1-negative.sh",
+    "scripts/run-prescaler-g3.sh",
+    "sim/prescaler-g3/g3_chain.spice.tmpl",
+    "sim/prescaler-g3/g3_pairs.spice.tmpl",
+    "scripts/run-divider-elab.sh",
+    "sim/divider-elab/divider_elab.spice.tmpl",
+    "sim/divider-elab/divider_tran.spice.tmpl",
+    "scripts/divider_counts.py",
+    "scripts/run-loop-tran.sh",
+    "sim/loop-tran/loop_tran.spice.tmpl",
+    "scripts/loop_tran_analyze.py",
+    "scripts/test-loop-tran-negative.sh",
+    "scripts/run-loop-power.sh",
+    "sim/loop-power/loop_power.spice.tmpl",
+    "scripts/run-jitter.sh",
+    "scripts/test-jitter-negative.sh",
+    "sim/loop-model/loop_model.py",
+    "sim/loop-model/loop-filter.json",
+    "sim/loop-model/test_loop_model.py",
+    "scripts/run-vco-smoke.sh",
+    "scripts/lib-pdk.sh",
+    "scripts/lib-ngpin.sh",
+    "sim/pins.json"
+  ],
+  "cold_start": {
+    "argv": [
+      "bash",
+      "scripts/run-benches.sh"
+    ],
+    "local_only": true,
+    "timeout_s": 7200
+  },
+  "pins": {
+    "pdk": {
+      "name": "ihp-sg13g2",
+      "revision": "IHP-Open-PDK v0.3.0 (tarball sha256 f6afb7a8d2adf3e40acd3fd2c7892fc93510e6f760565409a8df2b5b242254fc; model libraries and OSDI hash-pinned in sim/pins.json)"
+    },
+    "tools": {
+      "ngspice": "47",
+      "psp103.osdi": "sha256 2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796",
+      "r3_cmc.osdi": "sha256 4fead17bc2e9cbfe3df6f106e9dbd6f2cdcd48c002af9c56c2ca0b0712fce350",
+      "python3": ">= 3.10 with numpy (run-jitter only)",
+      "klt": ">= 0.8 (design/netlist.sh --check)"
+    }
+  }
+}
