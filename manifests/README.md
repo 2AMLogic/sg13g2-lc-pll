@@ -9,8 +9,9 @@ record.
 
 - **`sg13g2-lc-pll.json`**: the block manifest. `block: sg13g2-lc-pll`,
   `kind: analog` (an integer-N LC PLL with no mixed-signal partition decided
-  today; if that changes, `kind` may change with it). `evidence` cites only item 10
-  (`manifests/repo-hygiene.attest.json`); every other T1 item is `unmet` /
+  today; if that changes, `kind` may change with it). `evidence` cites items 1, 9 and 10
+  (`manifests/design-sources.attest.json`, `manifests/testbenches.attest.json`,
+  `manifests/repo-hygiene.attest.json`); every other T1 item is `unmet` /
   `no_evidence`. Evidence is added one item at a time, each citation pinning
   the `content_hash` of the artifact it cites.
 - **`design-evidence-tiers.md`**: the T1-T4 checklist the grader parses.
@@ -22,7 +23,7 @@ record.
   When upstream moves, re-vendor and regenerate the record in the same PR.
 - **`sg13g2-lc-pll.signoff.json`**: **the verdict of record**, the committed
   output of the command below. Never hand-edit it. Besides the 11 T1 items
-  (item 10 `met`, the rest `unmet` / `no_evidence`), `klt` 0.8.0 also lists 3 non-T1 rows
+  (items 1, 9 and 10 `met`, the rest `unmet` / `no_evidence`), `klt` 0.8.0 also lists 3 non-T1 rows
   (`tier_not_supported`); these are part of its output, not a design claim.
 
 ## Regenerate (cold start)

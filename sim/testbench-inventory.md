@@ -11,9 +11,9 @@ the committed record). Pins: [`pins.json`](pins.json).
 
 | Row | Parameter | Bench (script, deck) | What it does today | Missing / owner |
 |---|---|---|---|---|
-| 1 | Output frequency, channel | `run-loop-tran.sh`, `sim/loop-tran/` | closed loop reaches 5.0 GHz **on a behavioural VCO/divider stand-in** | lock with the real VCO, prescaler and counters: no bench. Needs the VCO's graded f(Vctrl) (gate G4, `sg13g2-vco` #50/#53) and a divider that runs at 625 MHz (follow-up issue filed with this PR). Corners: #39 |
+| 1 | Output frequency, channel | `run-loop-tran.sh`, `sim/loop-tran/` | closed loop reaches 5.0 GHz **on a behavioural VCO/divider stand-in** | lock with the real VCO, prescaler and counters: no bench. Needs the VCO's graded f(Vctrl) (gate G4, `sg13g2-vco` #50/#53) and a divider that runs at 625 MHz (#61). Corners: #39 |
 | 2 | Reference frequency | none (arithmetic, DR-001) | | no simulation bench by design (method A) |
-| 3 | Division ratio | `run-divider-elab.sh`, `sim/divider-elab/` | count check N = 100, 90 at a 100 MHz clock | speed: the divider does **not** divide at 625 MHz (see `sim/loop-power` record); follow-up issue |
+| 3 | Division ratio | `run-divider-elab.sh`, `sim/divider-elab/` | count check N = 100, 90 at a 100 MHz clock | speed: the divider does **not** divide at 625 MHz (see `sim/loop-power` record); #61 |
 | 4 | Prescaler | `run-prescaler-g1.sh`, `run-prescaler-g3.sh` | G1 load and toggle limit, G3 flavour, nominal | gate G2 (VCO swing and startup with the prescaler load): no bench, no owner issue yet; blocked on a VCO that oscillates in the pinned smoke run (`sim/vco-smoke`) |
 | 5 | Loop bandwidth, PM | `sim/loop-model/loop_model.py` (method L), pytest | f_c and PM over Kvco x I_cp | circuit-level check: C-grid, #39 |
 | 6 | Charge-pump current | `run-cp-dc.sh` | static I_up and I_dn at 200 uA nominal | trim range, corners: #39 |

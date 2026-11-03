@@ -1,0 +1,280 @@
+{
+  "schema_version": 1,
+  "kind": "generic",
+  "status": "pass",
+  "t1_item": 9,
+  "summary": "T1 item 9 (Testbenches shipped): 34/34 attestation checks passed (klt signoff --attest)",
+  "source": "sim/testbench-inventory.json",
+  "attestation": {
+    "producer": "klt signoff --attest",
+    "inventory_schema_version": 1,
+    "hash_algorithm": "sha256-raw-bytes",
+    "check_count": 34,
+    "passed_count": 34,
+    "checks": [
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/divider_counts.py",
+        "passed": true,
+        "content_hash": "sha256:d91fe0ef8a11e237fd75346ee870336496cf371006b01d7ef734cad6b012851d"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/lib-ngpin.sh",
+        "passed": true,
+        "content_hash": "sha256:35258dc6598b46a91dda9807c03f8031b9632f750d017df674e1c0c60ecf87d0"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/lib-pdk.sh",
+        "passed": true,
+        "content_hash": "sha256:918ab3bc2cae6f71f09bbfb6802f9cdf76b372b279d861f158a69333a4c92c6f"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/loop_tran_analyze.py",
+        "passed": true,
+        "content_hash": "sha256:9639007ef6072e128bfae1405fae56389d78a50f16559910bdccd846869f8b08"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/run-benches.sh",
+        "passed": true,
+        "content_hash": "sha256:1fd1ecd07c3e797707af672c1b59ab961a39108025c6bbe736a9a59c7a513e04"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/run-cp-dc.sh",
+        "passed": true,
+        "content_hash": "sha256:c7a50bbfb81e43d355c994de426a0d86e29edbee796b5fd567b2cd39446f2874"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/run-divider-elab.sh",
+        "passed": true,
+        "content_hash": "sha256:dc91222c68e4bb76ff12e28dcae7be15a52900c219f087a2f0380befed06d131"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/run-jitter.sh",
+        "passed": true,
+        "content_hash": "sha256:dbcfd8577f86b1db49c96fc46f35cd906b6721729a51cfae45d2cfc9a901273b"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/run-loop-power.sh",
+        "passed": true,
+        "content_hash": "sha256:52fc7940259d3e576b59f2d3399873ce090b6aba8c181d5b1b41cf5bd5c4bd87"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/run-loop-tran.sh",
+        "passed": true,
+        "content_hash": "sha256:c8f45c5d2859e2d20b09e19453558024b37b3b37741edf123897e441a6fc78bc"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/run-pfd-sweep.sh",
+        "passed": true,
+        "content_hash": "sha256:740f2674db399cfed5e10a297909e207b676642dccd32a6b1969e467e27047e5"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/run-prescaler-g1.sh",
+        "passed": true,
+        "content_hash": "sha256:c1b65584862537e0a3575dc57cc75ec31ef47126b286f3da0580a6199275e966"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/run-prescaler-g3.sh",
+        "passed": true,
+        "content_hash": "sha256:f88b10bb41709a9c705aa07e6f00b15bbcfbc817bc2ea7daf2e2dda9d476c5cf"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/run-vco-smoke.sh",
+        "passed": true,
+        "content_hash": "sha256:ea11c5190e39358d02bb3df2fdf7cb1d8797a58d0c5ba876ac41088208ff7b4a"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/test-cp-dc-negative.sh",
+        "passed": true,
+        "content_hash": "sha256:2b7e84525518ce24fe1390850b857f35dc6861dd8febc8b6f0ca122d42fca4c6"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/test-jitter-negative.sh",
+        "passed": true,
+        "content_hash": "sha256:a1b50990b7524dddf93572c49321478fbdf83cb9c02d27f81ee8c5ef4d893edf"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/test-loop-tran-negative.sh",
+        "passed": true,
+        "content_hash": "sha256:292228db9eee8241954e9e103f5803f0001d2b091b12d6556b2ccc619e1b4f3f"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "scripts/test-prescaler-g1-negative.sh",
+        "passed": true,
+        "content_hash": "sha256:09d9f5116220961b3fe892c4901715e386b5495a0b0a15e162d7eebcc4848bf6"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "sim/cp-dc/cp_dc.spice.tmpl",
+        "passed": true,
+        "content_hash": "sha256:53205b18de1f7b878562605df3c3a8a3cbc5a838d139c7a601cf838ee6e5fe78"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "sim/divider-elab/divider_elab.spice.tmpl",
+        "passed": true,
+        "content_hash": "sha256:2e15aff436013c8807d075b3734cc9d6f085be7f3848a1a689ccde93d1a9fdb6"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "sim/divider-elab/divider_tran.spice.tmpl",
+        "passed": true,
+        "content_hash": "sha256:910a1c740f96a397f87662418142b9fe0b03450b4990f49a35986c8f10a3bf80"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "sim/loop-model/loop-filter.json",
+        "passed": true,
+        "content_hash": "sha256:4caddf618beb06cdd374c1273c555203666be51ad336449efd18f3f3f037ad3d"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "sim/loop-model/loop_model.py",
+        "passed": true,
+        "content_hash": "sha256:9b0aeff087f475540f3c06c1205c97abc51fff1a0bd95c407a6b3cf2cb418312"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "sim/loop-model/test_loop_model.py",
+        "passed": true,
+        "content_hash": "sha256:76752a7010619c83c8f95d806c6f15811fa3af0fbc3022dbf50e8a2d137640ff"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "sim/loop-power/loop_power.spice.tmpl",
+        "passed": true,
+        "content_hash": "sha256:986b3e59515a5a308453609c3df738f518fb2bfa60ca10cae5aba1d113a28a43"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "sim/loop-tran/loop_tran.spice.tmpl",
+        "passed": true,
+        "content_hash": "sha256:770797b273dafaa06277cf5bf4854f68cc37c74246d44d8a429a29098e742b44"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "sim/pfd/pfd_sweep.spice.tmpl",
+        "passed": true,
+        "content_hash": "sha256:930a4db5c6e12993afba5ee9c583f402656d98545874af4520cd8463dfe44526"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "sim/pins.json",
+        "passed": true,
+        "content_hash": "sha256:a35fefc6e0ec0329369b07d9e9878e5a6dc0f2e1d5cbdc91849a6fb6fc18af32"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "sim/prescaler-g1/prescaler_g1.spice.tmpl",
+        "passed": true,
+        "content_hash": "sha256:8e28d5abd78cfbd4077d4b76438298bcbbacf0331d8a60013d7419c4f4bd7b4b"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "sim/prescaler-g3/g3_chain.spice.tmpl",
+        "passed": true,
+        "content_hash": "sha256:872f3c951d8e1cb35fb5d086cbe7093c098dbfc5e3b2d3a1f923eb6964fc08fd"
+      },
+      {
+        "check": "present",
+        "role": "testbench",
+        "path": "sim/prescaler-g3/g3_pairs.spice.tmpl",
+        "passed": true,
+        "content_hash": "sha256:bdc4d7d598f2d752913ba58df384898f162fdf90f285cbb9790779c2c240682a"
+      },
+      {
+        "check": "command",
+        "role": "cold_start",
+        "argv": [
+          "bash",
+          "scripts/run-benches.sh"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true,
+        "local_only": true
+      },
+      {
+        "check": "pin",
+        "role": "pdk",
+        "passed": true,
+        "value": {
+          "name": "ihp-sg13g2",
+          "revision": "IHP-Open-PDK v0.3.0 (tarball sha256 f6afb7a8d2adf3e40acd3fd2c7892fc93510e6f760565409a8df2b5b242254fc; model libraries and OSDI hash-pinned in sim/pins.json)"
+        }
+      },
+      {
+        "check": "pin",
+        "role": "tools",
+        "passed": true,
+        "value": {
+          "klt": ">= 0.8 (design/netlist.sh --check)",
+          "ngspice": "47",
+          "psp103.osdi": "sha256 2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796",
+          "python3": ">= 3.10 with numpy (run-jitter only)",
+          "r3_cmc.osdi": "sha256 4fead17bc2e9cbfe3df6f106e9dbd6f2cdcd48c002af9c56c2ca0b0712fce350"
+        }
+      }
+    ]
+  },
+  "provenance": {
+    "klt_version": "0.8.0",
+    "klayout_version": null,
+    "pdk": null,
+    "deck": null,
+    "input": {
+      "path": {
+        "path": "sim/testbench-inventory.json",
+        "scope": "repo"
+      },
+      "content_hash": "sha256:b059e0abc0acf128ce530e9153271cf8b47df8e44565441e3ee0bde40c9fb082"
+    }
+  }
+}
