@@ -33,13 +33,16 @@ C {lab_pin.sym} 2380 0 0 0 {name=l18 lab=BB}
 C {lab_pin.sym} 2420 30 2 0 {name=l19 lab=t}
 C {lab_pin.sym} 2420 0 2 0 {name=l20 lab=VSS}
 C {sg13g2_pr/npn13G2v.sym} 400 400 0 0 {name=QT model=npn13G2v Nx=2 El=1 spiceprefix=X}
-C {lab_pin.sym} 420 370 2 0 {name=l21 lab=t}
+C {lab_pin.sym} 420 370 2 0 {name=l21 lab=tc}
 C {lab_pin.sym} 380 400 0 0 {name=l22 lab=IB}
 C {lab_pin.sym} 420 430 2 0 {name=l23 lab=teT}
 C {lab_pin.sym} 420 400 2 0 {name=l24 lab=VSS}
 C {res.sym} 800 400 0 0 {name=RT value=1200 footprint=1206 device=resistor m=1}
 C {lab_pin.sym} 800 370 2 0 {name=l25 lab=teT}
 C {lab_pin.sym} 800 430 2 0 {name=l26 lab=VSS}
+C {res.sym} 1200 400 0 0 {name=RTC value=2.4k footprint=1206 device=resistor m=1}
+C {lab_pin.sym} 1200 370 2 0 {name=l901 lab=t}
+C {lab_pin.sym} 1200 430 2 0 {name=l902 lab=tc}
 C {ipin.sym} -400 0 0 0 {name=p1 lab=A}
 C {ipin.sym} -400 100 0 0 {name=p2 lab=AB}
 C {ipin.sym} -400 200 0 0 {name=p3 lab=B}

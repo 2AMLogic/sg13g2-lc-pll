@@ -37,3 +37,14 @@ python3 vce_record.py --report <scratch>/vce-report.json --out-dir records --id 
 `vce_record.py` grades the report and writes `records/<id>-vce.md` plus the klt report (gzip). A corner that did not
 converge is never counted as a pass (verdict INCOMPLETE at best); any Vce over the rating is a FAIL. Tests (negative
 controls on the grader): `test_vce_record.py`. If the batch submit fails, report the error; do not loop locally.
+
+### Why the Vce record passes (issue #72)
+
+The 20261103-021000 record failed (14 of 18 corners over 2.2 V, 4 not converged). Cause, from a per-device
+transient dump: the emitter-follower current sources (`cml_ef`, `div2_ef_hs` QF1/QF2) have their collector on the
+follower output, one Vbe below VDD, so Vce is about VDD - Vbe - 0.1 V; the latch / AND tail transistors (QT) and the
+MC converter's off-side input transistor (QM1, collector at VDD, emitter one Vbe below VDD/2) carry similar stress.
+Changes, all in this block: a diode-connected HBT plus a 4k resistor in series with each follower current source;
+a 1.2k / 2.4k collector resistor on every latch/AND tail; the `mc_conv` reference divider moved from VDD/2 to
+0.7 VDD (12k/28k). The 2.2 V limit is unchanged. The 125 C aborts were the bench's own `.ic` on the /2 output
+nodes (see the comment in `prescaler_vce.cir`), not the circuit.
