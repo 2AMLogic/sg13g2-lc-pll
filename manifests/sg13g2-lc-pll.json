@@ -13,37 +13,56 @@
     "10": {
       "file": "manifests/repo-hygiene.attest.json",
       "content_hash": "sha256:bb87e8207498fb63f9fb931057bd72d2d2403c6d363c613b38f6d6f6259e9b91"
-    }
+    },
+    "5": [
+      {
+        "file": "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage1.json",
+        "content_hash": "sha256:eff5595e23241b4a763706155d74215119a1a3e7ffb5fc37436765137ebb6775",
+        "rows": [
+          "6"
+        ]
+      },
+      {
+        "file": "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage2.json",
+        "content_hash": "sha256:eff5595e23241b4a763706155d74215119a1a3e7ffb5fc37436765137ebb6775",
+        "rows": [
+          "6"
+        ]
+      }
+    ]
   },
   "spec_rows": {
     "5": [
+      {
+        "id": "6"
+      },
+      {
+        "id": "1",
+        "gap": "lock at 5.0 GHz runs on a behavioural VCO/divider stand-in (sim/loop-tran); needs graded VCO f(Vctrl) (G4), VCO+prescaler load re-check (G2), divider at 625 MHz (#61). Not enveloped: a stand-in sweep is not a row-1 result"
+      },
       {
         "id": "5",
         "gap": "row 5 (f_c, PM over the 18-sub-corner I_cp spread x Kvco range) is evidenced by a method-L record, sim/loop-model/records/20261103-021500-9ef9cf4-row5-envelope.md (PASS), which is not a `klt sim` envelope and so cannot be cited as item-5 evidence (klayout-tools#4859)"
       },
       {
-        "id": "1",
-        "gap": "closed-loop transient envelope needs the real VCO (G4), the prescaler (G2) and the real counters (#61); a stand-in envelope is never a pass; tracked in #70"
-      },
-      {
         "id": "7",
-        "gap": "lower edge measured in sim/cp-dc (nominal corner); the upper edge V_hi,req needs the VCO's graded f(Vctrl) (G4); tracked in #70"
+        "gap": "upper edge V_hi,req needs the VCO graded f(Vctrl) (G4); the lower edge FAILS at FAST/3.63 V/-40 C (mismatch 2.19 % > 2 % at 1.65 V), see sim/corner-verification/cp-dc/README.md"
       },
       {
         "id": "8",
-        "gap": "method L over the C-grid plus a method T cross-check (G6) with the section 4 method fields; tracked in #70"
+        "gap": "method L partial, method T not run (G6); needs the real chain"
       },
       {
         "id": "9",
-        "gap": "closed-loop transient envelope blocked on G4/G2/#61; tracked in #70"
+        "gap": "reference spur runs on the stand-in VCO (G4, G2, #61)"
       },
       {
         "id": "10",
-        "gap": "closed-loop transient envelope blocked on G4/G2/#61; tracked in #70"
+        "gap": "lock time runs on the stand-in VCO and divider (G4, G2, #61)"
       },
       {
         "id": "11",
-        "gap": "loop power at the C-grid once the divider divides at 625 MHz (#61); tracked in #70"
+        "gap": "loop power: divider does not divide at 625 MHz (#61); no C-grid envelope yet"
       }
     ]
   }
