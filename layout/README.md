@@ -53,7 +53,7 @@ scripts/test-layout-cells.sh                           # regenerate, compare wit
 
 One generator per block in `layout/cells/` (`prescaler`, `divider`, `charge_pump`, `loop_filter`, `pfd`,
 `lock_detector`) on shared `cells/common.py`: flatten the `.subckt`, group identical (class, W, L) devices
-(`m=` expanded to units), draw each group with `klt gen mos_array|res_array|cap_array`, place groups with
+(`m=` expanded to units), draw each group with `klt gen mos_array|res_array|cap_array|bjt_array`, place groups with
 `klt gen-compose` (placement only; routing is #35), and put one text label per `.subckt` port on a drawn
 terminal of that net. `layout/cells.provenance.json` holds the cell list, area (bbox), generator command, klt
 version, netlist sha256 and a geometry digest; `gen_cells.py --check` fails on any difference.
@@ -68,12 +68,17 @@ layout file exists to hash-pin.
 its `.subckt`; `scripts/test-layout-cells.sh` compares label set to port list instead, with drop/rename
 negative controls. It is not in `scripts/ci-harness.sh` (needs `klayout`, a PDK and klt).
 
-**Not met (tool gaps, recorded per device in the provenance as `undrawn_devices`):**
-- `lcpll_prescaler` is not drawn: all 145 devices are SiGe HBTs (95) and ideal resistors (50). No `klt gen`
-  generator draws an `sg13g2` HBT (klayout-tools#4850); ideal `R` cards carry only ohms, and choosing a
-  physical rppd/rhigh W/L is a schematic decision. The 2.1 fF input-geometry budget is therefore unaddressed;
-  `INPUT_FIRST` in `cells/prescaler.py` only orders the input group first for when the cell can be drawn.
-- `lcpll_divider` omits 1 HBT (cml2cmos tail) and 5 ideal resistors; port `IREF` is unlabelled (it reaches only the HBT).
-- `lcpll_lockdet` omits the `w=0.25u l=12u` pull-down (`mos_array` W floor, klayout-tools#4851).
+**Tool pin.** The HBT (`bjt_array`, klayout-tools#4850 -> #4855) and sub-0.42 um MOS (`dogbone_terminals`,
+#4851 -> #4854) fixes are merged upstream but newer than the host's installed klt. Generate with
+`KLT_CMD="uvx --from git+https://github.com/2AMLogic/klayout-tools@f94eaa6c00f267e3b58031e6ddaeab0507d2cd9d klt"`
+(a throwaway env; the provenance records the klt version). Without it the HBT groups are refused and the
+generator fails. `npn13G2v Nx=<n>` is drawn as n unit PDK HBT cells (an approximation of the multi-emitter device).
+
+**Not met (recorded per device in the provenance as `undrawn_devices`):**
+- Ideal `R` cards (prescaler 71 after `m=` expansion, divider 5) carry only ohms; choosing a physical rppd/rhigh
+  W/L is a schematic decision and out of scope, so they are not drawn. Prescaler ports `MC` and `VSS` reach only
+  those resistors (and the HBT substrate pin) and are unlabelled; `scripts/test-layout-cells.sh` reports KNOWN-GAP.
+- The prescaler's 121 HBT units are drawn (11 x 11 array of PDK cells, input group first), but its INP/INN
+  tank-load capacitance is NOT extracted: the 2.1 fF budget is unverified until PEX on the integrated loop.
 - Cells are placement only: no routing, no tap/guard ties, no DRC/LVS (#36, #37). Areas are bounding boxes.
   The loop-filter cell is 131458 um2 because the schematic's `cap_cmim` units (12 x 70.9 um square) are drawn as specified.
