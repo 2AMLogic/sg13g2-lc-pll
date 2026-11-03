@@ -1,0 +1,27 @@
+# sim/vco-prescaler-load
+
+Gate G2 bench (#87): the pinned `sg13g2-vco` (`reuse.lock.json`, unmodified) with and without the prescaler's
+input on the tank nodes. Nominal corner only (`hbt_typ`/`mos_tt`/`cap_typ`, 27 C, 3.3 V), Vctrl = 0, 1.65, 3.3 V.
+
+```bash
+scripts/run-vco-prescaler-load.sh     # fetch + verify VCO, two local ngspice runs, write records/<id>.md
+```
+
+Prerequisites as for `sim/vco-smoke` (`PDK_ROOT`, `NGSPICE`, `OPENVAF_R`, `OPENVAF_LD_LIBRARY_PATH`; `jq`; `klt` for the
+prescaler netlist drift check). `OPENVAF_LD_LIBRARY_PATH` must be a directory that really holds `libLLVM.so.21.1`.
+
+- `load.spice.tmpl` is appended to the fetched `vco.spice` (cut before its own `.control` block); the unloaded and loaded
+  decks differ only by the `X1 ... prescaler` instance and its `.ic`.
+- `analyze.py` holds the estimators (frequency, Vpp, t90, tank resonance from an AC current probe).
+- `records/` is dated and append-only.
+
+**Not covered**: the C-grid. The varactor is an OSDI model (`mosvar`) and `klt sim` cannot express an OSDI deck
+(klayout-tools#2511), so the grid cannot go to the batch fleet and must not be hand-launched on the dispatch host.
+G2 stays open until it can. Routing capacitance is not in the load (the G1 device-level number is 1.373 fF against a
+2.1 fF device-plus-routing budget). The row 6 ratio g_m / loss >= 3.0 is not extracted; only startup time is compared.
+Simulated, not measured.
+
+**Smoke bench caveat** (observed while building this): with ngspice-46, `wrdata` writes files without a `.data` suffix,
+and `scripts/run-vco-smoke.sh` reads `vco_tran_<v>.data`, so it reports "DOES NOT OSCILLATE" for a VCO that oscillates
+(4.2 GHz, 0.59 Vpp at Vctrl = 1.65 V in the same deck). The 20261018 record, run on ngspice-47, is a different failure
+(an op/initial-transient non-convergence); that was not reproduced here (no ngspice-47 on this host).

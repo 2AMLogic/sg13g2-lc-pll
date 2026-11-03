@@ -1,0 +1,24 @@
+* sg13g2-lc-pll :: sim/vco-prescaler-load -- the pinned sg13g2-vco with and without the prescaler on the tank (gate G2).
+* NOT a standalone deck. scripts/run-vco-prescaler-load.sh prepends the fetched, sha256-verified design/vco.spice
+* (everything before its own .control block, placeholders substituted, netlist untouched) and appends this file.
+* @@LOAD@@ is either the prescaler instance below ("loaded") or nothing ("unloaded"); the two runs differ in
+* nothing else. Nominal corner only: hbt_typ / mos_tt / cap_typ, 27 C, 3.3 V.
+*
+* IAC is an AC-only differential current probe across the tank (DC 0, so it does not touch the transient).
+@@LOAD@@
+IAC outp outn dc 0 ac 1
+
+.control
+pre_osdi @@OSDI@@
+save all
+op
+ac lin 301 3e9 6e9
+wrdata @@OUT@@/ac_@@TAG@@ v(outp)-v(outn)
+foreach vv 0 1.65 3.3
+  alter VCT dc = $vv
+  tran 1p 20n 0 2p
+  let vdiff = v(outp) - v(outn)
+  wrdata @@OUT@@/tran_@@TAG@@_$vv vdiff
+end
+.endc
+.end
