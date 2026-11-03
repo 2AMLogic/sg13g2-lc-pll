@@ -34,9 +34,9 @@ XBP1 IBP IBP VDD VDD sg13_hv_pmos w=4u l=1u ng=1 m=1
 XBPS ICN IBP VDD VDD sg13_hv_pmos w=4u l=1u ng=1 m=1
 XBNC ICN ICN nx VSS sg13_hv_nmos w=2u l=1u ng=1 m=1
 XBNA nx IREF VSS VSS sg13_hv_nmos w=4u l=1u ng=1 m=1
-XBPA px IBP VDD VDD sg13_hv_pmos w=16u l=4u ng=1 m=1
+XBPA px IBP VDD VDD sg13_hv_pmos w=4u l=1u ng=1 m=1
 XBPC ICP ICP px VDD sg13_hv_pmos w=4u l=1u ng=1 m=1
-XBNS ICP IREF VSS VSS sg13_hv_nmos w=16u l=4u ng=1 m=1
+XBNS ICP IREF VSS VSS sg13_hv_nmos w=8u l=2u ng=1 m=1
 .ends
 
 

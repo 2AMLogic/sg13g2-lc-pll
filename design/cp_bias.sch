@@ -46,7 +46,7 @@ C {lab_pin.sym} 580 300 0 0 {name=l21 lab=IREF}
 C {lab_pin.sym} 620 270 2 0 {name=l22 lab=nx}
 C {lab_pin.sym} 620 330 2 0 {name=l23 lab=VSS}
 C {lab_pin.sym} 620 300 2 0 {name=l24 lab=VSS}
-C {sg13g2_pr/sg13_hv_pmos.sym} 0 600 0 0 {name=BPA model=sg13_hv_pmos w=16u l=4u ng=1 m=1 spiceprefix=X}
+C {sg13g2_pr/sg13_hv_pmos.sym} 0 600 0 0 {name=BPA model=sg13_hv_pmos w=4u l=1u ng=1 m=1 spiceprefix=X}
 C {lab_pin.sym} -20 600 0 0 {name=l25 lab=IBP}
 C {lab_pin.sym} 20 570 2 0 {name=l26 lab=VDD}
 C {lab_pin.sym} 20 630 2 0 {name=l27 lab=px}
@@ -56,7 +56,7 @@ C {lab_pin.sym} 280 600 0 0 {name=l29 lab=ICP}
 C {lab_pin.sym} 320 570 2 0 {name=l30 lab=px}
 C {lab_pin.sym} 320 630 2 0 {name=l31 lab=ICP}
 C {lab_pin.sym} 320 600 2 0 {name=l32 lab=VDD}
-C {sg13g2_pr/sg13_hv_nmos.sym} 600 600 0 0 {name=BNS model=sg13_hv_nmos w=16u l=4u ng=1 m=1 spiceprefix=X}
+C {sg13g2_pr/sg13_hv_nmos.sym} 600 600 0 0 {name=BNS model=sg13_hv_nmos w=8u l=2u ng=1 m=1 spiceprefix=X}
 C {lab_pin.sym} 580 600 0 0 {name=l33 lab=IREF}
 C {lab_pin.sym} 620 570 2 0 {name=l34 lab=ICP}
 C {lab_pin.sym} 620 630 2 0 {name=l35 lab=VSS}
