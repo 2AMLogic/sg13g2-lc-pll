@@ -6,7 +6,7 @@ conditional on. Dead zone and charge-vs-phase only; typical corner, nominal supp
 ```bash
 scripts/run-pfd-sweep.sh                      # the pinned PFD, unmodified; writes records/<date>-<sha>.md
 PFD_VARIANT=reset-fix scripts/run-pfd-sweep.sh   # DIAGNOSTIC ONLY: shows what the failure is
-scripts/test-fetch-pll.sh                     # negative controls for the PFD pin's fetch/verify path
+scripts/test-fetch-vco.sh 2AMLogic/sg13g2-pll fetch-pll.sh design/pfd.sch                     # negative controls for the PFD pin's fetch/verify path
 ```
 
 One transient, phase stepped inside the deck: REF fixed at 50 MHz, FB a PWL source delayed by phi_k,
@@ -28,7 +28,7 @@ window, dead-zone threshold, monotonicity tolerance) are written in every record
 
 **Path (settled 2026-10-23, done 2026-10-30)**: upstream fix and re-pin, no local PFD. The defect was
 reported as `2AMLogic/sg13g2-pll#283` (sibling of its #56) and fixed by `sg13g2-pll#284`. The pin was
-bumped to the fix's merge commit (full SHA, per-file sha256), `scripts/test-fetch-pll.sh` still refuses
+bumped to the fix's merge commit (full SHA, per-file sha256), `scripts/test-fetch-vco.sh 2AMLogic/sg13g2-pll fetch-pll.sh design/pfd.sch` still refuses
 the tampered file (`negative-control-fetch-pll-20261030.txt`), and `scripts/run-pfd-sweep.sh` was run
 unmodified (`PFD_VARIANT=adopted`). `PFD_VARIANT=reset-fix` remains a diagnostic against the *old* netlist
 shape and is not meaningful against the fixed pin.

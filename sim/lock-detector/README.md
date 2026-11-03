@@ -10,7 +10,7 @@ scripts/run-lock-detector.sh closed PHI_PS V0 TUS    # ONE closed-loop transient
 scripts/run-lock-detector.sh grid1                   # klt sim --backend batch: 45 points at 3.3 V   (never local)
 scripts/run-lock-detector.sh grid2                   # klt sim --backend batch: 18 supply sub-corners (never local)
 scripts/run-lock-detector.sh report <grid dir>       # rebuild the record .md from request.json + report.json
-scripts/test-fetch-pll.sh                            # negative controls for the pin (now 30 files)
+scripts/test-fetch-vco.sh 2AMLogic/sg13g2-pll fetch-pll.sh design/pfd.sch                            # negative controls for the pin (now 30 files)
 ```
 
 Method (held-VWIN, why, the estimators): [`method.md`](method.md), reproduced in every record. A failed batch submit is
