@@ -1,16 +1,82 @@
 {
  "cells": [
   {
-   "area_um2": 0.0,
+   "area_um2": 10429.9,
+   "bbox_um": [
+    0.0,
+    0.0,
+    105.14,
+    99.2
+   ],
    "cell": "lcpll_prescaler",
-   "commands": [],
-   "device_units": 0,
+   "commands": [
+    "klt gen bjt_array --pdk ihp-sg13g2 --params \"{\\\"add_collector_ring\\\": false, \\\"cols\\\": 11, \\\"dummy\\\": 0, \\\"flavor\\\": \\\"npn13G2v\\\", \\\"rows\\\": 11, \\\"topology\\\": \\\"array\\\"}\" --cell-name lcpll_prescaler_hbt_npn13g2v -o lcpll_prescaler_hbt_npn13g2v.gds --format json",
+    "klt gen-compose lcpll_prescaler.compose.json --format json"
+   ],
+   "device_units": 121,
+   "gds": "layout/build/cells/lcpll_prescaler.gds",
    "generator": "python layout/gen_cells.py --blocks lcpll_prescaler",
-   "geometry_sha256": null,
-   "groups": [],
+   "geometry_sha256": "13be14ee86551f7da711bb6f0ac878b516c77410386b98e60382974c486f1b3e",
+   "groups": [
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
+      105.14,
+      99.2
+     ],
+     "generator": "bjt_array",
+     "id": "lcpll_prescaler_hbt_npn13g2v",
+     "klass": "npn13G2v",
+     "origin_um": {
+      "x": 0.0,
+      "y": 0.0
+     },
+     "params": {
+      "add_collector_ring": false,
+      "cols": 11,
+      "dummy": 0,
+      "flavor": "npn13G2v",
+      "rows": 11,
+      "topology": "array"
+     },
+     "units": 121
+    }
+   ],
    "netlist": "design/netlist/prescaler.spice",
    "netlist_sha256": "326144e4ad595726f0ec34e1dc7f97c55636eed1d3a808139bccd7062a1bd1bc",
-   "port_labels": {},
+   "port_labels": {
+    "INN": {
+     "layer": "8/0",
+     "x_um": 23.35,
+     "y_um": 1.775
+    },
+    "INP": {
+     "layer": "8/0",
+     "x_um": 13.61,
+     "y_um": 1.775
+    },
+    "IREF": {
+     "layer": "8/0",
+     "x_um": 3.87,
+     "y_um": 5.425
+    },
+    "OUTN": {
+     "layer": "8/0",
+     "x_um": 52.57,
+     "y_um": 29.375
+    },
+    "OUTP": {
+     "layer": "8/0",
+     "x_um": 42.83,
+     "y_um": 29.375
+    },
+    "VDD": {
+     "layer": "8/0",
+     "x_um": 13.61,
+     "y_um": 5.425
+    }
+   },
    "ports": [
     "INP",
     "INN",
@@ -22,33 +88,12 @@
     "VSS"
    ],
    "ports_unlabelled": [
-    "INP",
-    "INN",
     "MC",
-    "IREF",
-    "OUTP",
-    "OUTN",
-    "VDD",
     "VSS"
    ],
-   "status": "undrawn",
+   "status": "partial",
    "subckt": "prescaler",
    "undrawn_devices": [
-    {
-     "device": "XQREF",
-     "model": "npn13G2v",
-     "nets": [
-      "IREF",
-      "IREF",
-      "reref",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
     {
      "device": "RREF",
      "model": "ideal_res",
@@ -60,51 +105,6 @@
       "m": "1"
      },
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XEF.XQE1",
-     "model": "npn13G2v",
-     "nets": [
-      "VDD",
-      "INP",
-      "X2.CKP",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XEF.XQE2",
-     "model": "npn13G2v",
-     "nets": [
-      "VDD",
-      "INN",
-      "X2.CKN",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XEF.XQF1",
-     "model": "npn13G2v",
-     "nets": [
-      "X2.XEF.qc1",
-      "IREF",
-      "X2.XEF.f1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
     },
     {
      "device": "X2.XEF.RF1",
@@ -119,21 +119,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X2.XEF.XQF2",
-     "model": "npn13G2v",
-     "nets": [
-      "X2.XEF.qc2",
-      "IREF",
-      "X2.XEF.f2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X2.XEF.RF2",
      "model": "ideal_res",
      "nets": [
@@ -144,36 +129,6 @@
       "m": "1"
      },
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XEF.XDF1",
-     "model": "npn13G2v",
-     "nets": [
-      "X2.CKP",
-      "X2.CKP",
-      "X2.XEF.d1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XEF.XDF2",
-     "model": "npn13G2v",
-     "nets": [
-      "X2.CKN",
-      "X2.CKN",
-      "X2.XEF.d2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
     },
     {
      "device": "X2.XEF.RDF1",
@@ -224,111 +179,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X2.XM.XQT1",
-     "model": "npn13G2v",
-     "nets": [
-      "X2.MN",
-      "HN",
-      "X2.XM.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XM.XQT2",
-     "model": "npn13G2v",
-     "nets": [
-      "X2.MP",
-      "HP",
-      "X2.XM.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XM.XQH1",
-     "model": "npn13G2v",
-     "nets": [
-      "X2.MN",
-      "X2.MP",
-      "X2.XM.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XM.XQH2",
-     "model": "npn13G2v",
-     "nets": [
-      "X2.MP",
-      "X2.MN",
-      "X2.XM.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XM.XQC1",
-     "model": "npn13G2v",
-     "nets": [
-      "X2.XM.e1",
-      "X2.CKP",
-      "X2.XM.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XM.XQC2",
-     "model": "npn13G2v",
-     "nets": [
-      "X2.XM.e2",
-      "X2.CKN",
-      "X2.XM.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XM.XQT",
-     "model": "npn13G2v",
-     "nets": [
-      "X2.XM.tc",
-      "IREF",
-      "X2.XM.teT",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "4"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X2.XM.RT",
      "model": "ideal_res",
      "nets": [
@@ -375,111 +225,6 @@
       "m": "1"
      },
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XS.XQT1",
-     "model": "npn13G2v",
-     "nets": [
-      "HN",
-      "X2.MP",
-      "X2.XS.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XS.XQT2",
-     "model": "npn13G2v",
-     "nets": [
-      "HP",
-      "X2.MN",
-      "X2.XS.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XS.XQH1",
-     "model": "npn13G2v",
-     "nets": [
-      "HN",
-      "HP",
-      "X2.XS.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XS.XQH2",
-     "model": "npn13G2v",
-     "nets": [
-      "HP",
-      "HN",
-      "X2.XS.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XS.XQC1",
-     "model": "npn13G2v",
-     "nets": [
-      "X2.XS.e1",
-      "X2.CKN",
-      "X2.XS.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XS.XQC2",
-     "model": "npn13G2v",
-     "nets": [
-      "X2.XS.e2",
-      "X2.CKP",
-      "X2.XS.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X2.XS.XQT",
-     "model": "npn13G2v",
-     "nets": [
-      "X2.XS.tc",
-      "IREF",
-      "X2.XS.teT",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "4"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
     },
     {
      "device": "X2.XS.RT",
@@ -566,51 +311,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XMC.XQM1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.MCN",
-      "X45.XMC.bm",
-      "X45.XMC.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XMC.XQM2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.MCP",
-      "X45.XMC.vr",
-      "X45.XMC.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XMC.XQT",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XMC.t",
-      "IREF",
-      "X45.XMC.teT",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "2"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XMC.RT",
      "model": "ideal_res",
      "nets": [
@@ -621,51 +321,6 @@
       "m": "1"
      },
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XMCL.XQE1",
-     "model": "npn13G2v",
-     "nets": [
-      "VDD",
-      "X45.MCP",
-      "X45.MCL",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XMCL.XQE2",
-     "model": "npn13G2v",
-     "nets": [
-      "VDD",
-      "X45.MCN",
-      "X45.MCLB",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XMCL.XQF1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XMCL.qc1",
-      "IREF",
-      "X45.XMCL.f1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
     },
     {
      "device": "X45.XMCL.RF1",
@@ -680,21 +335,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XMCL.XQF2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XMCL.qc2",
-      "IREF",
-      "X45.XMCL.f2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XMCL.RF2",
      "model": "ideal_res",
      "nets": [
@@ -705,36 +345,6 @@
       "m": "1"
      },
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XMCL.XDF1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.MCL",
-      "X45.MCL",
-      "X45.XMCL.d1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XMCL.XDF2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.MCLB",
-      "X45.MCLB",
-      "X45.XMCL.d2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
     },
     {
      "device": "X45.XMCL.RDF1",
@@ -785,81 +395,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XGM.XQA1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.MB",
-      "OUTP",
-      "X45.XGM.n1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XGM.XQA2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.M",
-      "OUTN",
-      "X45.XGM.n1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XGM.XQB1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XGM.n1",
-      "X45.MCL",
-      "X45.XGM.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XGM.XQB2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.M",
-      "X45.MCLB",
-      "X45.XGM.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XGM.XQT",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XGM.tc",
-      "IREF",
-      "X45.XGM.teT",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "2"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XGM.RT",
      "model": "ideal_res",
      "nets": [
@@ -884,51 +419,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XC23.XCK.XQE1",
-     "model": "npn13G2v",
-     "nets": [
-      "VDD",
-      "HP",
-      "X45.XC23.CKP",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XCK.XQE2",
-     "model": "npn13G2v",
-     "nets": [
-      "VDD",
-      "HN",
-      "X45.XC23.CKN",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XCK.XQF1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XCK.qc1",
-      "IREF",
-      "X45.XC23.XCK.f1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XC23.XCK.RF1",
      "model": "ideal_res",
      "nets": [
@@ -941,21 +431,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XC23.XCK.XQF2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XCK.qc2",
-      "IREF",
-      "X45.XC23.XCK.f2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XC23.XCK.RF2",
      "model": "ideal_res",
      "nets": [
@@ -966,36 +441,6 @@
       "m": "1"
      },
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XCK.XDF1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.CKP",
-      "X45.XC23.CKP",
-      "X45.XC23.XCK.d1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XCK.XDF2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.CKN",
-      "X45.XC23.CKN",
-      "X45.XC23.XCK.d2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
     },
     {
      "device": "X45.XC23.XCK.RDF1",
@@ -1022,51 +467,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XC23.XQ1L.XQE1",
-     "model": "npn13G2v",
-     "nets": [
-      "VDD",
-      "X45.C1",
-      "X45.XC23.Q1L",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XQ1L.XQE2",
-     "model": "npn13G2v",
-     "nets": [
-      "VDD",
-      "X45.C1B",
-      "X45.XC23.Q1LB",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XQ1L.XQF1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XQ1L.qc1",
-      "IREF",
-      "X45.XC23.XQ1L.f1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XC23.XQ1L.RF1",
      "model": "ideal_res",
      "nets": [
@@ -1079,21 +479,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XC23.XQ1L.XQF2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XQ1L.qc2",
-      "IREF",
-      "X45.XC23.XQ1L.f2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XC23.XQ1L.RF2",
      "model": "ideal_res",
      "nets": [
@@ -1104,36 +489,6 @@
       "m": "1"
      },
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XQ1L.XDF1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.Q1L",
-      "X45.XC23.Q1L",
-      "X45.XC23.XQ1L.d1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XQ1L.XDF2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.Q1LB",
-      "X45.XC23.Q1LB",
-      "X45.XC23.XQ1L.d2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
     },
     {
      "device": "X45.XC23.XQ1L.RDF1",
@@ -1184,81 +539,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XC23.XG1.XQA1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.D1B",
-      "X45.XC23.Q2B",
-      "X45.XC23.XG1.n1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XG1.XQA2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.D1",
-      "X45.XC23.Q2",
-      "X45.XC23.XG1.n1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XG1.XQB1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XG1.n1",
-      "X45.XC23.Q1LB",
-      "X45.XC23.XG1.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XG1.XQB2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.D1",
-      "X45.XC23.Q1L",
-      "X45.XC23.XG1.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XG1.XQT",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XG1.tc",
-      "IREF",
-      "X45.XC23.XG1.teT",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "2"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XC23.XG1.RT",
      "model": "ideal_res",
      "nets": [
@@ -1305,81 +585,6 @@
       "m": "1"
      },
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XG2.XQA1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.D2B",
-      "X45.M",
-      "X45.XC23.XG2.n1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XG2.XQA2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.D2",
-      "X45.MB",
-      "X45.XC23.XG2.n1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XG2.XQB1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XG2.n1",
-      "X45.XC23.Q1L",
-      "X45.XC23.XG2.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XG2.XQB2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.D2",
-      "X45.XC23.Q1LB",
-      "X45.XC23.XG2.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XG2.XQT",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XG2.tc",
-      "IREF",
-      "X45.XC23.XG2.teT",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "2"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
     },
     {
      "device": "X45.XC23.XG2.RT",
@@ -1430,111 +635,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XC23.XF1.XM.XQT1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF1.MB",
-      "X45.XC23.D1",
-      "X45.XC23.XF1.XM.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF1.XM.XQT2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF1.M",
-      "X45.XC23.D1B",
-      "X45.XC23.XF1.XM.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF1.XM.XQH1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF1.MB",
-      "X45.XC23.XF1.M",
-      "X45.XC23.XF1.XM.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF1.XM.XQH2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF1.M",
-      "X45.XC23.XF1.MB",
-      "X45.XC23.XF1.XM.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF1.XM.XQC1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF1.XM.e1",
-      "X45.XC23.CKP",
-      "X45.XC23.XF1.XM.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF1.XM.XQC2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF1.XM.e2",
-      "X45.XC23.CKN",
-      "X45.XC23.XF1.XM.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF1.XM.XQT",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF1.XM.tc",
-      "IREF",
-      "X45.XC23.XF1.XM.teT",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "2"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XC23.XF1.XM.RT",
      "model": "ideal_res",
      "nets": [
@@ -1581,111 +681,6 @@
       "m": "1"
      },
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF1.XS.XQT1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.C1B",
-      "X45.XC23.XF1.M",
-      "X45.XC23.XF1.XS.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF1.XS.XQT2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.C1",
-      "X45.XC23.XF1.MB",
-      "X45.XC23.XF1.XS.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF1.XS.XQH1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.C1B",
-      "X45.C1",
-      "X45.XC23.XF1.XS.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF1.XS.XQH2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.C1",
-      "X45.C1B",
-      "X45.XC23.XF1.XS.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF1.XS.XQC1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF1.XS.e1",
-      "X45.XC23.CKN",
-      "X45.XC23.XF1.XS.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF1.XS.XQC2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF1.XS.e2",
-      "X45.XC23.CKP",
-      "X45.XC23.XF1.XS.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF1.XS.XQT",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF1.XS.tc",
-      "IREF",
-      "X45.XC23.XF1.XS.teT",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "2"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
     },
     {
      "device": "X45.XC23.XF1.XS.RT",
@@ -1736,111 +731,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XC23.XF2.XM.XQT1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF2.MB",
-      "X45.XC23.D2",
-      "X45.XC23.XF2.XM.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF2.XM.XQT2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF2.M",
-      "X45.XC23.D2B",
-      "X45.XC23.XF2.XM.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF2.XM.XQH1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF2.MB",
-      "X45.XC23.XF2.M",
-      "X45.XC23.XF2.XM.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF2.XM.XQH2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF2.M",
-      "X45.XC23.XF2.MB",
-      "X45.XC23.XF2.XM.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF2.XM.XQC1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF2.XM.e1",
-      "X45.XC23.CKP",
-      "X45.XC23.XF2.XM.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF2.XM.XQC2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF2.XM.e2",
-      "X45.XC23.CKN",
-      "X45.XC23.XF2.XM.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF2.XM.XQT",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF2.XM.tc",
-      "IREF",
-      "X45.XC23.XF2.XM.teT",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "2"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XC23.XF2.XM.RT",
      "model": "ideal_res",
      "nets": [
@@ -1889,111 +779,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XC23.XF2.XS.XQT1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.Q2B",
-      "X45.XC23.XF2.M",
-      "X45.XC23.XF2.XS.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF2.XS.XQT2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.Q2",
-      "X45.XC23.XF2.MB",
-      "X45.XC23.XF2.XS.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF2.XS.XQH1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.Q2B",
-      "X45.XC23.Q2",
-      "X45.XC23.XF2.XS.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF2.XS.XQH2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.Q2",
-      "X45.XC23.Q2B",
-      "X45.XC23.XF2.XS.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF2.XS.XQC1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF2.XS.e1",
-      "X45.XC23.CKN",
-      "X45.XC23.XF2.XS.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF2.XS.XQC2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF2.XS.e2",
-      "X45.XC23.CKP",
-      "X45.XC23.XF2.XS.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XC23.XF2.XS.XQT",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XC23.XF2.XS.tc",
-      "IREF",
-      "X45.XC23.XF2.XS.teT",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "2"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XC23.XF2.XS.RT",
      "model": "ideal_res",
      "nets": [
@@ -2018,51 +803,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XT.XEF.XQE1",
-     "model": "npn13G2v",
-     "nets": [
-      "VDD",
-      "X45.C1",
-      "X45.XT.CKP",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XEF.XQE2",
-     "model": "npn13G2v",
-     "nets": [
-      "VDD",
-      "X45.C1B",
-      "X45.XT.CKN",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XEF.XQF1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XT.XEF.qc1",
-      "IREF",
-      "X45.XT.XEF.f1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XT.XEF.RF1",
      "model": "ideal_res",
      "nets": [
@@ -2075,21 +815,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XT.XEF.XQF2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XT.XEF.qc2",
-      "IREF",
-      "X45.XT.XEF.f2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XT.XEF.RF2",
      "model": "ideal_res",
      "nets": [
@@ -2100,36 +825,6 @@
       "m": "1"
      },
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XT.XEF.XDF1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XT.CKP",
-      "X45.XT.CKP",
-      "X45.XT.XEF.d1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XEF.XDF2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XT.CKN",
-      "X45.XT.CKN",
-      "X45.XT.XEF.d2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
     },
     {
      "device": "X45.XT.XEF.RDF1",
@@ -2180,111 +875,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XT.XM.XQT1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XT.MN",
-      "OUTN",
-      "X45.XT.XM.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XM.XQT2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XT.MP",
-      "OUTP",
-      "X45.XT.XM.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XM.XQH1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XT.MN",
-      "X45.XT.MP",
-      "X45.XT.XM.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XM.XQH2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XT.MP",
-      "X45.XT.MN",
-      "X45.XT.XM.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XM.XQC1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XT.XM.e1",
-      "X45.XT.CKP",
-      "X45.XT.XM.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XM.XQC2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XT.XM.e2",
-      "X45.XT.CKN",
-      "X45.XT.XM.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XM.XQT",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XT.XM.tc",
-      "IREF",
-      "X45.XT.XM.teT",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "2"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XT.XM.RT",
      "model": "ideal_res",
      "nets": [
@@ -2333,111 +923,6 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     },
     {
-     "device": "X45.XT.XS.XQT1",
-     "model": "npn13G2v",
-     "nets": [
-      "OUTN",
-      "X45.XT.MP",
-      "X45.XT.XS.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XS.XQT2",
-     "model": "npn13G2v",
-     "nets": [
-      "OUTP",
-      "X45.XT.MN",
-      "X45.XT.XS.e1",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XS.XQH1",
-     "model": "npn13G2v",
-     "nets": [
-      "OUTN",
-      "OUTP",
-      "X45.XT.XS.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XS.XQH2",
-     "model": "npn13G2v",
-     "nets": [
-      "OUTP",
-      "OUTN",
-      "X45.XT.XS.e2",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XS.XQC1",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XT.XS.e1",
-      "X45.XT.CKN",
-      "X45.XT.XS.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XS.XQC2",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XT.XS.e2",
-      "X45.XT.CKP",
-      "X45.XT.XS.t",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "1"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
-     "device": "X45.XT.XS.XQT",
-     "model": "npn13G2v",
-     "nets": [
-      "X45.XT.XS.tc",
-      "IREF",
-      "X45.XT.XS.teT",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "2"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
-    {
      "device": "X45.XT.XS.RT",
      "model": "ideal_res",
      "nets": [
@@ -2463,13 +948,7 @@
     }
    ],
    "undrawn_only_ports": [
-    "INP",
-    "INN",
     "MC",
-    "IREF",
-    "OUTP",
-    "OUTN",
-    "VDD",
     "VSS"
    ]
   },
@@ -2484,16 +963,17 @@
    "cell": "lcpll_divider",
    "commands": [
     "klt gen cap_array --pdk ihp-sg13g2 --params \"{\\\"num\\\": 2, \\\"plate_h_um\\\": 14.0, \\\"plate_w_um\\\": 14.0}\" --cell-name lcpll_divider_cmim_w14_l14 -o lcpll_divider_cmim_w14_l14.gds --format json",
+    "klt gen bjt_array --pdk ihp-sg13g2 --params \"{\\\"add_collector_ring\\\": false, \\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"flavor\\\": \\\"npn13G2v\\\", \\\"rows\\\": 2, \\\"topology\\\": \\\"array\\\"}\" --cell-name lcpll_divider_hbt_npn13g2v -o lcpll_divider_hbt_npn13g2v.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 10.0}\" --cell-name lcpll_divider_nfet_w10_l0p5 -o lcpll_divider_nfet_w10_l0p5.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 173, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_divider_nfet_w2_l0p5 -o lcpll_divider_nfet_w2_l0p5.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 10.0}\" --cell-name lcpll_divider_pfet_w10_l0p5 -o lcpll_divider_pfet_w10_l0p5.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 173, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 5.0}\" --cell-name lcpll_divider_pfet_w5_l0p5 -o lcpll_divider_pfet_w5_l0p5.gds --format json",
     "klt gen-compose lcpll_divider.compose.json --format json"
    ],
-   "device_units": 352,
+   "device_units": 356,
    "gds": "layout/build/cells/lcpll_divider.gds",
    "generator": "python layout/gen_cells.py --blocks lcpll_divider",
-   "geometry_sha256": "3be8c06b99a928d8bfe61f9db5fb58a26d3f71669b341d74d0b7bebd47959d0a",
+   "geometry_sha256": "63b1b0099924765bbeff4d123463fecf97d6818527e8065803b4b9f10ac3bc73",
    "groups": [
     {
      "bbox_um": [
@@ -2518,6 +998,30 @@
     },
     {
      "bbox_um": [
+      0.0,
+      0.0,
+      17.48,
+      16.4
+     ],
+     "generator": "bjt_array",
+     "id": "lcpll_divider_hbt_npn13g2v",
+     "klass": "npn13G2v",
+     "origin_um": {
+      "x": 34.9,
+      "y": 0.0
+     },
+     "params": {
+      "add_collector_ring": false,
+      "cols": 2,
+      "dummy": 0,
+      "flavor": "npn13G2v",
+      "rows": 2,
+      "topology": "array"
+     },
+     "units": 4
+    },
+    {
+     "bbox_um": [
       -0.15,
       -0.15,
       3.23,
@@ -2527,7 +1031,7 @@
      "id": "lcpll_divider_nfet_w10_l0p5",
      "klass": "nfet",
      "origin_um": {
-      "x": 34.9,
+      "x": 56.38,
       "y": 0.0
      },
      "params": {
@@ -2657,6 +1161,11 @@
      "x_um": 7.6,
      "y_um": 16.52
     },
+    "IREF": {
+     "layer": "8/0",
+     "x_um": 38.77,
+     "y_um": 1.775
+    },
     "M0": {
      "layer": "8/0",
      "x_um": 148.57,
@@ -2708,27 +1217,10 @@
     "VDD",
     "VSS"
    ],
-   "ports_unlabelled": [
-    "IREF"
-   ],
+   "ports_unlabelled": [],
    "status": "partial",
    "subckt": "divider",
    "undrawn_devices": [
-    {
-     "device": "XCV.XQT",
-     "model": "npn13G2v",
-     "nets": [
-      "XCV.tail",
-      "IREF",
-      "XCV.te",
-      "VSS"
-     ],
-     "params": {
-      "el": "1",
-      "nx": "4"
-     },
-     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
-    },
     {
      "device": "XCV.RT",
      "model": "ideal_res",
@@ -2790,16 +1282,14 @@
      "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
     }
    ],
-   "undrawn_only_ports": [
-    "IREF"
-   ]
+   "undrawn_only_ports": []
   },
   {
-   "area_um2": 1917.4,
+   "area_um2": 1746.6,
    "bbox_um": [
     -0.15,
     -0.15,
-    93.93,
+    85.55,
     20.23
    ],
    "cell": "lcpll_cp",
@@ -2810,9 +1300,8 @@
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 3, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 1.0, \\\"rows\\\": 3, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 4.0}\" --cell-name lcpll_cp_nfet_w4_l1 -o lcpll_cp_nfet_w4_l1.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.3, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 6.0}\" --cell-name lcpll_cp_nfet_w6_l0p3 -o lcpll_cp_nfet_w6_l0p3.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 1, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 6.0}\" --cell-name lcpll_cp_nfet_w6_l0p5 -o lcpll_cp_nfet_w6_l0p5.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 1, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 1.0, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 3.0}\" --cell-name lcpll_cp_pfet_w3_l1 -o lcpll_cp_pfet_w3_l1.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 5, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 1.0, \\\"rows\\\": 4, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 3.8}\" --cell-name lcpll_cp_pfet_w3p8_l1 -o lcpll_cp_pfet_w3p8_l1.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 3, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 1.0, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 4.0}\" --cell-name lcpll_cp_pfet_w4_l1 -o lcpll_cp_pfet_w4_l1.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 1.0, \\\"rows\\\": 2, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 4.0}\" --cell-name lcpll_cp_pfet_w4_l1 -o lcpll_cp_pfet_w4_l1.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 5.0}\" --cell-name lcpll_cp_pfet_w5_l0p5 -o lcpll_cp_pfet_w5_l0p5.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.3, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 6.0}\" --cell-name lcpll_cp_pfet_w6_l0p3 -o lcpll_cp_pfet_w6_l0p3.gds --format json",
     "klt gen-compose lcpll_cp.compose.json --format json"
@@ -2820,7 +1309,7 @@
    "device_units": 63,
    "gds": "layout/build/cells/lcpll_cp.gds",
    "generator": "python layout/gen_cells.py --blocks lcpll_cp",
-   "geometry_sha256": "bff5084a36de670d4828b040d7a13c8d729773f83bd63c2731d1d144db7f5032",
+   "geometry_sha256": "383d1c1f30b8181b8926d5b0f350fa4ba384bb7d1d68c090460d57cb0916fa7a",
    "groups": [
     {
      "bbox_um": [
@@ -2994,34 +1483,6 @@
      "bbox_um": [
       -0.15,
       -0.15,
-      1.99,
-      4.07
-     ],
-     "generator": "mos_array",
-     "id": "lcpll_cp_pfet_w3_l1",
-     "klass": "pfet",
-     "origin_um": {
-      "x": 51.86,
-      "y": 0.0
-     },
-     "params": {
-      "cols": 1,
-      "dummy": 0,
-      "fingers": 1,
-      "flavor": "pfet",
-      "gate_contact": true,
-      "l_um": 1.0,
-      "rows": 1,
-      "topology": "array",
-      "voltage_flavor": "hv",
-      "w_um": 3.0
-     },
-     "units": 1
-    },
-    {
-     "bbox_um": [
-      -0.15,
-      -0.15,
       10.950000000000001,
       20.23
      ],
@@ -3029,7 +1490,7 @@
      "id": "lcpll_cp_pfet_w3p8_l1",
      "klass": "pfet",
      "origin_um": {
-      "x": 58.0,
+      "x": 51.86,
       "y": 0.0
      },
      "params": {
@@ -3050,29 +1511,29 @@
      "bbox_um": [
       -0.15,
       -0.15,
-      6.47,
-      5.07
+      4.23,
+      10.39
      ],
      "generator": "mos_array",
      "id": "lcpll_cp_pfet_w4_l1",
      "klass": "pfet",
      "origin_um": {
-      "x": 73.1,
+      "x": 66.96,
       "y": 0.0
      },
      "params": {
-      "cols": 3,
+      "cols": 2,
       "dummy": 0,
       "fingers": 1,
       "flavor": "pfet",
       "gate_contact": true,
       "l_um": 1.0,
-      "rows": 1,
+      "rows": 2,
       "topology": "array",
       "voltage_flavor": "hv",
       "w_um": 4.0
      },
-     "units": 3
+     "units": 4
     },
     {
      "bbox_um": [
@@ -3085,7 +1546,7 @@
      "id": "lcpll_cp_pfet_w5_l0p5",
      "klass": "pfet",
      "origin_um": {
-      "x": 83.72,
+      "x": 75.34,
       "y": 0.0
      },
      "params": {
@@ -3113,7 +1574,7 @@
      "id": "lcpll_cp_pfet_w6_l0p3",
      "klass": "pfet",
      "origin_um": {
-      "x": 91.1,
+      "x": 82.72,
       "y": 0.0
      },
      "params": {
@@ -3132,7 +1593,7 @@
     }
    ],
    "netlist": "design/netlist/cp.spice",
-   "netlist_sha256": "7b4c336adfa63d7c3f5fbf0e9d4df819a145f26e80e323a4def3413810995bbf",
+   "netlist_sha256": "99827833f70681faaf031e345f37730eeba9cb692f9eb46f59a149edfa9c213a",
    "port_labels": {
     "DN": {
      "layer": "8/0",
@@ -3511,6 +1972,7 @@
    "cell": "lcpll_lockdet",
    "commands": [
     "klt gen cap_array --pdk ihp-sg13g2 --params \"{\\\"num\\\": 2, \\\"plate_h_um\\\": 45.0, \\\"plate_w_um\\\": 45.0}\" --cell-name lcpll_lockdet_cmim_w45_l45 -o lcpll_lockdet_cmim_w45_l45.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 1, \\\"dogbone_terminals\\\": true, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 12.0, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 0.25}\" --cell-name lcpll_lockdet_nfet_w0p25_l12 -o lcpll_lockdet_nfet_w0p25_l12.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 5, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 3, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_lockdet_nfet_w2_l0p5 -o lcpll_lockdet_nfet_w2_l0p5.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 3, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 2.0, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_lockdet_nfet_w2_l2 -o lcpll_lockdet_nfet_w2_l2.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 5, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 3, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 5.0}\" --cell-name lcpll_lockdet_pfet_w5_l0p5 -o lcpll_lockdet_pfet_w5_l0p5.gds --format json",
@@ -3518,10 +1980,10 @@
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rhigh\\\", \\\"length_um\\\": 500.0, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 0.5}\" --cell-name lcpll_lockdet_resrhigh_w0p5_l500 -o lcpll_lockdet_resrhigh_w0p5_l500.gds --format json",
     "klt gen-compose lcpll_lockdet.compose.json --format json"
    ],
-   "device_units": 39,
+   "device_units": 40,
    "gds": "layout/build/cells/lcpll_lockdet.gds",
    "generator": "python layout/gen_cells.py --blocks lcpll_lockdet",
-   "geometry_sha256": "f89acb701deb552d83f7c1818eb61b4b8af106487ae147833d5fb49ac3a305f8",
+   "geometry_sha256": "b6c731accf073ff9e568b8ecc81fd72bc3d393d64c35a56fa3ba76dd6dc2981a",
    "groups": [
     {
      "bbox_um": [
@@ -3548,6 +2010,35 @@
      "bbox_um": [
       -0.15,
       -0.15,
+      13.19,
+      1.79
+     ],
+     "generator": "mos_array",
+     "id": "lcpll_lockdet_nfet_w0p25_l12",
+     "klass": "nfet",
+     "origin_um": {
+      "x": 96.9,
+      "y": 0.0
+     },
+     "params": {
+      "cols": 1,
+      "dogbone_terminals": true,
+      "dummy": 0,
+      "fingers": 1,
+      "flavor": "nfet",
+      "gate_contact": true,
+      "l_um": 12.0,
+      "rows": 1,
+      "topology": "array",
+      "voltage_flavor": "hv",
+      "w_um": 0.25
+     },
+     "units": 1
+    },
+    {
+     "bbox_um": [
+      -0.15,
+      -0.15,
       8.45,
       9.71
      ],
@@ -3555,7 +2046,7 @@
      "id": "lcpll_lockdet_nfet_w2_l0p5",
      "klass": "nfet",
      "origin_um": {
-      "x": 96.9,
+      "x": 114.24,
       "y": 0.0
      },
      "params": {
@@ -3583,7 +2074,7 @@
      "id": "lcpll_lockdet_nfet_w2_l2",
      "klass": "nfet",
      "origin_um": {
-      "x": 109.5,
+      "x": 126.84,
       "y": 0.0
      },
      "params": {
@@ -3611,7 +2102,7 @@
      "id": "lcpll_lockdet_pfet_w5_l0p5",
      "klass": "pfet",
      "origin_um": {
-      "x": 123.12,
+      "x": 140.46,
       "y": 0.0
      },
      "params": {
@@ -3639,7 +2130,7 @@
      "id": "lcpll_lockdet_pfet_w5_l2",
      "klass": "pfet",
      "origin_um": {
-      "x": 135.72,
+      "x": 153.06,
       "y": 0.0
      },
      "params": {
@@ -3686,22 +2177,22 @@
    "port_labels": {
     "DN": {
      "layer": "8/0",
-     "x_um": 99.31,
+     "x_um": 116.65,
      "y_um": 2.71
     },
     "LOCK": {
      "layer": "8/0",
-     "x_um": 112.13,
+     "x_um": 129.47,
      "y_um": 1.0
     },
     "UP": {
      "layer": "8/0",
-     "x_um": 97.57,
+     "x_um": 114.91,
      "y_um": 2.71
     },
     "VDD": {
      "layer": "8/0",
-     "x_um": 118.61,
+     "x_um": 135.95,
      "y_um": 1.0
     },
     "VSS": {
@@ -3718,32 +2209,14 @@
     "VSS"
    ],
    "ports_unlabelled": [],
-   "status": "partial",
+   "status": "drawn",
    "subckt": "lock_detector",
-   "undrawn_devices": [
-    {
-     "device": "XMPD",
-     "model": "sg13_hv_nmos",
-     "nets": [
-      "VWIN",
-      "WIDE",
-      "VSS",
-      "VSS"
-     ],
-     "params": {
-      "l": "12u",
-      "m": "1",
-      "ng": "1",
-      "w": "0.25u"
-     },
-     "reason": "klt gen mos_array refused: generator 'mos_array': params.w_um must be >= 0.42 (the smallest width that fits an enclosed contact with margin -- a generator-side structural floor, not the target PDK's own diffusion-width rule)"
-    }
-   ],
+   "undrawn_devices": [],
    "undrawn_only_ports": []
   }
  ],
  "command": ".venv/bin/python layout/gen_cells.py --write",
- "klt": "klt 0.8.1.dev1184+gc587a95f7771",
+ "klt": "klt 0.8.1.dev1273+gf94eaa6c00f2",
  "pdk": "ihp-sg13g2",
  "schema": 1
 }
