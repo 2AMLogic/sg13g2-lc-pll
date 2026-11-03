@@ -1,5 +1,5 @@
 v {xschem version=3.4.8RC file_version=1.3
-sg13g2-lc-pll :: mc_conv -- CMOS (0/3.3 V) modulus control to CML: base resistor, VDD/2 reference divider, loaded pair
+sg13g2-lc-pll :: mc_conv -- CMOS (0/3.3 V) modulus control to CML: base resistor, 0.7*VDD reference divider (keeps the off-side Vce under BVCEO), loaded pair
 }
 G {}
 K {}
@@ -9,10 +9,10 @@ E {}
 C {res.sym} 400 0 0 0 {name=RIN value=20k footprint=1206 device=resistor m=1}
 C {lab_pin.sym} 400 -30 2 0 {name=l1 lab=MC}
 C {lab_pin.sym} 400 30 2 0 {name=l2 lab=bm}
-C {res.sym} 800 0 0 0 {name=RD1 value=20k footprint=1206 device=resistor m=1}
+C {res.sym} 800 0 0 0 {name=RD1 value=12k footprint=1206 device=resistor m=1}
 C {lab_pin.sym} 800 -30 2 0 {name=l3 lab=VDD}
 C {lab_pin.sym} 800 30 2 0 {name=l4 lab=vr}
-C {res.sym} 1200 0 0 0 {name=RD2 value=20k footprint=1206 device=resistor m=1}
+C {res.sym} 1200 0 0 0 {name=RD2 value=28k footprint=1206 device=resistor m=1}
 C {lab_pin.sym} 1200 -30 2 0 {name=l5 lab=vr}
 C {lab_pin.sym} 1200 30 2 0 {name=l6 lab=VSS}
 C {res.sym} 1600 0 0 0 {name=RL1 value=2400 footprint=1206 device=resistor m=1}

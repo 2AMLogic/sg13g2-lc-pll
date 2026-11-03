@@ -9,7 +9,7 @@
    "geometry_sha256": null,
    "groups": [],
    "netlist": "design/netlist/prescaler.spice",
-   "netlist_sha256": "c79c7b09c608405d67e2a0e266c63a2446c32081b5decb8e13e0a9853efc4ed4",
+   "netlist_sha256": "326144e4ad595726f0ec34e1dc7f97c55636eed1d3a808139bccd7062a1bd1bc",
    "port_labels": {},
    "ports": [
     "INP",
@@ -95,7 +95,7 @@
      "device": "X2.XEF.XQF1",
      "model": "npn13G2v",
      "nets": [
-      "X2.CKP",
+      "X2.XEF.qc1",
       "IREF",
       "X2.XEF.f1",
       "VSS"
@@ -122,7 +122,7 @@
      "device": "X2.XEF.XQF2",
      "model": "npn13G2v",
      "nets": [
-      "X2.CKN",
+      "X2.XEF.qc2",
       "IREF",
       "X2.XEF.f2",
       "VSS"
@@ -139,6 +139,60 @@
      "nets": [
       "X2.XEF.f2",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X2.XEF.XDF1",
+     "model": "npn13G2v",
+     "nets": [
+      "X2.CKP",
+      "X2.CKP",
+      "X2.XEF.d1",
+      "VSS"
+     ],
+     "params": {
+      "el": "1",
+      "nx": "1"
+     },
+     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
+    },
+    {
+     "device": "X2.XEF.XDF2",
+     "model": "npn13G2v",
+     "nets": [
+      "X2.CKN",
+      "X2.CKN",
+      "X2.XEF.d2",
+      "VSS"
+     ],
+     "params": {
+      "el": "1",
+      "nx": "1"
+     },
+     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
+    },
+    {
+     "device": "X2.XEF.RDF1",
+     "model": "ideal_res",
+     "nets": [
+      "X2.XEF.d1",
+      "X2.XEF.qc1"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X2.XEF.RDF2",
+     "model": "ideal_res",
+     "nets": [
+      "X2.XEF.d2",
+      "X2.XEF.qc2"
      ],
      "params": {
       "m": "1"
@@ -263,7 +317,7 @@
      "device": "X2.XM.XQT",
      "model": "npn13G2v",
      "nets": [
-      "X2.XM.t",
+      "X2.XM.tc",
       "IREF",
       "X2.XM.teT",
       "VSS"
@@ -280,6 +334,18 @@
      "nets": [
       "X2.XM.teT",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X2.XM.RTC",
+     "model": "ideal_res",
+     "nets": [
+      "X2.XM.t",
+      "X2.XM.tc"
      ],
      "params": {
       "m": "1"
@@ -404,7 +470,7 @@
      "device": "X2.XS.XQT",
      "model": "npn13G2v",
      "nets": [
-      "X2.XS.t",
+      "X2.XS.tc",
       "IREF",
       "X2.XS.teT",
       "VSS"
@@ -421,6 +487,18 @@
      "nets": [
       "X2.XS.teT",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X2.XS.RTC",
+     "model": "ideal_res",
+     "nets": [
+      "X2.XS.t",
+      "X2.XS.tc"
      ],
      "params": {
       "m": "1"
@@ -578,7 +656,7 @@
      "device": "X45.XMCL.XQF1",
      "model": "npn13G2v",
      "nets": [
-      "X45.MCL",
+      "X45.XMCL.qc1",
       "IREF",
       "X45.XMCL.f1",
       "VSS"
@@ -605,7 +683,7 @@
      "device": "X45.XMCL.XQF2",
      "model": "npn13G2v",
      "nets": [
-      "X45.MCLB",
+      "X45.XMCL.qc2",
       "IREF",
       "X45.XMCL.f2",
       "VSS"
@@ -622,6 +700,60 @@
      "nets": [
       "X45.XMCL.f2",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XMCL.XDF1",
+     "model": "npn13G2v",
+     "nets": [
+      "X45.MCL",
+      "X45.MCL",
+      "X45.XMCL.d1",
+      "VSS"
+     ],
+     "params": {
+      "el": "1",
+      "nx": "1"
+     },
+     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
+    },
+    {
+     "device": "X45.XMCL.XDF2",
+     "model": "npn13G2v",
+     "nets": [
+      "X45.MCLB",
+      "X45.MCLB",
+      "X45.XMCL.d2",
+      "VSS"
+     ],
+     "params": {
+      "el": "1",
+      "nx": "1"
+     },
+     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
+    },
+    {
+     "device": "X45.XMCL.RDF1",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XMCL.d1",
+      "X45.XMCL.qc1"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XMCL.RDF2",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XMCL.d2",
+      "X45.XMCL.qc2"
      ],
      "params": {
       "m": "1"
@@ -716,7 +848,7 @@
      "device": "X45.XGM.XQT",
      "model": "npn13G2v",
      "nets": [
-      "X45.XGM.t",
+      "X45.XGM.tc",
       "IREF",
       "X45.XGM.teT",
       "VSS"
@@ -733,6 +865,18 @@
      "nets": [
       "X45.XGM.teT",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XGM.RTC",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XGM.t",
+      "X45.XGM.tc"
      ],
      "params": {
       "m": "1"
@@ -773,7 +917,7 @@
      "device": "X45.XC23.XCK.XQF1",
      "model": "npn13G2v",
      "nets": [
-      "X45.XC23.CKP",
+      "X45.XC23.XCK.qc1",
       "IREF",
       "X45.XC23.XCK.f1",
       "VSS"
@@ -800,7 +944,7 @@
      "device": "X45.XC23.XCK.XQF2",
      "model": "npn13G2v",
      "nets": [
-      "X45.XC23.CKN",
+      "X45.XC23.XCK.qc2",
       "IREF",
       "X45.XC23.XCK.f2",
       "VSS"
@@ -817,6 +961,60 @@
      "nets": [
       "X45.XC23.XCK.f2",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XC23.XCK.XDF1",
+     "model": "npn13G2v",
+     "nets": [
+      "X45.XC23.CKP",
+      "X45.XC23.CKP",
+      "X45.XC23.XCK.d1",
+      "VSS"
+     ],
+     "params": {
+      "el": "1",
+      "nx": "1"
+     },
+     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
+    },
+    {
+     "device": "X45.XC23.XCK.XDF2",
+     "model": "npn13G2v",
+     "nets": [
+      "X45.XC23.CKN",
+      "X45.XC23.CKN",
+      "X45.XC23.XCK.d2",
+      "VSS"
+     ],
+     "params": {
+      "el": "1",
+      "nx": "1"
+     },
+     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
+    },
+    {
+     "device": "X45.XC23.XCK.RDF1",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XC23.XCK.d1",
+      "X45.XC23.XCK.qc1"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XC23.XCK.RDF2",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XC23.XCK.d2",
+      "X45.XC23.XCK.qc2"
      ],
      "params": {
       "m": "1"
@@ -857,7 +1055,7 @@
      "device": "X45.XC23.XQ1L.XQF1",
      "model": "npn13G2v",
      "nets": [
-      "X45.XC23.Q1L",
+      "X45.XC23.XQ1L.qc1",
       "IREF",
       "X45.XC23.XQ1L.f1",
       "VSS"
@@ -884,7 +1082,7 @@
      "device": "X45.XC23.XQ1L.XQF2",
      "model": "npn13G2v",
      "nets": [
-      "X45.XC23.Q1LB",
+      "X45.XC23.XQ1L.qc2",
       "IREF",
       "X45.XC23.XQ1L.f2",
       "VSS"
@@ -901,6 +1099,60 @@
      "nets": [
       "X45.XC23.XQ1L.f2",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XC23.XQ1L.XDF1",
+     "model": "npn13G2v",
+     "nets": [
+      "X45.XC23.Q1L",
+      "X45.XC23.Q1L",
+      "X45.XC23.XQ1L.d1",
+      "VSS"
+     ],
+     "params": {
+      "el": "1",
+      "nx": "1"
+     },
+     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
+    },
+    {
+     "device": "X45.XC23.XQ1L.XDF2",
+     "model": "npn13G2v",
+     "nets": [
+      "X45.XC23.Q1LB",
+      "X45.XC23.Q1LB",
+      "X45.XC23.XQ1L.d2",
+      "VSS"
+     ],
+     "params": {
+      "el": "1",
+      "nx": "1"
+     },
+     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
+    },
+    {
+     "device": "X45.XC23.XQ1L.RDF1",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XC23.XQ1L.d1",
+      "X45.XC23.XQ1L.qc1"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XC23.XQ1L.RDF2",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XC23.XQ1L.d2",
+      "X45.XC23.XQ1L.qc2"
      ],
      "params": {
       "m": "1"
@@ -995,7 +1247,7 @@
      "device": "X45.XC23.XG1.XQT",
      "model": "npn13G2v",
      "nets": [
-      "X45.XC23.XG1.t",
+      "X45.XC23.XG1.tc",
       "IREF",
       "X45.XC23.XG1.teT",
       "VSS"
@@ -1012,6 +1264,18 @@
      "nets": [
       "X45.XC23.XG1.teT",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XC23.XG1.RTC",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XC23.XG1.t",
+      "X45.XC23.XG1.tc"
      ],
      "params": {
       "m": "1"
@@ -1106,7 +1370,7 @@
      "device": "X45.XC23.XG2.XQT",
      "model": "npn13G2v",
      "nets": [
-      "X45.XC23.XG2.t",
+      "X45.XC23.XG2.tc",
       "IREF",
       "X45.XC23.XG2.teT",
       "VSS"
@@ -1123,6 +1387,18 @@
      "nets": [
       "X45.XC23.XG2.teT",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XC23.XG2.RTC",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XC23.XG2.t",
+      "X45.XC23.XG2.tc"
      ],
      "params": {
       "m": "1"
@@ -1247,7 +1523,7 @@
      "device": "X45.XC23.XF1.XM.XQT",
      "model": "npn13G2v",
      "nets": [
-      "X45.XC23.XF1.XM.t",
+      "X45.XC23.XF1.XM.tc",
       "IREF",
       "X45.XC23.XF1.XM.teT",
       "VSS"
@@ -1264,6 +1540,18 @@
      "nets": [
       "X45.XC23.XF1.XM.teT",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XC23.XF1.XM.RTC",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XC23.XF1.XM.t",
+      "X45.XC23.XF1.XM.tc"
      ],
      "params": {
       "m": "1"
@@ -1388,7 +1676,7 @@
      "device": "X45.XC23.XF1.XS.XQT",
      "model": "npn13G2v",
      "nets": [
-      "X45.XC23.XF1.XS.t",
+      "X45.XC23.XF1.XS.tc",
       "IREF",
       "X45.XC23.XF1.XS.teT",
       "VSS"
@@ -1405,6 +1693,18 @@
      "nets": [
       "X45.XC23.XF1.XS.teT",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XC23.XF1.XS.RTC",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XC23.XF1.XS.t",
+      "X45.XC23.XF1.XS.tc"
      ],
      "params": {
       "m": "1"
@@ -1529,7 +1829,7 @@
      "device": "X45.XC23.XF2.XM.XQT",
      "model": "npn13G2v",
      "nets": [
-      "X45.XC23.XF2.XM.t",
+      "X45.XC23.XF2.XM.tc",
       "IREF",
       "X45.XC23.XF2.XM.teT",
       "VSS"
@@ -1546,6 +1846,18 @@
      "nets": [
       "X45.XC23.XF2.XM.teT",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XC23.XF2.XM.RTC",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XC23.XF2.XM.t",
+      "X45.XC23.XF2.XM.tc"
      ],
      "params": {
       "m": "1"
@@ -1670,7 +1982,7 @@
      "device": "X45.XC23.XF2.XS.XQT",
      "model": "npn13G2v",
      "nets": [
-      "X45.XC23.XF2.XS.t",
+      "X45.XC23.XF2.XS.tc",
       "IREF",
       "X45.XC23.XF2.XS.teT",
       "VSS"
@@ -1687,6 +1999,18 @@
      "nets": [
       "X45.XC23.XF2.XS.teT",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XC23.XF2.XS.RTC",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XC23.XF2.XS.t",
+      "X45.XC23.XF2.XS.tc"
      ],
      "params": {
       "m": "1"
@@ -1727,7 +2051,7 @@
      "device": "X45.XT.XEF.XQF1",
      "model": "npn13G2v",
      "nets": [
-      "X45.XT.CKP",
+      "X45.XT.XEF.qc1",
       "IREF",
       "X45.XT.XEF.f1",
       "VSS"
@@ -1754,7 +2078,7 @@
      "device": "X45.XT.XEF.XQF2",
      "model": "npn13G2v",
      "nets": [
-      "X45.XT.CKN",
+      "X45.XT.XEF.qc2",
       "IREF",
       "X45.XT.XEF.f2",
       "VSS"
@@ -1771,6 +2095,60 @@
      "nets": [
       "X45.XT.XEF.f2",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XT.XEF.XDF1",
+     "model": "npn13G2v",
+     "nets": [
+      "X45.XT.CKP",
+      "X45.XT.CKP",
+      "X45.XT.XEF.d1",
+      "VSS"
+     ],
+     "params": {
+      "el": "1",
+      "nx": "1"
+     },
+     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
+    },
+    {
+     "device": "X45.XT.XEF.XDF2",
+     "model": "npn13G2v",
+     "nets": [
+      "X45.XT.CKN",
+      "X45.XT.CKN",
+      "X45.XT.XEF.d2",
+      "VSS"
+     ],
+     "params": {
+      "el": "1",
+      "nx": "1"
+     },
+     "reason": "no klt gen generator for sg13g2 bipolar (bjt_array: family not supported)"
+    },
+    {
+     "device": "X45.XT.XEF.RDF1",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XT.XEF.d1",
+      "X45.XT.XEF.qc1"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XT.XEF.RDF2",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XT.XEF.d2",
+      "X45.XT.XEF.qc2"
      ],
      "params": {
       "m": "1"
@@ -1895,7 +2273,7 @@
      "device": "X45.XT.XM.XQT",
      "model": "npn13G2v",
      "nets": [
-      "X45.XT.XM.t",
+      "X45.XT.XM.tc",
       "IREF",
       "X45.XT.XM.teT",
       "VSS"
@@ -1912,6 +2290,18 @@
      "nets": [
       "X45.XT.XM.teT",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XT.XM.RTC",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XT.XM.t",
+      "X45.XT.XM.tc"
      ],
      "params": {
       "m": "1"
@@ -2036,7 +2426,7 @@
      "device": "X45.XT.XS.XQT",
      "model": "npn13G2v",
      "nets": [
-      "X45.XT.XS.t",
+      "X45.XT.XS.tc",
       "IREF",
       "X45.XT.XS.teT",
       "VSS"
@@ -2053,6 +2443,18 @@
      "nets": [
       "X45.XT.XS.teT",
       "VSS"
+     ],
+     "params": {
+      "m": "1"
+     },
+     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
+    },
+    {
+     "device": "X45.XT.XS.RTC",
+     "model": "ideal_res",
+     "nets": [
+      "X45.XT.XS.t",
+      "X45.XT.XS.tc"
      ],
      "params": {
       "m": "1"

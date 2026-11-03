@@ -11,5 +11,8 @@ VMC mc 0 dc 0
 X1 inp inn mc iref outp outn vdd 0 prescaler
 VIP inp 0 dc {vddv} sin({vddv} 0.1 5e9)
 VIN inn 0 dc {vddv} sin({vddv} -0.1 5e9)
-.ic v(x1.hp)={vddv-0.1} v(x1.hn)={vddv-0.3} v(x1.x2.mp)={vddv-0.3} v(x1.x2.mn)={vddv-0.1}
+* Only the master latch of the /2 is seeded, to break the symmetry. Forcing the /2 output nodes
+* (x1.hp/x1.hn) too made the transient operating point fail ('timestep too small') at 125 C in the
+* SLOW/TYP/FAST 3.63 V and FAST 2.97 V corners; the divider still starts and toggles (checked).
+.ic v(x1.x2.mp)={vddv-0.3} v(x1.x2.mn)={vddv-0.1}
 .include ../../design/netlist/prescaler.spice
