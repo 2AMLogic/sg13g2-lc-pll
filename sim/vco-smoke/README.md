@@ -13,6 +13,8 @@ model libraries match `sim/pins.json`, `openvaf-r` (`OPENVAF_R`, plus
 `OPENVAF_LD_LIBRARY_PATH` if libLLVM.so.21 is not system-installed), and an
 ngspice that loads OSDI v0.4 (`NGSPICE`, ngspice >= 46; ngspice-42 cannot).
 
+- The wrdata output is read as `vco_tran_<v>.data` or, if absent, `vco_tran_<v>`
+  (ngspice-46 writes no suffix); a run with neither file reads `NA NA 0` and fails.
 - `records/` — dated, append-only. A failed run is recorded too.
 - `negative-control-*.txt` — output of `scripts/test-fetch-vco.sh` (tampered
   byte, short commit, ref instead of SHA, wrong mode, wrong sha256, file
