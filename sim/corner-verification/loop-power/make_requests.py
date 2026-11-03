@@ -3,6 +3,7 @@
 
 Run from anywhere: python3 -I sim/corner-verification/loop-power/make_requests.py
 Writes request-stage1.json and request-stage2.json next to this file.
+`--missing RECORD...` instead writes request-stage1-missing<i>.json for the stage-1 units absent from the given records.
 Stage 1 = 5 MOS x 3 MIM x 3 HBT x 3 T = 135 points at 3.300 V.
 Stage 2 = SLOW/TYP/FAST x 3 T x {2.970, 3.630} V = 18 sub-corners (DR-004 bundles).
 """
@@ -69,7 +70,49 @@ def req(stage):
     return d
 
 
-for s in (1, 2):
-    with open(os.path.join(HERE, "request-stage%d.json" % s), "w") as f:
-        json.dump(req(s), f, indent=1)
-        f.write("\n")
+def returned(record):
+    """(process, T) units that appear in a stage-1 record table (a row = a corner that came back)."""
+    done = set()
+    for line in open(record):
+        c = [x.strip() for x in line.split("|")]
+        if len(c) > 4 and c[1].startswith("mos_"):
+            done.add((c[1], int(c[2])))
+    return done
+
+
+def missing_requests(records):
+    """Stage-1 requests for the units absent from RECORDS. The grid is a product, so units are grouped by the
+    set of missing temperatures: one request per distinct set (processes sharing it)."""
+    done = set()
+    for r in records:
+        done |= returned(r)
+    full = req(1)
+    by_t = {}
+    for p in full["corners"]["process"]:
+        miss = tuple(t for t in full["corners"]["temperature_c"] if (p["name"], t) not in done)
+        if miss:
+            by_t.setdefault(miss, []).append(p)
+    out = []
+    for i, (miss, procs) in enumerate(sorted(by_t.items())):
+        d = json.loads(json.dumps(full))
+        d["corners"]["process"], d["corners"]["temperature_c"] = procs, list(miss)
+        d["_comment"].append("MISSING-UNIT resubmission %d: %d processes x T=%s (units absent from %s)." % (
+            i, len(procs), list(miss), ", ".join(os.path.basename(r) for r in records)))
+        out.append((i, d, len(procs) * len(miss)))
+    return out
+
+
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "--missing":
+        reqs = missing_requests(sys.argv[2:])
+        for i, d, n in reqs:
+            with open(os.path.join(HERE, "request-stage1-missing%d.json" % i), "w") as f:
+                json.dump(d, f, indent=1)
+                f.write("\n")
+        print("missing units: %d of 135 (%d returned) in %d requests" % (sum(n for _, _, n in reqs), 135 - sum(n for _, _, n in reqs), len(reqs)))
+    else:
+        for s in (1, 2):
+            with open(os.path.join(HERE, "request-stage%d.json" % s), "w") as f:
+                json.dump(req(s), f, indent=1)
+                f.write("\n")
