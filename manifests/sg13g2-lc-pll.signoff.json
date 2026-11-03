@@ -142,7 +142,7 @@
           },
           {
             "id": "5",
-            "gap": "method L (sim/loop-model) is not a klt sim request; no C-grid envelope yet. Child issue filed at loom:triage"
+            "gap": "row 5 (f_c, PM over the 18-sub-corner I_cp spread x Kvco range) is evidenced by a method-L record, sim/loop-model/records/20261103-021500-9ef9cf4-row5-envelope.md (PASS), which is not a `klt sim` envelope and so cannot be cited as item-5 evidence (klayout-tools#4859)"
           },
           {
             "id": "7",

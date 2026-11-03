@@ -17,3 +17,10 @@ scripts/test-cp-dc-negative.sh     # skewed up leg must make the bench flag mism
 - Needs the pinned PDK (`sim/pins.json`, model libraries and `psp103.osdi` hash-checked), `jq`, `ngspice`
   (`NGSPICE`), `klt` (netlist drift check). ngspice is held to 2 OpenMP threads on the shared host.
 - `negative-control-*.txt`: output of `scripts/test-cp-dc-negative.sh`.
+
+## I_cp over the supply sub-corners (`klt sim`)
+
+`cp_icp.cir` + `cp_icp_corners.request.json`: the same two-copy arrangement at the single point V_out = 1.65 V, over the
+18 supply sub-corners (SLOW/TYP/FAST = `mos_ss`/`mos_tt`/`mos_ff` of `cornerMOShv.lib`), as a batch `klt sim` request;
+`icp_record.py --report ... --out-dir records --id ...` writes `records/<id>-icp-corners.md` and the klt report (gzip).
+`sim/loop-model/envelope.py` reads that report as the I_cp input of the row 5 envelope.
