@@ -24,7 +24,7 @@ if [ "${PDK_SKIP_PSP103:-0}" != 1 ]; then
   [ "${got}" = "$(jq -r .psp103.osdi_sha256 "${PINS}")" ] || die "${OSDI_PSP} is ${got:-missing}, not the pinned psp103.osdi"
 fi
 # The loop-filter poly resistor (rppd) is an r3_cmc OSDI model. Hash-checked here too, so a bench that
-# loads it (sim/loop-tran) gets OSDI_R3 for pre_osdi; benches that do not simulate rppd ignore it.
+# loads it (sim/loop-tran rppd, scripts/run-lock-detector.sh rhigh) gets OSDI_R3 for pre_osdi; others ignore it.
 if [ "${PDK_SKIP_PSP103:-0}" != 1 ]; then
   OSDI_R3="${PDK_DIR}/$(jq -r .r3_cmc.osdi "${PINS}")"
   got="$(sha256sum "${OSDI_R3}" 2>/dev/null | cut -d' ' -f1)"
