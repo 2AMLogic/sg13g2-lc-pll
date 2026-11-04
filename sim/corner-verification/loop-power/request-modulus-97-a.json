@@ -1,0 +1,227 @@
+{
+ "_comment": [
+  "Issue #97 step 1 (read the modulus): single corner TYP 27 C 3.63 V, 400 ns transient, timeout_s 1800. FB and divider TC (mcounter terminal count) rising-edge times, plus mcounter state bits max/min."
+ ],
+ "netlist": "loop_power_body.spice",
+ "netlist_source": "schematic",
+ "engine": "ngspice",
+ "backend": "batch",
+ "models": {
+  "pdk": "ihp-sg13g2"
+ },
+ "analysis": {
+  "kind": "tran",
+  "args": "4p 400n 0 4p"
+ },
+ "measurements": [
+  {
+   "name": "ipavg",
+   "unit": "A",
+   "spec_row": "11",
+   "spice": ".meas tran ipavg avg i(vddp) from=40n to=400n"
+  },
+  {
+   "name": "idavg",
+   "unit": "A",
+   "spec_row": "11",
+   "spice": ".meas tran idavg avg i(vddd) from=40n to=400n"
+  },
+  {
+   "name": "tfb",
+   "unit": "s",
+   "spec_row": "11",
+   "on_unreached": "null",
+   "spice": ".meas tran tfb trig v(fb) val=1.65 td=40n rise=1 targ v(fb) val=1.65 td=40n rise=4"
+  },
+  {
+   "name": "fbmax",
+   "unit": "V",
+   "spice": ".meas tran fbmax max v(fb) from=40n to=400n"
+  },
+  {
+   "name": "fbmin",
+   "unit": "V",
+   "spice": ".meas tran fbmin min v(fb) from=40n to=400n"
+  },
+  {
+   "name": "fbr1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran fbr1 when v(fb)=1.65 td=40n rise=1"
+  },
+  {
+   "name": "fbr2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran fbr2 when v(fb)=1.65 td=40n rise=2"
+  },
+  {
+   "name": "fbr3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran fbr3 when v(fb)=1.65 td=40n rise=3"
+  },
+  {
+   "name": "fbr4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran fbr4 when v(fb)=1.65 td=40n rise=4"
+  },
+  {
+   "name": "fbr5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran fbr5 when v(fb)=1.65 td=40n rise=5"
+  },
+  {
+   "name": "fbr6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran fbr6 when v(fb)=1.65 td=40n rise=6"
+  },
+  {
+   "name": "fbr7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran fbr7 when v(fb)=1.65 td=40n rise=7"
+  },
+  {
+   "name": "fbr8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran fbr8 when v(fb)=1.65 td=40n rise=8"
+  },
+  {
+   "name": "tcr1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcr1 when v(xdiv.tc)=1.65 td=40n rise=1"
+  },
+  {
+   "name": "tcr2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcr2 when v(xdiv.tc)=1.65 td=40n rise=2"
+  },
+  {
+   "name": "tcr3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcr3 when v(xdiv.tc)=1.65 td=40n rise=3"
+  },
+  {
+   "name": "tcr4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcr4 when v(xdiv.tc)=1.65 td=40n rise=4"
+  },
+  {
+   "name": "tcr5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcr5 when v(xdiv.tc)=1.65 td=40n rise=5"
+  },
+  {
+   "name": "tcr6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcr6 when v(xdiv.tc)=1.65 td=40n rise=6"
+  },
+  {
+   "name": "tcr7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcr7 when v(xdiv.tc)=1.65 td=40n rise=7"
+  },
+  {
+   "name": "tcr8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcr8 when v(xdiv.tc)=1.65 td=40n rise=8"
+  },
+  {
+   "name": "q0max",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0max max v(xdiv.xm.q0) from=40n to=400n"
+  },
+  {
+   "name": "q0min",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0min min v(xdiv.xm.q0) from=40n to=400n"
+  },
+  {
+   "name": "q1max",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1max max v(xdiv.xm.q1) from=40n to=400n"
+  },
+  {
+   "name": "q1min",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1min min v(xdiv.xm.q1) from=40n to=400n"
+  },
+  {
+   "name": "q2max",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2max max v(xdiv.xm.q2) from=40n to=400n"
+  },
+  {
+   "name": "q2min",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2min min v(xdiv.xm.q2) from=40n to=400n"
+  },
+  {
+   "name": "q3max",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3max max v(xdiv.xm.q3) from=40n to=400n"
+  },
+  {
+   "name": "q3min",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3min min v(xdiv.xm.q3) from=40n to=400n"
+  }
+ ],
+ "corners": {
+  "process": [
+   {
+    "name": "TYP",
+    "sections": [
+     {
+      "lib": "libs.tech/ngspice/models/cornerMOShv.lib",
+      "section": "mos_tt"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerCAP.lib",
+      "section": "cap_typ"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+      "section": "hbt_typ"
+     }
+    ]
+   }
+  ],
+  "temperature_c": [
+   27
+  ],
+  "params": {
+   "vddv": [
+    3.63
+   ]
+  }
+ },
+ "options": {
+  "timeout_s": 1800,
+  "keep_artifacts": true,
+  "osdi_preload": [
+   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"
+  ]
+ }
+}
