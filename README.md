@@ -111,6 +111,10 @@ PDK/ngspice prerequisites and pins: [`sim/pins.json`](sim/pins.json) (an `ihp-sg
 | VCO smoke run | `scripts/run-vco-smoke.sh` | `sim/vco-smoke/records/` | PDK, ngspice, openvaf-r, network |
 | Charge-pump DC | `scripts/run-cp-dc.sh` | `sim/cp-dc/records/` | PDK, ngspice, `klt` |
 | PFD phase sweep (50 MHz) | `scripts/run-pfd-sweep.sh` | `sim/pfd/records/` | PDK, ngspice, `klt`, network |
+| Closed-loop lock time and spur (rows 10, 9) | `scripts/run-loop-tran.sh` | `sim/loop-tran/records/` | PDK, ngspice, `klt` |
+| Loop power (row 11) | `scripts/run-loop-power.sh` | `sim/loop-power/records/` | PDK, ngspice, `klt` |
+| Jitter, method L (row 8) | `scripts/run-jitter.sh` | `sim/jitter/records/` | python3, numpy, `jq` |
+| Lock detector 50 MHz re-grade | `scripts/run-lock-detector.sh nominal\|closed\|grid1\|grid2` | `sim/lock-detector/records/` | PDK, ngspice, `klt` (batch fleet for the C-grid), network |
 | Loop model (method L) | `python3 sim/loop-model/loop_model.py --out sim/loop-model/results/loop-model.json` | `sim/loop-model/results/loop-model.json` | python3, numpy |
 
 Harness tests. The first group is PDK-free and runs in CI (`.github/workflows/harness.yml`, via
@@ -118,11 +122,15 @@ Harness tests. The first group is PDK-free and runs in CI (`.github/workflows/ha
 xschem) and is **local-only**, never run by CI and never reported as passed there:
 
 ```bash
-scripts/ci-harness.sh          # CI: test-fetch-vco.sh, test-fetch-pll.sh, loop-model pytest (needs numpy, pytest)
+scripts/ci-harness.sh          # CI: test-fetch-vco.sh (both pins), loop-model pytest (needs numpy, pytest)
 scripts/test-ngpin.sh          # local-only: ngspice pin check (PDK + ngspice)
 scripts/test-cp-dc-negative.sh # local-only: skewed CP must be flagged (PDK + ngspice)
 design/netlist.sh --check      # local-only: committed netlist matches the schematic (klt + xschem + PDK)
 ```
+
+Testbenches (T1 item 9): the inventory is [`sim/testbench-inventory.json`](sim/testbench-inventory.json) (per-row
+map: [`sim/testbench-inventory.md`](sim/testbench-inventory.md)); `scripts/run-benches.sh` is its one cold-start
+command (about 15 minutes, scratch records, needs ngspice 47 and, for the jitter bench, numpy).
 
 Repo hygiene (T1 item 10) is attested by `manifests/repo-hygiene.inventory.json` and the envelope
 `manifests/repo-hygiene.attest.json`; see [`manifests/README.md`](manifests/README.md).

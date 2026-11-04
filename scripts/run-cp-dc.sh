@@ -23,7 +23,7 @@ source "${ROOT}/scripts/lib-pdk.sh"
 
 CP_NETLIST="${CP_NETLIST:-${ROOT}/design/netlist/cp.spice}"
 [ -f "${CP_NETLIST}" ] || die "${CP_NETLIST} not found"
-"${ROOT}/design/netlist.sh" --check >/dev/null 2>&1 || {
+"${ROOT}/design/netlist.sh" --check cp >/dev/null 2>&1 || {
   [ "${CP_NETLIST}" != "${ROOT}/design/netlist/cp.spice" ] || die "design/netlist/cp.spice is stale against design/cp.sch (run design/netlist.sh)"
 }
 REC_DIR="${RECORD_DIR:-${ROOT}/sim/cp-dc/records}"; mkdir -p "${REC_DIR}"

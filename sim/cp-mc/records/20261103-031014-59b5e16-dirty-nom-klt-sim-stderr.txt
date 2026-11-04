@@ -1,0 +1,24 @@
+klt sim: notice: splitting 6600 units into 10 batch jobs of at most 660 units each (request.batch.job_ceiling_check / max_units_per_job)
+klt sim: batch job klt-sim-601f4690eb9b: failed
+klt sim: batch job klt-sim-62d9a90a17ea: failed
+klt sim: batch job klt-sim-c96b90bb9d2f: failed
+klt sim: batch job klt-sim-a13cf41eb600: failed
+klt sim: batch job klt-sim-6e9ae71bb893: failed
+klt sim: batch job klt-sim-8136878ef67e: failed
+klt sim: shards 7/10 launched, 1 launching, 2 pending, 7 collected; launch rate unknown, ETA unknown
+klt sim: batch job klt-sim-2b361f6a165e: failed
+klt sim: notice: cannot re-attach batch job klt-sim-a060f08fd893 (batch-fleet-provision.sh launch failed (exit 1): error: 272 vCPU already running + 1 instance(s) of up to 32 vCPU exceeds BATCH_MAX_VCPU=224, and only 0 type(s) fit the -48 vCPU left (floor 3) — the spot quota is shared with ci-spot (batch-fleet.md §vCPU budget) [remote job klt-sim-a060f08fd893: unknown]); submitting that shard again
+klt: batch job klt-sim-013e182fc13c submitting to s3://<bucket>/jobs/klt-sim-013e182fc13c
+klt sim: notice: cannot re-attach batch job klt-sim-65b9958774d0 (batch-fleet-provision.sh launch failed (exit 1): error: 272 vCPU already running + 1 instance(s) of up to 32 vCPU exceeds BATCH_MAX_VCPU=224, and only 0 type(s) fit the -48 vCPU left (floor 3) — the spot quota is shared with ci-spot (batch-fleet.md §vCPU budget) [remote job klt-sim-65b9958774d0: unknown]); submitting that shard again
+klt: batch job klt-sim-c6133287ee68 submitting to s3://<bucket>/jobs/klt-sim-c6133287ee68
+klt sim: notice: cannot re-attach batch job klt-sim-e9946ba2a9bc (batch-fleet-provision.sh launch failed (exit 1): error: 240 vCPU already running + 1 instance(s) of up to 32 vCPU exceeds BATCH_MAX_VCPU=224, and only 0 type(s) fit the -16 vCPU left (floor 3) — the spot quota is shared with ci-spot (batch-fleet.md §vCPU budget) [remote job klt-sim-e9946ba2a9bc: unknown]); submitting that shard again
+klt: batch job klt-sim-52472de10190 submitting to s3://<bucket>/jobs/klt-sim-52472de10190
+klt sim: batch job klt-sim-c6133287ee68: submitted
+klt sim: batch job klt-sim-013e182fc13c: submitted
+klt sim: batch job klt-sim-52472de10190: submitted
+klt sim: batch job klt-sim-52472de10190 launched; re-attach with `klt sim <request> --backend batch --attach klt-sim-52472de10190`
+klt sim: batch job klt-sim-52472de10190 state=no status.json yet elapsed=1s
+klt sim: batch job klt-sim-52472de10190: running
+klt sim: batch job klt-sim-52472de10190 state=running elapsed=32s
+klt sim: batch job klt-sim-52472de10190: failed
+klt sim: 2 of 10 batch job(s) were submitted but never launched; rerun with --resume and the same outdir to launch them (shard map: /tmp/cpmc-work6/nom/out/batch-shards.json)

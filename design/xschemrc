@@ -68,6 +68,13 @@ if { ![info exists XSCHEM_LIBRARY_PATH] } { set XSCHEM_LIBRARY_PATH {} }
 append XSCHEM_LIBRARY_PATH :${XSCHEM_SHAREDIR}/xschem_library/devices
 append XSCHEM_LIBRARY_PATH :[file join $REPO_ROOT design]
 
+# Pinned sg13g2-pll cells (reuse.lock.json; scripts/fetch-pll.sh puts them here, sha256-verified).
+# Last, so a repo-local symbol of the same name always wins. Only blocks that instantiate a
+# pinned cell (divider, pll_top and their sub-blocks) need this directory to exist;
+# design/netlist.sh fetches it before netlisting them. The sg13g2-vco bytes are NOT on this path:
+# the VCO is a black-box symbol (design/vco.sym).
+append XSCHEM_LIBRARY_PATH :[file join $REPO_ROOT .fetched sg13g2-pll design]
+
 # Testbenches live at sim/<experiment-slug>/testbench/ (fleet convention,
 # see gf180-bandgap/sim/README.md and this repo's future sim/README.md) --
 # glob is a no-op until sim/ has any (out of this issue's scope).

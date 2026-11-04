@@ -1,0 +1,184 @@
+{
+ "_comment": [
+  "Issue #97 step 1b: single corner TYP 27 C 3.63 V, 200 ns transient, timeout_s 1800. Effective clock period at the divider (ck = cml2cmos output, ckl = buffered divider clock) over 100 cycles from td=100n, and tc/fb levels in 100-200 ns, to see whether the counter is miscounting or is missing clock pulses."
+ ],
+ "netlist": "loop_power_body.spice",
+ "netlist_source": "schematic",
+ "engine": "ngspice",
+ "backend": "batch",
+ "models": {
+  "pdk": "ihp-sg13g2"
+ },
+ "analysis": {
+  "kind": "tran",
+  "args": "4p 200n 0 4p"
+ },
+ "measurements": [
+  {
+   "name": "ipavg",
+   "unit": "A",
+   "spec_row": "11",
+   "spice": ".meas tran ipavg avg i(vddp) from=40n to=200n"
+  },
+  {
+   "name": "idavg",
+   "unit": "A",
+   "spec_row": "11",
+   "spice": ".meas tran idavg avg i(vddd) from=40n to=200n"
+  },
+  {
+   "name": "fbmax",
+   "unit": "V",
+   "spice": ".meas tran fbmax max v(fb) from=40n to=200n"
+  },
+  {
+   "name": "fbmin",
+   "unit": "V",
+   "spice": ".meas tran fbmin min v(fb) from=40n to=200n"
+  },
+  {
+   "name": "tck100",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tck100 trig v(xdiv.ck) val=1.65 td=100n rise=1 targ v(xdiv.ck) val=1.65 td=100n rise=101"
+  },
+  {
+   "name": "tck10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tck10 trig v(xdiv.ck) val=1.65 td=100n rise=1 targ v(xdiv.ck) val=1.65 td=100n rise=11"
+  },
+  {
+   "name": "ckmax",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckmax max v(xdiv.ck) from=100n to=200n"
+  },
+  {
+   "name": "ckmin",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckmin min v(xdiv.ck) from=100n to=200n"
+  },
+  {
+   "name": "tckl100",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tckl100 trig v(xdiv.ckl) val=1.65 td=100n rise=1 targ v(xdiv.ckl) val=1.65 td=100n rise=101"
+  },
+  {
+   "name": "tckl10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tckl10 trig v(xdiv.ckl) val=1.65 td=100n rise=1 targ v(xdiv.ckl) val=1.65 td=100n rise=11"
+  },
+  {
+   "name": "cklmax",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cklmax max v(xdiv.ckl) from=100n to=200n"
+  },
+  {
+   "name": "cklmin",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cklmin min v(xdiv.ckl) from=100n to=200n"
+  },
+  {
+   "name": "tcmax2",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcmax2 max v(xdiv.tc) from=100n to=200n"
+  },
+  {
+   "name": "tcmin2",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcmin2 min v(xdiv.tc) from=100n to=200n"
+  },
+  {
+   "name": "fblmax2",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran fblmax2 max v(fb) from=100n to=200n"
+  },
+  {
+   "name": "fblmin2",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran fblmin2 min v(fb) from=100n to=200n"
+  },
+  {
+   "name": "tcr1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcr1 when v(xdiv.tc)=1.65 td=40n rise=1"
+  },
+  {
+   "name": "tcf1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcf1 when v(xdiv.tc)=1.65 td=40n fall=1"
+  },
+  {
+   "name": "tcr2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcr2 when v(xdiv.tc)=1.65 td=40n rise=2"
+  },
+  {
+   "name": "tcf2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcf2 when v(xdiv.tc)=1.65 td=40n fall=2"
+  },
+  {
+   "name": "tcr3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcr3 when v(xdiv.tc)=1.65 td=40n rise=3"
+  },
+  {
+   "name": "tcf3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcf3 when v(xdiv.tc)=1.65 td=40n fall=3"
+  }
+ ],
+ "corners": {
+  "process": [
+   {
+    "name": "TYP",
+    "sections": [
+     {
+      "lib": "libs.tech/ngspice/models/cornerMOShv.lib",
+      "section": "mos_tt"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerCAP.lib",
+      "section": "cap_typ"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+      "section": "hbt_typ"
+     }
+    ]
+   }
+  ],
+  "temperature_c": [
+   27
+  ],
+  "params": {
+   "vddv": [
+    3.63
+   ]
+  }
+ },
+ "options": {
+  "timeout_s": 1800,
+  "keep_artifacts": true,
+  "osdi_preload": [
+   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"
+  ]
+ }
+}

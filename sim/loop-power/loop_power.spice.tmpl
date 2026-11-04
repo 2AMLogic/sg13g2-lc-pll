@@ -1,0 +1,36 @@
+* sg13g2-lc-pll :: sim/loop-power -- spec row 11 (loop power excluding the VCO core): the circuits that exist.
+* Prescaler (/2 then /4/5) + M/A divider, N = 100 (M = 12, A = 2, P = 8/10 per DR-002), driven at 5.0 GHz by an
+* ideal differential source (0.4 Vpp, common mode 3.3 V, like the VCO tank nodes; the VCO core itself is excluded
+* by definition). Prescaler and divider have separate ideal 3.3 V sources so their currents are reported
+* separately. One 50 uA ideal reference current (pll_top's IREFPS pin) feeds both, as in design/pll_top.sch.
+* Nominal corner only: hbt_typ, mos_tt, cap_typ, 27 C. Placeholders (@@...@@) are filled by scripts/run-loop-power.sh.
+.lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
+.lib @@MODELS_DIR@@/cornerMOShv.lib mos_tt
+.lib @@MODELS_DIR@@/cornerCAP.lib cap_typ
+.option temp=27
+.include @@PRESC_NETLIST@@
+.include @@DIV_NETLIST@@
+
+VDDP vddp 0 3.3
+VDDD vddd 0 3.3
+IRF vddp iref dc 50u
+VIP inp 0 dc 3.3 sin(3.3 0.1 5.0e9)
+VIN inn 0 dc 3.3 sin(3.3 -0.1 5.0e9)
+XPS inp inn mc iref psp psn vddp 0 prescaler
+XDIV psp psn iref 0 0 vddd vddd 0 vddd mc fb vddd 0 divider
+.nodeset v(xps.hp)=3.2 v(xps.hn)=3.0 v(xps.x2.mp)=3.0 v(xps.x2.mn)=3.2
+.save v(fb) v(mc) i(vddp) i(vddd)
+
+.control
+pre_osdi @@OSDI_PSP@@
+op
+let ip0 = -i(vddp)
+let id0 = -i(vddd)
+echo "OP_IDDP $&ip0"
+echo "OP_IDDD $&id0"
+tran 4p @@TSTOP@@ 0 4p
+meas tran ipavg avg i(vddp) from=@@W0@@ to=@@TSTOP@@
+meas tran idavg avg i(vddd) from=@@W0@@ to=@@TSTOP@@
+wrdata @@OUT_DIR@@/fb.data v(fb) v(mc)
+.endc
+.end

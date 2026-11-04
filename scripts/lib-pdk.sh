@@ -4,7 +4,7 @@
 # ngspice, cap its threads.
 # Set PDK_SKIP_PSP103=1 before sourcing to skip the PSP103 OSDI check (the VCO smoke bench
 # compiles mosvar.va instead and does not use PSP103; OSDI_PSP is then unset).
-# Sets: PDK_ROOT PDK_DIR MODELS OSDI_PSP NGSPICE NG_VER NG_PIN_STATUS PINS. Expects ROOT and die().
+# Sets: PDK_ROOT PDK_DIR MODELS OSDI_PSP OSDI_R3 NGSPICE NG_VER NG_PIN_STATUS PINS. Expects ROOT and die().
 PINS="${ROOT}/sim/pins.json"
 if [ -z "${PDK_ROOT:-}" ]; then
   for c in "${HOME}/share/pdk" /usr/share/pdk /usr/local/share/pdk; do
@@ -22,6 +22,13 @@ if [ "${PDK_SKIP_PSP103:-0}" != 1 ]; then
   OSDI_PSP="${PDK_DIR}/$(jq -r .psp103.osdi "${PINS}")"
   got="$(sha256sum "${OSDI_PSP}" 2>/dev/null | cut -d' ' -f1)"
   [ "${got}" = "$(jq -r .psp103.osdi_sha256 "${PINS}")" ] || die "${OSDI_PSP} is ${got:-missing}, not the pinned psp103.osdi"
+fi
+# The loop-filter poly resistor (rppd) is an r3_cmc OSDI model. Hash-checked here too, so a bench that
+# loads it (sim/loop-tran rppd, scripts/run-lock-detector.sh rhigh) gets OSDI_R3 for pre_osdi; others ignore it.
+if [ "${PDK_SKIP_PSP103:-0}" != 1 ]; then
+  OSDI_R3="${PDK_DIR}/$(jq -r .r3_cmc.osdi "${PINS}")"
+  got="$(sha256sum "${OSDI_R3}" 2>/dev/null | cut -d' ' -f1)"
+  [ "${got}" = "$(jq -r .r3_cmc.osdi_sha256 "${PINS}")" ] || die "${OSDI_R3} is ${got:-missing}, not the pinned r3_cmc.osdi"
 fi
 NGSPICE="${NGSPICE:-$(command -v ngspice || true)}"
 [ -x "${NGSPICE}" ] || die "ngspice not found; set NGSPICE"

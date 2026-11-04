@@ -76,7 +76,9 @@ measure() { # <wrdata file> -> "f_GHz vpp_V cycles" or "NA NA 0"
 }
 ROWS=""; OSC=0
 for v in 0 1.65 3.3; do
-  read -r f vpp cyc < <(measure "${WORK}/vco_tran_${v}.data")
+  # ngspice-46 wrdata writes vco_tran_<v> with no suffix; other builds append .data. Accept either.
+  TRAN="${WORK}/vco_tran_${v}.data"; [ -s "${TRAN}" ] || TRAN="${WORK}/vco_tran_${v}"
+  read -r f vpp cyc < <(measure "${TRAN}")
   ROWS="${ROWS}| ${v} | ${f} | ${vpp} | ${cyc} |"$'\n'
   if [ "${v}" = 1.65 ] && [ "${f}" != NA ] && awk -v f="${f}" -v p="${vpp}" 'BEGIN{exit !(f>1 && p>0.1)}'; then OSC=1; fi
 done

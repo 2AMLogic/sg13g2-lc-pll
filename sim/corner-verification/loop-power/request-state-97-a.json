@@ -1,0 +1,2260 @@
+{
+ "_comment": [
+  "Issue #97 step 1c: TYP 27 C 3.63 V, counter state bits every 1.6 ns over 30 clocks from 120 ns (two thirds of one 44 ns FB period expected), ramped start-up, timeout_s 1800."
+ ],
+ "netlist": "loop_power_body.spice",
+ "netlist_source": "schematic",
+ "engine": "ngspice",
+ "backend": "batch",
+ "models": {
+  "pdk": "ihp-sg13g2"
+ },
+ "analysis": {
+  "kind": "tran",
+  "args": "4p 160n 0 4p"
+ },
+ "measurements": [
+  {
+   "name": "ipavg",
+   "unit": "A",
+   "spec_row": "11",
+   "spice": ".meas tran ipavg avg i(vddp) from=40n to=160n"
+  },
+  {
+   "name": "idavg",
+   "unit": "A",
+   "spec_row": "11",
+   "spice": ".meas tran idavg avg i(vddd) from=40n to=160n"
+  },
+  {
+   "name": "fbmax",
+   "unit": "V",
+   "spice": ".meas tran fbmax max v(fb) from=40n to=160n"
+  },
+  {
+   "name": "fbmin",
+   "unit": "V",
+   "spice": ".meas tran fbmin min v(fb) from=40n to=160n"
+  },
+  {
+   "name": "tcr1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcr1 when v(xdiv.tc)=1.65 td=40n rise=1"
+  },
+  {
+   "name": "tcf1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcf1 when v(xdiv.tc)=1.65 td=40n fall=1"
+  },
+  {
+   "name": "tcr2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcr2 when v(xdiv.tc)=1.65 td=40n rise=2"
+  },
+  {
+   "name": "tcf2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcf2 when v(xdiv.tc)=1.65 td=40n fall=2"
+  },
+  {
+   "name": "q0_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_00 find v(xdiv.xm.q0) at=120.0n"
+  },
+  {
+   "name": "q1_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_00 find v(xdiv.xm.q1) at=120.0n"
+  },
+  {
+   "name": "q2_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_00 find v(xdiv.xm.q2) at=120.0n"
+  },
+  {
+   "name": "q3_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_00 find v(xdiv.xm.q3) at=120.0n"
+  },
+  {
+   "name": "b1_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_00 find v(xdiv.xm.b1) at=120.0n"
+  },
+  {
+   "name": "b2_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_00 find v(xdiv.xm.b2) at=120.0n"
+  },
+  {
+   "name": "b3_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_00 find v(xdiv.xm.b3) at=120.0n"
+  },
+  {
+   "name": "tc_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_00 find v(xdiv.tc) at=120.0n"
+  },
+  {
+   "name": "tcn_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_00 find v(xdiv.tcn) at=120.0n"
+  },
+  {
+   "name": "s0_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_00 find v(xdiv.xa.s0) at=120.0n"
+  },
+  {
+   "name": "s1_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_00 find v(xdiv.xa.s1) at=120.0n"
+  },
+  {
+   "name": "mc_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_00 find v(xdiv.xa.mc) at=120.0n"
+  },
+  {
+   "name": "q0_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_01 find v(xdiv.xm.q0) at=121.6n"
+  },
+  {
+   "name": "q1_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_01 find v(xdiv.xm.q1) at=121.6n"
+  },
+  {
+   "name": "q2_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_01 find v(xdiv.xm.q2) at=121.6n"
+  },
+  {
+   "name": "q3_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_01 find v(xdiv.xm.q3) at=121.6n"
+  },
+  {
+   "name": "b1_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_01 find v(xdiv.xm.b1) at=121.6n"
+  },
+  {
+   "name": "b2_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_01 find v(xdiv.xm.b2) at=121.6n"
+  },
+  {
+   "name": "b3_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_01 find v(xdiv.xm.b3) at=121.6n"
+  },
+  {
+   "name": "tc_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_01 find v(xdiv.tc) at=121.6n"
+  },
+  {
+   "name": "tcn_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_01 find v(xdiv.tcn) at=121.6n"
+  },
+  {
+   "name": "s0_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_01 find v(xdiv.xa.s0) at=121.6n"
+  },
+  {
+   "name": "s1_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_01 find v(xdiv.xa.s1) at=121.6n"
+  },
+  {
+   "name": "mc_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_01 find v(xdiv.xa.mc) at=121.6n"
+  },
+  {
+   "name": "q0_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_02 find v(xdiv.xm.q0) at=123.2n"
+  },
+  {
+   "name": "q1_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_02 find v(xdiv.xm.q1) at=123.2n"
+  },
+  {
+   "name": "q2_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_02 find v(xdiv.xm.q2) at=123.2n"
+  },
+  {
+   "name": "q3_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_02 find v(xdiv.xm.q3) at=123.2n"
+  },
+  {
+   "name": "b1_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_02 find v(xdiv.xm.b1) at=123.2n"
+  },
+  {
+   "name": "b2_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_02 find v(xdiv.xm.b2) at=123.2n"
+  },
+  {
+   "name": "b3_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_02 find v(xdiv.xm.b3) at=123.2n"
+  },
+  {
+   "name": "tc_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_02 find v(xdiv.tc) at=123.2n"
+  },
+  {
+   "name": "tcn_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_02 find v(xdiv.tcn) at=123.2n"
+  },
+  {
+   "name": "s0_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_02 find v(xdiv.xa.s0) at=123.2n"
+  },
+  {
+   "name": "s1_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_02 find v(xdiv.xa.s1) at=123.2n"
+  },
+  {
+   "name": "mc_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_02 find v(xdiv.xa.mc) at=123.2n"
+  },
+  {
+   "name": "q0_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_03 find v(xdiv.xm.q0) at=124.8n"
+  },
+  {
+   "name": "q1_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_03 find v(xdiv.xm.q1) at=124.8n"
+  },
+  {
+   "name": "q2_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_03 find v(xdiv.xm.q2) at=124.8n"
+  },
+  {
+   "name": "q3_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_03 find v(xdiv.xm.q3) at=124.8n"
+  },
+  {
+   "name": "b1_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_03 find v(xdiv.xm.b1) at=124.8n"
+  },
+  {
+   "name": "b2_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_03 find v(xdiv.xm.b2) at=124.8n"
+  },
+  {
+   "name": "b3_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_03 find v(xdiv.xm.b3) at=124.8n"
+  },
+  {
+   "name": "tc_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_03 find v(xdiv.tc) at=124.8n"
+  },
+  {
+   "name": "tcn_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_03 find v(xdiv.tcn) at=124.8n"
+  },
+  {
+   "name": "s0_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_03 find v(xdiv.xa.s0) at=124.8n"
+  },
+  {
+   "name": "s1_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_03 find v(xdiv.xa.s1) at=124.8n"
+  },
+  {
+   "name": "mc_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_03 find v(xdiv.xa.mc) at=124.8n"
+  },
+  {
+   "name": "q0_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_04 find v(xdiv.xm.q0) at=126.4n"
+  },
+  {
+   "name": "q1_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_04 find v(xdiv.xm.q1) at=126.4n"
+  },
+  {
+   "name": "q2_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_04 find v(xdiv.xm.q2) at=126.4n"
+  },
+  {
+   "name": "q3_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_04 find v(xdiv.xm.q3) at=126.4n"
+  },
+  {
+   "name": "b1_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_04 find v(xdiv.xm.b1) at=126.4n"
+  },
+  {
+   "name": "b2_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_04 find v(xdiv.xm.b2) at=126.4n"
+  },
+  {
+   "name": "b3_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_04 find v(xdiv.xm.b3) at=126.4n"
+  },
+  {
+   "name": "tc_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_04 find v(xdiv.tc) at=126.4n"
+  },
+  {
+   "name": "tcn_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_04 find v(xdiv.tcn) at=126.4n"
+  },
+  {
+   "name": "s0_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_04 find v(xdiv.xa.s0) at=126.4n"
+  },
+  {
+   "name": "s1_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_04 find v(xdiv.xa.s1) at=126.4n"
+  },
+  {
+   "name": "mc_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_04 find v(xdiv.xa.mc) at=126.4n"
+  },
+  {
+   "name": "q0_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_05 find v(xdiv.xm.q0) at=128.0n"
+  },
+  {
+   "name": "q1_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_05 find v(xdiv.xm.q1) at=128.0n"
+  },
+  {
+   "name": "q2_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_05 find v(xdiv.xm.q2) at=128.0n"
+  },
+  {
+   "name": "q3_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_05 find v(xdiv.xm.q3) at=128.0n"
+  },
+  {
+   "name": "b1_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_05 find v(xdiv.xm.b1) at=128.0n"
+  },
+  {
+   "name": "b2_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_05 find v(xdiv.xm.b2) at=128.0n"
+  },
+  {
+   "name": "b3_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_05 find v(xdiv.xm.b3) at=128.0n"
+  },
+  {
+   "name": "tc_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_05 find v(xdiv.tc) at=128.0n"
+  },
+  {
+   "name": "tcn_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_05 find v(xdiv.tcn) at=128.0n"
+  },
+  {
+   "name": "s0_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_05 find v(xdiv.xa.s0) at=128.0n"
+  },
+  {
+   "name": "s1_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_05 find v(xdiv.xa.s1) at=128.0n"
+  },
+  {
+   "name": "mc_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_05 find v(xdiv.xa.mc) at=128.0n"
+  },
+  {
+   "name": "q0_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_06 find v(xdiv.xm.q0) at=129.6n"
+  },
+  {
+   "name": "q1_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_06 find v(xdiv.xm.q1) at=129.6n"
+  },
+  {
+   "name": "q2_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_06 find v(xdiv.xm.q2) at=129.6n"
+  },
+  {
+   "name": "q3_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_06 find v(xdiv.xm.q3) at=129.6n"
+  },
+  {
+   "name": "b1_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_06 find v(xdiv.xm.b1) at=129.6n"
+  },
+  {
+   "name": "b2_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_06 find v(xdiv.xm.b2) at=129.6n"
+  },
+  {
+   "name": "b3_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_06 find v(xdiv.xm.b3) at=129.6n"
+  },
+  {
+   "name": "tc_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_06 find v(xdiv.tc) at=129.6n"
+  },
+  {
+   "name": "tcn_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_06 find v(xdiv.tcn) at=129.6n"
+  },
+  {
+   "name": "s0_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_06 find v(xdiv.xa.s0) at=129.6n"
+  },
+  {
+   "name": "s1_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_06 find v(xdiv.xa.s1) at=129.6n"
+  },
+  {
+   "name": "mc_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_06 find v(xdiv.xa.mc) at=129.6n"
+  },
+  {
+   "name": "q0_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_07 find v(xdiv.xm.q0) at=131.2n"
+  },
+  {
+   "name": "q1_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_07 find v(xdiv.xm.q1) at=131.2n"
+  },
+  {
+   "name": "q2_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_07 find v(xdiv.xm.q2) at=131.2n"
+  },
+  {
+   "name": "q3_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_07 find v(xdiv.xm.q3) at=131.2n"
+  },
+  {
+   "name": "b1_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_07 find v(xdiv.xm.b1) at=131.2n"
+  },
+  {
+   "name": "b2_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_07 find v(xdiv.xm.b2) at=131.2n"
+  },
+  {
+   "name": "b3_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_07 find v(xdiv.xm.b3) at=131.2n"
+  },
+  {
+   "name": "tc_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_07 find v(xdiv.tc) at=131.2n"
+  },
+  {
+   "name": "tcn_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_07 find v(xdiv.tcn) at=131.2n"
+  },
+  {
+   "name": "s0_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_07 find v(xdiv.xa.s0) at=131.2n"
+  },
+  {
+   "name": "s1_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_07 find v(xdiv.xa.s1) at=131.2n"
+  },
+  {
+   "name": "mc_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_07 find v(xdiv.xa.mc) at=131.2n"
+  },
+  {
+   "name": "q0_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_08 find v(xdiv.xm.q0) at=132.8n"
+  },
+  {
+   "name": "q1_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_08 find v(xdiv.xm.q1) at=132.8n"
+  },
+  {
+   "name": "q2_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_08 find v(xdiv.xm.q2) at=132.8n"
+  },
+  {
+   "name": "q3_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_08 find v(xdiv.xm.q3) at=132.8n"
+  },
+  {
+   "name": "b1_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_08 find v(xdiv.xm.b1) at=132.8n"
+  },
+  {
+   "name": "b2_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_08 find v(xdiv.xm.b2) at=132.8n"
+  },
+  {
+   "name": "b3_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_08 find v(xdiv.xm.b3) at=132.8n"
+  },
+  {
+   "name": "tc_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_08 find v(xdiv.tc) at=132.8n"
+  },
+  {
+   "name": "tcn_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_08 find v(xdiv.tcn) at=132.8n"
+  },
+  {
+   "name": "s0_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_08 find v(xdiv.xa.s0) at=132.8n"
+  },
+  {
+   "name": "s1_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_08 find v(xdiv.xa.s1) at=132.8n"
+  },
+  {
+   "name": "mc_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_08 find v(xdiv.xa.mc) at=132.8n"
+  },
+  {
+   "name": "q0_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_09 find v(xdiv.xm.q0) at=134.4n"
+  },
+  {
+   "name": "q1_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_09 find v(xdiv.xm.q1) at=134.4n"
+  },
+  {
+   "name": "q2_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_09 find v(xdiv.xm.q2) at=134.4n"
+  },
+  {
+   "name": "q3_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_09 find v(xdiv.xm.q3) at=134.4n"
+  },
+  {
+   "name": "b1_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_09 find v(xdiv.xm.b1) at=134.4n"
+  },
+  {
+   "name": "b2_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_09 find v(xdiv.xm.b2) at=134.4n"
+  },
+  {
+   "name": "b3_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_09 find v(xdiv.xm.b3) at=134.4n"
+  },
+  {
+   "name": "tc_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_09 find v(xdiv.tc) at=134.4n"
+  },
+  {
+   "name": "tcn_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_09 find v(xdiv.tcn) at=134.4n"
+  },
+  {
+   "name": "s0_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_09 find v(xdiv.xa.s0) at=134.4n"
+  },
+  {
+   "name": "s1_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_09 find v(xdiv.xa.s1) at=134.4n"
+  },
+  {
+   "name": "mc_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_09 find v(xdiv.xa.mc) at=134.4n"
+  },
+  {
+   "name": "q0_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_10 find v(xdiv.xm.q0) at=136.0n"
+  },
+  {
+   "name": "q1_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_10 find v(xdiv.xm.q1) at=136.0n"
+  },
+  {
+   "name": "q2_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_10 find v(xdiv.xm.q2) at=136.0n"
+  },
+  {
+   "name": "q3_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_10 find v(xdiv.xm.q3) at=136.0n"
+  },
+  {
+   "name": "b1_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_10 find v(xdiv.xm.b1) at=136.0n"
+  },
+  {
+   "name": "b2_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_10 find v(xdiv.xm.b2) at=136.0n"
+  },
+  {
+   "name": "b3_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_10 find v(xdiv.xm.b3) at=136.0n"
+  },
+  {
+   "name": "tc_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_10 find v(xdiv.tc) at=136.0n"
+  },
+  {
+   "name": "tcn_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_10 find v(xdiv.tcn) at=136.0n"
+  },
+  {
+   "name": "s0_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_10 find v(xdiv.xa.s0) at=136.0n"
+  },
+  {
+   "name": "s1_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_10 find v(xdiv.xa.s1) at=136.0n"
+  },
+  {
+   "name": "mc_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_10 find v(xdiv.xa.mc) at=136.0n"
+  },
+  {
+   "name": "q0_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_11 find v(xdiv.xm.q0) at=137.6n"
+  },
+  {
+   "name": "q1_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_11 find v(xdiv.xm.q1) at=137.6n"
+  },
+  {
+   "name": "q2_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_11 find v(xdiv.xm.q2) at=137.6n"
+  },
+  {
+   "name": "q3_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_11 find v(xdiv.xm.q3) at=137.6n"
+  },
+  {
+   "name": "b1_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_11 find v(xdiv.xm.b1) at=137.6n"
+  },
+  {
+   "name": "b2_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_11 find v(xdiv.xm.b2) at=137.6n"
+  },
+  {
+   "name": "b3_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_11 find v(xdiv.xm.b3) at=137.6n"
+  },
+  {
+   "name": "tc_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_11 find v(xdiv.tc) at=137.6n"
+  },
+  {
+   "name": "tcn_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_11 find v(xdiv.tcn) at=137.6n"
+  },
+  {
+   "name": "s0_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_11 find v(xdiv.xa.s0) at=137.6n"
+  },
+  {
+   "name": "s1_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_11 find v(xdiv.xa.s1) at=137.6n"
+  },
+  {
+   "name": "mc_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_11 find v(xdiv.xa.mc) at=137.6n"
+  },
+  {
+   "name": "q0_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_12 find v(xdiv.xm.q0) at=139.2n"
+  },
+  {
+   "name": "q1_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_12 find v(xdiv.xm.q1) at=139.2n"
+  },
+  {
+   "name": "q2_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_12 find v(xdiv.xm.q2) at=139.2n"
+  },
+  {
+   "name": "q3_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_12 find v(xdiv.xm.q3) at=139.2n"
+  },
+  {
+   "name": "b1_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_12 find v(xdiv.xm.b1) at=139.2n"
+  },
+  {
+   "name": "b2_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_12 find v(xdiv.xm.b2) at=139.2n"
+  },
+  {
+   "name": "b3_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_12 find v(xdiv.xm.b3) at=139.2n"
+  },
+  {
+   "name": "tc_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_12 find v(xdiv.tc) at=139.2n"
+  },
+  {
+   "name": "tcn_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_12 find v(xdiv.tcn) at=139.2n"
+  },
+  {
+   "name": "s0_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_12 find v(xdiv.xa.s0) at=139.2n"
+  },
+  {
+   "name": "s1_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_12 find v(xdiv.xa.s1) at=139.2n"
+  },
+  {
+   "name": "mc_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_12 find v(xdiv.xa.mc) at=139.2n"
+  },
+  {
+   "name": "q0_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_13 find v(xdiv.xm.q0) at=140.8n"
+  },
+  {
+   "name": "q1_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_13 find v(xdiv.xm.q1) at=140.8n"
+  },
+  {
+   "name": "q2_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_13 find v(xdiv.xm.q2) at=140.8n"
+  },
+  {
+   "name": "q3_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_13 find v(xdiv.xm.q3) at=140.8n"
+  },
+  {
+   "name": "b1_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_13 find v(xdiv.xm.b1) at=140.8n"
+  },
+  {
+   "name": "b2_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_13 find v(xdiv.xm.b2) at=140.8n"
+  },
+  {
+   "name": "b3_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_13 find v(xdiv.xm.b3) at=140.8n"
+  },
+  {
+   "name": "tc_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_13 find v(xdiv.tc) at=140.8n"
+  },
+  {
+   "name": "tcn_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_13 find v(xdiv.tcn) at=140.8n"
+  },
+  {
+   "name": "s0_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_13 find v(xdiv.xa.s0) at=140.8n"
+  },
+  {
+   "name": "s1_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_13 find v(xdiv.xa.s1) at=140.8n"
+  },
+  {
+   "name": "mc_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_13 find v(xdiv.xa.mc) at=140.8n"
+  },
+  {
+   "name": "q0_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_14 find v(xdiv.xm.q0) at=142.4n"
+  },
+  {
+   "name": "q1_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_14 find v(xdiv.xm.q1) at=142.4n"
+  },
+  {
+   "name": "q2_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_14 find v(xdiv.xm.q2) at=142.4n"
+  },
+  {
+   "name": "q3_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_14 find v(xdiv.xm.q3) at=142.4n"
+  },
+  {
+   "name": "b1_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_14 find v(xdiv.xm.b1) at=142.4n"
+  },
+  {
+   "name": "b2_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_14 find v(xdiv.xm.b2) at=142.4n"
+  },
+  {
+   "name": "b3_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_14 find v(xdiv.xm.b3) at=142.4n"
+  },
+  {
+   "name": "tc_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_14 find v(xdiv.tc) at=142.4n"
+  },
+  {
+   "name": "tcn_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_14 find v(xdiv.tcn) at=142.4n"
+  },
+  {
+   "name": "s0_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_14 find v(xdiv.xa.s0) at=142.4n"
+  },
+  {
+   "name": "s1_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_14 find v(xdiv.xa.s1) at=142.4n"
+  },
+  {
+   "name": "mc_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_14 find v(xdiv.xa.mc) at=142.4n"
+  },
+  {
+   "name": "q0_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_15 find v(xdiv.xm.q0) at=144.0n"
+  },
+  {
+   "name": "q1_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_15 find v(xdiv.xm.q1) at=144.0n"
+  },
+  {
+   "name": "q2_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_15 find v(xdiv.xm.q2) at=144.0n"
+  },
+  {
+   "name": "q3_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_15 find v(xdiv.xm.q3) at=144.0n"
+  },
+  {
+   "name": "b1_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_15 find v(xdiv.xm.b1) at=144.0n"
+  },
+  {
+   "name": "b2_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_15 find v(xdiv.xm.b2) at=144.0n"
+  },
+  {
+   "name": "b3_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_15 find v(xdiv.xm.b3) at=144.0n"
+  },
+  {
+   "name": "tc_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_15 find v(xdiv.tc) at=144.0n"
+  },
+  {
+   "name": "tcn_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_15 find v(xdiv.tcn) at=144.0n"
+  },
+  {
+   "name": "s0_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_15 find v(xdiv.xa.s0) at=144.0n"
+  },
+  {
+   "name": "s1_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_15 find v(xdiv.xa.s1) at=144.0n"
+  },
+  {
+   "name": "mc_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_15 find v(xdiv.xa.mc) at=144.0n"
+  },
+  {
+   "name": "q0_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_16 find v(xdiv.xm.q0) at=145.6n"
+  },
+  {
+   "name": "q1_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_16 find v(xdiv.xm.q1) at=145.6n"
+  },
+  {
+   "name": "q2_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_16 find v(xdiv.xm.q2) at=145.6n"
+  },
+  {
+   "name": "q3_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_16 find v(xdiv.xm.q3) at=145.6n"
+  },
+  {
+   "name": "b1_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_16 find v(xdiv.xm.b1) at=145.6n"
+  },
+  {
+   "name": "b2_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_16 find v(xdiv.xm.b2) at=145.6n"
+  },
+  {
+   "name": "b3_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_16 find v(xdiv.xm.b3) at=145.6n"
+  },
+  {
+   "name": "tc_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_16 find v(xdiv.tc) at=145.6n"
+  },
+  {
+   "name": "tcn_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_16 find v(xdiv.tcn) at=145.6n"
+  },
+  {
+   "name": "s0_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_16 find v(xdiv.xa.s0) at=145.6n"
+  },
+  {
+   "name": "s1_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_16 find v(xdiv.xa.s1) at=145.6n"
+  },
+  {
+   "name": "mc_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_16 find v(xdiv.xa.mc) at=145.6n"
+  },
+  {
+   "name": "q0_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_17 find v(xdiv.xm.q0) at=147.2n"
+  },
+  {
+   "name": "q1_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_17 find v(xdiv.xm.q1) at=147.2n"
+  },
+  {
+   "name": "q2_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_17 find v(xdiv.xm.q2) at=147.2n"
+  },
+  {
+   "name": "q3_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_17 find v(xdiv.xm.q3) at=147.2n"
+  },
+  {
+   "name": "b1_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_17 find v(xdiv.xm.b1) at=147.2n"
+  },
+  {
+   "name": "b2_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_17 find v(xdiv.xm.b2) at=147.2n"
+  },
+  {
+   "name": "b3_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_17 find v(xdiv.xm.b3) at=147.2n"
+  },
+  {
+   "name": "tc_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_17 find v(xdiv.tc) at=147.2n"
+  },
+  {
+   "name": "tcn_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_17 find v(xdiv.tcn) at=147.2n"
+  },
+  {
+   "name": "s0_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_17 find v(xdiv.xa.s0) at=147.2n"
+  },
+  {
+   "name": "s1_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_17 find v(xdiv.xa.s1) at=147.2n"
+  },
+  {
+   "name": "mc_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_17 find v(xdiv.xa.mc) at=147.2n"
+  },
+  {
+   "name": "q0_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_18 find v(xdiv.xm.q0) at=148.8n"
+  },
+  {
+   "name": "q1_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_18 find v(xdiv.xm.q1) at=148.8n"
+  },
+  {
+   "name": "q2_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_18 find v(xdiv.xm.q2) at=148.8n"
+  },
+  {
+   "name": "q3_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_18 find v(xdiv.xm.q3) at=148.8n"
+  },
+  {
+   "name": "b1_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_18 find v(xdiv.xm.b1) at=148.8n"
+  },
+  {
+   "name": "b2_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_18 find v(xdiv.xm.b2) at=148.8n"
+  },
+  {
+   "name": "b3_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_18 find v(xdiv.xm.b3) at=148.8n"
+  },
+  {
+   "name": "tc_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_18 find v(xdiv.tc) at=148.8n"
+  },
+  {
+   "name": "tcn_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_18 find v(xdiv.tcn) at=148.8n"
+  },
+  {
+   "name": "s0_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_18 find v(xdiv.xa.s0) at=148.8n"
+  },
+  {
+   "name": "s1_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_18 find v(xdiv.xa.s1) at=148.8n"
+  },
+  {
+   "name": "mc_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_18 find v(xdiv.xa.mc) at=148.8n"
+  },
+  {
+   "name": "q0_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_19 find v(xdiv.xm.q0) at=150.4n"
+  },
+  {
+   "name": "q1_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_19 find v(xdiv.xm.q1) at=150.4n"
+  },
+  {
+   "name": "q2_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_19 find v(xdiv.xm.q2) at=150.4n"
+  },
+  {
+   "name": "q3_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_19 find v(xdiv.xm.q3) at=150.4n"
+  },
+  {
+   "name": "b1_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_19 find v(xdiv.xm.b1) at=150.4n"
+  },
+  {
+   "name": "b2_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_19 find v(xdiv.xm.b2) at=150.4n"
+  },
+  {
+   "name": "b3_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_19 find v(xdiv.xm.b3) at=150.4n"
+  },
+  {
+   "name": "tc_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_19 find v(xdiv.tc) at=150.4n"
+  },
+  {
+   "name": "tcn_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_19 find v(xdiv.tcn) at=150.4n"
+  },
+  {
+   "name": "s0_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_19 find v(xdiv.xa.s0) at=150.4n"
+  },
+  {
+   "name": "s1_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_19 find v(xdiv.xa.s1) at=150.4n"
+  },
+  {
+   "name": "mc_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_19 find v(xdiv.xa.mc) at=150.4n"
+  },
+  {
+   "name": "q0_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_20 find v(xdiv.xm.q0) at=152.0n"
+  },
+  {
+   "name": "q1_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_20 find v(xdiv.xm.q1) at=152.0n"
+  },
+  {
+   "name": "q2_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_20 find v(xdiv.xm.q2) at=152.0n"
+  },
+  {
+   "name": "q3_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_20 find v(xdiv.xm.q3) at=152.0n"
+  },
+  {
+   "name": "b1_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_20 find v(xdiv.xm.b1) at=152.0n"
+  },
+  {
+   "name": "b2_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_20 find v(xdiv.xm.b2) at=152.0n"
+  },
+  {
+   "name": "b3_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_20 find v(xdiv.xm.b3) at=152.0n"
+  },
+  {
+   "name": "tc_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_20 find v(xdiv.tc) at=152.0n"
+  },
+  {
+   "name": "tcn_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_20 find v(xdiv.tcn) at=152.0n"
+  },
+  {
+   "name": "s0_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_20 find v(xdiv.xa.s0) at=152.0n"
+  },
+  {
+   "name": "s1_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_20 find v(xdiv.xa.s1) at=152.0n"
+  },
+  {
+   "name": "mc_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_20 find v(xdiv.xa.mc) at=152.0n"
+  },
+  {
+   "name": "q0_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_21 find v(xdiv.xm.q0) at=153.6n"
+  },
+  {
+   "name": "q1_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_21 find v(xdiv.xm.q1) at=153.6n"
+  },
+  {
+   "name": "q2_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_21 find v(xdiv.xm.q2) at=153.6n"
+  },
+  {
+   "name": "q3_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_21 find v(xdiv.xm.q3) at=153.6n"
+  },
+  {
+   "name": "b1_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_21 find v(xdiv.xm.b1) at=153.6n"
+  },
+  {
+   "name": "b2_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_21 find v(xdiv.xm.b2) at=153.6n"
+  },
+  {
+   "name": "b3_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_21 find v(xdiv.xm.b3) at=153.6n"
+  },
+  {
+   "name": "tc_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_21 find v(xdiv.tc) at=153.6n"
+  },
+  {
+   "name": "tcn_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_21 find v(xdiv.tcn) at=153.6n"
+  },
+  {
+   "name": "s0_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_21 find v(xdiv.xa.s0) at=153.6n"
+  },
+  {
+   "name": "s1_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_21 find v(xdiv.xa.s1) at=153.6n"
+  },
+  {
+   "name": "mc_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_21 find v(xdiv.xa.mc) at=153.6n"
+  },
+  {
+   "name": "q0_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_22 find v(xdiv.xm.q0) at=155.2n"
+  },
+  {
+   "name": "q1_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_22 find v(xdiv.xm.q1) at=155.2n"
+  },
+  {
+   "name": "q2_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_22 find v(xdiv.xm.q2) at=155.2n"
+  },
+  {
+   "name": "q3_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_22 find v(xdiv.xm.q3) at=155.2n"
+  },
+  {
+   "name": "b1_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_22 find v(xdiv.xm.b1) at=155.2n"
+  },
+  {
+   "name": "b2_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_22 find v(xdiv.xm.b2) at=155.2n"
+  },
+  {
+   "name": "b3_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_22 find v(xdiv.xm.b3) at=155.2n"
+  },
+  {
+   "name": "tc_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_22 find v(xdiv.tc) at=155.2n"
+  },
+  {
+   "name": "tcn_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_22 find v(xdiv.tcn) at=155.2n"
+  },
+  {
+   "name": "s0_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_22 find v(xdiv.xa.s0) at=155.2n"
+  },
+  {
+   "name": "s1_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_22 find v(xdiv.xa.s1) at=155.2n"
+  },
+  {
+   "name": "mc_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_22 find v(xdiv.xa.mc) at=155.2n"
+  },
+  {
+   "name": "q0_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_23 find v(xdiv.xm.q0) at=156.8n"
+  },
+  {
+   "name": "q1_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_23 find v(xdiv.xm.q1) at=156.8n"
+  },
+  {
+   "name": "q2_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_23 find v(xdiv.xm.q2) at=156.8n"
+  },
+  {
+   "name": "q3_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_23 find v(xdiv.xm.q3) at=156.8n"
+  },
+  {
+   "name": "b1_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_23 find v(xdiv.xm.b1) at=156.8n"
+  },
+  {
+   "name": "b2_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_23 find v(xdiv.xm.b2) at=156.8n"
+  },
+  {
+   "name": "b3_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_23 find v(xdiv.xm.b3) at=156.8n"
+  },
+  {
+   "name": "tc_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_23 find v(xdiv.tc) at=156.8n"
+  },
+  {
+   "name": "tcn_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_23 find v(xdiv.tcn) at=156.8n"
+  },
+  {
+   "name": "s0_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_23 find v(xdiv.xa.s0) at=156.8n"
+  },
+  {
+   "name": "s1_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_23 find v(xdiv.xa.s1) at=156.8n"
+  },
+  {
+   "name": "mc_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_23 find v(xdiv.xa.mc) at=156.8n"
+  },
+  {
+   "name": "q0_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_24 find v(xdiv.xm.q0) at=158.4n"
+  },
+  {
+   "name": "q1_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_24 find v(xdiv.xm.q1) at=158.4n"
+  },
+  {
+   "name": "q2_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_24 find v(xdiv.xm.q2) at=158.4n"
+  },
+  {
+   "name": "q3_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_24 find v(xdiv.xm.q3) at=158.4n"
+  },
+  {
+   "name": "b1_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_24 find v(xdiv.xm.b1) at=158.4n"
+  },
+  {
+   "name": "b2_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_24 find v(xdiv.xm.b2) at=158.4n"
+  },
+  {
+   "name": "b3_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_24 find v(xdiv.xm.b3) at=158.4n"
+  },
+  {
+   "name": "tc_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_24 find v(xdiv.tc) at=158.4n"
+  },
+  {
+   "name": "tcn_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_24 find v(xdiv.tcn) at=158.4n"
+  },
+  {
+   "name": "s0_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_24 find v(xdiv.xa.s0) at=158.4n"
+  },
+  {
+   "name": "s1_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_24 find v(xdiv.xa.s1) at=158.4n"
+  },
+  {
+   "name": "mc_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_24 find v(xdiv.xa.mc) at=158.4n"
+  },
+  {
+   "name": "q0_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_25 find v(xdiv.xm.q0) at=160.0n"
+  },
+  {
+   "name": "q1_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_25 find v(xdiv.xm.q1) at=160.0n"
+  },
+  {
+   "name": "q2_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_25 find v(xdiv.xm.q2) at=160.0n"
+  },
+  {
+   "name": "q3_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_25 find v(xdiv.xm.q3) at=160.0n"
+  },
+  {
+   "name": "b1_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_25 find v(xdiv.xm.b1) at=160.0n"
+  },
+  {
+   "name": "b2_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_25 find v(xdiv.xm.b2) at=160.0n"
+  },
+  {
+   "name": "b3_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_25 find v(xdiv.xm.b3) at=160.0n"
+  },
+  {
+   "name": "tc_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_25 find v(xdiv.tc) at=160.0n"
+  },
+  {
+   "name": "tcn_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_25 find v(xdiv.tcn) at=160.0n"
+  },
+  {
+   "name": "s0_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_25 find v(xdiv.xa.s0) at=160.0n"
+  },
+  {
+   "name": "s1_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_25 find v(xdiv.xa.s1) at=160.0n"
+  },
+  {
+   "name": "mc_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_25 find v(xdiv.xa.mc) at=160.0n"
+  },
+  {
+   "name": "q0_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_26 find v(xdiv.xm.q0) at=161.6n"
+  },
+  {
+   "name": "q1_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_26 find v(xdiv.xm.q1) at=161.6n"
+  },
+  {
+   "name": "q2_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_26 find v(xdiv.xm.q2) at=161.6n"
+  },
+  {
+   "name": "q3_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_26 find v(xdiv.xm.q3) at=161.6n"
+  },
+  {
+   "name": "b1_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_26 find v(xdiv.xm.b1) at=161.6n"
+  },
+  {
+   "name": "b2_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_26 find v(xdiv.xm.b2) at=161.6n"
+  },
+  {
+   "name": "b3_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_26 find v(xdiv.xm.b3) at=161.6n"
+  },
+  {
+   "name": "tc_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_26 find v(xdiv.tc) at=161.6n"
+  },
+  {
+   "name": "tcn_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_26 find v(xdiv.tcn) at=161.6n"
+  },
+  {
+   "name": "s0_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_26 find v(xdiv.xa.s0) at=161.6n"
+  },
+  {
+   "name": "s1_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_26 find v(xdiv.xa.s1) at=161.6n"
+  },
+  {
+   "name": "mc_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_26 find v(xdiv.xa.mc) at=161.6n"
+  },
+  {
+   "name": "q0_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_27 find v(xdiv.xm.q0) at=163.2n"
+  },
+  {
+   "name": "q1_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_27 find v(xdiv.xm.q1) at=163.2n"
+  },
+  {
+   "name": "q2_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_27 find v(xdiv.xm.q2) at=163.2n"
+  },
+  {
+   "name": "q3_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_27 find v(xdiv.xm.q3) at=163.2n"
+  },
+  {
+   "name": "b1_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_27 find v(xdiv.xm.b1) at=163.2n"
+  },
+  {
+   "name": "b2_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_27 find v(xdiv.xm.b2) at=163.2n"
+  },
+  {
+   "name": "b3_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_27 find v(xdiv.xm.b3) at=163.2n"
+  },
+  {
+   "name": "tc_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_27 find v(xdiv.tc) at=163.2n"
+  },
+  {
+   "name": "tcn_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_27 find v(xdiv.tcn) at=163.2n"
+  },
+  {
+   "name": "s0_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_27 find v(xdiv.xa.s0) at=163.2n"
+  },
+  {
+   "name": "s1_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_27 find v(xdiv.xa.s1) at=163.2n"
+  },
+  {
+   "name": "mc_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_27 find v(xdiv.xa.mc) at=163.2n"
+  },
+  {
+   "name": "q0_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_28 find v(xdiv.xm.q0) at=164.8n"
+  },
+  {
+   "name": "q1_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_28 find v(xdiv.xm.q1) at=164.8n"
+  },
+  {
+   "name": "q2_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_28 find v(xdiv.xm.q2) at=164.8n"
+  },
+  {
+   "name": "q3_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_28 find v(xdiv.xm.q3) at=164.8n"
+  },
+  {
+   "name": "b1_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_28 find v(xdiv.xm.b1) at=164.8n"
+  },
+  {
+   "name": "b2_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_28 find v(xdiv.xm.b2) at=164.8n"
+  },
+  {
+   "name": "b3_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_28 find v(xdiv.xm.b3) at=164.8n"
+  },
+  {
+   "name": "tc_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_28 find v(xdiv.tc) at=164.8n"
+  },
+  {
+   "name": "tcn_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_28 find v(xdiv.tcn) at=164.8n"
+  },
+  {
+   "name": "s0_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_28 find v(xdiv.xa.s0) at=164.8n"
+  },
+  {
+   "name": "s1_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_28 find v(xdiv.xa.s1) at=164.8n"
+  },
+  {
+   "name": "mc_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_28 find v(xdiv.xa.mc) at=164.8n"
+  },
+  {
+   "name": "q0_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_29 find v(xdiv.xm.q0) at=166.4n"
+  },
+  {
+   "name": "q1_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_29 find v(xdiv.xm.q1) at=166.4n"
+  },
+  {
+   "name": "q2_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_29 find v(xdiv.xm.q2) at=166.4n"
+  },
+  {
+   "name": "q3_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_29 find v(xdiv.xm.q3) at=166.4n"
+  },
+  {
+   "name": "b1_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_29 find v(xdiv.xm.b1) at=166.4n"
+  },
+  {
+   "name": "b2_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_29 find v(xdiv.xm.b2) at=166.4n"
+  },
+  {
+   "name": "b3_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_29 find v(xdiv.xm.b3) at=166.4n"
+  },
+  {
+   "name": "tc_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_29 find v(xdiv.tc) at=166.4n"
+  },
+  {
+   "name": "tcn_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_29 find v(xdiv.tcn) at=166.4n"
+  },
+  {
+   "name": "s0_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s0_29 find v(xdiv.xa.s0) at=166.4n"
+  },
+  {
+   "name": "s1_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran s1_29 find v(xdiv.xa.s1) at=166.4n"
+  },
+  {
+   "name": "mc_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran mc_29 find v(xdiv.xa.mc) at=166.4n"
+  }
+ ],
+ "corners": {
+  "process": [
+   {
+    "name": "TYP",
+    "sections": [
+     {
+      "lib": "libs.tech/ngspice/models/cornerMOShv.lib",
+      "section": "mos_tt"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerCAP.lib",
+      "section": "cap_typ"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+      "section": "hbt_typ"
+     }
+    ]
+   }
+  ],
+  "temperature_c": [
+   27
+  ],
+  "params": {
+   "vddv": [
+    3.63
+   ]
+  }
+ },
+ "options": {
+  "timeout_s": 1800,
+  "keep_artifacts": true,
+  "osdi_preload": [
+   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"
+  ]
+ }
+}

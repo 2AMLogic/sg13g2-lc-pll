@@ -1,0 +1,42 @@
+* sg13g2-lc-pll :: sim/prescaler-g1 -- prescaler first-stage load and speed bench (gate G1).
+* NOMINAL ONLY: hbt_typ, 27 C, 3.3 V. One ngspice process, three analyses:
+*   (1) AC small-signal at the DC operating point, 5.0 GHz: differential input admittance.
+*   (2) Large-signal transient at 5.0 GHz, 0.4 Vpp differential: fundamental of the input current
+*       (cross-check of (1)) and the /8 divided output.
+*   (3) Toggle sweep: ONE transient per input frequency, same swing, count of /2 output crossings.
+* The input is driven like the VCO tank nodes: common mode 3.3 V (the inductors return the tank to VDD),
+* zero source impedance. Placeholders (@@...@@) are filled by scripts/run-prescaler-g1.sh; nothing else is
+* substituted. Ideal resistors and ideal reference current (IREF = 50 uA): see the record.
+.lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
+.option temp=27
+.include @@PRESC_NETLIST@@
+
+VDD vdd 0 3.3
+IRF vdd iref dc 50u
+VMC mc 0 dc 0
+X1 inp inn mc iref outp outn vdd 0 prescaler
+* differential 2*@@AMP@@ V amplitude = 0.4 Vpp when AMP = 0.1; AC 1 V differential (0.5 V each side)
+VIP inp 0 dc 3.3 ac 0.5 sin(3.3 @@AMP@@ @@FIN@@)
+VIN inn 0 dc 3.3 ac -0.5 sin(3.3 -@@AMP@@ @@FIN@@)
+.ic v(x1.hp)=3.2 v(x1.hn)=3.0 v(x1.x2.mp)=3.0 v(x1.x2.mn)=3.2
+.save v(x1.hp) v(x1.hn) v(outp) v(outn) v(inp) v(inn) i(vip) i(vdd)
+
+.control
+op
+let idd = -i(vdd)
+echo "OP_IDD $&idd"
+ac lin 1 @@FIN@@ @@FIN@@
+let yin = -i(vip)/1
+let cdiff = imag(yin)/(2*pi*@@FIN@@)
+let gdiff = real(yin)
+echo "AC_RESULT $&cdiff $&gdiff"
+tran 1p @@TRAN_STOP@@ 0 2p
+wrdata @@OUT_DIR@@/tran5g -i(vip) v(inp)-v(inn) v(x1.hp)-v(x1.hn) v(outp)-v(outn)
+foreach f @@FLIST@@
+  alter vip sin = [ 3.3 @@AMP@@ $f ]
+  alter vin sin = [ 3.3 -@@AMP@@ $f ]
+  tran 1p @@TOG_STOP@@ 0 2p
+  wrdata @@OUT_DIR@@/tog_$f v(x1.hp)-v(x1.hn)
+end
+.endc
+.end

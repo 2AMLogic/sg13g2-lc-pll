@@ -1,0 +1,1313 @@
+{
+ "netlist": "body.spice",
+ "engine": "ngspice",
+ "backend": "batch",
+ "corners": {
+  "process": [
+   {
+    "name": "SLOW",
+    "sections": [
+     {
+      "lib": "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/models/cornerMOShv.lib",
+      "section": "mos_ss"
+     },
+     {
+      "lib": "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/models/cornerCAP.lib",
+      "section": "cap_wcs"
+     },
+     {
+      "lib": "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/models/cornerRES.lib",
+      "section": "res_wcs"
+     }
+    ]
+   },
+   {
+    "name": "TYP",
+    "sections": [
+     {
+      "lib": "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/models/cornerMOShv.lib",
+      "section": "mos_tt"
+     },
+     {
+      "lib": "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/models/cornerCAP.lib",
+      "section": "cap_typ"
+     },
+     {
+      "lib": "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/models/cornerRES.lib",
+      "section": "res_typ"
+     }
+    ]
+   },
+   {
+    "name": "FAST",
+    "sections": [
+     {
+      "lib": "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/models/cornerMOShv.lib",
+      "section": "mos_ff"
+     },
+     {
+      "lib": "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/models/cornerCAP.lib",
+      "section": "cap_bcs"
+     },
+     {
+      "lib": "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/models/cornerRES.lib",
+      "section": "res_bcs"
+     }
+    ]
+   }
+  ],
+  "temperature_c": [
+   -40,
+   27,
+   125
+  ],
+  "params": {
+   "vsup": [
+    2.97,
+    3.63
+   ]
+  }
+ },
+ "analysis": {
+  "kind": "tran",
+  "args": "50p 6940000p 0 50p"
+ },
+ "measurements": [
+  {
+   "name": "q_0_0",
+   "spice": ".meas tran q_0_0 INTEG i(vh) FROM=49000p TO=69000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_1",
+   "spice": ".meas tran q_0_1 INTEG i(vh) FROM=111000p TO=131000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_2",
+   "spice": ".meas tran q_0_2 INTEG i(vh) FROM=173000p TO=193000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_3",
+   "spice": ".meas tran q_0_3 INTEG i(vh) FROM=235000p TO=255000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_4",
+   "spice": ".meas tran q_0_4 INTEG i(vh) FROM=297000p TO=317000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_5",
+   "spice": ".meas tran q_0_5 INTEG i(vh) FROM=359000p TO=379000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_6",
+   "spice": ".meas tran q_0_6 INTEG i(vh) FROM=419000p TO=439000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_7",
+   "spice": ".meas tran q_0_7 INTEG i(vh) FROM=479000p TO=499000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_8",
+   "spice": ".meas tran q_0_8 INTEG i(vh) FROM=539000p TO=559000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_9",
+   "spice": ".meas tran q_0_9 INTEG i(vh) FROM=599000p TO=619000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_10",
+   "spice": ".meas tran q_0_10 INTEG i(vh) FROM=659000p TO=679000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_11",
+   "spice": ".meas tran q_0_11 INTEG i(vh) FROM=719000p TO=739000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_12",
+   "spice": ".meas tran q_0_12 INTEG i(vh) FROM=779000p TO=799000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_13",
+   "spice": ".meas tran q_0_13 INTEG i(vh) FROM=839000p TO=859000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_14",
+   "spice": ".meas tran q_0_14 INTEG i(vh) FROM=899000p TO=919000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_15",
+   "spice": ".meas tran q_0_15 INTEG i(vh) FROM=959000p TO=979000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_16",
+   "spice": ".meas tran q_0_16 INTEG i(vh) FROM=1019000p TO=1039000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_17",
+   "spice": ".meas tran q_0_17 INTEG i(vh) FROM=1079000p TO=1099000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_18",
+   "spice": ".meas tran q_0_18 INTEG i(vh) FROM=1139000p TO=1159000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_0_19",
+   "spice": ".meas tran q_0_19 INTEG i(vh) FROM=1199000p TO=1219000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_19",
+   "spice": ".meas tran q_1_19 INTEG i(vh) FROM=1259000p TO=1279000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_18",
+   "spice": ".meas tran q_1_18 INTEG i(vh) FROM=1319000p TO=1339000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_17",
+   "spice": ".meas tran q_1_17 INTEG i(vh) FROM=1379000p TO=1399000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_16",
+   "spice": ".meas tran q_1_16 INTEG i(vh) FROM=1439000p TO=1459000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_15",
+   "spice": ".meas tran q_1_15 INTEG i(vh) FROM=1499000p TO=1519000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_14",
+   "spice": ".meas tran q_1_14 INTEG i(vh) FROM=1559000p TO=1579000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_13",
+   "spice": ".meas tran q_1_13 INTEG i(vh) FROM=1619000p TO=1639000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_12",
+   "spice": ".meas tran q_1_12 INTEG i(vh) FROM=1679000p TO=1699000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_11",
+   "spice": ".meas tran q_1_11 INTEG i(vh) FROM=1739000p TO=1759000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_10",
+   "spice": ".meas tran q_1_10 INTEG i(vh) FROM=1799000p TO=1819000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_9",
+   "spice": ".meas tran q_1_9 INTEG i(vh) FROM=1859000p TO=1879000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_8",
+   "spice": ".meas tran q_1_8 INTEG i(vh) FROM=1919000p TO=1939000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_7",
+   "spice": ".meas tran q_1_7 INTEG i(vh) FROM=1979000p TO=1999000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_6",
+   "spice": ".meas tran q_1_6 INTEG i(vh) FROM=2039000p TO=2059000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_5",
+   "spice": ".meas tran q_1_5 INTEG i(vh) FROM=2099000p TO=2119000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_4",
+   "spice": ".meas tran q_1_4 INTEG i(vh) FROM=2157000p TO=2177000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_3",
+   "spice": ".meas tran q_1_3 INTEG i(vh) FROM=2215000p TO=2235000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_2",
+   "spice": ".meas tran q_1_2 INTEG i(vh) FROM=2273000p TO=2293000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_1",
+   "spice": ".meas tran q_1_1 INTEG i(vh) FROM=2331000p TO=2351000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_1_0",
+   "spice": ".meas tran q_1_0 INTEG i(vh) FROM=2389000p TO=2409000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_2_0",
+   "spice": ".meas tran q_2_0 INTEG i(vh) FROM=2449000p TO=2469000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_0",
+   "spice": ".meas tran werr_0 INTEG v(xld.err) FROM=2449000p TO=2469000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_0",
+   "spice": ".meas tran wup_0 INTEG v(up) FROM=2449000p TO=2469000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_0",
+   "spice": ".meas tran wdn_0 INTEG v(dn) FROM=2449000p TO=2469000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_0",
+   "spice": ".meas tran wwide_0 INTEG v(xld.wide) FROM=2449000p TO=2469000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_0",
+   "spice": ".meas tran werrd_0 INTEG v(xld.errd) FROM=2449000p TO=2469000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_0",
+   "spice": ".meas tran wmax_0 MAX v(xld.wide) FROM=2449000p TO=2469000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_0",
+   "spice": ".meas tran dmax_0 MAX v(xld.errd) FROM=2449000p TO=2469000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_1",
+   "spice": ".meas tran q_2_1 INTEG i(vh) FROM=2511000p TO=2531000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_1",
+   "spice": ".meas tran werr_1 INTEG v(xld.err) FROM=2511000p TO=2531000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_1",
+   "spice": ".meas tran wup_1 INTEG v(up) FROM=2511000p TO=2531000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_1",
+   "spice": ".meas tran wdn_1 INTEG v(dn) FROM=2511000p TO=2531000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_1",
+   "spice": ".meas tran wwide_1 INTEG v(xld.wide) FROM=2511000p TO=2531000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_1",
+   "spice": ".meas tran werrd_1 INTEG v(xld.errd) FROM=2511000p TO=2531000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_1",
+   "spice": ".meas tran wmax_1 MAX v(xld.wide) FROM=2511000p TO=2531000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_1",
+   "spice": ".meas tran dmax_1 MAX v(xld.errd) FROM=2511000p TO=2531000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_2",
+   "spice": ".meas tran q_2_2 INTEG i(vh) FROM=2573000p TO=2593000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_2",
+   "spice": ".meas tran werr_2 INTEG v(xld.err) FROM=2573000p TO=2593000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_2",
+   "spice": ".meas tran wup_2 INTEG v(up) FROM=2573000p TO=2593000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_2",
+   "spice": ".meas tran wdn_2 INTEG v(dn) FROM=2573000p TO=2593000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_2",
+   "spice": ".meas tran wwide_2 INTEG v(xld.wide) FROM=2573000p TO=2593000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_2",
+   "spice": ".meas tran werrd_2 INTEG v(xld.errd) FROM=2573000p TO=2593000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_2",
+   "spice": ".meas tran wmax_2 MAX v(xld.wide) FROM=2573000p TO=2593000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_2",
+   "spice": ".meas tran dmax_2 MAX v(xld.errd) FROM=2573000p TO=2593000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_3",
+   "spice": ".meas tran q_2_3 INTEG i(vh) FROM=2635000p TO=2655000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_3",
+   "spice": ".meas tran werr_3 INTEG v(xld.err) FROM=2635000p TO=2655000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_3",
+   "spice": ".meas tran wup_3 INTEG v(up) FROM=2635000p TO=2655000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_3",
+   "spice": ".meas tran wdn_3 INTEG v(dn) FROM=2635000p TO=2655000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_3",
+   "spice": ".meas tran wwide_3 INTEG v(xld.wide) FROM=2635000p TO=2655000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_3",
+   "spice": ".meas tran werrd_3 INTEG v(xld.errd) FROM=2635000p TO=2655000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_3",
+   "spice": ".meas tran wmax_3 MAX v(xld.wide) FROM=2635000p TO=2655000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_3",
+   "spice": ".meas tran dmax_3 MAX v(xld.errd) FROM=2635000p TO=2655000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_4",
+   "spice": ".meas tran q_2_4 INTEG i(vh) FROM=2697000p TO=2717000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_4",
+   "spice": ".meas tran werr_4 INTEG v(xld.err) FROM=2697000p TO=2717000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_4",
+   "spice": ".meas tran wup_4 INTEG v(up) FROM=2697000p TO=2717000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_4",
+   "spice": ".meas tran wdn_4 INTEG v(dn) FROM=2697000p TO=2717000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_4",
+   "spice": ".meas tran wwide_4 INTEG v(xld.wide) FROM=2697000p TO=2717000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_4",
+   "spice": ".meas tran werrd_4 INTEG v(xld.errd) FROM=2697000p TO=2717000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_4",
+   "spice": ".meas tran wmax_4 MAX v(xld.wide) FROM=2697000p TO=2717000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_4",
+   "spice": ".meas tran dmax_4 MAX v(xld.errd) FROM=2697000p TO=2717000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_5",
+   "spice": ".meas tran q_2_5 INTEG i(vh) FROM=2759000p TO=2779000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_5",
+   "spice": ".meas tran werr_5 INTEG v(xld.err) FROM=2759000p TO=2779000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_5",
+   "spice": ".meas tran wup_5 INTEG v(up) FROM=2759000p TO=2779000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_5",
+   "spice": ".meas tran wdn_5 INTEG v(dn) FROM=2759000p TO=2779000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_5",
+   "spice": ".meas tran wwide_5 INTEG v(xld.wide) FROM=2759000p TO=2779000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_5",
+   "spice": ".meas tran werrd_5 INTEG v(xld.errd) FROM=2759000p TO=2779000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_5",
+   "spice": ".meas tran wmax_5 MAX v(xld.wide) FROM=2759000p TO=2779000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_5",
+   "spice": ".meas tran dmax_5 MAX v(xld.errd) FROM=2759000p TO=2779000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_6",
+   "spice": ".meas tran q_2_6 INTEG i(vh) FROM=2819000p TO=2839000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_6",
+   "spice": ".meas tran werr_6 INTEG v(xld.err) FROM=2819000p TO=2839000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_6",
+   "spice": ".meas tran wup_6 INTEG v(up) FROM=2819000p TO=2839000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_6",
+   "spice": ".meas tran wdn_6 INTEG v(dn) FROM=2819000p TO=2839000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_6",
+   "spice": ".meas tran wwide_6 INTEG v(xld.wide) FROM=2819000p TO=2839000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_6",
+   "spice": ".meas tran werrd_6 INTEG v(xld.errd) FROM=2819000p TO=2839000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_6",
+   "spice": ".meas tran wmax_6 MAX v(xld.wide) FROM=2819000p TO=2839000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_6",
+   "spice": ".meas tran dmax_6 MAX v(xld.errd) FROM=2819000p TO=2839000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_7",
+   "spice": ".meas tran q_2_7 INTEG i(vh) FROM=2879000p TO=2899000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_7",
+   "spice": ".meas tran werr_7 INTEG v(xld.err) FROM=2879000p TO=2899000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_7",
+   "spice": ".meas tran wup_7 INTEG v(up) FROM=2879000p TO=2899000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_7",
+   "spice": ".meas tran wdn_7 INTEG v(dn) FROM=2879000p TO=2899000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_7",
+   "spice": ".meas tran wwide_7 INTEG v(xld.wide) FROM=2879000p TO=2899000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_7",
+   "spice": ".meas tran werrd_7 INTEG v(xld.errd) FROM=2879000p TO=2899000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_7",
+   "spice": ".meas tran wmax_7 MAX v(xld.wide) FROM=2879000p TO=2899000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_7",
+   "spice": ".meas tran dmax_7 MAX v(xld.errd) FROM=2879000p TO=2899000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_8",
+   "spice": ".meas tran q_2_8 INTEG i(vh) FROM=2939000p TO=2959000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_8",
+   "spice": ".meas tran werr_8 INTEG v(xld.err) FROM=2939000p TO=2959000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_8",
+   "spice": ".meas tran wup_8 INTEG v(up) FROM=2939000p TO=2959000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_8",
+   "spice": ".meas tran wdn_8 INTEG v(dn) FROM=2939000p TO=2959000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_8",
+   "spice": ".meas tran wwide_8 INTEG v(xld.wide) FROM=2939000p TO=2959000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_8",
+   "spice": ".meas tran werrd_8 INTEG v(xld.errd) FROM=2939000p TO=2959000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_8",
+   "spice": ".meas tran wmax_8 MAX v(xld.wide) FROM=2939000p TO=2959000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_8",
+   "spice": ".meas tran dmax_8 MAX v(xld.errd) FROM=2939000p TO=2959000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_9",
+   "spice": ".meas tran q_2_9 INTEG i(vh) FROM=2999000p TO=3019000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_9",
+   "spice": ".meas tran werr_9 INTEG v(xld.err) FROM=2999000p TO=3019000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_9",
+   "spice": ".meas tran wup_9 INTEG v(up) FROM=2999000p TO=3019000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_9",
+   "spice": ".meas tran wdn_9 INTEG v(dn) FROM=2999000p TO=3019000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_9",
+   "spice": ".meas tran wwide_9 INTEG v(xld.wide) FROM=2999000p TO=3019000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_9",
+   "spice": ".meas tran werrd_9 INTEG v(xld.errd) FROM=2999000p TO=3019000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_9",
+   "spice": ".meas tran wmax_9 MAX v(xld.wide) FROM=2999000p TO=3019000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_9",
+   "spice": ".meas tran dmax_9 MAX v(xld.errd) FROM=2999000p TO=3019000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_10",
+   "spice": ".meas tran q_2_10 INTEG i(vh) FROM=3059000p TO=3079000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_10",
+   "spice": ".meas tran werr_10 INTEG v(xld.err) FROM=3059000p TO=3079000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_10",
+   "spice": ".meas tran wup_10 INTEG v(up) FROM=3059000p TO=3079000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_10",
+   "spice": ".meas tran wdn_10 INTEG v(dn) FROM=3059000p TO=3079000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_10",
+   "spice": ".meas tran wwide_10 INTEG v(xld.wide) FROM=3059000p TO=3079000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_10",
+   "spice": ".meas tran werrd_10 INTEG v(xld.errd) FROM=3059000p TO=3079000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_10",
+   "spice": ".meas tran wmax_10 MAX v(xld.wide) FROM=3059000p TO=3079000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_10",
+   "spice": ".meas tran dmax_10 MAX v(xld.errd) FROM=3059000p TO=3079000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_11",
+   "spice": ".meas tran q_2_11 INTEG i(vh) FROM=3119000p TO=3139000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_11",
+   "spice": ".meas tran werr_11 INTEG v(xld.err) FROM=3119000p TO=3139000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_11",
+   "spice": ".meas tran wup_11 INTEG v(up) FROM=3119000p TO=3139000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_11",
+   "spice": ".meas tran wdn_11 INTEG v(dn) FROM=3119000p TO=3139000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_11",
+   "spice": ".meas tran wwide_11 INTEG v(xld.wide) FROM=3119000p TO=3139000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_11",
+   "spice": ".meas tran werrd_11 INTEG v(xld.errd) FROM=3119000p TO=3139000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_11",
+   "spice": ".meas tran wmax_11 MAX v(xld.wide) FROM=3119000p TO=3139000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_11",
+   "spice": ".meas tran dmax_11 MAX v(xld.errd) FROM=3119000p TO=3139000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_12",
+   "spice": ".meas tran q_2_12 INTEG i(vh) FROM=3179000p TO=3199000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_12",
+   "spice": ".meas tran werr_12 INTEG v(xld.err) FROM=3179000p TO=3199000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_12",
+   "spice": ".meas tran wup_12 INTEG v(up) FROM=3179000p TO=3199000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_12",
+   "spice": ".meas tran wdn_12 INTEG v(dn) FROM=3179000p TO=3199000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_12",
+   "spice": ".meas tran wwide_12 INTEG v(xld.wide) FROM=3179000p TO=3199000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_12",
+   "spice": ".meas tran werrd_12 INTEG v(xld.errd) FROM=3179000p TO=3199000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_12",
+   "spice": ".meas tran wmax_12 MAX v(xld.wide) FROM=3179000p TO=3199000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_12",
+   "spice": ".meas tran dmax_12 MAX v(xld.errd) FROM=3179000p TO=3199000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_13",
+   "spice": ".meas tran q_2_13 INTEG i(vh) FROM=3239000p TO=3259000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_13",
+   "spice": ".meas tran werr_13 INTEG v(xld.err) FROM=3239000p TO=3259000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_13",
+   "spice": ".meas tran wup_13 INTEG v(up) FROM=3239000p TO=3259000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_13",
+   "spice": ".meas tran wdn_13 INTEG v(dn) FROM=3239000p TO=3259000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_13",
+   "spice": ".meas tran wwide_13 INTEG v(xld.wide) FROM=3239000p TO=3259000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_13",
+   "spice": ".meas tran werrd_13 INTEG v(xld.errd) FROM=3239000p TO=3259000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_13",
+   "spice": ".meas tran wmax_13 MAX v(xld.wide) FROM=3239000p TO=3259000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_13",
+   "spice": ".meas tran dmax_13 MAX v(xld.errd) FROM=3239000p TO=3259000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_14",
+   "spice": ".meas tran q_2_14 INTEG i(vh) FROM=3299000p TO=3319000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_14",
+   "spice": ".meas tran werr_14 INTEG v(xld.err) FROM=3299000p TO=3319000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_14",
+   "spice": ".meas tran wup_14 INTEG v(up) FROM=3299000p TO=3319000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_14",
+   "spice": ".meas tran wdn_14 INTEG v(dn) FROM=3299000p TO=3319000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_14",
+   "spice": ".meas tran wwide_14 INTEG v(xld.wide) FROM=3299000p TO=3319000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_14",
+   "spice": ".meas tran werrd_14 INTEG v(xld.errd) FROM=3299000p TO=3319000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_14",
+   "spice": ".meas tran wmax_14 MAX v(xld.wide) FROM=3299000p TO=3319000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_14",
+   "spice": ".meas tran dmax_14 MAX v(xld.errd) FROM=3299000p TO=3319000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_15",
+   "spice": ".meas tran q_2_15 INTEG i(vh) FROM=3359000p TO=3379000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_15",
+   "spice": ".meas tran werr_15 INTEG v(xld.err) FROM=3359000p TO=3379000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_15",
+   "spice": ".meas tran wup_15 INTEG v(up) FROM=3359000p TO=3379000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_15",
+   "spice": ".meas tran wdn_15 INTEG v(dn) FROM=3359000p TO=3379000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_15",
+   "spice": ".meas tran wwide_15 INTEG v(xld.wide) FROM=3359000p TO=3379000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_15",
+   "spice": ".meas tran werrd_15 INTEG v(xld.errd) FROM=3359000p TO=3379000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_15",
+   "spice": ".meas tran wmax_15 MAX v(xld.wide) FROM=3359000p TO=3379000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_15",
+   "spice": ".meas tran dmax_15 MAX v(xld.errd) FROM=3359000p TO=3379000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_16",
+   "spice": ".meas tran q_2_16 INTEG i(vh) FROM=3419000p TO=3439000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_16",
+   "spice": ".meas tran werr_16 INTEG v(xld.err) FROM=3419000p TO=3439000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_16",
+   "spice": ".meas tran wup_16 INTEG v(up) FROM=3419000p TO=3439000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_16",
+   "spice": ".meas tran wdn_16 INTEG v(dn) FROM=3419000p TO=3439000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_16",
+   "spice": ".meas tran wwide_16 INTEG v(xld.wide) FROM=3419000p TO=3439000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_16",
+   "spice": ".meas tran werrd_16 INTEG v(xld.errd) FROM=3419000p TO=3439000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_16",
+   "spice": ".meas tran wmax_16 MAX v(xld.wide) FROM=3419000p TO=3439000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_16",
+   "spice": ".meas tran dmax_16 MAX v(xld.errd) FROM=3419000p TO=3439000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_17",
+   "spice": ".meas tran q_2_17 INTEG i(vh) FROM=3479000p TO=3499000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_17",
+   "spice": ".meas tran werr_17 INTEG v(xld.err) FROM=3479000p TO=3499000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_17",
+   "spice": ".meas tran wup_17 INTEG v(up) FROM=3479000p TO=3499000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_17",
+   "spice": ".meas tran wdn_17 INTEG v(dn) FROM=3479000p TO=3499000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_17",
+   "spice": ".meas tran wwide_17 INTEG v(xld.wide) FROM=3479000p TO=3499000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_17",
+   "spice": ".meas tran werrd_17 INTEG v(xld.errd) FROM=3479000p TO=3499000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_17",
+   "spice": ".meas tran wmax_17 MAX v(xld.wide) FROM=3479000p TO=3499000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_17",
+   "spice": ".meas tran dmax_17 MAX v(xld.errd) FROM=3479000p TO=3499000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_18",
+   "spice": ".meas tran q_2_18 INTEG i(vh) FROM=3539000p TO=3559000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_18",
+   "spice": ".meas tran werr_18 INTEG v(xld.err) FROM=3539000p TO=3559000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_18",
+   "spice": ".meas tran wup_18 INTEG v(up) FROM=3539000p TO=3559000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_18",
+   "spice": ".meas tran wdn_18 INTEG v(dn) FROM=3539000p TO=3559000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_18",
+   "spice": ".meas tran wwide_18 INTEG v(xld.wide) FROM=3539000p TO=3559000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_18",
+   "spice": ".meas tran werrd_18 INTEG v(xld.errd) FROM=3539000p TO=3559000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_18",
+   "spice": ".meas tran wmax_18 MAX v(xld.wide) FROM=3539000p TO=3559000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_18",
+   "spice": ".meas tran dmax_18 MAX v(xld.errd) FROM=3539000p TO=3559000p",
+   "unit": "V"
+  },
+  {
+   "name": "q_2_19",
+   "spice": ".meas tran q_2_19 INTEG i(vh) FROM=3599000p TO=3619000p",
+   "unit": "C"
+  },
+  {
+   "name": "werr_19",
+   "spice": ".meas tran werr_19 INTEG v(xld.err) FROM=3599000p TO=3619000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wup_19",
+   "spice": ".meas tran wup_19 INTEG v(up) FROM=3599000p TO=3619000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wdn_19",
+   "spice": ".meas tran wdn_19 INTEG v(dn) FROM=3599000p TO=3619000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wwide_19",
+   "spice": ".meas tran wwide_19 INTEG v(xld.wide) FROM=3599000p TO=3619000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "werrd_19",
+   "spice": ".meas tran werrd_19 INTEG v(xld.errd) FROM=3599000p TO=3619000p",
+   "unit": "Vs"
+  },
+  {
+   "name": "wmax_19",
+   "spice": ".meas tran wmax_19 MAX v(xld.wide) FROM=3599000p TO=3619000p",
+   "unit": "V"
+  },
+  {
+   "name": "dmax_19",
+   "spice": ".meas tran dmax_19 MAX v(xld.errd) FROM=3599000p TO=3619000p",
+   "unit": "V"
+  },
+  {
+   "name": "twin_r",
+   "spice": ".meas tran twin_r TRIG v(xld.err) VAL='vsup/2' RISE=1 TD=3599000p TARG v(xld.errd) VAL='vsup/2' RISE=1 TD=3599000p",
+   "unit": "s"
+  },
+  {
+   "name": "twin_f",
+   "spice": ".meas tran twin_f TRIG v(xld.err) VAL='vsup/2' FALL=1 TD=3599000p TARG v(xld.errd) VAL='vsup/2' FALL=1 TD=3599000p",
+   "unit": "s"
+  },
+  {
+   "name": "q_3_19",
+   "spice": ".meas tran q_3_19 INTEG i(vh) FROM=3659000p TO=3679000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_18",
+   "spice": ".meas tran q_3_18 INTEG i(vh) FROM=3719000p TO=3739000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_17",
+   "spice": ".meas tran q_3_17 INTEG i(vh) FROM=3779000p TO=3799000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_16",
+   "spice": ".meas tran q_3_16 INTEG i(vh) FROM=3839000p TO=3859000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_15",
+   "spice": ".meas tran q_3_15 INTEG i(vh) FROM=3899000p TO=3919000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_14",
+   "spice": ".meas tran q_3_14 INTEG i(vh) FROM=3959000p TO=3979000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_13",
+   "spice": ".meas tran q_3_13 INTEG i(vh) FROM=4019000p TO=4039000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_12",
+   "spice": ".meas tran q_3_12 INTEG i(vh) FROM=4079000p TO=4099000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_11",
+   "spice": ".meas tran q_3_11 INTEG i(vh) FROM=4139000p TO=4159000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_10",
+   "spice": ".meas tran q_3_10 INTEG i(vh) FROM=4199000p TO=4219000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_9",
+   "spice": ".meas tran q_3_9 INTEG i(vh) FROM=4259000p TO=4279000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_8",
+   "spice": ".meas tran q_3_8 INTEG i(vh) FROM=4319000p TO=4339000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_7",
+   "spice": ".meas tran q_3_7 INTEG i(vh) FROM=4379000p TO=4399000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_6",
+   "spice": ".meas tran q_3_6 INTEG i(vh) FROM=4439000p TO=4459000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_5",
+   "spice": ".meas tran q_3_5 INTEG i(vh) FROM=4499000p TO=4519000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_4",
+   "spice": ".meas tran q_3_4 INTEG i(vh) FROM=4557000p TO=4577000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_3",
+   "spice": ".meas tran q_3_3 INTEG i(vh) FROM=4615000p TO=4635000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_2",
+   "spice": ".meas tran q_3_2 INTEG i(vh) FROM=4673000p TO=4693000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_1",
+   "spice": ".meas tran q_3_1 INTEG i(vh) FROM=4731000p TO=4751000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_3_0",
+   "spice": ".meas tran q_3_0 INTEG i(vh) FROM=4789000p TO=4809000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_0",
+   "spice": ".meas tran q_4_0 INTEG i(vh) FROM=4849000p TO=4869000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_1",
+   "spice": ".meas tran q_4_1 INTEG i(vh) FROM=4911000p TO=4931000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_2",
+   "spice": ".meas tran q_4_2 INTEG i(vh) FROM=4973000p TO=4993000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_3",
+   "spice": ".meas tran q_4_3 INTEG i(vh) FROM=5035000p TO=5055000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_4",
+   "spice": ".meas tran q_4_4 INTEG i(vh) FROM=5097000p TO=5117000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_5",
+   "spice": ".meas tran q_4_5 INTEG i(vh) FROM=5159000p TO=5179000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_6",
+   "spice": ".meas tran q_4_6 INTEG i(vh) FROM=5219000p TO=5239000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_7",
+   "spice": ".meas tran q_4_7 INTEG i(vh) FROM=5279000p TO=5299000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_8",
+   "spice": ".meas tran q_4_8 INTEG i(vh) FROM=5339000p TO=5359000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_9",
+   "spice": ".meas tran q_4_9 INTEG i(vh) FROM=5399000p TO=5419000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_10",
+   "spice": ".meas tran q_4_10 INTEG i(vh) FROM=5459000p TO=5479000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_11",
+   "spice": ".meas tran q_4_11 INTEG i(vh) FROM=5519000p TO=5539000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_12",
+   "spice": ".meas tran q_4_12 INTEG i(vh) FROM=5579000p TO=5599000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_13",
+   "spice": ".meas tran q_4_13 INTEG i(vh) FROM=5639000p TO=5659000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_14",
+   "spice": ".meas tran q_4_14 INTEG i(vh) FROM=5699000p TO=5719000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_15",
+   "spice": ".meas tran q_4_15 INTEG i(vh) FROM=5759000p TO=5779000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_16",
+   "spice": ".meas tran q_4_16 INTEG i(vh) FROM=5819000p TO=5839000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_17",
+   "spice": ".meas tran q_4_17 INTEG i(vh) FROM=5879000p TO=5899000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_18",
+   "spice": ".meas tran q_4_18 INTEG i(vh) FROM=5939000p TO=5959000p",
+   "unit": "C"
+  },
+  {
+   "name": "q_4_19",
+   "spice": ".meas tran q_4_19 INTEG i(vh) FROM=5999000p TO=6019000p",
+   "unit": "C"
+  },
+  {
+   "name": "vt_lock_rise_t",
+   "spice": ".meas tran vt_lock_rise_t WHEN v(lock)='vsup/2' RISE=1 TD=6060000p",
+   "unit": "s"
+  },
+  {
+   "name": "vt_lock_fall_t",
+   "spice": ".meas tran vt_lock_fall_t WHEN v(lock)='vsup/2' FALL=1 TD=6060000p",
+   "unit": "s"
+  }
+ ],
+ "options": {
+  "timeout_s": 1500,
+  "stage_model_inputs": true,
+  "keep_artifacts": false,
+  "ngspice_init": [
+   "set ngbehavior=hsa"
+  ],
+  "osdi_preload": [
+   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi",
+   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi"
+  ]
+ },
+ "batch": {
+  "max_units_per_job": 2,
+  "max_concurrent_jobs": 6
+ }
+}

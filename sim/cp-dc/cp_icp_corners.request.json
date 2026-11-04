@@ -1,0 +1,23 @@
+{
+  "netlist": "cp_icp.cir",
+  "engine": "ngspice",
+  "models": {"pdk": "sg13g2"},
+  "analysis": {"kind": "op", "args": ""},
+  "corners": {
+    "process": [
+      {"name": "SLOW", "sections": [{"lib": "libs.tech/ngspice/models/cornerMOShv.lib", "section": "mos_ss"}]},
+      {"name": "TYP",  "sections": [{"lib": "libs.tech/ngspice/models/cornerMOShv.lib", "section": "mos_tt"}]},
+      {"name": "FAST", "sections": [{"lib": "libs.tech/ngspice/models/cornerMOShv.lib", "section": "mos_ff"}]}
+    ],
+    "supply_v": {"vdd": [2.97, 3.63], "vhi": [2.97, 3.63]},
+    "temperature_c": [-40, 27, 125]
+  },
+  "measurements": [
+    {"name": "i_up_ua", "expr": "-i(VA)*1e6", "unit": "uA"},
+    {"name": "i_dn_ua", "expr": "i(VMB)*1e6", "unit": "uA"}
+  ],
+  "options": {
+    "osdi_preload": ["$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"],
+    "stage_model_inputs": true
+  }
+}
