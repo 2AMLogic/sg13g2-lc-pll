@@ -69,6 +69,7 @@ Findings, not relaxed:
   `loop-power/records/20261103-193448-b6ec1f3-stage1.md`.
 - PFD + CP + bias is one nominal-corner constant (1.71 mW), not a corner value.
 - **Start-up question and stage-1 increment (2026-11-03)**: the stage-2 grid on the nominal start-up converges at 3 of 18 corners and never divides where the ramp does not, so non-division at 3.630 V and 125 C is treated as a design finding (#97, related #84); `loop_power_body.spice` is unchanged. Stage 1 is now 71 of 135 returned (21 new from a 29-request per-shard resubmission stopped after 68 min), 5 divide (22.41-24.07 mW with the nominal PFD/CP/bias constant), 64 owed, not run locally. See `loop-power/records/20261103-stage1-accounting-and-startup.md` and `loop-power/records/20261103-215804-0a8000d-stage1.md`.
+- **Stage 1 complete (2026-11-04)**: the 7 owed units went to the fleet in one attempt and all returned (3 requests, jobs `klt-sim-4b4630ab2aff`, `-34fad66c6d16`, `-3a00ca345b4a`); stage 1 is 135 of 135, 24 divide (22.41-24.07 mW with the nominal PFD/CP/bias constant, before the owed lock detector, reference and clock buffering), 111 do not divide. Row 11 stays `fail`; ngspice-46 on the fleet against pin 47; simulated, not measured. See `loop-power/records/20261104-stage1-complete-135.md`.
 
 ## `vco-prescaler-load/`: gate G2, VCO rows 1, 2, 6, 7 with the prescaler on the tank (issue #87)
 
@@ -103,7 +104,7 @@ G2 stays open: row 1 does not close, 125 C is ungraded, row 6 is a proxy.
 | 1, 9, 10 | **gap** | benches run on a behavioural VCO/divider stand-in; G4, G2, #61. A stand-in envelope is never reported as a pass |
 | 5 | **gap** | method L (`sim/loop-model`) is not a `klt sim` request |
 | 8 | **gap** | method L partial, method T not run (G6) |
-| 11 | **gap, stage 2 reads `fail`** | `loop-power/`: stage 2 ran (18 corners, 5 divide to 50 MHz, 13 do not); stage 1 incomplete (128 of 135 returned, 20 divide at 22.4-24.1 mW with nominal PFD/CP/bias, before owed blocks; 7 owed, see `records/20261104-stage1-accounting-increment3.md`); non-division at 3.630 V / 125 C read as a design finding (#97), not a start-up artifact |
+| 11 | **enveloped, reads `fail`** | `loop-power/`: stage 2 ran (18 corners, 5 divide to 50 MHz, 13 do not); stage 1 complete (135 of 135 returned, 24 divide at 22.4-24.1 mW with nominal PFD/CP/bias, before owed blocks; 111 do not divide; see `loop-power/records/20261104-stage1-complete-135.md`); non-division at 3.630 V / 125 C read as a design finding (#97), not a start-up artifact |
 
 The prescaler follower Vce against BVCEO (2.2 V min) at the minimum-supply corner is **not**
 reported: the CP netlist contains no prescaler. It belongs to the envelopes that include it.
