@@ -1,0 +1,8 @@
+* Issue #97: single dff_tg_hv wired as a divide-by-2 (D = Q-bar), clocked at 625 MHz (the divider clock).
+* Tests whether the adopted flop alone keeps up at the failing corner. Same ramped supply as loop_power_body.spice.
+.param vddv=3.3
+VDDD vddd 0 pwl(0 0 3n {vddv})
+VCK ck 0 pulse(0 {vddv} 4n 0.1n 0.1n 0.7n 1.6n)
+.include ../../../design/netlist/divider.spice
+XF d ck q vddd 0 dff_tg_hv
+XI q d vddd 0 inv_hv
