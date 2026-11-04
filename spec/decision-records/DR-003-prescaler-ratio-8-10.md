@@ -49,10 +49,10 @@ rate (new architecture, most redesign, nothing gained for N = 100).
 Issue #31 measured the whole prescaler at ÷8 (modulus control low) and ÷10
 (modulus control high) at 5.0-12.0 GHz input, nominal corner only,
 **simulated, not measured**: `sim/prescaler-g3/records/20261027-022747-9096754.md`
-at commit `9096754` (PR #44, branch `feature/issue-31`; netlist sha256
-`c79c7b09…`, unchanged at PR #44's later heads). **PR #44 is still open, so
-that path is not yet on `main`.** When it merges, replace this paragraph's
-commit with the merge commit on `main`; ratify this record only after that.
+on `main`, run at commit `9096754` and landed by merge commit `9c34c45` (PR
+#44; netlist sha256 `c79c7b09…`, unchanged at PR #44's later heads). This
+record is the sole evidence for the /8 and /10 claim. Its pin check reads
+`ngspice-46 != pinned 47 (mismatch)`, so the run used an unpinned simulator.
 
 ## Consequences
 
