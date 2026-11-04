@@ -4,7 +4,7 @@
   "evidence": {
     "1": {
       "file": "manifests/design-sources.attest.json",
-      "content_hash": "sha256:584300d6e350f328343fbb5bb9d7fa0c9e240fc4b2d7fe1ae135271b801ea43c"
+      "content_hash": "sha256:6be0076a6fbc68505afc7f165777acf138b962a7f7fca7efaefbdb42d6e8fbfb"
     },
     "5": [
       {
