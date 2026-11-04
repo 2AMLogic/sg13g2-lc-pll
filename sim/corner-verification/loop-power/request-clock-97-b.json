@@ -1,0 +1,1452 @@
+{
+ "_comment": [
+  "Issue #97 step 1e (b): clock chain cmo/cmob/ck/ckb/ckl and flop-q0 clkb/ckbb every 0.1 ns over 3.2 ns from 140 ns, ramped start-up."
+ ],
+ "netlist": "loop_power_body.spice",
+ "netlist_source": "schematic",
+ "engine": "ngspice",
+ "backend": "batch",
+ "models": {
+  "pdk": "ihp-sg13g2"
+ },
+ "analysis": {
+  "kind": "tran",
+  "args": "4p 144n 0 4p"
+ },
+ "measurements": [
+  {
+   "name": "ipavg",
+   "unit": "A",
+   "spec_row": "11",
+   "spice": ".meas tran ipavg avg i(vddp) from=40n to=160n"
+  },
+  {
+   "name": "idavg",
+   "unit": "A",
+   "spec_row": "11",
+   "spice": ".meas tran idavg avg i(vddd) from=40n to=160n"
+  },
+  {
+   "name": "cmo_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_00 find v(xdiv.xcv.cmo) at=140.0n"
+  },
+  {
+   "name": "cmob_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_00 find v(xdiv.xcv.cmob) at=140.0n"
+  },
+  {
+   "name": "ck_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_00 find v(xdiv.ck) at=140.0n"
+  },
+  {
+   "name": "ckb_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_00 find v(xdiv.ckb) at=140.0n"
+  },
+  {
+   "name": "ckl_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_00 find v(xdiv.ckl) at=140.0n"
+  },
+  {
+   "name": "clkb_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_00 find v(xdiv.xm.xq0.clkb) at=140.0n"
+  },
+  {
+   "name": "ckbb_00",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_00 find v(xdiv.xm.xq0.ckbb) at=140.0n"
+  },
+  {
+   "name": "cmo_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_01 find v(xdiv.xcv.cmo) at=140.1n"
+  },
+  {
+   "name": "cmob_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_01 find v(xdiv.xcv.cmob) at=140.1n"
+  },
+  {
+   "name": "ck_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_01 find v(xdiv.ck) at=140.1n"
+  },
+  {
+   "name": "ckb_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_01 find v(xdiv.ckb) at=140.1n"
+  },
+  {
+   "name": "ckl_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_01 find v(xdiv.ckl) at=140.1n"
+  },
+  {
+   "name": "clkb_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_01 find v(xdiv.xm.xq0.clkb) at=140.1n"
+  },
+  {
+   "name": "ckbb_01",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_01 find v(xdiv.xm.xq0.ckbb) at=140.1n"
+  },
+  {
+   "name": "cmo_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_02 find v(xdiv.xcv.cmo) at=140.2n"
+  },
+  {
+   "name": "cmob_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_02 find v(xdiv.xcv.cmob) at=140.2n"
+  },
+  {
+   "name": "ck_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_02 find v(xdiv.ck) at=140.2n"
+  },
+  {
+   "name": "ckb_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_02 find v(xdiv.ckb) at=140.2n"
+  },
+  {
+   "name": "ckl_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_02 find v(xdiv.ckl) at=140.2n"
+  },
+  {
+   "name": "clkb_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_02 find v(xdiv.xm.xq0.clkb) at=140.2n"
+  },
+  {
+   "name": "ckbb_02",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_02 find v(xdiv.xm.xq0.ckbb) at=140.2n"
+  },
+  {
+   "name": "cmo_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_03 find v(xdiv.xcv.cmo) at=140.3n"
+  },
+  {
+   "name": "cmob_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_03 find v(xdiv.xcv.cmob) at=140.3n"
+  },
+  {
+   "name": "ck_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_03 find v(xdiv.ck) at=140.3n"
+  },
+  {
+   "name": "ckb_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_03 find v(xdiv.ckb) at=140.3n"
+  },
+  {
+   "name": "ckl_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_03 find v(xdiv.ckl) at=140.3n"
+  },
+  {
+   "name": "clkb_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_03 find v(xdiv.xm.xq0.clkb) at=140.3n"
+  },
+  {
+   "name": "ckbb_03",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_03 find v(xdiv.xm.xq0.ckbb) at=140.3n"
+  },
+  {
+   "name": "cmo_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_04 find v(xdiv.xcv.cmo) at=140.4n"
+  },
+  {
+   "name": "cmob_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_04 find v(xdiv.xcv.cmob) at=140.4n"
+  },
+  {
+   "name": "ck_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_04 find v(xdiv.ck) at=140.4n"
+  },
+  {
+   "name": "ckb_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_04 find v(xdiv.ckb) at=140.4n"
+  },
+  {
+   "name": "ckl_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_04 find v(xdiv.ckl) at=140.4n"
+  },
+  {
+   "name": "clkb_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_04 find v(xdiv.xm.xq0.clkb) at=140.4n"
+  },
+  {
+   "name": "ckbb_04",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_04 find v(xdiv.xm.xq0.ckbb) at=140.4n"
+  },
+  {
+   "name": "cmo_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_05 find v(xdiv.xcv.cmo) at=140.5n"
+  },
+  {
+   "name": "cmob_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_05 find v(xdiv.xcv.cmob) at=140.5n"
+  },
+  {
+   "name": "ck_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_05 find v(xdiv.ck) at=140.5n"
+  },
+  {
+   "name": "ckb_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_05 find v(xdiv.ckb) at=140.5n"
+  },
+  {
+   "name": "ckl_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_05 find v(xdiv.ckl) at=140.5n"
+  },
+  {
+   "name": "clkb_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_05 find v(xdiv.xm.xq0.clkb) at=140.5n"
+  },
+  {
+   "name": "ckbb_05",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_05 find v(xdiv.xm.xq0.ckbb) at=140.5n"
+  },
+  {
+   "name": "cmo_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_06 find v(xdiv.xcv.cmo) at=140.6n"
+  },
+  {
+   "name": "cmob_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_06 find v(xdiv.xcv.cmob) at=140.6n"
+  },
+  {
+   "name": "ck_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_06 find v(xdiv.ck) at=140.6n"
+  },
+  {
+   "name": "ckb_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_06 find v(xdiv.ckb) at=140.6n"
+  },
+  {
+   "name": "ckl_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_06 find v(xdiv.ckl) at=140.6n"
+  },
+  {
+   "name": "clkb_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_06 find v(xdiv.xm.xq0.clkb) at=140.6n"
+  },
+  {
+   "name": "ckbb_06",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_06 find v(xdiv.xm.xq0.ckbb) at=140.6n"
+  },
+  {
+   "name": "cmo_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_07 find v(xdiv.xcv.cmo) at=140.7n"
+  },
+  {
+   "name": "cmob_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_07 find v(xdiv.xcv.cmob) at=140.7n"
+  },
+  {
+   "name": "ck_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_07 find v(xdiv.ck) at=140.7n"
+  },
+  {
+   "name": "ckb_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_07 find v(xdiv.ckb) at=140.7n"
+  },
+  {
+   "name": "ckl_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_07 find v(xdiv.ckl) at=140.7n"
+  },
+  {
+   "name": "clkb_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_07 find v(xdiv.xm.xq0.clkb) at=140.7n"
+  },
+  {
+   "name": "ckbb_07",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_07 find v(xdiv.xm.xq0.ckbb) at=140.7n"
+  },
+  {
+   "name": "cmo_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_08 find v(xdiv.xcv.cmo) at=140.8n"
+  },
+  {
+   "name": "cmob_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_08 find v(xdiv.xcv.cmob) at=140.8n"
+  },
+  {
+   "name": "ck_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_08 find v(xdiv.ck) at=140.8n"
+  },
+  {
+   "name": "ckb_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_08 find v(xdiv.ckb) at=140.8n"
+  },
+  {
+   "name": "ckl_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_08 find v(xdiv.ckl) at=140.8n"
+  },
+  {
+   "name": "clkb_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_08 find v(xdiv.xm.xq0.clkb) at=140.8n"
+  },
+  {
+   "name": "ckbb_08",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_08 find v(xdiv.xm.xq0.ckbb) at=140.8n"
+  },
+  {
+   "name": "cmo_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_09 find v(xdiv.xcv.cmo) at=140.9n"
+  },
+  {
+   "name": "cmob_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_09 find v(xdiv.xcv.cmob) at=140.9n"
+  },
+  {
+   "name": "ck_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_09 find v(xdiv.ck) at=140.9n"
+  },
+  {
+   "name": "ckb_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_09 find v(xdiv.ckb) at=140.9n"
+  },
+  {
+   "name": "ckl_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_09 find v(xdiv.ckl) at=140.9n"
+  },
+  {
+   "name": "clkb_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_09 find v(xdiv.xm.xq0.clkb) at=140.9n"
+  },
+  {
+   "name": "ckbb_09",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_09 find v(xdiv.xm.xq0.ckbb) at=140.9n"
+  },
+  {
+   "name": "cmo_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_10 find v(xdiv.xcv.cmo) at=141.0n"
+  },
+  {
+   "name": "cmob_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_10 find v(xdiv.xcv.cmob) at=141.0n"
+  },
+  {
+   "name": "ck_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_10 find v(xdiv.ck) at=141.0n"
+  },
+  {
+   "name": "ckb_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_10 find v(xdiv.ckb) at=141.0n"
+  },
+  {
+   "name": "ckl_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_10 find v(xdiv.ckl) at=141.0n"
+  },
+  {
+   "name": "clkb_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_10 find v(xdiv.xm.xq0.clkb) at=141.0n"
+  },
+  {
+   "name": "ckbb_10",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_10 find v(xdiv.xm.xq0.ckbb) at=141.0n"
+  },
+  {
+   "name": "cmo_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_11 find v(xdiv.xcv.cmo) at=141.1n"
+  },
+  {
+   "name": "cmob_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_11 find v(xdiv.xcv.cmob) at=141.1n"
+  },
+  {
+   "name": "ck_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_11 find v(xdiv.ck) at=141.1n"
+  },
+  {
+   "name": "ckb_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_11 find v(xdiv.ckb) at=141.1n"
+  },
+  {
+   "name": "ckl_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_11 find v(xdiv.ckl) at=141.1n"
+  },
+  {
+   "name": "clkb_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_11 find v(xdiv.xm.xq0.clkb) at=141.1n"
+  },
+  {
+   "name": "ckbb_11",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_11 find v(xdiv.xm.xq0.ckbb) at=141.1n"
+  },
+  {
+   "name": "cmo_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_12 find v(xdiv.xcv.cmo) at=141.2n"
+  },
+  {
+   "name": "cmob_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_12 find v(xdiv.xcv.cmob) at=141.2n"
+  },
+  {
+   "name": "ck_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_12 find v(xdiv.ck) at=141.2n"
+  },
+  {
+   "name": "ckb_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_12 find v(xdiv.ckb) at=141.2n"
+  },
+  {
+   "name": "ckl_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_12 find v(xdiv.ckl) at=141.2n"
+  },
+  {
+   "name": "clkb_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_12 find v(xdiv.xm.xq0.clkb) at=141.2n"
+  },
+  {
+   "name": "ckbb_12",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_12 find v(xdiv.xm.xq0.ckbb) at=141.2n"
+  },
+  {
+   "name": "cmo_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_13 find v(xdiv.xcv.cmo) at=141.3n"
+  },
+  {
+   "name": "cmob_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_13 find v(xdiv.xcv.cmob) at=141.3n"
+  },
+  {
+   "name": "ck_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_13 find v(xdiv.ck) at=141.3n"
+  },
+  {
+   "name": "ckb_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_13 find v(xdiv.ckb) at=141.3n"
+  },
+  {
+   "name": "ckl_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_13 find v(xdiv.ckl) at=141.3n"
+  },
+  {
+   "name": "clkb_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_13 find v(xdiv.xm.xq0.clkb) at=141.3n"
+  },
+  {
+   "name": "ckbb_13",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_13 find v(xdiv.xm.xq0.ckbb) at=141.3n"
+  },
+  {
+   "name": "cmo_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_14 find v(xdiv.xcv.cmo) at=141.4n"
+  },
+  {
+   "name": "cmob_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_14 find v(xdiv.xcv.cmob) at=141.4n"
+  },
+  {
+   "name": "ck_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_14 find v(xdiv.ck) at=141.4n"
+  },
+  {
+   "name": "ckb_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_14 find v(xdiv.ckb) at=141.4n"
+  },
+  {
+   "name": "ckl_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_14 find v(xdiv.ckl) at=141.4n"
+  },
+  {
+   "name": "clkb_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_14 find v(xdiv.xm.xq0.clkb) at=141.4n"
+  },
+  {
+   "name": "ckbb_14",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_14 find v(xdiv.xm.xq0.ckbb) at=141.4n"
+  },
+  {
+   "name": "cmo_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_15 find v(xdiv.xcv.cmo) at=141.5n"
+  },
+  {
+   "name": "cmob_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_15 find v(xdiv.xcv.cmob) at=141.5n"
+  },
+  {
+   "name": "ck_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_15 find v(xdiv.ck) at=141.5n"
+  },
+  {
+   "name": "ckb_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_15 find v(xdiv.ckb) at=141.5n"
+  },
+  {
+   "name": "ckl_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_15 find v(xdiv.ckl) at=141.5n"
+  },
+  {
+   "name": "clkb_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_15 find v(xdiv.xm.xq0.clkb) at=141.5n"
+  },
+  {
+   "name": "ckbb_15",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_15 find v(xdiv.xm.xq0.ckbb) at=141.5n"
+  },
+  {
+   "name": "cmo_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_16 find v(xdiv.xcv.cmo) at=141.6n"
+  },
+  {
+   "name": "cmob_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_16 find v(xdiv.xcv.cmob) at=141.6n"
+  },
+  {
+   "name": "ck_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_16 find v(xdiv.ck) at=141.6n"
+  },
+  {
+   "name": "ckb_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_16 find v(xdiv.ckb) at=141.6n"
+  },
+  {
+   "name": "ckl_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_16 find v(xdiv.ckl) at=141.6n"
+  },
+  {
+   "name": "clkb_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_16 find v(xdiv.xm.xq0.clkb) at=141.6n"
+  },
+  {
+   "name": "ckbb_16",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_16 find v(xdiv.xm.xq0.ckbb) at=141.6n"
+  },
+  {
+   "name": "cmo_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_17 find v(xdiv.xcv.cmo) at=141.7n"
+  },
+  {
+   "name": "cmob_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_17 find v(xdiv.xcv.cmob) at=141.7n"
+  },
+  {
+   "name": "ck_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_17 find v(xdiv.ck) at=141.7n"
+  },
+  {
+   "name": "ckb_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_17 find v(xdiv.ckb) at=141.7n"
+  },
+  {
+   "name": "ckl_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_17 find v(xdiv.ckl) at=141.7n"
+  },
+  {
+   "name": "clkb_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_17 find v(xdiv.xm.xq0.clkb) at=141.7n"
+  },
+  {
+   "name": "ckbb_17",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_17 find v(xdiv.xm.xq0.ckbb) at=141.7n"
+  },
+  {
+   "name": "cmo_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_18 find v(xdiv.xcv.cmo) at=141.8n"
+  },
+  {
+   "name": "cmob_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_18 find v(xdiv.xcv.cmob) at=141.8n"
+  },
+  {
+   "name": "ck_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_18 find v(xdiv.ck) at=141.8n"
+  },
+  {
+   "name": "ckb_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_18 find v(xdiv.ckb) at=141.8n"
+  },
+  {
+   "name": "ckl_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_18 find v(xdiv.ckl) at=141.8n"
+  },
+  {
+   "name": "clkb_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_18 find v(xdiv.xm.xq0.clkb) at=141.8n"
+  },
+  {
+   "name": "ckbb_18",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_18 find v(xdiv.xm.xq0.ckbb) at=141.8n"
+  },
+  {
+   "name": "cmo_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_19 find v(xdiv.xcv.cmo) at=141.9n"
+  },
+  {
+   "name": "cmob_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_19 find v(xdiv.xcv.cmob) at=141.9n"
+  },
+  {
+   "name": "ck_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_19 find v(xdiv.ck) at=141.9n"
+  },
+  {
+   "name": "ckb_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_19 find v(xdiv.ckb) at=141.9n"
+  },
+  {
+   "name": "ckl_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_19 find v(xdiv.ckl) at=141.9n"
+  },
+  {
+   "name": "clkb_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_19 find v(xdiv.xm.xq0.clkb) at=141.9n"
+  },
+  {
+   "name": "ckbb_19",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_19 find v(xdiv.xm.xq0.ckbb) at=141.9n"
+  },
+  {
+   "name": "cmo_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_20 find v(xdiv.xcv.cmo) at=142.0n"
+  },
+  {
+   "name": "cmob_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_20 find v(xdiv.xcv.cmob) at=142.0n"
+  },
+  {
+   "name": "ck_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_20 find v(xdiv.ck) at=142.0n"
+  },
+  {
+   "name": "ckb_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_20 find v(xdiv.ckb) at=142.0n"
+  },
+  {
+   "name": "ckl_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_20 find v(xdiv.ckl) at=142.0n"
+  },
+  {
+   "name": "clkb_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_20 find v(xdiv.xm.xq0.clkb) at=142.0n"
+  },
+  {
+   "name": "ckbb_20",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_20 find v(xdiv.xm.xq0.ckbb) at=142.0n"
+  },
+  {
+   "name": "cmo_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_21 find v(xdiv.xcv.cmo) at=142.1n"
+  },
+  {
+   "name": "cmob_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_21 find v(xdiv.xcv.cmob) at=142.1n"
+  },
+  {
+   "name": "ck_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_21 find v(xdiv.ck) at=142.1n"
+  },
+  {
+   "name": "ckb_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_21 find v(xdiv.ckb) at=142.1n"
+  },
+  {
+   "name": "ckl_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_21 find v(xdiv.ckl) at=142.1n"
+  },
+  {
+   "name": "clkb_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_21 find v(xdiv.xm.xq0.clkb) at=142.1n"
+  },
+  {
+   "name": "ckbb_21",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_21 find v(xdiv.xm.xq0.ckbb) at=142.1n"
+  },
+  {
+   "name": "cmo_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_22 find v(xdiv.xcv.cmo) at=142.2n"
+  },
+  {
+   "name": "cmob_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_22 find v(xdiv.xcv.cmob) at=142.2n"
+  },
+  {
+   "name": "ck_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_22 find v(xdiv.ck) at=142.2n"
+  },
+  {
+   "name": "ckb_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_22 find v(xdiv.ckb) at=142.2n"
+  },
+  {
+   "name": "ckl_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_22 find v(xdiv.ckl) at=142.2n"
+  },
+  {
+   "name": "clkb_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_22 find v(xdiv.xm.xq0.clkb) at=142.2n"
+  },
+  {
+   "name": "ckbb_22",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_22 find v(xdiv.xm.xq0.ckbb) at=142.2n"
+  },
+  {
+   "name": "cmo_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_23 find v(xdiv.xcv.cmo) at=142.3n"
+  },
+  {
+   "name": "cmob_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_23 find v(xdiv.xcv.cmob) at=142.3n"
+  },
+  {
+   "name": "ck_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_23 find v(xdiv.ck) at=142.3n"
+  },
+  {
+   "name": "ckb_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_23 find v(xdiv.ckb) at=142.3n"
+  },
+  {
+   "name": "ckl_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_23 find v(xdiv.ckl) at=142.3n"
+  },
+  {
+   "name": "clkb_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_23 find v(xdiv.xm.xq0.clkb) at=142.3n"
+  },
+  {
+   "name": "ckbb_23",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_23 find v(xdiv.xm.xq0.ckbb) at=142.3n"
+  },
+  {
+   "name": "cmo_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_24 find v(xdiv.xcv.cmo) at=142.4n"
+  },
+  {
+   "name": "cmob_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_24 find v(xdiv.xcv.cmob) at=142.4n"
+  },
+  {
+   "name": "ck_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_24 find v(xdiv.ck) at=142.4n"
+  },
+  {
+   "name": "ckb_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_24 find v(xdiv.ckb) at=142.4n"
+  },
+  {
+   "name": "ckl_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_24 find v(xdiv.ckl) at=142.4n"
+  },
+  {
+   "name": "clkb_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_24 find v(xdiv.xm.xq0.clkb) at=142.4n"
+  },
+  {
+   "name": "ckbb_24",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_24 find v(xdiv.xm.xq0.ckbb) at=142.4n"
+  },
+  {
+   "name": "cmo_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_25 find v(xdiv.xcv.cmo) at=142.5n"
+  },
+  {
+   "name": "cmob_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_25 find v(xdiv.xcv.cmob) at=142.5n"
+  },
+  {
+   "name": "ck_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_25 find v(xdiv.ck) at=142.5n"
+  },
+  {
+   "name": "ckb_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_25 find v(xdiv.ckb) at=142.5n"
+  },
+  {
+   "name": "ckl_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_25 find v(xdiv.ckl) at=142.5n"
+  },
+  {
+   "name": "clkb_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_25 find v(xdiv.xm.xq0.clkb) at=142.5n"
+  },
+  {
+   "name": "ckbb_25",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_25 find v(xdiv.xm.xq0.ckbb) at=142.5n"
+  },
+  {
+   "name": "cmo_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_26 find v(xdiv.xcv.cmo) at=142.6n"
+  },
+  {
+   "name": "cmob_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_26 find v(xdiv.xcv.cmob) at=142.6n"
+  },
+  {
+   "name": "ck_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_26 find v(xdiv.ck) at=142.6n"
+  },
+  {
+   "name": "ckb_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_26 find v(xdiv.ckb) at=142.6n"
+  },
+  {
+   "name": "ckl_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_26 find v(xdiv.ckl) at=142.6n"
+  },
+  {
+   "name": "clkb_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_26 find v(xdiv.xm.xq0.clkb) at=142.6n"
+  },
+  {
+   "name": "ckbb_26",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_26 find v(xdiv.xm.xq0.ckbb) at=142.6n"
+  },
+  {
+   "name": "cmo_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_27 find v(xdiv.xcv.cmo) at=142.7n"
+  },
+  {
+   "name": "cmob_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_27 find v(xdiv.xcv.cmob) at=142.7n"
+  },
+  {
+   "name": "ck_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_27 find v(xdiv.ck) at=142.7n"
+  },
+  {
+   "name": "ckb_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_27 find v(xdiv.ckb) at=142.7n"
+  },
+  {
+   "name": "ckl_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_27 find v(xdiv.ckl) at=142.7n"
+  },
+  {
+   "name": "clkb_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_27 find v(xdiv.xm.xq0.clkb) at=142.7n"
+  },
+  {
+   "name": "ckbb_27",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_27 find v(xdiv.xm.xq0.ckbb) at=142.7n"
+  },
+  {
+   "name": "cmo_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_28 find v(xdiv.xcv.cmo) at=142.8n"
+  },
+  {
+   "name": "cmob_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_28 find v(xdiv.xcv.cmob) at=142.8n"
+  },
+  {
+   "name": "ck_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_28 find v(xdiv.ck) at=142.8n"
+  },
+  {
+   "name": "ckb_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_28 find v(xdiv.ckb) at=142.8n"
+  },
+  {
+   "name": "ckl_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_28 find v(xdiv.ckl) at=142.8n"
+  },
+  {
+   "name": "clkb_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_28 find v(xdiv.xm.xq0.clkb) at=142.8n"
+  },
+  {
+   "name": "ckbb_28",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_28 find v(xdiv.xm.xq0.ckbb) at=142.8n"
+  },
+  {
+   "name": "cmo_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_29 find v(xdiv.xcv.cmo) at=142.9n"
+  },
+  {
+   "name": "cmob_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_29 find v(xdiv.xcv.cmob) at=142.9n"
+  },
+  {
+   "name": "ck_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_29 find v(xdiv.ck) at=142.9n"
+  },
+  {
+   "name": "ckb_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_29 find v(xdiv.ckb) at=142.9n"
+  },
+  {
+   "name": "ckl_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_29 find v(xdiv.ckl) at=142.9n"
+  },
+  {
+   "name": "clkb_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_29 find v(xdiv.xm.xq0.clkb) at=142.9n"
+  },
+  {
+   "name": "ckbb_29",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_29 find v(xdiv.xm.xq0.ckbb) at=142.9n"
+  },
+  {
+   "name": "cmo_30",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_30 find v(xdiv.xcv.cmo) at=143.0n"
+  },
+  {
+   "name": "cmob_30",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_30 find v(xdiv.xcv.cmob) at=143.0n"
+  },
+  {
+   "name": "ck_30",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_30 find v(xdiv.ck) at=143.0n"
+  },
+  {
+   "name": "ckb_30",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_30 find v(xdiv.ckb) at=143.0n"
+  },
+  {
+   "name": "ckl_30",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_30 find v(xdiv.ckl) at=143.0n"
+  },
+  {
+   "name": "clkb_30",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_30 find v(xdiv.xm.xq0.clkb) at=143.0n"
+  },
+  {
+   "name": "ckbb_30",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_30 find v(xdiv.xm.xq0.ckbb) at=143.0n"
+  },
+  {
+   "name": "cmo_31",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_31 find v(xdiv.xcv.cmo) at=143.1n"
+  },
+  {
+   "name": "cmob_31",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_31 find v(xdiv.xcv.cmob) at=143.1n"
+  },
+  {
+   "name": "ck_31",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_31 find v(xdiv.ck) at=143.1n"
+  },
+  {
+   "name": "ckb_31",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_31 find v(xdiv.ckb) at=143.1n"
+  },
+  {
+   "name": "ckl_31",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_31 find v(xdiv.ckl) at=143.1n"
+  },
+  {
+   "name": "clkb_31",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_31 find v(xdiv.xm.xq0.clkb) at=143.1n"
+  },
+  {
+   "name": "ckbb_31",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_31 find v(xdiv.xm.xq0.ckbb) at=143.1n"
+  },
+  {
+   "name": "cmo_32",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmo_32 find v(xdiv.xcv.cmo) at=143.2n"
+  },
+  {
+   "name": "cmob_32",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran cmob_32 find v(xdiv.xcv.cmob) at=143.2n"
+  },
+  {
+   "name": "ck_32",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ck_32 find v(xdiv.ck) at=143.2n"
+  },
+  {
+   "name": "ckb_32",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckb_32 find v(xdiv.ckb) at=143.2n"
+  },
+  {
+   "name": "ckl_32",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_32 find v(xdiv.ckl) at=143.2n"
+  },
+  {
+   "name": "clkb_32",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran clkb_32 find v(xdiv.xm.xq0.clkb) at=143.2n"
+  },
+  {
+   "name": "ckbb_32",
+   "unit": "V",
+   "on_unreached": "null",
+   "spice": ".meas tran ckbb_32 find v(xdiv.xm.xq0.ckbb) at=143.2n"
+  }
+ ],
+ "corners": {
+  "process": [
+   {
+    "name": "TYP",
+    "sections": [
+     {
+      "lib": "libs.tech/ngspice/models/cornerMOShv.lib",
+      "section": "mos_tt"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerCAP.lib",
+      "section": "cap_typ"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+      "section": "hbt_typ"
+     }
+    ]
+   }
+  ],
+  "temperature_c": [
+   125
+  ],
+  "params": {
+   "vddv": [
+    2.97
+   ]
+  }
+ },
+ "options": {
+  "timeout_s": 1800,
+  "keep_artifacts": true,
+  "osdi_preload": [
+   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"
+  ]
+ }
+}
