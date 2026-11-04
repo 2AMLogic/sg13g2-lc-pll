@@ -1,0 +1,76 @@
+{
+ "_comment": [
+  "Issue #97: single dff_tg_hv toggle test (D = Q-bar) at SLOW 125 C 2.97 V, 625 MHz square clock 0..vddv, 1.6 ns period, 50 % duty, 0.1 ns edges. Output Q should toggle at 312.5 MHz. Simulated, not measured."
+ ],
+ "netlist": "flop_toggle_body.spice",
+ "netlist_source": "schematic",
+ "engine": "ngspice",
+ "backend": "batch",
+ "models": {
+  "pdk": "ihp-sg13g2"
+ },
+ "analysis": {
+  "kind": "tran",
+  "args": "4p 60n 0 4p"
+ },
+ "measurements": [
+  {
+   "name": "qr_a",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran qr_a when v(q)=1.485 td=10n rise=1"
+  },
+  {
+   "name": "qr_b",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran qr_b when v(q)=1.485 td=10n rise=11"
+  },
+  {
+   "name": "qmax",
+   "unit": "V",
+   "spice": ".meas tran qmax max v(q) from=40n to=60n"
+  },
+  {
+   "name": "qmin",
+   "unit": "V",
+   "spice": ".meas tran qmin min v(q) from=40n to=60n"
+  }
+ ],
+ "corners": {
+  "process": [
+   {
+    "name": "SLOW",
+    "sections": [
+     {
+      "lib": "libs.tech/ngspice/models/cornerMOShv.lib",
+      "section": "mos_ss"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerCAP.lib",
+      "section": "cap_wcs"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+      "section": "hbt_wcs"
+     }
+    ]
+   }
+  ],
+  "temperature_c": [
+   125
+  ],
+  "params": {
+   "vddv": [
+    2.97
+   ]
+  }
+ },
+ "options": {
+  "timeout_s": 1800,
+  "keep_artifacts": true,
+  "osdi_preload": [
+   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"
+  ]
+ }
+}
