@@ -19,64 +19,32 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "layout" / "cells"))
+import netlist  # noqa: E402  (klayout-free; layout/cells/common.py needs klayout)
 NETLIST = ROOT / "design" / "netlist" / "prescaler.spice"
 SKELETON = ROOT / "sim" / "prescaler-g1" / "prescaler_vce.skeleton.json"
 REQUEST = ROOT / "sim" / "prescaler-g1" / "prescaler_vce.request.json"
 HBT_MODEL = "npn13G2v"
 TOP_INSTANCE = "x1"  # the prescaler instance in sim/prescaler-g1/prescaler_vce.cir
-GLOBAL_GROUND = {"vss", "0"}
 
 
-def parse_subckts(text):
-    """{name: {"ports": [...], "cards": [(inst, nodes, model)]}} for every .subckt in the file."""
-    subckts, cur = {}, None
-    for raw in text.splitlines():
-        line = raw.strip()
-        if not line or line.startswith("*"):
-            continue
-        tok = line.split()
-        head = tok[0].lower()
-        if head == ".subckt":
-            cur = {"ports": [t.lower() for t in tok[2:]], "cards": []}
-            subckts[tok[1].lower()] = cur
-        elif head == ".ends":
-            cur = None
-        elif cur is not None and head.startswith("x"):
-            toks = [t for t in tok[1:] if "=" not in t]  # drop name=value parameters
-            cur["cards"].append((tok[0].lower(), [t.lower() for t in toks[:-1]], toks[-1].lower()))
-    return subckts
-
-
-def flatten(subckts, top="prescaler"):
-    """[(device path, collector net, emitter net)] for every HBT below `top`."""
-    out = []
-
-    def walk(name, path, netmap):
-        for inst, nodes, model in subckts[name]["cards"]:
-            def net(n):
-                if n in netmap:
-                    return netmap[n]
-                return "0" if n in GLOBAL_GROUND else path + "." + n
-            outer = [net(n) for n in nodes]
-            if model == HBT_MODEL.lower():
-                out.append((path + "." + inst, outer[0], outer[2]))
-            elif model in subckts:
-                walk(model, path + "." + inst, dict(zip(subckts[model]["ports"], outer)))
-            else:
-                raise SystemExit("unknown subcircuit or model %r in %s" % (model, name))
-
-    ports = subckts[top]["ports"]
-    top_map = {p: ("0" if p == "vss" else p) for p in ports}  # top-level nets as wired in the .cir
-    top_map.update({"inp": "inp", "inn": "inn", "mc": "mc", "iref": "iref", "outp": "outp", "outn": "outn", "vdd": "vdd"})
-    walk(top, TOP_INSTANCE, top_map)
-    return out
+def hbts(subckts, top="prescaler"):
+    """[(device path, collector net, emitter net)] for every HBT below `top`, lower case, with
+    the top-level ground port wired to node 0 as in the .cir. Parsing and flattening are the
+    shared layout/cells/netlist.py ones (continuations, port-count check); a leaf here is
+    any card whose model is not itself a .subckt, and only the HBTs are kept."""
+    leaves = {c["model"] for s in subckts.values() for c in s["cards"]} - set(subckts)
+    top_map = {p: "0" if p.lower() == "vss" else p.lower() for p in subckts[top]["ports"]}
+    devs = netlist.flatten(subckts, top, leaves, net_map=top_map, prefix=TOP_INSTANCE + ".")
+    return [(d["path"].lower(), d["nets"][0].lower(), d["nets"][2].lower())
+            for d in devs if d["model"].lower() == HBT_MODEL.lower()]
 
 
 def build_request():
     sk = json.loads(SKELETON.read_text())
     limit = sk["_bveceo_min_v"]
     meas = []
-    for dev, c, e in flatten(parse_subckts(NETLIST.read_text())):
+    for dev, c, e in hbts(netlist.read_subckts(NETLIST)):
         meas.append({
             "name": "vce_" + dev.replace(".", "_"),
             "expr": "vecmax(abs(v(%s)-v(%s)))" % (c, e),
