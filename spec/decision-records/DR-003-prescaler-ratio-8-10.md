@@ -48,11 +48,20 @@ rate (new architecture, most redesign, nothing gained for N = 100).
 
 Issue #31 measured the whole prescaler at ÷8 (modulus control low) and ÷10
 (modulus control high) at 5.0-12.0 GHz input, nominal corner only,
-**simulated, not measured**: `sim/prescaler-g3/records/20261027-022747-9096754.md`
-on `main`, run at commit `9096754` and landed by merge commit `9c34c45` (PR
-#44; netlist sha256 `c79c7b09…`, unchanged at PR #44's later heads). This
-record is the sole evidence for the /8 and /10 claim. Its pin check reads
-`ngspice-46 != pinned 47 (mismatch)`, so the run used an unpinned simulator.
+**simulated, not measured**. The record that matches the netlist on `main` now
+(`design/netlist/prescaler.spice`, sha256 `326144e4…`, from commit `8b5e0e2`) is
+`sim/prescaler-g3/records/20261103-034036-24cdbb1-dirty.md`: ÷8 and ÷10 divide
+at every swept input up to 12.0 GHz, output at least 0.2 V pk-pk. It was run
+from a dirty tree on top of `24cdbb1`, and its pin check reads
+`ngspice-46 != pinned 47 (mismatch)`, so the simulator was unpinned.
+
+The earlier record, `sim/prescaler-g3/records/20261027-022747-9096754.md` (run
+at `9096754`, merged by `9c34c45`; netlist sha256 `c79c7b09…`), was taken on the
+netlist before `8b5e0e2` changed it (BVCEO fix). It is append-only history for
+that earlier netlist and says the same about ÷8/÷10 at 5.0-12.0 GHz, nominal
+corner, unpinned simulator. It does not describe the current netlist, so it is
+corroboration only, not evidence for it. Neither record covers other corners,
+supply or temperature, so no gate closes here.
 
 ## Consequences
 
