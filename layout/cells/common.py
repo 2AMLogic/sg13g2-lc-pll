@@ -26,6 +26,9 @@ import sys
 
 import klayout.db as db
 
+from . import netlist
+from .netlist import PlanError, read_subckts  # noqa: F401  (re-exported)
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 NETLIST_DIR = os.path.join(ROOT, "design", "netlist")
 
@@ -51,10 +54,6 @@ GROUP_SPACING_UM = 4.0
 BLOCK_TARGET_WIDTH_UM = 220.0
 
 
-class PlanError(Exception):
-    pass
-
-
 def sha256(path):
     h = hashlib.sha256()
     with open(path, "rb") as f:
@@ -64,49 +63,6 @@ def sha256(path):
 
 
 # --- netlist reading and flattening (pure) ---------------------------------------------
-
-
-def read_subckts(path):
-    """{subckt: {"ports": [...], "cards": [{name, model, nets, params}]}}; handles `+` lines."""
-    joined = []
-    with open(path) as f:
-        for raw in f.read().splitlines():
-            line = raw.rstrip()
-            if line.startswith("+") and joined:
-                joined[-1] += " " + line[1:].strip()
-            else:
-                joined.append(line)
-    out, cur = {}, None
-    for line in joined:
-        s = line.strip()
-        if s.startswith("**.subckt") or s.startswith("**.ends"):
-            s = s[2:]
-        if not s or s.startswith("*"):
-            continue
-        low = s.lower()
-        if low.startswith(".subckt"):
-            t = s.split()
-            cur = t[1]
-            out[cur] = {"ports": t[2:], "cards": []}
-        elif low.startswith(".ends"):
-            cur = None
-        elif s.startswith(".") or cur is None:
-            continue
-        else:
-            t = s.split()
-            params, pos = {}, []
-            for tok in t[1:]:
-                if "=" in tok:
-                    k, v = tok.split("=", 1)
-                    params[k.lower()] = v
-                else:
-                    pos.append(tok)
-            if not pos:
-                raise PlanError(f"unparsable card: {s!r}")
-            if t[0][0] in "Rr" and len(pos) == 3:      # `Rname n1 n2 value`: ideal resistor
-                pos = pos[:2] + ["ideal_res"]
-            out[cur]["cards"].append({"name": t[0], "model": pos[-1], "nets": pos[:-1], "params": params})
-    return out
 
 
 def _num(params, key, who):
@@ -127,28 +83,8 @@ def _mult(params, who):
 
 
 def flatten(subckts, top):
-    """Leaf devices of `top`: [{path, model, nets, params}], hierarchical nets namespaced."""
-    if top not in subckts:
-        raise PlanError(f"no .subckt {top!r}")
-    out = []
-
-    def walk(name, prefix, net_map):
-        for c in subckts[name]["cards"]:
-            nets = [n if n.endswith("!") else net_map.get(n, prefix + n) for n in c["nets"]]
-            if c["model"] in LEAF_MODELS:
-                out.append({"path": prefix + c["name"], "model": c["model"], "nets": nets,
-                            "params": c["params"]})
-            elif c["model"] in subckts:
-                ports = subckts[c["model"]]["ports"]
-                if len(ports) != len(nets):
-                    raise PlanError(f"{prefix}{c['name']}: {c['model']} has {len(ports)} ports, "
-                                    f"instantiated with {len(nets)}")
-                walk(c["model"], prefix + c["name"] + ".", dict(zip(ports, nets)))
-            else:
-                raise PlanError(f"{prefix}{c['name']}: no layout primitive for model {c['model']!r}")
-
-    walk(top, "", {})
-    return out
+    """Leaf devices of `top` (layout primitives only): see netlist.flatten."""
+    return netlist.flatten(subckts, top, LEAF_MODELS)
 
 
 def _slug(v):
