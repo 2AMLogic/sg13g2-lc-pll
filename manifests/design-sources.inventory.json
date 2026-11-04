@@ -112,45 +112,6 @@
       }
     },
     {
-      "path": "design/netlist/cml2cmos.spice",
-      "generator": "klt netlist (design/netlist.sh)",
-      "check": {
-        "argv": [
-          "bash",
-          "design/netlist.sh",
-          "--check",
-          "cml2cmos"
-        ],
-        "local_only": true
-      }
-    },
-    {
-      "path": "design/netlist/mcounter.spice",
-      "generator": "klt netlist (design/netlist.sh)",
-      "check": {
-        "argv": [
-          "bash",
-          "design/netlist.sh",
-          "--check",
-          "mcounter"
-        ],
-        "local_only": true
-      }
-    },
-    {
-      "path": "design/netlist/acounter.spice",
-      "generator": "klt netlist (design/netlist.sh)",
-      "check": {
-        "argv": [
-          "bash",
-          "design/netlist.sh",
-          "--check",
-          "acounter"
-        ],
-        "local_only": true
-      }
-    },
-    {
       "path": "design/netlist/divider.spice",
       "generator": "klt netlist (design/netlist.sh)",
       "check": {

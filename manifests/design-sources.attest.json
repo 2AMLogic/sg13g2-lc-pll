@@ -3,21 +3,21 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 1,
-  "summary": "T1 item 1 (Design sources): 71/71 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 1 (Design sources): 65/65 attestation checks passed (klt signoff --attest)",
   "source": "manifests/design-sources.inventory.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 71,
-    "passed_count": 71,
+    "check_count": 65,
+    "passed_count": 65,
     "checks": [
       {
         "check": "present",
         "role": "source",
         "path": "design/acounter.sch",
         "passed": true,
-        "content_hash": "sha256:c89828d46fee7c69683c5eb2a2dff42eda75362b3e92a804235006aa7ec41b5e"
+        "content_hash": "sha256:ee18ca78cd18050c01dd37155afac42ba82195eb53993b1e0caf7e838891ef78"
       },
       {
         "check": "present",
@@ -45,7 +45,7 @@
         "role": "source",
         "path": "design/cml_and2.sch",
         "passed": true,
-        "content_hash": "sha256:c7f37d5497c244fc303da924164ad414959a49fc4bbc8a4be2cffc6d3be26f0b"
+        "content_hash": "sha256:bd70660b61e99e2bbdfc36dabd62f4810647ca6cb75dd4fbd0d773bdea4e9811"
       },
       {
         "check": "present",
@@ -87,7 +87,7 @@
         "role": "source",
         "path": "design/cml_ef.sch",
         "passed": true,
-        "content_hash": "sha256:f904be0f60948d4f5e81281d4c086a5c1a683c783a0198d1e1b6dfdbb17aef49"
+        "content_hash": "sha256:cf0e97dac4a24aa9069cebdfac3fb5fe07870a548961551ce815080b3ee06553"
       },
       {
         "check": "present",
@@ -101,7 +101,7 @@
         "role": "source",
         "path": "design/cml_latch.sch",
         "passed": true,
-        "content_hash": "sha256:2017898d375f25167e9d54e427a956168bc63d903e18451392c1fed34fa8b427"
+        "content_hash": "sha256:cc617bc212fcdf8b7f9fe7369a35ed24bfc7e98520fff72be37a69164a9978c3"
       },
       {
         "check": "present",
@@ -129,7 +129,7 @@
         "role": "source",
         "path": "design/cp_bias.sch",
         "passed": true,
-        "content_hash": "sha256:0de5d555f1931c72dd1eee586596e8742c12722dde75f086ade0ad075907eeb5"
+        "content_hash": "sha256:8cad1eebce545beacdf1ec40fa87f7e048c24204488995de1ef3377986afe0ab"
       },
       {
         "check": "present",
@@ -213,7 +213,7 @@
         "role": "source",
         "path": "design/div2_ef_hs.sch",
         "passed": true,
-        "content_hash": "sha256:9e5c66afdee630042fdfb71b0aa475a2860bb33d8f87549f0c77899e696891a4"
+        "content_hash": "sha256:264f567fedf19ed7507abb54479f496e4ce171bbb7c7fce346cc18dcd56d2041"
       },
       {
         "check": "present",
@@ -227,7 +227,7 @@
         "role": "source",
         "path": "design/div2_latch_hs.sch",
         "passed": true,
-        "content_hash": "sha256:49c2bf7cfcb882961c270f29c659cecc3e3380804f9e9e97d9908a628459d6ec"
+        "content_hash": "sha256:d10f91214449ef26a7689c94609b77e6bf2092f4dec5a211bf2cf7d72d5926b7"
       },
       {
         "check": "present",
@@ -255,7 +255,7 @@
         "role": "source",
         "path": "design/divider.sch",
         "passed": true,
-        "content_hash": "sha256:7585ef5d493fd269d568ee11c25d8cb1225b5949c29f3c762825186bdf5a4244"
+        "content_hash": "sha256:e3020d7ba1d83606d59b0dfe54c5fdcf6cd4351210e63a0f1b921a1e0f785d38"
       },
       {
         "check": "present",
@@ -283,7 +283,7 @@
         "role": "source",
         "path": "design/mc_conv.sch",
         "passed": true,
-        "content_hash": "sha256:a9ea91b53abf515375ff2a9d09e4d100a2448d7ba973b7147f81000a311b2d3e"
+        "content_hash": "sha256:700ac019666030bee16389ffc4744ce8daff3d32a120d6db796e7489e0e4ab80"
       },
       {
         "check": "present",
@@ -297,7 +297,7 @@
         "role": "source",
         "path": "design/mcounter.sch",
         "passed": true,
-        "content_hash": "sha256:584b4aa0abcdfc4a9f0195eebaff02ca9495fd599accb4d0dfd08e6fbbfe5646"
+        "content_hash": "sha256:b8c614846519bed49603b96e4f0ab61dc102ccb139d0681ed09315c22b30753d"
       },
       {
         "check": "present",
@@ -325,7 +325,7 @@
         "role": "source",
         "path": "design/netlist.sh",
         "passed": true,
-        "content_hash": "sha256:1e5267f26484df4e5affc9644cf31dbf895de7b9df914f3752598d27e95bdce6"
+        "content_hash": "sha256:d9a15fa3bb8fc36a2af720b44bee25f19b78d8588466c72dee464ef347c929f4"
       },
       {
         "check": "present",
@@ -374,7 +374,7 @@
         "role": "source",
         "path": "reuse.lock.json",
         "passed": true,
-        "content_hash": "sha256:630ac47d5d00415233d9bb21bcf3506181c127c0b1fd7b91fcbb4d7f1108c644"
+        "content_hash": "sha256:207346f4b5fd36e4461810ad87ec56e80dcada4dd3814160ed12b1ac68ba6992"
       },
       {
         "check": "present",
@@ -386,30 +386,16 @@
       {
         "check": "present",
         "role": "derived",
-        "path": "design/netlist/acounter.spice",
-        "passed": true,
-        "content_hash": "sha256:5ac73d5809a18127cfa1b70292dc90c6198c4aecb643efb1c1c5edfb478eebb9"
-      },
-      {
-        "check": "present",
-        "role": "derived",
-        "path": "design/netlist/cml2cmos.spice",
-        "passed": true,
-        "content_hash": "sha256:b70d41bf74bcf81aaffb207f2bf04a97b57ab70d079d55fc2af5adf053ae585d"
-      },
-      {
-        "check": "present",
-        "role": "derived",
         "path": "design/netlist/cp.spice",
         "passed": true,
-        "content_hash": "sha256:7b4c336adfa63d7c3f5fbf0e9d4df819a145f26e80e323a4def3413810995bbf"
+        "content_hash": "sha256:99827833f70681faaf031e345f37730eeba9cb692f9eb46f59a149edfa9c213a"
       },
       {
         "check": "present",
         "role": "derived",
         "path": "design/netlist/divider.spice",
         "passed": true,
-        "content_hash": "sha256:12248f7ef355b425b41586c0cb4fc9692bcc36f6aef19c318b628aaa8d5cbd32"
+        "content_hash": "sha256:010eca0deffe740667d54badd2ecc8eda6a43c26340b8548301fcbe91b50cb6a"
       },
       {
         "check": "present",
@@ -417,13 +403,6 @@
         "path": "design/netlist/loopfilter.spice",
         "passed": true,
         "content_hash": "sha256:35341299a4ecc524d2c91db5dc5c5f2cb8284a414d70e5b37401c7f85a90ea04"
-      },
-      {
-        "check": "present",
-        "role": "derived",
-        "path": "design/netlist/mcounter.spice",
-        "passed": true,
-        "content_hash": "sha256:1eedfa735072dfe15406cc04f710c471c40d2e485904dce88970c9352a12042b"
       },
       {
         "check": "present",
@@ -437,46 +416,14 @@
         "role": "derived",
         "path": "design/netlist/pll_top.spice",
         "passed": true,
-        "content_hash": "sha256:6283370b49b9f1e617619f61171070c0f0562cd27a9f8f4d77b2cd56013cf8e0"
+        "content_hash": "sha256:cbf02ec66be698947ad1bba03e44d7b3c31923f9d461caaba7ee014662bf31c5"
       },
       {
         "check": "present",
         "role": "derived",
         "path": "design/netlist/prescaler.spice",
         "passed": true,
-        "content_hash": "sha256:c79c7b09c608405d67e2a0e266c63a2446c32081b5decb8e13e0a9853efc4ed4"
-      },
-      {
-        "check": "command",
-        "role": "freshness",
-        "target": "design/netlist/acounter.spice",
-        "generator": "klt netlist (design/netlist.sh)",
-        "argv": [
-          "bash",
-          "design/netlist.sh",
-          "--check",
-          "acounter"
-        ],
-        "cwd": ".",
-        "exit_status": 0,
-        "passed": true,
-        "local_only": true
-      },
-      {
-        "check": "command",
-        "role": "freshness",
-        "target": "design/netlist/cml2cmos.spice",
-        "generator": "klt netlist (design/netlist.sh)",
-        "argv": [
-          "bash",
-          "design/netlist.sh",
-          "--check",
-          "cml2cmos"
-        ],
-        "cwd": ".",
-        "exit_status": 0,
-        "passed": true,
-        "local_only": true
+        "content_hash": "sha256:326144e4ad595726f0ec34e1dc7f97c55636eed1d3a808139bccd7062a1bd1bc"
       },
       {
         "check": "command",
@@ -520,22 +467,6 @@
           "design/netlist.sh",
           "--check",
           "loopfilter"
-        ],
-        "cwd": ".",
-        "exit_status": 0,
-        "passed": true,
-        "local_only": true
-      },
-      {
-        "check": "command",
-        "role": "freshness",
-        "target": "design/netlist/mcounter.spice",
-        "generator": "klt netlist (design/netlist.sh)",
-        "argv": [
-          "bash",
-          "design/netlist.sh",
-          "--check",
-          "mcounter"
         ],
         "cwd": ".",
         "exit_status": 0,
@@ -602,7 +533,7 @@
         "path": "manifests/design-sources.inventory.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:584300d6e350f328343fbb5bb9d7fa0c9e240fc4b2d7fe1ae135271b801ea43c"
+      "content_hash": "sha256:6be0076a6fbc68505afc7f165777acf138b962a7f7fca7efaefbdb42d6e8fbfb"
     }
   }
 }
