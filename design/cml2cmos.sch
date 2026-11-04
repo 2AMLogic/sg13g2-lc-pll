@@ -1,5 +1,5 @@
 v {xschem version=3.4.8RC file_version=1.3
-sg13g2-lc-pll :: cml2cmos -- CML (prescaler OUTP/OUTN, common mode near VDD) to CMOS clock: AC-coupled (0.29 pF MIM) HV-NMOS differential pair biased at VDD/2 (ideal 50 k resistors, like the prescaler's), PMOS mirror load, tail 4 x IREF from the prescaler reference node (Nx = 4 npn13G2v + 600 ohm, the same k x IREF rule as the prescaler), two pinned inv_hv. Coupling is needed because a DC-coupled NMOS pair at the CML common mode (about 3.2 V) puts its tail near 1.8 V and the low output never reaches the inverter threshold. Sized by hand, checked at one corner only (see design/README.md).
+sg13g2-lc-pll :: cml2cmos -- CML (prescaler OUTP/OUTN, common mode near VDD) to CMOS clock: AC-coupled (0.29 pF MIM) HV-NMOS differential pair biased at VDD/2 (ideal 50 k resistors, like the prescaler's), PMOS mirror load, tail 4 x IREF from the prescaler reference node (Nx = 4 npn13G2v + 600 ohm, the same k x IREF rule as the prescaler), two pinned inv_hv. Issue #97: the first inverter is AC-coupled from cmo (0.095 pF MIM) and self-biased by a 100 k feedback resistor from cmob, so its switching point tracks the cmo common mode (60-65 % of VDD at the failing corners) and the clock keeps a 50 % duty. Coupling is needed because a DC-coupled NMOS pair at the CML common mode (about 3.2 V) puts its tail near 1.8 V and the low output never reaches the inverter threshold. Sized by hand, checked at one corner only (see design/README.md).
 }
 G {}
 K {}
@@ -53,7 +53,7 @@ C {lab_pin.sym} 2980 600 0 0 {name=l32 lab=d1}
 C {lab_pin.sym} 3020 570 2 0 {name=l33 lab=VDD}
 C {lab_pin.sym} 3020 600 2 0 {name=l34 lab=VDD}
 C {inv_hv.sym} 0 1200 0 0 {name=XI1}
-C {lab_pin.sym} -40 1200 0 0 {name=l35 lab=cmo}
+C {lab_pin.sym} -40 1200 0 0 {name=l35 lab=xin}
 C {lab_pin.sym} 40 1200 2 0 {name=l36 lab=cmob}
 C {lab_pin.sym} -20 1160 0 0 {name=l37 lab=VDD}
 C {lab_pin.sym} 20 1240 2 0 {name=l38 lab=VSS}
@@ -62,6 +62,12 @@ C {lab_pin.sym} 560 1200 0 0 {name=l39 lab=cmob}
 C {lab_pin.sym} 640 1200 2 0 {name=l40 lab=CK}
 C {lab_pin.sym} 580 1160 0 0 {name=l41 lab=VDD}
 C {lab_pin.sym} 620 1240 2 0 {name=l42 lab=VSS}
+C {sg13g2_pr/cap_cmim.sym} -600 1200 0 0 {name=CI1 model=cap_cmim w=8u l=8u m=1 spiceprefix=X}
+C {lab_pin.sym} -600 1170 2 0 {name=l43 lab=cmo}
+C {lab_pin.sym} -600 1230 2 0 {name=l44 lab=xin}
+C {res.sym} -300 1200 0 0 {name=RF1 value=100k footprint=1206 device=resistor m=1}
+C {lab_pin.sym} -300 1170 2 0 {name=l45 lab=xin}
+C {lab_pin.sym} -300 1230 2 0 {name=l46 lab=cmob}
 C {ipin.sym} -900 -200 0 0 {name=p1 lab=INP}
 C {ipin.sym} -900 -100 0 0 {name=p2 lab=INN}
 C {ipin.sym} -900 0 0 0 {name=p3 lab=IREF}

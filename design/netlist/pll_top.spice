@@ -352,8 +352,10 @@ XM1 d1 gp tail VSS sg13_hv_nmos w=10u l=0.5u ng=1 m=1
 XM2 cmo gn tail VSS sg13_hv_nmos w=10u l=0.5u ng=1 m=1
 XP1 d1 d1 VDD VDD sg13_hv_pmos w=10u l=0.5u ng=1 m=1
 XP2 cmo d1 VDD VDD sg13_hv_pmos w=10u l=0.5u ng=1 m=1
-XI1 cmo cmob VDD VSS inv_hv
+XI1 xin cmob VDD VSS inv_hv
 XI2 cmob CK VDD VSS inv_hv
+XCI1 cmo xin cap_cmim w=8u l=8u m=1
+RF1 xin cmob 100k m=1
 .ends
 
 
