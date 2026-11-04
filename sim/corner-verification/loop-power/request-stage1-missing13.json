@@ -4,7 +4,7 @@
   "Circuit: CML prescaler + M/A divider at N = 100 driven at 5.0 GHz (design/netlist/{prescaler,divider}.spice). PFD + CP + bias, lock detector, reference and clock buffering are NOT in this circuit.",
   "Per corner: ipavg / idavg = mean supply current of each rail over 40n-120n; tfb = 3 FB periods (rise 1 to rise 4 after 40n); 3 x 19.5-20.5 ns means the divider divides to 50 MHz.",
   "Power limits are NOT set on the requests: the 20 mW budget needs PFD+CP+bias added and the owed blocks; the record grades it.",
-  "MISSING-UNIT resubmission 13: 1 processes x T=[-40, 27, 125] (units absent from 20261103-133412-ce1d60d-dirty-stage1.md, 20261103-193448-b6ec1f3-stage1.md)."
+  "MISSING-UNIT resubmission 13: 1 processes x T=[-40, 27, 125] (units absent from 20261103-133412-ce1d60d-dirty-stage1.md, 20261103-193448-b6ec1f3-stage1.md, 20261103-215804-0a8000d-stage1.md)."
  ],
  "netlist": "loop_power_body.spice",
  "netlist_source": "schematic",
@@ -56,19 +56,19 @@
  "corners": {
   "process": [
    {
-    "name": "mos_sf/cap_bcs/hbt_typ",
+    "name": "mos_fs/cap_typ/hbt_bcs",
     "sections": [
      {
       "lib": "libs.tech/ngspice/models/cornerMOShv.lib",
-      "section": "mos_sf"
+      "section": "mos_fs"
      },
      {
       "lib": "libs.tech/ngspice/models/cornerCAP.lib",
-      "section": "cap_bcs"
+      "section": "cap_typ"
      },
      {
       "lib": "libs.tech/ngspice/models/cornerHBT.lib",
-      "section": "hbt_typ"
+      "section": "hbt_bcs"
      }
     ]
    }

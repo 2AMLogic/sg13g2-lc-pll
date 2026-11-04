@@ -103,7 +103,7 @@ G2 stays open: row 1 does not close, 125 C is ungraded, row 6 is a proxy.
 | 1, 9, 10 | **gap** | benches run on a behavioural VCO/divider stand-in; G4, G2, #61. A stand-in envelope is never reported as a pass |
 | 5 | **gap** | method L (`sim/loop-model`) is not a `klt sim` request |
 | 8 | **gap** | method L partial, method T not run (G6) |
-| 11 | **gap, stage 2 reads `fail`** | `loop-power/`: stage 2 ran (18 corners, 5 divide to 50 MHz, 13 do not); stage 1 incomplete (71 of 135 returned, 5 divide at 22.4-24.1 mW; 64 owed); non-division at 3.630 V / 125 C read as a design finding (#97), not a start-up artifact |
+| 11 | **gap, stage 2 reads `fail`** | `loop-power/`: stage 2 ran (18 corners, 5 divide to 50 MHz, 13 do not); stage 1 incomplete (128 of 135 returned, 20 divide at 22.4-24.1 mW with nominal PFD/CP/bias, before owed blocks; 7 owed, see `records/20261104-stage1-accounting-increment3.md`); non-division at 3.630 V / 125 C read as a design finding (#97), not a start-up artifact |
 
 The prescaler follower Vce against BVCEO (2.2 V min) at the minimum-supply corner is **not**
 reported: the CP netlist contains no prescaler. It belongs to the envelopes that include it.
