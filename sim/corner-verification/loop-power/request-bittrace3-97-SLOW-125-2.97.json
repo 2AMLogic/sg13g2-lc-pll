@@ -1,0 +1,1498 @@
+{
+ "_comment": [
+  "Item 5 corner envelope, spec row 11 (loop power excluding the VCO core), stage 2 of the spec C-grid.",
+  "Circuit: CML prescaler + M/A divider at N = 100 driven at 5.0 GHz (design/netlist/{prescaler,divider}.spice). PFD + CP + bias, lock detector, reference and clock buffering are NOT in this circuit.",
+  "Per corner: ipavg / idavg = mean supply current of each rail over 40n-120n; tfb = 3 FB periods (rise 1 to rise 4 after 40n); 3 x 19.5-20.5 ns means the divider divides to 50 MHz.",
+  "Power limits are NOT set on the requests: the 20 mW budget needs PFD+CP+bias added and the owed blocks; the record grades it.",
+  "Issue #97 first-clock bit trace, SLOW 125 C 2.97 V, rise/fall 1..12 from 0 to 90 ns."
+ ],
+ "netlist": "loop_power_body.spice",
+ "netlist_source": "schematic",
+ "engine": "ngspice",
+ "backend": "batch",
+ "models": {
+  "pdk": "ihp-sg13g2"
+ },
+ "analysis": {
+  "kind": "tran",
+  "args": "4p 90n 0 4p"
+ },
+ "measurements": [
+  {
+   "name": "ckl_r1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_r1 when v(xdiv.ckl)=1.485 rise=1"
+  },
+  {
+   "name": "ckl_f1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_f1 when v(xdiv.ckl)=1.485 fall=1"
+  },
+  {
+   "name": "ckl_r2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_r2 when v(xdiv.ckl)=1.485 rise=2"
+  },
+  {
+   "name": "ckl_f2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_f2 when v(xdiv.ckl)=1.485 fall=2"
+  },
+  {
+   "name": "ckl_r3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_r3 when v(xdiv.ckl)=1.485 rise=3"
+  },
+  {
+   "name": "ckl_f3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_f3 when v(xdiv.ckl)=1.485 fall=3"
+  },
+  {
+   "name": "ckl_r4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_r4 when v(xdiv.ckl)=1.485 rise=4"
+  },
+  {
+   "name": "ckl_f4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_f4 when v(xdiv.ckl)=1.485 fall=4"
+  },
+  {
+   "name": "ckl_r5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_r5 when v(xdiv.ckl)=1.485 rise=5"
+  },
+  {
+   "name": "ckl_f5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_f5 when v(xdiv.ckl)=1.485 fall=5"
+  },
+  {
+   "name": "ckl_r6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_r6 when v(xdiv.ckl)=1.485 rise=6"
+  },
+  {
+   "name": "ckl_f6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_f6 when v(xdiv.ckl)=1.485 fall=6"
+  },
+  {
+   "name": "ckl_r7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_r7 when v(xdiv.ckl)=1.485 rise=7"
+  },
+  {
+   "name": "ckl_f7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_f7 when v(xdiv.ckl)=1.485 fall=7"
+  },
+  {
+   "name": "ckl_r8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_r8 when v(xdiv.ckl)=1.485 rise=8"
+  },
+  {
+   "name": "ckl_f8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_f8 when v(xdiv.ckl)=1.485 fall=8"
+  },
+  {
+   "name": "ckl_r9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_r9 when v(xdiv.ckl)=1.485 rise=9"
+  },
+  {
+   "name": "ckl_f9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_f9 when v(xdiv.ckl)=1.485 fall=9"
+  },
+  {
+   "name": "ckl_r10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_r10 when v(xdiv.ckl)=1.485 rise=10"
+  },
+  {
+   "name": "ckl_f10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_f10 when v(xdiv.ckl)=1.485 fall=10"
+  },
+  {
+   "name": "ckl_r11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_r11 when v(xdiv.ckl)=1.485 rise=11"
+  },
+  {
+   "name": "ckl_f11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_f11 when v(xdiv.ckl)=1.485 fall=11"
+  },
+  {
+   "name": "ckl_r12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_r12 when v(xdiv.ckl)=1.485 rise=12"
+  },
+  {
+   "name": "ckl_f12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran ckl_f12 when v(xdiv.ckl)=1.485 fall=12"
+  },
+  {
+   "name": "tc_r1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_r1 when v(xdiv.tc)=1.485 rise=1"
+  },
+  {
+   "name": "tc_f1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_f1 when v(xdiv.tc)=1.485 fall=1"
+  },
+  {
+   "name": "tc_r2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_r2 when v(xdiv.tc)=1.485 rise=2"
+  },
+  {
+   "name": "tc_f2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_f2 when v(xdiv.tc)=1.485 fall=2"
+  },
+  {
+   "name": "tc_r3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_r3 when v(xdiv.tc)=1.485 rise=3"
+  },
+  {
+   "name": "tc_f3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_f3 when v(xdiv.tc)=1.485 fall=3"
+  },
+  {
+   "name": "tc_r4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_r4 when v(xdiv.tc)=1.485 rise=4"
+  },
+  {
+   "name": "tc_f4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_f4 when v(xdiv.tc)=1.485 fall=4"
+  },
+  {
+   "name": "tc_r5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_r5 when v(xdiv.tc)=1.485 rise=5"
+  },
+  {
+   "name": "tc_f5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_f5 when v(xdiv.tc)=1.485 fall=5"
+  },
+  {
+   "name": "tc_r6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_r6 when v(xdiv.tc)=1.485 rise=6"
+  },
+  {
+   "name": "tc_f6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_f6 when v(xdiv.tc)=1.485 fall=6"
+  },
+  {
+   "name": "tc_r7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_r7 when v(xdiv.tc)=1.485 rise=7"
+  },
+  {
+   "name": "tc_f7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_f7 when v(xdiv.tc)=1.485 fall=7"
+  },
+  {
+   "name": "tc_r8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_r8 when v(xdiv.tc)=1.485 rise=8"
+  },
+  {
+   "name": "tc_f8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_f8 when v(xdiv.tc)=1.485 fall=8"
+  },
+  {
+   "name": "tc_r9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_r9 when v(xdiv.tc)=1.485 rise=9"
+  },
+  {
+   "name": "tc_f9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_f9 when v(xdiv.tc)=1.485 fall=9"
+  },
+  {
+   "name": "tc_r10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_r10 when v(xdiv.tc)=1.485 rise=10"
+  },
+  {
+   "name": "tc_f10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_f10 when v(xdiv.tc)=1.485 fall=10"
+  },
+  {
+   "name": "tc_r11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_r11 when v(xdiv.tc)=1.485 rise=11"
+  },
+  {
+   "name": "tc_f11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_f11 when v(xdiv.tc)=1.485 fall=11"
+  },
+  {
+   "name": "tc_r12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_r12 when v(xdiv.tc)=1.485 rise=12"
+  },
+  {
+   "name": "tc_f12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tc_f12 when v(xdiv.tc)=1.485 fall=12"
+  },
+  {
+   "name": "tcn_r1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_r1 when v(xdiv.tcn)=1.485 rise=1"
+  },
+  {
+   "name": "tcn_f1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_f1 when v(xdiv.tcn)=1.485 fall=1"
+  },
+  {
+   "name": "tcn_r2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_r2 when v(xdiv.tcn)=1.485 rise=2"
+  },
+  {
+   "name": "tcn_f2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_f2 when v(xdiv.tcn)=1.485 fall=2"
+  },
+  {
+   "name": "tcn_r3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_r3 when v(xdiv.tcn)=1.485 rise=3"
+  },
+  {
+   "name": "tcn_f3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_f3 when v(xdiv.tcn)=1.485 fall=3"
+  },
+  {
+   "name": "tcn_r4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_r4 when v(xdiv.tcn)=1.485 rise=4"
+  },
+  {
+   "name": "tcn_f4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_f4 when v(xdiv.tcn)=1.485 fall=4"
+  },
+  {
+   "name": "tcn_r5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_r5 when v(xdiv.tcn)=1.485 rise=5"
+  },
+  {
+   "name": "tcn_f5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_f5 when v(xdiv.tcn)=1.485 fall=5"
+  },
+  {
+   "name": "tcn_r6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_r6 when v(xdiv.tcn)=1.485 rise=6"
+  },
+  {
+   "name": "tcn_f6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_f6 when v(xdiv.tcn)=1.485 fall=6"
+  },
+  {
+   "name": "tcn_r7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_r7 when v(xdiv.tcn)=1.485 rise=7"
+  },
+  {
+   "name": "tcn_f7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_f7 when v(xdiv.tcn)=1.485 fall=7"
+  },
+  {
+   "name": "tcn_r8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_r8 when v(xdiv.tcn)=1.485 rise=8"
+  },
+  {
+   "name": "tcn_f8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_f8 when v(xdiv.tcn)=1.485 fall=8"
+  },
+  {
+   "name": "tcn_r9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_r9 when v(xdiv.tcn)=1.485 rise=9"
+  },
+  {
+   "name": "tcn_f9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_f9 when v(xdiv.tcn)=1.485 fall=9"
+  },
+  {
+   "name": "tcn_r10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_r10 when v(xdiv.tcn)=1.485 rise=10"
+  },
+  {
+   "name": "tcn_f10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_f10 when v(xdiv.tcn)=1.485 fall=10"
+  },
+  {
+   "name": "tcn_r11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_r11 when v(xdiv.tcn)=1.485 rise=11"
+  },
+  {
+   "name": "tcn_f11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_f11 when v(xdiv.tcn)=1.485 fall=11"
+  },
+  {
+   "name": "tcn_r12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_r12 when v(xdiv.tcn)=1.485 rise=12"
+  },
+  {
+   "name": "tcn_f12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran tcn_f12 when v(xdiv.tcn)=1.485 fall=12"
+  },
+  {
+   "name": "q0_r1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_r1 when v(xdiv.xm.q0)=1.485 rise=1"
+  },
+  {
+   "name": "q0_f1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_f1 when v(xdiv.xm.q0)=1.485 fall=1"
+  },
+  {
+   "name": "q0_r2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_r2 when v(xdiv.xm.q0)=1.485 rise=2"
+  },
+  {
+   "name": "q0_f2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_f2 when v(xdiv.xm.q0)=1.485 fall=2"
+  },
+  {
+   "name": "q0_r3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_r3 when v(xdiv.xm.q0)=1.485 rise=3"
+  },
+  {
+   "name": "q0_f3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_f3 when v(xdiv.xm.q0)=1.485 fall=3"
+  },
+  {
+   "name": "q0_r4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_r4 when v(xdiv.xm.q0)=1.485 rise=4"
+  },
+  {
+   "name": "q0_f4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_f4 when v(xdiv.xm.q0)=1.485 fall=4"
+  },
+  {
+   "name": "q0_r5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_r5 when v(xdiv.xm.q0)=1.485 rise=5"
+  },
+  {
+   "name": "q0_f5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_f5 when v(xdiv.xm.q0)=1.485 fall=5"
+  },
+  {
+   "name": "q0_r6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_r6 when v(xdiv.xm.q0)=1.485 rise=6"
+  },
+  {
+   "name": "q0_f6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_f6 when v(xdiv.xm.q0)=1.485 fall=6"
+  },
+  {
+   "name": "q0_r7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_r7 when v(xdiv.xm.q0)=1.485 rise=7"
+  },
+  {
+   "name": "q0_f7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_f7 when v(xdiv.xm.q0)=1.485 fall=7"
+  },
+  {
+   "name": "q0_r8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_r8 when v(xdiv.xm.q0)=1.485 rise=8"
+  },
+  {
+   "name": "q0_f8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_f8 when v(xdiv.xm.q0)=1.485 fall=8"
+  },
+  {
+   "name": "q0_r9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_r9 when v(xdiv.xm.q0)=1.485 rise=9"
+  },
+  {
+   "name": "q0_f9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_f9 when v(xdiv.xm.q0)=1.485 fall=9"
+  },
+  {
+   "name": "q0_r10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_r10 when v(xdiv.xm.q0)=1.485 rise=10"
+  },
+  {
+   "name": "q0_f10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_f10 when v(xdiv.xm.q0)=1.485 fall=10"
+  },
+  {
+   "name": "q0_r11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_r11 when v(xdiv.xm.q0)=1.485 rise=11"
+  },
+  {
+   "name": "q0_f11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_f11 when v(xdiv.xm.q0)=1.485 fall=11"
+  },
+  {
+   "name": "q0_r12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_r12 when v(xdiv.xm.q0)=1.485 rise=12"
+  },
+  {
+   "name": "q0_f12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q0_f12 when v(xdiv.xm.q0)=1.485 fall=12"
+  },
+  {
+   "name": "q1_r1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_r1 when v(xdiv.xm.q1)=1.485 rise=1"
+  },
+  {
+   "name": "q1_f1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_f1 when v(xdiv.xm.q1)=1.485 fall=1"
+  },
+  {
+   "name": "q1_r2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_r2 when v(xdiv.xm.q1)=1.485 rise=2"
+  },
+  {
+   "name": "q1_f2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_f2 when v(xdiv.xm.q1)=1.485 fall=2"
+  },
+  {
+   "name": "q1_r3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_r3 when v(xdiv.xm.q1)=1.485 rise=3"
+  },
+  {
+   "name": "q1_f3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_f3 when v(xdiv.xm.q1)=1.485 fall=3"
+  },
+  {
+   "name": "q1_r4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_r4 when v(xdiv.xm.q1)=1.485 rise=4"
+  },
+  {
+   "name": "q1_f4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_f4 when v(xdiv.xm.q1)=1.485 fall=4"
+  },
+  {
+   "name": "q1_r5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_r5 when v(xdiv.xm.q1)=1.485 rise=5"
+  },
+  {
+   "name": "q1_f5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_f5 when v(xdiv.xm.q1)=1.485 fall=5"
+  },
+  {
+   "name": "q1_r6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_r6 when v(xdiv.xm.q1)=1.485 rise=6"
+  },
+  {
+   "name": "q1_f6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_f6 when v(xdiv.xm.q1)=1.485 fall=6"
+  },
+  {
+   "name": "q1_r7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_r7 when v(xdiv.xm.q1)=1.485 rise=7"
+  },
+  {
+   "name": "q1_f7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_f7 when v(xdiv.xm.q1)=1.485 fall=7"
+  },
+  {
+   "name": "q1_r8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_r8 when v(xdiv.xm.q1)=1.485 rise=8"
+  },
+  {
+   "name": "q1_f8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_f8 when v(xdiv.xm.q1)=1.485 fall=8"
+  },
+  {
+   "name": "q1_r9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_r9 when v(xdiv.xm.q1)=1.485 rise=9"
+  },
+  {
+   "name": "q1_f9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_f9 when v(xdiv.xm.q1)=1.485 fall=9"
+  },
+  {
+   "name": "q1_r10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_r10 when v(xdiv.xm.q1)=1.485 rise=10"
+  },
+  {
+   "name": "q1_f10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_f10 when v(xdiv.xm.q1)=1.485 fall=10"
+  },
+  {
+   "name": "q1_r11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_r11 when v(xdiv.xm.q1)=1.485 rise=11"
+  },
+  {
+   "name": "q1_f11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_f11 when v(xdiv.xm.q1)=1.485 fall=11"
+  },
+  {
+   "name": "q1_r12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_r12 when v(xdiv.xm.q1)=1.485 rise=12"
+  },
+  {
+   "name": "q1_f12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q1_f12 when v(xdiv.xm.q1)=1.485 fall=12"
+  },
+  {
+   "name": "q2_r1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_r1 when v(xdiv.xm.q2)=1.485 rise=1"
+  },
+  {
+   "name": "q2_f1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_f1 when v(xdiv.xm.q2)=1.485 fall=1"
+  },
+  {
+   "name": "q2_r2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_r2 when v(xdiv.xm.q2)=1.485 rise=2"
+  },
+  {
+   "name": "q2_f2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_f2 when v(xdiv.xm.q2)=1.485 fall=2"
+  },
+  {
+   "name": "q2_r3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_r3 when v(xdiv.xm.q2)=1.485 rise=3"
+  },
+  {
+   "name": "q2_f3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_f3 when v(xdiv.xm.q2)=1.485 fall=3"
+  },
+  {
+   "name": "q2_r4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_r4 when v(xdiv.xm.q2)=1.485 rise=4"
+  },
+  {
+   "name": "q2_f4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_f4 when v(xdiv.xm.q2)=1.485 fall=4"
+  },
+  {
+   "name": "q2_r5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_r5 when v(xdiv.xm.q2)=1.485 rise=5"
+  },
+  {
+   "name": "q2_f5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_f5 when v(xdiv.xm.q2)=1.485 fall=5"
+  },
+  {
+   "name": "q2_r6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_r6 when v(xdiv.xm.q2)=1.485 rise=6"
+  },
+  {
+   "name": "q2_f6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_f6 when v(xdiv.xm.q2)=1.485 fall=6"
+  },
+  {
+   "name": "q2_r7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_r7 when v(xdiv.xm.q2)=1.485 rise=7"
+  },
+  {
+   "name": "q2_f7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_f7 when v(xdiv.xm.q2)=1.485 fall=7"
+  },
+  {
+   "name": "q2_r8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_r8 when v(xdiv.xm.q2)=1.485 rise=8"
+  },
+  {
+   "name": "q2_f8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_f8 when v(xdiv.xm.q2)=1.485 fall=8"
+  },
+  {
+   "name": "q2_r9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_r9 when v(xdiv.xm.q2)=1.485 rise=9"
+  },
+  {
+   "name": "q2_f9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_f9 when v(xdiv.xm.q2)=1.485 fall=9"
+  },
+  {
+   "name": "q2_r10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_r10 when v(xdiv.xm.q2)=1.485 rise=10"
+  },
+  {
+   "name": "q2_f10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_f10 when v(xdiv.xm.q2)=1.485 fall=10"
+  },
+  {
+   "name": "q2_r11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_r11 when v(xdiv.xm.q2)=1.485 rise=11"
+  },
+  {
+   "name": "q2_f11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_f11 when v(xdiv.xm.q2)=1.485 fall=11"
+  },
+  {
+   "name": "q2_r12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_r12 when v(xdiv.xm.q2)=1.485 rise=12"
+  },
+  {
+   "name": "q2_f12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q2_f12 when v(xdiv.xm.q2)=1.485 fall=12"
+  },
+  {
+   "name": "q3_r1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_r1 when v(xdiv.xm.q3)=1.485 rise=1"
+  },
+  {
+   "name": "q3_f1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_f1 when v(xdiv.xm.q3)=1.485 fall=1"
+  },
+  {
+   "name": "q3_r2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_r2 when v(xdiv.xm.q3)=1.485 rise=2"
+  },
+  {
+   "name": "q3_f2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_f2 when v(xdiv.xm.q3)=1.485 fall=2"
+  },
+  {
+   "name": "q3_r3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_r3 when v(xdiv.xm.q3)=1.485 rise=3"
+  },
+  {
+   "name": "q3_f3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_f3 when v(xdiv.xm.q3)=1.485 fall=3"
+  },
+  {
+   "name": "q3_r4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_r4 when v(xdiv.xm.q3)=1.485 rise=4"
+  },
+  {
+   "name": "q3_f4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_f4 when v(xdiv.xm.q3)=1.485 fall=4"
+  },
+  {
+   "name": "q3_r5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_r5 when v(xdiv.xm.q3)=1.485 rise=5"
+  },
+  {
+   "name": "q3_f5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_f5 when v(xdiv.xm.q3)=1.485 fall=5"
+  },
+  {
+   "name": "q3_r6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_r6 when v(xdiv.xm.q3)=1.485 rise=6"
+  },
+  {
+   "name": "q3_f6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_f6 when v(xdiv.xm.q3)=1.485 fall=6"
+  },
+  {
+   "name": "q3_r7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_r7 when v(xdiv.xm.q3)=1.485 rise=7"
+  },
+  {
+   "name": "q3_f7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_f7 when v(xdiv.xm.q3)=1.485 fall=7"
+  },
+  {
+   "name": "q3_r8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_r8 when v(xdiv.xm.q3)=1.485 rise=8"
+  },
+  {
+   "name": "q3_f8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_f8 when v(xdiv.xm.q3)=1.485 fall=8"
+  },
+  {
+   "name": "q3_r9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_r9 when v(xdiv.xm.q3)=1.485 rise=9"
+  },
+  {
+   "name": "q3_f9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_f9 when v(xdiv.xm.q3)=1.485 fall=9"
+  },
+  {
+   "name": "q3_r10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_r10 when v(xdiv.xm.q3)=1.485 rise=10"
+  },
+  {
+   "name": "q3_f10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_f10 when v(xdiv.xm.q3)=1.485 fall=10"
+  },
+  {
+   "name": "q3_r11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_r11 when v(xdiv.xm.q3)=1.485 rise=11"
+  },
+  {
+   "name": "q3_f11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_f11 when v(xdiv.xm.q3)=1.485 fall=11"
+  },
+  {
+   "name": "q3_r12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_r12 when v(xdiv.xm.q3)=1.485 rise=12"
+  },
+  {
+   "name": "q3_f12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran q3_f12 when v(xdiv.xm.q3)=1.485 fall=12"
+  },
+  {
+   "name": "b1_r1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_r1 when v(xdiv.xm.b1)=1.485 rise=1"
+  },
+  {
+   "name": "b1_f1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_f1 when v(xdiv.xm.b1)=1.485 fall=1"
+  },
+  {
+   "name": "b1_r2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_r2 when v(xdiv.xm.b1)=1.485 rise=2"
+  },
+  {
+   "name": "b1_f2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_f2 when v(xdiv.xm.b1)=1.485 fall=2"
+  },
+  {
+   "name": "b1_r3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_r3 when v(xdiv.xm.b1)=1.485 rise=3"
+  },
+  {
+   "name": "b1_f3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_f3 when v(xdiv.xm.b1)=1.485 fall=3"
+  },
+  {
+   "name": "b1_r4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_r4 when v(xdiv.xm.b1)=1.485 rise=4"
+  },
+  {
+   "name": "b1_f4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_f4 when v(xdiv.xm.b1)=1.485 fall=4"
+  },
+  {
+   "name": "b1_r5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_r5 when v(xdiv.xm.b1)=1.485 rise=5"
+  },
+  {
+   "name": "b1_f5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_f5 when v(xdiv.xm.b1)=1.485 fall=5"
+  },
+  {
+   "name": "b1_r6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_r6 when v(xdiv.xm.b1)=1.485 rise=6"
+  },
+  {
+   "name": "b1_f6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_f6 when v(xdiv.xm.b1)=1.485 fall=6"
+  },
+  {
+   "name": "b1_r7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_r7 when v(xdiv.xm.b1)=1.485 rise=7"
+  },
+  {
+   "name": "b1_f7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_f7 when v(xdiv.xm.b1)=1.485 fall=7"
+  },
+  {
+   "name": "b1_r8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_r8 when v(xdiv.xm.b1)=1.485 rise=8"
+  },
+  {
+   "name": "b1_f8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_f8 when v(xdiv.xm.b1)=1.485 fall=8"
+  },
+  {
+   "name": "b1_r9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_r9 when v(xdiv.xm.b1)=1.485 rise=9"
+  },
+  {
+   "name": "b1_f9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_f9 when v(xdiv.xm.b1)=1.485 fall=9"
+  },
+  {
+   "name": "b1_r10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_r10 when v(xdiv.xm.b1)=1.485 rise=10"
+  },
+  {
+   "name": "b1_f10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_f10 when v(xdiv.xm.b1)=1.485 fall=10"
+  },
+  {
+   "name": "b1_r11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_r11 when v(xdiv.xm.b1)=1.485 rise=11"
+  },
+  {
+   "name": "b1_f11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_f11 when v(xdiv.xm.b1)=1.485 fall=11"
+  },
+  {
+   "name": "b1_r12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_r12 when v(xdiv.xm.b1)=1.485 rise=12"
+  },
+  {
+   "name": "b1_f12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b1_f12 when v(xdiv.xm.b1)=1.485 fall=12"
+  },
+  {
+   "name": "b2_r1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_r1 when v(xdiv.xm.b2)=1.485 rise=1"
+  },
+  {
+   "name": "b2_f1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_f1 when v(xdiv.xm.b2)=1.485 fall=1"
+  },
+  {
+   "name": "b2_r2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_r2 when v(xdiv.xm.b2)=1.485 rise=2"
+  },
+  {
+   "name": "b2_f2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_f2 when v(xdiv.xm.b2)=1.485 fall=2"
+  },
+  {
+   "name": "b2_r3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_r3 when v(xdiv.xm.b2)=1.485 rise=3"
+  },
+  {
+   "name": "b2_f3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_f3 when v(xdiv.xm.b2)=1.485 fall=3"
+  },
+  {
+   "name": "b2_r4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_r4 when v(xdiv.xm.b2)=1.485 rise=4"
+  },
+  {
+   "name": "b2_f4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_f4 when v(xdiv.xm.b2)=1.485 fall=4"
+  },
+  {
+   "name": "b2_r5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_r5 when v(xdiv.xm.b2)=1.485 rise=5"
+  },
+  {
+   "name": "b2_f5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_f5 when v(xdiv.xm.b2)=1.485 fall=5"
+  },
+  {
+   "name": "b2_r6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_r6 when v(xdiv.xm.b2)=1.485 rise=6"
+  },
+  {
+   "name": "b2_f6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_f6 when v(xdiv.xm.b2)=1.485 fall=6"
+  },
+  {
+   "name": "b2_r7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_r7 when v(xdiv.xm.b2)=1.485 rise=7"
+  },
+  {
+   "name": "b2_f7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_f7 when v(xdiv.xm.b2)=1.485 fall=7"
+  },
+  {
+   "name": "b2_r8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_r8 when v(xdiv.xm.b2)=1.485 rise=8"
+  },
+  {
+   "name": "b2_f8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_f8 when v(xdiv.xm.b2)=1.485 fall=8"
+  },
+  {
+   "name": "b2_r9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_r9 when v(xdiv.xm.b2)=1.485 rise=9"
+  },
+  {
+   "name": "b2_f9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_f9 when v(xdiv.xm.b2)=1.485 fall=9"
+  },
+  {
+   "name": "b2_r10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_r10 when v(xdiv.xm.b2)=1.485 rise=10"
+  },
+  {
+   "name": "b2_f10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_f10 when v(xdiv.xm.b2)=1.485 fall=10"
+  },
+  {
+   "name": "b2_r11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_r11 when v(xdiv.xm.b2)=1.485 rise=11"
+  },
+  {
+   "name": "b2_f11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_f11 when v(xdiv.xm.b2)=1.485 fall=11"
+  },
+  {
+   "name": "b2_r12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_r12 when v(xdiv.xm.b2)=1.485 rise=12"
+  },
+  {
+   "name": "b2_f12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b2_f12 when v(xdiv.xm.b2)=1.485 fall=12"
+  },
+  {
+   "name": "b3_r1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_r1 when v(xdiv.xm.b3)=1.485 rise=1"
+  },
+  {
+   "name": "b3_f1",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_f1 when v(xdiv.xm.b3)=1.485 fall=1"
+  },
+  {
+   "name": "b3_r2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_r2 when v(xdiv.xm.b3)=1.485 rise=2"
+  },
+  {
+   "name": "b3_f2",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_f2 when v(xdiv.xm.b3)=1.485 fall=2"
+  },
+  {
+   "name": "b3_r3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_r3 when v(xdiv.xm.b3)=1.485 rise=3"
+  },
+  {
+   "name": "b3_f3",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_f3 when v(xdiv.xm.b3)=1.485 fall=3"
+  },
+  {
+   "name": "b3_r4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_r4 when v(xdiv.xm.b3)=1.485 rise=4"
+  },
+  {
+   "name": "b3_f4",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_f4 when v(xdiv.xm.b3)=1.485 fall=4"
+  },
+  {
+   "name": "b3_r5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_r5 when v(xdiv.xm.b3)=1.485 rise=5"
+  },
+  {
+   "name": "b3_f5",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_f5 when v(xdiv.xm.b3)=1.485 fall=5"
+  },
+  {
+   "name": "b3_r6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_r6 when v(xdiv.xm.b3)=1.485 rise=6"
+  },
+  {
+   "name": "b3_f6",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_f6 when v(xdiv.xm.b3)=1.485 fall=6"
+  },
+  {
+   "name": "b3_r7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_r7 when v(xdiv.xm.b3)=1.485 rise=7"
+  },
+  {
+   "name": "b3_f7",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_f7 when v(xdiv.xm.b3)=1.485 fall=7"
+  },
+  {
+   "name": "b3_r8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_r8 when v(xdiv.xm.b3)=1.485 rise=8"
+  },
+  {
+   "name": "b3_f8",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_f8 when v(xdiv.xm.b3)=1.485 fall=8"
+  },
+  {
+   "name": "b3_r9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_r9 when v(xdiv.xm.b3)=1.485 rise=9"
+  },
+  {
+   "name": "b3_f9",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_f9 when v(xdiv.xm.b3)=1.485 fall=9"
+  },
+  {
+   "name": "b3_r10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_r10 when v(xdiv.xm.b3)=1.485 rise=10"
+  },
+  {
+   "name": "b3_f10",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_f10 when v(xdiv.xm.b3)=1.485 fall=10"
+  },
+  {
+   "name": "b3_r11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_r11 when v(xdiv.xm.b3)=1.485 rise=11"
+  },
+  {
+   "name": "b3_f11",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_f11 when v(xdiv.xm.b3)=1.485 fall=11"
+  },
+  {
+   "name": "b3_r12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_r12 when v(xdiv.xm.b3)=1.485 rise=12"
+  },
+  {
+   "name": "b3_f12",
+   "unit": "s",
+   "on_unreached": "null",
+   "spice": ".meas tran b3_f12 when v(xdiv.xm.b3)=1.485 fall=12"
+  }
+ ],
+ "corners": {
+  "process": [
+   {
+    "name": "SLOW",
+    "sections": [
+     {
+      "lib": "libs.tech/ngspice/models/cornerMOShv.lib",
+      "section": "mos_ss"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerCAP.lib",
+      "section": "cap_wcs"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+      "section": "hbt_wcs"
+     }
+    ]
+   }
+  ],
+  "temperature_c": [
+   125
+  ],
+  "params": {
+   "vddv": [
+    2.97
+   ]
+  }
+ },
+ "options": {
+  "timeout_s": 1800,
+  "keep_artifacts": true,
+  "osdi_preload": [
+   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"
+  ]
+ }
+}
