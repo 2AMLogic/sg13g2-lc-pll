@@ -23,6 +23,7 @@ design/
   loopfilter.sch/.sym       type-II 3rd-order passive filter (R1-C1, C2, R3-C3), values from sim/loop-model/loop-filter.json
   cml2cmos.sch/.sym         prescaler CML output -> CMOS clock
   mcounter.sch/.sym         program counter M (4-bit down counter, loads M at terminal count)
+  dff_tg_hv_qn.sch/.sym     pinned dff_tg_hv with the slave node brought out as QN; used by mcounter bit 2 only (issue #97)
   acounter.sch/.sym         swallow counter A (2-bit down counter, MC = count != 0)
   divider.sch/.sym          cml2cmos + mcounter + acounter + retimed feedback flop
   vco.sym                   BLACK-BOX interface symbol for the pinned sg13g2-vco (no schematic, no .subckt emitted)

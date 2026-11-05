@@ -18,7 +18,8 @@ C {lab_pin.sym} 660 20 0 0 {name=l7 lab=CK}
 C {lab_pin.sym} 740 0 2 0 {name=l8 lab=q1}
 C {lab_pin.sym} 680 -80 0 0 {name=l9 lab=VDD}
 C {lab_pin.sym} 720 80 2 0 {name=l10 lab=VSS}
-C {dff_tg_hv.sym} 1400 0 0 0 {name=XQ2}
+C {dff_tg_hv_qn.sym} 1400 0 0 0 {name=XQ2}
+C {lab_pin.sym} 1440 -30 2 0 {name=l54 lab=q2n}
 C {lab_pin.sym} 1360 -20 0 0 {name=l11 lab=D2}
 C {lab_pin.sym} 1360 20 0 0 {name=l12 lab=CK}
 C {lab_pin.sym} 1440 0 2 0 {name=l13 lab=q2}
@@ -42,6 +43,12 @@ C {lab_pin.sym} 3460 20 0 0 {name=l27 lab=CK}
 C {lab_pin.sym} 3540 0 2 0 {name=l28 lab=TCN}
 C {lab_pin.sym} 3480 -80 0 0 {name=l29 lab=VDD}
 C {lab_pin.sym} 3520 80 2 0 {name=l30 lab=VSS}
+C {dff_tg_hv.sym} 4200 0 0 0 {name=XFT2}
+C {lab_pin.sym} 4160 -20 0 0 {name=l54b lab=DT}
+C {lab_pin.sym} 4160 20 0 0 {name=l55b lab=CK}
+C {lab_pin.sym} 4240 0 2 0 {name=l56b lab=TC2}
+C {lab_pin.sym} 4180 -80 0 0 {name=l57b lab=VDD}
+C {lab_pin.sym} 4220 80 0 0 {name=l58b lab=VSS}
 C {dff_tg_hv.sym} 0 400 0 0 {name=XFB1}
 C {lab_pin.sym} -40 380 0 0 {name=l31 lab=DB1}
 C {lab_pin.sym} -40 420 0 0 {name=l32 lab=CK}
@@ -70,11 +77,6 @@ C {lab_pin.sym} 2760 400 0 0 {name=l50 lab=q1}
 C {lab_pin.sym} 2840 400 2 0 {name=l51 lab=q1n}
 C {lab_pin.sym} 2780 360 0 0 {name=l52 lab=VDD}
 C {lab_pin.sym} 2820 440 2 0 {name=l53 lab=VSS}
-C {inv_hv.sym} 3500 400 0 0 {name=XIQ2}
-C {lab_pin.sym} 3460 400 0 0 {name=l54 lab=q2}
-C {lab_pin.sym} 3540 400 2 0 {name=l55 lab=q2n}
-C {lab_pin.sym} 3480 360 0 0 {name=l56 lab=VDD}
-C {lab_pin.sym} 3520 440 2 0 {name=l57 lab=VSS}
 C {inv_hv.sym} 0 800 0 0 {name=XIQ3}
 C {lab_pin.sym} -40 800 0 0 {name=l58 lab=q3}
 C {lab_pin.sym} 40 800 2 0 {name=l59 lab=q3n}
@@ -136,7 +138,7 @@ C {lab_pin.sym} 2780 1120 0 0 {name=l104 lab=VDD}
 C {lab_pin.sym} 2820 1280 2 0 {name=l105 lab=VSS}
 C {nand2_hv.sym} 3500 1200 0 0 {name=XL0B}
 C {lab_pin.sym} 3460 1180 0 0 {name=l106 lab=M0}
-C {lab_pin.sym} 3460 1220 0 0 {name=l107 lab=TC}
+C {lab_pin.sym} 3460 1220 0 0 {name=l107 lab=TC2}
 C {lab_pin.sym} 3540 1200 2 0 {name=l108 lab=l0b}
 C {lab_pin.sym} 3480 1120 0 0 {name=l109 lab=VDD}
 C {lab_pin.sym} 3520 1280 2 0 {name=l110 lab=VSS}
@@ -161,7 +163,7 @@ C {lab_pin.sym} 1380 1480 0 0 {name=l125 lab=VDD}
 C {lab_pin.sym} 1420 1720 2 0 {name=l126 lab=VSS}
 C {nand2_hv.sym} 2100 1600 0 0 {name=XL1B}
 C {lab_pin.sym} 2060 1580 0 0 {name=l127 lab=M1}
-C {lab_pin.sym} 2060 1620 0 0 {name=l128 lab=TC}
+C {lab_pin.sym} 2060 1620 0 0 {name=l128 lab=TC2}
 C {lab_pin.sym} 2140 1600 2 0 {name=l129 lab=l1b}
 C {lab_pin.sym} 2080 1520 0 0 {name=l130 lab=VDD}
 C {lab_pin.sym} 2120 1680 2 0 {name=l131 lab=VSS}
@@ -187,7 +189,7 @@ C {lab_pin.sym} -20 1880 0 0 {name=l147 lab=VDD}
 C {lab_pin.sym} 20 2120 2 0 {name=l148 lab=VSS}
 C {nand2_hv.sym} 700 2000 0 0 {name=XL2B}
 C {lab_pin.sym} 660 1980 0 0 {name=l149 lab=M2}
-C {lab_pin.sym} 660 2020 0 0 {name=l150 lab=TC}
+C {lab_pin.sym} 660 2020 0 0 {name=l150 lab=TC2}
 C {lab_pin.sym} 740 2000 2 0 {name=l151 lab=l2b}
 C {lab_pin.sym} 680 1920 0 0 {name=l152 lab=VDD}
 C {lab_pin.sym} 720 2080 2 0 {name=l153 lab=VSS}
@@ -213,7 +215,7 @@ C {lab_pin.sym} 2780 1880 0 0 {name=l169 lab=VDD}
 C {lab_pin.sym} 2820 2120 2 0 {name=l170 lab=VSS}
 C {nand2_hv.sym} 3500 2000 0 0 {name=XL3B}
 C {lab_pin.sym} 3460 1980 0 0 {name=l171 lab=M3}
-C {lab_pin.sym} 3460 2020 0 0 {name=l172 lab=TC}
+C {lab_pin.sym} 3460 2020 0 0 {name=l172 lab=TC2}
 C {lab_pin.sym} 3540 2000 2 0 {name=l173 lab=l3b}
 C {lab_pin.sym} 3480 1920 0 0 {name=l174 lab=VDD}
 C {lab_pin.sym} 3520 2080 2 0 {name=l175 lab=VSS}
