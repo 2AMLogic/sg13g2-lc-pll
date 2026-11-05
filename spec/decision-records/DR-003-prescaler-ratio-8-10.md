@@ -46,7 +46,7 @@ rate (new architecture, most redesign, nothing gained for N = 100).
 
 ## Evidence
 
-Issue #31 measured the whole prescaler at ÷8 (modulus control low) and ÷10
+Issue #31 simulated the whole prescaler at ÷8 (modulus control low) and ÷10
 (modulus control high) at 5.0-12.0 GHz input, nominal corner only,
 **simulated, not measured**. The record that matches the netlist on `main` now
 (`design/netlist/prescaler.spice`, sha256 `326144e4…`, from commit `8b5e0e2`) is
