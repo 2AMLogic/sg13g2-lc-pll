@@ -1,0 +1,65 @@
+diff --git a/design/netlist/divider.spice b/design/netlist/divider.spice
+index db55517..dfd9e04 100644
+--- a/design/netlist/divider.spice
++++ b/design/netlist/divider.spice
+@@ -69,16 +69,16 @@ RF1 xin cmob 100k m=1
+ *.iopin VSS
+ XQ0 D0 CK q0 VDD VSS dff_tg_hv
+ XQ1 D1 CK q1 VDD VSS dff_tg_hv
+-XQ2 D2 CK q2 VDD VSS dff_tg_hv
++XQ2 D2 CK q2 q2n VDD VSS dff_tg_hv_qn
+ XQ3 D3 CK q3 VDD VSS dff_tg_hv
+ XFT DT CK TC VDD VSS dff_tg_hv
+ XFTN DTN CK TCN VDD VSS dff_tg_hv
++XFT2 DT CK TC2 VDD VSS dff_tg_hv
+ XFB1 DB1 CK b1 VDD VSS dff_tg_hv
+ XFB2 DB2 CK b2 VDD VSS dff_tg_hv
+ XFB3 DB3 CK b3 VDD VSS dff_tg_hv
+ XIQ0 q0 q0n VDD VSS inv_hv
+ XIQ1 q1 q1n VDD VSS inv_hv
+-XIQ2 q2 q2n VDD VSS inv_hv
+ XIQ3 q3 q3n VDD VSS inv_hv
+ XIB1 b1 b1n VDD VSS inv_hv
+ XIB2 b2 b2n VDD VSS inv_hv
+@@ -90,19 +90,19 @@ XZ3C M2 M2n VDD VSS inv_hv
+ XZ3B z01 M2n mz3n VDD VSS nand2_hv
+ XZ3D mz3n mz3 VDD VSS inv_hv
+ XL0A q0n TCN l0a VDD VSS nand2_hv
+-XL0B M0 TC l0b VDD VSS nand2_hv
++XL0B M0 TC2 l0b VDD VSS nand2_hv
+ XL0Y l0a l0b D0 VDD VSS nand2_hv
+ XA1 b1 q1n a1 VDD VSS nand2_hv
+ XB1 b1n TCN q1 c1 VDD VSS nand3_hv
+-XL1B M1 TC l1b VDD VSS nand2_hv
++XL1B M1 TC2 l1b VDD VSS nand2_hv
+ XL1Y a1 c1 l1b D1 VDD VSS nand3_hv
+ XA2 b2 q2n a2 VDD VSS nand2_hv
+ XB2 b2n TCN q2 c2 VDD VSS nand3_hv
+-XL2B M2 TC l2b VDD VSS nand2_hv
++XL2B M2 TC2 l2b VDD VSS nand2_hv
+ XL2Y a2 c2 l2b D2 VDD VSS nand3_hv
+ XA3 b3 q3n a3 VDD VSS nand2_hv
+ XB3 b3n TCN q3 c3 VDD VSS nand3_hv
+-XL3B M3 TC l3b VDD VSS nand2_hv
++XL3B M3 TC2 l3b VDD VSS nand2_hv
+ XL3Y a3 c3 l3b D3 VDD VSS nand3_hv
+ XP1A TC mz1 p1a VDD VSS nand2_hv
+ XP1B TCN q0 p1b VDD VSS nand2_hv
+@@ -253,3 +253,17 @@ XMN A NG Y VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
+ XMP Y PG A VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
+ .ends
+ 
++
++.subckt dff_tg_hv_qn D CLK Q QN VDD VSS
++XICLK CLK CLKB VDD VSS inv_hv
++XICKBB CLKB CKBB VDD VSS inv_hv
++XTG1 D CLKB CKBB M VDD VSS tgate_hv
++XIM M MB VDD VSS inv_hv
++XIMF MB MFB VDD VSS inv_hv
++XTGFBM MFB CKBB CLKB M VDD VSS tgate_hv
++XTG2 M CKBB CLKB S VDD VSS tgate_hv
++XIS S QN VDD VSS inv_hv
++XISF QN SFB VDD VSS inv_hv
++XTGFBS SFB CLKB CKBB S VDD VSS tgate_hv
++XBQ QN Q VDD VSS inv_hv
++.ends
