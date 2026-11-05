@@ -1,0 +1,7 @@
+{
+ "_note": "Simulated on the batch fleet, ngspice 46 (pin 47). One run each; repeatability not shown.",
+ "snapshot_FAST_125C_2.97V_at_50ns": {"job": "klt-sim-ffab567960cd", "q0": 2.97016, "q1": 2.96944, "q2": -0.00101753, "q3": 2.96978,
+   "b1": 0.000132491, "b2": -7.16133e-06, "b3": 2.14297e-05, "tc": -0.00075124, "tcn": 2.97051},
+ "forced_SLOW_125C_2.97V": {"job": "klt-sim-4271629163d3", "converged": true, "runtime_s": 178.9, "tfb": null, "tfb_late": null,
+   "fbmax_V_30_120ns": 0.00131407, "q3_rise_after_25ns": null, "tc_rise_after_25ns": null}
+}
