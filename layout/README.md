@@ -51,8 +51,9 @@ Layer numbers: `$PDK_ROOT/ihp-sg13g2/libs.tech/klayout/tech/sg13g2.lyp` and `sg1
 scripts/test-layout-cells.sh                           # regenerate, compare with provenance, pin-vs-port check
 ```
 
-One generator per block in `layout/cells/` (`prescaler`, `divider`, `charge_pump`, `loop_filter`, `pfd`,
-`lock_detector`) on shared `cells/common.py`: flatten the `.subckt`, group identical (class, W, L) devices
+One table row per block in `layout/gen_cells.py` (`divider`, `charge_pump`, `loop_filter`, `pfd`,
+`lock_detector`: cell name, `.subckt`, netlist file), plus `layout/cells/prescaler.py` (its tank-loading input group
+is placed first), on shared `cells/common.py`: flatten the `.subckt`, group identical (class, W, L) devices
 (`m=` expanded to units), draw each group with `klt gen mos_array|res_array|cap_array|bjt_array`, place groups with
 `klt gen-compose` (placement only; routing is #35), and put one text label per `.subckt` port on a drawn
 terminal of that net. `layout/cells.provenance.json` holds the cell list, area (bbox), generator command, klt
