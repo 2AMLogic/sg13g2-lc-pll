@@ -15,6 +15,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 die() { echo "run-loop-power: error: $*" >&2; exit 1; }
 source "${ROOT}/scripts/lib-pdk.sh"
+source "${ROOT}/scripts/lib-record.sh"
 "${ROOT}/design/netlist.sh" --check prescaler divider >/dev/null 2>&1 || die "design/netlist/{prescaler,divider}.spice is stale against the schematics (run design/netlist.sh)"
 PRESC_NETLIST="${ROOT}/design/netlist/prescaler.spice"; DIV_NETLIST="${ROOT}/design/netlist/divider.spice"
 TSTOP="${TSTOP:-120n}"; W0="${W0:-40n}"
@@ -23,11 +24,10 @@ WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@PRESC_NETLIST@@|${PRESC_NETLIST}|g" \
     -e "s|@@DIV_NETLIST@@|${DIV_NETLIST}|g" -e "s|@@TSTOP@@|${TSTOP}|g" -e "s|@@W0@@|${W0}|g" -e "s|@@OUT_DIR@@|${WORK}|g" \
     "${ROOT}/sim/loop-power/loop_power.spice.tmpl" > "${WORK}/loop_power.spice"
-if grep -vE '^[[:space:]]*\*' "${WORK}/loop_power.spice" | grep -q '@@'; then die "unsubstituted placeholder left in the deck"; fi
-printf 'set ngbehavior=hsa\n' > "${WORK}/.spiceinit"
+check_deck_placeholders "${WORK}/loop_power.spice"
+write_spiceinit "${WORK}"
 
-COMMIT="$(git -C "${ROOT}" rev-parse --short=7 HEAD)"
-DIRTY=""; [ -z "$(git -C "${ROOT}" status --porcelain -- design sim scripts reuse.lock.json ':(exclude)sim/*/records/*' ':(exclude)sim/*/negative-control-*' 2>/dev/null)" ] || DIRTY="-dirty"
+record_stamp
 ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"

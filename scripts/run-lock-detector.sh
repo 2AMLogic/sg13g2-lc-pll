@@ -24,14 +24,14 @@ case "${MODE}" in nominal|closed|grid1|grid2|report) ;; *) die "usage: $0 nomina
 DRY=0; [ "${1:-}" = "--dry-run" ] && DRY=1
 
 source "${ROOT}/scripts/lib-pdk.sh"
+source "${ROOT}/scripts/lib-record.sh"
 "${ROOT}/scripts/fetch-pll.sh" >/dev/null || die "fetch/verify of the pinned sg13g2-pll files failed"
 REC_DIR="${RECORD_DIR:-${ROOT}/sim/lock-detector/records}"; mkdir -p "${REC_DIR}"
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 TOOL=(python3 -I "${ROOT}/scripts/ld_tool.py")
 TSTOP_PS="$("${TOOL[@]}" body "${WORK}/body.spice" "${WORK}/meas.txt" "${WORK}/meas.json")"
 
-COMMIT="$(git -C "${ROOT}" rev-parse --short=7 HEAD)"
-DIRTY=""; [ -z "$(git -C "${ROOT}" status --porcelain -- design sim scripts reuse.lock.json ':(exclude)sim/*/records/*' ':(exclude)sim/*/negative-control-*' 2>/dev/null)" ] || DIRTY="-dirty"
+record_stamp
 ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 PLL_PIN="$(jq -r '.imports[] | select(.from=="2AMLogic/sg13g2-pll") | .commit' "${ROOT}/reuse.lock.json")"
 LD_SHA="$(sha256sum "${ROOT}/.fetched/sg13g2-pll/design/netlist/lock_detector.spice" | cut -d' ' -f1)"
@@ -60,7 +60,7 @@ if [ "${MODE}" = closed ]; then
     echo "end"
     echo ".endc"; echo ".end"
   } > "${WORK}/closed.spice"
-  printf 'set ngbehavior=hsa\n' > "${WORK}/.spiceinit"
+  write_spiceinit "${WORK}"
   START="$(date +%s)"; set +e
   ( cd "${WORK}" && HOME="${WORK}" nice "${NGSPICE}" -b closed.spice ) > "${WORK}/closed.log" 2>&1
   NG_RC=$?; set -e; ELAPSED=$(( $(date +%s) - START ))
@@ -95,7 +95,7 @@ if [ "${MODE}" = nominal ]; then
     echo ".endc"
     echo ".end"
   } > "${WORK}/ld.spice"
-  printf 'set ngbehavior=hsa\n' > "${WORK}/.spiceinit"
+  write_spiceinit "${WORK}"
   START="$(date +%s)"; set +e
   ( cd "${WORK}" && HOME="${WORK}" nice "${NGSPICE}" -b ld.spice ) > "${WORK}/ngspice.log" 2>&1
   NG_RC=$?; set -e

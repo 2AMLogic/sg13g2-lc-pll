@@ -17,6 +17,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 die() { echo "run-prescaler-g3: error: $*" >&2; exit 1; }
 source "${ROOT}/scripts/lib-pdk.sh"
+source "${ROOT}/scripts/lib-record.sh"
 
 PRESC_NETLIST="${PRESC_NETLIST:-${ROOT}/design/netlist/prescaler.spice}"
 MOS_NETLIST="${MOS_NETLIST:-${ROOT}/design/netlist/mos_latch.spice}"
@@ -36,20 +37,19 @@ W1=12u; W2=24u; W3=48u
 mkvar() { sed -e "s/^\.subckt mos_latch /.subckt mos_latch_$1 /" -e "s/ w=12u / w=$2 /g" "${MOS_NETLIST}" > "${WORK}/mos_$1.spice"; }
 mkvar w1 "${W1}"; mkvar w2 "${W2}"; mkvar w3 "${W3}"
 grep -q "w=${W2}" "${WORK}/mos_w2.spice" || die "MOS width variant did not apply (is the committed width still 12u?)"
-printf 'set ngbehavior=hsa\n' > "${WORK}/.spiceinit"
+write_spiceinit "${WORK}"
 render() { # template out [extra sed args...]
   local t="$1" o="$2"; shift 2
   sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@PRESC_NETLIST@@|${PRESC_NETLIST}|g" -e "s|@@OUT_DIR@@|${WORK}|g" \
       -e "s|@@AMP@@|${AMP}|g" -e "s|@@CCM@@|${CCM}|g" -e "s|@@CAMP@@|${CAMP}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" \
       -e "s|@@MOS_NETLIST1@@|${WORK}/mos_w1.spice|g" -e "s|@@MOS_NETLIST2@@|${WORK}/mos_w2.spice|g" -e "s|@@MOS_NETLIST3@@|${WORK}/mos_w3.spice|g" \
       -e "s|@@MOSW1@@|${W1}|g" -e "s|@@MOSW2@@|${W2}|g" -e "s|@@MOSW3@@|${W3}|g" "$@" "${ROOT}/sim/prescaler-g3/$t" > "${WORK}/$o"
-  if grep -vE '^[[:space:]]*\*' "${WORK}/$o" | grep -q '@@'; then die "unsubstituted placeholder left in $o"; fi
+  check_deck_placeholders "${WORK}/$o"
 }
 render g3_chain.spice.tmpl chain.spice -e "s|@@FIN@@|5e9|g" -e "s|@@FLIST@@|${CHAIN_FLIST}|g" -e "s|@@TRAN_STOP@@|${CHAIN_STOP}|g"
 render g3_pairs.spice.tmpl pairs.spice -e "s|@@FLIST@@|${PAIR_FLIST}|g" -e "s|@@TRAN_STOP@@|${PAIR_STOP}|g"
 
-COMMIT="$(git -C "${ROOT}" rev-parse --short=7 HEAD)"
-DIRTY=""; [ -z "$(git -C "${ROOT}" status --porcelain -- design sim scripts reuse.lock.json ':(exclude)sim/*/records/*' ':(exclude)sim/*/negative-control-*' 2>/dev/null)" ] || DIRTY="-dirty"
+record_stamp
 ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"

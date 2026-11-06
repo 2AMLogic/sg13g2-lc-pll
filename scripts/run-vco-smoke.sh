@@ -26,6 +26,7 @@ die() { echo "run-vco-smoke: error: $*" >&2; exit 1; }
 # ---- PDK + ngspice: shared check against sim/pins.json, 2-thread cap (PSP103 is not used here) ----
 PDK_SKIP_PSP103=1
 source "${ROOT}/scripts/lib-pdk.sh"
+source "${ROOT}/scripts/lib-record.sh"
 
 # ---- OSDI: compile the PDK's own mosvar.va (never trust a prebuilt binary blindly)
 VA_DIR="${PDK_DIR}/libs.tech/verilog-a/mosvar"
@@ -48,8 +49,8 @@ TMPL="${FETCHED}/sg13g2-vco/design/vco.spice"
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@IND_MODEL@@|${IND}|g" -e "s|@@OSDI_MOSVAR@@|${OSDI}|g" \
   "${TMPL}" > "${WORK}/vco_elab.spice"
-if grep -vE '^[[:space:]]*\*' "${WORK}/vco_elab.spice" | grep -q '@@'; then die "unsubstituted placeholder left in the rendered deck"; fi
-printf 'set ngbehavior=hsa\n' > "${WORK}/.spiceinit"
+check_deck_placeholders "${WORK}/vco_elab.spice"
+write_spiceinit "${WORK}"
 
 # ---- the one run ---------------------------------------------------------------
 COMMIT="$(jq -r '.imports[] | select(.from=="2AMLogic/sg13g2-vco") | .commit' "${ROOT}/reuse.lock.json")"
