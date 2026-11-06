@@ -16,8 +16,12 @@ the same verdicts and values). **Simulator: ngspice 46 on the fleet, against the
 
 ## `cp-dc/`: charge pump, rows 6 and 7
 
-`make_requests.py` writes `request-stage{1,2}.json`; `cp_body.spice` is the circuit body (same
-circuit as `sim/cp-dc`). The CP holds only HV MOS, so the HBT and MIM axes do not touch it: the
+`make_requests.py` writes `request-stage{1,2}.json`; the circuit body is the shared
+`sim/cp-dc/cp_icp.cir` (the requests reference it as `../../cp-dc/cp_icp.cir`; there is no second
+copy). The records `20261103-*-stage{1,2}` ran against the former `cp_body.spice`
+(`netlist_sha256` `eff5595e...6775`), last changed at `ff3bbf7` and still present at `a4f2611`
+(`git show a4f2611:sim/corner-verification/cp-dc/cp_body.spice`). The merged body adds only
+`.option scale=1`, which a single-corner local run showed leaves I_up/I_dn unchanged. The CP holds only HV MOS, so the HBT and MIM axes do not touch it: the
 135-point grid collapses to 15 distinct points (stage 1, 3.300 V) and the 18 supply sub-corners
 (stage 2, SLOW/TYP/FAST = `mos_ss`/`mos_tt`/`mos_ff` here). Records are append-only under
 `cp-dc/records/`. Measured at V_out = 1.65 V with IREF = 20 uA: I_up, I_dn (limits 100-400 uA, row 6
