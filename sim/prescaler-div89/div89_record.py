@@ -156,7 +156,7 @@ def render(g, reports, rec_id, commit, files, netlist):
                 else:
                     cells.append("%.2f %s" % (rr[0]["ratio"], "pass" if rr[0]["ok"] else "FAIL: " + rr[0]["why"]))
         out.append("| %s | %d | %.3f | %s |" % (k[0], k[1], k[2], " | ".join(cells)))
-    out += ["", "## Async modulus: per-period sequence (0 = /8 period, 1 = /9 period; each row the 16 phases phi = 0..1500 ps in order)", "",
+    out += ["", "## Async modulus: phases passing per corner (16 phases phi = 0..1500 ps; each phase is one 34 ns run graded by the async rule above)", "",
             "| process | T (C) | vdd (V) | phases passing | worst phase | note |", "|---|---|---|---|---|---|"]
     for k in sorted({(r["process"], r["temperature_c"], r["vdd_v"]) for r in asy}):
         rr = [r for r in asy if (r["process"], r["temperature_c"], r["vdd_v"]) == k]
