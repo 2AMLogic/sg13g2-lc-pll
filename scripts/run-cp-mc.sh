@@ -18,6 +18,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 die() { echo "run-cp-mc: error: $*" >&2; exit 1; }
 PDK_SKIP_PSP103=0
 source "${ROOT}/scripts/lib-pdk.sh"
+source "${ROOT}/scripts/lib-record.sh"
 export PDK_ROOT
 DRY=0; [ "${1:-}" = "--dry-run" ] && DRY=1
 N="${CP_MC_N:-200}"; NC="${CP_MC_N_CONTROL:-20}"; SEED="${CP_MC_SEED:-20261103}"
@@ -38,8 +39,7 @@ for d in nom neg; do klt sim "${WORK}/${d}/request.json" --dry-run --format json
 [ -x "${YPY}" ] && "${YPY}" -c 'import klt_yield_native' 2>/dev/null || die "no python with klt_yield_native at ${YPY}; see sim/cp-mc/README.md (build it in a venv in the worktree, never host-wide)"
 KLTY="$(dirname "${YPY}")/klt"
 
-COMMIT="$(git -C "${ROOT}" rev-parse --short=7 HEAD)"
-DIRTY=""; [ -z "$(git -C "${ROOT}" status --porcelain -- design sim scripts reuse.lock.json ':(exclude)sim/*/records/*' ':(exclude)sim/*/negative-control-*' 2>/dev/null)" ] || DIRTY="-dirty"
+record_stamp
 ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"; [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
 

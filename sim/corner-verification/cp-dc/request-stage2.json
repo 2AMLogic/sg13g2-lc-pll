@@ -7,7 +7,7 @@
   "Row 7 upper edge (V_hi,req) is NOT graded: gate G4. vtop_est is reported only and assumes mismatch rises monotonically from 1.65 V.",
   "supply_v arrays sweep together by index, so VDD and VHI move as one rail."
  ],
- "netlist": "cp_body.spice",
+ "netlist": "../../cp-dc/cp_icp.cir",
  "netlist_source": "schematic",
  "engine": "ngspice",
  "backend": "batch",

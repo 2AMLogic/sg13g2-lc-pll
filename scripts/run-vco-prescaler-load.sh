@@ -16,6 +16,7 @@ die() { echo "run-vco-prescaler-load: error: $*" >&2; exit 1; }
 "${ROOT}/scripts/fetch-vco.sh" >/dev/null
 PDK_SKIP_PSP103=1
 source "${ROOT}/scripts/lib-pdk.sh"
+source "${ROOT}/scripts/lib-record.sh"
 
 PRESC="${ROOT}/design/netlist/prescaler.spice"
 "${ROOT}/design/netlist.sh" --check prescaler >/dev/null 2>&1 || die "design/netlist/prescaler.spice is stale against design/prescaler.sch"
@@ -36,7 +37,7 @@ TMPL="${FETCHED}/sg13g2-vco/design/vco.spice"
 IND="${FETCHED}/sg13g2-vco/sim/inductor-model/sg13g2_inductor_em.spice"
 BTMPL="${ROOT}/sim/vco-prescaler-load/load.spice.tmpl"
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
-printf 'set ngbehavior=hsa\n' > "${WORK}/.spiceinit"
+write_spiceinit "${WORK}"
 
 LOAD_BLOCK=".include ${PRESC}
 IRF vdd iref dc 50u
@@ -51,7 +52,7 @@ for tag in unloaded loaded; do
     sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@IND_MODEL@@|${IND}|g" -e "s|@@OSDI_MOSVAR@@|${OSDI}|g" "${TMPL}" | sed '/^\.control/,$d'
     sed -e "s|@@OSDI@@|${OSDI}|g" -e "s|@@OUT@@|${WORK}|g" -e "s|@@TAG@@|${tag}|g" "${BTMPL}" | awk -v ld="${load}" '{ if ($0 == "@@LOAD@@") print ld; else print }'
   } > "${WORK}/${tag}.spice"
-  grep -vE '^[[:space:]]*\*' "${WORK}/${tag}.spice" | grep -q '@@' && die "unsubstituted placeholder in ${tag} deck"
+  check_deck_placeholders "${WORK}/${tag}.spice"
   ( cd "${WORK}" && HOME="${WORK}" "${NGSPICE}" -b "${tag}.spice" ) > "${WORK}/${tag}.log" 2>&1 || echo "warning: ngspice exit status non-zero for ${tag}" >&2
 done
 

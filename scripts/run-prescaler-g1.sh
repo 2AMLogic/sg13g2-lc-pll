@@ -25,6 +25,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 die() { echo "run-prescaler-g1: error: $*" >&2; exit 1; }
 PDK_SKIP_PSP103=1
 source "${ROOT}/scripts/lib-pdk.sh"
+source "${ROOT}/scripts/lib-record.sh"
 
 PRESC_NETLIST="${PRESC_NETLIST:-${ROOT}/design/netlist/prescaler.spice}"
 [ -f "${PRESC_NETLIST}" ] || die "${PRESC_NETLIST} not found"
@@ -41,11 +42,10 @@ sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@PRESC_NETLIST@@|${PRESC_NETLIST}|g
     -e "s|@@FIN@@|${FIN}|g" -e "s|@@AMP@@|${AMP}|g" -e "s|@@FLIST@@|${FLIST}|g" \
     -e "s|@@TRAN_STOP@@|${TRAN_STOP}|g" -e "s|@@TOG_STOP@@|${TOG_STOP}|g" \
     "${ROOT}/sim/prescaler-g1/prescaler_g1.spice.tmpl" > "${WORK}/prescaler_g1.spice"
-if grep -vE '^[[:space:]]*\*' "${WORK}/prescaler_g1.spice" | grep -q '@@'; then die "unsubstituted placeholder left in the deck"; fi
-printf 'set ngbehavior=hsa\n' > "${WORK}/.spiceinit"
+check_deck_placeholders "${WORK}/prescaler_g1.spice"
+write_spiceinit "${WORK}"
 
-COMMIT="$(git -C "${ROOT}" rev-parse --short=7 HEAD)"
-DIRTY=""; [ -z "$(git -C "${ROOT}" status --porcelain -- design sim scripts reuse.lock.json ':(exclude)sim/*/records/*' ':(exclude)sim/*/negative-control-*' 2>/dev/null)" ] || DIRTY="-dirty"
+record_stamp
 ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"

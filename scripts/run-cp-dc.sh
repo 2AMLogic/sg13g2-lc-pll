@@ -20,6 +20,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 die() { echo "run-cp-dc: error: $*" >&2; exit 1; }
 source "${ROOT}/scripts/lib-pdk.sh"
+source "${ROOT}/scripts/lib-record.sh"
 
 CP_NETLIST="${CP_NETLIST:-${ROOT}/design/netlist/cp.spice}"
 [ -f "${CP_NETLIST}" ] || die "${CP_NETLIST} not found"
@@ -32,11 +33,10 @@ WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" \
     -e "s|@@CP_NETLIST@@|${CP_NETLIST}|g" -e "s|@@DATA_OUT@@|${WORK}/cp_dc.data|g" \
     "${ROOT}/sim/cp-dc/cp_dc.spice.tmpl" > "${WORK}/cp_dc.spice"
-if grep -vE '^[[:space:]]*\*' "${WORK}/cp_dc.spice" | grep -q '@@'; then die "unsubstituted placeholder left in the deck"; fi
-printf 'set ngbehavior=hsa\n' > "${WORK}/.spiceinit"
+check_deck_placeholders "${WORK}/cp_dc.spice"
+write_spiceinit "${WORK}"
 
-COMMIT="$(git -C "${ROOT}" rev-parse --short=7 HEAD)"
-DIRTY=""; [ -z "$(git -C "${ROOT}" status --porcelain -- design sim scripts reuse.lock.json ':(exclude)sim/*/records/*' ':(exclude)sim/*/negative-control-*' 2>/dev/null)" ] || DIRTY="-dirty"
+record_stamp
 ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
