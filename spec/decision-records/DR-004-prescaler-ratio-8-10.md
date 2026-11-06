@@ -1,4 +1,4 @@
-# DR-003: Prescaler ratio P = 8/10 (supersedes DR-001 Rows 3 and 4)
+# DR-004: Prescaler ratio P = 8/10 (supersedes DR-001 Rows 3 and 4)
 
 - **Status**: proposed. Ratified when the operator merges this record after the
   EE and market key reviews have run as input (ratification protocol, as in
