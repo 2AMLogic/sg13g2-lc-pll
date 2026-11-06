@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # scratch: split-rail power breakdown deck for the divider (cml2cmos vs counters/clock tree)
 set -euo pipefail
-R=/home/ubuntu/GitHub/sg13g2-lc-pll/.loom/worktrees/issue-84
-S=/tmp/issue84-scratch
+R="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)"
+S="$(mktemp -d)"; trap '[ -n "${KEEP_SCRATCH:-}" ] || rm -rf "$S"' EXIT
 ROOT=$R; die() { echo "err: $*" >&2; exit 1; }; source "$R/scripts/lib-pdk.sh" 2>/dev/null
 DIVNET="${1:-$R/design/netlist/divider.spice}"
 sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" \
