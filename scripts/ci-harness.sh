@@ -15,4 +15,5 @@ cd "${ROOT}"
 bash scripts/test-fetch-vco.sh 2AMLogic/sg13g2-vco fetch-vco.sh design/vco.spice
 bash scripts/test-fetch-vco.sh 2AMLogic/sg13g2-pll fetch-pll.sh design/pfd.sch
 python3 scripts/gen_prescaler_vce_request.py --check
+bash scripts/test-lib-record.sh
 python3 -m pytest -q -p no:cacheprovider sim/loop-model sim/prescaler-g1

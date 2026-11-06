@@ -11,6 +11,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 die() { echo "run-cp-attr: error: $*" >&2; exit 1; }
 PDK_SKIP_PSP103=0
 source "${ROOT}/scripts/lib-pdk.sh"
+source "${ROOT}/scripts/lib-record.sh"
 export PDK_ROOT
 DRY=0; [ "${1:-}" = "--dry-run" ] && DRY=1
 N="${CP_ATTR_N:-100}"; SEED="${CP_MC_SEED:-20261103}"; NET="${CP_ATTR_NETLIST:-${ROOT}/design/netlist/cp.spice}"
@@ -27,8 +28,7 @@ for g in ${GROUPS_RUN}; do
   klt sim "${WORK}/${g}/request.json" --dry-run --format json >/dev/null || die "${g} request failed klt sim --dry-run"
 done
 [ "${DRY}" = 1 ] && { echo "run-cp-attr: all requests validate (dry run, nothing submitted)"; exit 0; }
-COMMIT="$(git -C "${ROOT}" rev-parse --short=7 HEAD)"
-DIRTY=""; [ -z "$(git -C "${ROOT}" status --porcelain -- design sim scripts reuse.lock.json ':(exclude)sim/*/records/*' 2>/dev/null)" ] || DIRTY="-dirty"
+record_stamp
 ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}-attribution.md"; [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
 ARGS=()

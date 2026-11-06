@@ -8,18 +8,19 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 die() { echo "run-divider-elab: error: $*" >&2; exit 1; }
 source "${ROOT}/scripts/lib-pdk.sh"
+source "${ROOT}/scripts/lib-record.sh"
 "${ROOT}/design/netlist.sh" --check divider >/dev/null 2>&1 || die "design/netlist/divider.spice is stale (run design/netlist.sh)"
 REC_DIR="${RECORD_DIR:-${ROOT}/sim/divider-elab/records}"; mkdir -p "${REC_DIR}"
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
-printf 'set ngbehavior=hsa\n' > "${WORK}/.spiceinit"
+write_spiceinit "${WORK}"
 NET="${ROOT}/design/netlist/divider.spice"
 for k in elab tran speed speedA; do
   sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@DIV_NETLIST@@|${NET}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@OUT_DIR@@|${WORK}|g" \
     "${ROOT}/sim/divider-elab/divider_${k}.spice.tmpl" > "${WORK}/divider_${k}.spice"
-  grep -vE '^[[:space:]]*\*' "${WORK}/divider_${k}.spice" | grep -q '@@' && die "unsubstituted placeholder in divider_${k}"
+  check_deck_placeholders "${WORK}/divider_${k}.spice"
 done
-COMMIT="$(git -C "${ROOT}" rev-parse --short=7 HEAD)"
-ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}"; REC="${REC_DIR}/${ID}.md"
+record_stamp
+ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"; REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
 ( cd "${WORK}" && HOME="${WORK}" "${NGSPICE}" -b divider_elab.spice ) > "${WORK}/elab.log" 2>&1 || die "elaboration run failed; see ${WORK}/elab.log"
 grep -q '^ELAB_OK' "${WORK}/elab.log" || die "elaboration did not complete"

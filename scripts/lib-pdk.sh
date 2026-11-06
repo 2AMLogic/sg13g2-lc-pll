@@ -1,5 +1,5 @@
 # shellcheck shell=bash
-# Sourced by scripts/run-cp-dc.sh, scripts/run-pfd-sweep.sh and scripts/run-vco-smoke.sh: locate
+# Sourced by the run-*.sh bench drivers (`git grep -ln 'source.*lib-pdk.sh' -- scripts`): locate
 # the PDK, refuse one whose model libraries (or PSP103 OSDI) do not hash to sim/pins.json, find
 # ngspice, cap its threads.
 # Set PDK_SKIP_PSP103=1 before sourcing to skip the PSP103 OSDI check (the VCO smoke bench

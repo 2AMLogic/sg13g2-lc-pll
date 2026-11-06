@@ -18,6 +18,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 die() { echo "run-pfd-sweep: error: $*" >&2; exit 1; }
 source "${ROOT}/scripts/lib-pdk.sh"
+source "${ROOT}/scripts/lib-record.sh"
 
 "${ROOT}/scripts/fetch-pll.sh" >/dev/null || die "fetch/verify of the pinned sg13g2-pll PFD failed"
 PFD_ADOPTED="${ROOT}/.fetched/sg13g2-pll/design/netlist/pfd.spice"
@@ -58,11 +59,10 @@ awk 'BEGIN{ printf "VFB fb 0 PWL(0 0\n" }
 sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@PFD_NETLIST@@|${PFD_NETLIST}|g" \
     -e "s|@@CP_NETLIST@@|${CP_NETLIST}|g" -e "s|@@FB_FILE@@|${WORK}/fb.inc|g" -e "s|@@TSTOP@@|${TSTOP_PS}p|g" \
     -e "s|@@DATA_OUT@@|${WORK}/pfd.data|g" "${ROOT}/sim/pfd/pfd_sweep.spice.tmpl" > "${WORK}/pfd_sweep.spice"
-if grep -vE '^[[:space:]]*\*' "${WORK}/pfd_sweep.spice" | grep -q '@@'; then die "unsubstituted placeholder left in the deck"; fi
-printf 'set ngbehavior=hsa\n' > "${WORK}/.spiceinit"
+check_deck_placeholders "${WORK}/pfd_sweep.spice"
+write_spiceinit "${WORK}"
 
-COMMIT="$(git -C "${ROOT}" rev-parse --short=7 HEAD)"
-DIRTY=""; [ -z "$(git -C "${ROOT}" status --porcelain -- design sim scripts reuse.lock.json ':(exclude)sim/*/records/*' ':(exclude)sim/*/negative-control-*' 2>/dev/null)" ] || DIRTY="-dirty"
+record_stamp
 ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"

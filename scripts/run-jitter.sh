@@ -13,6 +13,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 die() { echo "run-jitter: error: $*" >&2; exit 1; }
+source "${ROOT}/scripts/lib-record.sh"
 PY="${PYTHON:-python3}"
 "${PY}" -c 'import numpy' 2>/dev/null || die "${PY} has no numpy (the method-L model needs it): use a venv, e.g. python3 -m venv .venv && .venv/bin/pip install numpy, then PYTHON=.venv/bin/python scripts/run-jitter.sh"
 command -v jq >/dev/null || die "jq is required"
@@ -25,8 +26,7 @@ set +e
 RC=$?
 set -e
 [ -s "${WORK}/lm.json" ] || { cat "${WORK}/lm.txt" >&2; die "the model produced no result"; }
-COMMIT="$(git -C "${ROOT}" rev-parse --short=7 HEAD)"
-DIRTY=""; [ -z "$(git -C "${ROOT}" status --porcelain -- sim scripts ':(exclude)sim/*/records/*' ':(exclude)sim/*/negative-control-*' 2>/dev/null)" ] || DIRTY="-dirty"
+record_stamp sim scripts
 ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
