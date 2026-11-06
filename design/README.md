@@ -102,8 +102,8 @@ only as far as the varactor's DC load is negligible.
 HV-NMOS pair, PMOS mirror, tail 4 x `IREF` from the prescaler reference node, two inverters), and runs a
 pulse-swallow counter: `mcounter` counts `M` clocks (loads `M[3:0]` when Q = 0001), `acounter` holds `A`
 (2 bits) and drives `MC` high for `A` clocks after each load. With the prescaler's P = 8 (`MC` low) or
-10 (`MC` high), **N = 8 M + 2 A, A in [0, 3], even N only** (operator ruling on issue #43; the spec text
-still says P = 8/9 until PR #46 lands, and is not edited here). N = 100 is M = 12 (1100), A = 2 (10);
+10 (`MC` high), **N = 8 M + 2 A, A in [0, 3], even N only** (this is the current fixed-÷2 → ÷4/5 netlist; the operator ruled a ÷2/3 first stage for P = 8/9 and
+contiguous N, DR-004 on PR #46, design pending #158, so this counter is revised there). N = 100 is M = 12 (1100), A = 2 (10);
 the stretch band's bounds are N = 90 (M = 11, A = 1) and N = 110 (M = 13, A = 3). No odd N is claimed. The
 counter needs M >= A. `FB` is the terminal-count pulse retimed by one `CK` flop (one prescaler-output period
 wide). `M0..M3` and `A0..A1` are static code inputs; `pll_top` ties them for N = 100.
