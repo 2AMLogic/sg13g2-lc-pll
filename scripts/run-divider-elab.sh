@@ -14,7 +14,7 @@ WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 printf 'set ngbehavior=hsa\n' > "${WORK}/.spiceinit"
 NET="${ROOT}/design/netlist/divider.spice"
 for k in elab tran speed speedA; do
-  sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@DIV_NETLIST@@|${NET}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@OUT_DIR@@|${WORK}|g" \
+  sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@DIV_NETLIST@@|${NET}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@OSDI_PSP_NQS@@|${OSDI_PSP_NQS}|g" -e "s|@@OUT_DIR@@|${WORK}|g" \
     "${ROOT}/sim/divider-elab/divider_${k}.spice.tmpl" > "${WORK}/divider_${k}.spice"
   grep -vE '^[[:space:]]*\*' "${WORK}/divider_${k}.spice" | grep -q '@@' && die "unsubstituted placeholder in divider_${k}"
 done

@@ -43,6 +43,13 @@
     "osdi_sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796",
     "note": "The HV MOS models in cornerMOShv.lib are PSP103 and need this OSDI library (pre_osdi). It is the prebuilt library shipped in the PDK tree, hash-checked rather than recompiled: unlike mosvar it is not rebuilt here, so no openvaf-r is needed for the CP/PFD benches."
   },
+  "psp103_nqs": {
+    "model": "PSP103 with non-quasi-static effects (pspnqs103va: sg13g2_hv_nmos_psp_rf / sg13g2_hv_pmos_psp_rf)",
+    "verilog_a_source": "libs.tech/verilog-a/psp103/psp103.va (NQS build)",
+    "osdi": "libs.tech/ngspice/osdi/psp103_nqs.osdi",
+    "osdi_sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d",
+    "note": "Prebuilt library shipped in the PDK tree, hash-checked (pre_osdi), not recompiled. The RF HV MOS models in sg13g2_moshv_parm.lib are pspnqs103va and need it beside psp103.osdi; without it ngspice reports 'Unknown model type pspnqs103va'. Loaded explicitly by the four sim/divider-elab decks (OSDI_PSP_NQS from scripts/lib-pdk.sh) so no host ngspice startup file is relied on."
+  },
   "r3_cmc": {
     "model": "r3_cmc (polysilicon resistor OSDI: rppd in design/loopfilter.sch, rhigh in the sg13g2-pll lock_detector pull-up)",
     "verilog_a_source": "libs.tech/verilog-a/r3_cmc/r3_cmc.va",
