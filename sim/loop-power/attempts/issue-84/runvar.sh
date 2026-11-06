@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # scratch: run the unsplit loop-power deck against a variant divider netlist; usage: runvar.sh NBUF TAG
 set -euo pipefail
-R=/home/ubuntu/GitHub/sg13g2-lc-pll/.loom/worktrees/issue-84
-S=/tmp/issue84-scratch/$2; mkdir -p "$S"
+R="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)"
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+S="$(mktemp -d)"; trap '[ -n "${KEEP_SCRATCH:-}" ] || rm -rf "$S"' EXIT
 ROOT=$R; die() { echo "err: $*" >&2; exit 1; }; source "$R/scripts/lib-pdk.sh" 2>/dev/null
-python3 -I /tmp/issue84-scratch/mkvar.py "$R/design/netlist/divider.spice" "$S/divider_var.spice" "$1"
+python3 -I "$HERE/mkvar.py" "$R/design/netlist/divider.spice" "$S/divider_var.spice" "$1"
 sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" \
   -e "s|@@PRESC_NETLIST@@|$R/design/netlist/prescaler.spice|g" -e "s|@@DIV_NETLIST@@|$S/divider_var.spice|g" \
   -e "s|@@TSTOP@@|120n|g" -e "s|@@W0@@|40n|g" -e "s|@@OUT_DIR@@|$S|g" \

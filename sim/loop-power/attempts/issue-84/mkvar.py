@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""scratch: shared-clock-pair variant of the generated divider netlist (experiment only, not committed)."""
+"""scratch: shared-clock-pair variant of the generated divider netlist (used by runvar.sh; recorded in sim/loop-power/records/)."""
 import re, sys
 src, dst, nbuf = sys.argv[1], sys.argv[2], int(sys.argv[3])
 t = open(src).read()
