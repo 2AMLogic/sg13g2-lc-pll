@@ -32,6 +32,7 @@ XF4 tc4 ck4 fbi4 vdd 0 dff_tg_hv
 .save v(xr625.ck) v(mcr1) v(fbr1) v(xr687.ck) v(mcr2) v(fbr2) v(ck3) v(mci3) v(fbi3) v(ck4) v(mci4) v(fbi4)
 .control
 pre_osdi @@OSDI_PSP@@
+pre_osdi @@OSDI_PSP_NQS@@
 tran 20p 150n 0 20p
 wrdata @@OUT_DIR@@/speed.data v(xr625.ck) v(mcr1) v(fbr1) v(xr687.ck) v(mcr2) v(fbr2) v(ck3) v(mci3) v(fbi3) v(ck4) v(mci4) v(fbi4)
 .endc
