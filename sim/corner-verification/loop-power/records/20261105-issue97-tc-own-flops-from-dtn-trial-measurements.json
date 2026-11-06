@@ -1,0 +1,30 @@
+{
+ "FAST-125-2.97": {
+  "ipavg": -0.00194086,
+  "idavg": -0.00436094,
+  "tfb": null,
+  "fbmax": 0.00145436,
+  "job_id": "klt-sim-ad9fe38f3fc3"
+ },
+ "SLOW-125-2.97": {
+  "ipavg": -0.00175703,
+  "idavg": -0.00367905,
+  "tfb": null,
+  "fbmax": 0.00131634,
+  "job_id": "klt-sim-dd05e3543596"
+ },
+ "TYP-125-2.97": {
+  "ipavg": -0.00186796,
+  "idavg": -0.00411769,
+  "tfb": null,
+  "fbmax": 0.00141028,
+  "job_id": "klt-sim-33d49d2775d8"
+ },
+ "TYP-125-3.63": {
+  "ipavg": -0.00189409,
+  "idavg": -0.00556555,
+  "tfb": 5.99974e-08,
+  "fbmax": 3.72171,
+  "job_id": "klt-sim-bc1b7e57f6e9"
+ }
+}

@@ -1,0 +1,30 @@
+* sg13g2-lc-pll :: sim/corner-verification/loop-power -- spec row 11 loop power as a klt sim circuit body.
+* Same circuit as sim/loop-power/loop_power.spice.tmpl (prescaler + M/A divider, N = 100, ideal 5.0 GHz
+* differential drive 0.4 Vpp, 50 uA IREF) minus the .lib/.option/.control cards, which klt sim generates per
+* corner. vddv is the supply axis (corners.params): the SIN common mode must move with the supply, which
+* corners.supply_v cannot do (alter has no effect on a SIN source). Rails VDDP / VDDD are separate so the
+* prescaler and divider currents are reported separately.
+* Start-up: the DC operating point of the HBT prescaler does not converge from the powered state at most
+* corners (timestep too small on the reference HBT), so supplies, IREF and the drive common mode ramp from 0 V
+* over 3 ns and the t = 0 point is all zeros. The power window starts at 40 ns, well after the ramp.
+.param vddv=3.3
+VDDP vddp 0 pwl(0 0 3n {vddv})
+VDDD vddd 0 pwl(0 0 3n {vddv})
+IRF vddp iref pwl(0 0 3n 50u)
+BIP inp 0 V=v(vddp)+0.1*sin(3.14159265359e10*time)
+BIN inn 0 V=v(vddp)-0.1*sin(3.14159265359e10*time)
+.include ../../../design/netlist/prescaler.spice
+.include ../../../design/netlist/divider.spice
+XPS inp inn mc iref psp psn vddp 0 prescaler
+XDIV psp psn iref 0 0 vddd vddd 0 vddd mc fb vddd 0 divider
+* Issue #97 bench-only forcing 8-20 ns toward the FAST 125 C state at 50 ns (see make_forced_state_97.py).
+.param vforce={vddv}
+BFq0 xdiv.xm.q0 0 I=(time>8n && time<20n ? (v(xdiv.xm.q0)-vforce)/200 : 0)
+BFq1 xdiv.xm.q1 0 I=(time>8n && time<20n ? (v(xdiv.xm.q1)-vforce)/200 : 0)
+BFq2 xdiv.xm.q2 0 I=(time>8n && time<20n ? (v(xdiv.xm.q2)-0)/200 : 0)
+BFq3 xdiv.xm.q3 0 I=(time>8n && time<20n ? (v(xdiv.xm.q3)-vforce)/200 : 0)
+BFb1 xdiv.xm.b1 0 I=(time>8n && time<20n ? (v(xdiv.xm.b1)-0)/200 : 0)
+BFb2 xdiv.xm.b2 0 I=(time>8n && time<20n ? (v(xdiv.xm.b2)-0)/200 : 0)
+BFb3 xdiv.xm.b3 0 I=(time>8n && time<20n ? (v(xdiv.xm.b3)-0)/200 : 0)
+BFtc xdiv.tc 0 I=(time>8n && time<20n ? (v(xdiv.tc)-0)/200 : 0)
+BFtcn xdiv.tcn 0 I=(time>8n && time<20n ? (v(xdiv.tcn)-vforce)/200 : 0)

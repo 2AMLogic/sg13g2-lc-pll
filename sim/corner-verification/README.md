@@ -95,6 +95,14 @@ Findings, not relaxed:
 
 G2 stays open: row 1 does not close, 125 C is ungraded, row 6 is a proxy.
 
+## Generated request files (not committed, issue #106)
+
+Some `request-*.json` files are generator output and are no longer tracked (`.gitignore` lists the patterns). Records and results stay append-only; these inputs are rebuilt on demand. Digests and the byte-for-byte regeneration check are in `loop-power/records/20261106-issue106-generated-requests-removed.md`.
+
+- `loop-power/request-stage2-97-s-<PROC>-<T>-<VDD>.json` (18): `cd sim/corner-verification/loop-power && python3 -I make_stage2_shards_97.py` (reads the tracked `request-stage2-97-fix1.json`). Run it before any `make_*_97*.py` probe script, which reads these shards from the current directory.
+- `loop-power/request-stage1-missing<i>.json`: `python3 -I make_requests.py --missing <stage-1 records>`. The set that was recorded is two runs: indices 3..21 from the `20261103-133412`, `20261103-193448`, `20261103-215804` records, indices 0..2 from those plus `20261104-032646`.
+- `vco-prescaler-load/request-{loaded,unloaded}-stage{1,2}[-<shard>].json` (16): `scripts/fetch-vco.sh && python3 -I sim/corner-verification/vco-prescaler-load/make_requests.py`.
+
 ## Row status
 
 | Row | State | Why |

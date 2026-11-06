@@ -1,0 +1,15 @@
+diff --git a/design/netlist/divider.spice b/design/netlist/divider.spice
+index ab47f29..22a76bb 100644
+--- a/design/netlist/divider.spice
++++ b/design/netlist/divider.spice
+@@ -117,7 +117,9 @@ XP3Y p3a p3b DB3 VDD VSS nand2_hv
+ XT1 q3 q2 f32 VDD VSS nor2_hv
+ XT2 q0 q1n g10 VDD VSS nor2_hv
+ XT3 f32 g10 DTN VDD VSS nand2_hv
+-XT4 DTN DT VDD VSS inv_hv
++XT5F q3n q2n tF VDD VSS nand2_hv
++XT5G q0n q1 tG VDD VSS nand2_hv
++XT5 tF tG DT VDD VSS nor2_hv
+ .ends
+ 
+ 
