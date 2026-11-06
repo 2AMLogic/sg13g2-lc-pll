@@ -14,11 +14,12 @@ design/
   cp_leg_n.sch/.sym   NMOS sink leg
   cp_dumpbuf.sch/.sym VDUMP tracking follower
   netlist/prescaler.spice   committed derived netlist of the prescaler (hierarchical)
-  prescaler.sch/.sym        top: fixed /2 CML first stage + /4/5 dual-modulus, one IREF
-  div2_cml.sch/.sym         /2 first stage at the VCO frequency (input emitter followers + 2 latches)
+  prescaler.sch/.sym        top: /2/3 dual-modulus CML first stage on the VCO, then fixed /4 (P = 8/9), one IREF
+  div2_cml.sch/.sym         fixed /2 first stage (the pre-DR-005 /8-/10 prescaler; no longer instantiated)
   div2_ef_hs, div2_latch_hs first-stage follower pair and latch (higher current)
-  div45_dm.sch/.sym         /4/5: /2/3 cell + /2 toggle + modulus gating (MC high = /5)
-  cml_div23, cml_dff, cml_latch, cml_ef, cml_and2, div2_cml_ls, mc_conv   /4/5 stage cells
+  div89_dm.sch/.sym         /8/9: /2/3 cell on the VCO + two /2 stages; M = MC AND S1 AND S2 (MC high = /9)
+  div45_dm.sch/.sym         /4/5 (pre-DR-005, no longer instantiated): /2/3 cell + /2 toggle + modulus gating
+  cml_div23, cml_dff, cml_latch, cml_ef, cml_and2, div2_cml_ls, mc_conv   prescaler cells
   mos_latch.sch/.sym        G3 comparison only (HV-NMOS version of the CML latch); not in the prescaler
   loopfilter.sch/.sym       type-II 3rd-order passive filter (R1-C1, C2, R3-C3), values from sim/loop-model/loop-filter.json
   cml2cmos.sch/.sym         prescaler CML output -> CMOS clock
@@ -71,7 +72,7 @@ Designed here (spec row 4, section 7). Everything runs from the 3.3 V rail; the 
 `IREF` (50 uA nominal): a diode-connected `npn13G2v` + 2.4 kohm reference at the top, every tail is
 k x IREF (emitter-degenerated mirror). `INP`/`INN` are the tank-node inputs: the base of one
 `npn13G2v` emitter follower each (Nx = 1), DC-coupled, common mode 3.3 V (the VCO tank returns to
-VDD). `MC` is a CMOS-level (0/3.3 V) modulus control: low = /4, high = /5. `OUTP`/`OUTN` are CML
+VDD). `MC` is a CMOS-level (0/3.3 V) modulus control: low = /8, high = /9. `OUTP`/`OUTN` are CML
 levels (not CMOS; the level converter belongs with the divider, #32). The schematics were emitted
 by a script and are plain xschem; edit them in xschem and regenerate the netlist.
 
@@ -79,8 +80,13 @@ Derived from nothing in `sg13g2-pll` (spec section 7: no sibling block runs at t
 Resistors are ideal `res` (no PDK resistor model or parasitics yet). Sized at `hbt_typ`, 27 C, 3.3 V
 only (`sim/prescaler-g1/`, `sim/prescaler-g3/`); no corner grid.
 
-**Ratio caveat**: a fixed /2 followed by a /4/5 gives total /8 or /10, not the /8 or /9 that spec rows
-3 and 4 state; see the issue filed against the spec. The cells implement /4/5 as the issue asks.
+**Architecture (issue #158, `spec/decision-records/DR-005-prescaler-p89-div23-first-stage.md`)**: `div89_dm`
+puts the `cml_div23` /2/3 cell on the VCO (its input pair is the same `cml_ef` follower pair as the old /2, one
+`npn13G2v` Nx = 1 base per side) and follows it with two `div2_cml_ls` /2 stages. `M = MC AND S1 AND S2` (two
+`cml_and2` levels, `S1` through a `cml_ef`) is high for exactly one /2/3 output period in four, so MC high swallows
+one VCO cycle per prescaler period: /8 with MC low, /9 with MC high. `S1`/`S2` are a ripple counter (S2 toggles on S1), so the states step 00, 01, 10, 11 with S1 falling before S2 changes: by
+design `M` cannot see a spurious 11. The async-phase runs below check that, they do not prove it. The earlier /8-/10 build (`div2_cml` then
+`div45_dm`) is kept in the tree but not instantiated. Simulated at `sim/prescaler-div89/`.
 
 ## Loop blocks (`loopfilter`, `divider`, `pll_top`)
 

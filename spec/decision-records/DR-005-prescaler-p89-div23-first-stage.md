@@ -76,3 +76,41 @@ All 21 values satisfy A ≤ M and A ≤ 7; N = 90 / 100 / 110 reproduce row 3 (M
 
 These stay on #158 for follow-on increments (`sim/prescaler-div89/` deck and `klt sim` request with
 `--wait-for-capacity 600`).
+
+## Update, stage 2 (issue #158, appended; the sections above are unchanged)
+
+The "Not done" list above is updated here by appending. Records are under `sim/prescaler-div89/records/`, id
+`20261106-222812-0ffb789` (commit `0ffb789`); all results are simulated, not measured.
+
+- **Design**: `design/div89_dm.sch` (new) puts `cml_div23` on the tank inputs, then two `div2_cml_ls` /2 stages;
+  `M = MC AND S1 AND S2` (`S1` level-shifted by a `cml_ef`, two `cml_and2` levels, then the existing `mc_conv` +
+  `cml_ef` for MC). `design/prescaler.sch` instantiates it in place of `div2_cml` + `div45_dm`; both are left in the
+  tree, unused. `design/netlist/prescaler.spice` and `pll_top.spice` regenerated with `klt netlist`
+  (`design/netlist.sh --check` passes). No device was resized: the cells are the committed ones.
+- **/8 and /9 at 5.0 and 5.5 GHz in every `klt sim` corner**: 108 of 108 units pass (SLOW/TYP/FAST x -40/27/125 C x
+  2.970/3.300/3.630 V, so 125 C / 3.630 V of #97 and -40 C are in), measured period 7.999-9.000 input periods against
+  8 or 9. Stimulus, pass rule and swing threshold (>= 0.2 Vpp at every cycle) are in the record. Corner-bounded for
+  this grid, ideal stimulus and ideal resistors, **no VCO and no layout**.
+- **Modulus retiming**: MC pulsed at 16 phases (100 ps steps) of the output period at 5.5 GHz, 288 units (9 PVT x
+  2 supplies x 16): 288 of 288 give an 8..8 9..9 8..8 period sequence, no /10, /17 or hiccup.
+  **Limit of that statement**: the stimulus is an ideal CMOS-level pulse. In the PLL the MC comes from counters
+  clocked by this prescaler's own output, so its edges sit at a fixed delay after an output edge; the run covers
+  every phase, so it covers that delay, but it does not model the counter's own timing.
+- **Input capacitance**: 1.837 fF at 5.0 GHz and 1.950 fF at 5.5 GHz differential, nominal corner, device level
+  (`...-cin.md`), against 2.1 fF device plus routing. It is **0.46 fF (34 %) higher** than the /8-/10 build (1.373 fF)
+  because the followers drive four latch clock pairs, not two. Under the budget at device level; only 0.15 fF is left
+  for routing at 5.5 GHz. Corners not simulated.
+- **VCO swing and startup with this load: not re-checked here.** `sim/vco-prescaler-load` needs `openvaf-r`, which
+  the worker host does not have. Filed as a follow-up (#160); **the claim "the loop works" stays withheld.**
+- **Power**: 6.435 mW (/8) and 6.441 mW (/9) at TYP / 27 C / 3.3 V against 6.41 mW for the /8-/10 prescaler in
+  `sim/loop-power/records/20261106-051958-0503364-dirty.md` (+0.03 mW, different averaging windows); maximum over the
+  108 corners 7.355 mW (FAST, -40 C, 3.630 V, 5.5 GHz, /9), inside the 10 mW prescaler allocation of row 11. DR-003 is
+  unaffected: the prescaler share does not move.
+- **Failed run kept in the trail**: the first corner run (job `klt-sim-3a33c3ccd28e`, decks with the sources applied at
+  t = 0) errored on 4 of 108 units, FAST / 125 C / 3.630 V ("timestep too small" in the operating point). A local probe
+  showed the same failure at 110 C but not at 100 or 120 C, and the pre-change netlist converged at that corner:
+  a start-up convergence artefact. The decks now ramp supply, IREF and MC over 1 ns and the divider divides from the
+  ramped start at that corner. This is a bench change, not a circuit change.
+
+Still not done: the VCO re-check above; the routing capacitance in the tank load; Monte Carlo; noise and jitter of
+the first stage; layout.
