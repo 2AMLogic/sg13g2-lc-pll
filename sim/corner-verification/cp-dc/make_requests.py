@@ -20,7 +20,7 @@ def req(stage):
     ]
     d = {
         "_comment": comment,
-        "netlist": "cp_body.spice",
+        "netlist": "../../cp-dc/cp_icp.cir",
         "netlist_source": "schematic",
         "engine": "ngspice",
         "backend": "batch",
