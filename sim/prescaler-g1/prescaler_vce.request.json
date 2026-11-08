@@ -6,7 +6,7 @@
   },
   "analysis": {
     "kind": "tran",
-    "args": "1p 20n 10n 2p"
+    "args": "1p 24n 10n 2p"
   },
   "corners": {
     "process": [
@@ -46,7 +46,15 @@
     "params": {
       "vddv": [
         2.97,
+        2.97,
+        3.63,
         3.63
+      ],
+      "mcv": [
+        0,
+        1,
+        0,
+        1
       ]
     }
   },
