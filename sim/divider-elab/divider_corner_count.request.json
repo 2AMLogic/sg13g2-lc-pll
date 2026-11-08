@@ -106,7 +106,11 @@
     "osdi_preload": [
       "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"
     ],
-    "stage_model_inputs": true
+    "stage_model_inputs": true,
+    "timeout_s": 900
+  },
+  "remote": {
+    "hosts": 9
   },
   "measurements": [
     {

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Grade a `klt sim` report of divider_corner_{speed,count}.request.json and write the record.
 
-Per run: windows are the intervals between consecutive rising FB edges (>= 3 edges needed); clocks are rising CK edges in a
+Per run: windows are the intervals between consecutive rising FB edges (>= 4 edges needed; the first full window is the start-up window and is reported but not graded); clocks are rising CK edges in a
 window, MC-high clocks are those where MC was high 0.3 ns before the edge (state from the MC rise/fall crossings);
-N = 8 x clocks + MC-high (prescaler P = 8/9). The run passes if every full window gives the expected N = 8 M + A
+N = 8 x clocks + MC-high (prescaler P = 8/9). The run passes if every window after the first gives the expected N = 8 M + A
 (M, A decoded from the tie voltages in the run's params). A run that did not converge, whose crossing lists were truncated,
-or that has fewer than 3 FB edges is never a pass: verdict FAIL if any converged run gives a wrong N, else INCOMPLETE
+or that has fewer than 4 FB edges is never a pass: verdict FAIL if any converged run gives a wrong N, else INCOMPLETE
 if any is not graded, else PASS.
 
     divider_corner_record.py --report R.json [--report R2.json ...] --out-dir DIR --id ID --commit SHA
@@ -48,7 +48,7 @@ def grade_run(c):
     m, a = _code(p)
     want = 8 * m + a
     row = {"corner": f"{c['process']}/{c['temperature_c']}C", "fin_mhz": float(p["fin"]) / 1e6, "m": m, "a": a, "want": want,
-           "fb_edges": None, "ck": None, "mc_hi": None, "n": None, "status": "not-graded", "why": ""}
+           "fb_edges": None, "first_n": None, "ck": None, "mc_hi": None, "n": None, "status": "not-graded", "why": ""}
     cr = {k: _meas(c, k) for k in ("ck_rise", "fb_rise", "mc_rise", "mc_fall")}
     if c["status"] not in ("pass", "fail") or any(not v for v in cr.values()):
         row["why"] = "did not converge" if c["status"] not in ("pass", "fail") else "no crossing data"
@@ -58,14 +58,16 @@ def grade_run(c):
         return row
     fb, ck = cr["fb_rise"]["times"], cr["ck_rise"]["times"]
     row["fb_edges"] = len(fb)
-    if len(fb) < 3:
-        row["why"] = "no toggle (fewer than 3 FB edges)"
+    if len(fb) < 4:
+        row["why"] = "no toggle (fewer than 4 FB edges)"
         return row
     ns = []
     for x, y in zip(fb, fb[1:]):
         e = [t for t in ck if x <= t < y]
         hi = sum(1 for t in e if mc_high_at(cr["mc_rise"]["times"], cr["mc_fall"]["times"], t - LEAD))
         ns.append((8 * len(e) + hi, len(e), hi))
+    row["first_n"] = ns[0][0]   # start-up window: the counter state at t = 0 is arbitrary (DC operating point); reported, not graded
+    ns = ns[1:]
     row["ck"], row["mc_hi"] = ns[-1][1], ns[-1][2]
     row["n"] = ns[-1][0] if len({n for n, _, _ in ns}) == 1 else None
     row["status"] = "pass" if row["n"] == want else "FAIL"
@@ -87,14 +89,14 @@ def render(parts, rec_id, commit):
     out += [f"**Result (simulated, not measured): **{verdict}**: {sum(r['status']=='pass' for r in allrows)} of {len(allrows)} runs divide to the expected N; "
             f"{sum(r['status']=='FAIL' for r in allrows)} wrong, {sum(r['status']=='not-graded' for r in allrows)} not graded.**", ""]
     out += ["- **Scope**: the real divider chain (`cml2cmos` + counters, 3-bit `acounter`, `design/netlist/divider.spice`) at SLOW (hbt_wcs, mos_ss, cap_wcs), TYP (hbt_typ, mos_tt, cap_typ) and FAST (hbt_bcs, mos_ff, cap_bcs) x -40 / 27 / 125 C, 3.3 V. TYP/27C is the nominal point. Not covered: supply other than 3.3 V, the real prescaler driving the converter (ideal 0.4 Vpp sine at 3.18 V common mode instead), layout, noise, Monte Carlo, N codes other than those listed.",
-            "- **Method**: `klt sim` corner requests (`gen_corner_requests.py`), batch fleet; tran with crossing measurements of `xd.ck`, `fb` and `mc` at 1.65 V; N = 8 x clocks + MC-high clocks per FB window (MC sampled 0.3 ns before each CK edge), required equal to 8 M + A on every full window, >= 3 FB edges. Speed requests: 150 ns, fin 625 / 687.5 MHz (= 5.0 / 5.5 GHz / 8). Count request: 640 ns at 100 MHz.",
+            "- **Method**: `klt sim` corner requests (`gen_corner_requests.py`), batch fleet; tran with crossing measurements of `xd.ck`, `fb` and `mc` at 1.65 V; N = 8 x clocks + MC-high clocks per FB window (MC sampled 0.3 ns before each CK edge), required equal to 8 M + A on every window after the first (the first full window is start-up from the DC operating point, shown but not graded), >= 4 FB edges. Speed requests: 150 ns, fin 625 / 687.5 MHz (= 5.0 / 5.5 GHz / 8). Count request: 640 ns at 100 MHz.",
             f"- **Commit**: `{commit}` of this repository", ""]
     for name, g, rep, req in parts:
         env, rem = rep["environment"], rep["environment"].get("remote", {})
         out += [f"## {name}", "", f"Request `{req.name}` sha256 `{hashlib.sha256(req.read_bytes()).hexdigest()}`; `ngspice-{env.get('engine_version')}`, job `{rem.get('job_id')}`, {rem.get('instance_type')}, {rem.get('lifecycle')}; verdict **{g['verdict']}**.", "",
-                "| corner | fin (MHz) | M | A | FB edges | CK/window | MC-high | N | expected N | result |", "|---|---|---|---|---|---|---|---|---|---|"]
+                "| corner | fin (MHz) | M | A | FB edges | first window N (start-up, not graded) | CK/window | MC-high | N | expected N | result |", "|---|---|---|---|---|---|---|---|---|---|---|"]
         for r in g["rows"]:
-            out.append("| %s | %g | %d | %d | %s | %s | %s | %s | %d | %s%s |" % (r["corner"], r["fin_mhz"], r["m"], r["a"], r["fb_edges"], r["ck"], r["mc_hi"],
+            out.append("| %s | %g | %d | %d | %s | %s | %s | %s | %s | %d | %s%s |" % (r["corner"], r["fin_mhz"], r["m"], r["a"], r["fb_edges"], r["first_n"], r["ck"], r["mc_hi"],
                        r["n"], r["want"], r["status"], (": " + r["why"]) if r["why"] else ""))
         out.append("")
     return "\n".join(out)

@@ -140,14 +140,21 @@ Appended after both hand-run ratification keys at `b31d51ee` asked for changes (
   count check gives N = 100 and N = 90 (A = 2). Other codes in 90-110 (N = 110 is elaborated only) rest on the
   logic-level test. The record is stamped `-dirty` (run before the commit). **No corner other than nominal**, so the
   stage-2 corner evidence for the counters is not extended to the 3-bit one. Three-bit next-state logic is three gates deep, as the 2-bit logic was.
-- **HBT Vce-versus-BVCEO stress check: not graded for the new netlist.** The re-run
-  (`sim/prescaler-g1/records/20261106-224822-cf0dede-dirty-vce.md`) did not converge in 18 of 18 corners, because
-  the bench `.ic` in `sim/prescaler-g1/prescaler_vce.cir` still names `x1.x2.mp` / `x1.x2.mn`, instances that the
-  `div89_dm` hierarchy removed. It is a stale bench, not a circuit finding, and no stress number exists for this
-  netlist: **the stage-2 power and swing statements above say nothing about |Vce| against the 2.2 V BVCEO minimum.**
-  Tracked in #162 (bench fix and re-grade). Not done.
+- **HBT Vce-versus-BVCEO stress check: graded for the new netlist, FAIL (#162).** The bench
+  `sim/prescaler-g1/prescaler_vce.cir` is reworked (power-up ramp in place of the stale `x1.x2.mp/mn` `.ic`; a new `mcv` axis so MC low
+  (/8) and MC high (/9) both run, which stresses `mc_conv`, `XGM` and the /2/3 modulus path). Record
+  `sim/prescaler-g1/records/20261108-225549-330a5a2-vce.md`: all 18 supply sub-corners x MC low/high = 36 runs through `klt sim` on the
+  batch fleet, 36 of 36 converged, simulated, not measured, 116 HBTs each, against BVCEO 2.2 V min (limit unchanged).
+  **9 of 36 runs exceed it, all at 3.63 V with MC high (/9), all on the same device, `x1.x89.xmc.xqt` (the `mc_conv` tail transistor):
+  2.672 V (SLOW/-40C), 2.734 V (SLOW/27C), 2.833 V (SLOW/125C), TYP 2.676 / 2.739 / 2.839 V, FAST 2.680 / 2.742 / 2.844 V
+  (worst FAST/125C, margin -0.644 V).** At 2.97 V every run passes, worst 2.186 V (`xmc.xqt`, FAST/125C, MC high), margin only +0.014 V;
+  with MC low the worst is 2.106 V (FAST/125C, 3.63 V, `xc23.xck.xqf1`, margin +0.094 V). BVCEO is an open-base rating and the base is
+  driven, so an excursion is a flag, not proven breakdown; it is reported against 2.2 V as the issue asks. **No design change is made
+  here**: the netlist is untouched by this record, and the `mc_conv` tail is a prescaler-cell finding for the owner of #158 to decide.
+  The stage-2 power and swing statements above therefore stand without a Vce pass at the maximum supply in /9 mode.
+  The earlier INCOMPLETE record (`20261106-224822-cf0dede-dirty-vce.md`) is superseded; it is kept (records are append-only).
 - **Spec row 4** is brought into line by an appended update in `spec/target-spec.md` (see its "Appended updates"
   section), not by editing the ratified text.
 
 Still not done, in addition to the list above: corner evidence (anything but nominal) for the 3-bit `acounter`, the
-Vce stress grade (#162).
+Vce stress at 3.63 V in /9 mode (FAIL above).

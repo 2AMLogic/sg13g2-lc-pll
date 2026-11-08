@@ -49,10 +49,10 @@ a 1.2k / 2.4k collector resistor on every latch/AND tail; the `mc_conv` referenc
 0.7 VDD (12k/28k). The 2.2 V limit is unchanged. The 125 C aborts were the bench's own `.ic` on the /2 output
 nodes (see the comment in `prescaler_vce.cir`), not the circuit.
 
-### Status for the `div89_dm` netlist (PR #161)
+### Status for the `div89_dm` netlist (PR #161, issue #162)
 
-The Vce records above (20261103) were taken on the previous prescaler netlist and **do not cover** the `div89_dm`
-(P = 8/9, ÷2/3 first stage) netlist; they are superseded and unverified for it. The re-run
-`records/20261106-224822-cf0dede-dirty-vce.md` is **INCOMPLETE (18 of 18 not converged)**: `prescaler_vce.cir` still seeds
-`x1.x2.mp` / `x1.x2.mn`, which do not exist in the new hierarchy (ngspice fatal at the `.ic` card, no analysis ran). HBT Vce vs
-BVCEO is therefore **not graded** for the new prescaler until the bench deck is reworked (new `.ic` nodes, MC = 0 and 1).
+The Vce records dated 20261103 were taken on the previous prescaler netlist and do not cover `div89_dm`; the
+`20261106-224822-cf0dede-dirty` re-run is INCOMPLETE (stale `.ic`) and is superseded. The bench is reworked: power-up
+ramp instead of `.ic`, and an `mcv` axis (0 = /8, 1 = /9 at the supply level) zipped with `vddv`, so the request is 36 runs
+(18 sub-corners x MC low/high). `records/20261108-225549-330a5a2-vce.md`: 36 of 36 converged, **FAIL, 9 runs over 2.2 V, all at
+3.63 V with MC high, device `x1.x89.xmc.xqt`** (worst 2.844 V); at 2.97 V all pass, worst 2.186 V (+0.014 V). See DR-005.

@@ -27,5 +27,13 @@ def test_unconverged_truncated_and_no_toggle_are_not_passes():
     ck = [i + 0.5 for i in range(60)]
     assert dr.grade_run(_run([0.0, 12.0, 24.0], ck, [1.0], [2.0], status="error"))["status"] == "not-graded"
     assert dr.grade_run(_run([0.0, 12.0, 24.0], ck, [1.0], [2.0], truncated=True))["status"] == "not-graded"
-    assert dr.grade_run(_run([0.0, 12.0], ck, [1.0], [2.0]))["status"] == "not-graded"
+    assert dr.grade_run(_run([0.0, 12.0, 24.0], ck, [1.0], [2.0]))["status"] == "not-graded"
     assert dr.grade({"corners": [_run([0.0, 12.0], ck, [1.0], [2.0])]})["verdict"] == "INCOMPLETE"
+
+
+def test_bad_startup_window_is_ignored_but_bad_later_window_fails():
+    ck = [i + 0.5 for i in range(80)]
+    ok = dr.grade_run(_run([0.0, 7.0, 19.0, 31.0, 43.0], ck, [], [], a=0))   # window 1 is 7 clocks, later ones 12
+    assert ok["first_n"] != 100 and ok["status"] == "pass"
+    bad = dr.grade_run(_run([0.0, 12.0, 24.0, 35.0, 47.0], ck, [], [], a=0))
+    assert bad["status"] == "FAIL"
