@@ -19,6 +19,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 die() { echo "run-loop-tran: error: $*" >&2; exit 1; }
 source "${ROOT}/scripts/lib-pdk.sh"
+source "${ROOT}/scripts/lib-record.sh"
 "${ROOT}/scripts/fetch-pll.sh" --verify >/dev/null 2>&1 || die "the pinned sg13g2-pll files are missing or altered (run scripts/fetch-pll.sh)"
 
 PFD_NETLIST="${ROOT}/.fetched/sg13g2-pll/design/netlist/pfd.spice"
@@ -40,11 +41,10 @@ sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@
     -e "s|@@PHI0@@|${PHI0}|g" -e "s|@@VSTART@@|${VSTART}|g" -e "s|@@TSTOP@@|${TSTOP}|g" -e "s|@@TMAX@@|${TMAX}|g" \
     -e "s|@@DATA_OUT@@|${WORK}/loop_tran.data|g" \
     "${ROOT}/sim/loop-tran/loop_tran.spice.tmpl" > "${WORK}/loop_tran.spice"
-if grep -vE '^[[:space:]]*\*' "${WORK}/loop_tran.spice" | grep -q '@@'; then die "unsubstituted placeholder left in the deck"; fi
-printf 'set ngbehavior=hsa\n' > "${WORK}/.spiceinit"
+check_deck_placeholders "${WORK}/loop_tran.spice"
+write_spiceinit "${WORK}"
 
-COMMIT="$(git -C "${ROOT}" rev-parse --short=7 HEAD)"
-DIRTY=""; [ -z "$(git -C "${ROOT}" status --porcelain -- design sim scripts reuse.lock.json ':(exclude)sim/*/records/*' ':(exclude)sim/*/negative-control-*' 2>/dev/null)" ] || DIRTY="-dirty"
+record_stamp
 ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"

@@ -6,7 +6,7 @@
   "Stage 2 = SLOW/TYP/FAST (mos_ss/mos_tt/mos_ff for this netlist) x T {-40,27,125} x supply {2.970,3.630} V = 18 sub-corners.",
   "Row 7 upper edge (V_hi,req) is NOT graded: gate G4. vtop_est is reported only and assumes mismatch rises monotonically from 1.65 V."
  ],
- "netlist": "cp_body.spice",
+ "netlist": "../../cp-dc/cp_icp.cir",
  "netlist_source": "schematic",
  "engine": "ngspice",
  "backend": "batch",
