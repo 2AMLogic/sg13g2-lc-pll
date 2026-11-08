@@ -109,9 +109,6 @@
     "stage_model_inputs": true,
     "timeout_s": 900
   },
-  "remote": {
-    "hosts": 9
-  },
   "measurements": [
     {
       "name": "ck_rise",

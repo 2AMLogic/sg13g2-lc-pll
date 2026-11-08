@@ -8,8 +8,8 @@ Process SLOW / TYP / FAST = (hbt_wcs, mos_ss, cap_wcs) / (hbt_typ, mos_tt, cap_t
 -40 / 27 / 125 C, 3.3 V. corners.params arrays are zipped by index, one entry per case.
  speed: 150 ns at the prescaler output rates, N = 100 at 625 and 687.5 MHz, A = 0 (N = 96) and A = 7 (N = 103) at 687.5 MHz.
  count: 640 ns at 100 MHz, N = 100 (A = 4) and N = 90 (M = 11, A = 2).
-timeout_s / remote.hosts: the default 120 s per-corner timeout killed the first batch run (a 150 ns real-chain run takes minutes);
-shards keep timeout_s x units per job under the fleet's 3600 s ceiling.
+timeout_s: the default 120 s per-corner timeout killed the first batch run (a 150 ns real-chain run takes minutes). Not sharded:
+units run in parallel on one fleet host; klt only warns that the serial bound exceeds the ceiling.
 Measurements are crossing times of ck, fb and mc at 1.65 V; divider_corner_record.py turns them into N.
 """
 import json
@@ -34,7 +34,7 @@ def params(cases):
     }
 
 
-def request(stop, cases, timeout_s, hosts):
+def request(stop, cases, timeout_s):
     xs = [("ck_rise", "v(xd.ck)", "rise"), ("fb_rise", "v(fb)", "rise"), ("mc_rise", "v(mc)", "rise"), ("mc_fall", "v(mc)", "fall")]
     return {
         "netlist": "divider_corner.cir",
@@ -48,13 +48,12 @@ def request(stop, cases, timeout_s, hosts):
             "params": params(cases),
         },
         "options": {"osdi_preload": ["$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"], "stage_model_inputs": True, "timeout_s": timeout_s},
-        "remote": {"hosts": hosts},
         "measurements": [{"name": n, "unit": "s", "crossings": {"signal": s, "level": 1.65, "edge": e, "from": "0", "max": 200}} for n, s, e in xs],
     }
 
 
 def build():
-    return {"divider_corner_speed.request.json": request("150n", SPEED, 600, 9), "divider_corner_count.request.json": request("640n", COUNT, 900, 9)}
+    return {"divider_corner_speed.request.json": request("150n", SPEED, 600), "divider_corner_count.request.json": request("640n", COUNT, 900)}
 
 
 if __name__ == "__main__":
