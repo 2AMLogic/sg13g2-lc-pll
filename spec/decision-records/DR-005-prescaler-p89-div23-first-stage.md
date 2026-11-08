@@ -114,3 +114,40 @@ The "Not done" list above is updated here by appending. Records are under `sim/p
 
 Still not done: the VCO re-check above; the routing capacitance in the tank load; Monte Carlo; noise and jitter of
 the first stage; layout.
+
+## Update, stage 3 (PR #161 ratification send-back, appended; the sections above are unchanged)
+
+Appended after both hand-run ratification keys at `b31d51ee` asked for changes (EE `request-changes`, market
+`uncompetitive`). All results are simulated or logic-level, not measured.
+
+- **Swallow counter widened to 3 bits (the blocking finding).** At stage 2 `acounter` was still 2 bits (A in [0, 3])
+  and `pll_top` still tied M = 12, A = 2, the P = 8/10 code. With P = 8/9, N = 8 M + A, so that tie gave **N = 98
+  (4.90 GHz)**, not 100, and only 10 of the 21 values in 90-110 were reachable (N = 100 and 110 were not). The stage-2
+  text above ("the design swap is done") covered the prescaler only; it did not cover the counter. Now:
+  `design/acounter.sch` is a 3-bit saturating down counter (A0..A2, state s0..s2, registered MC), `divider` gains an
+  `A2` pin, and `pll_top` ties **M = 12, A = 4 (N = 100)**. `design/netlist/{divider,pll_top}.spice` are regenerated
+  with `klt netlist` (`design/netlist.sh --check` passes). The adopted `sg13g2-pll` cells are unchanged (one extra
+  `dff_tg_hv`, `inv_hv`, `nand3_hv`, `nor2_hv` and `nand2_hv` instances).
+- **Evidence for the counter, at logic level.** `sim/prescaler-div89/test_divider_code.py` reads the committed
+  `pll_top.spice` and checks, from the netlist: the tied code is M = 12, A = 4; every N in 90-110 has a legal code
+  (A <= M) with the widths present in the netlist; and a zero-delay boolean model of the `acounter` gates, parsed from
+  the netlist, holds MC high for exactly A clocks after a load for every A in 0..7 from every pre-state, then holds at
+  zero. This is **not a timing or corner result**. Divider decks (`sim/divider-elab/`) are re-tied for the new pin
+  list and codes (N = 100: A = 4; 90: A = 2; 110: A = 6; extremes A = 0 and A = 7, N = 96 and 103) and the count
+  scripts now use N = 8 x clocks + MC-high. Re-run, record `sim/divider-elab/records/20261108-044535-b31d51e-dirty.md` (simulated, **nominal corner only**, ideal
+  stimulus, no layout, no prescaler in the loop): FB divides to the expected N at 625 and 687.5 MHz through the real
+  `cml2cmos` for N = 100 (A = 4), A = 0 (N = 96) and A = 7 (N = 103), and the ideal-clock control for N = 100; the 100 MHz
+  count check gives N = 100 and N = 90 (A = 2). Other codes in 90-110 (N = 110 is elaborated only) rest on the
+  logic-level test. The record is stamped `-dirty` (run before the commit). **No corner other than nominal**, so the
+  stage-2 corner evidence for the counters is not extended to the 3-bit one. Three-bit next-state logic is three gates deep, as the 2-bit logic was.
+- **HBT Vce-versus-BVCEO stress check: not graded for the new netlist.** The re-run
+  (`sim/prescaler-g1/records/20261106-224822-cf0dede-dirty-vce.md`) did not converge in 18 of 18 corners, because
+  the bench `.ic` in `sim/prescaler-g1/prescaler_vce.cir` still names `x1.x2.mp` / `x1.x2.mn`, instances that the
+  `div89_dm` hierarchy removed. It is a stale bench, not a circuit finding, and no stress number exists for this
+  netlist: **the stage-2 power and swing statements above say nothing about |Vce| against the 2.2 V BVCEO minimum.**
+  Tracked in #162 (bench fix and re-grade). Not done.
+- **Spec row 4** is brought into line by an appended update in `spec/target-spec.md` (see its "Appended updates"
+  section), not by editing the ratified text.
+
+Still not done, in addition to the list above: corner evidence (anything but nominal) for the 3-bit `acounter`, the
+Vce stress grade (#162).

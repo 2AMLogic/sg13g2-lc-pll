@@ -23,6 +23,8 @@ B 5 -45 57.5 -35 62.5 {name=A0 dir=in}
 T {A0} -32 55 0 0 0.15 0.15 {layer=7}
 B 5 -45 97.5 -35 102.5 {name=A1 dir=in}
 T {A1} -32 95 0 0 0.15 0.15 {layer=7}
+B 5 -45 137.5 -35 142.5 {name=A2 dir=in}
+T {A2} -32 135 0 0 0.15 0.15 {layer=7}
 B 5 35 -62.5 45 -57.5 {name=MC dir=out}
 T {MC} 32 -65 0 1 0.15 0.15 {layer=7}
 B 5 -5 -222.5 5 -217.5 {name=VDD dir=inout}

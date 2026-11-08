@@ -246,3 +246,13 @@ The loop is graded on the **same grid** as the VCO so the two are comparable.
 | G6 | Transient-noise cost versus run length |
 | G7 | VCO-rail isolation simulated against row 9 |
 | G8 | Inductor keep-out check available in `klt` or recorded as a tool gap |
+
+## Appended updates (ratified text above is unchanged)
+
+- **Row 4, appended (PR #161, DR-005).** The row 4 text above describes the pre-DR-005 arrangement (fixed ÷2 first
+  stage, then ÷4/5). The topology that supersedes it is in
+  [DR-005](decision-records/DR-005-prescaler-p89-div23-first-stage.md): a **÷2/3 dual-modulus** HBT CML first stage on
+  the tank, then a **fixed ÷4**, so P = 8 (MC low) or 9 (MC high) and the ratio of row 4 and of row 3
+  (`N = 8·M + A`) is unchanged. The ≤ 2.1 fF input-load budget still applies; G1 and G2 are not closed by this note,
+  and the VCO re-check with the new first stage's load is open (#160). The swallow counter that row 3 needs is 3 bits
+  (A in [0, 7]); DR-005 stage 3 records it.

@@ -15,8 +15,8 @@ XQR iref iref rr 0 npn13G2v Nx=1 El=1
 RR rr 0 2400
 VIP inp 0 dc 3.18 sin(3.18 0.2 100meg)
 VIN inn 0 dc 3.18 sin(3.18 -0.2 100meg)
-Xd100 inp inn iref 0 0 one one 0 one mc100 fb100 vdd 0 divider
-Xd90  inp inn iref one one 0 one one 0 mc90 fb90 vdd 0 divider
+Xd100 inp inn iref 0 0 one one 0 0 one mc100 fb100 vdd 0 divider
+Xd90  inp inn iref one one 0 one 0 one 0 mc90 fb90 vdd 0 divider
 .save v(xd100.ck) v(mc100) v(fb100) v(mc90) v(fb90)
 .control
 pre_osdi @@OSDI_PSP@@

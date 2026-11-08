@@ -17,5 +17,5 @@ VIN inn 0 dc {vddv} sin({vddv} -0.1 5.0e9)
 .include ../../../design/netlist/prescaler.spice
 .include ../../../design/netlist/divider.spice
 XPS inp inn mc iref psp psn vddp 0 prescaler
-XDIV psp psn iref 0 0 vddd vddd 0 vddd mc fb vddd 0 divider
+XDIV psp psn iref 0 0 vddd vddd 0 0 vddd mc fb vddd 0 divider
 .nodeset v(xps.hp)=3.2 v(xps.hn)=3.0 v(xps.x2.mp)=3.0 v(xps.x2.mn)=3.2
