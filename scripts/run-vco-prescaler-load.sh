@@ -66,7 +66,17 @@ cat "${WORK}/loaded.log" > "${REC_DIR}/${ID}-ngspice-loaded.txt"
 JSON="${WORK}/result.json"
 python3 -I "${ROOT}/sim/vco-prescaler-load/analyze.py" "${WORK}" > "${JSON}"
 
-g1="$(ls "${ROOT}"/sim/prescaler-g1/records/*-24cdbb1-dirty.md 2>/dev/null | tail -1 || true)"
+# Load figures come from the newest Cin record (never a literal), parsed from its raw-output line.
+cin="$(ls "${ROOT}"/sim/prescaler-div89/records/*-cin.md 2>/dev/null | tail -1 || true)"
+[ -n "${cin}" ] || die "no sim/prescaler-div89/records/*-cin.md record; cannot state the load presented"
+cin_fig() { # $1 = frequency token, e.g. 5.0e9 ; prints "<fF> <uS>"
+  local c g
+  c="$(grep -o "AC $1 cdiff_F [-0-9.E+]*" "${cin}" | head -1 | awk '{print $4}')"
+  g="$(grep -o "AC $1 cdiff_F [-0-9.E+]* gdiff_S [-0-9.E+]*" "${cin}" | head -1 | awk '{print $6}')"
+  [ -n "${c}" ] && [ -n "${g}" ] || die "cannot parse ${1} figures from ${cin}"
+  awk -v c="${c}" -v g="${g}" 'BEGIN{printf "%.3f fF and %.1f uS", c*1e15, g*1e6}'
+}
+cin50="$(cin_fig 5.0e9)"; cin55="$(cin_fig 5.5e9)"
 {
   echo "# vco-prescaler-load run ${ID}"
   echo
@@ -101,7 +111,7 @@ g1="$(ls "${ROOT}"/sim/prescaler-g1/records/*-24cdbb1-dirty.md 2>/dev/null | tai
     "- Row 6 startup: all loaded points start from the 10 mV kick; t90 loaded vs unloaded is in the table. The g_m / G_loss >= 3.0 ratio is not evaluated."
   ' "${JSON}"
   echo
-  echo "- **Load presented** (the prescaler input, \`design/netlist/prescaler.spice\` sha256 \`$(sha256sum "${PRESC}" | cut -d' ' -f1)\`, instance \`X1\` on OUTP/OUTN, MC=0, ideal IREF 50 uA): the G1 device-level figure, 1.373 fF differential and -29.3 uS at 5.0 GHz, nominal corner (\`$(basename "${g1:-none}")\`). Routing capacitance is not included (budget 2.1 fF device plus routing). Here the actual input is attached, so the effect is simulated directly rather than inferred from that number."
+  echo "- **Load presented** (the prescaler input, \`design/netlist/prescaler.spice\` sha256 \`$(sha256sum "${PRESC}" | cut -d' ' -f1)\`, instance \`X1\` on OUTP/OUTN, MC=0, ideal IREF 50 uA): the device-level figure from \`$(basename "${cin}")\`, differential ${cin50} at 5.0 GHz and ${cin55} at 5.5 GHz, nominal corner. Routing capacitance is not included (budget 2.1 fF device plus routing). Here the actual input is attached, so the effect is simulated directly rather than inferred from that number."
   echo "- **VCO**: \`2AMLogic/sg13g2-vco@${COMMIT}\` unmodified; deck = fetched \`design/vco.spice\` (sha256 \`$(sha256sum "${TMPL}" | cut -d' ' -f1)\`) up to its \`.control\` block, placeholders substituted; this bench appends only the load and its own \`.control\`. Inductor model sha256 \`$(sha256sum "${IND}" | cut -d' ' -f1)\`."
   echo "- **Method**: per case one \`ngspice -b\`: \`op\`, a 3-6 GHz \`ac\` current-probe sweep, then \`tran 1p 20n 0 2p\` at Vctrl = 0, 1.65, 3.3 V from the deck's 10 mV differential \`.ic\` kick. f_osc, Vpp: mean-crossing count and peak-to-peak over 10-20 ns; t90: first half-cycle peak-to-peak at 90 % of final Vpp (see \`sim/vco-prescaler-load/analyze.py\`). Startup margin row 6 is the ratio g_m / tank loss >= 3.0; it is **not** extracted here. The t90 loaded against unloaded is the only startup evidence."
   echo "- **Corner**: typical only (\`hbt_typ\`, \`mos_tt\`, \`cap_typ\`), 27 C, 3.3 V. The C-grid (135 + 18) was **not** run: the varactor is an OSDI model and \`klt sim\` cannot express an OSDI deck (klayout-tools#2511); hand-launching a local grid is not allowed on this host. Gate G2 therefore stays open for the C-grid."
