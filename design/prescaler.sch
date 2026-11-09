@@ -11,7 +11,7 @@ C {lab_pin.sym} 420 -30 2 0 {name=l1 lab=IREF}
 C {lab_pin.sym} 380 0 0 0 {name=l2 lab=IREF}
 C {lab_pin.sym} 420 30 2 0 {name=l3 lab=reref}
 C {lab_pin.sym} 420 0 2 0 {name=l4 lab=VSS}
-C {res.sym} 800 0 0 0 {name=RREF value=2400 footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rppd.sym} 800 0 0 0 {name=RREF model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=9.05u}
 C {lab_pin.sym} 800 -30 2 0 {name=l5 lab=reref}
 C {lab_pin.sym} 800 30 2 0 {name=l6 lab=VSS}
 C {div89_dm.sym} 1600 0 0 0 {name=X89}

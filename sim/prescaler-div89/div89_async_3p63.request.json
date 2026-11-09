@@ -16,6 +16,10 @@
           {
             "lib": "libs.tech/ngspice/models/cornerHBT.lib",
             "section": "hbt_wcs"
+          },
+          {
+            "lib": "libs.tech/ngspice/models/cornerRES.lib",
+            "section": "res_wcs"
           }
         ]
       },
@@ -25,6 +29,10 @@
           {
             "lib": "libs.tech/ngspice/models/cornerHBT.lib",
             "section": "hbt_typ"
+          },
+          {
+            "lib": "libs.tech/ngspice/models/cornerRES.lib",
+            "section": "res_typ"
           }
         ]
       },
@@ -34,6 +42,10 @@
           {
             "lib": "libs.tech/ngspice/models/cornerHBT.lib",
             "section": "hbt_bcs"
+          },
+          {
+            "lib": "libs.tech/ngspice/models/cornerRES.lib",
+            "section": "res_bcs"
           }
         ]
       }
@@ -101,7 +113,13 @@
     }
   },
   "options": {
-    "stage_model_inputs": true
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set ngbehavior=hsa"
+    ],
+    "osdi_preload": [
+      "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi"
+    ]
   },
   "measurements": [
     {

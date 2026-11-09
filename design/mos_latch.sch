@@ -6,10 +6,10 @@ K {}
 V {}
 S {}
 E {}
-C {res.sym} 400 0 0 0 {name=RL1 value=2400 footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rppd.sym} 400 0 0 0 {name=RL1 model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=9.05u}
 C {lab_pin.sym} 400 -30 2 0 {name=l1 lab=VDD}
 C {lab_pin.sym} 400 30 2 0 {name=l2 lab=Q}
-C {res.sym} 800 0 0 0 {name=RL2 value=2400 footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rppd.sym} 800 0 0 0 {name=RL2 model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=9.05u}
 C {lab_pin.sym} 800 -30 2 0 {name=l3 lab=VDD}
 C {lab_pin.sym} 800 30 2 0 {name=l4 lab=QB}
 C {sg13g2_pr/sg13_hv_nmos.sym} 1200 0 0 0 {name=MT1 model=sg13_hv_nmos w=12u l=0.45u ng=1 m=1 spiceprefix=X}
