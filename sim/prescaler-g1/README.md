@@ -56,3 +56,10 @@ The Vce records dated 20261103 were taken on the previous prescaler netlist and 
 ramp instead of `.ic`, and an `mcv` axis (0 = /8, 1 = /9 at the supply level) zipped with `vddv`, so the request is 36 runs
 (18 sub-corners x MC low/high). `records/20261108-225549-330a5a2-vce.md`: 36 of 36 converged, **FAIL, 9 runs over 2.2 V, all at
 3.63 V with MC high, device `x1.x89.xmc.xqt`** (worst 2.844 V); at 2.97 V all pass, worst 2.186 V (+0.014 V). See DR-005.
+
+### mc_conv tail Vce (issue #165)
+
+The FAIL above is closed: `mc_conv` now has an `RIN` 10k / `RB` 31k input divider (MC high puts `bm` at 0.756 VDD), and
+`records/20261109-234716-6fbbf0e-dirty-vce.md` reads PASS (0 of 36 over). /9 now needs MC at or above ~0.94 VDD
+(`sim/prescaler-div89/records/20261109-235500-6fbbf0e-dirty-mc-conv-xqt.md`). Simulated, not measured.
+

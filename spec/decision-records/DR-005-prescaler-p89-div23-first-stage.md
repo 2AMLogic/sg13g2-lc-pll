@@ -170,3 +170,7 @@ Appended after both hand-run ratification keys at `b31d51ee` asked for changes (
 
 Still not done, in addition to the list above: the 16 ungraded divider corner runs (9 non-convergence, 7 no-toggle, see above), the
 Vce stress at 3.63 V in /9 mode (FAIL above).
+
+## Follow-up 2026-11-09 (issue #165)
+
+The 3.63 V / MC-high XQT Vce FAIL recorded above is closed by a circuit change inside `mc_conv` (VCO untouched, 2.2 V limit unchanged): `RIN` 20k -> 10k plus `RB` 31k from `bm` to VSS, so MC high puts `bm` at 0.756 VDD instead of VDD. Simulated, not measured: `sim/prescaler-g1/records/20261109-234716-6fbbf0e-dirty-vce.md` reads PASS (0 of 36 over; worst 1.786 V at 2.97 V, 2.108 V at 3.63 V). Cost: /9 now needs MC at or above ~0.94 VDD (`sim/prescaler-div89/records/20261109-235500-6fbbf0e-dirty-mc-conv-xqt.md`).

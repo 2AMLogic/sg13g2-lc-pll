@@ -48,7 +48,7 @@ XS2 S1 S1B IB OUTP OUTN VDD VSS div2_cml_ls
 *.opin MCN
 *.iopin VDD
 *.iopin VSS
-RIN MC bm 20k m=1
+RIN MC bm 10k m=1
 RD1 VDD vr 12k m=1
 RD2 vr VSS 28k m=1
 RL1 VDD MCP 2400 m=1
@@ -57,6 +57,7 @@ XQM1 MCN bm t VSS npn13G2v Nx=1 El=1
 XQM2 MCP vr t VSS npn13G2v Nx=1 El=1
 XQT t IB teT VSS npn13G2v Nx=2 El=1
 RT teT VSS 1200 m=1
+RB bm VSS 31k m=1
 .ends
 
 
