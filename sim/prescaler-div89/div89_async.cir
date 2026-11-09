@@ -1,0 +1,12 @@
+* sg13g2-lc-pll :: sim/prescaler-div89 (async) -- modulus control toggled at an arbitrary phase, for `klt sim`.
+* Same body and power-up ramp as div89_chain.cir, but MC is one 8 ns CMOS-level pulse whose rising edge sits at 8 ns + phi
+* (corners.params phi). Over the phi axis the edges walk through the whole prescaler output period; the
+* grader requires every output period to be 8 or 9 VCO periods, one 8 -> 9 -> 8 sequence, no other length.
+.param vddv=3.3 fin=5.5e9 phi=0
+VDD vdd 0 pwl(0 0 1n {vddv})
+IRF vdd iref pwl(0 0 1n 50u)
+VMC mc 0 pulse(0 {vddv} {8n+phi} 50p 50p 8n 40n)
+X1 inp inn mc iref outp outn vdd 0 prescaler
+BIP inp 0 V=v(vdd)+0.1*sin(6.283185307179586*{fin}*time)
+BIN inn 0 V=v(vdd)-0.1*sin(6.283185307179586*{fin}*time)
+.include ../../design/netlist/prescaler.spice

@@ -1,18 +1,17 @@
-* sg13g2-lc-pll :: sim/prescaler-g1 -- prescaler HBT Vce stress across PVT, for `klt sim`.
-* Circuit body only (klt sim owns the .lib/.temp/.control cards). Same stimulus as
-* prescaler_g1.spice.tmpl: 0.4 Vpp differential 5.0 GHz sine on INP/INN at a common mode equal to
-* the supply (the tank inductors return to VDD), IREF = 50 uA, MC = 0 (/4 mode), ideal resistors.
-* vddv is the supply axis (corners.params): the SIN common mode must move with the supply, which
-* corners.supply_v cannot do (alter has no effect on a SIN source).
-.param vddv=3.3
-VDD vdd 0 {vddv}
-IRF vdd iref dc 50u
-VMC mc 0 dc 0
+* sg13g2-lc-pll :: sim/prescaler-g1 -- prescaler HBT Vce stress across PVT and both moduli, for `klt sim`.
+* Circuit body only (klt sim owns the .lib/.temp/.control cards). Same stimulus as sim/prescaler-div89/div89_chain.cir:
+* 0.4 Vpp differential 5.0 GHz sine on INP/INN at a common mode equal to the supply (the tank inductors return to VDD),
+* IREF = 50 uA, ideal resistors. Axes (corners.params, zipped point by point): vddv supply, mcv MC level as a fraction
+* of the supply (0 = /8, 1 = /9). Both moduli are run so the /9 path (cml_div23 modulus control, mc_conv, XGM) is stressed.
+* Power-up ramp (supply, IREF and MC pwl 0 -> final in 1 ns; the inputs follow v(vdd) through B sources) instead of
+* a .ic seed: the earlier bench forced the master latch of the removed /2 (x1.x2.mp/mn); that hierarchy no longer
+* exists, and forcing latch nodes of the new /2/3 + /2 + /2 chain made the transient operating point fragile (see
+* div89_chain.cir). From the all-zero operating point the divider starts by itself; the window starts at 10 ns.
+.param vddv=3.3 mcv=0
+VDD vdd 0 pwl(0 0 1n {vddv})
+IRF vdd iref pwl(0 0 1n 50u)
+VMC mc 0 pwl(0 0 1n {mcv*vddv})
 X1 inp inn mc iref outp outn vdd 0 prescaler
-VIP inp 0 dc {vddv} sin({vddv} 0.1 5e9)
-VIN inn 0 dc {vddv} sin({vddv} -0.1 5e9)
-* Only the master latch of the /2 is seeded, to break the symmetry. Forcing the /2 output nodes
-* (x1.hp/x1.hn) too made the transient operating point fail ('timestep too small') at 125 C in the
-* SLOW/TYP/FAST 3.63 V and FAST 2.97 V corners; the divider still starts and toggles (checked).
-.ic v(x1.x2.mp)={vddv-0.3} v(x1.x2.mn)={vddv-0.1}
+BIP inp 0 V=v(vdd)+0.1*sin(6.283185307179586*5e9*time)
+BIN inn 0 V=v(vdd)-0.1*sin(6.283185307179586*5e9*time)
 .include ../../design/netlist/prescaler.spice

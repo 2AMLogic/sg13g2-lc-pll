@@ -4,7 +4,7 @@
   "netlist": "prescaler_vce.cir",
   "engine": "ngspice",
   "models": {"pdk": "sg13g2"},
-  "analysis": {"kind": "tran", "args": "1p 20n 10n 2p"},
+  "analysis": {"kind": "tran", "args": "1p 24n 10n 2p"},
   "corners": {
     "process": [
       {"name": "SLOW", "sections": [{"lib": "libs.tech/ngspice/models/cornerHBT.lib", "section": "hbt_wcs"}]},
@@ -12,7 +12,7 @@
       {"name": "FAST", "sections": [{"lib": "libs.tech/ngspice/models/cornerHBT.lib", "section": "hbt_bcs"}]}
     ],
     "temperature_c": [-40, 27, 125],
-    "params": {"vddv": [2.97, 3.63]}
+    "params": {"vddv": [2.97, 2.97, 3.63, 3.63], "mcv": [0, 1, 0, 1]}
   },
   "options": {
     "stage_model_inputs": true

@@ -48,3 +48,11 @@ Changes, all in this block: a diode-connected HBT plus a 4k resistor in series w
 a 1.2k / 2.4k collector resistor on every latch/AND tail; the `mc_conv` reference divider moved from VDD/2 to
 0.7 VDD (12k/28k). The 2.2 V limit is unchanged. The 125 C aborts were the bench's own `.ic` on the /2 output
 nodes (see the comment in `prescaler_vce.cir`), not the circuit.
+
+### Status for the `div89_dm` netlist (PR #161, issue #162)
+
+The Vce records dated 20261103 were taken on the previous prescaler netlist and do not cover `div89_dm`; the
+`20261106-224822-cf0dede-dirty` re-run is INCOMPLETE (stale `.ic`) and is superseded. The bench is reworked: power-up
+ramp instead of `.ic`, and an `mcv` axis (0 = /8, 1 = /9 at the supply level) zipped with `vddv`, so the request is 36 runs
+(18 sub-corners x MC low/high). `records/20261108-225549-330a5a2-vce.md`: 36 of 36 converged, **FAIL, 9 runs over 2.2 V, all at
+3.63 V with MC high, device `x1.x89.xmc.xqt`** (worst 2.844 V); at 2.97 V all pass, worst 2.186 V (+0.014 V). See DR-005.

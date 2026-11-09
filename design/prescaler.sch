@@ -1,5 +1,5 @@
 v {xschem version=3.4.8RC file_version=1.3
-sg13g2-lc-pll :: prescaler -- prescaler: fixed /2 CML first stage on the VCO tank, then /4/5 dual-modulus (P = 8 or 9). IREF = 50 uA sets every tail as k * IREF.
+sg13g2-lc-pll :: prescaler -- prescaler: /2/3 dual-modulus CML first stage on the VCO tank, then fixed /4 (P = 8 or 9). IREF = 50 uA sets every tail as k * IREF.
 }
 G {}
 K {}
@@ -14,17 +14,9 @@ C {lab_pin.sym} 420 0 2 0 {name=l4 lab=VSS}
 C {res.sym} 800 0 0 0 {name=RREF value=2400 footprint=1206 device=resistor m=1}
 C {lab_pin.sym} 800 -30 2 0 {name=l5 lab=reref}
 C {lab_pin.sym} 800 30 2 0 {name=l6 lab=VSS}
-C {div2_cml.sym} 1200 0 0 0 {name=X2}
-C {lab_pin.sym} 1160 -40 0 0 {name=l7 lab=INP}
-C {lab_pin.sym} 1160 0 0 0 {name=l8 lab=INN}
-C {lab_pin.sym} 1160 40 0 0 {name=l9 lab=IREF}
-C {lab_pin.sym} 1240 -20 2 0 {name=l10 lab=HP}
-C {lab_pin.sym} 1240 20 2 0 {name=l11 lab=HN}
-C {lab_pin.sym} 1200 -120 2 0 {name=l12 lab=VDD}
-C {lab_pin.sym} 1200 120 2 0 {name=l13 lab=VSS}
-C {div45_dm.sym} 1600 0 0 0 {name=X45}
-C {lab_pin.sym} 1560 -60 0 0 {name=l14 lab=HP}
-C {lab_pin.sym} 1560 -20 0 0 {name=l15 lab=HN}
+C {div89_dm.sym} 1600 0 0 0 {name=X89}
+C {lab_pin.sym} 1560 -60 0 0 {name=l14 lab=INP}
+C {lab_pin.sym} 1560 -20 0 0 {name=l15 lab=INN}
 C {lab_pin.sym} 1560 20 0 0 {name=l16 lab=MC}
 C {lab_pin.sym} 1560 60 0 0 {name=l17 lab=IREF}
 C {lab_pin.sym} 1640 -20 2 0 {name=l18 lab=OUTP}

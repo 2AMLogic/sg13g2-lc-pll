@@ -6,7 +6,7 @@
   },
   "analysis": {
     "kind": "tran",
-    "args": "1p 20n 10n 2p"
+    "args": "1p 24n 10n 2p"
   },
   "corners": {
     "process": [
@@ -46,7 +46,15 @@
     "params": {
       "vddv": [
         2.97,
+        2.97,
+        3.63,
         3.63
+      ],
+      "mcv": [
+        0,
+        1,
+        0,
+        1
       ]
     }
   },
@@ -63,832 +71,920 @@
       }
     },
     {
-      "name": "vce_x1_x2_xef_xqe1",
-      "expr": "vecmax(abs(v(vdd)-v(x1.x2.ckp)))",
+      "name": "vce_x1_x89_xmc_xqm1",
+      "expr": "vecmax(abs(v(x1.x89.mcn)-v(x1.x89.xmc.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xef_xqe2",
-      "expr": "vecmax(abs(v(vdd)-v(x1.x2.ckn)))",
+      "name": "vce_x1_x89_xmc_xqm2",
+      "expr": "vecmax(abs(v(x1.x89.mcp)-v(x1.x89.xmc.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xef_xqf1",
-      "expr": "vecmax(abs(v(x1.x2.xef.qc1)-v(x1.x2.xef.f1)))",
+      "name": "vce_x1_x89_xmc_xqt",
+      "expr": "vecmax(abs(v(x1.x89.xmc.t)-v(x1.x89.xmc.tet)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xef_xqf2",
-      "expr": "vecmax(abs(v(x1.x2.xef.qc2)-v(x1.x2.xef.f2)))",
+      "name": "vce_x1_x89_xmcl_xqe1",
+      "expr": "vecmax(abs(v(vdd)-v(x1.x89.mcl)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xef_xdf1",
-      "expr": "vecmax(abs(v(x1.x2.ckp)-v(x1.x2.xef.d1)))",
+      "name": "vce_x1_x89_xmcl_xqe2",
+      "expr": "vecmax(abs(v(vdd)-v(x1.x89.mclb)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xef_xdf2",
-      "expr": "vecmax(abs(v(x1.x2.ckn)-v(x1.x2.xef.d2)))",
+      "name": "vce_x1_x89_xmcl_xqf1",
+      "expr": "vecmax(abs(v(x1.x89.xmcl.qc1)-v(x1.x89.xmcl.f1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xm_xqt1",
-      "expr": "vecmax(abs(v(x1.x2.mn)-v(x1.x2.xm.e1)))",
+      "name": "vce_x1_x89_xmcl_xqf2",
+      "expr": "vecmax(abs(v(x1.x89.xmcl.qc2)-v(x1.x89.xmcl.f2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xm_xqt2",
-      "expr": "vecmax(abs(v(x1.x2.mp)-v(x1.x2.xm.e1)))",
+      "name": "vce_x1_x89_xmcl_xdf1",
+      "expr": "vecmax(abs(v(x1.x89.mcl)-v(x1.x89.xmcl.d1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xm_xqh1",
-      "expr": "vecmax(abs(v(x1.x2.mn)-v(x1.x2.xm.e2)))",
+      "name": "vce_x1_x89_xmcl_xdf2",
+      "expr": "vecmax(abs(v(x1.x89.mclb)-v(x1.x89.xmcl.d2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xm_xqh2",
-      "expr": "vecmax(abs(v(x1.x2.mp)-v(x1.x2.xm.e2)))",
+      "name": "vce_x1_x89_xes_xqe1",
+      "expr": "vecmax(abs(v(vdd)-v(x1.x89.s1l)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xm_xqc1",
-      "expr": "vecmax(abs(v(x1.x2.xm.e1)-v(x1.x2.xm.t)))",
+      "name": "vce_x1_x89_xes_xqe2",
+      "expr": "vecmax(abs(v(vdd)-v(x1.x89.s1lb)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xm_xqc2",
-      "expr": "vecmax(abs(v(x1.x2.xm.e2)-v(x1.x2.xm.t)))",
+      "name": "vce_x1_x89_xes_xqf1",
+      "expr": "vecmax(abs(v(x1.x89.xes.qc1)-v(x1.x89.xes.f1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xm_xqt",
-      "expr": "vecmax(abs(v(x1.x2.xm.tc)-v(x1.x2.xm.tet)))",
+      "name": "vce_x1_x89_xes_xqf2",
+      "expr": "vecmax(abs(v(x1.x89.xes.qc2)-v(x1.x89.xes.f2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xs_xqt1",
-      "expr": "vecmax(abs(v(x1.hn)-v(x1.x2.xs.e1)))",
+      "name": "vce_x1_x89_xes_xdf1",
+      "expr": "vecmax(abs(v(x1.x89.s1l)-v(x1.x89.xes.d1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xs_xqt2",
-      "expr": "vecmax(abs(v(x1.hp)-v(x1.x2.xs.e1)))",
+      "name": "vce_x1_x89_xes_xdf2",
+      "expr": "vecmax(abs(v(x1.x89.s1lb)-v(x1.x89.xes.d2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xs_xqh1",
-      "expr": "vecmax(abs(v(x1.hn)-v(x1.x2.xs.e2)))",
+      "name": "vce_x1_x89_xg1_xqa1",
+      "expr": "vecmax(abs(v(x1.x89.gb)-v(x1.x89.xg1.n1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xs_xqh2",
-      "expr": "vecmax(abs(v(x1.hp)-v(x1.x2.xs.e2)))",
+      "name": "vce_x1_x89_xg1_xqa2",
+      "expr": "vecmax(abs(v(x1.x89.g)-v(x1.x89.xg1.n1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xs_xqc1",
-      "expr": "vecmax(abs(v(x1.x2.xs.e1)-v(x1.x2.xs.t)))",
+      "name": "vce_x1_x89_xg1_xqb1",
+      "expr": "vecmax(abs(v(x1.x89.xg1.n1)-v(x1.x89.xg1.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xs_xqc2",
-      "expr": "vecmax(abs(v(x1.x2.xs.e2)-v(x1.x2.xs.t)))",
+      "name": "vce_x1_x89_xg1_xqb2",
+      "expr": "vecmax(abs(v(x1.x89.g)-v(x1.x89.xg1.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x2_xs_xqt",
-      "expr": "vecmax(abs(v(x1.x2.xs.tc)-v(x1.x2.xs.tet)))",
+      "name": "vce_x1_x89_xg1_xqt",
+      "expr": "vecmax(abs(v(x1.x89.xg1.tc)-v(x1.x89.xg1.tet)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xmc_xqm1",
-      "expr": "vecmax(abs(v(x1.x45.mcn)-v(x1.x45.xmc.t)))",
+      "name": "vce_x1_x89_xgm_xqa1",
+      "expr": "vecmax(abs(v(x1.x89.mb)-v(x1.x89.xgm.n1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xmc_xqm2",
-      "expr": "vecmax(abs(v(x1.x45.mcp)-v(x1.x45.xmc.t)))",
+      "name": "vce_x1_x89_xgm_xqa2",
+      "expr": "vecmax(abs(v(x1.x89.m)-v(x1.x89.xgm.n1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xmc_xqt",
-      "expr": "vecmax(abs(v(x1.x45.xmc.t)-v(x1.x45.xmc.tet)))",
+      "name": "vce_x1_x89_xgm_xqb1",
+      "expr": "vecmax(abs(v(x1.x89.xgm.n1)-v(x1.x89.xgm.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xmcl_xqe1",
-      "expr": "vecmax(abs(v(vdd)-v(x1.x45.mcl)))",
+      "name": "vce_x1_x89_xgm_xqb2",
+      "expr": "vecmax(abs(v(x1.x89.m)-v(x1.x89.xgm.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xmcl_xqe2",
-      "expr": "vecmax(abs(v(vdd)-v(x1.x45.mclb)))",
+      "name": "vce_x1_x89_xgm_xqt",
+      "expr": "vecmax(abs(v(x1.x89.xgm.tc)-v(x1.x89.xgm.tet)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xmcl_xqf1",
-      "expr": "vecmax(abs(v(x1.x45.xmcl.qc1)-v(x1.x45.xmcl.f1)))",
+      "name": "vce_x1_x89_xc23_xck_xqe1",
+      "expr": "vecmax(abs(v(vdd)-v(x1.x89.xc23.ckp)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xmcl_xqf2",
-      "expr": "vecmax(abs(v(x1.x45.xmcl.qc2)-v(x1.x45.xmcl.f2)))",
+      "name": "vce_x1_x89_xc23_xck_xqe2",
+      "expr": "vecmax(abs(v(vdd)-v(x1.x89.xc23.ckn)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xmcl_xdf1",
-      "expr": "vecmax(abs(v(x1.x45.mcl)-v(x1.x45.xmcl.d1)))",
+      "name": "vce_x1_x89_xc23_xck_xqf1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xck.qc1)-v(x1.x89.xc23.xck.f1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xmcl_xdf2",
-      "expr": "vecmax(abs(v(x1.x45.mclb)-v(x1.x45.xmcl.d2)))",
+      "name": "vce_x1_x89_xc23_xck_xqf2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xck.qc2)-v(x1.x89.xc23.xck.f2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xgm_xqa1",
-      "expr": "vecmax(abs(v(x1.x45.mb)-v(x1.x45.xgm.n1)))",
+      "name": "vce_x1_x89_xc23_xck_xdf1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.ckp)-v(x1.x89.xc23.xck.d1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xgm_xqa2",
-      "expr": "vecmax(abs(v(x1.x45.m)-v(x1.x45.xgm.n1)))",
+      "name": "vce_x1_x89_xc23_xck_xdf2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.ckn)-v(x1.x89.xc23.xck.d2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xgm_xqb1",
-      "expr": "vecmax(abs(v(x1.x45.xgm.n1)-v(x1.x45.xgm.t)))",
+      "name": "vce_x1_x89_xc23_xq1l_xqe1",
+      "expr": "vecmax(abs(v(vdd)-v(x1.x89.xc23.q1l)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xgm_xqb2",
-      "expr": "vecmax(abs(v(x1.x45.m)-v(x1.x45.xgm.t)))",
+      "name": "vce_x1_x89_xc23_xq1l_xqe2",
+      "expr": "vecmax(abs(v(vdd)-v(x1.x89.xc23.q1lb)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xgm_xqt",
-      "expr": "vecmax(abs(v(x1.x45.xgm.tc)-v(x1.x45.xgm.tet)))",
+      "name": "vce_x1_x89_xc23_xq1l_xqf1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xq1l.qc1)-v(x1.x89.xc23.xq1l.f1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xck_xqe1",
-      "expr": "vecmax(abs(v(vdd)-v(x1.x45.xc23.ckp)))",
+      "name": "vce_x1_x89_xc23_xq1l_xqf2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xq1l.qc2)-v(x1.x89.xc23.xq1l.f2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xck_xqe2",
-      "expr": "vecmax(abs(v(vdd)-v(x1.x45.xc23.ckn)))",
+      "name": "vce_x1_x89_xc23_xq1l_xdf1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.q1l)-v(x1.x89.xc23.xq1l.d1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xck_xqf1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xck.qc1)-v(x1.x45.xc23.xck.f1)))",
+      "name": "vce_x1_x89_xc23_xq1l_xdf2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.q1lb)-v(x1.x89.xc23.xq1l.d2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xck_xqf2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xck.qc2)-v(x1.x45.xc23.xck.f2)))",
+      "name": "vce_x1_x89_xc23_xg1_xqa1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.d1b)-v(x1.x89.xc23.xg1.n1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xck_xdf1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.ckp)-v(x1.x45.xc23.xck.d1)))",
+      "name": "vce_x1_x89_xc23_xg1_xqa2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.d1)-v(x1.x89.xc23.xg1.n1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xck_xdf2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.ckn)-v(x1.x45.xc23.xck.d2)))",
+      "name": "vce_x1_x89_xc23_xg1_xqb1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xg1.n1)-v(x1.x89.xc23.xg1.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xq1l_xqe1",
-      "expr": "vecmax(abs(v(vdd)-v(x1.x45.xc23.q1l)))",
+      "name": "vce_x1_x89_xc23_xg1_xqb2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.d1)-v(x1.x89.xc23.xg1.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xq1l_xqe2",
-      "expr": "vecmax(abs(v(vdd)-v(x1.x45.xc23.q1lb)))",
+      "name": "vce_x1_x89_xc23_xg1_xqt",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xg1.tc)-v(x1.x89.xc23.xg1.tet)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xq1l_xqf1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xq1l.qc1)-v(x1.x45.xc23.xq1l.f1)))",
+      "name": "vce_x1_x89_xc23_xg2_xqa1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.d2b)-v(x1.x89.xc23.xg2.n1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xq1l_xqf2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xq1l.qc2)-v(x1.x45.xc23.xq1l.f2)))",
+      "name": "vce_x1_x89_xc23_xg2_xqa2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.d2)-v(x1.x89.xc23.xg2.n1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xq1l_xdf1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.q1l)-v(x1.x45.xc23.xq1l.d1)))",
+      "name": "vce_x1_x89_xc23_xg2_xqb1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xg2.n1)-v(x1.x89.xc23.xg2.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xq1l_xdf2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.q1lb)-v(x1.x45.xc23.xq1l.d2)))",
+      "name": "vce_x1_x89_xc23_xg2_xqb2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.d2)-v(x1.x89.xc23.xg2.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xg1_xqa1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.d1b)-v(x1.x45.xc23.xg1.n1)))",
+      "name": "vce_x1_x89_xc23_xg2_xqt",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xg2.tc)-v(x1.x89.xc23.xg2.tet)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xg1_xqa2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.d1)-v(x1.x45.xc23.xg1.n1)))",
+      "name": "vce_x1_x89_xc23_xf1_xm_xqt1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf1.mb)-v(x1.x89.xc23.xf1.xm.e1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xg1_xqb1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xg1.n1)-v(x1.x45.xc23.xg1.t)))",
+      "name": "vce_x1_x89_xc23_xf1_xm_xqt2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf1.m)-v(x1.x89.xc23.xf1.xm.e1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xg1_xqb2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.d1)-v(x1.x45.xc23.xg1.t)))",
+      "name": "vce_x1_x89_xc23_xf1_xm_xqh1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf1.mb)-v(x1.x89.xc23.xf1.xm.e2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xg1_xqt",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xg1.tc)-v(x1.x45.xc23.xg1.tet)))",
+      "name": "vce_x1_x89_xc23_xf1_xm_xqh2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf1.m)-v(x1.x89.xc23.xf1.xm.e2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xg2_xqa1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.d2b)-v(x1.x45.xc23.xg2.n1)))",
+      "name": "vce_x1_x89_xc23_xf1_xm_xqc1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf1.xm.e1)-v(x1.x89.xc23.xf1.xm.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xg2_xqa2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.d2)-v(x1.x45.xc23.xg2.n1)))",
+      "name": "vce_x1_x89_xc23_xf1_xm_xqc2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf1.xm.e2)-v(x1.x89.xc23.xf1.xm.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xg2_xqb1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xg2.n1)-v(x1.x45.xc23.xg2.t)))",
+      "name": "vce_x1_x89_xc23_xf1_xm_xqt",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf1.xm.tc)-v(x1.x89.xc23.xf1.xm.tet)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xg2_xqb2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.d2)-v(x1.x45.xc23.xg2.t)))",
+      "name": "vce_x1_x89_xc23_xf1_xs_xqt1",
+      "expr": "vecmax(abs(v(x1.x89.c1b)-v(x1.x89.xc23.xf1.xs.e1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xg2_xqt",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xg2.tc)-v(x1.x45.xc23.xg2.tet)))",
+      "name": "vce_x1_x89_xc23_xf1_xs_xqt2",
+      "expr": "vecmax(abs(v(x1.x89.c1)-v(x1.x89.xc23.xf1.xs.e1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf1_xm_xqt1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf1.mb)-v(x1.x45.xc23.xf1.xm.e1)))",
+      "name": "vce_x1_x89_xc23_xf1_xs_xqh1",
+      "expr": "vecmax(abs(v(x1.x89.c1b)-v(x1.x89.xc23.xf1.xs.e2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf1_xm_xqt2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf1.m)-v(x1.x45.xc23.xf1.xm.e1)))",
+      "name": "vce_x1_x89_xc23_xf1_xs_xqh2",
+      "expr": "vecmax(abs(v(x1.x89.c1)-v(x1.x89.xc23.xf1.xs.e2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf1_xm_xqh1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf1.mb)-v(x1.x45.xc23.xf1.xm.e2)))",
+      "name": "vce_x1_x89_xc23_xf1_xs_xqc1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf1.xs.e1)-v(x1.x89.xc23.xf1.xs.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf1_xm_xqh2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf1.m)-v(x1.x45.xc23.xf1.xm.e2)))",
+      "name": "vce_x1_x89_xc23_xf1_xs_xqc2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf1.xs.e2)-v(x1.x89.xc23.xf1.xs.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf1_xm_xqc1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf1.xm.e1)-v(x1.x45.xc23.xf1.xm.t)))",
+      "name": "vce_x1_x89_xc23_xf1_xs_xqt",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf1.xs.tc)-v(x1.x89.xc23.xf1.xs.tet)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf1_xm_xqc2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf1.xm.e2)-v(x1.x45.xc23.xf1.xm.t)))",
+      "name": "vce_x1_x89_xc23_xf2_xm_xqt1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf2.mb)-v(x1.x89.xc23.xf2.xm.e1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf1_xm_xqt",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf1.xm.tc)-v(x1.x45.xc23.xf1.xm.tet)))",
+      "name": "vce_x1_x89_xc23_xf2_xm_xqt2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf2.m)-v(x1.x89.xc23.xf2.xm.e1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf1_xs_xqt1",
-      "expr": "vecmax(abs(v(x1.x45.c1b)-v(x1.x45.xc23.xf1.xs.e1)))",
+      "name": "vce_x1_x89_xc23_xf2_xm_xqh1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf2.mb)-v(x1.x89.xc23.xf2.xm.e2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf1_xs_xqt2",
-      "expr": "vecmax(abs(v(x1.x45.c1)-v(x1.x45.xc23.xf1.xs.e1)))",
+      "name": "vce_x1_x89_xc23_xf2_xm_xqh2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf2.m)-v(x1.x89.xc23.xf2.xm.e2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf1_xs_xqh1",
-      "expr": "vecmax(abs(v(x1.x45.c1b)-v(x1.x45.xc23.xf1.xs.e2)))",
+      "name": "vce_x1_x89_xc23_xf2_xm_xqc1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf2.xm.e1)-v(x1.x89.xc23.xf2.xm.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf1_xs_xqh2",
-      "expr": "vecmax(abs(v(x1.x45.c1)-v(x1.x45.xc23.xf1.xs.e2)))",
+      "name": "vce_x1_x89_xc23_xf2_xm_xqc2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf2.xm.e2)-v(x1.x89.xc23.xf2.xm.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf1_xs_xqc1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf1.xs.e1)-v(x1.x45.xc23.xf1.xs.t)))",
+      "name": "vce_x1_x89_xc23_xf2_xm_xqt",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf2.xm.tc)-v(x1.x89.xc23.xf2.xm.tet)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf1_xs_xqc2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf1.xs.e2)-v(x1.x45.xc23.xf1.xs.t)))",
+      "name": "vce_x1_x89_xc23_xf2_xs_xqt1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.q2b)-v(x1.x89.xc23.xf2.xs.e1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf1_xs_xqt",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf1.xs.tc)-v(x1.x45.xc23.xf1.xs.tet)))",
+      "name": "vce_x1_x89_xc23_xf2_xs_xqt2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.q2)-v(x1.x89.xc23.xf2.xs.e1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf2_xm_xqt1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf2.mb)-v(x1.x45.xc23.xf2.xm.e1)))",
+      "name": "vce_x1_x89_xc23_xf2_xs_xqh1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.q2b)-v(x1.x89.xc23.xf2.xs.e2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf2_xm_xqt2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf2.m)-v(x1.x45.xc23.xf2.xm.e1)))",
+      "name": "vce_x1_x89_xc23_xf2_xs_xqh2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.q2)-v(x1.x89.xc23.xf2.xs.e2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf2_xm_xqh1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf2.mb)-v(x1.x45.xc23.xf2.xm.e2)))",
+      "name": "vce_x1_x89_xc23_xf2_xs_xqc1",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf2.xs.e1)-v(x1.x89.xc23.xf2.xs.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf2_xm_xqh2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf2.m)-v(x1.x45.xc23.xf2.xm.e2)))",
+      "name": "vce_x1_x89_xc23_xf2_xs_xqc2",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf2.xs.e2)-v(x1.x89.xc23.xf2.xs.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf2_xm_xqc1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf2.xm.e1)-v(x1.x45.xc23.xf2.xm.t)))",
+      "name": "vce_x1_x89_xc23_xf2_xs_xqt",
+      "expr": "vecmax(abs(v(x1.x89.xc23.xf2.xs.tc)-v(x1.x89.xc23.xf2.xs.tet)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf2_xm_xqc2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf2.xm.e2)-v(x1.x45.xc23.xf2.xm.t)))",
+      "name": "vce_x1_x89_xs1_xef_xqe1",
+      "expr": "vecmax(abs(v(vdd)-v(x1.x89.xs1.ckp)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf2_xm_xqt",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf2.xm.tc)-v(x1.x45.xc23.xf2.xm.tet)))",
+      "name": "vce_x1_x89_xs1_xef_xqe2",
+      "expr": "vecmax(abs(v(vdd)-v(x1.x89.xs1.ckn)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf2_xs_xqt1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.q2b)-v(x1.x45.xc23.xf2.xs.e1)))",
+      "name": "vce_x1_x89_xs1_xef_xqf1",
+      "expr": "vecmax(abs(v(x1.x89.xs1.xef.qc1)-v(x1.x89.xs1.xef.f1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf2_xs_xqt2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.q2)-v(x1.x45.xc23.xf2.xs.e1)))",
+      "name": "vce_x1_x89_xs1_xef_xqf2",
+      "expr": "vecmax(abs(v(x1.x89.xs1.xef.qc2)-v(x1.x89.xs1.xef.f2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf2_xs_xqh1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.q2b)-v(x1.x45.xc23.xf2.xs.e2)))",
+      "name": "vce_x1_x89_xs1_xef_xdf1",
+      "expr": "vecmax(abs(v(x1.x89.xs1.ckp)-v(x1.x89.xs1.xef.d1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf2_xs_xqh2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.q2)-v(x1.x45.xc23.xf2.xs.e2)))",
+      "name": "vce_x1_x89_xs1_xef_xdf2",
+      "expr": "vecmax(abs(v(x1.x89.xs1.ckn)-v(x1.x89.xs1.xef.d2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf2_xs_xqc1",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf2.xs.e1)-v(x1.x45.xc23.xf2.xs.t)))",
+      "name": "vce_x1_x89_xs1_xm_xqt1",
+      "expr": "vecmax(abs(v(x1.x89.xs1.mn)-v(x1.x89.xs1.xm.e1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf2_xs_xqc2",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf2.xs.e2)-v(x1.x45.xc23.xf2.xs.t)))",
+      "name": "vce_x1_x89_xs1_xm_xqt2",
+      "expr": "vecmax(abs(v(x1.x89.xs1.mp)-v(x1.x89.xs1.xm.e1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xc23_xf2_xs_xqt",
-      "expr": "vecmax(abs(v(x1.x45.xc23.xf2.xs.tc)-v(x1.x45.xc23.xf2.xs.tet)))",
+      "name": "vce_x1_x89_xs1_xm_xqh1",
+      "expr": "vecmax(abs(v(x1.x89.xs1.mn)-v(x1.x89.xs1.xm.e2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xef_xqe1",
-      "expr": "vecmax(abs(v(vdd)-v(x1.x45.xt.ckp)))",
+      "name": "vce_x1_x89_xs1_xm_xqh2",
+      "expr": "vecmax(abs(v(x1.x89.xs1.mp)-v(x1.x89.xs1.xm.e2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xef_xqe2",
-      "expr": "vecmax(abs(v(vdd)-v(x1.x45.xt.ckn)))",
+      "name": "vce_x1_x89_xs1_xm_xqc1",
+      "expr": "vecmax(abs(v(x1.x89.xs1.xm.e1)-v(x1.x89.xs1.xm.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xef_xqf1",
-      "expr": "vecmax(abs(v(x1.x45.xt.xef.qc1)-v(x1.x45.xt.xef.f1)))",
+      "name": "vce_x1_x89_xs1_xm_xqc2",
+      "expr": "vecmax(abs(v(x1.x89.xs1.xm.e2)-v(x1.x89.xs1.xm.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xef_xqf2",
-      "expr": "vecmax(abs(v(x1.x45.xt.xef.qc2)-v(x1.x45.xt.xef.f2)))",
+      "name": "vce_x1_x89_xs1_xm_xqt",
+      "expr": "vecmax(abs(v(x1.x89.xs1.xm.tc)-v(x1.x89.xs1.xm.tet)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xef_xdf1",
-      "expr": "vecmax(abs(v(x1.x45.xt.ckp)-v(x1.x45.xt.xef.d1)))",
+      "name": "vce_x1_x89_xs1_xs_xqt1",
+      "expr": "vecmax(abs(v(x1.x89.s1b)-v(x1.x89.xs1.xs.e1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xef_xdf2",
-      "expr": "vecmax(abs(v(x1.x45.xt.ckn)-v(x1.x45.xt.xef.d2)))",
+      "name": "vce_x1_x89_xs1_xs_xqt2",
+      "expr": "vecmax(abs(v(x1.x89.s1)-v(x1.x89.xs1.xs.e1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xm_xqt1",
-      "expr": "vecmax(abs(v(x1.x45.xt.mn)-v(x1.x45.xt.xm.e1)))",
+      "name": "vce_x1_x89_xs1_xs_xqh1",
+      "expr": "vecmax(abs(v(x1.x89.s1b)-v(x1.x89.xs1.xs.e2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xm_xqt2",
-      "expr": "vecmax(abs(v(x1.x45.xt.mp)-v(x1.x45.xt.xm.e1)))",
+      "name": "vce_x1_x89_xs1_xs_xqh2",
+      "expr": "vecmax(abs(v(x1.x89.s1)-v(x1.x89.xs1.xs.e2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xm_xqh1",
-      "expr": "vecmax(abs(v(x1.x45.xt.mn)-v(x1.x45.xt.xm.e2)))",
+      "name": "vce_x1_x89_xs1_xs_xqc1",
+      "expr": "vecmax(abs(v(x1.x89.xs1.xs.e1)-v(x1.x89.xs1.xs.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xm_xqh2",
-      "expr": "vecmax(abs(v(x1.x45.xt.mp)-v(x1.x45.xt.xm.e2)))",
+      "name": "vce_x1_x89_xs1_xs_xqc2",
+      "expr": "vecmax(abs(v(x1.x89.xs1.xs.e2)-v(x1.x89.xs1.xs.t)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xm_xqc1",
-      "expr": "vecmax(abs(v(x1.x45.xt.xm.e1)-v(x1.x45.xt.xm.t)))",
+      "name": "vce_x1_x89_xs1_xs_xqt",
+      "expr": "vecmax(abs(v(x1.x89.xs1.xs.tc)-v(x1.x89.xs1.xs.tet)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xm_xqc2",
-      "expr": "vecmax(abs(v(x1.x45.xt.xm.e2)-v(x1.x45.xt.xm.t)))",
+      "name": "vce_x1_x89_xs2_xef_xqe1",
+      "expr": "vecmax(abs(v(vdd)-v(x1.x89.xs2.ckp)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xm_xqt",
-      "expr": "vecmax(abs(v(x1.x45.xt.xm.tc)-v(x1.x45.xt.xm.tet)))",
+      "name": "vce_x1_x89_xs2_xef_xqe2",
+      "expr": "vecmax(abs(v(vdd)-v(x1.x89.xs2.ckn)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xs_xqt1",
-      "expr": "vecmax(abs(v(outn)-v(x1.x45.xt.xs.e1)))",
+      "name": "vce_x1_x89_xs2_xef_xqf1",
+      "expr": "vecmax(abs(v(x1.x89.xs2.xef.qc1)-v(x1.x89.xs2.xef.f1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xs_xqt2",
-      "expr": "vecmax(abs(v(outp)-v(x1.x45.xt.xs.e1)))",
+      "name": "vce_x1_x89_xs2_xef_xqf2",
+      "expr": "vecmax(abs(v(x1.x89.xs2.xef.qc2)-v(x1.x89.xs2.xef.f2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xs_xqh1",
-      "expr": "vecmax(abs(v(outn)-v(x1.x45.xt.xs.e2)))",
+      "name": "vce_x1_x89_xs2_xef_xdf1",
+      "expr": "vecmax(abs(v(x1.x89.xs2.ckp)-v(x1.x89.xs2.xef.d1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xs_xqh2",
-      "expr": "vecmax(abs(v(outp)-v(x1.x45.xt.xs.e2)))",
+      "name": "vce_x1_x89_xs2_xef_xdf2",
+      "expr": "vecmax(abs(v(x1.x89.xs2.ckn)-v(x1.x89.xs2.xef.d2)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xs_xqc1",
-      "expr": "vecmax(abs(v(x1.x45.xt.xs.e1)-v(x1.x45.xt.xs.t)))",
+      "name": "vce_x1_x89_xs2_xm_xqt1",
+      "expr": "vecmax(abs(v(x1.x89.xs2.mn)-v(x1.x89.xs2.xm.e1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xs_xqc2",
-      "expr": "vecmax(abs(v(x1.x45.xt.xs.e2)-v(x1.x45.xt.xs.t)))",
+      "name": "vce_x1_x89_xs2_xm_xqt2",
+      "expr": "vecmax(abs(v(x1.x89.xs2.mp)-v(x1.x89.xs2.xm.e1)))",
       "unit": "V",
       "limits": {
         "max": 2.2
       }
     },
     {
-      "name": "vce_x1_x45_xt_xs_xqt",
-      "expr": "vecmax(abs(v(x1.x45.xt.xs.tc)-v(x1.x45.xt.xs.tet)))",
+      "name": "vce_x1_x89_xs2_xm_xqh1",
+      "expr": "vecmax(abs(v(x1.x89.xs2.mn)-v(x1.x89.xs2.xm.e2)))",
+      "unit": "V",
+      "limits": {
+        "max": 2.2
+      }
+    },
+    {
+      "name": "vce_x1_x89_xs2_xm_xqh2",
+      "expr": "vecmax(abs(v(x1.x89.xs2.mp)-v(x1.x89.xs2.xm.e2)))",
+      "unit": "V",
+      "limits": {
+        "max": 2.2
+      }
+    },
+    {
+      "name": "vce_x1_x89_xs2_xm_xqc1",
+      "expr": "vecmax(abs(v(x1.x89.xs2.xm.e1)-v(x1.x89.xs2.xm.t)))",
+      "unit": "V",
+      "limits": {
+        "max": 2.2
+      }
+    },
+    {
+      "name": "vce_x1_x89_xs2_xm_xqc2",
+      "expr": "vecmax(abs(v(x1.x89.xs2.xm.e2)-v(x1.x89.xs2.xm.t)))",
+      "unit": "V",
+      "limits": {
+        "max": 2.2
+      }
+    },
+    {
+      "name": "vce_x1_x89_xs2_xm_xqt",
+      "expr": "vecmax(abs(v(x1.x89.xs2.xm.tc)-v(x1.x89.xs2.xm.tet)))",
+      "unit": "V",
+      "limits": {
+        "max": 2.2
+      }
+    },
+    {
+      "name": "vce_x1_x89_xs2_xs_xqt1",
+      "expr": "vecmax(abs(v(outn)-v(x1.x89.xs2.xs.e1)))",
+      "unit": "V",
+      "limits": {
+        "max": 2.2
+      }
+    },
+    {
+      "name": "vce_x1_x89_xs2_xs_xqt2",
+      "expr": "vecmax(abs(v(outp)-v(x1.x89.xs2.xs.e1)))",
+      "unit": "V",
+      "limits": {
+        "max": 2.2
+      }
+    },
+    {
+      "name": "vce_x1_x89_xs2_xs_xqh1",
+      "expr": "vecmax(abs(v(outn)-v(x1.x89.xs2.xs.e2)))",
+      "unit": "V",
+      "limits": {
+        "max": 2.2
+      }
+    },
+    {
+      "name": "vce_x1_x89_xs2_xs_xqh2",
+      "expr": "vecmax(abs(v(outp)-v(x1.x89.xs2.xs.e2)))",
+      "unit": "V",
+      "limits": {
+        "max": 2.2
+      }
+    },
+    {
+      "name": "vce_x1_x89_xs2_xs_xqc1",
+      "expr": "vecmax(abs(v(x1.x89.xs2.xs.e1)-v(x1.x89.xs2.xs.t)))",
+      "unit": "V",
+      "limits": {
+        "max": 2.2
+      }
+    },
+    {
+      "name": "vce_x1_x89_xs2_xs_xqc2",
+      "expr": "vecmax(abs(v(x1.x89.xs2.xs.e2)-v(x1.x89.xs2.xs.t)))",
+      "unit": "V",
+      "limits": {
+        "max": 2.2
+      }
+    },
+    {
+      "name": "vce_x1_x89_xs2_xs_xqt",
+      "expr": "vecmax(abs(v(x1.x89.xs2.xs.tc)-v(x1.x89.xs2.xs.tet)))",
       "unit": "V",
       "limits": {
         "max": 2.2

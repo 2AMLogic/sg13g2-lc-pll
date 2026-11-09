@@ -17,8 +17,8 @@ VP1 inp1 0 dc 3.18 sin(3.18 0.2 625meg)
 VN1 inn1 0 dc 3.18 sin(3.18 -0.2 625meg)
 VP2 inp2 0 dc 3.18 sin(3.18 0.2 687.5meg)
 VN2 inn2 0 dc 3.18 sin(3.18 -0.2 687.5meg)
-Xr625 inp1 inn1 iref 0 0 one one 0 one mcr1 fbr1 vdd 0 divider
-Xr687 inp2 inn2 iref 0 0 one one 0 one mcr2 fbr2 vdd 0 divider
+Xr625 inp1 inn1 iref 0 0 one one 0 0 one mcr1 fbr1 vdd 0 divider
+Xr687 inp2 inn2 iref 0 0 one one 0 0 one mcr2 fbr2 vdd 0 divider
 .save v(xr625.ck) v(mcr1) v(fbr1) v(xr687.ck) v(mcr2) v(fbr2)
 .control
 pre_osdi @@OSDI_PSP@@

@@ -1,0 +1,141 @@
+{
+  "netlist": "div89_async.cir",
+  "engine": "ngspice",
+  "models": {
+    "pdk": "sg13g2"
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "1p 34n 0 2p"
+  },
+  "corners": {
+    "process": [
+      {
+        "name": "SLOW",
+        "sections": [
+          {
+            "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+            "section": "hbt_wcs"
+          }
+        ]
+      },
+      {
+        "name": "TYP",
+        "sections": [
+          {
+            "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+            "section": "hbt_typ"
+          }
+        ]
+      },
+      {
+        "name": "FAST",
+        "sections": [
+          {
+            "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+            "section": "hbt_bcs"
+          }
+        ]
+      }
+    ],
+    "temperature_c": [
+      -40,
+      27,
+      125
+    ],
+    "params": {
+      "vddv": [
+        3.63,
+        3.63,
+        3.63,
+        3.63,
+        3.63,
+        3.63,
+        3.63,
+        3.63,
+        3.63,
+        3.63,
+        3.63,
+        3.63,
+        3.63,
+        3.63,
+        3.63,
+        3.63
+      ],
+      "fin": [
+        5500000000.0,
+        5500000000.0,
+        5500000000.0,
+        5500000000.0,
+        5500000000.0,
+        5500000000.0,
+        5500000000.0,
+        5500000000.0,
+        5500000000.0,
+        5500000000.0,
+        5500000000.0,
+        5500000000.0,
+        5500000000.0,
+        5500000000.0,
+        5500000000.0,
+        5500000000.0
+      ],
+      "phi": [
+        0.0,
+        1e-10,
+        2e-10,
+        3e-10,
+        4e-10,
+        5e-10,
+        6e-10,
+        7e-10,
+        8e-10,
+        9e-10,
+        1e-09,
+        1.1e-09,
+        1.2e-09,
+        1.3e-09,
+        1.4e-09,
+        1.5e-09
+      ]
+    }
+  },
+  "options": {
+    "stage_model_inputs": true
+  },
+  "measurements": [
+    {
+      "name": "x_zero",
+      "unit": "s",
+      "crossings": {
+        "signal": "v(outp)-v(outn)",
+        "level": 0.0,
+        "edge": "rise",
+        "from": "0",
+        "max": 200
+      }
+    },
+    {
+      "name": "x_hi",
+      "unit": "s",
+      "crossings": {
+        "signal": "v(outp)-v(outn)",
+        "level": 0.1,
+        "edge": "rise",
+        "from": "0",
+        "max": 200
+      }
+    },
+    {
+      "name": "x_lo",
+      "unit": "s",
+      "crossings": {
+        "signal": "v(outp)-v(outn)",
+        "level": -0.1,
+        "edge": "fall",
+        "from": "0",
+        "max": 200
+      }
+    }
+  ]
+}

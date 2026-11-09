@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Count clocks per FB period and clocks with MC high from the divider_tran wrdata file.
 usage: divider_counts.py DATA   (columns: t ck, t mc100, t fb100, t mc90, t fb90)
-Prints one line per FB window: CODE FBWINDOW_NS CK_CYCLES MC_HIGH N (N = 8*cycles + 2*mc_high)."""
+Prints one line per FB window: CODE FBWINDOW_NS CK_CYCLES MC_HIGH N (N = 8*cycles + mc_high, P = 8/9)."""
 import sys
 rows = [list(map(float, l.split())) for l in open(sys.argv[1]) if l.strip()]
 t = [r[0] for r in rows]
@@ -24,4 +24,4 @@ for name, mc, fb in (("N100", 3, 5), ("N90", 7, 9)):
     for a, b in zip(f, f[1:]):
         e = [x for x in ck if a <= x < b]
         hi = sum(1 for x in e if before(mc, x - 0.3e-9) > 1.65)
-        print(f"{name} {a*1e9:.0f}-{b*1e9:.0f} {len(e)} {hi} {8*len(e)+2*hi}")
+        print(f"{name} {a*1e9:.0f}-{b*1e9:.0f} {len(e)} {hi} {8*len(e)+hi}")

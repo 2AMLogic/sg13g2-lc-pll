@@ -16,7 +16,7 @@ XCP UP DN IREFCP VCP VDD VSS cp
 XLF VCP VCTRL VSS loopfilter
 XVCO VCTRL VOP VON VDDV VSS vco
 XPS VOP VON MC IREFPS PSP PSN VDD VSS prescaler
-XDIV PSP PSN IREFPS VSS VSS VDD VDD VSS VDD MC FB VDD VSS divider
+XDIV PSP PSN IREFPS VSS VSS VDD VDD VSS VSS VDD MC FB VDD VSS divider
 XLD UP DN LOCK VDD VSS lock_detector
 .ends
 
@@ -91,15 +91,14 @@ XC3 VCTRL VSS cap_cmim w=43.4u l=43.4u m=1
 *.iopin VSS
 XQREF IREF IREF reref VSS npn13G2v Nx=1 El=1
 RREF reref VSS 2400 m=1
-X2 INP INN IREF HP HN VDD VSS div2_cml
-X45 HP HN MC IREF OUTP OUTN VDD VSS div45_dm
+X89 INP INN MC IREF OUTP OUTN VDD VSS div89_dm
 .ends
 
 
-* expanding   symbol:  divider.sym # of pins=13
+* expanding   symbol:  divider.sym # of pins=14
 ** sym_path: design/divider.sym
 ** sch_path: design/divider.sch
-.subckt divider INP INN IREF M0 M1 M2 M3 A0 A1 MC FB VDD VSS
+.subckt divider INP INN IREF M0 M1 M2 M3 A0 A1 A2 MC FB VDD VSS
 *.ipin INP
 *.ipin INN
 *.ipin IREF
@@ -109,13 +108,14 @@ X45 HP HN MC IREF OUTP OUTN VDD VSS div45_dm
 *.ipin M3
 *.ipin A0
 *.ipin A1
+*.ipin A2
 *.opin MC
 *.opin FB
 *.iopin VDD
 *.iopin VSS
 XCV INP INN IREF CK VDD VSS cml2cmos
 XM CKL M0 M1 M2 M3 TC TCN VDD VSS mcounter
-XA CKL TC TCN A0 A1 MC VDD VSS acounter
+XA CKL TC TCN A0 A1 A2 MC VDD VSS acounter
 XFB TC CKL FB VDD VSS dff_tg_hv
 XBA CK ckb VDD VSS inv_hv
 XBB ckb CKL VDD VSS inv_hv
@@ -293,27 +293,10 @@ XM2 VDUMP IBIAS VSS VSS sg13_hv_nmos w=4u l=1u ng=1 m=5
 .ends
 
 
-* expanding   symbol:  div2_cml.sym # of pins=7
-** sym_path: design/div2_cml.sym
-** sch_path: design/div2_cml.sch
-.subckt div2_cml INP INN IB QP QN VDD VSS
-*.ipin INP
-*.ipin INN
-*.ipin IB
-*.opin QP
-*.opin QN
-*.iopin VDD
-*.iopin VSS
-XEF INP INN IB CKP CKN VDD VSS div2_ef_hs
-XM QN QP CKP CKN IB MP MN VDD VSS div2_latch_hs
-XS MP MN CKN CKP IB QP QN VDD VSS div2_latch_hs
-.ends
-
-
-* expanding   symbol:  div45_dm.sym # of pins=8
-** sym_path: design/div45_dm.sym
-** sch_path: design/div45_dm.sch
-.subckt div45_dm INP INN MC IB OUTP OUTN VDD VSS
+* expanding   symbol:  div89_dm.sym # of pins=8
+** sym_path: design/div89_dm.sym
+** sch_path: design/div89_dm.sch
+.subckt div89_dm INP INN MC IB OUTP OUTN VDD VSS
 *.ipin INP
 *.ipin INN
 *.ipin MC
@@ -324,9 +307,12 @@ XS MP MN CKN CKP IB QP QN VDD VSS div2_latch_hs
 *.iopin VSS
 XMC MC IB MCP MCN VDD VSS mc_conv
 XMCL MCP MCN IB MCL MCLB VDD VSS cml_ef
-XGM OUTP OUTN MCL MCLB IB M MB VDD VSS cml_and2
+XES S1 S1B IB S1L S1LB VDD VSS cml_ef
+XG1 OUTP OUTN S1L S1LB IB G GB VDD VSS cml_and2
+XGM G GB MCL MCLB IB M MB VDD VSS cml_and2
 XC23 INP INN M MB IB C1 C1B VDD VSS cml_div23
-XT C1 C1B IB OUTP OUTN VDD VSS div2_cml_ls
+XS1 C1 C1B IB S1 S1B VDD VSS div2_cml_ls
+XS2 S1 S1B IB OUTP OUTN VDD VSS div2_cml_ls
 .ends
 
 
@@ -426,34 +412,45 @@ XT4 DTN DT VDD VSS inv_hv
 .ends
 
 
-* expanding   symbol:  acounter.sym # of pins=8
+* expanding   symbol:  acounter.sym # of pins=9
 ** sym_path: design/acounter.sym
 ** sch_path: design/acounter.sch
-.subckt acounter CK TC TCN A0 A1 MC VDD VSS
+.subckt acounter CK TC TCN A0 A1 A2 MC VDD VSS
 *.ipin CK
 *.ipin TC
 *.ipin TCN
 *.ipin A0
 *.ipin A1
+*.ipin A2
 *.opin MC
 *.iopin VDD
 *.iopin VSS
 XQ0 D0 CK s0 VDD VSS dff_tg_hv
 XQ1 D1 CK s1 VDD VSS dff_tg_hv
+XQ2 D2 CK s2 VDD VSS dff_tg_hv
 XQM DM CK MC VDD VSS dff_tg_hv
 XS0 s0 s0n VDD VSS inv_hv
-XL0A TCN s1 s0n l0a VDD VSS nand3_hv
-XL0B A0 TC l0b VDD VSS nand2_hv
-XL0Y l0a l0b D0 VDD VSS nand2_hv
-XL1A TCN s1 s0 l1a VDD VSS nand3_hv
-XL1B A1 TC l1b VDD VSS nand2_hv
-XL1Y l1a l1b D1 VDD VSS nand2_hv
 XNA0 A0 A0n VDD VSS inv_hv
 XNA1 A1 A1n VDD VSS inv_hv
-XNZ A0n A1n anz VDD VSS nand2_hv
+XNA2 A2 A2n VDD VSS inv_hv
+XNZ A0n A1n A2n anz VDD VSS nand3_hv
+XN10 s1 s0 n10 VDD VSS nor2_hv
+XL0A TCN s0n s1 l0a VDD VSS nand3_hv
+XL0B TCN s0n s2 l0b VDD VSS nand3_hv
+XL0C A0 TC l0c VDD VSS nand2_hv
+XL0Y l0a l0b l0c D0 VDD VSS nand3_hv
+XL1A TCN s1 s0 l1a VDD VSS nand3_hv
+XL1B TCN s2 n10 l1b VDD VSS nand3_hv
+XL1C A1 TC l1c VDD VSS nand2_hv
+XL1Y l1a l1b l1c D1 VDD VSS nand3_hv
+XL2A TCN s2 s1 l2a VDD VSS nand3_hv
+XL2B TCN s2 s0 l2b VDD VSS nand3_hv
+XL2C A2 TC l2c VDD VSS nand2_hv
+XL2Y l2a l2b l2c D2 VDD VSS nand3_hv
 XMA TC anz m1 VDD VSS nand2_hv
 XMB TCN s1 m2 VDD VSS nand2_hv
-XMY m1 m2 DM VDD VSS nand2_hv
+XMC TCN s2 m3 VDD VSS nand2_hv
+XMY m1 m2 m3 DM VDD VSS nand3_hv
 .ends
 
 
@@ -526,57 +523,6 @@ XMP3 VSS OUT np VDD sg13_hv_pmos w=5u l=2u ng=1 m=1
 XMN1 OUT IN nn VSS sg13_hv_nmos w=2u l=2u ng=1 m=1
 XMN2 nn IN VSS VSS sg13_hv_nmos w=2u l=2u ng=1 m=1
 XMN3 VDD OUT nn VSS sg13_hv_nmos w=2u l=2u ng=1 m=1
-.ends
-
-
-* expanding   symbol:  div2_ef_hs.sym # of pins=7
-** sym_path: design/div2_ef_hs.sym
-** sch_path: design/div2_ef_hs.sch
-.subckt div2_ef_hs IN INB IB OUT OUTB VDD VSS
-*.ipin IN
-*.ipin INB
-*.ipin IB
-*.opin OUT
-*.opin OUTB
-*.iopin VDD
-*.iopin VSS
-XQE1 VDD IN OUT VSS npn13G2v Nx=1 El=1
-XQE2 VDD INB OUTB VSS npn13G2v Nx=1 El=1
-XQF1 qc1 IB f1 VSS npn13G2v Nx=1 El=1
-RF1 f1 VSS 2400 m=1
-XQF2 qc2 IB f2 VSS npn13G2v Nx=1 El=1
-RF2 f2 VSS 2400 m=1
-XDF1 OUT OUT d1 VSS npn13G2v Nx=1 El=1
-XDF2 OUTB OUTB d2 VSS npn13G2v Nx=1 El=1
-RDF1 d1 qc1 4k m=1
-RDF2 d2 qc2 4k m=1
-.ends
-
-
-* expanding   symbol:  div2_latch_hs.sym # of pins=9
-** sym_path: design/div2_latch_hs.sym
-** sch_path: design/div2_latch_hs.sch
-.subckt div2_latch_hs D DB CK CKB IB Q QB VDD VSS
-*.ipin D
-*.ipin DB
-*.ipin CK
-*.ipin CKB
-*.ipin IB
-*.opin Q
-*.opin QB
-*.iopin VDD
-*.iopin VSS
-RL1 VDD Q 1500 m=1
-RL2 VDD QB 1500 m=1
-XQT1 QB D e1 VSS npn13G2v Nx=1 El=1
-XQT2 Q DB e1 VSS npn13G2v Nx=1 El=1
-XQH1 QB Q e2 VSS npn13G2v Nx=1 El=1
-XQH2 Q QB e2 VSS npn13G2v Nx=1 El=1
-XQC1 e1 CK t VSS npn13G2v Nx=1 El=1
-XQC2 e2 CKB t VSS npn13G2v Nx=1 El=1
-XQT tc IB teT VSS npn13G2v Nx=4 El=1
-RT teT VSS 600 m=1
-RTC t tc 1.2k m=1
 .ends
 
 

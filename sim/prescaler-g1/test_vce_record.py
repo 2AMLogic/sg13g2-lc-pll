@@ -26,3 +26,11 @@ def test_non_converged_corner_is_not_a_pass():
 def test_failure_outranks_non_convergence():
     g = vr.grade({"corners": [_corner(2.97, [2.5]), _corner(3.63, [], status="error")]})
     assert g["verdict"] == "FAIL"
+
+
+def test_mc_high_only_overstress_fails_and_is_labelled():
+    lo, hi = _corner(3.63, [1.0, 2.0]), _corner(3.63, [1.0, 2.3])
+    lo["params"]["mcv"], hi["params"]["mcv"] = 0, 1
+    g = vr.grade({"corners": [lo, hi]})
+    assert g["verdict"] == "FAIL" and [r["mc"] for r in g["rows"]] == [0.0, 1.0]
+    assert [r["exceeds"] for r in g["rows"]] == [False, True]

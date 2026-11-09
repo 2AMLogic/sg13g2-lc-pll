@@ -1,0 +1,174 @@
+{
+  "netlist": "divider_corner.cir",
+  "engine": "ngspice",
+  "models": {
+    "pdk": "sg13g2"
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "20p 150n 0 20p"
+  },
+  "corners": {
+    "process": [
+      {
+        "name": "SLOW",
+        "sections": [
+          {
+            "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+            "section": "hbt_wcs"
+          },
+          {
+            "lib": "libs.tech/ngspice/models/cornerMOShv.lib",
+            "section": "mos_ss"
+          },
+          {
+            "lib": "libs.tech/ngspice/models/cornerCAP.lib",
+            "section": "cap_wcs"
+          }
+        ]
+      },
+      {
+        "name": "TYP",
+        "sections": [
+          {
+            "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+            "section": "hbt_typ"
+          },
+          {
+            "lib": "libs.tech/ngspice/models/cornerMOShv.lib",
+            "section": "mos_tt"
+          },
+          {
+            "lib": "libs.tech/ngspice/models/cornerCAP.lib",
+            "section": "cap_typ"
+          }
+        ]
+      },
+      {
+        "name": "FAST",
+        "sections": [
+          {
+            "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+            "section": "hbt_bcs"
+          },
+          {
+            "lib": "libs.tech/ngspice/models/cornerMOShv.lib",
+            "section": "mos_ff"
+          },
+          {
+            "lib": "libs.tech/ngspice/models/cornerCAP.lib",
+            "section": "cap_bcs"
+          }
+        ]
+      }
+    ],
+    "temperature_c": [
+      -40,
+      27,
+      125
+    ],
+    "params": {
+      "fin": [
+        625000000.0,
+        687500000.0,
+        687500000.0,
+        687500000.0
+      ],
+      "m0v": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "m1v": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "m2v": [
+        3.3,
+        3.3,
+        3.3,
+        3.3
+      ],
+      "m3v": [
+        3.3,
+        3.3,
+        3.3,
+        3.3
+      ],
+      "a0v": [
+        0,
+        0,
+        0,
+        3.3
+      ],
+      "a1v": [
+        0,
+        0,
+        0,
+        3.3
+      ],
+      "a2v": [
+        3.3,
+        3.3,
+        0,
+        3.3
+      ]
+    }
+  },
+  "options": {
+    "osdi_preload": [
+      "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"
+    ],
+    "stage_model_inputs": true,
+    "timeout_s": 600
+  },
+  "measurements": [
+    {
+      "name": "ck_rise",
+      "unit": "s",
+      "crossings": {
+        "signal": "v(xd.ck)",
+        "level": 1.65,
+        "edge": "rise",
+        "from": "0",
+        "max": 200
+      }
+    },
+    {
+      "name": "fb_rise",
+      "unit": "s",
+      "crossings": {
+        "signal": "v(fb)",
+        "level": 1.65,
+        "edge": "rise",
+        "from": "0",
+        "max": 200
+      }
+    },
+    {
+      "name": "mc_rise",
+      "unit": "s",
+      "crossings": {
+        "signal": "v(mc)",
+        "level": 1.65,
+        "edge": "rise",
+        "from": "0",
+        "max": 200
+      }
+    },
+    {
+      "name": "mc_fall",
+      "unit": "s",
+      "crossings": {
+        "signal": "v(mc)",
+        "level": 1.65,
+        "edge": "fall",
+        "from": "0",
+        "max": 200
+      }
+    }
+  ]
+}

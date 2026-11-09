@@ -14,11 +14,12 @@ design/
   cp_leg_n.sch/.sym   NMOS sink leg
   cp_dumpbuf.sch/.sym VDUMP tracking follower
   netlist/prescaler.spice   committed derived netlist of the prescaler (hierarchical)
-  prescaler.sch/.sym        top: fixed /2 CML first stage + /4/5 dual-modulus, one IREF
-  div2_cml.sch/.sym         /2 first stage at the VCO frequency (input emitter followers + 2 latches)
+  prescaler.sch/.sym        top: /2/3 dual-modulus CML first stage on the VCO, then fixed /4 (P = 8/9), one IREF
+  div2_cml.sch/.sym         fixed /2 first stage (the pre-DR-005 /8-/10 prescaler; no longer instantiated)
   div2_ef_hs, div2_latch_hs first-stage follower pair and latch (higher current)
-  div45_dm.sch/.sym         /4/5: /2/3 cell + /2 toggle + modulus gating (MC high = /5)
-  cml_div23, cml_dff, cml_latch, cml_ef, cml_and2, div2_cml_ls, mc_conv   /4/5 stage cells
+  div89_dm.sch/.sym         /8/9: /2/3 cell on the VCO + two /2 stages; M = MC AND S1 AND S2 (MC high = /9)
+  div45_dm.sch/.sym         /4/5 (pre-DR-005, no longer instantiated): /2/3 cell + /2 toggle + modulus gating
+  cml_div23, cml_dff, cml_latch, cml_ef, cml_and2, div2_cml_ls, mc_conv   prescaler cells
   mos_latch.sch/.sym        G3 comparison only (HV-NMOS version of the CML latch); not in the prescaler
   loopfilter.sch/.sym       type-II 3rd-order passive filter (R1-C1, C2, R3-C3), values from sim/loop-model/loop-filter.json
   cml2cmos.sch/.sym         prescaler CML output -> CMOS clock
@@ -71,7 +72,7 @@ Designed here (spec row 4, section 7). Everything runs from the 3.3 V rail; the 
 `IREF` (50 uA nominal): a diode-connected `npn13G2v` + 2.4 kohm reference at the top, every tail is
 k x IREF (emitter-degenerated mirror). `INP`/`INN` are the tank-node inputs: the base of one
 `npn13G2v` emitter follower each (Nx = 1), DC-coupled, common mode 3.3 V (the VCO tank returns to
-VDD). `MC` is a CMOS-level (0/3.3 V) modulus control: low = /4, high = /5. `OUTP`/`OUTN` are CML
+VDD). `MC` is a CMOS-level (0/3.3 V) modulus control: low = /8, high = /9. `OUTP`/`OUTN` are CML
 levels (not CMOS; the level converter belongs with the divider, #32). The schematics were emitted
 by a script and are plain xschem; edit them in xschem and regenerate the netlist.
 
@@ -79,8 +80,13 @@ Derived from nothing in `sg13g2-pll` (spec section 7: no sibling block runs at t
 Resistors are ideal `res` (no PDK resistor model or parasitics yet). Sized at `hbt_typ`, 27 C, 3.3 V
 only (`sim/prescaler-g1/`, `sim/prescaler-g3/`); no corner grid.
 
-**Ratio caveat**: a fixed /2 followed by a /4/5 gives total /8 or /10, not the /8 or /9 that spec rows
-3 and 4 state; see the issue filed against the spec. The cells implement /4/5 as the issue asks.
+**Architecture (issue #158, `spec/decision-records/DR-005-prescaler-p89-div23-first-stage.md`)**: `div89_dm`
+puts the `cml_div23` /2/3 cell on the VCO (its input pair is the same `cml_ef` follower pair as the old /2, one
+`npn13G2v` Nx = 1 base per side) and follows it with two `div2_cml_ls` /2 stages. `M = MC AND S1 AND S2` (two
+`cml_and2` levels, `S1` through a `cml_ef`) is high for exactly one /2/3 output period in four, so MC high swallows
+one VCO cycle per prescaler period: /8 with MC low, /9 with MC high. `S1`/`S2` are a ripple counter (S2 toggles on S1), so the states step 00, 01, 10, 11 with S1 falling before S2 changes: by
+design `M` cannot see a spurious 11. The async-phase runs below check that, they do not prove it. The earlier /8-/10 build (`div2_cml` then
+`div45_dm`) is kept in the tree but not instantiated. Simulated at `sim/prescaler-div89/`.
 
 ## Loop blocks (`loopfilter`, `divider`, `pll_top`)
 
@@ -101,12 +107,14 @@ only as far as the varactor's DC load is negligible.
 **Divider.** `divider` takes the prescaler's CML `OUTP`/`OUTN`, converts them to a CMOS clock (`cml2cmos`:
 HV-NMOS pair, PMOS mirror, tail 4 x `IREF` from the prescaler reference node, two inverters), and runs a
 pulse-swallow counter: `mcounter` counts `M` clocks (loads `M[3:0]` when Q = 0001), `acounter` holds `A`
-(2 bits) and drives `MC` high for `A` clocks after each load. With the prescaler's P = 8 (`MC` low) or
-10 (`MC` high), **N = 8 M + 2 A, A in [0, 3], even N only** (operator ruling on issue #43; the spec text
-still says P = 8/9 until PR #46 lands, and is not edited here). N = 100 is M = 12 (1100), A = 2 (10);
-the stretch band's bounds are N = 90 (M = 11, A = 1) and N = 110 (M = 13, A = 3). No odd N is claimed. The
-counter needs M >= A. `FB` is the terminal-count pulse retimed by one `CK` flop (one prescaler-output period
-wide). `M0..M3` and `A0..A1` are static code inputs; `pll_top` ties them for N = 100.
+(3 bits, A0..A2) and drives `MC` high for `A` clocks after each load. With the prescaler's P = 8 (`MC` low) or
+9 (`MC` high), **N = 8 M + A, A in [0, 7]**, every integer N reachable provided M >= A (DR-005; spec row 3). N = 100
+is M = 12 (1100), A = 4 (100); the stretch band's bounds are N = 90 (M = 11, A = 2) and N = 110 (M = 13, A = 6). The
+counter needs M >= A, and M >= 3 for the registered terminal count. `FB` is the terminal-count pulse retimed by one
+`CK` flop (one prescaler-output period wide). `M0..M3` and `A0..A2` are static code inputs; `pll_top` ties them for
+N = 100. The code-to-N map of the netlist (tied code, reachability of 90-110, `acounter` holding MC high for exactly
+A clocks) is checked from the committed netlist by `sim/prescaler-div89/test_divider_code.py`: a zero-delay logic
+check, not a timing or corner result.
 
 The counter cells are the pinned `sg13g2-pll` cells (`dff_tg_hv`, `xor2_hv`, `nand2_hv`, `nand3_hv`, `nor2_hv`,
 `inv_hv`, `tgate_hv`; `reuse.lock.json`, fetched and sha256-verified): adopted, with the swallow logic designed
@@ -132,7 +140,7 @@ carries one `XVCO ... vco` instance line and no stub `.subckt`. A loop testbench
 (for example by wrapping the pinned file's device lines in a `.subckt vco VCTRL OUTP OUTN VDD VSS`, without
 editing the pinned bytes). The gap is filed on `sg13g2-vco` (see the PR).
 
-**Speed (issue #61).** The first-pass counters did not divide at the prescaler output rate (bisect: `sim/divider-elab/records/20261103-bisect-issue61.md`; the `mcounter` next-state logic, about eight gates deep, stopped between 520 and 550 MHz). Fixed by retiming, with the adopted cells unchanged: `mcounter` now registers its terminal count (`TC`/`TCN` are flop outputs, high exactly when Q = 0001) and per-bit borrow flags (`b1..b3`, lower bits of Q are zero), so every flop-to-flop path is at most three gates; `acounter` is a two-gate next state with a registered `MC`; the extra clock load on `cml2cmos` is isolated by a one-inverter-plus-three-parallel-`inv_hv` buffer (`CK` -> `CKL`) in `divider`. Requires **M >= 3** (the registered terminal count assumes Q = 0001 is not the loaded value). Verified by `scripts/run-divider-elab.sh`: FB divides N = 100 at 625 and 687.5 MHz through the real `cml2cmos` (simulated, nominal corner `hbt_typ`/`mos_tt`/`cap_typ`, 27 C, 3.3 V, not measured). A prototype of the counter alone divided by 12 at 800 MHz and failed at 900 MHz (nominal, ideal clock; scratch, not a committed record). A = 0 (N = 96) and A = 3 (N = 102) at M = 12 also divide at both rates through the real converter (separate deck `divider_speedA`, same script; simulated, nominal corner, not measured). Not done: any corner other than nominal (the C-grid is #39's `klt sim` envelope work).
+**Speed (issue #61).** The first-pass counters did not divide at the prescaler output rate (bisect: `sim/divider-elab/records/20261103-bisect-issue61.md`; the `mcounter` next-state logic, about eight gates deep, stopped between 520 and 550 MHz). Fixed by retiming, with the adopted cells unchanged: `mcounter` now registers its terminal count (`TC`/`TCN` are flop outputs, high exactly when Q = 0001) and per-bit borrow flags (`b1..b3`, lower bits of Q are zero), so every flop-to-flop path is at most three gates; `acounter` has a three-gate-deep next state (two-gate in the 2-bit version; 3 bits since PR #161) with a registered `MC`; the extra clock load on `cml2cmos` is isolated by a one-inverter-plus-three-parallel-`inv_hv` buffer (`CK` -> `CKL`) in `divider`. Requires **M >= 3** (the registered terminal count assumes Q = 0001 is not the loaded value). Verified by `scripts/run-divider-elab.sh`: FB divides N = 100 at 625 and 687.5 MHz through the real `cml2cmos` (simulated, nominal corner `hbt_typ`/`mos_tt`/`cap_typ`, 27 C, 3.3 V, not measured). A prototype of the counter alone divided by 12 at 800 MHz and failed at 900 MHz (nominal, ideal clock; scratch, not a committed record). A = 0 (N = 96) and A = 3 (N = 102) at M = 12 also divide at both rates through the real converter (separate deck `divider_speedA`, same script; simulated, nominal corner, not measured). Not done: any corner other than nominal (the C-grid is #39's `klt sim` envelope work).
 
 **Checks.** `scripts/run-divider-elab.sh` elaborates the divider for five N codes (100, 90, 110, A = 0, A = 3) and counts
 `FB` period and `MC`-high clocks for N = 100 and 90 at a relaxed 100 MHz clock, then runs the speed check (625 and 687.5 MHz, real chain and an ideal-clock bisect control, nominal corner), writing an append-only
