@@ -77,8 +77,40 @@ levels (not CMOS; the level converter belongs with the divider, #32). The schema
 by a script and are plain xschem; edit them in xschem and regenerate the netlist.
 
 Derived from nothing in `sg13g2-pll` (spec section 7: no sibling block runs at the VCO frequency).
-Resistors are ideal `res` (no PDK resistor model or parasitics yet). Sized at `hbt_typ`, 27 C, 3.3 V
-only (`sim/prescaler-g1/`, `sim/prescaler-g3/`); no corner grid.
+Resistors are PDK `rppd` / `rhigh` instances (issue #164; no ideal `R` card remains in `prescaler`, `mos_latch`,
+`divider`, `pll_top`). `sim/prescaler-g1/` and `sim/prescaler-g3/` records predate this change (ideal `R`, nominal only;
+the g1 bench probes nodes the /8-/9 prescaler no longer has and was not re-run); the /8-/9 corner grid with PDK resistors is
+`sim/prescaler-div89/records/*-pdk-resistors.md`.
+
+**Resistor devices (issue #164).** Values are the unchanged ideal values; W/L were set from the `r3_cmc` model's own DC
+resistance at `res_typ`, 27 C (R = ~70 ohm end resistance + ~257 ohm/um x L at W = 1 um for `rppd`; ~327 ohm + ~3240 ohm/um at
+W = 0.5 um for `rhigh`). Drawn width 2 um is used on the two tail values (600, 1200 ohm) to cut the relative width error;
+everything else is W = 1 um `rppd`. `rhigh` is used only for the 50 k / 100 k bias and feedback values, where `rppd` would
+need about 190 / 380 um of length. Squares = L/W. Tolerance is the PDK corner spread of sheet resistance: `rppd` 234 / 260 /
+286 ohm per square (`res_bcs` / `typ` / `wcs`), `rhigh` 1020 / 1360 / 1700. The model includes the area/perimeter parasitic
+capacitance of each resistor; it was not separately extracted per resistor, only exercised in the corner runs below.
+
+| value (ohm) | where | device | W (um) | L (um) | squares | modelled R (ohm, typ 27 C) |
+|---|---|---|---|---|---|---|
+| 600 | `cml2cmos` tail RT | `rppd` | 2 | 4.4 | 2.2 | 603.6 |
+| 1200 (1.2k) | CML tails RT / RTC (`cml_latch`, `cml_and2`, `div2_latch_hs`), `prescaler` RT, `mc_conv` RT | `rppd` | 2 | 9.05 | 4.5 | 1204.5 |
+| 1500 | `div2_latch_hs` RL (not instantiated) | `rppd` | 1 | 5.57 | 5.6 | not run (model fit ~1500) |
+| 2400 (2.4k) | CML loads RL, followers RF, RREF, RTC, `mc_conv` RL | `rppd` | 1 | 9.05 | 9.1 | 2398 (9.07 um: 2400.3) |
+| 4k | `cml_ef` / `div2_ef_hs` RDF | `rppd` | 1 | 15.3 | 15.3 | 4001 |
+| 12k, 28k | `mc_conv` RD1, RD2 | `rppd` | 1 | 46.4, 108.8 | 46 / 109 | 11991 / 28023 |
+| 20k | `mc_conv` RIN | `rppd` | 1 | 77.7 | 78 | 20032 |
+| 50k | `cml2cmos` RB1, RB2, RV1, RV2 | `rhigh` | 0.5 | 15.35 | 31 | 50025 |
+| 100k | `cml2cmos` RF1 | `rhigh` | 0.5 | 30.8 | 62 | 100054 |
+
+The "71" of the issue title does not reproduce; the netlist cards were enumerated directly (27 in `prescaler`, 2 in
+`mos_latch`, 6 in `divider`, 33 in `pll_top`, which embeds the others). In `sim/prescaler-div89` the resistor corner is
+tied to the HBT corner (SLOW = `hbt_wcs` + `res_wcs`).
+
+**Result of the swap (simulated):** `/8` and `/9` hold at 5.0 GHz at all 54 chain corners, and at 5.5 GHz at every corner
+except SLOW / 125 C (all three supplies), where the 5.5 GHz `/8` and `/9` fail (output period about 10 input periods;
+0/16 async phases pass at 2.97 and 3.63 V). The same grid passed with ideal resistors. This is a failing 5.5 GHz corner,
+not relaxed here. Not re-run: the divider corner records, the VCO-load (G2) and loop-power records, and the g1/g3
+benches; see the PR for the list.
 
 **Architecture (issue #158, `spec/decision-records/DR-005-prescaler-p89-div23-first-stage.md`)**: `div89_dm`
 puts the `cml_div23` /2/3 cell on the VCO (its input pair is the same `cml_ef` follower pair as the old /2, one

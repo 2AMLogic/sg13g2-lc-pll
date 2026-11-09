@@ -1,7 +1,7 @@
 * sg13g2-lc-pll :: sim/prescaler-div89 (chain) -- whole prescaler /8 (MC low) and /9 (MC high), for `klt sim`.
 * Circuit body only (klt sim owns the .lib/.temp/.control cards). Stimulus as sim/prescaler-g1: 0.4 Vpp
 * differential sine on INP/INN at a common mode equal to the supply (the tank inductors return to VDD),
-* IREF = 50 uA, ideal resistors. Axes (corners.params): vddv supply, fin VCO-side frequency, mcv MC level.
+* IREF = 50 uA, PDK rppd/rhigh resistors (r3_cmc OSDI, section tied to the process name). Axes (corners.params): vddv supply, fin VCO-side frequency, mcv MC level.
 * Power-up ramp (supply, IREF and MC pwl 0 -> final in 1 ns; the inputs follow v(vdd) through B sources) so the
 * operating point is the trivial all-zero one: with the supply and sources applied at t = 0 the transient op
 * failed ('timestep too small', FAST / 125 C / 3.63 V, erratic in temperature: 110 C failed, 100 and 120 C did not).

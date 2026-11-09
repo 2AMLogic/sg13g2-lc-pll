@@ -11,8 +11,8 @@
 *.opin QB
 *.iopin VDD
 *.iopin VSS
-RL1 VDD Q 2400 m=1
-RL2 VDD QB 2400 m=1
+XRL1 VDD Q VSS rppd w=1u l=9.05u m=1 b=0
+XRL2 VDD QB VSS rppd w=1u l=9.05u m=1 b=0
 XMT1 QB D e1 VSS sg13_hv_nmos w=12u l=0.45u ng=1 m=1
 XMT2 Q DB e1 VSS sg13_hv_nmos w=12u l=0.45u ng=1 m=1
 XMH1 QB Q e2 VSS sg13_hv_nmos w=12u l=0.45u ng=1 m=1
