@@ -156,5 +156,17 @@ Appended after both hand-run ratification keys at `b31d51ee` asked for changes (
 - **Spec row 4** is brought into line by an appended update in `spec/target-spec.md` (see its "Appended updates"
   section), not by editing the ratified text.
 
-Still not done, in addition to the list above: corner evidence (anything but nominal) for the 3-bit `acounter`, the
+- **Divider corner evidence at a committed head: INCOMPLETE (simulated, not measured).** Record
+  `sim/divider-elab/records/20261109-001052-d04a1a4-corners.md` (supersedes the `-dirty` nominal record, which is kept: records are
+  append-only), run at committed head `d04a1a4` through `klt sim` on the batch fleet (jobs `klt-sim-c6f5b4ae3e3e` speed, `klt-sim-be3fe5102db6`
+  count; `ngspice-46`). SLOW / TYP / FAST x -40 / 27 / 125 C at 3.3 V, real `cml2cmos` + 3-bit `acounter`,
+  ideal 0.4 Vpp stimulus. **38 of 54 runs divide to the expected N, 0 give a wrong N, 16 are not graded**: 9 did not converge
+  (`timestep_too_small`: SLOW/-40C A=0; SLOW/27C all four speed cases and the 100 MHz N=100 count; TYP/-40C A=0; FAST/125C A=0; TYP/125C N=90 count)
+  and 7 show no toggle (fewer than 4 FB edges: SLOW/125C at 625 and 687.5 MHz, all four cases; TYP/125C at 687.5 MHz, A = 4, 0, 7). The
+  no-toggle runs converged, so they may be real failures of the chain at slow/hot at these input rates, or a bench start-up artifact;
+  this record does not tell them apart and **does not claim either**. All 100 MHz count runs at SLOW/125C pass. N = 110 is still elaborated only.
+  Corner evidence for the 3-bit `acounter` is therefore partial, and the stage-2 corner statement for the counters is not extended
+  until the 16 are resolved.
+
+Still not done, in addition to the list above: the 16 ungraded divider corner runs (9 non-convergence, 7 no-toggle, see above), the
 Vce stress at 3.63 V in /9 mode (FAIL above).
