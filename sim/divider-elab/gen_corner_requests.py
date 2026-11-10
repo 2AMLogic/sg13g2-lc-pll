@@ -19,6 +19,9 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 L = "libs.tech/ngspice/models/"
 PROC = [("SLOW", "hbt_wcs", "mos_ss", "cap_wcs"), ("TYP", "hbt_typ", "mos_tt", "cap_typ"), ("FAST", "hbt_bcs", "mos_ff", "cap_bcs")]
+# PDK resistor loading (issue #164): cornerRES.lib section per process name, r3_cmc OSDI, ngbehavior=hsa as sim/prescaler-div89.
+RES = {"SLOW": "res_wcs", "TYP": "res_typ", "FAST": "res_bcs"}
+OSDI = "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/"
 V = 3.3
 # case: (fin, M, A, expected N)
 SPEED = [("N100-625", 625e6, 12, 4), ("N100-687.5", 687.5e6, 12, 4), ("A0-687.5", 687.5e6, 12, 0), ("A7-687.5", 687.5e6, 12, 7)]
@@ -43,11 +46,13 @@ def request(stop, cases, timeout_s):
         "analysis": {"kind": "tran", "args": f"20p {stop} 0 20p"},
         "corners": {
             "process": [{"name": n, "sections": [{"lib": L + "cornerHBT.lib", "section": h}, {"lib": L + "cornerMOShv.lib", "section": m},
-                                                  {"lib": L + "cornerCAP.lib", "section": c}]} for n, h, m, c in PROC],
+                                                  {"lib": L + "cornerCAP.lib", "section": c},
+                                                  {"lib": L + "cornerRES.lib", "section": RES[n]}]} for n, h, m, c in PROC],
             "temperature_c": [-40, 27, 125],
             "params": params(cases),
         },
-        "options": {"osdi_preload": ["$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"], "stage_model_inputs": True, "timeout_s": timeout_s},
+        "options": {"osdi_preload": [OSDI + "psp103.osdi", OSDI + "r3_cmc.osdi"], "stage_model_inputs": True, "timeout_s": timeout_s,
+                    "ngspice_init": ["set ngbehavior=hsa"]},
         "measurements": [{"name": n, "unit": "s", "crossings": {"signal": s, "level": 1.65, "edge": e, "from": "0", "max": 200}} for n, s, e in xs],
     }
 
