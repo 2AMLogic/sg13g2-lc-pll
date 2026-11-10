@@ -4,7 +4,15 @@
   "evidence": {
     "1": {
       "file": "manifests/design-sources.attest.json",
-      "content_hash": "sha256:8dce5715f756a22dd87612cf7dcaf101e10b72eb7cfc0549555cf9ec7dd2a1ba"
+      "content_hash": "sha256:47ee5d135e235bf13876dfa89191f2a160231488d0cf9fdec5910f14804d0ebb"
+    },
+    "2": {
+      "file": "manifests/layout.attest.json",
+      "content_hash": "sha256:b04df5f51190d425e733cb35348aa81f77fc504660fc434c71bcf4d6cb4d9ec7"
+    },
+    "3": {
+      "file": "layout/drc/top.drc.json",
+      "content_hash": "sha256:306a3c52a73164975357245088cca74efd21a353cc060397c07941eb29aa4e50"
     },
     "5": [
       {

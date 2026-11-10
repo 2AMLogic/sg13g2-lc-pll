@@ -12,6 +12,8 @@
     "design/cml_and2.sym",
     "design/cml_dff.sch",
     "design/cml_dff.sym",
+    "design/cml_dff_latch.sch",
+    "design/cml_dff_latch.sym",
     "design/cml_div23.sch",
     "design/cml_div23.sym",
     "design/cml_ef.sch",

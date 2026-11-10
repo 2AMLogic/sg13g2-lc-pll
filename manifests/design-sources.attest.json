@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 1,
-  "summary": "T1 item 1 (Design sources): 65/65 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 1 (Design sources): 67/67 attestation checks passed (klt signoff --attest)",
   "source": "manifests/design-sources.inventory.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 65,
-    "passed_count": 65,
+    "check_count": 67,
+    "passed_count": 67,
     "checks": [
       {
         "check": "present",
@@ -59,7 +59,7 @@
         "role": "source",
         "path": "design/cml_dff.sch",
         "passed": true,
-        "content_hash": "sha256:121a2597ab59c81c184890b0106332471a34219cf9f5f36d91476acea7071fdd"
+        "content_hash": "sha256:9f1b3e831dfbb97e59a448234cabbe3a2116a1d34de7f83533e2d5da10c76f79"
       },
       {
         "check": "present",
@@ -67,6 +67,20 @@
         "path": "design/cml_dff.sym",
         "passed": true,
         "content_hash": "sha256:754628d3c1c2af459030f6b871673ae7ac4abba08ffc5c6f12e2c29312e589c6"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cml_dff_latch.sch",
+        "passed": true,
+        "content_hash": "sha256:c7daa1696e67defe08309da5de05541681aa8328f09147e365c5e84536a1f42e"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cml_dff_latch.sym",
+        "passed": true,
+        "content_hash": "sha256:55de01f2090872a701f0c75d4d7cb637178b1d2af074721d787f53d20267fce7"
       },
       {
         "check": "present",
@@ -416,14 +430,14 @@
         "role": "derived",
         "path": "design/netlist/pll_top.spice",
         "passed": true,
-        "content_hash": "sha256:5a3a3ba77d74569d6a01bc8221ab3d713fd26a18b4a377a1852ead1b746adf91"
+        "content_hash": "sha256:48ba2018b5bf17f774788b89d343a181f04d2567156f06567c516838ad38f631"
       },
       {
         "check": "present",
         "role": "derived",
         "path": "design/netlist/prescaler.spice",
         "passed": true,
-        "content_hash": "sha256:41c32b6c2224936dfdbe7b1eab13efd6c16c0e27d85d360a54c5af94ebbead52"
+        "content_hash": "sha256:e5da006eb8d2b5d5abad418281c22a9e716bce8ff3bfa89c72030aef9bed9a26"
       },
       {
         "check": "command",
@@ -533,7 +547,7 @@
         "path": "manifests/design-sources.inventory.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:8dce5715f756a22dd87612cf7dcaf101e10b72eb7cfc0549555cf9ec7dd2a1ba"
+      "content_hash": "sha256:47ee5d135e235bf13876dfa89191f2a160231488d0cf9fdec5910f14804d0ebb"
     }
   }
 }
