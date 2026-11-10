@@ -724,8 +724,8 @@ XMP Y PG A VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
 *.opin QB
 *.iopin VDD
 *.iopin VSS
-XM D DB CK CKB IB M MB VDD VSS cml_latch
-XS M MB CKB CK IB Q QB VDD VSS cml_latch
+XM D DB CK CKB IB M MB VDD VSS cml_dff_latch
+XS M MB CKB CK IB Q QB VDD VSS cml_dff_latch
 .ends
 
 
@@ -744,6 +744,33 @@ XS M MB CKB CK IB Q QB VDD VSS cml_latch
 *.iopin VSS
 XRL1 VDD Q VSS rppd w=1u l=9.05u m=1 b=0
 XRL2 VDD QB VSS rppd w=1u l=9.05u m=1 b=0
+XQT1 QB D e1 VSS npn13G2v Nx=1 El=1
+XQT2 Q DB e1 VSS npn13G2v Nx=1 El=1
+XQH1 QB Q e2 VSS npn13G2v Nx=1 El=1
+XQH2 Q QB e2 VSS npn13G2v Nx=1 El=1
+XQC1 e1 CK t VSS npn13G2v Nx=1 El=1
+XQC2 e2 CKB t VSS npn13G2v Nx=1 El=1
+XQT tc IB teT VSS npn13G2v Nx=2 El=1
+XRT teT VSS VSS rppd w=2u l=9.05u m=1 b=0
+XRTC t tc VSS rppd w=1u l=9.05u m=1 b=0
+.ends
+
+
+* expanding   symbol:  cml_dff_latch.sym # of pins=9
+** sym_path: design/cml_dff_latch.sym
+** sch_path: design/cml_dff_latch.sch
+.subckt cml_dff_latch D DB CK CKB IB Q QB VDD VSS
+*.ipin D
+*.ipin DB
+*.ipin CK
+*.ipin CKB
+*.ipin IB
+*.opin Q
+*.opin QB
+*.iopin VDD
+*.iopin VSS
+XRL1 VDD Q VSS rppd w=1u l=8.0u m=1 b=0
+XRL2 VDD QB VSS rppd w=1u l=8.0u m=1 b=0
 XQT1 QB D e1 VSS npn13G2v Nx=1 El=1
 XQT2 Q DB e1 VSS npn13G2v Nx=1 El=1
 XQH1 QB Q e2 VSS npn13G2v Nx=1 El=1

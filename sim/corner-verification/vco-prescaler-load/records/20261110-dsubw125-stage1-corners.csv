@@ -1,0 +1,55 @@
+case,corner_id,process,T,vddv,vctrl,status,f_ghz,vpp,tst_ps,diag,label
+loaded,"mos_tt/cap_typ/hbt_typ/novdd/27C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_typ/hbt_typ,27,3.3,1.65,pass,4.177,0.6196,152.2,,control: same dsubw substitution at 27 C
+loaded,"mos_tt/cap_typ/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_typ/hbt_typ,125,3.3,1.65,pass,4.132,0.5404,176.3,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_tt/cap_typ/hbt_bcs/novdd/27C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_typ/hbt_bcs,27,3.3,1.65,pass,4.19,0.6181,151.6,,control: same dsubw substitution at 27 C
+loaded,"mos_tt/cap_typ/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_typ/hbt_bcs,125,3.3,1.65,pass,4.147,0.5436,174.4,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_tt/cap_typ/hbt_wcs/novdd/27C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_typ/hbt_wcs,27,3.3,1.65,pass,4.164,0.6179,152.9,,control: same dsubw substitution at 27 C
+loaded,"mos_tt/cap_typ/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_typ/hbt_wcs,125,3.3,1.65,pass,4.115,0.5324,179,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_tt/cap_bcs/hbt_typ/novdd/27C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_bcs/hbt_typ,27,3.3,1.65,pass,4.202,0.6215,151.1,,control: same dsubw substitution at 27 C
+loaded,"mos_tt/cap_bcs/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_bcs/hbt_typ,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_tt/cap_bcs/hbt_bcs/novdd/27C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_bcs/hbt_bcs,27,3.3,1.65,pass,4.214,0.62,150.5,,control: same dsubw substitution at 27 C
+loaded,"mos_tt/cap_bcs/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_bcs/hbt_bcs,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_tt/cap_bcs/hbt_wcs/novdd/27C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_bcs/hbt_wcs,27,3.3,1.65,pass,4.188,0.6198,151.7,,control: same dsubw substitution at 27 C
+loaded,"mos_tt/cap_bcs/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_bcs/hbt_wcs,125,3.3,1.65,pass,4.139,0.5348,176.3,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_tt/cap_wcs/hbt_typ/novdd/27C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_wcs/hbt_typ,27,3.3,1.65,pass,4.153,0.6176,153.3,,control: same dsubw substitution at 27 C
+loaded,"mos_tt/cap_wcs/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_wcs/hbt_typ,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_tt/cap_wcs/hbt_bcs/novdd/27C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_wcs/hbt_bcs,27,3.3,1.65,pass,4.165,0.6162,152.7,,control: same dsubw substitution at 27 C
+loaded,"mos_tt/cap_wcs/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_wcs/hbt_bcs,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_tt/cap_wcs/hbt_wcs/novdd/27C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_wcs/hbt_wcs,27,3.3,1.65,pass,4.14,0.6159,154,,control: same dsubw substitution at 27 C
+loaded,"mos_tt/cap_wcs/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_tt/cap_wcs/hbt_wcs,125,3.3,1.65,pass,4.092,0.5299,182.6,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ss/cap_typ/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ss/cap_typ/hbt_typ,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ss/cap_typ/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ss/cap_typ/hbt_bcs,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ss/cap_typ/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ss/cap_typ/hbt_wcs,125,3.3,1.65,pass,4.118,0.5328,178.5,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ss/cap_bcs/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ss/cap_bcs/hbt_typ,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ss/cap_bcs/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ss/cap_bcs/hbt_bcs,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ss/cap_bcs/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ss/cap_bcs/hbt_wcs,125,3.3,1.65,pass,4.142,0.5352,176,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ss/cap_wcs/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ss/cap_wcs/hbt_typ,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ss/cap_wcs/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ss/cap_wcs/hbt_bcs,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ss/cap_wcs/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ss/cap_wcs/hbt_wcs,125,3.3,1.65,pass,4.095,0.5304,182.1,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ff/cap_typ/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ff/cap_typ/hbt_typ,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ff/cap_typ/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ff/cap_typ/hbt_bcs,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ff/cap_typ/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ff/cap_typ/hbt_wcs,125,3.3,1.65,pass,4.112,0.5318,179.5,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ff/cap_bcs/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ff/cap_bcs/hbt_typ,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ff/cap_bcs/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ff/cap_bcs/hbt_bcs,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ff/cap_bcs/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ff/cap_bcs/hbt_wcs,125,3.3,1.65,pass,4.135,0.5342,176.7,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ff/cap_wcs/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ff/cap_wcs/hbt_typ,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ff/cap_wcs/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ff/cap_wcs/hbt_bcs,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_ff/cap_wcs/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_ff/cap_wcs/hbt_wcs,125,3.3,1.65,pass,4.088,0.5294,184.2,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_sf/cap_typ/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_sf/cap_typ/hbt_typ,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_sf/cap_typ/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_sf/cap_typ/hbt_bcs,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_sf/cap_typ/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_sf/cap_typ/hbt_wcs,125,3.3,1.65,pass,4.118,0.5327,178.6,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_sf/cap_bcs/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_sf/cap_bcs/hbt_typ,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_sf/cap_bcs/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_sf/cap_bcs/hbt_bcs,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_sf/cap_bcs/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_sf/cap_bcs/hbt_wcs,125,3.3,1.65,pass,4.141,0.5351,176.1,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_sf/cap_wcs/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_sf/cap_wcs/hbt_typ,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_sf/cap_wcs/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_sf/cap_wcs/hbt_bcs,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_sf/cap_wcs/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_sf/cap_wcs/hbt_wcs,125,3.3,1.65,pass,4.094,0.5303,182.2,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_fs/cap_typ/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_fs/cap_typ/hbt_typ,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_fs/cap_typ/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_fs/cap_typ/hbt_bcs,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_fs/cap_typ/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_fs/cap_typ/hbt_wcs,125,3.3,1.65,pass,4.113,0.532,179.3,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_fs/cap_bcs/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_fs/cap_bcs/hbt_typ,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_fs/cap_bcs/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_fs/cap_bcs/hbt_bcs,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_fs/cap_bcs/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_fs/cap_bcs/hbt_wcs,125,3.3,1.65,pass,4.137,0.5344,176.5,,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_fs/cap_wcs/hbt_typ/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_fs/cap_wcs/hbt_typ,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_fs/cap_wcs/hbt_bcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_fs/cap_wcs/hbt_bcs,125,3.3,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"mos_fs/cap_wcs/hbt_wcs/novdd/125C/params:vctrl=1.65,vddv=3.3",mos_fs/cap_wcs/hbt_wcs,125,3.3,1.65,pass,4.09,0.5296,183.7,,approximation (`dsubw` TNOM = 125 C)

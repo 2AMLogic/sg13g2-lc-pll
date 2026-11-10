@@ -1,0 +1,73 @@
+case,corner_id,process,T,vddv,vctrl,status,f_ghz,vpp,tst_ps,diag,label
+loaded,"SLOW/novdd/27C/params:vctrl=0,vddv=2.97",SLOW,27,2.97,0,pass,4.141,0.5292,155.1,,control: same dsubw substitution at 27 C
+loaded,"SLOW/novdd/27C/params:vctrl=1.65,vddv=2.97",SLOW,27,2.97,1.65,pass,4.095,0.5231,157.4,,control: same dsubw substitution at 27 C
+loaded,"SLOW/novdd/27C/params:vctrl=3.3,vddv=2.97",SLOW,27,2.97,3.3,pass,3.689,0.4575,181.9,,control: same dsubw substitution at 27 C
+loaded,"SLOW/novdd/27C/params:vctrl=0,vddv=3.63",SLOW,27,3.63,0,pass,4.176,0.7093,151.3,,control: same dsubw substitution at 27 C
+loaded,"SLOW/novdd/27C/params:vctrl=1.65,vddv=3.63",SLOW,27,3.63,1.65,pass,4.174,0.7091,151.4,,control: same dsubw substitution at 27 C
+loaded,"SLOW/novdd/27C/params:vctrl=3.3,vddv=3.63",SLOW,27,3.63,3.3,pass,3.916,0.6594,164.4,,control: same dsubw substitution at 27 C
+loaded,"SLOW/novdd/125C/params:vctrl=0,vddv=2.97",SLOW,125,2.97,0,pass,4.087,0.4524,426,,approximation (`dsubw` TNOM = 125 C)
+loaded,"SLOW/novdd/125C/params:vctrl=1.65,vddv=2.97",SLOW,125,2.97,1.65,pass,4.051,0.4475,671.6,,approximation (`dsubw` TNOM = 125 C)
+loaded,"SLOW/novdd/125C/params:vctrl=3.3,vddv=2.97",SLOW,125,2.97,3.3,pass,3.67,0.3859,,,approximation (`dsubw` TNOM = 125 C)
+loaded,"SLOW/novdd/125C/params:vctrl=0,vddv=3.63",SLOW,125,3.63,0,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"SLOW/novdd/125C/params:vctrl=1.65,vddv=3.63",SLOW,125,3.63,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"SLOW/novdd/125C/params:vctrl=3.3,vddv=3.63",SLOW,125,3.63,3.3,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"TYP/novdd/27C/params:vctrl=0,vddv=2.97",TYP,27,2.97,0,pass,4.175,0.5317,153.5,,control: same dsubw substitution at 27 C
+loaded,"TYP/novdd/27C/params:vctrl=1.65,vddv=2.97",TYP,27,2.97,1.65,pass,4.128,0.5257,155.8,,control: same dsubw substitution at 27 C
+loaded,"TYP/novdd/27C/params:vctrl=3.3,vddv=2.97",TYP,27,2.97,3.3,pass,3.693,0.4561,181.7,,control: same dsubw substitution at 27 C
+loaded,"TYP/novdd/27C/params:vctrl=0,vddv=3.63",TYP,27,3.63,0,pass,4.21,0.7133,149.6,,control: same dsubw substitution at 27 C
+loaded,"TYP/novdd/27C/params:vctrl=1.65,vddv=3.63",TYP,27,3.63,1.65,pass,4.208,0.7131,149.7,,control: same dsubw substitution at 27 C
+loaded,"TYP/novdd/27C/params:vctrl=3.3,vddv=3.63",TYP,27,3.63,3.3,pass,3.936,0.6612,163.3,,control: same dsubw substitution at 27 C
+loaded,"TYP/novdd/125C/params:vctrl=0,vddv=2.97",TYP,125,2.97,0,pass,4.123,0.4613,418.2,,approximation (`dsubw` TNOM = 125 C)
+loaded,"TYP/novdd/125C/params:vctrl=1.65,vddv=2.97",TYP,125,2.97,1.65,pass,4.087,0.4563,424.3,,approximation (`dsubw` TNOM = 125 C)
+loaded,"TYP/novdd/125C/params:vctrl=3.3,vddv=2.97",TYP,125,2.97,3.3,pass,3.677,0.39,,,approximation (`dsubw` TNOM = 125 C)
+loaded,"TYP/novdd/125C/params:vctrl=0,vddv=3.63",TYP,125,3.63,0,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"TYP/novdd/125C/params:vctrl=1.65,vddv=3.63",TYP,125,3.63,1.65,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"TYP/novdd/125C/params:vctrl=3.3,vddv=3.63",TYP,125,3.63,3.3,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"FAST/novdd/27C/params:vctrl=0,vddv=2.97",FAST,27,2.97,0,pass,4.208,0.5311,151.9,,control: same dsubw substitution at 27 C
+loaded,"FAST/novdd/27C/params:vctrl=1.65,vddv=2.97",FAST,27,2.97,1.65,pass,4.16,0.5253,154.2,,control: same dsubw substitution at 27 C
+loaded,"FAST/novdd/27C/params:vctrl=3.3,vddv=2.97",FAST,27,2.97,3.3,pass,3.693,0.452,181.7,,control: same dsubw substitution at 27 C
+loaded,"FAST/novdd/27C/params:vctrl=0,vddv=3.63",FAST,27,3.63,0,pass,4.243,0.7135,148.1,,control: same dsubw substitution at 27 C
+loaded,"FAST/novdd/27C/params:vctrl=1.65,vddv=3.63",FAST,27,3.63,1.65,pass,4.242,0.7133,148.1,,control: same dsubw substitution at 27 C
+loaded,"FAST/novdd/27C/params:vctrl=3.3,vddv=3.63",FAST,27,3.63,3.3,pass,3.953,0.6595,162.3,,control: same dsubw substitution at 27 C
+loaded,"FAST/novdd/125C/params:vctrl=0,vddv=2.97",FAST,125,2.97,0,pass,4.158,0.4654,412.7,,approximation (`dsubw` TNOM = 125 C)
+loaded,"FAST/novdd/125C/params:vctrl=1.65,vddv=2.97",FAST,125,2.97,1.65,pass,4.122,0.4605,418.1,,approximation (`dsubw` TNOM = 125 C)
+loaded,"FAST/novdd/125C/params:vctrl=3.3,vddv=2.97",FAST,125,2.97,3.3,error,3.681,0.39,,nonconvergence,approximation (`dsubw` TNOM = 125 C)
+loaded,"FAST/novdd/125C/params:vctrl=0,vddv=3.63",FAST,125,3.63,0,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+loaded,"FAST/novdd/125C/params:vctrl=1.65,vddv=3.63",FAST,125,3.63,1.65,pass,4.19,0.6271,166.5,,approximation (`dsubw` TNOM = 125 C)
+loaded,"FAST/novdd/125C/params:vctrl=3.3,vddv=3.63",FAST,125,3.63,3.3,error,,,,analysis_aborted+nonconvergence+timestep_too_small,approximation (`dsubw` TNOM = 125 C)
+unloaded,"SLOW/novdd/27C/params:vctrl=0,vddv=2.97",SLOW,27,2.97,0,pass,4.168,0.5026,154.1,,control: same dsubw substitution at 27 C
+unloaded,"SLOW/novdd/27C/params:vctrl=1.65,vddv=2.97",SLOW,27,2.97,1.65,pass,4.12,0.4972,156.4,,control: same dsubw substitution at 27 C
+unloaded,"SLOW/novdd/27C/params:vctrl=3.3,vddv=2.97",SLOW,27,2.97,3.3,pass,3.706,0.4375,181.1,,control: same dsubw substitution at 27 C
+unloaded,"SLOW/novdd/27C/params:vctrl=0,vddv=3.63",SLOW,27,3.63,0,pass,4.205,0.68,150.2,,control: same dsubw substitution at 27 C
+unloaded,"SLOW/novdd/27C/params:vctrl=1.65,vddv=3.63",SLOW,27,3.63,1.65,pass,4.203,0.6797,150.3,,control: same dsubw substitution at 27 C
+unloaded,"SLOW/novdd/27C/params:vctrl=3.3,vddv=3.63",SLOW,27,3.63,3.3,pass,3.939,0.6333,163.5,,control: same dsubw substitution at 27 C
+unloaded,"SLOW/novdd/125C/params:vctrl=0,vddv=2.97",SLOW,125,2.97,0,pass,4.117,0.4308,663.1,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"SLOW/novdd/125C/params:vctrl=1.65,vddv=2.97",SLOW,125,2.97,1.65,pass,4.08,0.4262,673.6,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"SLOW/novdd/125C/params:vctrl=3.3,vddv=2.97",SLOW,125,2.97,3.3,pass,3.69,0.3683,,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"SLOW/novdd/125C/params:vctrl=0,vddv=3.63",SLOW,125,3.63,0,pass,4.153,0.5879,170.8,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"SLOW/novdd/125C/params:vctrl=1.65,vddv=3.63",SLOW,125,3.63,1.65,pass,4.15,0.5874,171,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"SLOW/novdd/125C/params:vctrl=3.3,vddv=3.63",SLOW,125,3.63,3.3,pass,3.904,0.5445,435.1,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"TYP/novdd/27C/params:vctrl=0,vddv=2.97",TYP,27,2.97,0,pass,4.197,0.5072,152.6,,control: same dsubw substitution at 27 C
+unloaded,"TYP/novdd/27C/params:vctrl=1.65,vddv=2.97",TYP,27,2.97,1.65,pass,4.149,0.5018,154.9,,control: same dsubw substitution at 27 C
+unloaded,"TYP/novdd/27C/params:vctrl=3.3,vddv=2.97",TYP,27,2.97,3.3,pass,3.706,0.4387,181,,control: same dsubw substitution at 27 C
+unloaded,"TYP/novdd/27C/params:vctrl=0,vddv=3.63",TYP,27,3.63,0,pass,4.234,0.6853,148.8,,control: same dsubw substitution at 27 C
+unloaded,"TYP/novdd/27C/params:vctrl=1.65,vddv=3.63",TYP,27,3.63,1.65,pass,4.233,0.6851,148.8,,control: same dsubw substitution at 27 C
+unloaded,"TYP/novdd/27C/params:vctrl=3.3,vddv=3.63",TYP,27,3.63,3.3,pass,3.954,0.6371,162.5,,control: same dsubw substitution at 27 C
+unloaded,"TYP/novdd/125C/params:vctrl=0,vddv=2.97",TYP,125,2.97,0,pass,4.148,0.4396,419.7,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"TYP/novdd/125C/params:vctrl=1.65,vddv=2.97",TYP,125,2.97,1.65,pass,4.111,0.435,662.7,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"TYP/novdd/125C/params:vctrl=3.3,vddv=2.97",TYP,125,2.97,3.3,pass,3.693,0.3736,,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"TYP/novdd/125C/params:vctrl=0,vddv=3.63",TYP,125,3.63,0,pass,4.185,0.5981,168,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"TYP/novdd/125C/params:vctrl=1.65,vddv=3.63",TYP,125,3.63,1.65,pass,4.182,0.5976,168.2,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"TYP/novdd/125C/params:vctrl=3.3,vddv=3.63",TYP,125,3.63,3.3,pass,3.922,0.5528,431.6,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"FAST/novdd/27C/params:vctrl=0,vddv=2.97",FAST,27,2.97,0,pass,4.226,0.5099,151.3,,control: same dsubw substitution at 27 C
+unloaded,"FAST/novdd/27C/params:vctrl=1.65,vddv=2.97",FAST,27,2.97,1.65,pass,4.178,0.5047,153.5,,control: same dsubw substitution at 27 C
+unloaded,"FAST/novdd/27C/params:vctrl=3.3,vddv=2.97",FAST,27,2.97,3.3,pass,3.703,0.4379,181.2,,control: same dsubw substitution at 27 C
+unloaded,"FAST/novdd/27C/params:vctrl=0,vddv=3.63",FAST,27,3.63,0,pass,4.263,0.6884,147.4,,control: same dsubw substitution at 27 C
+unloaded,"FAST/novdd/27C/params:vctrl=1.65,vddv=3.63",FAST,27,3.63,1.65,pass,4.262,0.6883,147.4,,control: same dsubw substitution at 27 C
+unloaded,"FAST/novdd/27C/params:vctrl=3.3,vddv=3.63",FAST,27,3.63,3.3,pass,3.969,0.6385,161.7,,control: same dsubw substitution at 27 C
+unloaded,"FAST/novdd/125C/params:vctrl=0,vddv=2.97",FAST,125,2.97,0,pass,4.179,0.4455,413.1,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"FAST/novdd/125C/params:vctrl=1.65,vddv=2.97",FAST,125,2.97,1.65,pass,4.142,0.441,419.8,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"FAST/novdd/125C/params:vctrl=3.3,vddv=2.97",FAST,125,2.97,3.3,pass,3.694,0.3759,,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"FAST/novdd/125C/params:vctrl=0,vddv=3.63",FAST,125,3.63,0,pass,4.216,0.6049,165.6,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"FAST/novdd/125C/params:vctrl=1.65,vddv=3.63",FAST,125,3.63,1.65,pass,4.213,0.6045,165.7,,approximation (`dsubw` TNOM = 125 C)
+unloaded,"FAST/novdd/125C/params:vctrl=3.3,vddv=3.63",FAST,125,3.63,3.3,pass,3.939,0.5577,428.8,,approximation (`dsubw` TNOM = 125 C)

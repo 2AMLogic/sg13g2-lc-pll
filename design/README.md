@@ -19,6 +19,7 @@ design/
   div2_ef_hs, div2_latch_hs first-stage follower pair and latch (higher current)
   div89_dm.sch/.sym         /8/9: /2/3 cell on the VCO + two /2 stages; M = MC AND S1 AND S2 (MC high = /9)
   div45_dm.sch/.sym         /4/5 (pre-DR-005, no longer instantiated): /2/3 cell + /2 toggle + modulus gating
+  cml_dff_latch.sch/.sym    cml_dff-only latch, RL l=8.0u (issue #182); cml_latch (l=9.05u) stays for div2_cml_ls
   cml_div23, cml_dff, cml_latch, cml_ef, cml_and2, div2_cml_ls, mc_conv   prescaler cells
   mos_latch.sch/.sym        G3 comparison only (HV-NMOS version of the CML latch); not in the prescaler
   loopfilter.sch/.sym       type-II 3rd-order passive filter (R1-C1, C2, R3-C3), values from sim/loop-model/loop-filter.json
@@ -79,8 +80,12 @@ by a script and are plain xschem; edit them in xschem and regenerate the netlist
 Derived from nothing in `sg13g2-pll` (spec section 7: no sibling block runs at the VCO frequency).
 Resistors are PDK `rppd` / `rhigh` instances (issue #164; no ideal `R` card remains in `prescaler`, `mos_latch`,
 `divider`, `pll_top`). `sim/prescaler-g1/` and `sim/prescaler-g3/` records predate this change (ideal `R`, nominal only;
-the g1 bench probes nodes the /8-/9 prescaler no longer has and was not re-run); the /8-/9 corner grid with PDK resistors is
-`sim/prescaler-div89/records/*-pdk-resistors.md`.
+the g1 bench probes nodes the /8-/9 prescaler no longer has and was not re-run; the g3 chain deck drives the old /4/5 second
+stage, and no local PDK is installed on the build host, so it was not re-run either); the /8-/9 corner grid with PDK resistors is
+`sim/prescaler-div89/records/*-pdk-resistors.md`. With the resistor corner models loaded (`cornerRES.lib`, `r3_cmc.osdi`) the
+divider corners are `sim/divider-elab/records/20261110-pdk-resistors-2022314-corners.md` (0 wrong N, 11 of 54 not graded: 125 C
+no toggle, a few non-converged; INCOMPLETE as before, 16 not graded then) and the loop-power stage 2 is
+`sim/corner-verification/loop-power/records/20261110-051905-2022314-stage2.md` plus `20261110-053343-2022314-stage2.md` (-40 C).
 
 **Resistor devices (issue #164).** Values are the unchanged ideal values; W/L were set from the `r3_cmc` model's own DC
 resistance at `res_typ`, 27 C (R = ~70 ohm end resistance + ~257 ohm/um x L at W = 1 um for `rppd`; ~327 ohm + ~3240 ohm/um at

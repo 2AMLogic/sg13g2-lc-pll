@@ -3,82 +3,20 @@
   "_bveceo_min_v": 2.2,
   "netlist": "prescaler_vce.cir",
   "engine": "ngspice",
-  "models": {
-    "pdk": "sg13g2"
-  },
-  "analysis": {
-    "kind": "tran",
-    "args": "1p 24n 10n 2p"
-  },
+  "models": {"pdk": "sg13g2"},
+  "analysis": {"kind": "tran", "args": "1p 24n 10n 2p"},
   "corners": {
     "process": [
-      {
-        "name": "SLOW",
-        "sections": [
-          {
-            "lib": "libs.tech/ngspice/models/cornerHBT.lib",
-            "section": "hbt_wcs"
-          },
-          {
-            "lib": "libs.tech/ngspice/models/cornerRES.lib",
-            "section": "res_wcs"
-          }
-        ]
-      },
-      {
-        "name": "TYP",
-        "sections": [
-          {
-            "lib": "libs.tech/ngspice/models/cornerHBT.lib",
-            "section": "hbt_typ"
-          },
-          {
-            "lib": "libs.tech/ngspice/models/cornerRES.lib",
-            "section": "res_typ"
-          }
-        ]
-      },
-      {
-        "name": "FAST",
-        "sections": [
-          {
-            "lib": "libs.tech/ngspice/models/cornerHBT.lib",
-            "section": "hbt_bcs"
-          },
-          {
-            "lib": "libs.tech/ngspice/models/cornerRES.lib",
-            "section": "res_bcs"
-          }
-        ]
-      }
+      {"name": "SLOW", "sections": [{"lib": "libs.tech/ngspice/models/cornerHBT.lib", "section": "hbt_wcs"}, {"lib": "libs.tech/ngspice/models/cornerRES.lib", "section": "res_wcs"}]},
+      {"name": "TYP",  "sections": [{"lib": "libs.tech/ngspice/models/cornerHBT.lib", "section": "hbt_typ"}, {"lib": "libs.tech/ngspice/models/cornerRES.lib", "section": "res_typ"}]},
+      {"name": "FAST", "sections": [{"lib": "libs.tech/ngspice/models/cornerHBT.lib", "section": "hbt_bcs"}, {"lib": "libs.tech/ngspice/models/cornerRES.lib", "section": "res_bcs"}]}
     ],
-    "temperature_c": [
-      -40,
-      27,
-      125
-    ],
-    "params": {
-      "vddv": [
-        2.97,
-        2.97,
-        3.63,
-        3.63
-      ],
-      "mcv": [
-        0,
-        1,
-        0,
-        1
-      ]
-    }
+    "temperature_c": [-40, 27, 125],
+    "params": {"vddv": [2.97, 2.97, 3.63, 3.63], "mcv": [0, 1, 0, 1]}
   },
   "options": {
     "stage_model_inputs": true,
-    "ngspice_init": [
-      "set ngbehavior=hsa"
-    ],
-    "osdi_preload": [
-      "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi"
-    ]
+    "ngspice_init": ["set ngbehavior=hsa"],
+    "osdi_preload": ["$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi"]
   }
 }

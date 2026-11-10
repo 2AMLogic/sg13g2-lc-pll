@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 """Grade the G2 C-grid klt sim reports into records/<id>.md and records/<id>-corners.csv.
 
-python3 -I make_record.py <id> <label>=<report.json> ...    label = loaded | unloaded (several reports per label are merged)
+python3 -I make_record.py [--dsubw --control <records/<id>-corners.csv> ...] <id> <label>=<report.json> ...    label = loaded | unloaded (several reports per label are merged)
+--dsubw (issue #173): the reports come from the vco_*_dsubw.spice decks (ONLY the varactor's dsubw diode card carries tnom = 125). Every 125 C
+number is then labelled an approximation, the leakage bound is quoted, and the 27 C units are compared with the unmodified 27 C records named by --control.
 A corner that errored is listed with its diagnostic code and is never counted as a pass. Nothing is relaxed:
 row 1 = f in 4.5-5.5 GHz, row 7 = vpp >= 0.40 V (differential, 10-20 ns); startup is only the time v(OUTP)-v(OUTN)
 first reaches 0.2 V from the 10 mV kick (a proxy, not the row 6 g_m / loss ratio).
 """
 import collections
 import csv
+import glob
 import json
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -29,13 +33,46 @@ def rows(path):
     return r, out
 
 
+import hashlib
+PSHA = hashlib.sha256(open(os.path.join(HERE, '..', '..', '..', 'design', 'netlist', 'prescaler.spice'), 'rb').read()).hexdigest()
+
+
+APPROX = "approximation (`dsubw` TNOM = 125 C)"
+# Leakage of one dsubw instance, reverse 1.65 V, 125 C, from 2AMLogic/sg13g2-vco#303 (record 20261107-213000-fe779ef-hot-startup-trace.md,
+# local single-point ngspice-46 probe; re-run in the #303 Doctor round: 5.0872e-10 / 1.65775e-12 A). 32 varactor instances in the pinned VCO.
+LEAK_27REF, LEAK_125REF, NINST = 5.09e-10, 1.66e-12, 32
+
+
+def supply_currents(report_path):
+    """|vsup#branch| printed in each 125 C unit's ngspice.log next to the report (the value is the same for every Vctrl at one Vdd: an operating-point
+    figure, not an oscillation average)."""
+    out = []
+    for log in glob.glob(os.path.join(os.path.dirname(report_path), "*_125C_*", "ngspice.log")):
+        m = re.search(r"^vsup#branch\s+(\S+)", open(log, errors="replace").read(), re.M)
+        if m and m.group(1) not in ("-nan", "nan"):
+            out.append(abs(float(m.group(1))))
+    return out
+
+
 def main():
-    rid = sys.argv[1]
+    args = sys.argv[1:]
+    dsubw = "--dsubw" in args
+    controls = []
+    while "--control" in args:
+        i = args.index("--control")
+        controls.append(args[i + 1])
+        del args[i:i + 2]
+    args = [a for a in args if a != "--dsubw"]
+    rid = args[0]
     data = collections.defaultdict(list)  # label -> rows
     env = {}
-    for a in sys.argv[2:]:
+    isup = collections.defaultdict(list)
+    jobs = []
+    for a in args[1:]:
         label, path = a.split("=", 1)
+        isup[label] += supply_currents(path)
         r, rr = rows(path)
+        jobs.append("%s `%s`" % (os.path.basename(os.path.dirname(path)).replace("request-", ""), (r["environment"].get("remote") or {}).get("job_id")))
         # a later report supersedes an earlier one for the same corner (the 125 C units lost at the fleet's whole-job
         # ceiling in a whole-stage job are re-run in their own job)
         merged = {x["corner_id"]: x for x in data[label]}
@@ -44,15 +81,42 @@ def main():
         env[label] = env.get(label) or r["environment"]
     allrows = [dict(x, case=l) for l in data for x in data[l]]
     with open(os.path.join(HERE, "records", rid + "-corners.csv"), "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=["case", "corner_id", "process", "T", "vddv", "vctrl", "status", "f_ghz", "vpp", "tst_ps", "diag"])
+        w = csv.DictWriter(f, fieldnames=["case", "corner_id", "process", "T", "vddv", "vctrl", "status", "f_ghz", "vpp", "tst_ps", "diag"] + (["label"] if dsubw else []))
         w.writeheader()
         for x in allrows:
+            if dsubw:
+                x["label"] = APPROX if x["T"] == 125 else "control: same dsubw substitution at 27 C"
             w.writerow({k: ("" if x[k] is None else ("%.4g" % x[k] if isinstance(x[k], float) else x[k])) for k in w.fieldnames})
     L = ["# vco-prescaler-load C-grid %s" % rid, "",
          "**Result (simulated on the Spot batch fleet, not measured)**. Pinned `sg13g2-vco` unmodified; prescaler input on the tank (`loaded`) and without (`unloaded`).", ""]
+    if dsubw:
+        L += ["**%s: every 125 C figure in this record is an approximation, not the PDK card as shipped.** Only the varactor `dsubw` diode card carries `tnom = 125` "
+              "(local copy `svar_dsubw125.spice`, the `rd` variant of 2AMLogic/sg13g2-vco#303; no other card, deck or VCO line changes; the 27 C units run the same substitution). "
+              "Operator ruling 2026-11-10 (issue #173). Whether the unmodified abort is a solver artefact or physical is **open**: 2AMLogic/sg13g2-vco#309 "
+              "(a verdict of \"physical failure\" there reopens gate G2 for 125 C).\n" % APPROX]
     for case in ("loaded", "unloaded"):
         d = data.get(case, [])
         if not d:
+            continue
+        if dsubw:
+            for tc in sorted({x["T"] for x in d}):
+                dd = [x for x in d if x["T"] == tc]
+                ok = [x for x in dd if x["status"] == "pass" and x["f_ghz"]]
+                tag = " (%s)" % APPROX if tc == 125 else " (control, same substitution)"
+                L += ["## %s, %s C%s: %d units returned, %d converged and oscillating, %d errored" % (case, tc, tag, len(dd), len(ok), len(dd) - len(ok)), ""]
+                if ok:
+                    L += ["- f_osc %.3f to %.3f GHz; in the 4.5-5.5 GHz band (row 1): %d of %d." % (min(x["f_ghz"] for x in ok), max(x["f_ghz"] for x in ok), len([x for x in ok if 4.5 <= x["f_ghz"] <= 5.5]), len(ok)),
+                          "- Vpp differential %.3f to %.3f V%s; below 0.40 V (row 7): %d of %d." % (min(x["vpp"] for x in ok), max(x["vpp"] for x in ok), " [%s]" % APPROX if tc == 125 else "", len([x for x in ok if x["vpp"] < 0.40]), len(ok)),
+                          "- startup proxy (0.2 V reached) %.0f to %.0f ps%s%s." % (min(x["tst_ps"] for x in ok if x["tst_ps"]), max(x["tst_ps"] for x in ok if x["tst_ps"]), " [%s]" % APPROX if tc == 125 else "",
+                                                                                   "; **not reached in %d unit(s)** (%s), startup ungraded there" % (len([x for x in ok if not x["tst_ps"]]), "; ".join("%s %s V / Vctrl %s V" % (x["process"], x["vddv"], x["vctrl"]) for x in ok if not x["tst_ps"])) if [x for x in ok if not x["tst_ps"]] else "")]
+                    low = [x for x in ok if x["vpp"] < 0.40]
+                    if low:
+                        L += ["- row 7 failures%s: " % (" [%s]" % APPROX if tc == 125 else "") + "; ".join("%s %s V / Vctrl %s V: Vpp %.3f V" % (x["process"], x["vddv"], x["vctrl"], x["vpp"]) for x in low)]
+                bad = [x for x in dd if x not in ok]
+                if bad:
+                    L += ["- errored (still `error`, never counted as a pass; none dropped): " + "; ".join(
+                        "%s / %s V / Vctrl %s V: %s" % (x["process"], x["vddv"], x["vctrl"], x["diag"] or x["status"]) for x in bad)]
+                L += [""]
             continue
         ok = [x for x in d if x["status"] == "pass" and x["f_ghz"]]
         bad = [x for x in d if x not in ok]
@@ -67,18 +131,69 @@ def main():
             c = collections.Counter((x["T"], x["diag"] or x["status"]) for x in bad)
             L += ["- errored/unreturned: " + "; ".join("%s C: %d x %s" % (t, n, dg) for (t, dg), n in sorted(c.items(), key=str))]
         L += [""]
-    if data.get("loaded") and data.get("unloaded"):
+    if data.get("loaded") and data.get("unloaded") and not dsubw:
         u = {x["corner_id"]: x for x in data["unloaded"] if x["f_ghz"]}
         sh = [(x["f_ghz"] - u[x["corner_id"]]["f_ghz"], x["vpp"] - u[x["corner_id"]]["vpp"], x) for x in data["loaded"] if x["f_ghz"] and x["corner_id"] in u]
         if sh:
             L += ["## Load effect, loaded minus unloaded, same corner (%d pairs)" % len(sh), "",
                   "- frequency shift: %.0f to %.0f MHz (mean %.0f MHz)." % (min(s[0] for s in sh) * 1e3, max(s[0] for s in sh) * 1e3, sum(s[0] for s in sh) / len(sh) * 1e3),
                   "- Vpp change: %.0f to %.0f mV (positive means the loaded VCO swings more)." % (min(s[1] for s in sh) * 1e3, max(s[1] for s in sh) * 1e3), ""]
+    if dsubw:
+        L += ["## 27 C control: same substitution vs the unmodified 27 C result", ""]
+        base = {}
+        for c in controls:
+            for r in csv.DictReader(open(c)):
+                base[(r["case"], r["corner_id"])] = r
+        pairs = [(x, base[(case, x["corner_id"])]) for case in data for x in data[case] if x["T"] == 27 and x["f_ghz"] and (case, x["corner_id"]) in base and base[(case, x["corner_id"])]["f_ghz"]]
+        n27 = len([1 for case in data for x in data[case] if x["T"] == 27])
+        if pairs:
+            df = [(x["f_ghz"] - float(b["f_ghz"])) * 1e3 for x, b in pairs]
+            dv = [(x["vpp"] - float(b["vpp"])) * 1e3 for x, b in pairs]
+            dt = [x["tst_ps"] - float(b["tst_ps"]) for x, b in pairs]
+            L += ["- %d of %d 27 C units have an unmodified counterpart in %s and converged under both. Modified minus unmodified: f %+.1f to %+.1f MHz (max %.2f %% of f), Vpp %+.2f to %+.2f mV (max %.2f %%), startup proxy %+.2f to %+.2f ps."
+                  % (len(pairs), n27, ", ".join("`%s`" % os.path.basename(c) for c in controls), min(df), max(df), max(abs(x["f_ghz"] - float(b["f_ghz"])) / float(b["f_ghz"]) for x, b in pairs) * 100,
+                     min(dv), max(dv), max(abs(x["vpp"] - float(b["vpp"])) / float(b["vpp"]) for x, b in pairs) * 100, min(dt), max(dt)),
+                  "- **The control is close but not identical**: the substitution moves every 27 C figure in the same direction (the diode's `tnom` also rescales its junction parameters, not only the leakage), "
+                  "by the amounts above. The unmodified values in the CSV carry 4 significant figures, so the offset is above their rounding.", ""]
+        else:
+            L += ["- no 27 C unit of this stage has an unmodified counterpart; control not available here.", ""]
+        cur = [i for v in isup.values() for i in v]
+        leak = (LEAK_27REF - LEAK_125REF) * NINST
+        L += ["## Leakage bound for the approximation", "",
+              "- One `dsubw` instance, reverse 1.65 V, 125 C: %.2e A with `tnom = 27`, %.2e A with `tnom = 125` (2AMLogic/sg13g2-vco#303, single-point ngspice-46 probe). "
+              "Difference over the %d varactor instances: at most (%.2e - %.2e) x %d = **%.1f nA total**." % (LEAK_27REF, LEAK_125REF, NINST, LEAK_27REF, LEAK_125REF, NINST, leak * 1e9)]
+        for lab, v in sorted(isup.items()):
+            if v:
+                L += ["- Supply current printed in the 125 C `%s` units' `ngspice.log` (`vsup#branch`, operating-point value, same for every Vctrl at one Vdd): %.0f to %.0f uA; the bound is %.1e to %.1e of it."
+                      % (lab, min(v) * 1e6, max(v) * 1e6, leak / max(v), leak / min(v))]
+        L += ["- The ruling quoted \"mA\" tank bias; the unloaded VCO's printed supply current is ~0.1 mA (the loaded case adds the prescaler's ~2 mA). The bound stays small either way; "
+              "it bounds the **leakage** difference only, not the other effect of the card's `tnom` (see the 27 C control).", "",
+              "## Gate G2 at 125 C (this stage)", ""]
+        for case in ("loaded", "unloaded"):
+            h = [x for x in data.get(case, []) if x["T"] == 125]
+            if not h:
+                continue
+            ok = [x for x in h if x["status"] == "pass" and x["f_ghz"]]
+            low = [x for x in ok if x["vpp"] < 0.40]
+            unr = [x for x in ok if not x["tst_ps"]]
+            L += ["- %s: %d of %d 125 C units converged under the approximation; %d of those are below 0.40 V (row 7) and %d never reach the 0.2 V startup threshold. "
+                  "Swing and startup are therefore graded for the converged units only, labelled %s; %d unit(s) remain `error` (ungraded)."
+                  % (case, len(ok), len(h), len(low), len(unr), APPROX, len(h) - len(ok))]
+        L += ["- **G2 is NOT recorded as closed for 125 C by this stage**: closure under the label needs every 125 C unit graded and row 7 met, and neither holds here. "
+              "Row 1 (4.5-5.5 GHz) is out of scope (#173) and also unmet at every converged unit. A \"physical failure\" verdict on https://github.com/2AMLogic/sg13g2-vco/issues/309 would also reopen it.",
+              "- Units that still abort do so at the same place as the unmodified run (`Timestep too small; initial timepoint: trouble with xq1`, see `ngspice.log` of each unit); "
+              "the substitution cured the `dsubw` trigger of the unloaded VCO (all 18 unloaded 125 C units of stage 2 converge) but not every loaded unit. Cause of the remainder: **not traced** (no other card, deck or VCO change was allowed). "
+              "No tool gap established; nothing filed on `2AMLogic/klayout-tools`.", "",
+              "## ngspice 47", "",
+              "**Not available**: no host or fleet image offered ngspice 47 (this host and the fleet runner both report ngspice-46; no 47 binary found on this host). "
+              "The unmodified failing 125 C unit was therefore not re-run under 47; the pin (`sim/pins.json`) is unmet and the unmodified abort remains reproduced only on 46 (records `20261110-stage{1,2}.md`, `20261110-125c-probe.md`).", ""]
+    if dsubw:
+        L += ["- **Fleet jobs** (one per request, `klt sim --batch-set ... --wait-for-capacity 600`): " + "; ".join(jobs) + ". A job state of `failed` here means a nonzero verdict exit (errored units), not a runner crash.", ""]
     L += ["Per-corner values: `%s-corners.csv`. The `tst` startup number is a proxy; the row 6 ratio g_m / tank loss >= 3.0 is **not** extracted." % rid, ""]
     e = next(iter(env.values()), {})
-    L += ["- **Simulator**: %s on the fleet (`engine_version`), pin is 47 (`sim/pins.json`): mismatch. OSDI `mosvar.osdi` and `psp103.osdi` resolved on the runner under `$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/` (`options.osdi_preload`, runner-resolved; the PDK's prebuilt mosvar.osdi is byte-identical to the pinned compile, sha256 `25e64a37...fb41`)." % e.get("engine_version"),
+    L += ["- **Simulator**: %s on the fleet (`engine_version`), pin is 47 (`sim/pins.json`): mismatch. OSDI `mosvar.osdi` (both cases) and `psp103.osdi` + `r3_cmc.osdi` (loaded case, for the prescaler's rppd/rhigh; cornerRES.lib `res_<mim corner>` added to the loaded process sections) resolved on the runner under `$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/` (`options.osdi_preload`, runner-resolved; the PDK's prebuilt mosvar.osdi is byte-identical to the pinned compile, sha256 `25e64a37...fb41`)." % e.get("engine_version"),
           "- **Method**: per corner one `tran 1p 20n 0 2p` from the deck's 10 mV `.ic` kick; fosc = 30 / time between zero rising crossings 40 and 70 of v(OUTP)-v(OUTN); Vpp over 10-20 ns. Same decks as `sim/vco-prescaler-load` except that the supply and Vctrl are `.param` axes and the probe BD is added (see `vco_*.spice`).",
-          "- **Load presented**: the prescaler input as in `sim/vco-prescaler-load` (`design/netlist/prescaler.spice`, instance X1 on OUTP/OUTN, ideal 50 uA IREF); G1 device-level figure 1.373 fF differential. Routing capacitance not included.",
+          "- **Load presented**: the prescaler input as in `sim/vco-prescaler-load` (`design/netlist/prescaler.spice`, instance X1 on OUTP/OUTN, ideal 50 uA IREF, sha256 `%s`); G1 device-level figure from `sim/prescaler-div89/records/20261106-222812-0ffb789-cin.md`: 1.837 fF (5.0 GHz) / 1.950 fF (5.5 GHz) differential. Routing capacitance not included." % PSHA,
           "- **Provenance**: requests and bodies in this directory; commit `%s`." % os.environ.get("REC_SHA", "see git"), ""]
     with open(os.path.join(HERE, "records", rid + ".md"), "w") as f:
         f.write("\n".join(L))

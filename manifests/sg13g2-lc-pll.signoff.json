@@ -5,7 +5,7 @@
   "tier": null,
   "t1_item_count": 11,
   "build_t1_item_count": 11,
-  "t1_met_count": 3,
+  "t1_met_count": 4,
   "source_doc": "manifests/design-evidence-tiers.md",
   "source_doc_content_hash": "sha256:a26b90262320d0fbd32b3f549a02b6300832706041797a559d8bf6bdb62efdc7",
   "build": {
@@ -33,7 +33,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:6be0076a6fbc68505afc7f165777acf138b962a7f7fca7efaefbdb42d6e8fbfb",
+        "content_hash": "sha256:91338f1bbd86981a20a7925b862018322c5950e1915102c070cb4f3f72f3ad46",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -42,15 +42,15 @@
             "path": "manifests/design-sources.inventory.json",
             "scope": "repo"
           },
-          "content_hash": "sha256:6be0076a6fbc68505afc7f165777acf138b962a7f7fca7efaefbdb42d6e8fbfb",
+          "content_hash": "sha256:91338f1bbd86981a20a7925b862018322c5950e1915102c070cb4f3f72f3ad46",
           "input_verified": true,
-          "summary": "T1 item 1 (Design sources): 65/65 attestation checks passed (klt signoff --attest)",
+          "summary": "T1 item 1 (Design sources): 67/67 attestation checks passed (klt signoff --attest)",
           "source": "manifests/design-sources.inventory.json",
           "attestation": {
             "producer": "klt signoff --attest",
             "inventory_schema_version": 1,
-            "check_count": 65,
-            "passed_count": 65
+            "check_count": 67,
+            "passed_count": 67
           }
         }
       }
@@ -62,10 +62,35 @@
       "partition": null,
       "text": "committed GDS/OASIS, reproducibly generated or with documented provenance.",
       "notes": [],
-      "status": "unmet",
-      "reason": "no_evidence",
+      "status": "met",
+      "reason": null,
       "graded_by_build": true,
-      "citation": null
+      "citation": {
+        "file": "manifests/layout.attest.json",
+        "command": null,
+        "kind": "generic",
+        "check_status": "pass",
+        "content_hash": "sha256:b04df5f51190d425e733cb35348aa81f77fc504660fc434c71bcf4d6cb4d9ec7",
+        "input_verified": true,
+        "exit_status": 0,
+        "artifact_binding": {
+          "t1_item": 2,
+          "path": {
+            "path": "layout/top.gds",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:b04df5f51190d425e733cb35348aa81f77fc504660fc434c71bcf4d6cb4d9ec7",
+          "input_verified": true,
+          "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
+          "source": "layout/top.gds",
+          "attestation": {
+            "producer": "klt signoff --attest",
+            "inventory_schema_version": null,
+            "check_count": 3,
+            "passed_count": 3
+          }
+        }
+      }
     },
     {
       "tier": "T1",
@@ -75,9 +100,18 @@
       "text": "latest `klt drc` JSON report: `status: clean`, fresh, with the deck identified (content hash). Known deck coverage gaps (rule-free layers, skipped rules) must be enumerated in the claim, not hidden behind \"clean\" \u2014 a clean verdict from a deck with undisclosed holes is a false claim. The report already states its own gaps, so the disclosure is those fields quoted from the cited envelope's `coverage` block (`docs/cli/drc.md`), not prose written from memory: `coverage.layers_in_stream_without_rules` (layers drawn in this stream that the deck has no rule for), `coverage.rules_skipped` (rules the deck carries but this run did not evaluate), and `coverage.deck_scope` (which chapters of the foundry DRM the deck transcribes at all). A claim that leaves a non-empty `layers_in_stream_without_rules` or `rules_skipped` unstated, or that never states the `deck_scope` its \"clean\" was measured inside, has not satisfied this item however clean the `status` is. **This disclosure is claimant-enforced, not tool-enforced**: `klt signoff` grades item 3 on `status: \"clean\"` alone \u2014 a deck with rule-free drawn layers or skipped rules grades `met` exactly like a fully-covering one. Since #2002 it does *report* all three fields (item 3's citation carries a `coverage` block quoting them verbatim, `docs/cli/signoff.md` \u2192 \"DRC coverage is reported, not graded\"), so a reviewer no longer has to re-open the DRC envelope to find them \u2014 but reporting is not enforcing: nothing compares them against what the claim actually disclosed, so a `met` verdict from `klt signoff` is still not evidence that the gaps were disclosed. A reviewer must read the reported `coverage` against the claim themselves.",
       "notes": [],
       "status": "unmet",
-      "reason": "no_evidence",
+      "reason": "check_failed",
       "graded_by_build": true,
-      "citation": null
+      "citation": null,
+      "detail": {
+        "critical_metric_blockers": [
+          {
+            "metric": "drc__error__count",
+            "value": 747,
+            "higher_is_better": false
+          }
+        ]
+      }
     },
     {
       "tier": "T1",
