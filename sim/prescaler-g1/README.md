@@ -2,7 +2,7 @@
 
 Gate G1 bench for `design/prescaler.sch` (spec row 4, section 1 tank-node load budget). One local
 `ngspice -b`, **nominal corner only** (`hbt_typ`, 27 C, 3.3 V), stimulus 0.4 Vpp differential at common mode
-3.3 V (the tank returns to VDD), ideal IREF = 50 uA.
+3.3 V (the tank returns to VDD), ideal IREF = 50 uA, PDK `rppd` resistors (`res_typ`, r3_cmc OSDI).
 
 ```bash
 scripts/run-prescaler-g1.sh              # writes records/<date>-<sha>.md
@@ -11,7 +11,7 @@ scripts/test-prescaler-g1-negative.sh    # starved stage and oversized input mus
 
 Reports at 5.0 GHz: differential input capacitance (fF) and shunt conductance (S) by AC small-signal at the
 operating point, cross-checked by the fundamental of the input current in a large-signal transient; and the
-max toggle frequency of the /2 (one transient per input frequency, output must be at f/2 and >= 0.2 V pk-pk).
+max toggle frequency of the first stage `cml_div23` (divides by 2 at MC = 0; probe `x1.x89.c1/c1b`; one transient per input frequency, output must be at f/2 and >= 0.2 V pk-pk).
 The capacitance is compared with the 2.1 fF budget in the record; a figure above it stands as a fail.
 
 **Not graded here**: the budget is device plus routing over the C-grid; this is the device-level number at
