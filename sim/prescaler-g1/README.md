@@ -60,6 +60,6 @@ ramp instead of `.ic`, and an `mcv` axis (0 = /8, 1 = /9 at the supply level) zi
 ### mc_conv tail Vce (issue #165)
 
 The FAIL above is closed: `mc_conv` now has an `RIN` 10k / `RB` 31k input divider (MC high puts `bm` at 0.756 VDD), and
-`records/20261109-234716-6fbbf0e-dirty-vce.md` reads PASS (0 of 36 over). /9 now needs MC at or above ~0.94 VDD
+`records/20261109-234716-6fbbf0e-dirty-vce.md` reads PASS (0 of 36 over) on the ideal-resistor circuit; re-run on the merged tree with PDK `rppd` resistors (`RIN` 38.65 um, `RB` 120.65 um): `records/20261110-012200-268f3ea-vce.md`, PASS, 0 of 36 over. /9 now needs MC at or above ~0.94 VDD
 (`sim/prescaler-div89/records/20261109-235500-6fbbf0e-dirty-mc-conv-xqt.md`). Simulated, not measured.
 

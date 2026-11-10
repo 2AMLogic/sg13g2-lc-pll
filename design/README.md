@@ -98,7 +98,8 @@ capacitance of each resistor; it was not separately extracted per resistor, only
 | 2400 (2.4k) | CML loads RL, followers RF, RREF, RTC, `mc_conv` RL | `rppd` | 1 | 9.05 | 9.1 | 2398 (9.07 um: 2400.3) |
 | 4k | `cml_ef` / `div2_ef_hs` RDF | `rppd` | 1 | 15.3 | 15.3 | 4001 |
 | 12k, 28k | `mc_conv` RD1, RD2 | `rppd` | 1 | 46.4, 108.8 | 46 / 109 | 11991 / 28023 |
-| 20k | `mc_conv` RIN | `rppd` | 1 | 77.7 | 78 | 20032 |
+| 10k | `mc_conv` RIN (issue #165; was 20k, L = 77.7) | `rppd` | 1 | 38.65 | 39 | 9999 (fit, not re-simulated) |
+| 31k | `mc_conv` RB, `bm` to VSS (issue #165) | `rppd` | 1 | 120.65 | 121 | 31063 (fit, not re-simulated) |
 | 50k | `cml2cmos` RB1, RB2, RV1, RV2 | `rhigh` | 0.5 | 15.35 | 31 | 50025 |
 | 100k | `cml2cmos` RF1 | `rhigh` | 0.5 | 30.8 | 62 | 100054 |
 
@@ -180,3 +181,13 @@ record under `sim/divider-elab/records/`. It found two real defects while this w
 could not reach the inverter threshold, and a case-insensitive net-name collision between a port `A0` and a state bit `a0`);
 SPICE names are case-insensitive, so keep port and internal net names distinct. Item-1 attestation:
 `manifests/design-sources.inventory.json` -> `manifests/design-sources.attest.json` (`klt signoff --attest 1`).
+
+**`mc_conv` input divider on PDK resistors (issue #165, simulated).** `bm = MC x RB / (RIN + RB)`; the fit above gives
+0.7567 (typ), 0.7565 (`res_wcs`, 286 ohm/sq) and 0.7566 (`res_bcs`, 234 ohm/sq) of MC, because both legs are W = 1 um `rppd`
+and only the ~70 ohm end resistance does not scale. At MC = VDD that is 0.056 VDD above `vr` (0.7 VDD) at every resistor corner.
+This is arithmetic on the linear model fit, not a simulated `bm` probe; the evidence is the grids on the merged tree:
+`sim/prescaler-g1/records/20261110-012200-268f3ea-vce.md` (PASS, 0 of 36 over 2.2 V) and
+`sim/prescaler-div89/records/20261110-013500-268f3ea-pdk-divider.md` (same 102 / 108 and 256 / 288 as the #164 record; every
+failure is the known 5.5 GHz SLOW / 125 C limit, none at 5.0 GHz). The `div89_chain` MC level is now a fraction of the supply
+(`mcv` 0 or 1, `MC = mcv x vddv`), so the 3.63 V units get MC = 3.63 V and divide by 9. Records dated 20261109 for #165 were
+taken on the pre-#164 circuit (ideal resistors, `6fbbf0e-dirty`) and are superseded by the two above.
