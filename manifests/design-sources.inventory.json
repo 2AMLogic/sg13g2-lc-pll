@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "t1-attestation-inventory",
   "t1_item": 1,
-  "description": "Design sources: every committed xschem schematic and symbol under design/, the netlist generator and its xschem config, reuse.lock.json (pins of the VCO, PFD and lock detector, which are fetched, not committed) and the loop-filter sizing file; plus each netlist derived from them. Freshness is design/netlist.sh --check (klt netlist, then diff), which needs xschem and the SG13G2 PDK, so it is local_only.",
+  "description": "Design sources: every committed xschem schematic and symbol under design/, the netlist generator and its xschem config, reuse.lock.json (pins of the VCO, PFD and lock detector, which are fetched, not committed) and the loop-filter sizing file; plus each netlist derived from them. Freshness is design/netlist.sh --check (klt netlist, then diff), which needs xschem and the SG13G2 PDK, so it is local_only. Archived (kept as committed evidence, still attested): design/div2_cml, div2_ef_hs, div2_latch_hs and div45_dm (.sch and .sym) are archived: not instantiated since DR-005.",
   "sources": [
     "design/acounter.sch",
     "design/acounter.sym",

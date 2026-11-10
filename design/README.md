@@ -15,10 +15,10 @@ design/
   cp_dumpbuf.sch/.sym VDUMP tracking follower
   netlist/prescaler.spice   committed derived netlist of the prescaler (hierarchical)
   prescaler.sch/.sym        top: /2/3 dual-modulus CML first stage on the VCO, then fixed /4 (P = 8/9), one IREF
-  div2_cml.sch/.sym         fixed /2 first stage (the pre-DR-005 /8-/10 prescaler; no longer instantiated)
-  div2_ef_hs, div2_latch_hs first-stage follower pair and latch (higher current)
+  div2_cml.sch/.sym         fixed /2 first stage (the pre-DR-005 /8-/10 prescaler; archived: not instantiated since DR-005)
+  div2_ef_hs, div2_latch_hs first-stage follower pair and latch (higher current; archived: not instantiated since DR-005)
   div89_dm.sch/.sym         /8/9: /2/3 cell on the VCO + two /2 stages; M = MC AND S1 AND S2 (MC high = /9)
-  div45_dm.sch/.sym         /4/5 (pre-DR-005, no longer instantiated): /2/3 cell + /2 toggle + modulus gating
+  div45_dm.sch/.sym         /4/5 (pre-DR-005; archived: not instantiated since DR-005): /2/3 cell + /2 toggle + modulus gating
   cml_div23, cml_dff, cml_latch, cml_ef, cml_and2, div2_cml_ls, mc_conv   prescaler cells
   mos_latch.sch/.sym        G3 comparison only (HV-NMOS version of the CML latch); not in the prescaler
   loopfilter.sch/.sym       type-II 3rd-order passive filter (R1-C1, C2, R3-C3), values from sim/loop-model/loop-filter.json
