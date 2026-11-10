@@ -1,11 +1,11 @@
 {
  "cells": [
   {
-   "area_um2": 27316.5,
+   "area_um2": 23027.5,
    "bbox_um": [
     0.0,
     0.0,
-    529.39,
+    446.27,
     51.6
    ],
    "cell": "lcpll_prescaler",
@@ -15,14 +15,15 @@
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 15.3, \\\"num\\\": 12, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l15p3 -o lcpll_prescaler_resrppd_w1_l15p3.gds --format json",
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 46.4, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l46p4 -o lcpll_prescaler_resrppd_w1_l46p4.gds --format json",
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 77.7, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l77p7 -o lcpll_prescaler_resrppd_w1_l77p7.gds --format json",
-    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 9.05, \\\"num\\\": 51, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l9p05 -o lcpll_prescaler_resrppd_w1_l9p05.gds --format json",
+    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 8.0, \\\"num\\\": 8, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l8 -o lcpll_prescaler_resrppd_w1_l8.gds --format json",
+    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 9.05, \\\"num\\\": 43, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l9p05 -o lcpll_prescaler_resrppd_w1_l9p05.gds --format json",
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 9.05, \\\"num\\\": 13, \\\"rows\\\": 1, \\\"width_um\\\": 2.0}\" --cell-name lcpll_prescaler_resrppd_w2_l9p05 -o lcpll_prescaler_resrppd_w2_l9p05.gds --format json",
     "klt gen-compose lcpll_prescaler.compose.json --format json"
    ],
    "device_units": 208,
    "gds": "layout/build/cells/lcpll_prescaler.gds",
    "generator": "python layout/gen_cells.py --blocks lcpll_prescaler",
-   "geometry_sha256": "2699ec7815eb7e31eba0e01f345e04c0c28cea84c44544cdf58a9418fdfc651f",
+   "geometry_sha256": "93eceb008bfbf4480bf1290ea77c9e81ca68c9195164b06f2b2eef1273244981",
    "groups": [
     {
      "bbox_um": [
@@ -148,7 +149,31 @@
      "bbox_um": [
       0.0,
       0.0,
-      529.39,
+      74.22,
+      1.0
+     ],
+     "generator": "res_array",
+     "id": "lcpll_prescaler_resrppd_w1_l8",
+     "klass": "rppd",
+     "origin_um": {
+      "x": 133.78,
+      "y": 39.6
+     },
+     "params": {
+      "dummy": 0,
+      "flavor": "rppd",
+      "length_um": 8.0,
+      "num": 8,
+      "rows": 1,
+      "width_um": 1.0
+     },
+     "units": 8
+    },
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
+      446.27,
       1.0
      ],
      "generator": "res_array",
@@ -162,11 +187,11 @@
       "dummy": 0,
       "flavor": "rppd",
       "length_um": 9.05,
-      "num": 51,
+      "num": 43,
       "rows": 1,
       "width_um": 1.0
      },
-     "units": 51
+     "units": 43
     },
     {
      "bbox_um": [
@@ -194,7 +219,7 @@
     }
    ],
    "netlist": "design/netlist/prescaler.spice",
-   "netlist_sha256": "41c32b6c2224936dfdbe7b1eab13efd6c16c0e27d85d360a54c5af94ebbead52",
+   "netlist_sha256": "e5da006eb8d2b5d5abad418281c22a9e716bce8ff3bfa89c72030aef9bed9a26",
    "port_labels": {
     "INN": {
      "layer": "8/0",
@@ -1257,7 +1282,7 @@
     }
    ],
    "netlist": "design/netlist/pll_top.spice",
-   "netlist_sha256": "5a3a3ba77d74569d6a01bc8221ab3d713fd26a18b4a377a1852ead1b746adf91",
+   "netlist_sha256": "48ba2018b5bf17f774788b89d343a181f04d2567156f06567c516838ad38f631",
    "port_labels": {
     "DN": {
      "layer": "8/0",
@@ -1516,7 +1541,7 @@
     }
    ],
    "netlist": "design/netlist/pll_top.spice",
-   "netlist_sha256": "5a3a3ba77d74569d6a01bc8221ab3d713fd26a18b4a377a1852ead1b746adf91",
+   "netlist_sha256": "48ba2018b5bf17f774788b89d343a181f04d2567156f06567c516838ad38f631",
    "port_labels": {
     "DN": {
      "layer": "8/0",
@@ -1559,7 +1584,7 @@
   }
  ],
  "command": ".venv/bin/python layout/gen_cells.py --write",
- "klt": "klt 0.9.2.dev420+gf186e14125ed",
+ "klt": "klt 0.9.2.dev422+g1560fe3aac8d",
  "pdk": "ihp-sg13g2",
  "schema": 1
 }

@@ -7,23 +7,23 @@
   "deck": "sg13g2",
   "dbu_um": 0.001,
   "status": "violations",
-  "violation_count": 747,
+  "violation_count": 783,
   "rule_counts": {
-    "activ.enclosing.cont.1": 158,
+    "activ.enclosing.cont.1": 160,
     "activ.space.1": 41,
-    "cont.space.1": 26,
-    "gatpoly.enclosing.cont.1": 137,
-    "gatpoly.separation.activ.1": 26,
-    "gatpoly.space.1": 12,
+    "cont.space.1": 43,
+    "gatpoly.enclosing.cont.1": 142,
+    "gatpoly.separation.activ.1": 28,
+    "gatpoly.space.1": 16,
     "gatpoly.width.1": 16,
-    "metal1.space.1": 128,
+    "metal1.space.1": 134,
     "metal1.width.1": 36,
     "nwell.enclosing.pactiv.1": 64,
     "nwell.enclosing.pactiv.hv.1": 102,
     "psd.space.1": 1
   },
   "metrics": {
-    "drc__error__count": 747
+    "drc__error__count": 783
   },
   "violations": [
     {
@@ -3584,6 +3584,43 @@
       "check": "enclosing",
       "layer": "Activ.drawing",
       "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 451350,
+        "bottom": -225180,
+        "right": 451380,
+        "top": -225020
+      },
+      "polygon": [
+        [
+          451350,
+          -225180
+        ],
+        [
+          451350,
+          -225020
+        ],
+        [
+          451380,
+          -225020
+        ],
+        [
+          451380,
+          -225180
+        ]
+      ]
+    },
+    {
+      "rule": "activ.enclosing.cont.1",
+      "description": "minimum Activ enclosure of square Cont (Activ.drawing joined with Activ.mask, as the official rule's enclosing region is; approximates the official rule's SRAM/DigiBnd/svaricap/EdgeSeal carve-outs as an unconditional 0.07 um floor)",
+      "check": "enclosing",
+      "layer": "Activ.drawing",
+      "cell": "lc_pll_top",
       "source_cell": "npn13G2V$4",
       "source_path": [
         "lcpll_prescaler",
@@ -3908,6 +3945,43 @@
         [
           469579,
           -192000
+        ]
+      ]
+    },
+    {
+      "rule": "activ.enclosing.cont.1",
+      "description": "minimum Activ enclosure of square Cont (Activ.drawing joined with Activ.mask, as the official rule's enclosing region is; approximates the official rule's SRAM/DigiBnd/svaricap/EdgeSeal carve-outs as an unconditional 0.07 um floor)",
+      "check": "enclosing",
+      "layer": "Activ.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 470120,
+        "bottom": -225180,
+        "right": 470190,
+        "top": -225020
+      },
+      "polygon": [
+        [
+          470120,
+          -225180
+        ],
+        [
+          470120,
+          -225020
+        ],
+        [
+          470190,
+          -225020
+        ],
+        [
+          470190,
+          -225180
         ]
       ]
     },
@@ -7967,6 +8041,43 @@
       "check": "space",
       "layer": "Cont.drawing",
       "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 414910,
+        "bottom": -225260,
+        "right": 415130,
+        "top": -225180
+      },
+      "polygon": [
+        [
+          414970,
+          -225260
+        ],
+        [
+          414910,
+          -225180
+        ],
+        [
+          415070,
+          -225180
+        ],
+        [
+          415130,
+          -225260
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
       "source_cell": "npn13G2V$4",
       "source_path": [
         "lcpll_prescaler",
@@ -8041,6 +8152,302 @@
       "check": "space",
       "layer": "Cont.drawing",
       "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 432509,
+        "bottom": -225260,
+        "right": 432691,
+        "top": -225180
+      },
+      "polygon": [
+        [
+          432509,
+          -225260
+        ],
+        [
+          432670,
+          -225180
+        ],
+        [
+          432691,
+          -225180
+        ],
+        [
+          432530,
+          -225260
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 432530,
+        "bottom": -225293,
+        "right": 432670,
+        "top": -225147
+      },
+      "polygon": [
+        [
+          432530,
+          -225293
+        ],
+        [
+          432530,
+          -225260
+        ],
+        [
+          432670,
+          -225147
+        ],
+        [
+          432670,
+          -225180
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 433429,
+        "bottom": -225260,
+        "right": 433611,
+        "top": -225180
+      },
+      "polygon": [
+        [
+          433429,
+          -225260
+        ],
+        [
+          433590,
+          -225180
+        ],
+        [
+          433611,
+          -225180
+        ],
+        [
+          433450,
+          -225260
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 433450,
+        "bottom": -225293,
+        "right": 433590,
+        "top": -225147
+      },
+      "polygon": [
+        [
+          433450,
+          -225293
+        ],
+        [
+          433450,
+          -225260
+        ],
+        [
+          433590,
+          -225147
+        ],
+        [
+          433590,
+          -225180
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 441990,
+        "bottom": -225260,
+        "right": 442170,
+        "top": -225180
+      },
+      "polygon": [
+        [
+          441990,
+          -225260
+        ],
+        [
+          442010,
+          -225180
+        ],
+        [
+          442170,
+          -225180
+        ],
+        [
+          442150,
+          -225260
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 442810,
+        "bottom": -225260,
+        "right": 443090,
+        "top": -225180
+      },
+      "polygon": [
+        [
+          442810,
+          -225260
+        ],
+        [
+          442930,
+          -225180
+        ],
+        [
+          443090,
+          -225180
+        ],
+        [
+          442970,
+          -225260
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 451350,
+        "bottom": -225260,
+        "right": 451670,
+        "top": -225180
+      },
+      "polygon": [
+        [
+          451510,
+          -225260
+        ],
+        [
+          451350,
+          -225180
+        ],
+        [
+          451510,
+          -225180
+        ],
+        [
+          451670,
+          -225260
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 452270,
+        "bottom": -225260,
+        "right": 452590,
+        "top": -225180
+      },
+      "polygon": [
+        [
+          452430,
+          -225260
+        ],
+        [
+          452270,
+          -225180
+        ],
+        [
+          452430,
+          -225180
+        ],
+        [
+          452590,
+          -225260
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
       "source_cell": "npn13G2V$4",
       "source_path": [
         "lcpll_prescaler",
@@ -8069,6 +8476,154 @@
         [
           459120,
           -198270
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 469869,
+        "bottom": -225260,
+        "right": 470151,
+        "top": -225180
+      },
+      "polygon": [
+        [
+          469869,
+          -225260
+        ],
+        [
+          470030,
+          -225180
+        ],
+        [
+          470151,
+          -225180
+        ],
+        [
+          469990,
+          -225260
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 469990,
+        "bottom": -225355,
+        "right": 470030,
+        "top": -225085
+      },
+      "polygon": [
+        [
+          469990,
+          -225355
+        ],
+        [
+          469990,
+          -225260
+        ],
+        [
+          470030,
+          -225085
+        ],
+        [
+          470030,
+          -225180
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 470789,
+        "bottom": -225260,
+        "right": 470971,
+        "top": -225180
+      },
+      "polygon": [
+        [
+          470789,
+          -225260
+        ],
+        [
+          470950,
+          -225180
+        ],
+        [
+          470971,
+          -225180
+        ],
+        [
+          470810,
+          -225260
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 470810,
+        "bottom": -225293,
+        "right": 470950,
+        "top": -225147
+      },
+      "polygon": [
+        [
+          470810,
+          -225293
+        ],
+        [
+          470810,
+          -225260
+        ],
+        [
+          470950,
+          -225147
+        ],
+        [
+          470950,
+          -225180
         ]
       ]
     },
@@ -8115,6 +8670,43 @@
       "check": "space",
       "layer": "Cont.drawing",
       "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 479350,
+        "bottom": -225260,
+        "right": 479530,
+        "top": -225180
+      },
+      "polygon": [
+        [
+          479350,
+          -225260
+        ],
+        [
+          479370,
+          -225180
+        ],
+        [
+          479530,
+          -225180
+        ],
+        [
+          479510,
+          -225260
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
       "source_cell": "npn13G2V$4",
       "source_path": [
         "lcpll_prescaler",
@@ -8152,6 +8744,43 @@
       "check": "space",
       "layer": "Cont.drawing",
       "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 480270,
+        "bottom": -225260,
+        "right": 480450,
+        "top": -225180
+      },
+      "polygon": [
+        [
+          480270,
+          -225260
+        ],
+        [
+          480290,
+          -225180
+        ],
+        [
+          480450,
+          -225180
+        ],
+        [
+          480430,
+          -225260
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
       "source_cell": "npn13G2V$4",
       "source_path": [
         "lcpll_prescaler",
@@ -8180,6 +8809,80 @@
         [
           488510,
           -198270
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
+      "source_path": [
+        "lcpll_divider",
+        "lcpll_divider_nfet_w2_l0p5__lcpll_divider_nfet_w2_l0p5",
+        "lcpll_divider_nfet_w2_l0p5__core"
+      ],
+      "bbox": {
+        "left": 488809,
+        "bottom": -225260,
+        "right": 489031,
+        "top": -225180
+      },
+      "polygon": [
+        [
+          488970,
+          -225260
+        ],
+        [
+          488809,
+          -225180
+        ],
+        [
+          488870,
+          -225180
+        ],
+        [
+          489031,
+          -225260
+        ]
+      ]
+    },
+    {
+      "rule": "cont.space.1",
+      "description": "minimum Cont spacing",
+      "check": "space",
+      "layer": "Cont.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 488870,
+        "bottom": -225330,
+        "right": 488970,
+        "top": -225110
+      },
+      "polygon": [
+        [
+          488970,
+          -225330
+        ],
+        [
+          488870,
+          -225180
+        ],
+        [
+          488870,
+          -225110
+        ],
+        [
+          488970,
+          -225260
         ]
       ]
     },
@@ -11362,6 +12065,43 @@
       "check": "enclosing",
       "layer": "GatPoly.drawing",
       "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 442800,
+        "bottom": -225489,
+        "right": 442810,
+        "top": -225191
+      },
+      "polygon": [
+        [
+          442800,
+          -225489
+        ],
+        [
+          442800,
+          -225191
+        ],
+        [
+          442810,
+          -225420
+        ],
+        [
+          442810,
+          -225260
+        ]
+      ]
+    },
+    {
+      "rule": "gatpoly.enclosing.cont.1",
+      "description": "minimum GatPoly enclosure of Cont",
+      "check": "enclosing",
+      "layer": "GatPoly.drawing",
+      "cell": "lc_pll_top",
       "source_cell": "npn13G2V$4",
       "source_path": [
         "lcpll_prescaler",
@@ -11517,6 +12257,80 @@
         [
           450560,
           -197177
+        ]
+      ]
+    },
+    {
+      "rule": "gatpoly.enclosing.cont.1",
+      "description": "minimum GatPoly enclosure of Cont",
+      "check": "enclosing",
+      "layer": "GatPoly.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 451640,
+        "bottom": -225420,
+        "right": 451670,
+        "top": -225260
+      },
+      "polygon": [
+        [
+          451640,
+          -225420
+        ],
+        [
+          451640,
+          -225260
+        ],
+        [
+          451670,
+          -225260
+        ],
+        [
+          451670,
+          -225420
+        ]
+      ]
+    },
+    {
+      "rule": "gatpoly.enclosing.cont.1",
+      "description": "minimum GatPoly enclosure of Cont",
+      "check": "enclosing",
+      "layer": "GatPoly.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 452560,
+        "bottom": -225420,
+        "right": 452590,
+        "top": -225260
+      },
+      "polygon": [
+        [
+          452560,
+          -225420
+        ],
+        [
+          452560,
+          -225260
+        ],
+        [
+          452590,
+          -225260
+        ],
+        [
+          452590,
+          -225420
         ]
       ]
     },
@@ -11821,6 +12635,43 @@
         [
           469570,
           -197590
+        ]
+      ]
+    },
+    {
+      "rule": "gatpoly.enclosing.cont.1",
+      "description": "minimum GatPoly enclosure of Cont",
+      "check": "enclosing",
+      "layer": "GatPoly.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "source_path": [
+        "lcpll_prescaler",
+        "lcpll_prescaler_resrppd_w1_l8__lcpll_prescaler_resrppd_w1_l8",
+        "lcpll_prescaler_resrppd_w1_l8__core"
+      ],
+      "bbox": {
+        "left": 469830,
+        "bottom": -225420,
+        "right": 469900,
+        "top": -225260
+      },
+      "polygon": [
+        [
+          469830,
+          -225420
+        ],
+        [
+          469830,
+          -225260
+        ],
+        [
+          469900,
+          -225260
+        ],
+        [
+          469900,
+          -225420
         ]
       ]
     },
@@ -12260,6 +13111,43 @@
         [
           488340,
           -197020
+        ]
+      ]
+    },
+    {
+      "rule": "gatpoly.enclosing.cont.1",
+      "description": "minimum GatPoly enclosure of Cont",
+      "check": "enclosing",
+      "layer": "GatPoly.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
+      "source_path": [
+        "lcpll_divider",
+        "lcpll_divider_nfet_w2_l0p5__lcpll_divider_nfet_w2_l0p5",
+        "lcpll_divider_nfet_w2_l0p5__core"
+      ],
+      "bbox": {
+        "left": 489000,
+        "bottom": -225420,
+        "right": 489130,
+        "top": -225260
+      },
+      "polygon": [
+        [
+          489000,
+          -225420
+        ],
+        [
+          489000,
+          -225260
+        ],
+        [
+          489130,
+          -225260
+        ],
+        [
+          489130,
+          -225420
         ]
       ]
     },
@@ -14170,6 +15058,43 @@
       "check": "separation",
       "layer": "GatPoly.drawing",
       "cell": "lc_pll_top",
+      "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
+      "source_path": [
+        "lcpll_divider",
+        "lcpll_divider_nfet_w2_l0p5__lcpll_divider_nfet_w2_l0p5",
+        "lcpll_divider_nfet_w2_l0p5__core"
+      ],
+      "bbox": {
+        "left": 423140,
+        "bottom": -225636,
+        "right": 423200,
+        "top": -224564
+      },
+      "polygon": [
+        [
+          423140,
+          -225636
+        ],
+        [
+          423140,
+          -224564
+        ],
+        [
+          423200,
+          -224600
+        ],
+        [
+          423200,
+          -225600
+        ]
+      ]
+    },
+    {
+      "rule": "gatpoly.separation.activ.1",
+      "description": "minimum GatPoly space to Activ (field poly clearance from unrelated active area; a GatPoly shape gating over its own Activ is not flagged -- overlapping/interacting shapes are outside this engine's separation_check, matching the real rule's own .sep() semantics)",
+      "check": "separation",
+      "layer": "GatPoly.drawing",
+      "cell": "lc_pll_top",
       "source_cell": "npn13G2V$4",
       "source_path": [
         "lcpll_prescaler",
@@ -14240,6 +15165,43 @@
         "top": -197510
       },
       "polygon": null
+    },
+    {
+      "rule": "gatpoly.separation.activ.1",
+      "description": "minimum GatPoly space to Activ (field poly clearance from unrelated active area; a GatPoly shape gating over its own Activ is not flagged -- overlapping/interacting shapes are outside this engine's separation_check, matching the real rule's own .sep() semantics)",
+      "check": "separation",
+      "layer": "GatPoly.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
+      "source_path": [
+        "lcpll_divider",
+        "lcpll_divider_nfet_w2_l0p5__lcpll_divider_nfet_w2_l0p5",
+        "lcpll_divider_nfet_w2_l0p5__core"
+      ],
+      "bbox": {
+        "left": 461420,
+        "bottom": -225636,
+        "right": 461480,
+        "top": -224564
+      },
+      "polygon": [
+        [
+          461420,
+          -225636
+        ],
+        [
+          461420,
+          -224564
+        ],
+        [
+          461480,
+          -224600
+        ],
+        [
+          461480,
+          -225600
+        ]
+      ]
     },
     {
       "rule": "gatpoly.separation.activ.1",
@@ -14768,6 +15730,80 @@
         "lcpll_divider_nfet_w2_l0p5__core"
       ],
       "bbox": {
+        "left": 415200,
+        "bottom": -225770,
+        "right": 415260,
+        "top": -224430
+      },
+      "polygon": [
+        [
+          415260,
+          -225770
+        ],
+        [
+          415200,
+          -225600
+        ],
+        [
+          415200,
+          -224600
+        ],
+        [
+          415260,
+          -224430
+        ]
+      ]
+    },
+    {
+      "rule": "gatpoly.space.1",
+      "description": "minimum GatPoly space or notch",
+      "check": "space",
+      "layer": "GatPoly.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
+      "source_path": [
+        "lcpll_divider",
+        "lcpll_divider_nfet_w2_l0p5__lcpll_divider_nfet_w2_l0p5",
+        "lcpll_divider_nfet_w2_l0p5__core"
+      ],
+      "bbox": {
+        "left": 441860,
+        "bottom": -225779,
+        "right": 441880,
+        "top": -224421
+      },
+      "polygon": [
+        [
+          441860,
+          -225779
+        ],
+        [
+          441860,
+          -224421
+        ],
+        [
+          441880,
+          -224600
+        ],
+        [
+          441880,
+          -225600
+        ]
+      ]
+    },
+    {
+      "rule": "gatpoly.space.1",
+      "description": "minimum GatPoly space or notch",
+      "check": "space",
+      "layer": "GatPoly.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
+      "source_path": [
+        "lcpll_divider",
+        "lcpll_divider_nfet_w2_l0p5__lcpll_divider_nfet_w2_l0p5",
+        "lcpll_divider_nfet_w2_l0p5__core"
+      ],
+      "bbox": {
         "left": 447080,
         "bottom": -229742,
         "right": 447240,
@@ -14789,6 +15825,43 @@
         [
           447240,
           -229600
+        ]
+      ]
+    },
+    {
+      "rule": "gatpoly.space.1",
+      "description": "minimum GatPoly space or notch",
+      "check": "space",
+      "layer": "GatPoly.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
+      "source_path": [
+        "lcpll_divider",
+        "lcpll_divider_nfet_w2_l0p5__lcpll_divider_nfet_w2_l0p5",
+        "lcpll_divider_nfet_w2_l0p5__core"
+      ],
+      "bbox": {
+        "left": 451640,
+        "bottom": -225682,
+        "right": 451800,
+        "top": -224518
+      },
+      "polygon": [
+        [
+          451800,
+          -225682
+        ],
+        [
+          451640,
+          -225600
+        ],
+        [
+          451640,
+          -224600
+        ],
+        [
+          451800,
+          -224518
         ]
       ]
     },
@@ -14896,6 +15969,43 @@
         [
           478410,
           -229600
+        ]
+      ]
+    },
+    {
+      "rule": "gatpoly.space.1",
+      "description": "minimum GatPoly space or notch",
+      "check": "space",
+      "layer": "GatPoly.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
+      "source_path": [
+        "lcpll_divider",
+        "lcpll_divider_nfet_w2_l0p5__lcpll_divider_nfet_w2_l0p5",
+        "lcpll_divider_nfet_w2_l0p5__core"
+      ],
+      "bbox": {
+        "left": 480140,
+        "bottom": -225779,
+        "right": 480160,
+        "top": -224421
+      },
+      "polygon": [
+        [
+          480140,
+          -225779
+        ],
+        [
+          480140,
+          -224421
+        ],
+        [
+          480160,
+          -224600
+        ],
+        [
+          480160,
+          -225600
         ]
       ]
     },
@@ -17889,6 +18999,80 @@
         "lcpll_divider_nfet_w2_l0p5__core"
       ],
       "bbox": {
+        "left": 423140,
+        "bottom": -225770,
+        "right": 423200,
+        "top": -224430
+      },
+      "polygon": [
+        [
+          423140,
+          -225770
+        ],
+        [
+          423140,
+          -224430
+        ],
+        [
+          423200,
+          -224600
+        ],
+        [
+          423200,
+          -225600
+        ]
+      ]
+    },
+    {
+      "rule": "metal1.space.1",
+      "description": "minimum Metal1 space or notch",
+      "check": "space",
+      "layer": "Metal1.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
+      "source_path": [
+        "lcpll_divider",
+        "lcpll_divider_nfet_w2_l0p5__lcpll_divider_nfet_w2_l0p5",
+        "lcpll_divider_nfet_w2_l0p5__core"
+      ],
+      "bbox": {
+        "left": 423960,
+        "bottom": -225682,
+        "right": 424120,
+        "top": -224518
+      },
+      "polygon": [
+        [
+          423960,
+          -225682
+        ],
+        [
+          423960,
+          -224518
+        ],
+        [
+          424120,
+          -224600
+        ],
+        [
+          424120,
+          -225600
+        ]
+      ]
+    },
+    {
+      "rule": "metal1.space.1",
+      "description": "minimum Metal1 space or notch",
+      "check": "space",
+      "layer": "Metal1.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
+      "source_path": [
+        "lcpll_divider",
+        "lcpll_divider_nfet_w2_l0p5__lcpll_divider_nfet_w2_l0p5",
+        "lcpll_divider_nfet_w2_l0p5__core"
+      ],
+      "bbox": {
         "left": 426880,
         "bottom": -229773,
         "right": 427020,
@@ -18021,6 +19205,43 @@
         [
           432240,
           -197580
+        ]
+      ]
+    },
+    {
+      "rule": "metal1.space.1",
+      "description": "minimum Metal1 space or notch",
+      "check": "space",
+      "layer": "Metal1.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
+      "source_path": [
+        "lcpll_divider",
+        "lcpll_divider_nfet_w2_l0p5__lcpll_divider_nfet_w2_l0p5",
+        "lcpll_divider_nfet_w2_l0p5__core"
+      ],
+      "bbox": {
+        "left": 433880,
+        "bottom": -225750,
+        "right": 433980,
+        "top": -224450
+      },
+      "polygon": [
+        [
+          433980,
+          -225750
+        ],
+        [
+          433880,
+          -225600
+        ],
+        [
+          433880,
+          -224600
+        ],
+        [
+          433980,
+          -224450
         ]
       ]
     },
@@ -18474,6 +19695,43 @@
       "check": "space",
       "layer": "Metal1.drawing",
       "cell": "lc_pll_top",
+      "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
+      "source_path": [
+        "lcpll_divider",
+        "lcpll_divider_nfet_w2_l0p5__lcpll_divider_nfet_w2_l0p5",
+        "lcpll_divider_nfet_w2_l0p5__core"
+      ],
+      "bbox": {
+        "left": 460500,
+        "bottom": -225770,
+        "right": 460560,
+        "top": -224430
+      },
+      "polygon": [
+        [
+          460500,
+          -225770
+        ],
+        [
+          460500,
+          -224430
+        ],
+        [
+          460560,
+          -224600
+        ],
+        [
+          460560,
+          -225600
+        ]
+      ]
+    },
+    {
+      "rule": "metal1.space.1",
+      "description": "minimum Metal1 space or notch",
+      "check": "space",
+      "layer": "Metal1.drawing",
+      "cell": "lc_pll_top",
       "source_cell": "npn13G2V$4",
       "source_path": [
         "lcpll_prescaler",
@@ -18576,6 +19834,80 @@
         [
           461040,
           -197819
+        ]
+      ]
+    },
+    {
+      "rule": "metal1.space.1",
+      "description": "minimum Metal1 space or notch",
+      "check": "space",
+      "layer": "Metal1.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
+      "source_path": [
+        "lcpll_divider",
+        "lcpll_divider_nfet_w2_l0p5__lcpll_divider_nfet_w2_l0p5",
+        "lcpll_divider_nfet_w2_l0p5__core"
+      ],
+      "bbox": {
+        "left": 460980,
+        "bottom": -225779,
+        "right": 461000,
+        "top": -224421
+      },
+      "polygon": [
+        [
+          461000,
+          -225779
+        ],
+        [
+          460980,
+          -225600
+        ],
+        [
+          460980,
+          -224600
+        ],
+        [
+          461000,
+          -224421
+        ]
+      ]
+    },
+    {
+      "rule": "metal1.space.1",
+      "description": "minimum Metal1 space or notch",
+      "check": "space",
+      "layer": "Metal1.drawing",
+      "cell": "lc_pll_top",
+      "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
+      "source_path": [
+        "lcpll_divider",
+        "lcpll_divider_nfet_w2_l0p5__lcpll_divider_nfet_w2_l0p5",
+        "lcpll_divider_nfet_w2_l0p5__core"
+      ],
+      "bbox": {
+        "left": 461420,
+        "bottom": -225770,
+        "right": 461480,
+        "top": -224430
+      },
+      "polygon": [
+        [
+          461420,
+          -225770
+        ],
+        [
+          461420,
+          -224430
+        ],
+        [
+          461480,
+          -224600
+        ],
+        [
+          461480,
+          -225600
         ]
       ]
     },
@@ -28225,25 +29557,25 @@
     {
       "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
       "rule": "cont.space.1",
-      "count": 1,
+      "count": 2,
       "waived_count": 0
     },
     {
       "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
       "rule": "gatpoly.enclosing.cont.1",
-      "count": 1,
+      "count": 2,
       "waived_count": 0
     },
     {
       "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
       "rule": "gatpoly.separation.activ.1",
-      "count": 4,
+      "count": 6,
       "waived_count": 0
     },
     {
       "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
       "rule": "gatpoly.space.1",
-      "count": 6,
+      "count": 10,
       "waived_count": 0
     },
     {
@@ -28255,7 +29587,7 @@
     {
       "source_cell": "lcpll_divider_nfet_w2_l0p5__core",
       "rule": "metal1.space.1",
-      "count": 8,
+      "count": 14,
       "waived_count": 0
     },
     {
@@ -28322,6 +29654,24 @@
       "source_cell": "lcpll_prescaler_resrppd_w1_l77p7__core",
       "rule": "cont.space.1",
       "count": 2,
+      "waived_count": 0
+    },
+    {
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "rule": "activ.enclosing.cont.1",
+      "count": 2,
+      "waived_count": 0
+    },
+    {
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "rule": "cont.space.1",
+      "count": 16,
+      "waived_count": 0
+    },
+    {
+      "source_cell": "lcpll_prescaler_resrppd_w1_l8__core",
+      "rule": "gatpoly.enclosing.cont.1",
+      "count": 4,
       "waived_count": 0
     },
     {
@@ -28403,7 +29753,7 @@
       "released": true
     },
     "input": {
-      "content_hash": "sha256:b04df5f51190d425e733cb35348aa81f77fc504660fc434c71bcf4d6cb4d9ec7",
+      "content_hash": "sha256:b05b0bcbc24837333fcc5df4d60cf260776132807d582ad5ec741d9beff13e8f",
       "role": "layout"
     },
     "klayout_version_mismatch": true

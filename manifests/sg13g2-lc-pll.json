@@ -8,11 +8,11 @@
     },
     "2": {
       "file": "manifests/layout.attest.json",
-      "content_hash": "sha256:b04df5f51190d425e733cb35348aa81f77fc504660fc434c71bcf4d6cb4d9ec7"
+      "content_hash": "sha256:b05b0bcbc24837333fcc5df4d60cf260776132807d582ad5ec741d9beff13e8f"
     },
     "3": {
       "file": "layout/drc/top.drc.json",
-      "content_hash": "sha256:306a3c52a73164975357245088cca74efd21a353cc060397c07941eb29aa4e50"
+      "content_hash": "sha256:b1f04db8ac86077509fd75353a1b63bfda08f06c8a061cb5fbcb27296e8ee86e"
     },
     "5": [
       {

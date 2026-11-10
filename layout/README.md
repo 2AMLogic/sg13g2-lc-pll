@@ -129,16 +129,16 @@ klt drc --check layout/drc/top.drc.json                                   # re-h
 
 Run 2026-11-10, `klt 0.9.2.dev422+g1560fe3aac8d`, klayout 0.30.13 (the build was tested on 0.30.12; klt warns that counts may differ), curated deck `sg13g2`
 content hash `sha256:1c95db40596afc5412e216009bcf0b775d1d74895b32738447eccbc76336dd15`, input `layout/top.gds`
-(`sha256:b04df5f5…`, the geometry attested for item 2). Result: **`status: violations`, 747 violations, 12 rules**. Item 3 stays `unmet`
-(`check_failed`, `drc__error__count` 747). No waiver was added and no stream was edited.
+(`sha256:b05b0bcb…`, the geometry attested for item 2; re-run 2026-11-10 after the #187 prescaler regeneration, was 747 violations on `b04df5f5…`). Result: **`status: violations`, 783 violations, 12 rules**. Item 3 stays `unmet`
+(`check_failed`, `drc__error__count` 783). No waiver was added and no stream was edited.
 
 Where they sit (`source_path` of each violation):
 
 | Source | Count | Rules |
 |---|---|---|
-| prescaler `hbt_npn13g2v` (+ divider HBT 2) | 527 | activ/cont/gatpoly/metal1 space and enclosure, nwell.enclosing.pactiv.hv |
+| prescaler `hbt_npn13g2v` (+ divider HBT 2) | 520 `npn13G2V` + others; ~576 under `lcpll_prescaler` | activ/cont/gatpoly/metal1 space and enclosure, nwell.enclosing.pactiv.hv |
 | divider pfet/nfet/top, cp nfet, prescaler resistors | ~150 | gatpoly/metal1 width and space, activ.space, cont.space, nwell.enclosing.pactiv.hv |
-| **VCO** `BANKP`/`BANKN` varactor banks | 64 | `nwell.enclosing.pactiv.1` (32 + 32) |
+| **VCO** `BANKP`/`BANKN` varactor banks | 64 (32 `SVaricap` + 32) | `nwell.enclosing.pactiv.1` (32 + 32) |
 
 The 64 VCO findings are in the stream placed unmodified from `sg13g2-vco@17e49a8` and are not waived or edited here; they are reported as sg13g2-vco#315.
 Whether the loop-cell findings are real or the curated deck's unconditional approximation of device-internal carve-outs (the HBT and
@@ -149,3 +149,28 @@ varactor PCells are foundry-drawn) is not established by this run; `--engine bot
 
 **G8 keep-out** (`klt keepout-check`, margin 20 um, `--cells vco`, forbidden Activ/GatPoly/Cont/pSD/Metal1-5 and their fill): `status: violated`, 3 violations, all the VCTRL
 pin-access stack already recorded under "Integrated top (#35)" (tracked at sg13g2-vco#314). Not clean.
+
+## Regeneration after the `cml_dff_latch` resize (#187)
+
+`design/cml_dff.sch` instantiates `cml_dff_latch` (RL1/RL2 `rppd` 1u x 8.0u, #182/#189). Re-run 2026-11-10,
+`klt 0.9.2.dev422+g1560fe3aac8d`, klayout 0.30.12 (venv), against `main` @ `42d74d3`; no generator code changed.
+
+- `gen_cells.py --write`: only `lcpll_prescaler` changed. Its `rppd` 1.0 um groups are now 8 units at L = 8.0 um
+  (`cml_dff` RL1/RL2) plus 43 units at L = 9.05 um (the `cml_latch` loads of `div2_cml_ls`, which keep 9.05 um; was 51 at
+  9.05). Area 27316.5 -> 23027.5 um2 (bbox 529.39 -> 446.27 um wide). `lcpll_divider` has no `cml_dff` in its netlist
+  (`grep cml_dff design/netlist/divider.spice` = 0) and its geometry is unchanged; its provenance only picks up the new
+  netlist hash and klt version, as do the other cells.
+- `gen_integrated.py --write`: `layout/top.gds` (sha256 `b05b0bcb…`) and `provenance.json` regenerated. Placements and
+  route paths are unchanged (VOP 850.105 um, VON 611.845 um, collisions 13), so the tank-load geometric estimate
+  (73.16 / 52.66 fF, not extracted, against 2.1 fF) is unchanged and still not within budget. PEX stays #41.
+- Pins re-stamped to the new stream: `manifests/layout.attest.json` (`klt signoff --attest 2`), `layout/drc/top.drc.json`
+  (re-run, 783 violations, see the DRC section), `manifests/sg13g2-lc-pll.json` and the signoff record
+  (`klayout-tools==0.8.0`, as CI). The integrated-top DRC/LVS closure itself stays #36/#37.
+- Standalone `lcpll_prescaler` (`klt drc`, curated `sg13g2`, `lcpll_prescaler.gds` sha256 `c3f83edc…`): **0 violations**, 19 rules
+  checked (Activ/Cont/GatPoly/pSD/Metal1-2/Via1), 43 skipped because their layers (Metal3-5 etc.) are not in the cell; this is clean for
+  the checked layers only. It disagrees with the integrated top, which reports ~576 violations under `lcpll_prescaler` (mostly HBT
+  `npn13G2V`) from the same device geometry; the cause is not established here (#36).
+- Standalone `lcpll_prescaler` `klt lvs` (reference `prescaler`, `form: subckt-call`): **mismatch** (29 `reference.unresolved_subckt_call`,
+  14 `topology`, 1 `topology.hierarchy_mismatch`, 1 `device.geometry_not_compared`, 1 `device.placeholder_value`). Expected for a
+  placement-only cell with no routing (#35 routes only the integrated top); not a pass and not claimed as one. Other cells were not re-run
+  (their geometry did not change).
