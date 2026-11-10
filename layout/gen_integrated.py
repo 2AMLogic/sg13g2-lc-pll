@@ -364,6 +364,36 @@ def main():
         p0 = rec["segments"][0]["path_um"][0]
         top.shapes(ly.layer(l0, 25)).insert(db.Text(f"{net}", round(p0[0] / dbu), round(p0[1] / dbu)))
 
+    # Close Metal1 notches that the 0.7 um via-stack pads create against the polygon holding their own pin
+    # (a pad abutting a device Metal1 shape leaves a 5 nm slit, native M1.b). Closing is per merged polygon, so it only
+    # fills inside one net's own polygon and never bridges to a different polygon.
+    notch_fill = 0
+    if 8 in added:
+        m1l = lidx(8)
+        # First trim each pad away from Metal1 of a different polygon (a pad wider than the gap to a
+        # neighbouring device terminal leaves < 0.18 um): keep M1.b spacing to polygons the pad does not touch.
+        pad_boxes = set((b.left, b.bottom, b.right, b.top) for b in added[8])
+        for s in list(top.shapes(m1l).each()):
+            if s.is_box() and (s.box.left, s.box.bottom, s.box.right, s.box.top) in pad_boxes:
+                top.shapes(m1l).erase(s)
+        base_m1 = db.Region(top.begin_shapes_rec(m1l)).merged()
+        sp = round(0.18 / dbu)
+        trimmed = 0
+        for b in added[8]:
+            pad = db.Region(b)
+            foreign = base_m1 - base_m1.interacting(pad)
+            keep = pad - foreign.sized(sp)
+            # the pad must still land on the pin polygon: keep it only if the trim leaves the via-sized core
+            trimmed += 1 if keep != pad else 0
+            top.shapes(m1l).insert(keep)
+        m1 = db.Region(top.begin_shapes_rec(m1l)).merged()
+        g = round(0.091 / dbu)  # 2*g > 0.18 um (M1.b)
+        for poly in m1.interacting(to_region(added[8])).each():
+            pr = db.Region(poly)
+            fill = pr.sized(g).sized(-g) - pr
+            notch_fill += fill.count()
+            top.shapes(m1l).insert(fill)
+
     # remove filler under the new wires (a chip-level fill tool does this; the placeholder fill here must not short them)
     fill_removed = 0
     for m in range(1, 6):
