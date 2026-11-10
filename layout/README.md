@@ -142,13 +142,39 @@ Where they sit (`source_path` of each violation):
 
 The 64 VCO findings are in the stream placed unmodified from `sg13g2-vco@17e49a8` and are not waived or edited here; they are reported as sg13g2-vco#315.
 Whether the loop-cell findings are real or the curated deck's unconditional approximation of device-internal carve-outs (the HBT and
-varactor PCells are foundry-drawn) is not established by this run; `--engine both` against the PDK-native deck was not run.
+varactor PCells are foundry-drawn) is not established by this run; `--engine both` against the PDK-native deck was run later (see "Native cross-check"): the findings are real.
 
 **Coverage (verbatim from the report):** `coverage.rules_skipped` = `[]`. `coverage.deck_scope` = `['Act','Cnt','Gat','M1','M2','M3','M4','M5','MIM','NW','TM1','TM2','TV1','TV2','V1','V2','V3','V4','pSD']`.
 `coverage.layers_in_stream_without_rules` is **non-empty** (41 layers: 1/23, 5/23, 8/2, 8/22, 8/23, 8/25, 10/2, 10/22, 10/23, 10/25, 26/0, 27/0, 27/2, 27/25, 28/0, 30/22, 30/23, 30/25, 32/0, 40/0, 44/0, 46/21, 50/22, 50/23, 51/0, 52/0, 63/0, 67/22, 67/23, 67/25, 111/0, 126/2, 126/23, 126/25, 128/0, 129/0, 134/23, 134/25, 148/0, 156/0, 160/0), so even a clean result would be clean for covered layers only.
 
 **G8 keep-out** (`klt keepout-check`, margin 20 um, `--cells vco`, forbidden Activ/GatPoly/Cont/pSD/Metal1-5 and their fill): `status: violated`, 3 violations, all the VCTRL
 pin-access stack already recorded under "Integrated top (#35)" (tracked at sg13g2-vco#314). Not clean.
+
+### Native cross-check (2026-11-10, `--engine both`)
+
+```
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root /home/ubuntu/share/pdk --format json -o layout/drc/top.crosscheck.json   # exit 3
+```
+
+`klt 0.9.2.dev457+g5cd6aad7c733`, klayout 0.30.13 (klt warns the build was tested on 0.30.12), PDK `ihp-sg13g2` `fetched:0.3.0`
+(host PDK at `~/share/pdk`, not installed or changed by this work), input `sha256:b05b0bcb…`. Curated deck hash
+`sha256:0c0014b1…` (the installed klt's deck changed since the earlier run, so `layout/drc/top.drc.json` was re-run and re-stamped:
+same 783 violations, `klt drc --check` = match). Native deck `ihp-sg13g2.drc` `sha256:0620b737…`, run with no `--deck-var`
+(klt warns the deck's `-rd` globals were not supplied, so gated rule groups may not have run; native coverage is `known: false`).
+
+- **Native engine: `status: violations`, 1798 violations**, 16 rules checked: Cnt.g1 475, Cnt.g2 489, Cnt.c 127, M1.b 288, LU.b 87,
+  Act.b 85, Cnt.b 82, M1.a 36, Gat.b 32, Gat.d 29, Cnt.d 23, Gat.a 16, Cnt.e 13, M1.e 10, CntB.h1 5, pSD.c1 1.
+  `layers_in_stream_without_rules` is empty for the native deck, but `coverage.unknown` holds `unmeasured_rule_execution`.
+- **The loop-cell findings are real, not a curated-deck approximation.** The native deck also flags them. Largest sources: the
+  `lcpll_divider_pfet_w5_l0p5` cell (Cnt.g1/g2/c, Act.b, M1.b: about 1250), the prescaler HBT (`npn13G2V`: Act.b, Cnt.b, Cnt.d, M1.b: about 210),
+  prescaler `rppd` resistors, and `LU.b` (max N+Activ-to-tap space 20 um) across the nfet cells of the charge pump, PFD and lock detector,
+  which have no tap ties yet (see "Not done"). Top-level: M1.a 36, Gat.a 16, M1.e 10, CntB.h1 5.
+- **VCO stream:** the native deck reports nothing under the VCO cell. The 64 curated `nwell.enclosing.pactiv.1` hits on `SVaricap` are the
+  curated deck's missing carve-out (sg13g2-vco#315), consistent with the closed ruling; not waived, not edited.
+- **Comparison:** klt reports `comparison.state: not_comparable` (no rule-id mapping between the curated and native decks), so there is
+  no region-level agreement figure.
+- Item 3 stays `unmet`. No waiver, deck edit or stream edit was made. The fix is a `layout/gen_cells.py` change (pfet w5 cell first,
+  then HBT contact/metal spacing, then tap ties for LU.b) and belongs to a follow-up issue.
 
 ## Regeneration after the `cml_dff_latch` resize (#187)
 
