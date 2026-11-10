@@ -116,9 +116,31 @@ def missing_requests(records):
     return out
 
 
+def res_stage2(m40=False):
+    """Stage 2 (18 sub-corners) with the PDK rppd/rhigh resistors loaded (issue #164): the circuit's resistors are
+    PDK instances since PR #169, so each process name also selects cornerRES.lib (SLOW=res_wcs, TYP=res_typ,
+    FAST=res_bcs) and the r3_cmc OSDI is preloaded. The request files written before that carried no resistor model."""
+    d = req(2)
+    for p, r in zip(d["corners"]["process"], ("res_wcs", "res_typ", "res_bcs")):
+        p["sections"].append({"lib": LIB + "cornerRES.lib", "section": r})
+    d["options"]["osdi_preload"].append("$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi")
+    d["options"]["ngspice_init"] = ["set ngbehavior=hsa"]
+    d["_comment"].append("RESISTOR LOADING (issue #164): same 18 stage-2 sub-corners as request-stage2.json, plus cornerRES.lib (SLOW/TYP/FAST = res_wcs/res_typ/res_bcs) and the r3_cmc OSDI. Stage 1 (135 points, independent MOS x MIM x HBT axes) has no resistor axis and is not re-run.")
+    if m40:
+        d["corners"]["temperature_c"] = [-40]
+        d["options"]["timeout_s"] = 1800
+        d["_comment"].append("-40 C only, timeout_s 1800: the first run's six -40 C units hit the 600 s unit timeout.")
+    return d
+
+
 if __name__ == "__main__":
     import sys
-    if len(sys.argv) > 1 and sys.argv[1] == "--nominal-startup-stage2":
+    if len(sys.argv) > 1 and sys.argv[1] in ("--res-stage2", "--res-stage2-m40"):
+        m40 = sys.argv[1].endswith("m40")
+        with open(os.path.join(HERE, "request-stage2-res%s.json" % ("-m40" if m40 else "")), "w") as f:
+            json.dump(res_stage2(m40), f, indent=1)
+            f.write("\n")
+    elif len(sys.argv) > 1 and sys.argv[1] == "--nominal-startup-stage2":
         with open(os.path.join(HERE, "request-stage2-nominal-startup.json"), "w") as f:
             json.dump(nominal_startup_stage2(), f, indent=1)
             f.write("\n")
