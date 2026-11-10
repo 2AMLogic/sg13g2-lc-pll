@@ -11,7 +11,7 @@ C {lab_pin.sym} 20 -30 2 0 {name=l1 lab=tail}
 C {lab_pin.sym} -20 0 0 0 {name=l2 lab=IREF}
 C {lab_pin.sym} 20 30 2 0 {name=l3 lab=te}
 C {lab_pin.sym} 20 0 2 0 {name=l4 lab=VSS}
-C {res.sym} 600 0 0 0 {name=RT value=600 footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rppd.sym} 600 0 0 0 {name=RT model=rppd body=VSS spiceprefix=X w=2u b=0 m=1 l=4.4u}
 C {lab_pin.sym} 600 -30 2 0 {name=l5 lab=te}
 C {lab_pin.sym} 600 30 2 0 {name=l6 lab=VSS}
 C {sg13g2_pr/cap_cmim.sym} 1200 0 0 0 {name=CC1 model=cap_cmim w=14u l=14u m=1 spiceprefix=X}
@@ -20,16 +20,16 @@ C {lab_pin.sym} 1200 30 2 0 {name=l8 lab=gp}
 C {sg13g2_pr/cap_cmim.sym} 1800 0 0 0 {name=CC2 model=cap_cmim w=14u l=14u m=1 spiceprefix=X}
 C {lab_pin.sym} 1800 -30 2 0 {name=l9 lab=INN}
 C {lab_pin.sym} 1800 30 2 0 {name=l10 lab=gn}
-C {res.sym} 2400 0 0 0 {name=RB1 value=50k footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rhigh.sym} 2400 0 0 0 {name=RB1 model=rhigh body=VSS spiceprefix=X w=0.5u b=0 m=1 l=15.35u}
 C {lab_pin.sym} 2400 -30 2 0 {name=l11 lab=vb}
 C {lab_pin.sym} 2400 30 2 0 {name=l12 lab=gp}
-C {res.sym} 3000 0 0 0 {name=RB2 value=50k footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rhigh.sym} 3000 0 0 0 {name=RB2 model=rhigh body=VSS spiceprefix=X w=0.5u b=0 m=1 l=15.35u}
 C {lab_pin.sym} 3000 -30 2 0 {name=l13 lab=vb}
 C {lab_pin.sym} 3000 30 2 0 {name=l14 lab=gn}
-C {res.sym} 0 600 0 0 {name=RV1 value=50k footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rhigh.sym} 0 600 0 0 {name=RV1 model=rhigh body=VSS spiceprefix=X w=0.5u b=0 m=1 l=15.35u}
 C {lab_pin.sym} 0 570 2 0 {name=l15 lab=VDD}
 C {lab_pin.sym} 0 630 2 0 {name=l16 lab=vb}
-C {res.sym} 600 600 0 0 {name=RV2 value=50k footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rhigh.sym} 600 600 0 0 {name=RV2 model=rhigh body=VSS spiceprefix=X w=0.5u b=0 m=1 l=15.35u}
 C {lab_pin.sym} 600 570 2 0 {name=l17 lab=vb}
 C {lab_pin.sym} 600 630 2 0 {name=l18 lab=VSS}
 C {sg13g2_pr/sg13_hv_nmos.sym} 1200 600 0 0 {name=M1 model=sg13_hv_nmos ng=1 m=1 spiceprefix=X w=10u l=0.5u}
@@ -65,7 +65,7 @@ C {lab_pin.sym} 620 1240 2 0 {name=l42 lab=VSS}
 C {sg13g2_pr/cap_cmim.sym} -600 1200 0 0 {name=CI1 model=cap_cmim w=8u l=8u m=1 spiceprefix=X}
 C {lab_pin.sym} -600 1170 2 0 {name=l43 lab=cmo}
 C {lab_pin.sym} -600 1230 2 0 {name=l44 lab=xin}
-C {res.sym} -300 1200 0 0 {name=RF1 value=100k footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rhigh.sym} -300 1200 0 0 {name=RF1 model=rhigh body=VSS spiceprefix=X w=0.5u b=0 m=1 l=30.8u}
 C {lab_pin.sym} -300 1170 2 0 {name=l45 lab=xin}
 C {lab_pin.sym} -300 1230 2 0 {name=l46 lab=cmob}
 C {ipin.sym} -900 -200 0 0 {name=p1 lab=INP}

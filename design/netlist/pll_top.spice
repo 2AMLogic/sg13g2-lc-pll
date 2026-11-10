@@ -90,7 +90,7 @@ XC3 VCTRL VSS cap_cmim w=43.4u l=43.4u m=1
 *.iopin VDD
 *.iopin VSS
 XQREF IREF IREF reref VSS npn13G2v Nx=1 El=1
-RREF reref VSS 2400 m=1
+XRREF reref VSS VSS rppd w=1u l=9.05u m=1 b=0
 X89 INP INN MC IREF OUTP OUTN VDD VSS div89_dm
 .ends
 
@@ -327,13 +327,13 @@ XS2 S1 S1B IB OUTP OUTN VDD VSS div2_cml_ls
 *.iopin VDD
 *.iopin VSS
 XQT tail IREF te VSS npn13G2v Nx=4 El=1
-RT te VSS 600 m=1
+XRT te VSS VSS rppd w=2u l=4.4u m=1 b=0
 XCC1 INP gp cap_cmim w=14u l=14u m=1
 XCC2 INN gn cap_cmim w=14u l=14u m=1
-RB1 vb gp 50k m=1
-RB2 vb gn 50k m=1
-RV1 VDD vb 50k m=1
-RV2 vb VSS 50k m=1
+XRB1 vb gp VSS rhigh w=0.5u l=15.35u m=1 b=0
+XRB2 vb gn VSS rhigh w=0.5u l=15.35u m=1 b=0
+XRV1 VDD vb VSS rhigh w=0.5u l=15.35u m=1 b=0
+XRV2 vb VSS VSS rhigh w=0.5u l=15.35u m=1 b=0
 XM1 d1 gp tail VSS sg13_hv_nmos w=10u l=0.5u ng=1 m=1
 XM2 cmo gn tail VSS sg13_hv_nmos w=10u l=0.5u ng=1 m=1
 XP1 d1 d1 VDD VDD sg13_hv_pmos w=10u l=0.5u ng=1 m=1
@@ -341,7 +341,7 @@ XP2 cmo d1 VDD VDD sg13_hv_pmos w=10u l=0.5u ng=1 m=1
 XI1 xin cmob VDD VSS inv_hv
 XI2 cmob CK VDD VSS inv_hv
 XCI1 cmo xin cap_cmim w=8u l=8u m=1
-RF1 xin cmob 100k m=1
+XRF1 xin cmob VSS rhigh w=0.5u l=30.8u m=1 b=0
 .ends
 
 
@@ -536,16 +536,16 @@ XMN3 VDD OUT nn VSS sg13_hv_nmos w=2u l=2u ng=1 m=1
 *.opin MCN
 *.iopin VDD
 *.iopin VSS
-RIN MC bm 10k m=1
-RD1 VDD vr 12k m=1
-RD2 vr VSS 28k m=1
-RL1 VDD MCP 2400 m=1
-RL2 VDD MCN 2400 m=1
+XRIN MC bm VSS rppd w=1u l=38.65u m=1 b=0
+XRD1 VDD vr VSS rppd w=1u l=46.4u m=1 b=0
+XRD2 vr VSS VSS rppd w=1u l=108.8u m=1 b=0
+XRL1 VDD MCP VSS rppd w=1u l=9.05u m=1 b=0
+XRL2 VDD MCN VSS rppd w=1u l=9.05u m=1 b=0
 XQM1 MCN bm t VSS npn13G2v Nx=1 El=1
 XQM2 MCP vr t VSS npn13G2v Nx=1 El=1
 XQT t IB teT VSS npn13G2v Nx=2 El=1
-RT teT VSS 1200 m=1
-RB bm VSS 31k m=1
+XRT teT VSS VSS rppd w=2u l=9.05u m=1 b=0
+XRB bm VSS VSS rppd w=1u l=120.65u m=1 b=0
 .ends
 
 
@@ -563,13 +563,13 @@ RB bm VSS 31k m=1
 XQE1 VDD IN OUT VSS npn13G2v Nx=1 El=1
 XQE2 VDD INB OUTB VSS npn13G2v Nx=1 El=1
 XQF1 qc1 IB f1 VSS npn13G2v Nx=1 El=1
-RF1 f1 VSS 2400 m=1
+XRF1 f1 VSS VSS rppd w=1u l=9.05u m=1 b=0
 XQF2 qc2 IB f2 VSS npn13G2v Nx=1 El=1
-RF2 f2 VSS 2400 m=1
+XRF2 f2 VSS VSS rppd w=1u l=9.05u m=1 b=0
 XDF1 OUT OUT d1 VSS npn13G2v Nx=1 El=1
 XDF2 OUTB OUTB d2 VSS npn13G2v Nx=1 El=1
-RDF1 d1 qc1 4k m=1
-RDF2 d2 qc2 4k m=1
+XRDF1 d1 qc1 VSS rppd w=1u l=15.3u m=1 b=0
+XRDF2 d2 qc2 VSS rppd w=1u l=15.3u m=1 b=0
 .ends
 
 
@@ -586,15 +586,15 @@ RDF2 d2 qc2 4k m=1
 *.opin QB
 *.iopin VDD
 *.iopin VSS
-RL1 VDD Q 2400 m=1
-RL2 VDD QB 2400 m=1
+XRL1 VDD Q VSS rppd w=1u l=9.05u m=1 b=0
+XRL2 VDD QB VSS rppd w=1u l=9.05u m=1 b=0
 XQA1 QB A n1 VSS npn13G2v Nx=1 El=1
 XQA2 Q AB n1 VSS npn13G2v Nx=1 El=1
 XQB1 n1 B t VSS npn13G2v Nx=1 El=1
 XQB2 Q BB t VSS npn13G2v Nx=1 El=1
 XQT tc IB teT VSS npn13G2v Nx=2 El=1
-RT teT VSS 1200 m=1
-RTC t tc 2.4k m=1
+XRT teT VSS VSS rppd w=2u l=9.05u m=1 b=0
+XRTC t tc VSS rppd w=1u l=9.05u m=1 b=0
 .ends
 
 
@@ -742,8 +742,8 @@ XS M MB CKB CK IB Q QB VDD VSS cml_latch
 *.opin QB
 *.iopin VDD
 *.iopin VSS
-RL1 VDD Q 2400 m=1
-RL2 VDD QB 2400 m=1
+XRL1 VDD Q VSS rppd w=1u l=9.05u m=1 b=0
+XRL2 VDD QB VSS rppd w=1u l=9.05u m=1 b=0
 XQT1 QB D e1 VSS npn13G2v Nx=1 El=1
 XQT2 Q DB e1 VSS npn13G2v Nx=1 El=1
 XQH1 QB Q e2 VSS npn13G2v Nx=1 El=1
@@ -751,7 +751,7 @@ XQH2 Q QB e2 VSS npn13G2v Nx=1 El=1
 XQC1 e1 CK t VSS npn13G2v Nx=1 El=1
 XQC2 e2 CKB t VSS npn13G2v Nx=1 El=1
 XQT tc IB teT VSS npn13G2v Nx=2 El=1
-RT teT VSS 1200 m=1
-RTC t tc 2.4k m=1
+XRT teT VSS VSS rppd w=2u l=9.05u m=1 b=0
+XRTC t tc VSS rppd w=1u l=9.05u m=1 b=0
 .ends
 
