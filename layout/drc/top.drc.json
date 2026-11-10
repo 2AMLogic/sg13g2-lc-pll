@@ -29741,16 +29741,25 @@
       "waived_count": 0
     }
   ],
+  "runset_correspondence": [
+    {
+      "rule": "nwell.enclosing.pactiv.1",
+      "implemented_by_pdk_runset": true,
+      "runset_file": "ihp-sg13g2/libs.tech/klayout/tech/drc/rule_decks/sg13g2_maximal.drc",
+      "note": "PDK rule NW.c first removes P+ Activ that interacts with a text-recognised SVaricap (`lNw_c = PActLV.ext_not(PActLV.ext_interacting(SVaricap))`, SVaricap = NWell under an \"SVaricap\" text label on a GatPoly stack); this deck checks every P+ Activ unconditionally, so findings whose source_cell is a PDK SVaricap device are expected to be absent from the runset (deck over-report, not a real enclosure violation).",
+      "pdk_revision": "5cccb161f7492697cfa52eb14dc03beb00bdca9e"
+    }
+  ],
   "provenance": {
-    "klt_version": "0.9.2.dev422+g1560fe3aac8d",
-    "klt_git_commit": "1560fe3aac8d2932331c420f24c3c90be2143070",
-    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@1560fe3aac8d2932331c420f24c3c90be2143070",
+    "klt_version": "0.9.2.dev457+g5cd6aad7c733",
+    "klt_git_commit": "5cd6aad7c733544099cdafb2e5facc896140c5c6",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@5cd6aad7c733544099cdafb2e5facc896140c5c6",
     "klayout_version": "0.30.13",
     "pdk": null,
     "deck": {
       "name": "sg13g2",
-      "content_hash": "sha256:1c95db40596afc5412e216009bcf0b775d1d74895b32738447eccbc76336dd15",
-      "released": true
+      "content_hash": "sha256:0c0014b1442b2de953b979550edd8f9e25822e864dd5d0c8f831c48c77e19ecf",
+      "released": false
     },
     "input": {
       "content_hash": "sha256:b05b0bcbc24837333fcc5df4d60cf260776132807d582ad5ec741d9beff13e8f",
