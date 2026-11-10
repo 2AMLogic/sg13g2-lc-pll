@@ -1,15 +1,15 @@
 v {xschem version=3.4.8RC file_version=1.3
-sg13g2-lc-pll :: cml_dff_latch -- cml_dff-only CML D-latch (RL1/RL2 l=8.0u, issue #182; cml_latch is unchanged) (track/hold, clock pair at the bottom)
+sg13g2-lc-pll :: cml_dff_latch -- cml_dff-only CML D-latch (RL1/RL2 l=7.8u, issues #182, #186; cml_latch is unchanged) (track/hold, clock pair at the bottom)
 }
 G {}
 K {}
 V {}
 S {}
 E {}
-C {sg13g2_pr/rppd.sym} 400 0 0 0 {name=RL1 model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=8.0u}
+C {sg13g2_pr/rppd.sym} 400 0 0 0 {name=RL1 model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=7.8u}
 C {lab_pin.sym} 400 -30 2 0 {name=l1 lab=VDD}
 C {lab_pin.sym} 400 30 2 0 {name=l2 lab=Q}
-C {sg13g2_pr/rppd.sym} 800 0 0 0 {name=RL2 model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=8.0u}
+C {sg13g2_pr/rppd.sym} 800 0 0 0 {name=RL2 model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=7.8u}
 C {lab_pin.sym} 800 -30 2 0 {name=l3 lab=VDD}
 C {lab_pin.sym} 800 30 2 0 {name=l4 lab=QB}
 C {sg13g2_pr/npn13G2v.sym} 1200 0 0 0 {name=QT1 model=npn13G2v Nx=1 El=1 spiceprefix=X}
