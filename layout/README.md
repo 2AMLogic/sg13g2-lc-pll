@@ -130,7 +130,7 @@ klt drc --check layout/drc/top.drc.json                                   # re-h
 Run 2026-11-10, `klt 0.9.2.dev422+g1560fe3aac8d`, klayout 0.30.13 (the build was tested on 0.30.12; klt warns that counts may differ), curated deck `sg13g2`
 content hash `sha256:1c95db40596afc5412e216009bcf0b775d1d74895b32738447eccbc76336dd15`, input `layout/top.gds`
 (`sha256:b05b0bcb…`, the geometry attested for item 2; re-run 2026-11-10 after the #187 prescaler regeneration, was 747 violations on `b04df5f5…`). Result: **`status: violations`, 783 violations, 12 rules**. Item 3 stays `unmet`
-(`check_failed`, `drc__error__count` 783). No waiver was added and no stream was edited.
+(`check_failed`, `drc__error__count` 783). No waiver was added and no stream was edited. Superseded by the divider placement fix (#202, below): 79 violations on `4a7f8645…`.
 
 Where they sit (`source_path` of each violation):
 
@@ -175,6 +175,46 @@ same 783 violations, `klt drc --check` = match). Native deck `ihp-sg13g2.drc` `s
   no region-level agreement figure.
 - Item 3 stays `unmet`. No waiver, deck edit or stream edit was made. The fix is a `layout/gen_cells.py` change (pfet w5 cell first,
   then HBT contact/metal spacing, then tap ties for LU.b) and belongs to a follow-up issue.
+
+### Divider placement fix and native re-run (#202, 2026-11-10)
+
+**Cause of the pfet/prescaler findings: overlapping placement, not the generated cells.** In `layout/gen_integrated.py` the divider
+sat at (300.0, -251.0) um while the prescaler occupies x 281..727, y -236.6..-185 um, so the two cells overlapped (879 overlapping
+shapes, measured per layer with `klayout.db` Region AND of the two instances). The native deck attributed the resulting Cnt/Act/M1
+hits to `lcpll_divider_pfet_w5_l0p5` and the prescaler HBT. The divider is now at (445.0, -310.0) um: clear of the prescaler (7.8 um
+below it) and of the loop filter (x <= 430.7 um). VCO stream, VOP/VON routes (850.105 / 611.845 um)
+and the tank-load estimate (73.16 / 52.66 fF, not extracted, against 2.1 fF) are unchanged; only the divider-connected routes moved
+(FB 995.87 -> 1199.87 um). One cell did change for an unrelated reason: the committed `cells.provenance.json` predated the
+current `design/netlist/prescaler.spice` (`gen_cells.py --check` already reported a prescaler geometry/netlist mismatch on `main` before this
+change), so regenerating moves one prescaler `rppd` group from L = 8.0 to 7.8 um (`lcpll_prescaler_resrppd_w1_l8` -> `_l7p8`); the pfd/lockdet
+provenance only picks up the new `pll_top.spice` hash. The "before" columns below were measured on the stale-cell stream; the divider
+placement is what removed the pfet/HBT/resistor findings (both effects are in the "after" numbers). The generator code is unchanged.
+
+```
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root /home/ubuntu/share/pdk --format json -o layout/drc/top.crosscheck.json   # exit 3
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json     # curated, exit 3; klt drc --check = match
+```
+
+`klt 0.9.2.dev457+g5cd6aad7c733`, klayout 0.30.13, input `sha256:4a7f8645…` (stream), curated deck `sha256:0c0014b1…`, native deck
+`ihp-sg13g2.drc` `sha256:0620b737…` (no `--deck-var`, native coverage still `known: false`). Same commands as the 1798 baseline above.
+
+| Engine | Before (`b05b0bcb…`) | After (`4a7f8645…`) | Per rule after |
+|---|---|---|---|
+| native | 1798 | **348** | LU.b 322, M1.b 22, Cnt.b 4 |
+| curated | 783 | **79** | nwell.enclosing.pactiv.1 64 (VCO `SVaricap`, sg13g2-vco#315, not waived), metal1.space.1 11, cont.space.1 4 |
+
+Rules that went to zero natively: Cnt.g1, Cnt.g2, Cnt.c, Cnt.d, Cnt.e, Act.b, Gat.a, Gat.b, Gat.d, M1.a, M1.e, CntB.h1, pSD.c1.
+
+**Residual (item 3 stays `unmet`):**
+- **LU.b 322** (divider 235, cp 35, pfd 33, lockdet 19): the nfet cells have no substrate tap. Not fixed: `klt gen` has no pSD P-tap on
+  `ihp-sg13g2`. `guard_ring` and `mos_array add_guard_ring` draw an n-well tie with no pSD and off-grid Cont; tried on the nfet groups
+  (chunks of <= 96 units), it raised the native count to 559 (176 new `cont_drw_Offgrid`, LU.b not reduced) and was reverted. Tap net would
+  be VSS (the nfets' bulk net). Tool gap: 2AMLogic/klayout-tools#5231. Hand-drawn taps were not added.
+- **M1.b 22 / Cnt.b 4:** 11 M1.b + 4 Cnt.b are top-level (routing/pin-access, #35). The rest are 5 nm Metal1 gaps between adjacent `bjt_array`
+  HBT units (prescaler 8, divider 2) and one in a cp nfet cell (`lcpll_cp_nfet_w6_l0p3`). Drawing each HBT as its own array removes the HBT gaps
+  but doubles the prescaler footprint (23027.5 -> 44805.5 um2), moves the tank routes and brings back overlap, so it was not adopted. Tool gap:
+  2AMLogic/klayout-tools#5232.
+- G8 keep-out is unchanged (3 VCTRL violations, sg13g2-vco#314); `layout/top.gds` has not been through LVS (#37) or PEX (#41).
 
 ## Regeneration after the `cml_dff_latch` resize (#187)
 
