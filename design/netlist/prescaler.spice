@@ -206,8 +206,8 @@ XRTC t tc VSS rppd w=1u l=9.05u m=1 b=0
 *.opin QB
 *.iopin VDD
 *.iopin VSS
-XRL1 VDD Q VSS rppd w=1u l=8.0u m=1 b=0
-XRL2 VDD QB VSS rppd w=1u l=8.0u m=1 b=0
+XRL1 VDD Q VSS rppd w=1u l=7.8u m=1 b=0
+XRL2 VDD QB VSS rppd w=1u l=7.8u m=1 b=0
 XQT1 QB D e1 VSS npn13G2v Nx=1 El=1
 XQT2 Q DB e1 VSS npn13G2v Nx=1 El=1
 XQH1 QB Q e2 VSS npn13G2v Nx=1 El=1
