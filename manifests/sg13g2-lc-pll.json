@@ -6,6 +6,10 @@
       "file": "manifests/design-sources.attest.json",
       "content_hash": "sha256:6be0076a6fbc68505afc7f165777acf138b962a7f7fca7efaefbdb42d6e8fbfb"
     },
+    "2": {
+      "file": "manifests/layout.attest.json",
+      "content_hash": "sha256:b04df5f51190d425e733cb35348aa81f77fc504660fc434c71bcf4d6cb4d9ec7"
+    },
     "5": [
       {
         "file": "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage1.json",
