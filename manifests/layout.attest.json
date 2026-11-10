@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "kind": "generic",
+  "status": "pass",
+  "t1_item": 2,
+  "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
+  "source": "layout/top.gds",
+  "attestation": {
+    "producer": "klt signoff --attest",
+    "hash_algorithm": "sha256-raw-bytes",
+    "check_count": 3,
+    "passed_count": 3,
+    "checks": [
+      {
+        "check": "stream_readable",
+        "role": "layout",
+        "passed": true,
+        "content_hash": "sha256:b04df5f51190d425e733cb35348aa81f77fc504660fc434c71bcf4d6cb4d9ec7"
+      },
+      {
+        "check": "top_cell_non_empty",
+        "role": "layout",
+        "passed": true,
+        "top_cells": [
+          "lc_pll_top"
+        ]
+      },
+      {
+        "check": "dbu_on_grid",
+        "role": "layout",
+        "passed": true,
+        "dbu": 0.001
+      }
+    ]
+  },
+  "provenance": {
+    "klt_version": "0.9.2.dev420+gf186e14125ed",
+    "klayout_version": "0.30.13",
+    "pdk": null,
+    "deck": null,
+    "input": {
+      "path": {
+        "path": "layout/top.gds",
+        "scope": "repo"
+      },
+      "content_hash": "sha256:b04df5f51190d425e733cb35348aa81f77fc504660fc434c71bcf4d6cb4d9ec7"
+    }
+  }
+}

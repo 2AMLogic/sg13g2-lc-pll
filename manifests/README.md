@@ -9,7 +9,7 @@ record.
 
 - **`sg13g2-lc-pll.json`**: the block manifest. `block: sg13g2-lc-pll`,
   `kind: analog` (an integer-N LC PLL with no mixed-signal partition decided
-  today; if that changes, `kind` may change with it). `evidence` cites items 1, 9 and 10
+  today; if that changes, `kind` may change with it). `evidence` cites items 1, 3 (the `klt drc` report `layout/drc/top.drc.json`, graded `unmet` / `check_failed`: 747 violations, #36), 9 and 10
   (`manifests/design-sources.attest.json`, `manifests/testbenches.attest.json`,
   `manifests/repo-hygiene.attest.json`) and item 6 (the `klt yield` report of the
   charge-pump Monte Carlo, `sim/cp-mc/records/`, graded `unmet` / `check_failed`:

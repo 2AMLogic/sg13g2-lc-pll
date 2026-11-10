@@ -56,3 +56,13 @@ The Vce records dated 20261103 were taken on the previous prescaler netlist and 
 ramp instead of `.ic`, and an `mcv` axis (0 = /8, 1 = /9 at the supply level) zipped with `vddv`, so the request is 36 runs
 (18 sub-corners x MC low/high). `records/20261108-225549-330a5a2-vce.md`: 36 of 36 converged, **FAIL, 9 runs over 2.2 V, all at
 3.63 V with MC high, device `x1.x89.xmc.xqt`** (worst 2.844 V); at 2.97 V all pass, worst 2.186 V (+0.014 V). See DR-005.
+
+### Vce bench loads the PDK resistor models (issue #188)
+
+Since the netlist carries PDK `rppd` resistors (not ideal ones), `prescaler_vce.skeleton.json` pairs each HBT corner with a
+`cornerRES.lib` section (SLOW = `res_wcs`, TYP = `res_typ`, FAST = `res_bcs`) and sets `ngspice_init` (`set ngbehavior=hsa`) and
+`osdi_preload` (`r3_cmc.osdi`), as `sim/prescaler-div89/div89_chain.request.json` does. Records dated before 20261110 were taken
+with ideal resistors and keep that text. `records/20261110-072244-5ee2b8e-dirty-vce.md` (batch job `klt-sim-9043c6375f6d`, 36 of 36
+converged, no `unknown subckt`): **FAIL, 9 runs over 2.2 V, all at 3.63 V with MC high, device `x1.x89.xmc.xqt`** (worst 2.850 V);
+at 2.97 V all pass, worst 2.192 V (+0.008 V, FAST/125 C). The `cml_dff_latch` devices (`x89.xc23.xf{1,2}.x{m,s}.xqt`) peak at
+2.070 V (3.63 V, FAST/125 C, MC low), inside 2.2 V. Simulated, not measured.
