@@ -1,0 +1,1566 @@
+Warning: m=xx on .subckt line will override multiplier m hierarchy!
+
+
+Note: Compatibility modes selected: hs a
+
+
+Circuit: * sg13g2-lc-pll :: sim/prescaler-g3 (pairs) -- the /4/5 stage's device-flavour question, isolated.
+
+option SCALE: Scale is set to 1 for instance and model parameters
+Warning: Model issue on line 240 :
+  .model xmref1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60 tr= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xmref1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60 tr= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xmref2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60 tr= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xmref2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60 tr= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xmref3:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60 tr= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xmref3:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60 tr= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm1m.xmt1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm1m.xmt1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm1m.xmt2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm1m.xmt2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm1m.xmh1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm1m.xmh1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm1m.xmh2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm1m.xmh2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm1m.xmc1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm1m.xmc1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm1m.xmc2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm1m.xmc2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm1m.xmtl:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm1m.xmtl:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm1s.xmt1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm1s.xmt1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm1s.xmt2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm1s.xmt2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm1s.xmh1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm1s.xmh1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm1s.xmh2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm1s.xmh2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm1s.xmc1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm1s.xmc1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm1s.xmc2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm1s.xmc2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm1s.xmtl:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm1s.xmtl:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm2m.xmt1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm2m.xmt1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm2m.xmt2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm2m.xmt2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm2m.xmh1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm2m.xmh1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm2m.xmh2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm2m.xmh2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm2m.xmc1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm2m.xmc1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm2m.xmc2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm2m.xmc2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm2m.xmtl:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm2m.xmtl:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm2s.xmt1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm2s.xmt1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm2s.xmt2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm2s.xmt2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm2s.xmh1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm2s.xmh1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm2s.xmh2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm2s.xmh2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm2s.xmc1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm2s.xmc1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm2s.xmc2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm2s.xmc2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm2s.xmtl:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm2s.xmtl:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm3m.xmt1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm3m.xmt1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm3m.xmt2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm3m.xmt2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm3m.xmh1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm3m.xmh1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm3m.xmh2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm3m.xmh2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm3m.xmc1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm3m.xmc1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm3m.xmc2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm3m.xmc2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm3m.xmtl:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm3m.xmtl:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm3s.xmt1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm3s.xmt1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm3s.xmt2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm3s.xmt2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm3s.xmh1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm3s.xmh1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm3s.xmh2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm3s.xmh2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm3s.xmc1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm3s.xmc1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm3s.xmc2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm3s.xmc2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xm3s.xmtl:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xm3s.xmtl:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60  ...
+Unknown model type pspnqs103va - ignored
+
+
+
+The temperature limiting function received NaN.
+Please check your power dissipation and improve your heat sink Rth!
+    This message will be shown only once.
+
+Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+ibh                                    0.88286
+reref                                 0.119407
+xqref.s1                            2.8209e-10
+xqref.t                               0.498518
+ibm1                                  0.784852
+ibm2                                  0.731589
+ibm3                                  0.694004
+ckp                                        2.3
+ckn                                        2.3
+hmp                                          3
+xhm.xrl1.dt                                  0
+hmn                                        3.2
+xhm.xrl2.dt                                  0
+hqn                                          3
+xhm.e1                                 2.43651
+xhm.xqt1.s1                        1.02827e-09
+xhm.xqt1.t                         0.000271645
+hqp                                        3.2
+xhm.xqt2.s1                        9.62236e-10
+xhm.xqt2.t                            0.366561
+xhm.e2                                 2.43651
+xhm.xqh1.s1                        1.02827e-09
+xhm.xqh1.t                         0.000271645
+xhm.xqh2.s1                        9.62236e-10
+xhm.xqh2.t                            0.366561
+xhm.t                                  1.53672
+xhm.xqc1.s1                        7.81213e-10
+xhm.xqc1.t                            0.586005
+xhm.xqc2.s1                        7.81213e-10
+xhm.xqc2.t                            0.586005
+xhm.tc                                 1.29897
+xhm.tet                               0.119712
+xhm.xqt.s1                          6.5355e-10
+xhm.xqt.t                             0.835466
+xhm.xrt.dt                                   0
+xhm.xrtc.dt                                  0
+xhs.xrl1.dt                                  0
+xhs.xrl2.dt                                  0
+xhs.e1                                 2.43666
+xhs.xqt1.s1                         9.6402e-10
+xhs.xqt1.t                         0.000199147
+xhs.xqt2.s1                        1.02649e-09
+xhs.xqt2.t                            0.496347
+xhs.e2                                 2.43651
+xhs.xqh1.s1                        9.62236e-10
+xhs.xqh1.t                             0.36656
+xhs.xqh2.s1                        1.02827e-09
+xhs.xqh2.t                         0.000271645
+xhs.t                                  1.53672
+xhs.xqc1.s1                        7.81263e-10
+xhs.xqc1.t                            0.586109
+xhs.xqc2.s1                        7.81213e-10
+xhs.xqc2.t                            0.586004
+xhs.tc                                 1.29897
+xhs.tet                               0.119712
+xhs.xqt.s1                          6.5355e-10
+xhs.xqt.t                             0.835466
+xhs.xrt.dt                                   0
+xhs.xrtc.dt                                  0
+m1mp                                         3
+xm1m.xrl1.dt                                 0
+m1mn                                       3.2
+xm1m.xrl2.dt                                 0
+m1qn                                         3
+xm1m.e1                                2.07673
+m1qp                                       3.2
+xm1m.e2                                2.07673
+xm1m.t                                 1.27634
+xm1s.xrl1.dt                                 0
+xm1s.xrl2.dt                                 0
+xm1s.e1                                2.08167
+xm1s.e2                                2.07679
+xm1s.t                                 1.27641
+m2mp                                         3
+xm2m.xrl1.dt                                 0
+m2mn                                       3.2
+xm2m.xrl2.dt                                 0
+m2qn                                         3
+xm2m.e1                                2.11805
+m2qp                                       3.2
+xm2m.e2                                2.11805
+xm2m.t                                 1.32071
+xm2s.xrl1.dt                                 0
+xm2s.xrl2.dt                                 0
+xm2s.e1                                2.12347
+xm2s.e2                                2.11812
+xm2s.t                                 1.32078
+m3mp                                         3
+xm3m.xrl1.dt                                 0
+m3mn                                       3.2
+xm3m.xrl2.dt                                 0
+m3qn                                         3
+xm3m.e1                                2.14353
+m3qp                                       3.2
+xm3m.e2                                2.14353
+xm3m.t                                 1.34885
+xm3s.xrl1.dt                                 0
+xm3s.xrl2.dt                                 0
+xm3s.e1                                2.14906
+xm3s.e2                                2.14359
+xm3s.t                                 1.34892
+vcn#branch                        -1.23215e-07
+vcp#branch                        -1.23215e-07
+vdd#branch                         -0.00153605
+
+ Reference value :  4.06560e-10 Reference value :  1.26056e-09 Reference value :  2.15256e-09 Reference value :  3.04656e-09 Reference value :  3.95056e-09 Reference value :  4.87456e-09 Reference value :  5.71256e-09 Reference value :  6.59456e-09 Reference value :  7.48656e-09 Reference value :  8.40456e-09 Reference value :  9.32056e-09 Reference value :  1.02526e-08 Reference value :  1.11386e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+ibh                                    0.88286
+reref                                 0.119407
+xqref.s1                            2.8209e-10
+xqref.t                               0.498518
+ibm1                                  0.784852
+ibm2                                  0.731589
+ibm3                                  0.694004
+ckp                                        2.3
+ckn                                        2.3
+hmp                                          3
+xhm.xrl1.dt                                  0
+hmn                                        3.2
+xhm.xrl2.dt                                  0
+hqn                                          3
+xhm.e1                                 2.43651
+xhm.xqt1.s1                        1.02827e-09
+xhm.xqt1.t                         0.000271645
+hqp                                        3.2
+xhm.xqt2.s1                        9.62236e-10
+xhm.xqt2.t                            0.366561
+xhm.e2                                 2.43651
+xhm.xqh1.s1                        1.02827e-09
+xhm.xqh1.t                         0.000271645
+xhm.xqh2.s1                        9.62236e-10
+xhm.xqh2.t                            0.366561
+xhm.t                                  1.53672
+xhm.xqc1.s1                        7.81213e-10
+xhm.xqc1.t                            0.586005
+xhm.xqc2.s1                        7.81213e-10
+xhm.xqc2.t                            0.586005
+xhm.tc                                 1.29897
+xhm.tet                               0.119712
+xhm.xqt.s1                          6.5355e-10
+xhm.xqt.t                             0.835466
+xhm.xrt.dt                                   0
+xhm.xrtc.dt                                  0
+xhs.xrl1.dt                                  0
+xhs.xrl2.dt                                  0
+xhs.e1                                 2.43666
+xhs.xqt1.s1                         9.6402e-10
+xhs.xqt1.t                         0.000199147
+xhs.xqt2.s1                        1.02649e-09
+xhs.xqt2.t                            0.496347
+xhs.e2                                 2.43651
+xhs.xqh1.s1                        9.62236e-10
+xhs.xqh1.t                             0.36656
+xhs.xqh2.s1                        1.02827e-09
+xhs.xqh2.t                         0.000271645
+xhs.t                                  1.53672
+xhs.xqc1.s1                        7.81263e-10
+xhs.xqc1.t                            0.586109
+xhs.xqc2.s1                        7.81213e-10
+xhs.xqc2.t                            0.586004
+xhs.tc                                 1.29897
+xhs.tet                               0.119712
+xhs.xqt.s1                          6.5355e-10
+xhs.xqt.t                             0.835466
+xhs.xrt.dt                                   0
+xhs.xrtc.dt                                  0
+m1mp                                         3
+xm1m.xrl1.dt                                 0
+m1mn                                       3.2
+xm1m.xrl2.dt                                 0
+m1qn                                         3
+xm1m.e1                                2.07673
+m1qp                                       3.2
+xm1m.e2                                2.07673
+xm1m.t                                 1.27634
+xm1s.xrl1.dt                                 0
+xm1s.xrl2.dt                                 0
+xm1s.e1                                2.08167
+xm1s.e2                                2.07679
+xm1s.t                                 1.27641
+m2mp                                         3
+xm2m.xrl1.dt                                 0
+m2mn                                       3.2
+xm2m.xrl2.dt                                 0
+m2qn                                         3
+xm2m.e1                                2.11805
+m2qp                                       3.2
+xm2m.e2                                2.11805
+xm2m.t                                 1.32071
+xm2s.xrl1.dt                                 0
+xm2s.xrl2.dt                                 0
+xm2s.e1                                2.12347
+xm2s.e2                                2.11812
+xm2s.t                                 1.32078
+m3mp                                         3
+xm3m.xrl1.dt                                 0
+m3mn                                       3.2
+xm3m.xrl2.dt                                 0
+m3qn                                         3
+xm3m.e1                                2.14353
+m3qp                                       3.2
+xm3m.e2                                2.14353
+xm3m.t                                 1.34885
+xm3s.xrl1.dt                                 0
+xm3s.xrl2.dt                                 0
+xm3s.e1                                2.14906
+xm3s.e2                                2.14359
+xm3s.t                                 1.34892
+vcn#branch                        -1.23215e-07
+vcp#branch                        -1.23215e-07
+vdd#branch                         -0.00153605
+
+ Reference value :  0.00000e+00 Reference value :  9.18560e-10 Reference value :  1.79056e-09 Reference value :  2.69856e-09 Reference value :  3.61056e-09 Reference value :  4.51256e-09 Reference value :  5.40456e-09 Reference value :  6.31256e-09 Reference value :  7.21256e-09 Reference value :  8.10256e-09 Reference value :  8.98256e-09 Reference value :  9.85856e-09 Reference value :  1.07326e-08 Reference value :  1.15706e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+ibh                                    0.88286
+reref                                 0.119407
+xqref.s1                            2.8209e-10
+xqref.t                               0.498518
+ibm1                                  0.784852
+ibm2                                  0.731589
+ibm3                                  0.694004
+ckp                                        2.3
+ckn                                        2.3
+hmp                                          3
+xhm.xrl1.dt                                  0
+hmn                                        3.2
+xhm.xrl2.dt                                  0
+hqn                                          3
+xhm.e1                                 2.43651
+xhm.xqt1.s1                        1.02827e-09
+xhm.xqt1.t                         0.000271645
+hqp                                        3.2
+xhm.xqt2.s1                        9.62236e-10
+xhm.xqt2.t                            0.366561
+xhm.e2                                 2.43651
+xhm.xqh1.s1                        1.02827e-09
+xhm.xqh1.t                         0.000271645
+xhm.xqh2.s1                        9.62236e-10
+xhm.xqh2.t                            0.366561
+xhm.t                                  1.53672
+xhm.xqc1.s1                        7.81213e-10
+xhm.xqc1.t                            0.586005
+xhm.xqc2.s1                        7.81213e-10
+xhm.xqc2.t                            0.586005
+xhm.tc                                 1.29897
+xhm.tet                               0.119712
+xhm.xqt.s1                          6.5355e-10
+xhm.xqt.t                             0.835466
+xhm.xrt.dt                                   0
+xhm.xrtc.dt                                  0
+xhs.xrl1.dt                                  0
+xhs.xrl2.dt                                  0
+xhs.e1                                 2.43666
+xhs.xqt1.s1                         9.6402e-10
+xhs.xqt1.t                         0.000199147
+xhs.xqt2.s1                        1.02649e-09
+xhs.xqt2.t                            0.496347
+xhs.e2                                 2.43651
+xhs.xqh1.s1                        9.62236e-10
+xhs.xqh1.t                             0.36656
+xhs.xqh2.s1                        1.02827e-09
+xhs.xqh2.t                         0.000271645
+xhs.t                                  1.53672
+xhs.xqc1.s1                        7.81263e-10
+xhs.xqc1.t                            0.586109
+xhs.xqc2.s1                        7.81213e-10
+xhs.xqc2.t                            0.586004
+xhs.tc                                 1.29897
+xhs.tet                               0.119712
+xhs.xqt.s1                          6.5355e-10
+xhs.xqt.t                             0.835466
+xhs.xrt.dt                                   0
+xhs.xrtc.dt                                  0
+m1mp                                         3
+xm1m.xrl1.dt                                 0
+m1mn                                       3.2
+xm1m.xrl2.dt                                 0
+m1qn                                         3
+xm1m.e1                                2.07673
+m1qp                                       3.2
+xm1m.e2                                2.07673
+xm1m.t                                 1.27634
+xm1s.xrl1.dt                                 0
+xm1s.xrl2.dt                                 0
+xm1s.e1                                2.08167
+xm1s.e2                                2.07679
+xm1s.t                                 1.27641
+m2mp                                         3
+xm2m.xrl1.dt                                 0
+m2mn                                       3.2
+xm2m.xrl2.dt                                 0
+m2qn                                         3
+xm2m.e1                                2.11805
+m2qp                                       3.2
+xm2m.e2                                2.11805
+xm2m.t                                 1.32071
+xm2s.xrl1.dt                                 0
+xm2s.xrl2.dt                                 0
+xm2s.e1                                2.12347
+xm2s.e2                                2.11812
+xm2s.t                                 1.32078
+m3mp                                         3
+xm3m.xrl1.dt                                 0
+m3mn                                       3.2
+xm3m.xrl2.dt                                 0
+m3qn                                         3
+xm3m.e1                                2.14353
+m3qp                                       3.2
+xm3m.e2                                2.14353
+xm3m.t                                 1.34885
+xm3s.xrl1.dt                                 0
+xm3s.xrl2.dt                                 0
+xm3s.e1                                2.14906
+xm3s.e2                                2.14359
+xm3s.t                                 1.34892
+vcn#branch                        -1.23215e-07
+vcp#branch                        -1.23215e-07
+vdd#branch                         -0.00153605
+
+ Reference value :  2.48560e-10 Reference value :  1.04856e-09 Reference value :  1.85656e-09 Reference value :  2.72056e-09 Reference value :  3.62856e-09 Reference value :  4.56456e-09 Reference value :  5.47456e-09 Reference value :  6.32656e-09 Reference value :  7.19056e-09 Reference value :  8.07456e-09 Reference value :  8.96256e-09 Reference value :  9.86256e-09 Reference value :  1.07466e-08 Reference value :  1.16446e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+ibh                                    0.88286
+reref                                 0.119407
+xqref.s1                            2.8209e-10
+xqref.t                               0.498518
+ibm1                                  0.784852
+ibm2                                  0.731589
+ibm3                                  0.694004
+ckp                                        2.3
+ckn                                        2.3
+hmp                                          3
+xhm.xrl1.dt                                  0
+hmn                                        3.2
+xhm.xrl2.dt                                  0
+hqn                                          3
+xhm.e1                                 2.43651
+xhm.xqt1.s1                        1.02827e-09
+xhm.xqt1.t                         0.000271645
+hqp                                        3.2
+xhm.xqt2.s1                        9.62236e-10
+xhm.xqt2.t                            0.366561
+xhm.e2                                 2.43651
+xhm.xqh1.s1                        1.02827e-09
+xhm.xqh1.t                         0.000271645
+xhm.xqh2.s1                        9.62236e-10
+xhm.xqh2.t                            0.366561
+xhm.t                                  1.53672
+xhm.xqc1.s1                        7.81213e-10
+xhm.xqc1.t                            0.586005
+xhm.xqc2.s1                        7.81213e-10
+xhm.xqc2.t                            0.586005
+xhm.tc                                 1.29897
+xhm.tet                               0.119712
+xhm.xqt.s1                          6.5355e-10
+xhm.xqt.t                             0.835466
+xhm.xrt.dt                                   0
+xhm.xrtc.dt                                  0
+xhs.xrl1.dt                                  0
+xhs.xrl2.dt                                  0
+xhs.e1                                 2.43666
+xhs.xqt1.s1                         9.6402e-10
+xhs.xqt1.t                         0.000199147
+xhs.xqt2.s1                        1.02649e-09
+xhs.xqt2.t                            0.496347
+xhs.e2                                 2.43651
+xhs.xqh1.s1                        9.62236e-10
+xhs.xqh1.t                             0.36656
+xhs.xqh2.s1                        1.02827e-09
+xhs.xqh2.t                         0.000271645
+xhs.t                                  1.53672
+xhs.xqc1.s1                        7.81263e-10
+xhs.xqc1.t                            0.586109
+xhs.xqc2.s1                        7.81213e-10
+xhs.xqc2.t                            0.586004
+xhs.tc                                 1.29897
+xhs.tet                               0.119712
+xhs.xqt.s1                          6.5355e-10
+xhs.xqt.t                             0.835466
+xhs.xrt.dt                                   0
+xhs.xrtc.dt                                  0
+m1mp                                         3
+xm1m.xrl1.dt                                 0
+m1mn                                       3.2
+xm1m.xrl2.dt                                 0
+m1qn                                         3
+xm1m.e1                                2.07673
+m1qp                                       3.2
+xm1m.e2                                2.07673
+xm1m.t                                 1.27634
+xm1s.xrl1.dt                                 0
+xm1s.xrl2.dt                                 0
+xm1s.e1                                2.08167
+xm1s.e2                                2.07679
+xm1s.t                                 1.27641
+m2mp                                         3
+xm2m.xrl1.dt                                 0
+m2mn                                       3.2
+xm2m.xrl2.dt                                 0
+m2qn                                         3
+xm2m.e1                                2.11805
+m2qp                                       3.2
+xm2m.e2                                2.11805
+xm2m.t                                 1.32071
+xm2s.xrl1.dt                                 0
+xm2s.xrl2.dt                                 0
+xm2s.e1                                2.12347
+xm2s.e2                                2.11812
+xm2s.t                                 1.32078
+m3mp                                         3
+xm3m.xrl1.dt                                 0
+m3mn                                       3.2
+xm3m.xrl2.dt                                 0
+m3qn                                         3
+xm3m.e1                                2.14353
+m3qp                                       3.2
+xm3m.e2                                2.14353
+xm3m.t                                 1.34885
+xm3s.xrl1.dt                                 0
+xm3s.xrl2.dt                                 0
+xm3s.e1                                2.14906
+xm3s.e2                                2.14359
+xm3s.t                                 1.34892
+vcn#branch                        -1.23215e-07
+vcp#branch                        -1.23215e-07
+vdd#branch                         -0.00153605
+
+ Reference value :  2.30560e-10 Reference value :  1.10056e-09 Reference value :  2.01656e-09 Reference value :  2.94056e-09 Reference value :  3.84656e-09 Reference value :  4.77856e-09 Reference value :  5.68856e-09 Reference value :  6.59056e-09 Reference value :  7.48256e-09 Reference value :  8.37456e-09 Reference value :  9.23256e-09 Reference value :  1.00686e-08 Reference value :  1.09806e-08 Reference value :  1.18506e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+ibh                                    0.88286
+reref                                 0.119407
+xqref.s1                            2.8209e-10
+xqref.t                               0.498518
+ibm1                                  0.784852
+ibm2                                  0.731589
+ibm3                                  0.694004
+ckp                                        2.3
+ckn                                        2.3
+hmp                                          3
+xhm.xrl1.dt                                  0
+hmn                                        3.2
+xhm.xrl2.dt                                  0
+hqn                                          3
+xhm.e1                                 2.43651
+xhm.xqt1.s1                        1.02827e-09
+xhm.xqt1.t                         0.000271645
+hqp                                        3.2
+xhm.xqt2.s1                        9.62236e-10
+xhm.xqt2.t                            0.366561
+xhm.e2                                 2.43651
+xhm.xqh1.s1                        1.02827e-09
+xhm.xqh1.t                         0.000271645
+xhm.xqh2.s1                        9.62236e-10
+xhm.xqh2.t                            0.366561
+xhm.t                                  1.53672
+xhm.xqc1.s1                        7.81213e-10
+xhm.xqc1.t                            0.586005
+xhm.xqc2.s1                        7.81213e-10
+xhm.xqc2.t                            0.586005
+xhm.tc                                 1.29897
+xhm.tet                               0.119712
+xhm.xqt.s1                          6.5355e-10
+xhm.xqt.t                             0.835466
+xhm.xrt.dt                                   0
+xhm.xrtc.dt                                  0
+xhs.xrl1.dt                                  0
+xhs.xrl2.dt                                  0
+xhs.e1                                 2.43666
+xhs.xqt1.s1                         9.6402e-10
+xhs.xqt1.t                         0.000199147
+xhs.xqt2.s1                        1.02649e-09
+xhs.xqt2.t                            0.496347
+xhs.e2                                 2.43651
+xhs.xqh1.s1                        9.62236e-10
+xhs.xqh1.t                             0.36656
+xhs.xqh2.s1                        1.02827e-09
+xhs.xqh2.t                         0.000271645
+xhs.t                                  1.53672
+xhs.xqc1.s1                        7.81263e-10
+xhs.xqc1.t                            0.586109
+xhs.xqc2.s1                        7.81213e-10
+xhs.xqc2.t                            0.586004
+xhs.tc                                 1.29897
+xhs.tet                               0.119712
+xhs.xqt.s1                          6.5355e-10
+xhs.xqt.t                             0.835466
+xhs.xrt.dt                                   0
+xhs.xrtc.dt                                  0
+m1mp                                         3
+xm1m.xrl1.dt                                 0
+m1mn                                       3.2
+xm1m.xrl2.dt                                 0
+m1qn                                         3
+xm1m.e1                                2.07673
+m1qp                                       3.2
+xm1m.e2                                2.07673
+xm1m.t                                 1.27634
+xm1s.xrl1.dt                                 0
+xm1s.xrl2.dt                                 0
+xm1s.e1                                2.08167
+xm1s.e2                                2.07679
+xm1s.t                                 1.27641
+m2mp                                         3
+xm2m.xrl1.dt                                 0
+m2mn                                       3.2
+xm2m.xrl2.dt                                 0
+m2qn                                         3
+xm2m.e1                                2.11805
+m2qp                                       3.2
+xm2m.e2                                2.11805
+xm2m.t                                 1.32071
+xm2s.xrl1.dt                                 0
+xm2s.xrl2.dt                                 0
+xm2s.e1                                2.12347
+xm2s.e2                                2.11812
+xm2s.t                                 1.32078
+m3mp                                         3
+xm3m.xrl1.dt                                 0
+m3mn                                       3.2
+xm3m.xrl2.dt                                 0
+m3qn                                         3
+xm3m.e1                                2.14353
+m3qp                                       3.2
+xm3m.e2                                2.14353
+xm3m.t                                 1.34885
+xm3s.xrl1.dt                                 0
+xm3s.xrl2.dt                                 0
+xm3s.e1                                2.14906
+xm3s.e2                                2.14359
+xm3s.t                                 1.34892
+vcn#branch                        -1.23215e-07
+vcp#branch                        -1.23215e-07
+vdd#branch                         -0.00153605
+
+ Reference value :  5.12560e-10 Reference value :  1.40256e-09 Reference value :  2.15456e-09 Reference value :  2.98056e-09 Reference value :  3.88456e-09 Reference value :  4.81456e-09 Reference value :  5.71456e-09 Reference value :  6.60056e-09 Reference value :  7.47056e-09 Reference value :  8.33656e-09 Reference value :  9.20456e-09 Reference value :  1.00986e-08 Reference value :  1.09626e-08 Reference value :  1.17866e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+ibh                                    0.88286
+reref                                 0.119407
+xqref.s1                            2.8209e-10
+xqref.t                               0.498518
+ibm1                                  0.784852
+ibm2                                  0.731589
+ibm3                                  0.694004
+ckp                                        2.3
+ckn                                        2.3
+hmp                                          3
+xhm.xrl1.dt                                  0
+hmn                                        3.2
+xhm.xrl2.dt                                  0
+hqn                                          3
+xhm.e1                                 2.43651
+xhm.xqt1.s1                        1.02827e-09
+xhm.xqt1.t                         0.000271645
+hqp                                        3.2
+xhm.xqt2.s1                        9.62236e-10
+xhm.xqt2.t                            0.366561
+xhm.e2                                 2.43651
+xhm.xqh1.s1                        1.02827e-09
+xhm.xqh1.t                         0.000271645
+xhm.xqh2.s1                        9.62236e-10
+xhm.xqh2.t                            0.366561
+xhm.t                                  1.53672
+xhm.xqc1.s1                        7.81213e-10
+xhm.xqc1.t                            0.586005
+xhm.xqc2.s1                        7.81213e-10
+xhm.xqc2.t                            0.586005
+xhm.tc                                 1.29897
+xhm.tet                               0.119712
+xhm.xqt.s1                          6.5355e-10
+xhm.xqt.t                             0.835466
+xhm.xrt.dt                                   0
+xhm.xrtc.dt                                  0
+xhs.xrl1.dt                                  0
+xhs.xrl2.dt                                  0
+xhs.e1                                 2.43666
+xhs.xqt1.s1                         9.6402e-10
+xhs.xqt1.t                         0.000199147
+xhs.xqt2.s1                        1.02649e-09
+xhs.xqt2.t                            0.496347
+xhs.e2                                 2.43651
+xhs.xqh1.s1                        9.62236e-10
+xhs.xqh1.t                             0.36656
+xhs.xqh2.s1                        1.02827e-09
+xhs.xqh2.t                         0.000271645
+xhs.t                                  1.53672
+xhs.xqc1.s1                        7.81263e-10
+xhs.xqc1.t                            0.586109
+xhs.xqc2.s1                        7.81213e-10
+xhs.xqc2.t                            0.586004
+xhs.tc                                 1.29897
+xhs.tet                               0.119712
+xhs.xqt.s1                          6.5355e-10
+xhs.xqt.t                             0.835466
+xhs.xrt.dt                                   0
+xhs.xrtc.dt                                  0
+m1mp                                         3
+xm1m.xrl1.dt                                 0
+m1mn                                       3.2
+xm1m.xrl2.dt                                 0
+m1qn                                         3
+xm1m.e1                                2.07673
+m1qp                                       3.2
+xm1m.e2                                2.07673
+xm1m.t                                 1.27634
+xm1s.xrl1.dt                                 0
+xm1s.xrl2.dt                                 0
+xm1s.e1                                2.08167
+xm1s.e2                                2.07679
+xm1s.t                                 1.27641
+m2mp                                         3
+xm2m.xrl1.dt                                 0
+m2mn                                       3.2
+xm2m.xrl2.dt                                 0
+m2qn                                         3
+xm2m.e1                                2.11805
+m2qp                                       3.2
+xm2m.e2                                2.11805
+xm2m.t                                 1.32071
+xm2s.xrl1.dt                                 0
+xm2s.xrl2.dt                                 0
+xm2s.e1                                2.12347
+xm2s.e2                                2.11812
+xm2s.t                                 1.32078
+m3mp                                         3
+xm3m.xrl1.dt                                 0
+m3mn                                       3.2
+xm3m.xrl2.dt                                 0
+m3qn                                         3
+xm3m.e1                                2.14353
+m3qp                                       3.2
+xm3m.e2                                2.14353
+xm3m.t                                 1.34885
+xm3s.xrl1.dt                                 0
+xm3s.xrl2.dt                                 0
+xm3s.e1                                2.14906
+xm3s.e2                                2.14359
+xm3s.t                                 1.34892
+vcn#branch                        -1.23215e-07
+vcp#branch                        -1.23215e-07
+vdd#branch                         -0.00153605
+
+ Reference value :  4.34560e-10 Reference value :  1.29856e-09 Reference value :  2.10256e-09 Reference value :  2.99256e-09 Reference value :  3.85656e-09 Reference value :  4.73056e-09 Reference value :  5.61256e-09 Reference value :  6.44456e-09 Reference value :  7.31256e-09 Reference value :  8.19656e-09 Reference value :  9.11056e-09 Reference value :  9.98656e-09 Reference value :  1.08806e-08 Reference value :  1.17166e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+ibh                                    0.88286
+reref                                 0.119407
+xqref.s1                            2.8209e-10
+xqref.t                               0.498518
+ibm1                                  0.784852
+ibm2                                  0.731589
+ibm3                                  0.694004
+ckp                                        2.3
+ckn                                        2.3
+hmp                                          3
+xhm.xrl1.dt                                  0
+hmn                                        3.2
+xhm.xrl2.dt                                  0
+hqn                                          3
+xhm.e1                                 2.43651
+xhm.xqt1.s1                        1.02827e-09
+xhm.xqt1.t                         0.000271645
+hqp                                        3.2
+xhm.xqt2.s1                        9.62236e-10
+xhm.xqt2.t                            0.366561
+xhm.e2                                 2.43651
+xhm.xqh1.s1                        1.02827e-09
+xhm.xqh1.t                         0.000271645
+xhm.xqh2.s1                        9.62236e-10
+xhm.xqh2.t                            0.366561
+xhm.t                                  1.53672
+xhm.xqc1.s1                        7.81213e-10
+xhm.xqc1.t                            0.586005
+xhm.xqc2.s1                        7.81213e-10
+xhm.xqc2.t                            0.586005
+xhm.tc                                 1.29897
+xhm.tet                               0.119712
+xhm.xqt.s1                          6.5355e-10
+xhm.xqt.t                             0.835466
+xhm.xrt.dt                                   0
+xhm.xrtc.dt                                  0
+xhs.xrl1.dt                                  0
+xhs.xrl2.dt                                  0
+xhs.e1                                 2.43666
+xhs.xqt1.s1                         9.6402e-10
+xhs.xqt1.t                         0.000199147
+xhs.xqt2.s1                        1.02649e-09
+xhs.xqt2.t                            0.496347
+xhs.e2                                 2.43651
+xhs.xqh1.s1                        9.62236e-10
+xhs.xqh1.t                             0.36656
+xhs.xqh2.s1                        1.02827e-09
+xhs.xqh2.t                         0.000271645
+xhs.t                                  1.53672
+xhs.xqc1.s1                        7.81263e-10
+xhs.xqc1.t                            0.586109
+xhs.xqc2.s1                        7.81213e-10
+xhs.xqc2.t                            0.586004
+xhs.tc                                 1.29897
+xhs.tet                               0.119712
+xhs.xqt.s1                          6.5355e-10
+xhs.xqt.t                             0.835466
+xhs.xrt.dt                                   0
+xhs.xrtc.dt                                  0
+m1mp                                         3
+xm1m.xrl1.dt                                 0
+m1mn                                       3.2
+xm1m.xrl2.dt                                 0
+m1qn                                         3
+xm1m.e1                                2.07673
+m1qp                                       3.2
+xm1m.e2                                2.07673
+xm1m.t                                 1.27634
+xm1s.xrl1.dt                                 0
+xm1s.xrl2.dt                                 0
+xm1s.e1                                2.08167
+xm1s.e2                                2.07679
+xm1s.t                                 1.27641
+m2mp                                         3
+xm2m.xrl1.dt                                 0
+m2mn                                       3.2
+xm2m.xrl2.dt                                 0
+m2qn                                         3
+xm2m.e1                                2.11805
+m2qp                                       3.2
+xm2m.e2                                2.11805
+xm2m.t                                 1.32071
+xm2s.xrl1.dt                                 0
+xm2s.xrl2.dt                                 0
+xm2s.e1                                2.12347
+xm2s.e2                                2.11812
+xm2s.t                                 1.32078
+m3mp                                         3
+xm3m.xrl1.dt                                 0
+m3mn                                       3.2
+xm3m.xrl2.dt                                 0
+m3qn                                         3
+xm3m.e1                                2.14353
+m3qp                                       3.2
+xm3m.e2                                2.14353
+xm3m.t                                 1.34885
+xm3s.xrl1.dt                                 0
+xm3s.xrl2.dt                                 0
+xm3s.e1                                2.14906
+xm3s.e2                                2.14359
+xm3s.t                                 1.34892
+vcn#branch                        -1.23215e-07
+vcp#branch                        -1.23215e-07
+vdd#branch                         -0.00153605
+
+ Reference value :  3.62560e-10 Reference value :  1.19256e-09 Reference value :  2.08856e-09 Reference value :  2.97856e-09 Reference value :  3.88456e-09 Reference value :  4.79656e-09 Reference value :  5.67056e-09 Reference value :  6.57656e-09 Reference value :  7.43456e-09 Reference value :  8.33456e-09 Reference value :  9.23656e-09 Reference value :  1.01126e-08 Reference value :  1.09726e-08 Reference value :  1.18486e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+ibh                                    0.88286
+reref                                 0.119407
+xqref.s1                            2.8209e-10
+xqref.t                               0.498518
+ibm1                                  0.784852
+ibm2                                  0.731589
+ibm3                                  0.694004
+ckp                                        2.3
+ckn                                        2.3
+hmp                                          3
+xhm.xrl1.dt                                  0
+hmn                                        3.2
+xhm.xrl2.dt                                  0
+hqn                                          3
+xhm.e1                                 2.43651
+xhm.xqt1.s1                        1.02827e-09
+xhm.xqt1.t                         0.000271645
+hqp                                        3.2
+xhm.xqt2.s1                        9.62236e-10
+xhm.xqt2.t                            0.366561
+xhm.e2                                 2.43651
+xhm.xqh1.s1                        1.02827e-09
+xhm.xqh1.t                         0.000271645
+xhm.xqh2.s1                        9.62236e-10
+xhm.xqh2.t                            0.366561
+xhm.t                                  1.53672
+xhm.xqc1.s1                        7.81213e-10
+xhm.xqc1.t                            0.586005
+xhm.xqc2.s1                        7.81213e-10
+xhm.xqc2.t                            0.586005
+xhm.tc                                 1.29897
+xhm.tet                               0.119712
+xhm.xqt.s1                          6.5355e-10
+xhm.xqt.t                             0.835466
+xhm.xrt.dt                                   0
+xhm.xrtc.dt                                  0
+xhs.xrl1.dt                                  0
+xhs.xrl2.dt                                  0
+xhs.e1                                 2.43666
+xhs.xqt1.s1                         9.6402e-10
+xhs.xqt1.t                         0.000199147
+xhs.xqt2.s1                        1.02649e-09
+xhs.xqt2.t                            0.496347
+xhs.e2                                 2.43651
+xhs.xqh1.s1                        9.62236e-10
+xhs.xqh1.t                             0.36656
+xhs.xqh2.s1                        1.02827e-09
+xhs.xqh2.t                         0.000271645
+xhs.t                                  1.53672
+xhs.xqc1.s1                        7.81263e-10
+xhs.xqc1.t                            0.586109
+xhs.xqc2.s1                        7.81213e-10
+xhs.xqc2.t                            0.586004
+xhs.tc                                 1.29897
+xhs.tet                               0.119712
+xhs.xqt.s1                          6.5355e-10
+xhs.xqt.t                             0.835466
+xhs.xrt.dt                                   0
+xhs.xrtc.dt                                  0
+m1mp                                         3
+xm1m.xrl1.dt                                 0
+m1mn                                       3.2
+xm1m.xrl2.dt                                 0
+m1qn                                         3
+xm1m.e1                                2.07673
+m1qp                                       3.2
+xm1m.e2                                2.07673
+xm1m.t                                 1.27634
+xm1s.xrl1.dt                                 0
+xm1s.xrl2.dt                                 0
+xm1s.e1                                2.08167
+xm1s.e2                                2.07679
+xm1s.t                                 1.27641
+m2mp                                         3
+xm2m.xrl1.dt                                 0
+m2mn                                       3.2
+xm2m.xrl2.dt                                 0
+m2qn                                         3
+xm2m.e1                                2.11805
+m2qp                                       3.2
+xm2m.e2                                2.11805
+xm2m.t                                 1.32071
+xm2s.xrl1.dt                                 0
+xm2s.xrl2.dt                                 0
+xm2s.e1                                2.12347
+xm2s.e2                                2.11812
+xm2s.t                                 1.32078
+m3mp                                         3
+xm3m.xrl1.dt                                 0
+m3mn                                       3.2
+xm3m.xrl2.dt                                 0
+m3qn                                         3
+xm3m.e1                                2.14353
+m3qp                                       3.2
+xm3m.e2                                2.14353
+xm3m.t                                 1.34885
+xm3s.xrl1.dt                                 0
+xm3s.xrl2.dt                                 0
+xm3s.e1                                2.14906
+xm3s.e2                                2.14359
+xm3s.t                                 1.34892
+vcn#branch                        -1.23215e-07
+vcp#branch                        -1.23215e-07
+vdd#branch                         -0.00153605
+
+ Reference value :  4.58560e-10 Reference value :  1.31856e-09 Reference value :  2.16856e-09 Reference value :  3.07656e-09 Reference value :  3.97256e-09 Reference value :  4.83256e-09 Reference value :  5.72456e-09 Reference value :  6.61856e-09 Reference value :  7.50256e-09 Reference value :  8.42656e-09 Reference value :  9.32856e-09 Reference value :  1.02566e-08 Reference value :  1.11266e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+ibh                                    0.88286
+reref                                 0.119407
+xqref.s1                            2.8209e-10
+xqref.t                               0.498518
+ibm1                                  0.784852
+ibm2                                  0.731589
+ibm3                                  0.694004
+ckp                                        2.3
+ckn                                        2.3
+hmp                                          3
+xhm.xrl1.dt                                  0
+hmn                                        3.2
+xhm.xrl2.dt                                  0
+hqn                                          3
+xhm.e1                                 2.43651
+xhm.xqt1.s1                        1.02827e-09
+xhm.xqt1.t                         0.000271645
+hqp                                        3.2
+xhm.xqt2.s1                        9.62236e-10
+xhm.xqt2.t                            0.366561
+xhm.e2                                 2.43651
+xhm.xqh1.s1                        1.02827e-09
+xhm.xqh1.t                         0.000271645
+xhm.xqh2.s1                        9.62236e-10
+xhm.xqh2.t                            0.366561
+xhm.t                                  1.53672
+xhm.xqc1.s1                        7.81213e-10
+xhm.xqc1.t                            0.586005
+xhm.xqc2.s1                        7.81213e-10
+xhm.xqc2.t                            0.586005
+xhm.tc                                 1.29897
+xhm.tet                               0.119712
+xhm.xqt.s1                          6.5355e-10
+xhm.xqt.t                             0.835466
+xhm.xrt.dt                                   0
+xhm.xrtc.dt                                  0
+xhs.xrl1.dt                                  0
+xhs.xrl2.dt                                  0
+xhs.e1                                 2.43666
+xhs.xqt1.s1                         9.6402e-10
+xhs.xqt1.t                         0.000199147
+xhs.xqt2.s1                        1.02649e-09
+xhs.xqt2.t                            0.496347
+xhs.e2                                 2.43651
+xhs.xqh1.s1                        9.62236e-10
+xhs.xqh1.t                             0.36656
+xhs.xqh2.s1                        1.02827e-09
+xhs.xqh2.t                         0.000271645
+xhs.t                                  1.53672
+xhs.xqc1.s1                        7.81263e-10
+xhs.xqc1.t                            0.586109
+xhs.xqc2.s1                        7.81213e-10
+xhs.xqc2.t                            0.586004
+xhs.tc                                 1.29897
+xhs.tet                               0.119712
+xhs.xqt.s1                          6.5355e-10
+xhs.xqt.t                             0.835466
+xhs.xrt.dt                                   0
+xhs.xrtc.dt                                  0
+m1mp                                         3
+xm1m.xrl1.dt                                 0
+m1mn                                       3.2
+xm1m.xrl2.dt                                 0
+m1qn                                         3
+xm1m.e1                                2.07673
+m1qp                                       3.2
+xm1m.e2                                2.07673
+xm1m.t                                 1.27634
+xm1s.xrl1.dt                                 0
+xm1s.xrl2.dt                                 0
+xm1s.e1                                2.08167
+xm1s.e2                                2.07679
+xm1s.t                                 1.27641
+m2mp                                         3
+xm2m.xrl1.dt                                 0
+m2mn                                       3.2
+xm2m.xrl2.dt                                 0
+m2qn                                         3
+xm2m.e1                                2.11805
+m2qp                                       3.2
+xm2m.e2                                2.11805
+xm2m.t                                 1.32071
+xm2s.xrl1.dt                                 0
+xm2s.xrl2.dt                                 0
+xm2s.e1                                2.12347
+xm2s.e2                                2.11812
+xm2s.t                                 1.32078
+m3mp                                         3
+xm3m.xrl1.dt                                 0
+m3mn                                       3.2
+xm3m.xrl2.dt                                 0
+m3qn                                         3
+xm3m.e1                                2.14353
+m3qp                                       3.2
+xm3m.e2                                2.14353
+xm3m.t                                 1.34885
+xm3s.xrl1.dt                                 0
+xm3s.xrl2.dt                                 0
+xm3s.e1                                2.14906
+xm3s.e2                                2.14359
+xm3s.t                                 1.34892
+vcn#branch                        -1.23215e-07
+vcp#branch                        -1.23215e-07
+vdd#branch                         -0.00153605
+
+ Reference value :  0.00000e+00 Reference value :  8.68560e-10 Reference value :  1.63656e-09 Reference value :  2.42256e-09 Reference value :  3.28456e-09 Reference value :  4.20256e-09 Reference value :  5.12056e-09 Reference value :  6.00256e-09 Reference value :  6.89256e-09 Reference value :  7.78056e-09 Reference value :  8.67656e-09 Reference value :  9.56656e-09 Reference value :  1.04666e-08 Reference value :  1.13746e-08Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 6009
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                        3.3
+ibh                                    0.88286
+reref                                 0.119407
+xqref.s1                            2.8209e-10
+xqref.t                               0.498518
+ibm1                                  0.784852
+ibm2                                  0.731589
+ibm3                                  0.694004
+ckp                                        2.3
+ckn                                        2.3
+hmp                                          3
+xhm.xrl1.dt                                  0
+hmn                                        3.2
+xhm.xrl2.dt                                  0
+hqn                                          3
+xhm.e1                                 2.43651
+xhm.xqt1.s1                        1.02827e-09
+xhm.xqt1.t                         0.000271645
+hqp                                        3.2
+xhm.xqt2.s1                        9.62236e-10
+xhm.xqt2.t                            0.366561
+xhm.e2                                 2.43651
+xhm.xqh1.s1                        1.02827e-09
+xhm.xqh1.t                         0.000271645
+xhm.xqh2.s1                        9.62236e-10
+xhm.xqh2.t                            0.366561
+xhm.t                                  1.53672
+xhm.xqc1.s1                        7.81213e-10
+xhm.xqc1.t                            0.586005
+xhm.xqc2.s1                        7.81213e-10
+xhm.xqc2.t                            0.586005
+xhm.tc                                 1.29897
+xhm.tet                               0.119712
+xhm.xqt.s1                          6.5355e-10
+xhm.xqt.t                             0.835466
+xhm.xrt.dt                                   0
+xhm.xrtc.dt                                  0
+xhs.xrl1.dt                                  0
+xhs.xrl2.dt                                  0
+xhs.e1                                 2.43666
+xhs.xqt1.s1                         9.6402e-10
+xhs.xqt1.t                         0.000199147
+xhs.xqt2.s1                        1.02649e-09
+xhs.xqt2.t                            0.496347
+xhs.e2                                 2.43651
+xhs.xqh1.s1                        9.62236e-10
+xhs.xqh1.t                             0.36656
+xhs.xqh2.s1                        1.02827e-09
+xhs.xqh2.t                         0.000271645
+xhs.t                                  1.53672
+xhs.xqc1.s1                        7.81263e-10
+xhs.xqc1.t                            0.586109
+xhs.xqc2.s1                        7.81213e-10
+xhs.xqc2.t                            0.586004
+xhs.tc                                 1.29897
+xhs.tet                               0.119712
+xhs.xqt.s1                          6.5355e-10
+xhs.xqt.t                             0.835466
+xhs.xrt.dt                                   0
+xhs.xrtc.dt                                  0
+m1mp                                         3
+xm1m.xrl1.dt                                 0
+m1mn                                       3.2
+xm1m.xrl2.dt                                 0
+m1qn                                         3
+xm1m.e1                                2.07673
+m1qp                                       3.2
+xm1m.e2                                2.07673
+xm1m.t                                 1.27634
+xm1s.xrl1.dt                                 0
+xm1s.xrl2.dt                                 0
+xm1s.e1                                2.08167
+xm1s.e2                                2.07679
+xm1s.t                                 1.27641
+m2mp                                         3
+xm2m.xrl1.dt                                 0
+m2mn                                       3.2
+xm2m.xrl2.dt                                 0
+m2qn                                         3
+xm2m.e1                                2.11805
+m2qp                                       3.2
+xm2m.e2                                2.11805
+xm2m.t                                 1.32071
+xm2s.xrl1.dt                                 0
+xm2s.xrl2.dt                                 0
+xm2s.e1                                2.12347
+xm2s.e2                                2.11812
+xm2s.t                                 1.32078
+m3mp                                         3
+xm3m.xrl1.dt                                 0
+m3mn                                       3.2
+xm3m.xrl2.dt                                 0
+m3qn                                         3
+xm3m.e1                                2.14353
+m3qp                                       3.2
+xm3m.e2                                2.14353
+xm3m.t                                 1.34885
+xm3s.xrl1.dt                                 0
+xm3s.xrl2.dt                                 0
+xm3s.e1                                2.14906
+xm3s.e2                                2.14359
+xm3s.t                                 1.34892
+vcn#branch                        -1.23215e-07
+vcp#branch                        -1.23215e-07
+vdd#branch                         -0.00153605
+
+ Reference value :  3.45600e-11 Reference value :  9.58560e-10 Reference value :  1.78656e-09 Reference value :  2.65856e-09 Reference value :  3.55056e-09 Reference value :  4.45656e-09 Reference value :  5.37856e-09 Reference value :  6.30456e-09 Reference value :  7.22056e-09 Reference value :  8.07856e-09 Reference value :  8.91856e-09 Reference value :  9.75056e-09 Reference value :  1.05886e-08 Reference value :  1.14846e-08
+No. of Data Rows : 6009
+Note: Simulation executed from .control section 

@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 9,
-  "summary": "T1 item 9 (Testbenches shipped): 34/34 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 9 (Testbenches shipped): 33/33 attestation checks passed (klt signoff --attest)",
   "source": "sim/testbench-inventory.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 34,
-    "passed_count": 34,
+    "check_count": 33,
+    "passed_count": 33,
     "checks": [
       {
         "check": "present",
@@ -45,7 +45,7 @@
         "role": "testbench",
         "path": "scripts/run-benches.sh",
         "passed": true,
-        "content_hash": "sha256:1fd1ecd07c3e797707af672c1b59ab961a39108025c6bbe736a9a59c7a513e04"
+        "content_hash": "sha256:a9b168c5499976f89ad9536eeca44a554f7ef718b9196b302a607b8a00625fbf"
       },
       {
         "check": "present",
@@ -101,7 +101,7 @@
         "role": "testbench",
         "path": "scripts/run-prescaler-g3.sh",
         "passed": true,
-        "content_hash": "sha256:f88b10bb41709a9c705aa07e6f00b15bbcfbc817bc2ea7daf2e2dda9d476c5cf"
+        "content_hash": "sha256:e19ec0bb87277fb03f80f97f58a91522604bdb297e225ce98789fdfe86313add"
       },
       {
         "check": "present",
@@ -218,16 +218,9 @@
       {
         "check": "present",
         "role": "testbench",
-        "path": "sim/prescaler-g3/g3_chain.spice.tmpl",
-        "passed": true,
-        "content_hash": "sha256:872f3c951d8e1cb35fb5d086cbe7093c098dbfc5e3b2d3a1f923eb6964fc08fd"
-      },
-      {
-        "check": "present",
-        "role": "testbench",
         "path": "sim/prescaler-g3/g3_pairs.spice.tmpl",
         "passed": true,
-        "content_hash": "sha256:bdc4d7d598f2d752913ba58df384898f162fdf90f285cbb9790779c2c240682a"
+        "content_hash": "sha256:9a0c0516b4d721ee97c960272272305f4626676a209cb49447e7f3480db179fb"
       },
       {
         "check": "command",
