@@ -1,12 +1,12 @@
 v {xschem version=3.4.8RC file_version=1.3
-sg13g2-lc-pll :: mc_conv -- CMOS (0/3.3 V) modulus control to CML: base resistor, 0.7*VDD reference divider (keeps the off-side Vce under BVCEO), loaded pair
+sg13g2-lc-pll :: mc_conv -- CMOS (0/3.3 V) modulus control to CML: RIN/RB input divider (MC high puts bm at 0.756*VDD, 0.056*VDD above vr, so the tail Vce stays under BVCEO), 0.7*VDD reference divider (keeps the off-side Vce under BVCEO), loaded pair
 }
 G {}
 K {}
 V {}
 S {}
 E {}
-C {sg13g2_pr/rppd.sym} 400 0 0 0 {name=RIN model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=77.7u}
+C {sg13g2_pr/rppd.sym} 400 0 0 0 {name=RIN model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=38.65u}
 C {lab_pin.sym} 400 -30 2 0 {name=l1 lab=MC}
 C {lab_pin.sym} 400 30 2 0 {name=l2 lab=bm}
 C {sg13g2_pr/rppd.sym} 800 0 0 0 {name=RD1 model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=46.4u}
@@ -39,6 +39,9 @@ C {lab_pin.sym} 820 400 2 0 {name=l22 lab=VSS}
 C {sg13g2_pr/rppd.sym} 1200 400 0 0 {name=RT model=rppd body=VSS spiceprefix=X w=2u b=0 m=1 l=9.05u}
 C {lab_pin.sym} 1200 370 2 0 {name=l23 lab=teT}
 C {lab_pin.sym} 1200 430 2 0 {name=l24 lab=VSS}
+C {sg13g2_pr/rppd.sym} 1600 400 0 0 {name=RB model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=120.65u}
+C {lab_pin.sym} 1600 370 2 0 {name=l25 lab=bm}
+C {lab_pin.sym} 1600 430 2 0 {name=l26 lab=VSS}
 C {ipin.sym} -400 0 0 0 {name=p1 lab=MC}
 C {ipin.sym} -400 100 0 0 {name=p2 lab=IB}
 C {opin.sym} 1400 0 0 0 {name=p3 lab=MCP}

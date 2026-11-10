@@ -48,7 +48,7 @@ XS2 S1 S1B IB OUTP OUTN VDD VSS div2_cml_ls
 *.opin MCN
 *.iopin VDD
 *.iopin VSS
-XRIN MC bm VSS rppd w=1u l=77.7u m=1 b=0
+XRIN MC bm VSS rppd w=1u l=38.65u m=1 b=0
 XRD1 VDD vr VSS rppd w=1u l=46.4u m=1 b=0
 XRD2 vr VSS VSS rppd w=1u l=108.8u m=1 b=0
 XRL1 VDD MCP VSS rppd w=1u l=9.05u m=1 b=0
@@ -57,6 +57,7 @@ XQM1 MCN bm t VSS npn13G2v Nx=1 El=1
 XQM2 MCP vr t VSS npn13G2v Nx=1 El=1
 XQT t IB teT VSS npn13G2v Nx=2 El=1
 XRT teT VSS VSS rppd w=2u l=9.05u m=1 b=0
+XRB bm VSS VSS rppd w=1u l=120.65u m=1 b=0
 .ends
 
 

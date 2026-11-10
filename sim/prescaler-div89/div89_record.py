@@ -45,7 +45,7 @@ def _periods(z):
 
 def grade_chain_corner(c):
     p = c["params"]
-    n = 9 if p["mcv"] > 1.0 else 8
+    n = 9 if p["mcv"] > 0.5 else 8
     tin = 1.0 / p["fin"]
     z, hi, lo = _times(c, "x_zero"), _times(c, "x_hi"), _times(c, "x_lo")
     row = {"corner_id": c["corner_id"], "process": c["process"], "temperature_c": c["temperature_c"],

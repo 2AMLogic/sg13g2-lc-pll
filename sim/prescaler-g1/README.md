@@ -66,3 +66,9 @@ with ideal resistors and keep that text. `records/20261110-072244-5ee2b8e-dirty-
 converged, no `unknown subckt`): **FAIL, 9 runs over 2.2 V, all at 3.63 V with MC high, device `x1.x89.xmc.xqt`** (worst 2.850 V);
 at 2.97 V all pass, worst 2.192 V (+0.008 V, FAST/125 C). The `cml_dff_latch` devices (`x89.xc23.xf{1,2}.x{m,s}.xqt`) peak at
 2.070 V (3.63 V, FAST/125 C, MC low), inside 2.2 V. Simulated, not measured.
+
+### mc_conv tail Vce (issue #165)
+
+The FAIL above is closed: `mc_conv` now has an `RIN` 10k / `RB` 31k input divider (MC high puts `bm` at 0.756 VDD), and
+`records/20261109-234716-6fbbf0e-dirty-vce.md` reads PASS (0 of 36 over) on the ideal-resistor circuit; re-run on the merged tree with PDK `rppd` resistors (`RIN` 38.65 um, `RB` 120.65 um): `records/20261110-012200-268f3ea-vce.md`, PASS, 0 of 36 over. /9 now needs MC at or above ~0.94 VDD
+(`sim/prescaler-div89/records/20261109-235500-6fbbf0e-dirty-mc-conv-xqt.md`). Simulated, not measured.

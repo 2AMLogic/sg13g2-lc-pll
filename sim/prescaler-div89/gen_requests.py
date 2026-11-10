@@ -49,7 +49,7 @@ def request(netlist, stop, t_from, params):
 
 
 def build():
-    chain = request("div89_chain.cir", "24n", "6n", cross(vddv=[2.97, 3.3, 3.63], fin=[5.0e9, 5.5e9], mcv=[0, 3.3]))
+    chain = request("div89_chain.cir", "24n", "6n", cross(vddv=[2.97, 3.3, 3.63], fin=[5.0e9, 5.5e9], mcv=[0, 1]))
     # supply current (negative: it flows out of the source) averaged over 8-24 ns; power = -I x vddv, IREF branch included
     chain["measurements"].append({"name": "i_vdd_avg", "spice": ".meas tran i_vdd_avg AVG i(vdd) FROM=8n TO=24n", "unit": "A"})
     out = {"div89_chain.request.json": chain}
