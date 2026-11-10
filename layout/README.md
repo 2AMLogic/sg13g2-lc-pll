@@ -85,3 +85,37 @@ in the netlists (#164, PR #169), so the resistors are drawn with `klt gen res_ar
   the integrated loop (#41). The input group is placed first to keep its geometry compact; that is not a measurement.
 - Cells are placement only: no routing, no tap/guard ties, no DRC/LVS (#36, #37). Areas are bounding boxes.
   The loop-filter cell is 131458 um2 because the schematic's `cap_cmim` units (12 x 70.9 um square) are drawn as specified.
+
+## Integrated top (#35)
+
+```
+.venv/bin/python layout/gen_integrated.py --write      # -> layout/top.gds + layout/provenance.json
+scripts/test-layout-top.sh                             # reproducibility, VCO byte-match, keep-out record, negatives
+```
+
+`gen_integrated.py` runs `gen_top.py` (VCO + keep-out + ring + fill), places the six `gen_cells.py` cells below the VCO,
+routes the inter-block signal nets and writes `layout/top.gds`. `layout/provenance.json` holds the generator chain, input
+hashes (VCO stream, cells provenance, generators), the output sha256 and geometry digest, placements, per-net route
+paths and lengths, collisions and the tank-node estimate. GDS bytes carry writer state, so reproducibility is checked on
+the geometry digest (`--check`), not the file hash. T1 item 2 is cited by `manifests/layout.attest.json`
+(`klt signoff --attest 2 --input layout/top.gds`), which pins the stream sha256.
+
+**Routing (placement-level, not signoff; DRC/LVS/PEX are #36/#37/#41).** Tank nets VOP/VON on TopMetal1 (2 um);
+other nets Metal5 horizontal / Metal4 vertical (1 um) with via stacks at each pin. Every route polygon is checked against
+foreign geometry on its layer. Not routed: VDD, VDDV, VSS, REF, IREFCP, LOCK, divider M0-M3/A0-A2 tie-offs (supplies: #38).
+
+**Results to read before relying on this layout**
+- **Tank-node budget is not met by this floorplan.** Geometric estimate (method in `provenance.json`
+  `tank_node_estimate`: isolated TopMetal1 wire over substrate, magic `extract.tech` area/perimeter caps, no coupling, not
+  extracted): VOP 850 um = 73 fF, VON 612 um = 53 fF, against the 2.1 fF budget (spec §1, I6). Even the direct distance is far
+  above it at 0.086 fF/um, so the budget needs the prescaler input at the tank pins (tens of um), not a route. The floorplan
+  was not optimised; PEX delta is #41. Treat I6 as open; the spec is not edited here.
+- **Keep-out is violated by exactly one net.** `klt keepout-check` (Metal1-5, margin 20) reports 3 violations, all the VCTRL
+  pin-access stack (Metal3/4/5 at the VCO's Metal3-only VCTRL pin, about 57 um inside the bbox). Tank routes are on TopMetal1,
+  outside the forbidden set. VCO change requested: sg13g2-vco#314; tool gap: klayout-tools#5198.
+- **Route collisions:** `provenance.json` `collisions_total` = 13 overlapping polygons with foreign geometry (nets UP, DN to the
+  lock detector and FB at the PFD pin stack). Each is listed per net; none is silently accepted. Cell M4/M5 internals are
+  not net-aware here, so some overlaps may be same-net; LVS (#37) decides.
+- Placeholder fill under routes is removed (5 squares); density sign-off is #36.
+- CI pin: `.github/workflows/signoff.yml` stays at `klayout-tools==0.8.0`, which grades item 2 `met` from the attest envelope.
+  Moving the pin to 0.9.1 grades item 1 `stale_evidence` (3 met -> 1), so the bump is left out.
