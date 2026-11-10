@@ -1,29 +1,35 @@
 {
  "cells": [
   {
-   "area_um2": 10429.9,
+   "area_um2": 27316.5,
    "bbox_um": [
     0.0,
     0.0,
-    105.14,
-    99.2
+    529.39,
+    51.6
    ],
    "cell": "lcpll_prescaler",
    "commands": [
-    "klt gen bjt_array --pdk ihp-sg13g2 --params \"{\\\"add_collector_ring\\\": false, \\\"cols\\\": 11, \\\"dummy\\\": 0, \\\"flavor\\\": \\\"npn13G2v\\\", \\\"rows\\\": 11, \\\"topology\\\": \\\"array\\\"}\" --cell-name lcpll_prescaler_hbt_npn13g2v -o lcpll_prescaler_hbt_npn13g2v.gds --format json",
+    "klt gen bjt_array --pdk ihp-sg13g2 --params \"{\\\"add_collector_ring\\\": false, \\\"cols\\\": 43, \\\"dummy\\\": 0, \\\"flavor\\\": \\\"npn13G2v\\\", \\\"rows\\\": 3, \\\"topology\\\": \\\"array\\\"}\" --cell-name lcpll_prescaler_hbt_npn13g2v -o lcpll_prescaler_hbt_npn13g2v.gds --format json",
+    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 108.8, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l108p8 -o lcpll_prescaler_resrppd_w1_l108p8.gds --format json",
+    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 15.3, \\\"num\\\": 12, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l15p3 -o lcpll_prescaler_resrppd_w1_l15p3.gds --format json",
+    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 46.4, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l46p4 -o lcpll_prescaler_resrppd_w1_l46p4.gds --format json",
+    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 77.7, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l77p7 -o lcpll_prescaler_resrppd_w1_l77p7.gds --format json",
+    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 9.05, \\\"num\\\": 51, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l9p05 -o lcpll_prescaler_resrppd_w1_l9p05.gds --format json",
+    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 9.05, \\\"num\\\": 13, \\\"rows\\\": 1, \\\"width_um\\\": 2.0}\" --cell-name lcpll_prescaler_resrppd_w2_l9p05 -o lcpll_prescaler_resrppd_w2_l9p05.gds --format json",
     "klt gen-compose lcpll_prescaler.compose.json --format json"
    ],
-   "device_units": 121,
+   "device_units": 208,
    "gds": "layout/build/cells/lcpll_prescaler.gds",
    "generator": "python layout/gen_cells.py --blocks lcpll_prescaler",
-   "geometry_sha256": "13be14ee86551f7da711bb6f0ac878b516c77410386b98e60382974c486f1b3e",
+   "geometry_sha256": "2699ec7815eb7e31eba0e01f345e04c0c28cea84c44544cdf58a9418fdfc651f",
    "groups": [
     {
      "bbox_um": [
       0.0,
       0.0,
-      105.14,
-      99.2
+      416.82,
+      25.6
      ],
      "generator": "bjt_array",
      "id": "lcpll_prescaler_hbt_npn13g2v",
@@ -34,26 +40,170 @@
      },
      "params": {
       "add_collector_ring": false,
-      "cols": 11,
+      "cols": 43,
       "dummy": 0,
       "flavor": "npn13G2v",
-      "rows": 11,
+      "rows": 3,
       "topology": "array"
      },
-     "units": 121
+     "units": 129
+    },
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
+      109.64,
+      1.0
+     ],
+     "generator": "res_array",
+     "id": "lcpll_prescaler_resrppd_w1_l108p8",
+     "klass": "rppd",
+     "origin_um": {
+      "x": 0.0,
+      "y": 29.6
+     },
+     "params": {
+      "dummy": 0,
+      "flavor": "rppd",
+      "length_um": 108.8,
+      "num": 1,
+      "rows": 1,
+      "width_um": 1.0
+     },
+     "units": 1
+    },
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
+      199.18,
+      1.0
+     ],
+     "generator": "res_array",
+     "id": "lcpll_prescaler_resrppd_w1_l15p3",
+     "klass": "rppd",
+     "origin_um": {
+      "x": 0.0,
+      "y": 34.6
+     },
+     "params": {
+      "dummy": 0,
+      "flavor": "rppd",
+      "length_um": 15.3,
+      "num": 12,
+      "rows": 1,
+      "width_um": 1.0
+     },
+     "units": 12
+    },
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
+      47.24,
+      1.0
+     ],
+     "generator": "res_array",
+     "id": "lcpll_prescaler_resrppd_w1_l46p4",
+     "klass": "rppd",
+     "origin_um": {
+      "x": 0.0,
+      "y": 39.6
+     },
+     "params": {
+      "dummy": 0,
+      "flavor": "rppd",
+      "length_um": 46.4,
+      "num": 1,
+      "rows": 1,
+      "width_um": 1.0
+     },
+     "units": 1
+    },
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
+      78.54,
+      1.0
+     ],
+     "generator": "res_array",
+     "id": "lcpll_prescaler_resrppd_w1_l77p7",
+     "klass": "rppd",
+     "origin_um": {
+      "x": 51.24,
+      "y": 39.6
+     },
+     "params": {
+      "dummy": 0,
+      "flavor": "rppd",
+      "length_um": 77.7,
+      "num": 1,
+      "rows": 1,
+      "width_um": 1.0
+     },
+     "units": 1
+    },
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
+      529.39,
+      1.0
+     ],
+     "generator": "res_array",
+     "id": "lcpll_prescaler_resrppd_w1_l9p05",
+     "klass": "rppd",
+     "origin_um": {
+      "x": 0.0,
+      "y": 44.6
+     },
+     "params": {
+      "dummy": 0,
+      "flavor": "rppd",
+      "length_um": 9.05,
+      "num": 51,
+      "rows": 1,
+      "width_um": 1.0
+     },
+     "units": 51
+    },
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
+      134.57,
+      2.0
+     ],
+     "generator": "res_array",
+     "id": "lcpll_prescaler_resrppd_w2_l9p05",
+     "klass": "rppd",
+     "origin_um": {
+      "x": 0.0,
+      "y": 49.6
+     },
+     "params": {
+      "dummy": 0,
+      "flavor": "rppd",
+      "length_um": 9.05,
+      "num": 13,
+      "rows": 1,
+      "width_um": 2.0
+     },
+     "units": 13
     }
    ],
    "netlist": "design/netlist/prescaler.spice",
-   "netlist_sha256": "326144e4ad595726f0ec34e1dc7f97c55636eed1d3a808139bccd7062a1bd1bc",
+   "netlist_sha256": "41c32b6c2224936dfdbe7b1eab13efd6c16c0e27d85d360a54c5af94ebbead52",
    "port_labels": {
     "INN": {
      "layer": "8/0",
-     "x_um": 23.35,
+     "x_um": 296.07,
      "y_um": 1.775
     },
     "INP": {
      "layer": "8/0",
-     "x_um": 13.61,
+     "x_um": 286.33,
      "y_um": 1.775
     },
     "IREF": {
@@ -61,20 +211,30 @@
      "x_um": 3.87,
      "y_um": 5.425
     },
+    "MC": {
+     "layer": "8/0",
+     "x_um": 51.45,
+     "y_um": 40.1
+    },
     "OUTN": {
      "layer": "8/0",
-     "x_um": 52.57,
-     "y_um": 29.375
+     "x_um": 179.19,
+     "y_um": 1.775
     },
     "OUTP": {
      "layer": "8/0",
-     "x_um": 42.83,
-     "y_um": 29.375
+     "x_um": 169.45,
+     "y_um": 1.775
     },
     "VDD": {
      "layer": "8/0",
-     "x_um": 13.61,
+     "x_um": 52.57,
      "y_um": 5.425
+    },
+    "VSS": {
+     "layer": "8/0",
+     "x_um": 109.43,
+     "y_um": 30.1
     }
    },
    "ports": [
@@ -87,893 +247,38 @@
     "VDD",
     "VSS"
    ],
-   "ports_unlabelled": [
-    "MC",
-    "VSS"
-   ],
-   "status": "partial",
+   "ports_unlabelled": [],
+   "status": "drawn",
    "subckt": "prescaler",
-   "undrawn_devices": [
-    {
-     "device": "RREF",
-     "model": "ideal_res",
-     "nets": [
-      "reref",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XEF.RF1",
-     "model": "ideal_res",
-     "nets": [
-      "X2.XEF.f1",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XEF.RF2",
-     "model": "ideal_res",
-     "nets": [
-      "X2.XEF.f2",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XEF.RDF1",
-     "model": "ideal_res",
-     "nets": [
-      "X2.XEF.d1",
-      "X2.XEF.qc1"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XEF.RDF2",
-     "model": "ideal_res",
-     "nets": [
-      "X2.XEF.d2",
-      "X2.XEF.qc2"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XM.RL1",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X2.MP"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XM.RL2",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X2.MN"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XM.RT",
-     "model": "ideal_res",
-     "nets": [
-      "X2.XM.teT",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XM.RTC",
-     "model": "ideal_res",
-     "nets": [
-      "X2.XM.t",
-      "X2.XM.tc"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XS.RL1",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "HP"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XS.RL2",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "HN"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XS.RT",
-     "model": "ideal_res",
-     "nets": [
-      "X2.XS.teT",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X2.XS.RTC",
-     "model": "ideal_res",
-     "nets": [
-      "X2.XS.t",
-      "X2.XS.tc"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XMC.RIN",
-     "model": "ideal_res",
-     "nets": [
-      "MC",
-      "X45.XMC.bm"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XMC.RD1",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.XMC.vr"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XMC.RD2",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XMC.vr",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XMC.RL1",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.MCP"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XMC.RL2",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.MCN"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XMC.RT",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XMC.teT",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XMCL.RF1",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XMCL.f1",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XMCL.RF2",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XMCL.f2",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XMCL.RDF1",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XMCL.d1",
-      "X45.XMCL.qc1"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XMCL.RDF2",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XMCL.d2",
-      "X45.XMCL.qc2"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XGM.RL1",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.M"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XGM.RL2",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.MB"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XGM.RT",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XGM.teT",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XGM.RTC",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XGM.t",
-      "X45.XGM.tc"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XCK.RF1",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XCK.f1",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XCK.RF2",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XCK.f2",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XCK.RDF1",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XCK.d1",
-      "X45.XC23.XCK.qc1"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XCK.RDF2",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XCK.d2",
-      "X45.XC23.XCK.qc2"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XQ1L.RF1",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XQ1L.f1",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XQ1L.RF2",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XQ1L.f2",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XQ1L.RDF1",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XQ1L.d1",
-      "X45.XC23.XQ1L.qc1"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XQ1L.RDF2",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XQ1L.d2",
-      "X45.XC23.XQ1L.qc2"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XG1.RL1",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.XC23.D1"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XG1.RL2",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.XC23.D1B"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XG1.RT",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XG1.teT",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XG1.RTC",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XG1.t",
-      "X45.XC23.XG1.tc"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XG2.RL1",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.XC23.D2"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XG2.RL2",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.XC23.D2B"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XG2.RT",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XG2.teT",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XG2.RTC",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XG2.t",
-      "X45.XC23.XG2.tc"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF1.XM.RL1",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.XC23.XF1.M"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF1.XM.RL2",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.XC23.XF1.MB"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF1.XM.RT",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XF1.XM.teT",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF1.XM.RTC",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XF1.XM.t",
-      "X45.XC23.XF1.XM.tc"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF1.XS.RL1",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.C1"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF1.XS.RL2",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.C1B"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF1.XS.RT",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XF1.XS.teT",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF1.XS.RTC",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XF1.XS.t",
-      "X45.XC23.XF1.XS.tc"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF2.XM.RL1",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.XC23.XF2.M"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF2.XM.RL2",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.XC23.XF2.MB"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF2.XM.RT",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XF2.XM.teT",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF2.XM.RTC",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XF2.XM.t",
-      "X45.XC23.XF2.XM.tc"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF2.XS.RL1",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.XC23.Q2"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF2.XS.RL2",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.XC23.Q2B"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF2.XS.RT",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XF2.XS.teT",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XC23.XF2.XS.RTC",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XC23.XF2.XS.t",
-      "X45.XC23.XF2.XS.tc"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XT.XEF.RF1",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XT.XEF.f1",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XT.XEF.RF2",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XT.XEF.f2",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XT.XEF.RDF1",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XT.XEF.d1",
-      "X45.XT.XEF.qc1"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XT.XEF.RDF2",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XT.XEF.d2",
-      "X45.XT.XEF.qc2"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XT.XM.RL1",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.XT.MP"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XT.XM.RL2",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "X45.XT.MN"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XT.XM.RT",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XT.XM.teT",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XT.XM.RTC",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XT.XM.t",
-      "X45.XT.XM.tc"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XT.XS.RL1",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "OUTP"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XT.XS.RL2",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "OUTN"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XT.XS.RT",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XT.XS.teT",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "X45.XT.XS.RTC",
-     "model": "ideal_res",
-     "nets": [
-      "X45.XT.XS.t",
-      "X45.XT.XS.tc"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    }
-   ],
-   "undrawn_only_ports": [
-    "MC",
-    "VSS"
-   ]
+   "undrawn_devices": [],
+   "undrawn_only_ports": []
   },
   {
-   "area_um2": 15046.0,
+   "area_um2": 17279.1,
    "bbox_um": [
     -0.15,
     -0.15,
-    300.77,
-    49.85
+    262.49,
+    65.64
    ],
    "cell": "lcpll_divider",
    "commands": [
     "klt gen cap_array --pdk ihp-sg13g2 --params \"{\\\"num\\\": 2, \\\"plate_h_um\\\": 14.0, \\\"plate_w_um\\\": 14.0}\" --cell-name lcpll_divider_cmim_w14_l14 -o lcpll_divider_cmim_w14_l14.gds --format json",
+    "klt gen cap_array --pdk ihp-sg13g2 --params \"{\\\"num\\\": 1, \\\"plate_h_um\\\": 8.0, \\\"plate_w_um\\\": 8.0}\" --cell-name lcpll_divider_cmim_w8_l8 -o lcpll_divider_cmim_w8_l8.gds --format json",
     "klt gen bjt_array --pdk ihp-sg13g2 --params \"{\\\"add_collector_ring\\\": false, \\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"flavor\\\": \\\"npn13G2v\\\", \\\"rows\\\": 2, \\\"topology\\\": \\\"array\\\"}\" --cell-name lcpll_divider_hbt_npn13g2v -o lcpll_divider_hbt_npn13g2v.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 10.0}\" --cell-name lcpll_divider_nfet_w10_l0p5 -o lcpll_divider_nfet_w10_l0p5.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 173, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_divider_nfet_w2_l0p5 -o lcpll_divider_nfet_w2_l0p5.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 151, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 2, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_divider_nfet_w2_l0p5 -o lcpll_divider_nfet_w2_l0p5.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 10.0}\" --cell-name lcpll_divider_pfet_w10_l0p5 -o lcpll_divider_pfet_w10_l0p5.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 173, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 5.0}\" --cell-name lcpll_divider_pfet_w5_l0p5 -o lcpll_divider_pfet_w5_l0p5.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 151, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 2, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 5.0}\" --cell-name lcpll_divider_pfet_w5_l0p5 -o lcpll_divider_pfet_w5_l0p5.gds --format json",
+    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rhigh\\\", \\\"length_um\\\": 15.35, \\\"num\\\": 4, \\\"rows\\\": 1, \\\"width_um\\\": 0.5}\" --cell-name lcpll_divider_resrhigh_w0p5_l15p35 -o lcpll_divider_resrhigh_w0p5_l15p35.gds --format json",
+    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rhigh\\\", \\\"length_um\\\": 30.8, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 0.5}\" --cell-name lcpll_divider_resrhigh_w0p5_l30p8 -o lcpll_divider_resrhigh_w0p5_l30p8.gds --format json",
+    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 4.4, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 2.0}\" --cell-name lcpll_divider_resrppd_w2_l4p4 -o lcpll_divider_resrppd_w2_l4p4.gds --format json",
     "klt gen-compose lcpll_divider.compose.json --format json"
    ],
-   "device_units": 356,
+   "device_units": 621,
    "gds": "layout/build/cells/lcpll_divider.gds",
    "generator": "python layout/gen_cells.py --blocks lcpll_divider",
-   "geometry_sha256": "63b1b0099924765bbeff4d123463fecf97d6818527e8065803b4b9f10ac3bc73",
+   "geometry_sha256": "0ac50618bcf7998ea694d946bbfa47ef398c97a21da6255962e787700f71dfda",
    "groups": [
     {
      "bbox_um": [
@@ -1000,6 +305,27 @@
      "bbox_um": [
       0.0,
       0.0,
+      9.200000000000001,
+      11.34
+     ],
+     "generator": "cap_array",
+     "id": "lcpll_divider_cmim_w8_l8",
+     "klass": "cap_cmim",
+     "origin_um": {
+      "x": 34.9,
+      "y": 0.0
+     },
+     "params": {
+      "num": 1,
+      "plate_h_um": 8.0,
+      "plate_w_um": 8.0
+     },
+     "units": 1
+    },
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
       17.48,
       16.4
      ],
@@ -1007,7 +333,7 @@
      "id": "lcpll_divider_hbt_npn13g2v",
      "klass": "npn13G2v",
      "origin_um": {
-      "x": 34.9,
+      "x": 48.1,
       "y": 0.0
      },
      "params": {
@@ -1031,7 +357,7 @@
      "id": "lcpll_divider_nfet_w10_l0p5",
      "klass": "nfet",
      "origin_um": {
-      "x": 56.38,
+      "x": 69.58,
       "y": 0.0
      },
      "params": {
@@ -1052,8 +378,8 @@
      "bbox_um": [
       -0.15,
       -0.15,
-      300.77,
-      3.0700000000000003
+      262.49,
+      6.390000000000001
      ],
      "generator": "mos_array",
      "id": "lcpll_divider_nfet_w2_l0p5",
@@ -1063,18 +389,18 @@
       "y": 21.34
      },
      "params": {
-      "cols": 173,
+      "cols": 151,
       "dummy": 0,
       "fingers": 1,
       "flavor": "nfet",
       "gate_contact": true,
       "l_um": 0.5,
-      "rows": 1,
+      "rows": 2,
       "topology": "array",
       "voltage_flavor": "hv",
       "w_um": 2.0
      },
-     "units": 173
+     "units": 302
     },
     {
      "bbox_um": [
@@ -1088,7 +414,7 @@
      "klass": "pfet",
      "origin_um": {
       "x": 0.0,
-      "y": 28.56
+      "y": 31.88
      },
      "params": {
       "cols": 2,
@@ -1108,48 +434,125 @@
      "bbox_um": [
       -0.15,
       -0.15,
-      300.77,
-      6.07
+      262.49,
+      12.39
      ],
      "generator": "mos_array",
      "id": "lcpll_divider_pfet_w5_l0p5",
      "klass": "pfet",
      "origin_um": {
       "x": 0.0,
-      "y": 43.78
+      "y": 47.1
      },
      "params": {
-      "cols": 173,
+      "cols": 151,
       "dummy": 0,
       "fingers": 1,
       "flavor": "pfet",
       "gate_contact": true,
       "l_um": 0.5,
-      "rows": 1,
+      "rows": 2,
       "topology": "array",
       "voltage_flavor": "hv",
       "w_um": 5.0
      },
-     "units": 173
+     "units": 302
+    },
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
+      66.26,
+      0.5
+     ],
+     "generator": "res_array",
+     "id": "lcpll_divider_resrhigh_w0p5_l15p35",
+     "klass": "rhigh",
+     "origin_um": {
+      "x": 0.0,
+      "y": 63.64
+     },
+     "params": {
+      "dummy": 0,
+      "flavor": "rhigh",
+      "length_um": 15.35,
+      "num": 4,
+      "rows": 1,
+      "width_um": 0.5
+     },
+     "units": 4
+    },
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
+      31.64,
+      0.5
+     ],
+     "generator": "res_array",
+     "id": "lcpll_divider_resrhigh_w0p5_l30p8",
+     "klass": "rhigh",
+     "origin_um": {
+      "x": 70.26,
+      "y": 63.64
+     },
+     "params": {
+      "dummy": 0,
+      "flavor": "rhigh",
+      "length_um": 30.8,
+      "num": 1,
+      "rows": 1,
+      "width_um": 0.5
+     },
+     "units": 1
+    },
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
+      5.24,
+      2.0
+     ],
+     "generator": "res_array",
+     "id": "lcpll_divider_resrppd_w2_l4p4",
+     "klass": "rppd",
+     "origin_um": {
+      "x": 105.9,
+      "y": 63.64
+     },
+     "params": {
+      "dummy": 0,
+      "flavor": "rppd",
+      "length_um": 4.4,
+      "num": 1,
+      "rows": 1,
+      "width_um": 2.0
+     },
+     "units": 1
     }
    ],
    "netlist": "design/netlist/divider.spice",
-   "netlist_sha256": "12248f7ef355b425b41586c0cb4fc9692bcc36f6aef19c318b628aaa8d5cbd32",
+   "netlist_sha256": "fc5f5ba65871e31323e843b79d4c0a8d694159d227a62b3d5ba44b44daa97e21",
    "port_labels": {
     "A0": {
      "layer": "8/0",
-     "x_um": 265.15,
-     "y_um": 24.05
+     "x_um": 150.31,
+     "y_um": 27.37
     },
     "A1": {
      "layer": "8/0",
-     "x_um": 275.59,
-     "y_um": 24.05
+     "x_um": 152.05,
+     "y_um": 27.37
+    },
+    "A2": {
+     "layer": "8/0",
+     "x_um": 153.79,
+     "y_um": 27.37
     },
     "FB": {
      "layer": "8/0",
-     "x_um": 300.41,
-     "y_um": 22.34
+     "x_um": 255.17,
+     "y_um": 25.66
     },
     "INN": {
      "layer": "126/0",
@@ -1163,38 +566,38 @@
     },
     "IREF": {
      "layer": "8/0",
-     "x_um": 38.77,
+     "x_um": 51.97,
      "y_um": 1.775
     },
     "M0": {
      "layer": "8/0",
-     "x_um": 148.57,
+     "x_um": 205.99,
      "y_um": 24.05
     },
     "M1": {
      "layer": "8/0",
-     "x_um": 159.01,
+     "x_um": 209.47,
      "y_um": 24.05
     },
     "M2": {
      "layer": "8/0",
-     "x_um": 169.45,
+     "x_um": 214.69,
      "y_um": 24.05
     },
     "M3": {
      "layer": "8/0",
-     "x_um": 179.89,
-     "y_um": 24.05
+     "x_um": 12.85,
+     "y_um": 27.37
     },
     "MC": {
      "layer": "8/0",
-     "x_um": 229.07,
-     "y_um": 22.34
+     "x_um": 147.29,
+     "y_um": 25.66
     },
     "VDD": {
      "layer": "8/0",
      "x_um": 0.21,
-     "y_um": 33.56
+     "y_um": 36.88
     },
     "VSS": {
      "layer": "8/0",
@@ -1212,76 +615,16 @@
     "M3",
     "A0",
     "A1",
+    "A2",
     "MC",
     "FB",
     "VDD",
     "VSS"
    ],
    "ports_unlabelled": [],
-   "status": "partial",
+   "status": "drawn",
    "subckt": "divider",
-   "undrawn_devices": [
-    {
-     "device": "XCV.RT",
-     "model": "ideal_res",
-     "nets": [
-      "XCV.te",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "XCV.RB1",
-     "model": "ideal_res",
-     "nets": [
-      "XCV.vb",
-      "XCV.gp"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "XCV.RB2",
-     "model": "ideal_res",
-     "nets": [
-      "XCV.vb",
-      "XCV.gn"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "XCV.RV1",
-     "model": "ideal_res",
-     "nets": [
-      "VDD",
-      "XCV.vb"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    },
-    {
-     "device": "XCV.RV2",
-     "model": "ideal_res",
-     "nets": [
-      "XCV.vb",
-      "VSS"
-     ],
-     "params": {
-      "m": "1"
-     },
-     "reason": "ideal SPICE resistor (value in ohms, no W/L or model): sizing a physical rppd/rhigh is a schematic decision, out of scope for layout generation"
-    }
-   ],
+   "undrawn_devices": [],
    "undrawn_only_ports": []
   },
   {
@@ -1914,7 +1257,7 @@
     }
    ],
    "netlist": "design/netlist/pll_top.spice",
-   "netlist_sha256": "6283370b49b9f1e617619f61171070c0f0562cd27a9f8f4d77b2cd56013cf8e0",
+   "netlist_sha256": "5a3a3ba77d74569d6a01bc8221ab3d713fd26a18b4a377a1852ead1b746adf91",
    "port_labels": {
     "DN": {
      "layer": "8/0",
@@ -2173,7 +1516,7 @@
     }
    ],
    "netlist": "design/netlist/pll_top.spice",
-   "netlist_sha256": "6283370b49b9f1e617619f61171070c0f0562cd27a9f8f4d77b2cd56013cf8e0",
+   "netlist_sha256": "5a3a3ba77d74569d6a01bc8221ab3d713fd26a18b4a377a1852ead1b746adf91",
    "port_labels": {
     "DN": {
      "layer": "8/0",
@@ -2216,7 +1559,7 @@
   }
  ],
  "command": ".venv/bin/python layout/gen_cells.py --write",
- "klt": "klt 0.8.1.dev1273+gf94eaa6c00f2",
+ "klt": "klt 0.9.2.dev420+gf186e14125ed",
  "pdk": "ihp-sg13g2",
  "schema": 1
 }

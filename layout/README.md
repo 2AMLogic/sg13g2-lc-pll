@@ -70,16 +70,18 @@ its `.subckt`; `scripts/test-layout-cells.sh` compares label set to port list in
 negative controls. It is not in `scripts/ci-harness.sh` (needs `klayout`, a PDK and klt).
 
 **Tool pin.** The HBT (`bjt_array`, klayout-tools#4850 -> #4855) and sub-0.42 um MOS (`dogbone_terminals`,
-#4851 -> #4854) fixes are merged upstream but newer than the host's installed klt. Generate with
-`KLT_CMD="uvx --from git+https://github.com/2AMLogic/klayout-tools@f94eaa6c00f267e3b58031e6ddaeab0507d2cd9d klt"`
-(a throwaway env; the provenance records the klt version). Without it the HBT groups are refused and the
-generator fails. `npn13G2v Nx=<n>` is drawn as n unit PDK HBT cells (an approximation of the multi-emitter device).
+#4851 -> #4854) fixes are in the installed klt used for the committed provenance (`klt 0.9.2.dev420+gf186e14125ed`;
+the provenance records the klt version). An older klt refuses the HBT groups and the generator fails; use
+`uvx --from git+https://github.com/2AMLogic/klayout-tools@f94eaa6c00f267e3b58031e6ddaeab0507d2cd9d klt` via `KLT_CMD`
+(a throwaway env). `npn13G2v Nx=<n>` is drawn as n unit PDK HBT cells (an approximation of the multi-emitter device).
 
-**Not met (recorded per device in the provenance as `undrawn_devices`):**
-- Ideal `R` cards (prescaler 71 after `m=` expansion, divider 5) carry only ohms; choosing a physical rppd/rhigh
-  W/L is a schematic decision and out of scope, so they are not drawn. Prescaler ports `MC` and `VSS` reach only
-  those resistors (and the HBT substrate pin) and are unlabelled; `scripts/test-layout-cells.sh` reports KNOWN-GAP.
-- The prescaler's 121 HBT units are drawn (11 x 11 array of PDK cells, input group first), but its INP/INN
-  tank-load capacitance is NOT extracted: the 2.1 fF budget is unverified until PEX on the integrated loop.
+**Devices drawn (2026-11-10).** Every device of the six blocks is drawn (0 `undrawn_devices`) and every `.subckt`
+port is labelled (`scripts/test-layout-cells.sh`: no KNOWN-GAP). The ideal `R` cards were replaced by `rppd`/`rhigh`
+in the netlists (#164, PR #169), so the resistors are drawn with `klt gen res_array` at the netlist W/L
+(prescaler 208 units, divider 621, in total with HBTs, MOS and caps).
+
+**Not met:**
+- The prescaler's INP/INN tank-load capacitance is NOT extracted: the 2.1 fF budget is unverified until PEX on
+  the integrated loop (#41). The input group is placed first to keep its geometry compact; that is not a measurement.
 - Cells are placement only: no routing, no tap/guard ties, no DRC/LVS (#36, #37). Areas are bounding boxes.
   The loop-filter cell is 131458 um2 because the schematic's `cap_cmim` units (12 x 70.9 um square) are drawn as specified.
