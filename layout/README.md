@@ -119,3 +119,33 @@ foreign geometry on its layer. Not routed: VDD, VDDV, VSS, REF, IREFCP, LOCK, di
 - Placeholder fill under routes is removed (5 squares); density sign-off is #36.
 - CI pin: `.github/workflows/signoff.yml` stays at `klayout-tools==0.8.0`, which grades item 2 `met` from the attest envelope.
   Moving the pin to 0.9.1 grades item 1 `stale_evidence` (3 met -> 1), so the bump is left out.
+
+## DRC of the integrated top (#36, T1 item 3) — NOT clean
+
+```
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 3 = violations
+klt drc --check layout/drc/top.drc.json                                   # re-hash: match
+```
+
+Run 2026-11-10, `klt 0.9.2.dev422+g1560fe3aac8d`, klayout 0.30.13 (the build was tested on 0.30.12; klt warns that counts may differ), curated deck `sg13g2`
+content hash `sha256:1c95db40596afc5412e216009bcf0b775d1d74895b32738447eccbc76336dd15`, input `layout/top.gds`
+(`sha256:b04df5f5…`, the geometry attested for item 2). Result: **`status: violations`, 747 violations, 12 rules**. Item 3 stays `unmet`
+(`check_failed`, `drc__error__count` 747). No waiver was added and no stream was edited.
+
+Where they sit (`source_path` of each violation):
+
+| Source | Count | Rules |
+|---|---|---|
+| prescaler `hbt_npn13g2v` (+ divider HBT 2) | 527 | activ/cont/gatpoly/metal1 space and enclosure, nwell.enclosing.pactiv.hv |
+| divider pfet/nfet/top, cp nfet, prescaler resistors | ~150 | gatpoly/metal1 width and space, activ.space, cont.space, nwell.enclosing.pactiv.hv |
+| **VCO** `BANKP`/`BANKN` varactor banks | 64 | `nwell.enclosing.pactiv.1` (32 + 32) |
+
+The 64 VCO findings are in the stream placed unmodified from `sg13g2-vco@17e49a8` and are not waived or edited here; they are reported as sg13g2-vco#315.
+Whether the loop-cell findings are real or the curated deck's unconditional approximation of device-internal carve-outs (the HBT and
+varactor PCells are foundry-drawn) is not established by this run; `--engine both` against the PDK-native deck was not run.
+
+**Coverage (verbatim from the report):** `coverage.rules_skipped` = `[]`. `coverage.deck_scope` = `['Act','Cnt','Gat','M1','M2','M3','M4','M5','MIM','NW','TM1','TM2','TV1','TV2','V1','V2','V3','V4','pSD']`.
+`coverage.layers_in_stream_without_rules` is **non-empty** (41 layers: 1/23, 5/23, 8/2, 8/22, 8/23, 8/25, 10/2, 10/22, 10/23, 10/25, 26/0, 27/0, 27/2, 27/25, 28/0, 30/22, 30/23, 30/25, 32/0, 40/0, 44/0, 46/21, 50/22, 50/23, 51/0, 52/0, 63/0, 67/22, 67/23, 67/25, 111/0, 126/2, 126/23, 126/25, 128/0, 129/0, 134/23, 134/25, 148/0, 156/0, 160/0), so even a clean result would be clean for covered layers only.
+
+**G8 keep-out** (`klt keepout-check`, margin 20 um, `--cells vco`, forbidden Activ/GatPoly/Cont/pSD/Metal1-5 and their fill): `status: violated`, 3 violations, all the VCTRL
+pin-access stack already recorded under "Integrated top (#35)" (tracked at sg13g2-vco#314). Not clean.
