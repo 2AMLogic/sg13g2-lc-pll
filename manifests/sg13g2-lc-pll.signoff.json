@@ -33,7 +33,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:6be0076a6fbc68505afc7f165777acf138b962a7f7fca7efaefbdb42d6e8fbfb",
+        "content_hash": "sha256:8dce5715f756a22dd87612cf7dcaf101e10b72eb7cfc0549555cf9ec7dd2a1ba",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -42,7 +42,7 @@
             "path": "manifests/design-sources.inventory.json",
             "scope": "repo"
           },
-          "content_hash": "sha256:6be0076a6fbc68505afc7f165777acf138b962a7f7fca7efaefbdb42d6e8fbfb",
+          "content_hash": "sha256:8dce5715f756a22dd87612cf7dcaf101e10b72eb7cfc0549555cf9ec7dd2a1ba",
           "input_verified": true,
           "summary": "T1 item 1 (Design sources): 65/65 attestation checks passed (klt signoff --attest)",
           "source": "manifests/design-sources.inventory.json",
