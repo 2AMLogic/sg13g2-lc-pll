@@ -23,7 +23,6 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 die() { echo "run-prescaler-g1: error: $*" >&2; exit 1; }
-PDK_SKIP_PSP103=1
 source "${ROOT}/scripts/lib-pdk.sh"
 source "${ROOT}/scripts/lib-record.sh"
 
@@ -38,7 +37,7 @@ WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 FIN=5.0e9; AMP=0.1; CBUDGET_FF=2.1; FBAND_TOP=5.5e9
 FLIST="${G1_FLIST:-6e9 8e9 10e9 12e9 14e9 16e9 18e9 20e9 22e9 24e9 26e9}"
 TRAN_STOP=20n; TOG_STOP=12n; TOG_T0=4e-9
-sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@PRESC_NETLIST@@|${PRESC_NETLIST}|g" -e "s|@@OUT_DIR@@|${WORK}|g" \
+sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_R3@@|${OSDI_R3}|g" -e "s|@@PRESC_NETLIST@@|${PRESC_NETLIST}|g" -e "s|@@OUT_DIR@@|${WORK}|g" \
     -e "s|@@FIN@@|${FIN}|g" -e "s|@@AMP@@|${AMP}|g" -e "s|@@FLIST@@|${FLIST}|g" \
     -e "s|@@TRAN_STOP@@|${TRAN_STOP}|g" -e "s|@@TOG_STOP@@|${TOG_STOP}|g" \
     "${ROOT}/sim/prescaler-g1/prescaler_g1.spice.tmpl" > "${WORK}/prescaler_g1.spice"
@@ -80,7 +79,7 @@ read -r NX_OUT F_OUT PP_OUT < <(awk -v t0=8e-9 'NR>1 && $1>=t0 { v=$8; if (v>mx|
   if (n && pv<0 && v>=0) { c++; if(!f) f=$1; l=$1 } n=1; pv=v }
   END { printf "%d %.4e %.3f\n", c, (c>1)?(c-1)/(l-f):0, mx-mn }' "${WORK}/tran5g")
 
-# Toggle sweep: /2 output = v(x1.hp)-v(x1.hn). Pass: rising crossings after TOG_T0 match f/2 within
+# Toggle sweep: first-stage (cml_div23, divides by 2 at MC = 0) output = v(x1.x89.c1)-v(x1.x89.c1b). Pass: rising crossings after TOG_T0 match f/2 within
 # 2 % AND peak-to-peak >= 0.2 V (so a latched DC state or a collapsed swing cannot pass).
 TOGROWS=""; LASTPASS=""; FIRSTFAIL=""
 for f in ${FLIST}; do
@@ -124,12 +123,12 @@ NLSHA="$(sha256sum "${PRESC_NETLIST}" | cut -d' ' -f1)"
   echo "- **Simulator**: \`${NG_VER}\` (\`${NGSPICE}\`), one local \`ngspice -b\`, exit status ${NG_RC}; scratch \`.spiceinit\` = \`set ngbehavior=hsa\`"
   echo "- **Pin check**: ${NG_PIN_STATUS}"
   echo "- **Commit**: \`${COMMIT}${DIRTY}\` of this repository"
-  echo "- **Stimulus**: differential sine on INP/INN, amplitude ${AMP} V per side in antiphase (= 0.4 Vpp differential, the VCO row 7 swing), common mode 3.3 V (the tank inductors return to VDD), zero source impedance; supply 3.3 V; ideal reference current IREF = 50 uA into the prescaler (every tail is k x IREF); MC = 0 (/4 mode) for these runs; ideal resistors (no PDK resistor model, no resistor parasitics)."
+  echo "- **Stimulus**: differential sine on INP/INN, amplitude ${AMP} V per side in antiphase (= 0.4 Vpp differential, the VCO row 7 swing), common mode 3.3 V (the tank inductors return to VDD), zero source impedance; supply 3.3 V; ideal reference current IREF = 50 uA into the prescaler (every tail is k x IREF); MC = 0 (/8 mode: the first stage divides by 2) for these runs; PDK rppd resistors (r3_cmc OSDI, cornerRES res_typ), no routing parasitics."
   echo "- **Capacitance and conductance, method 1 (headline)**: \`ac\` at 5.0 GHz around the DC operating point. 1 V differential drive (+0.5 V / -0.5 V); Y = -i(VIP) / v_diff; C_diff = Im(Y)/(2 pi f) (the capacitance that, connected across the two input nodes, draws the same current), G_diff = Re(Y). The operating point is the unclocked symmetric state of the dividers."
   echo "- **Method 2 (cross-check, large signal)**: transient with the 5.0 GHz stimulus, fundamental (Fourier integral, trapezoid) of the current into INP and of v(INP)-v(INN) over 10-20 ns (50 whole periods, after the dividers settle); Y = I1 / V1. Differential amplitude seen: ${VPP_IN} V pk-pk. C = ${C_TR_FF} fF, G = ${G_TR} S."
   echo "- **Equivalent parallel resistance** (1 / G_diff, method 1): ${RIN_TXT}."
   echo "- **Compared with the budget**: ${C_AC_FF} fF vs ${CBUDGET_FF} fF: **${CVERD}**. The load on the tank is also a conductance: for scale, the tank's own loss at 5.0 GHz is 1 / 3.418 kohm = 293 uS (spec section 1, I6)."
-  echo "- **Max toggle frequency, method**: one transient per input frequency (${FLIST// / , } Hz), same 0.4 Vpp swing, ${TOG_STOP} each; the /2 output is v(x1.hp)-v(x1.hn); rising zero crossings counted after $(awk -v t="${TOG_T0}" 'BEGIN{printf "%.0f ns", t*1e9}'); a frequency passes when the output frequency is within 2 % of f/2 **and** its peak-to-peak is at least 0.2 V (a latched DC state or collapsed swing cannot pass). The limit is bracketed by the sweep grid, not interpolated."
+  echo "- **Max toggle frequency, method**: one transient per input frequency (${FLIST// / , } Hz), same 0.4 Vpp swing, ${TOG_STOP} each; the first-stage (cml_div23) output is v(x1.x89.c1)-v(x1.x89.c1b), which divides by 2 at MC = 0; rising zero crossings counted after $(awk -v t="${TOG_T0}" 'BEGIN{printf "%.0f ns", t*1e9}'); a frequency passes when the output frequency is within 2 % of f/2 **and** its peak-to-peak is at least 0.2 V (a latched DC state or collapsed swing cannot pass). The limit is bracketed by the sweep grid, not interpolated."
   echo "- **Max toggle frequency**: ${FMAX_TXT}. Required: >= ${REQ_BAND} GHz (VCO row 1 band top); verdict **${TVERD}** (nominal corner only)."
   echo "- **Whole-prescaler check at 5.0 GHz, MC = 0**: output ${F_OUT} Hz (expected 6.25e8 = f/8), ${NX_OUT} rising crossings after 8 ns, ${PP_OUT} V pk-pk differential."
   echo "- **Supply current at the DC operating point** (all of prescaler plus the 50 uA reference): ${IDD_MA} mA = $(awk -v i="${IDD_MA}" 'BEGIN{printf "%.1f", i*3.3}') mW at 3.3 V (spec row 11 allocates <= 10 mW to the prescaler)."

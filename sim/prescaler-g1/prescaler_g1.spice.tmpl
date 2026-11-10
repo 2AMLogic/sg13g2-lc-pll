@@ -6,8 +6,9 @@
 *   (3) Toggle sweep: ONE transient per input frequency, same swing, count of /2 output crossings.
 * The input is driven like the VCO tank nodes: common mode 3.3 V (the inductors return the tank to VDD),
 * zero source impedance. Placeholders (@@...@@) are filled by scripts/run-prescaler-g1.sh; nothing else is
-* substituted. Ideal resistors and ideal reference current (IREF = 50 uA): see the record.
+* substituted. PDK rppd resistors (r3_cmc OSDI, res_typ) and ideal reference current (IREF = 50 uA): see the record.
 .lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
+.lib @@MODELS_DIR@@/cornerRES.lib res_typ
 .option temp=27
 .include @@PRESC_NETLIST@@
 
@@ -18,10 +19,11 @@ X1 inp inn mc iref outp outn vdd 0 prescaler
 * differential 2*@@AMP@@ V amplitude = 0.4 Vpp when AMP = 0.1; AC 1 V differential (0.5 V each side)
 VIP inp 0 dc 3.3 ac 0.5 sin(3.3 @@AMP@@ @@FIN@@)
 VIN inn 0 dc 3.3 ac -0.5 sin(3.3 -@@AMP@@ @@FIN@@)
-.ic v(x1.hp)=3.2 v(x1.hn)=3.0 v(x1.x2.mp)=3.0 v(x1.x2.mn)=3.2
-.save v(x1.hp) v(x1.hn) v(outp) v(outn) v(inp) v(inn) i(vip) i(vdd)
+* no .ic: the unclocked symmetric state converges without one (stale hp/hn/x2 nodes removed)
+.save v(x1.x89.c1) v(x1.x89.c1b) v(outp) v(outn) v(inp) v(inn) i(vip) i(vdd)
 
 .control
+pre_osdi @@OSDI_R3@@
 op
 let idd = -i(vdd)
 echo "OP_IDD $&idd"
@@ -31,12 +33,12 @@ let cdiff = imag(yin)/(2*pi*@@FIN@@)
 let gdiff = real(yin)
 echo "AC_RESULT $&cdiff $&gdiff"
 tran 1p @@TRAN_STOP@@ 0 2p
-wrdata @@OUT_DIR@@/tran5g -i(vip) v(inp)-v(inn) v(x1.hp)-v(x1.hn) v(outp)-v(outn)
+wrdata @@OUT_DIR@@/tran5g -i(vip) v(inp)-v(inn) v(x1.x89.c1)-v(x1.x89.c1b) v(outp)-v(outn)
 foreach f @@FLIST@@
   alter vip sin = [ 3.3 @@AMP@@ $f ]
   alter vin sin = [ 3.3 -@@AMP@@ $f ]
   tran 1p @@TOG_STOP@@ 0 2p
-  wrdata @@OUT_DIR@@/tog_$f v(x1.hp)-v(x1.hn)
+  wrdata @@OUT_DIR@@/tog_$f v(x1.x89.c1)-v(x1.x89.c1b)
 end
 .endc
 .end

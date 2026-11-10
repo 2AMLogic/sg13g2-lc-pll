@@ -94,7 +94,7 @@
         "role": "testbench",
         "path": "scripts/run-prescaler-g1.sh",
         "passed": true,
-        "content_hash": "sha256:c1b65584862537e0a3575dc57cc75ec31ef47126b286f3da0580a6199275e966"
+        "content_hash": "sha256:2fc0007b9c346fa4477c5603587d20518b9a82fbe73b18df0772c1209285bfb2"
       },
       {
         "check": "present",
@@ -136,7 +136,7 @@
         "role": "testbench",
         "path": "scripts/test-prescaler-g1-negative.sh",
         "passed": true,
-        "content_hash": "sha256:09d9f5116220961b3fe892c4901715e386b5495a0b0a15e162d7eebcc4848bf6"
+        "content_hash": "sha256:c33255f8f75c737a22513f8e59f423662a26b18f23a92b7ac1c334bd0e584815"
       },
       {
         "check": "present",
@@ -213,7 +213,7 @@
         "role": "testbench",
         "path": "sim/prescaler-g1/prescaler_g1.spice.tmpl",
         "passed": true,
-        "content_hash": "sha256:8e28d5abd78cfbd4077d4b76438298bcbbacf0331d8a60013d7419c4f4bd7b4b"
+        "content_hash": "sha256:9465b278a413439d552d02dce87e43d8bda79bebb3e270266bbfe4f2da496743"
       },
       {
         "check": "present",
