@@ -6,8 +6,9 @@
 
 Process SLOW / TYP / FAST = (hbt_wcs, mos_ss, cap_wcs) / (hbt_typ, mos_tt, cap_typ) / (hbt_bcs, mos_ff, cap_bcs),
 -40 / 27 / 125 C, 3.3 V. corners.params arrays are zipped by index, one entry per case.
- speed: 150 ns at the prescaler output rates, N = 100 at 625 and 687.5 MHz, A = 0 (N = 96) and A = 7 (N = 103) at 687.5 MHz.
- count: 640 ns at 100 MHz, N = 100 (A = 4) and N = 90 (M = 11, A = 2).
+ Bench start (issue #166): VDD, IREF and the input common mode ramp from 0 over tr = 3 ns (divider_corner.cir); the stop times carry 10 ns more.
+ speed: 160 ns at the prescaler output rates, N = 100 at 625 and 687.5 MHz, A = 0 (N = 96) and A = 7 (N = 103) at 687.5 MHz.
+ count: 650 ns at 100 MHz, N = 100 (A = 4) and N = 90 (M = 11, A = 2).
 timeout_s: the default 120 s per-corner timeout killed the first batch run (a 150 ns real-chain run takes minutes). Not sharded:
 units run in parallel on one fleet host; klt only warns that the serial bound exceeds the ceiling.
 Measurements are crossing times of ck, fb and mc at 1.65 V; divider_corner_record.py turns them into N.
@@ -58,7 +59,7 @@ def request(stop, cases, timeout_s):
 
 
 def build():
-    return {"divider_corner_speed.request.json": request("150n", SPEED, 600), "divider_corner_count.request.json": request("640n", COUNT, 900)}
+    return {"divider_corner_speed.request.json": request("160n", SPEED, 600), "divider_corner_count.request.json": request("650n", COUNT, 900)}
 
 
 if __name__ == "__main__":
