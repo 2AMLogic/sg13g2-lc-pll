@@ -53,7 +53,7 @@ CHAN_STEP = 20.0
 PRESC_TOP_Y = -185.0
 PLACE = {
     "lcpll_prescaler": ("M0", (281.0, PRESC_TOP_Y)),
-    "lcpll_divider": ("R0", (300.0, PRESC_TOP_Y - 66.0)),
+    "lcpll_divider": ("R0", (445.0, -310.0)),
     "lcpll_loopfilter": ("R0", (-440.0, -430.0)),
     "lcpll_pfd": ("R0", (-440.0, -230.0)),
     "lcpll_cp": ("R0", (-380.0, -230.0)),

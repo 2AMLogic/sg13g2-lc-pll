@@ -12,11 +12,11 @@
  "inputs": {
   "cells_provenance": {
    "path": "layout/cells.provenance.json",
-   "sha256": "24b4f1b29cc3b8abc5a892ebed386072bafd73d077224297452d5da1491a49d5"
+   "sha256": "6c0da5e11ecacb53fca9e1b484fb607f98a854071cf7751d3daa025846eb0780"
   },
   "gen_integrated": {
    "path": "layout/gen_integrated.py",
-   "sha256": "dbf815d424411c0b71b39d6948dffb89999d6058d11842a20ca518972d0b66b8"
+   "sha256": "cae5aa9f9c9c09145c167dde3db68a1701d239239a1b6c5235e4f76d1c3547b1"
   },
   "gen_top": {
    "path": "layout/gen_top.py",
@@ -29,7 +29,7 @@
   }
  },
  "item": "T1 item 2 (Layout)",
- "klayout_module": "0.30.12",
+ "klayout_module": "0.30.13",
  "not_routed": {
   "IREFCP": "external pin (charge-pump bias current)",
   "LOCK": "external pin (lock detector)",
@@ -40,9 +40,9 @@
   "divider M0-M3, A0-A2": "tie-offs to VDD/VSS in pll_top; with supplies"
  },
  "output": {
-  "geometry_sha256": "3ab4f817f4ea6594887a4021f9790952d7eb3dd6adb29560c9e6394c651fbcab",
+  "geometry_sha256": "79b725d92e9d6f04236e8a57d7163a25fc7e09995d7e004b397dadff859f2781",
   "path": "layout/top.gds",
-  "sha256": "b05b0bcbc24837333fcc5df4d60cf260776132807d582ad5ec741d9beff13e8f",
+  "sha256": "4a7f8645858863deaa5ba5368afde320a4f5571786c3f7f156486292cf9c44bf",
   "top_cell": "lc_pll_top"
  },
  "placement_um": {
@@ -55,8 +55,8 @@
   },
   "lcpll_divider": {
    "origin": [
-    300.0,
-    -251.0
+    445.0,
+    -310.0
    ],
    "transform": "R0"
   },
@@ -171,14 +171,14 @@
     }
    ],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 995.87,
+   "length_um": 1199.87,
    "pins": [
     {
      "cell": "lcpll_divider",
      "layer": 8,
      "port": "FB",
-     "x_um": 555.17,
-     "y_um": -225.34
+     "x_um": 700.17,
+     "y_um": -284.34
     },
     {
      "cell": "lcpll_pfd",
@@ -191,18 +191,18 @@
    "segments": [
     {
      "from": "lcpll_divider.FB",
-     "length_um": 995.87,
+     "length_um": 1199.87,
      "path_um": [
       [
-       555.17,
-       -225.34
+       700.17,
+       -284.34
       ],
       [
-       -439.3299999999999,
-       -225.34
+       -439.33,
+       -284.34
       ],
       [
-       -439.3299999999999,
+       -439.33,
        -223.97
       ]
      ],
@@ -213,7 +213,7 @@
   "IREFPS": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 125.9,
+   "length_um": 329.9,
    "pins": [
     {
      "cell": "lcpll_prescaler",
@@ -226,26 +226,26 @@
      "cell": "lcpll_divider",
      "layer": 8,
      "port": "IREF",
-     "x_um": 351.97,
-     "y_um": -249.225
+     "x_um": 496.97,
+     "y_um": -308.225
     }
    ],
    "segments": [
     {
      "from": "lcpll_prescaler.IREF",
-     "length_um": 125.9,
+     "length_um": 329.9,
      "path_um": [
       [
        284.87,
        -190.425
       ],
       [
-       351.97,
+       496.97,
        -190.425
       ],
       [
-       351.97,
-       -249.225
+       496.97,
+       -308.225
       ]
      ],
      "to": "lcpll_divider.IREF"
@@ -255,14 +255,14 @@
   "MC": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 154.6,
+   "length_um": 319.08,
    "pins": [
     {
      "cell": "lcpll_divider",
      "layer": 8,
      "port": "MC",
-     "x_um": 447.29,
-     "y_um": -225.34
+     "x_um": 592.29,
+     "y_um": -284.34
     },
     {
      "cell": "lcpll_prescaler",
@@ -275,19 +275,15 @@
    "segments": [
     {
      "from": "lcpll_divider.MC",
-     "length_um": 154.6,
+     "length_um": 319.08,
      "path_um": [
       [
-       447.29,
-       -225.34
+       592.29,
+       -284.34
       ],
       [
-       447.29,
-       -205.34000000000003
-      ],
-      [
-       332.45,
-       -205.34000000000003
+       592.29,
+       -225.1
       ],
       [
        332.45,
@@ -301,7 +297,7 @@
   "PSN": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 184.595,
+   "length_um": 114.815,
    "pins": [
     {
      "cell": "lcpll_prescaler",
@@ -314,26 +310,26 @@
      "cell": "lcpll_divider",
      "layer": 126,
      "port": "INN",
-     "x_um": 323.3,
-     "y_um": -234.48
+     "x_um": 468.3,
+     "y_um": -293.48
     }
    ],
    "segments": [
     {
      "from": "lcpll_prescaler.OUTN",
-     "length_um": 184.595,
+     "length_um": 114.815,
      "path_um": [
       [
        460.19,
        -186.775
       ],
       [
-       323.3,
+       468.3,
        -186.775
       ],
       [
-       323.3,
-       -234.48
+       468.3,
+       -293.48
       ]
      ],
      "to": "lcpll_divider.INN"
@@ -343,7 +339,7 @@
   "PSP": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 190.555,
+   "length_um": 108.855,
    "pins": [
     {
      "cell": "lcpll_prescaler",
@@ -356,30 +352,26 @@
      "cell": "lcpll_divider",
      "layer": 126,
      "port": "INP",
-     "x_um": 307.6,
-     "y_um": -234.48
+     "x_um": 452.6,
+     "y_um": -293.48
     }
    ],
    "segments": [
     {
      "from": "lcpll_prescaler.OUTP",
-     "length_um": 190.555,
+     "length_um": 108.855,
      "path_um": [
       [
        450.45,
        -186.775
       ],
       [
-       450.45,
-       -214.48000000000002
+       452.6,
+       -186.775
       ],
       [
-       307.6,
-       -214.48000000000002
-      ],
-      [
-       307.6,
-       -234.48
+       452.6,
+       -293.48
       ]
      ],
      "to": "lcpll_divider.INP"
