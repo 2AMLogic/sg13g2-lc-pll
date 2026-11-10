@@ -131,7 +131,13 @@ def main():
         pts.update([(x, ys0), (x, ys1)])
     for y in range(ys0, ys1 + 1, step):
         pts.update([(xs0, y), (xs1, y)])
+    kept = []
     for x, y in sorted(pts):
+        # The straight runs meet at the corners off-pitch; drop a contact closer than one pitch (Chebyshev) to a kept
+        # one, so the Cont-to-Cont space stays >= pitch - size = 0.18 um (native Cnt.b).
+        if any(max(abs(x - kx), abs(y - ky)) < step for kx, ky in kept):
+            continue
+        kept.append((x, y))
         top.shapes(li["Cont"]).insert(db.Box(x - half, y - half, x + half, y + half))
         n += 1
 

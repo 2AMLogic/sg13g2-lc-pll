@@ -16,11 +16,11 @@
   },
   "gen_integrated": {
    "path": "layout/gen_integrated.py",
-   "sha256": "cae5aa9f9c9c09145c167dde3db68a1701d239239a1b6c5235e4f76d1c3547b1"
+   "sha256": "50f0a5b013035eef586d7c45a2d0a144e53dc2adc8c529b99b187ab49a62f43a"
   },
   "gen_top": {
    "path": "layout/gen_top.py",
-   "sha256": "8fde7b389740ba8b2dc2baa2606041e7d8d2e081b464b06ecde20912a1d30941"
+   "sha256": "1cca9a8d483cdea51db36a7817260fb6315dad8d3bf0fa1b18a5da31029ecf68"
   },
   "vco_gds": {
    "path": ".fetched/sg13g2-vco/layout/vco.gds",
@@ -40,9 +40,9 @@
   "divider M0-M3, A0-A2": "tie-offs to VDD/VSS in pll_top; with supplies"
  },
  "output": {
-  "geometry_sha256": "79b725d92e9d6f04236e8a57d7163a25fc7e09995d7e004b397dadff859f2781",
+  "geometry_sha256": "a1086be4360340cc3f87c4674cec32c7c17fc8575f1bd1d0b40e27b4be65b6e0",
   "path": "layout/top.gds",
-  "sha256": "4a7f8645858863deaa5ba5368afde320a4f5571786c3f7f156486292cf9c44bf",
+  "sha256": "5e184029cf32d4d54c44ed4cdb8f6b24c69633b7c437ce6ea8c7a4b0047bcd76",
   "top_cell": "lc_pll_top"
  },
  "placement_um": {

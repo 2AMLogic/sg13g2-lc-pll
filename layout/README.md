@@ -210,11 +210,37 @@ Rules that went to zero natively: Cnt.g1, Cnt.g2, Cnt.c, Cnt.d, Cnt.e, Act.b, Ga
   `ihp-sg13g2`. `guard_ring` and `mos_array add_guard_ring` draw an n-well tie with no pSD and off-grid Cont; tried on the nfet groups
   (chunks of <= 96 units), it raised the native count to 559 (176 new `cont_drw_Offgrid`, LU.b not reduced) and was reverted. Tap net would
   be VSS (the nfets' bulk net). Tool gap: 2AMLogic/klayout-tools#5231. Hand-drawn taps were not added.
-- **M1.b 22 / Cnt.b 4:** 11 M1.b + 4 Cnt.b are top-level (routing/pin-access, #35). The rest are 5 nm Metal1 gaps between adjacent `bjt_array`
-  HBT units (prescaler 8, divider 2) and one in a cp nfet cell (`lcpll_cp_nfet_w6_l0p3`). Drawing each HBT as its own array removes the HBT gaps
-  but doubles the prescaler footprint (23027.5 -> 44805.5 um2), moves the tank routes and brings back overlap, so it was not adopted. Tool gap:
-  2AMLogic/klayout-tools#5232.
+- **M1.b 22 / Cnt.b 4:** attributed and fixed in the next section (the "5 nm `bjt_array` abutment" attribution recorded here was wrong).
 - G8 keep-out is unchanged (3 VCTRL violations, sg13g2-vco#314); `layout/top.gds` has not been through LVS (#37) or PEX (#41).
+
+### M1.b / Cnt.b attribution and fix (#202, 2026-11-10)
+
+**Measured, not assumed.** The 22 `M1.b` hits split by reported cell: 10 in `lc_pll_top` (5 nm x 205 nm), 10 in the prescaler/divider HBT
+cells (same 5 nm marker, cell-local frame; the same gaps seen through the hierarchy), 1 + 1 at 160 nm x 864 nm (top and `lcpll_cp_nfet_w6_l0p3__core`).
+A flat Metal1 `Region.space_check(180)` on the merged stream gives 11 gaps with everything and **0 with the top-level shapes removed**
+(`klayout.db`, instances only), so the gaps are not `bjt_array` unit abutment (the tool pitch is 2.0 um, consistent with the closed
+klayout-tools#5232): they are created by the generated top level.
+
+- **M1.b (22 -> 0), `layout/gen_integrated.py`.** The 0.7 um Metal1 via-stack pad at a pin overlaps the pin's own polygon but leaves a 5 nm
+  slit to another piece of the same HBT Metal1 polygon (10 sites: prescaler 8, divider 2), and in one place (cp nfet) sits 160 nm from a different
+  terminal's strip. The generator now trims each pad to keep 0.18 um from Metal1 polygons it does not touch, then closes notches per merged polygon
+  (a closing of 2 x 91 nm applied only to polygons that hold a pad, so it never bridges two polygons). No route, via or placement moved.
+- **Cnt.b (4 -> 0), `layout/gen_top.py`.** The guard-ring Cont row is laid out as four straight runs at 0.34 um pitch; at the corners the runs meet
+  off-pitch and leave Cont-to-Cont gaps of 30 nm and less. A contact closer than one pitch to an already-kept one is now dropped.
+
+Re-run (`klt 0.9.2.dev514+g65867de9adc8`, klayout 0.30.13, input `sha256:5e184029…`, native deck `ihp-sg13g2.drc` `sha256:0620b737…`,
+curated deck `sha256:85a9012a…`; same commands as above, plus `klt drc --check layout/drc/top.drc.json` = match):
+
+| Engine | 1798 baseline | 348 (#202 first pass) | **now** | Per rule now |
+|---|---|---|---|---|
+| native | 1798 | 348 | **322** | LU.b 322 |
+| curated | 783 | 79 | **64** | nwell.enclosing.pactiv.1 64 (VCO `SVaricap`, sg13g2-vco#315, not waived) |
+
+The curated `metal1.space.1` / `cont.space.1` hits (11 / 4) are gone for the same reasons. The curated deck hash differs from the 348 run because the
+installed klt moved, so the two columns are not byte-for-byte the same deck. Placements, routes (VOP 850.105 / VON 611.845 um, collisions 13) and the
+tank-load geometric estimate are unchanged, and the VCO stream is untouched. **Item 3 of #36 stays `unmet`:** `LU.b` 322 (no P-substrate tap drawable via
+`klt gen`; waits on 2AMLogic/klayout-tools#5231, tap net VSS `0`, not hand-drawn) and the 64 VCO curated hits remain. Pins re-stamped: `manifests/layout.attest.json`,
+`layout/drc/top.drc.json`, `manifests/sg13g2-lc-pll.json`, signoff record (`klayout-tools==0.8.0`).
 
 ## Regeneration after the `cml_dff_latch` resize (#187)
 

@@ -70,7 +70,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:4a7f8645858863deaa5ba5368afde320a4f5571786c3f7f156486292cf9c44bf",
+        "content_hash": "sha256:5e184029cf32d4d54c44ed4cdb8f6b24c69633b7c437ce6ea8c7a4b0047bcd76",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -79,7 +79,7 @@
             "path": "layout/top.gds",
             "scope": "repo"
           },
-          "content_hash": "sha256:4a7f8645858863deaa5ba5368afde320a4f5571786c3f7f156486292cf9c44bf",
+          "content_hash": "sha256:5e184029cf32d4d54c44ed4cdb8f6b24c69633b7c437ce6ea8c7a4b0047bcd76",
           "input_verified": true,
           "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
           "source": "layout/top.gds",
@@ -107,7 +107,7 @@
         "critical_metric_blockers": [
           {
             "metric": "drc__error__count",
-            "value": 79,
+            "value": 64,
             "higher_is_better": false
           }
         ]
