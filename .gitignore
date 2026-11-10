@@ -12,7 +12,7 @@ sim/build/
 # generated klt sim requests (issue #106): rebuild with the generators named in sim/corner-verification/README.md
 sim/corner-verification/loop-power/request-stage1-missing*.json
 sim/corner-verification/loop-power/request-stage2-97-s-*.json
-sim/corner-verification/vco-prescaler-load/request-*-stage*.json
+sim/corner-verification/vco-prescaler-load/request-*.json
 # synthesis / P&R scratch
 flow/build/
 # local klt install, created by the setup script

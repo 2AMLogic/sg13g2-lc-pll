@@ -10,6 +10,7 @@ Reads the sha256-verified fetched VCO deck (.fetched/sg13g2-vco/design/vco.spice
   request-{loaded,unloaded}-stage{1,2}.json
 Stage 1 = 5 MOS x 3 MIM x 3 HBT x 3 T at 3.300 V (loaded: Vctrl 1.65 V only; unloaded: not requested, the nominal
           unloaded point is in sim/vco-prescaler-load).
+Stage 0 = nominal point only (TYP, 27 C, 3.3 V, Vctrl in {0, 1.65, 3.3} V), loaded and unloaded.
 Stage 2 = SLOW/TYP/FAST x 3 T x {2.970, 3.630} V, Vctrl in {0, 1.65, 3.3} V, loaded and unloaded.
 """
 import json
@@ -68,12 +69,16 @@ def body(loaded):
     return "\n".join(out) + "\n"
 
 
-def sections(mos, mim, hbt):
-    return [
+def sections(mos, mim, hbt, loaded=False):
+    s = [
         {"lib": LIB + "cornerMOShv.lib", "section": "mos_" + mos},
         {"lib": LIB + "cornerCAP.lib", "section": "cap_" + mim},
         {"lib": LIB + "cornerHBT.lib", "section": "hbt_" + hbt},
     ]
+    if loaded:
+        # the prescaler (22f2579) has rppd / rhigh instances: resistor corner follows the MIM corner name (typ/bcs/wcs)
+        s.append({"lib": LIB + "cornerRES.lib", "section": "res_" + mim})
+    return s
 
 
 def req(tag, stage, shard=None, temps=(-40, 27, 125)):
@@ -93,9 +98,16 @@ def req(tag, stage, shard=None, temps=(-40, 27, 125)):
         {"name": "tst", "unit": "s", "spec_row": "6", "on_unreached": "null",
          "spice": ".meas tran tst when v(vd)=0.2 rise=1"},
     ]
-    if stage == 1:
+    if stage == 0:
+        # nominal: mos_tt / cap_typ / hbt_typ, 27 C, 3.3 V, Vctrl = 0, 1.65, 3.3 V (the AC 1 loaded-vs-unloaded comparison)
         d["corners"] = {
-            "process": [{"name": "mos_%s/cap_%s/hbt_%s" % (m, c, h), "sections": sections(m, c, h)}
+            "process": [{"name": "TYP", "sections": sections("tt", "typ", "typ", loaded)}],
+            "temperature_c": [27],
+            "params": {"vddv": [3.3] * 3, "vctrl": [0, 1.65, 3.3]},
+        }
+    elif stage == 1:
+        d["corners"] = {
+            "process": [{"name": "mos_%s/cap_%s/hbt_%s" % (m, c, h), "sections": sections(m, c, h, loaded)}
                         for m in MOS for c in MIM for h in HBT if shard in (None, m)],
             "temperature_c": list(temps),
             "params": {"vddv": [3.3], "vctrl": [1.65]},
@@ -103,14 +115,14 @@ def req(tag, stage, shard=None, temps=(-40, 27, 125)):
     else:
         d["corners"] = {
             "process": [p for p in (
-                {"name": "SLOW", "sections": sections("ss", "wcs", "wcs")},
-                {"name": "TYP", "sections": sections("tt", "typ", "typ")},
-                {"name": "FAST", "sections": sections("ff", "bcs", "bcs")},
+                {"name": "SLOW", "sections": sections("ss", "wcs", "wcs", loaded)},
+                {"name": "TYP", "sections": sections("tt", "typ", "typ", loaded)},
+                {"name": "FAST", "sections": sections("ff", "bcs", "bcs", loaded)},
             ) if shard in (None, p["name"])],
             "temperature_c": list(temps),
             "params": {"vddv": [2.97] * 3 + [3.63] * 3, "vctrl": [0, 1.65, 3.3] * 2},  # zipped, so the 6 (vddv, vctrl) pairs
         }
-    pre = [OSDI + "mosvar.osdi"] + ([OSDI + "psp103.osdi"] if loaded else [])
+    pre = [OSDI + "mosvar.osdi"] + ([OSDI + "psp103.osdi", OSDI + "r3_cmc.osdi"] if loaded else [])
     d["options"] = {"timeout_s": 900, "keep_artifacts": True, "osdi_preload": pre}
     return d
 
@@ -134,6 +146,13 @@ def main():
             f.write("\n")
 
 
+def nominal():
+    for tag in ("loaded", "unloaded"):
+        with open(os.path.join(HERE, "request-%s-nominal.json" % tag), "w") as f:
+            json.dump(req(tag, 0), f, indent=1)
+            f.write("\n")
+
+
 def extra():
     # 125 C only, stage 2: the whole-stage jobs returned -40 C and 27 C and lost the 125 C units at the fleet ceiling.
     for tag in ("loaded", "unloaded"):
@@ -144,3 +163,4 @@ def extra():
 
 main()
 extra()
+nominal()

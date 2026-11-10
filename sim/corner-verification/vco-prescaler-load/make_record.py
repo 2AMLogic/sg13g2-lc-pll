@@ -29,6 +29,10 @@ def rows(path):
     return r, out
 
 
+import hashlib
+PSHA = hashlib.sha256(open(os.path.join(HERE, '..', '..', '..', 'design', 'netlist', 'prescaler.spice'), 'rb').read()).hexdigest()
+
+
 def main():
     rid = sys.argv[1]
     data = collections.defaultdict(list)  # label -> rows
@@ -76,9 +80,9 @@ def main():
                   "- Vpp change: %.0f to %.0f mV (positive means the loaded VCO swings more)." % (min(s[1] for s in sh) * 1e3, max(s[1] for s in sh) * 1e3), ""]
     L += ["Per-corner values: `%s-corners.csv`. The `tst` startup number is a proxy; the row 6 ratio g_m / tank loss >= 3.0 is **not** extracted." % rid, ""]
     e = next(iter(env.values()), {})
-    L += ["- **Simulator**: %s on the fleet (`engine_version`), pin is 47 (`sim/pins.json`): mismatch. OSDI `mosvar.osdi` and `psp103.osdi` resolved on the runner under `$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/` (`options.osdi_preload`, runner-resolved; the PDK's prebuilt mosvar.osdi is byte-identical to the pinned compile, sha256 `25e64a37...fb41`)." % e.get("engine_version"),
+    L += ["- **Simulator**: %s on the fleet (`engine_version`), pin is 47 (`sim/pins.json`): mismatch. OSDI `mosvar.osdi` (both cases) and `psp103.osdi` + `r3_cmc.osdi` (loaded case, for the prescaler's rppd/rhigh; cornerRES.lib `res_<mim corner>` added to the loaded process sections) resolved on the runner under `$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/` (`options.osdi_preload`, runner-resolved; the PDK's prebuilt mosvar.osdi is byte-identical to the pinned compile, sha256 `25e64a37...fb41`)." % e.get("engine_version"),
           "- **Method**: per corner one `tran 1p 20n 0 2p` from the deck's 10 mV `.ic` kick; fosc = 30 / time between zero rising crossings 40 and 70 of v(OUTP)-v(OUTN); Vpp over 10-20 ns. Same decks as `sim/vco-prescaler-load` except that the supply and Vctrl are `.param` axes and the probe BD is added (see `vco_*.spice`).",
-          "- **Load presented**: the prescaler input as in `sim/vco-prescaler-load` (`design/netlist/prescaler.spice`, instance X1 on OUTP/OUTN, ideal 50 uA IREF); G1 device-level figure 1.373 fF differential. Routing capacitance not included.",
+          "- **Load presented**: the prescaler input as in `sim/vco-prescaler-load` (`design/netlist/prescaler.spice`, instance X1 on OUTP/OUTN, ideal 50 uA IREF, sha256 `%s`); G1 device-level figure from `sim/prescaler-div89/records/20261106-222812-0ffb789-cin.md`: 1.837 fF (5.0 GHz) / 1.950 fF (5.5 GHz) differential. Routing capacitance not included." % PSHA,
           "- **Provenance**: requests and bodies in this directory; commit `%s`." % os.environ.get("REC_SHA", "see git"), ""]
     with open(os.path.join(HERE, "records", rid + ".md"), "w") as f:
         f.write("\n".join(L))
