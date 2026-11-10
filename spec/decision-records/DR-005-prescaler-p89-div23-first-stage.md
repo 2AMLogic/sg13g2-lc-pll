@@ -170,3 +170,11 @@ Appended after both hand-run ratification keys at `b31d51ee` asked for changes (
 
 Still not done, in addition to the list above: the 16 ungraded divider corner runs (9 non-convergence, 7 no-toggle, see above), the
 Vce stress at 3.63 V in /9 mode (FAIL above).
+
+- **Appended note (issue #197): counter corner evidence at 125 C (simulated, not measured).** The 7 hot no-toggle divider units of the
+  ramped-start corner record (SLOW/125C 625 MHz and 687.5 MHz A = 4, 0, 7 as listed there, TYP/125C 687.5 MHz A = 4, 0, 7) are traced in
+  `sim/divider-elab/records/20261110-3f59e40-hot-stall-trace.md` on two of them (SLOW/125C 625 MHz A = 4, TYP/125C 687.5 MHz A = 4). In both,
+  `cml2cmos`, `ckl` and the counter flops toggle at full swing; the M counter's terminal-count decode `DT` pulses once, after the sampling
+  edge of the `TC` flop and gone before the next, so `TC` and `FB` never rise again. This is a setup-timing failure of the divider as
+  sized, not a bench artefact. **The stage-2 corner statement for the counters is not extended**: 7 of 54 units still do not divide,
+  the 625 / 687.5 MHz targets are unchanged, and the fix is a design change tracked in a follow-up issue. The ratified text above is not edited.
