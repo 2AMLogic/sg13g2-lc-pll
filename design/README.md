@@ -79,8 +79,8 @@ by a script and are plain xschem; edit them in xschem and regenerate the netlist
 Derived from nothing in `sg13g2-pll` (spec section 7: no sibling block runs at the VCO frequency).
 Resistors are PDK `rppd` / `rhigh` instances (issue #164; no ideal `R` card remains in `prescaler`, `mos_latch`,
 `divider`, `pll_top`). `sim/prescaler-g1/` and `sim/prescaler-g3/` records predate this change (ideal `R`, nominal only;
-the g1 bench probes nodes the /8-/9 prescaler no longer has and was not re-run; the g3 chain deck drives the old /4/5 second
-stage, and no local PDK is installed on the build host, so it was not re-run either); the /8-/9 corner grid with PDK resistors is
+the g1 bench probes nodes the /8-/9 prescaler no longer has and was not re-run; the g3 chain deck drove the old /4/5 second
+stage and is retired (DR-006); the g3 pairs bench was re-run with the PDK resistors, see `sim/prescaler-g3/records/`); the /8-/9 corner grid with PDK resistors is
 `sim/prescaler-div89/records/*-pdk-resistors.md`. With the resistor corner models loaded (`cornerRES.lib`, `r3_cmc.osdi`) the
 divider corners are `sim/divider-elab/records/20261110-pdk-resistors-2022314-corners.md` (0 wrong N, 11 of 54 not graded: 125 C
 no toggle, a few non-converged; INCOMPLETE as before, 16 not graded then) and the loop-power stage 2 is
@@ -113,8 +113,8 @@ tied to the HBT corner (SLOW = `hbt_wcs` + `res_wcs`).
 **Result of the swap (simulated):** `/8` and `/9` hold at 5.0 GHz at all 54 chain corners, and at 5.5 GHz at every corner
 except SLOW / 125 C (all three supplies), where the 5.5 GHz `/8` and `/9` fail (output period about 10 input periods;
 0/16 async phases pass at 2.97 and 3.63 V). The same grid passed with ideal resistors. This is a failing 5.5 GHz corner,
-not relaxed here. Not re-run: the divider corner records, the VCO-load (G2) and loop-power records, and the g1/g3
-benches; see the PR for the list.
+not relaxed here. Not re-run: the divider corner records, the VCO-load (G2) and loop-power records, and the g1
+bench; see the PR for the list.
 
 **Architecture (issue #158, `spec/decision-records/DR-005-prescaler-p89-div23-first-stage.md`)**: `div89_dm`
 puts the `cml_div23` /2/3 cell on the VCO (its input pair is the same `cml_ef` follower pair as the old /2, one
