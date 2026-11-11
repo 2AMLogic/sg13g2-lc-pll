@@ -14,7 +14,6 @@
     "sim/prescaler-g1/prescaler_g1.spice.tmpl",
     "scripts/test-prescaler-g1-negative.sh",
     "scripts/run-prescaler-g3.sh",
-    "sim/prescaler-g3/g3_chain.spice.tmpl",
     "sim/prescaler-g3/g3_pairs.spice.tmpl",
     "scripts/run-divider-elab.sh",
     "sim/divider-elab/divider_elab.spice.tmpl",
