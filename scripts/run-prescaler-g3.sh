@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# Prescaler /4/5-stage evidence (spec row 4, gate G3): two local ngspice runs in sequence, nominal corner only.
-#   chain : the whole prescaler in both modulus states (MC = 0 -> /8 total, MC = 3.3 V -> /10 total), swept over
-#           the VCO-side input frequency, so the /4/5 stage sees half of it.
-#   pairs : the HBT latch pair of the /4/5 stage against the same CML topology on 3.3 V thick-oxide NMOS
+# Prescaler whole-chain and latch-pair evidence (spec row 4, gate G3; ratified P = 8/9, DR-005): two local ngspice runs in sequence, nominal corner only.
+#   chain : the whole prescaler in both modulus states (MC = 0 -> /8 total, MC = 3.3 V -> /9 total; the /9 state
+#           needs MC at or above about 0.94 VDD, DR-005, and the deck drives 3.3 V), swept over the VCO-side input
+#           frequency. The first stage (div89_dm: cml_div23, /2 or /3) sees the full input, then a fixed /4.
+#   pairs : the HBT latch pair of a CML /2 stage (clocked at 2.5-2.75 GHz) against the same CML topology on 3.3 V thick-oxide NMOS
 #           (sg13_hv_nmos, three widths), same clock, same tail current, same load resistors.
 # Writes a dated append-only record under sim/prescaler-g3/records/. Not a corner grid (`klt sim` does those).
 #
@@ -72,9 +73,9 @@ analyse() { awk -v col="$2" -v t0="$3" -v fe="$4" '$1>=t0 { v=$col; if (v>mx||!h
 CHAINROWS=""; LIM0=""; LIM1=""; FF0=""; FF1=""
 for f in ${CHAIN_FLIST}; do
   read -r fo0 c0 pp0 ok0 < <(analyse "${WORK}/mc0_${f}" 2 "${CHAIN_T0}" "$(awk -v f="$f" 'BEGIN{print f/8}')")
-  read -r fo1 c1 pp1 ok1 < <(analyse "${WORK}/mc1_${f}" 2 "${CHAIN_T0}" "$(awk -v f="$f" 'BEGIN{print f/10}')")
+  read -r fo1 c1 pp1 ok1 < <(analyse "${WORK}/mc1_${f}" 2 "${CHAIN_T0}" "$(awk -v f="$f" 'BEGIN{print f/9}')")
   CHAINROWS+="$(awk -v f="$f" -v a="$fo0" -v pa="$pp0" -v oa="$ok0" -v b="$fo1" -v pb="$pp1" -v ob="$ok1" \
-    'BEGIN{printf "| %.2f | %.3f | %.1f | %.2f | %.3f | %s | %.1f | %.2f | %.3f | %s |\n", f/1e9, f/2e9, a/1e6, (a>0)?f/a:0, pa, oa, b/1e6, (b>0)?f/b:0, pb, ob}')"$'\n'
+    'BEGIN{printf "| %.2f | %.1f | %.2f | %.3f | %s | %.1f | %.2f | %.3f | %s |\n", f/1e9, a/1e6, (a>0)?f/a:0, pa, oa, b/1e6, (b>0)?f/b:0, pb, ob}')"$'\n'
   if [ "$ok0" = pass ]; then [ -n "$FF0" ] || LIM0="$f"; else [ -n "$FF0" ] || FF0="$f"; fi
   if [ "$ok1" = pass ]; then [ -n "$FF1" ] || LIM1="$f"; else [ -n "$FF1" ] || FF1="$f"; fi
 done
@@ -111,7 +112,7 @@ ovr() { [ "$1" = "$2" ] && echo ", checked against its schematic with design/net
 {
   echo "# prescaler-g3 run ${ID}"
   echo
-  echo "**Result (simulated, nominal corner only, not measured): whole prescaler divides by 8 (MC = 0) up to $(ghz "${LIM0}") and by 10 (MC = 3.3 V) up to $(ghz "${LIM1}") at the VCO-side input, i.e. the /4/5 stage divides by 4 and by 5 at the 2.5 and 2.75 GHz stage clocks: ${CH_OK}; bare HBT latch-pair /2 limit: $(lim_txt "${LIMP[0]}" "${FFP[0]}"); HV-MOS at the same tail current and load: $(lim_txt "${LIMP[1]}" "${FFP[1]}") (12u), $(lim_txt "${LIMP[2]}" "${FFP[2]}") (24u), $(lim_txt "${LIMP[3]}" "${FFP[3]}") (48u). G3 evidence points to: ${CHOICE}**"
+  echo "**Result (simulated, nominal corner only, not measured): whole prescaler divides by 8 (MC = 0) up to $(ghz "${LIM0}") and by 9 (MC = 3.3 V) up to $(ghz "${LIM1}") at the VCO-side input: ${CH_OK}; bare HBT latch-pair /2 limit: $(lim_txt "${LIMP[0]}" "${FFP[0]}"); HV-MOS at the same tail current and load: $(lim_txt "${LIMP[1]}" "${FFP[1]}") (12u), $(lim_txt "${LIMP[2]}" "${FFP[2]}") (24u), $(lim_txt "${LIMP[3]}" "${FFP[3]}") (48u). G3 evidence points to: ${CHOICE}**"
   echo
   echo "- **Scope**: nominal only: \`hbt_typ\` / \`mos_tt\`, 27 C, 3.3 V. No corner grid, no Monte Carlo. The decision in \`spec/decision-records/\` rests on this one corner plus the margin shown; it is not a corner-bounded result."
   echo "- **Netlists**: \`${PRESC_NETLIST#"${ROOT}/"}\` sha256 \`${NLSHA}\`$(ovr "${PRESC_NETLIST}" "${ROOT}/design/netlist/prescaler.spice"); \`${MOS_NETLIST#"${ROOT}/"}\` sha256 \`${MOSSHA}\`$(ovr "${MOS_NETLIST}" "${ROOT}/design/netlist/mos_latch.spice") (the 24u and 48u variants are this file with the subcircuit renamed and the 12u width replaced by sed)"
@@ -120,19 +121,19 @@ ovr() { [ "$1" = "$2" ] && echo ", checked against its schematic with design/net
   echo "- **Simulator**: \`${NG_VER}\` (\`${NGSPICE}\`), two local \`ngspice -b\` runs in sequence (chain exit status ${RC_CH}, pairs ${RC_PA}); scratch \`.spiceinit\` = \`set ngbehavior=hsa\`"
   echo "- **Pin check**: ${NG_PIN_STATUS}"
   echo "- **Commit**: \`${COMMIT}${DIRTY}\` of this repository"
-  echo "- **Chain method**: one transient (${CHAIN_STOP}) per input frequency and modulus state; stimulus as in sim/prescaler-g1 (0.4 Vpp differential, common mode 3.3 V); ideal IREF = 50 uA; the differential output v(OUTP)-v(OUTN) is analysed after $(awk -v t="${CHAIN_T0}" 'BEGIN{printf "%.0f ns", t*1e9}'): rising zero crossings give the output frequency; a point passes when the output frequency is within 2 % of f_in/8 (MC = 0) or f_in/10 (MC = 3.3 V) **and** the output is at least 0.2 V pk-pk. The /4/5 stage sees f_in/2."
+  echo "- **Chain method**: one transient (${CHAIN_STOP}) per input frequency and modulus state; stimulus as in sim/prescaler-g1 (0.4 Vpp differential, common mode 3.3 V); ideal IREF = 50 uA; the differential output v(OUTP)-v(OUTN) is analysed after $(awk -v t="${CHAIN_T0}" 'BEGIN{printf "%.0f ns", t*1e9}'): rising zero crossings give the output frequency; a point passes when the output frequency is within 2 % of f_in/8 (MC = 0) or f_in/9 (MC = 3.3 V; /9 needs MC at or above about 0.94 VDD per DR-005, satisfied by the 3.3 V drive) **and** the output is at least 0.2 V pk-pk. The first stage (cml_div23) sees f_in itself."
   echo "- **Pairs method**: one transient (${PAIR_STOP}) per clock frequency; bare two-latch /2 circuits (no input buffer) driven by one ideal differential clock, common mode ${CCM} V, amplitude ${CAMP} V per side antiphase; same IREF = 50 uA (tail = 2 x IREF = 100 uA for both flavours), same 2.4 kohm loads. The MOS circuits are NOT optimised (fixed L = 0.45 um, W swept over three values, no inductive peaking); the HBT circuit is the committed one. Pass rule as above (f/2 within 2 %, >= 0.2 V pk-pk), after $(awk -v t="${PAIR_T0}" 'BEGIN{printf "%.0f ns", t*1e9}'). The flattering simplification for MOS is the ideal clock (no source follower)."
-  echo "- **Chain limits**: MC = 0: $(lim_txt "${LIM0}" "${FF0}"); MC = 3.3 V: $(lim_txt "${LIM1}" "${FF1}"). Required: both pass at 5.0 and 5.5 GHz (the /4/5 stage at 2.5 and 2.75 GHz): **${CH_OK}**."
-  echo "- **Not covered**: other corners, supply or temperature; the modulus control timing against a real divider; noise; layout parasitics. Resistors are ideal. The /4/5 stage's input swing here is whatever the /2 stage delivers, not a separate input specification."
+  echo "- **Chain limits**: MC = 0: $(lim_txt "${LIM0}" "${FF0}"); MC = 3.3 V: $(lim_txt "${LIM1}" "${FF1}"). Required: both pass at 5.0 and 5.5 GHz: **${CH_OK}**."
+  echo "- **Not covered**: other corners, supply or temperature; the modulus control timing against a real divider; noise; layout parasitics. Resistors are ideal. The input swing is the 0.4 Vpp stimulus above, not a separate input specification."
   echo "- **Host**: $(hostname), $(date -u +%Y-%m-%dT%H:%M:%SZ)"
   echo
   echo "## Chain: whole prescaler, both modulus states"
   echo
-  echo "| f_in (GHz) | /4/5 stage clock (GHz) | MC=0 f_out (MHz) | ratio | pk-pk (V) | /8 | MC=1 f_out (MHz) | ratio | pk-pk (V) | /10 |"
-  echo "|---|---|---|---|---|---|---|---|---|---|"
+  echo "| f_in (GHz) | MC=0 f_out (MHz) | ratio | pk-pk (V) | /8 | MC=1 f_out (MHz) | ratio | pk-pk (V) | /9 |"
+  echo "|---|---|---|---|---|---|---|---|---|"
   printf '%s' "${CHAINROWS}"
   echo
-  echo "## Pairs: bare /2 at the /4/5 stage current (cells: f_out, pk-pk, verdict)"
+  echo "## Pairs: bare /2 at the stage current (cells: f_out, pk-pk, verdict)"
   echo
   echo "| clock (GHz) | HBT cml_latch pair | MOS 12u | MOS 24u | MOS 48u |"
   echo "|---|---|---|---|---|"
