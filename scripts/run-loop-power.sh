@@ -21,7 +21,7 @@ PRESC_NETLIST="${ROOT}/design/netlist/prescaler.spice"; DIV_NETLIST="${ROOT}/des
 TSTOP="${TSTOP:-120n}"; W0="${W0:-40n}"
 REC_DIR="${RECORD_DIR:-${ROOT}/sim/loop-power/records}"; mkdir -p "${REC_DIR}"
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
-sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@PRESC_NETLIST@@|${PRESC_NETLIST}|g" \
+sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@OSDI_R3@@|${OSDI_R3}|g" -e "s|@@PRESC_NETLIST@@|${PRESC_NETLIST}|g" \
     -e "s|@@DIV_NETLIST@@|${DIV_NETLIST}|g" -e "s|@@TSTOP@@|${TSTOP}|g" -e "s|@@W0@@|${W0}|g" -e "s|@@OUT_DIR@@|${WORK}|g" \
     "${ROOT}/sim/loop-power/loop_power.spice.tmpl" > "${WORK}/loop_power.spice"
 check_deck_placeholders "${WORK}/loop_power.spice"

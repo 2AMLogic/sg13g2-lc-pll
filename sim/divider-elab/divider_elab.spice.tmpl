@@ -7,6 +7,7 @@
 .lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
 .lib @@MODELS_DIR@@/cornerMOShv.lib mos_tt
 .lib @@MODELS_DIR@@/cornerCAP.lib cap_typ
+.lib @@MODELS_DIR@@/cornerRES.lib res_typ
 .option temp=27
 .include @@DIV_NETLIST@@
 
@@ -28,6 +29,7 @@ Xa7   inp inn iref 0 0 one one one one one mca7 fba7 vdd 0 divider
 .control
 pre_osdi @@OSDI_PSP@@
 pre_osdi @@OSDI_PSP_NQS@@
+pre_osdi @@OSDI_R3@@
 tran 100p 30n 0 100p
 echo "ELAB_OK n100 n90 n110 a0 a7"
 .endc
