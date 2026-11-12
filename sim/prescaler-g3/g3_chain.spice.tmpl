@@ -3,6 +3,7 @@
 * the /4/5 stage, so an input of 2 x f_stage2 exercises the second stage at f_stage2. MC = 0 -> /4 (total 8),
 * MC = 3.3 V -> /5 (total 10). Placeholders (@@...@@) are filled by scripts/run-prescaler-g3.sh.
 .lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
+.lib @@MODELS_DIR@@/cornerRES.lib res_typ
 .option temp=27
 .include @@PRESC_NETLIST@@
 
@@ -16,6 +17,7 @@ VIN inn 0 dc 3.3 sin(3.3 -@@AMP@@ @@FIN@@)
 .save v(outp) v(outn) v(x1.hp) v(x1.hn)
 
 .control
+pre_osdi @@OSDI_R3@@
 foreach f @@FLIST@@
   alter vip sin = [ 3.3 @@AMP@@ $f ]
   alter vin sin = [ 3.3 -@@AMP@@ $f ]

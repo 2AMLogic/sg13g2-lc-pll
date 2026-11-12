@@ -42,6 +42,7 @@ render() { # template out [extra sed args...]
   local t="$1" o="$2"; shift 2
   sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@PRESC_NETLIST@@|${PRESC_NETLIST}|g" -e "s|@@OUT_DIR@@|${WORK}|g" \
       -e "s|@@AMP@@|${AMP}|g" -e "s|@@CCM@@|${CCM}|g" -e "s|@@CAMP@@|${CAMP}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" \
+      -e "s|@@OSDI_PSP_NQS@@|${OSDI_PSP_NQS}|g" -e "s|@@OSDI_R3@@|${OSDI_R3}|g" \
       -e "s|@@MOS_NETLIST1@@|${WORK}/mos_w1.spice|g" -e "s|@@MOS_NETLIST2@@|${WORK}/mos_w2.spice|g" -e "s|@@MOS_NETLIST3@@|${WORK}/mos_w3.spice|g" \
       -e "s|@@MOSW1@@|${W1}|g" -e "s|@@MOSW2@@|${W2}|g" -e "s|@@MOSW3@@|${W3}|g" "$@" "${ROOT}/sim/prescaler-g3/$t" > "${WORK}/$o"
   check_deck_placeholders "${WORK}/$o"
@@ -115,7 +116,7 @@ ovr() { [ "$1" = "$2" ] && echo ", checked against its schematic with design/net
   echo "- **Scope**: nominal only: \`hbt_typ\` / \`mos_tt\`, 27 C, 3.3 V. No corner grid, no Monte Carlo. The decision in \`spec/decision-records/\` rests on this one corner plus the margin shown; it is not a corner-bounded result."
   echo "- **Netlists**: \`${PRESC_NETLIST#"${ROOT}/"}\` sha256 \`${NLSHA}\`$(ovr "${PRESC_NETLIST}" "${ROOT}/design/netlist/prescaler.spice"); \`${MOS_NETLIST#"${ROOT}/"}\` sha256 \`${MOSSHA}\`$(ovr "${MOS_NETLIST}" "${ROOT}/design/netlist/mos_latch.spice") (the 24u and 48u variants are this file with the subcircuit renamed and the 12u width replaced by sed)"
   echo "- **Decks**: \`sim/prescaler-g3/g3_chain.spice.tmpl\` sha256 \`$(sha256sum "${ROOT}/sim/prescaler-g3/g3_chain.spice.tmpl" | cut -d' ' -f1)\`, \`sim/prescaler-g3/g3_pairs.spice.tmpl\` sha256 \`$(sha256sum "${ROOT}/sim/prescaler-g3/g3_pairs.spice.tmpl" | cut -d' ' -f1)\`, placeholder substitution only"
-  echo "- **PDK**: IHP-Open-PDK $(jq -r .pdk.release_tag "${PINS}") (model libraries hash-checked against \`sim/pins.json\`); PDK_ROOT \`${PDK_ROOT}\`; PSP103 OSDI \`psp103.osdi\` sha256 \`$(jq -r .psp103.osdi_sha256 "${PINS}")\` (pinned); HBT \`npn13G2v\` (VBIC)"
+  echo "- **PDK**: IHP-Open-PDK $(jq -r .pdk.release_tag "${PINS}") (model libraries hash-checked against \`sim/pins.json\`); PDK_ROOT \`${PDK_ROOT}\`; PSP103 OSDI \`psp103.osdi\` sha256 \`$(jq -r .psp103.osdi_sha256 "${PINS}")\`, \`psp103_nqs.osdi\` sha256 \`$(jq -r .psp103_nqs.osdi_sha256 "${PINS}")\`, r3_cmc (rppd) \`r3_cmc.osdi\` sha256 \`$(jq -r .r3_cmc.osdi_sha256 "${PINS}")\` (all pinned; \`cornerRES.lib res_typ\`); HBT \`npn13G2v\` (VBIC)"
   echo "- **Simulator**: \`${NG_VER}\` (\`${NGSPICE}\`), two local \`ngspice -b\` runs in sequence (chain exit status ${RC_CH}, pairs ${RC_PA}); scratch \`.spiceinit\` = \`set ngbehavior=hsa\`"
   echo "- **Pin check**: ${NG_PIN_STATUS}"
   echo "- **Commit**: \`${COMMIT}${DIRTY}\` of this repository"
