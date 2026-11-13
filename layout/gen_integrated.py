@@ -161,11 +161,6 @@ def stack(dbu, pt, lo, hi):
     return shapes
 
 
-def frange(a, b, step):
-    n = int(abs(b - a) / step) + 1
-    return [a + (b - a) * i / max(n, 1) for i in range(n + 1)]
-
-
 def candidates(p, q, span):
     """Manhattan paths p->q as lists of points, H-first or V-first, with an intermediate channel."""
     paths = [[p, (q[0], p[1]), q], [p, (p[0], q[1]), q]]
