@@ -4,8 +4,11 @@ loop-block cells from gen_cells.py, placed and routed. Writes layout/top.gds and
 
     layout/gen_integrated.py [--write | --check]
 
---write regenerates layout/top.gds + layout/provenance.json; --check regenerates into layout/build/
-and exits 1 if the top-cell geometry digest differs from the committed provenance.
+--write regenerates layout/provenance.json and refreshes layout/top.gds only when the geometry
+actually changed (GDS records carry wall-clock timestamps, so an unchanged design still produces a
+different byte stream, and those bytes are what manifests/layout.attest.json pins -- #257);
+--check regenerates into layout/build/ and exits 1 if the top-cell geometry digest differs from the
+committed provenance.
 
 Needs the `klayout` Python module and the same inputs as gen_top.py / gen_cells.py (fetched VCO, klt, PDK).
 
@@ -23,6 +26,7 @@ import argparse
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 
@@ -106,6 +110,31 @@ def digest(ly, cell):
         if polys or txt:
             h.update(f"{info.layer}/{info.datatype}|{';'.join(polys)}|{';'.join(txt)}\n".encode())
     return h.hexdigest()
+
+
+def publish_stream(fresh, dest, fresh_digest):
+    """Install `fresh` at `dest` only when the geometry actually differs (#257).
+
+    GDS records carry wall-clock time (BGNLIB/BGNSTR), so re-running the generator on an
+    unchanged design produces a different byte stream with identical geometry. `dest` is the
+    stream whose sha256 manifests/layout.attest.json pins, so replacing it unconditionally
+    silently invalidates the T1 item 2 attestation while --check -- a geometry digest -- keeps
+    passing. Compare the digest of the stream already on disk, not a recorded field: the file is
+    what the attestation pins.
+
+    Returns True when `dest` was replaced, False when the committed bytes were kept.
+    """
+    if os.path.exists(dest):
+        try:
+            cur = db.Layout()
+            cur.read(dest)
+            cell = cur.cell(TOP)
+        except Exception:               # unreadable/corrupt stream on disk: replace it
+            cell = None
+        if cell is not None and digest(cur, cell) == fresh_digest:
+            return False
+    shutil.copyfile(fresh, dest)
+    return True
 
 
 def build_base(vco, out):
@@ -402,11 +431,26 @@ def main():
             top.shapes(fl).clear()
             top.shapes(fl).insert(keep)
 
-    out = OUT_GDS if a.write else os.path.join(BUILD, "top.gds")
-    ly.write(out)
+    # Always produce the fresh stream under layout/build/; --write then publishes it to
+    # layout/top.gds only if the geometry moved (#257).
+    build_gds = os.path.join(BUILD, "top.gds")
+    ly.write(build_gds)
     chk = db.Layout()
-    chk.read(out)
+    chk.read(build_gds)
     dg = digest(chk, chk.cell(TOP))
+    replaced = publish_stream(build_gds, OUT_GDS, dg) if a.write else None
+    # output.sha256 is the hash of the stream as it sits on disk at output.path.
+    out = OUT_GDS if a.write else build_gds
+
+    # klayout_module describes the writer of `output`. When the committed stream is kept, the
+    # module running now did not produce it, so carry the recorded value forward rather than
+    # re-attributing attested bytes to whichever klayout happens to be installed here (#257).
+    klayout_module = getattr(__import__("klayout"), "__version__", None)
+    if replaced is False and os.path.exists(PROV):
+        try:
+            klayout_module = json.load(open(PROV)).get("klayout_module", klayout_module)
+        except (OSError, ValueError):
+            pass
 
     tank_len = {n: routes[n]["length_um"] for n in TANK}
     rec = {
@@ -416,7 +460,7 @@ def main():
         "generator": "python layout/gen_integrated.py --write",
         "generator_chain": ["scripts/fetch-vco.sh", "python layout/gen_cells.py --write",
                             "python layout/gen_top.py", "python layout/gen_integrated.py --write"],
-        "klayout_module": __import__("klayout").__version__ if hasattr(__import__("klayout"), "__version__") else None,
+        "klayout_module": klayout_module,
         "inputs": {
             "vco_gds": {"path": ".fetched/sg13g2-vco/layout/vco.gds", "sha256": sha256(a.vco),
                         "pinned_in": "reuse.lock.json"},
@@ -436,7 +480,16 @@ def main():
         with open(PROV, "w") as f:
             json.dump(rec, f, indent=1, sort_keys=True)
             f.write("\n")
-        print(f"gen_integrated: wrote {OUT_GDS} sha256 {rec['output']['sha256']}")
+        print(f"gen_integrated: wrote {PROV}")
+        if replaced:
+            print(f"gen_integrated: geometry changed -- replaced {OUT_GDS} "
+                  f"sha256 {rec['output']['sha256']}")
+            print("gen_integrated: manifests/layout.attest.json now pins a STALE stream hash; "
+                  "re-stamp item 2 with: klt signoff --attest 2 --input layout/top.gds "
+                  "(and refresh the manifests that cite it)")
+        else:
+            print(f"gen_integrated: geometry unchanged -- kept {OUT_GDS} "
+                  f"sha256 {rec['output']['sha256']} (attested bytes preserved)")
     else:
         want = json.load(open(PROV))
         if want["output"]["geometry_sha256"] != dg:

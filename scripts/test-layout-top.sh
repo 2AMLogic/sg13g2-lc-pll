@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Integrated layout check (#35): committed layout/top.gds reproduces, holds the pinned VCO unmodified,
-# keep-out intrusions are exactly the recorded VCTRL pin-access ones, and the checks can fail.
+# Integrated layout check (#35): committed layout/top.gds reproduces, still matches the stream hash
+# manifests/layout.attest.json pins (#257), holds the pinned VCO unmodified, keep-out intrusions are
+# exactly the recorded VCTRL pin-access ones, and the checks can fail.
 # Needs .fetched/ (scripts/fetch-vco.sh), klt, a python with `klayout` (default .venv/bin/python; LAYOUT_PY).
 set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -36,6 +37,119 @@ expect "committed stream sha256 == provenance" ok bash -c \
   "[ \"\$(sha256sum '${G}' | cut -d' ' -f1)\" = \"\$(jq -r .output.sha256 '${ROOT}/layout/provenance.json')\" ]"
 expect "attestation envelope passes" ok jq -e '.status=="pass" and .t1_item==2' "${ROOT}/manifests/layout.attest.json"
 
+# T1 item 2's envelope pins the stream BYTES, not the geometry digest, so a timestamp-only rewrite
+# of layout/top.gds invalidates the attestation while --check keeps passing (#257). Compare the
+# stream on disk against the hash the envelope pins -- the file is what is attested.
+PIN="$(jq -r '.provenance.input.content_hash' "${ROOT}/manifests/layout.attest.json" | sed 's/^sha256://')"
+pin_check() { local f="$1" h
+  [ -n "${PIN}" ] && [ "${PIN}" != "null" ] || { echo "pin-check: manifests/layout.attest.json has no provenance.input.content_hash; refusing"; return 1; }
+  h="$(sha256sum "${f}" | cut -d' ' -f1)"
+  [ "${h}" = "${PIN}" ] || { echo "pin-check: ${f} sha256 ${h} != attested ${PIN}; refusing"; return 1; }
+  echo "pin-check: ${f} matches the attested stream ${PIN}"; }
+expect "committed stream == attestation pin" ok pin_check "${G}"
+expect "attestation pin == provenance output.sha256" ok bash -c \
+  "[ \"${PIN}\" = \"\$(jq -r .output.sha256 '${ROOT}/layout/provenance.json')\" ]"
+
+# The churn this guards against is the GDS timestamp fields and nothing else, so the fixture for it
+# is a byte-level edit of the seconds in every BGNLIB/BGNSTR record -- same size, same geometry,
+# different sha256. Re-saving the stream through KLayout would NOT be an equivalent fixture: it also
+# permutes the layer-index order, and layout/gen_integrated.py's digest() hashes layers in
+# enumeration order, so a re-save moves the geometry digest too.
+cat >"${T}/gds_restamp.py" <<'STAMPEOF'
+"""Shift the seconds field of every GDS BGNLIB/BGNSTR timestamp: a byte churn with no geometry."""
+import sys
+
+src, dst = sys.argv[1], sys.argv[2]
+data = bytearray(open(src, "rb").read())
+i, n, hits = 0, len(data), 0
+while i + 4 <= n:
+    rlen = int.from_bytes(data[i:i + 2], "big")
+    if rlen < 4:
+        break
+    # record type 0x01 = BGNLIB, 0x05 = BGNSTR; data type 0x02 = INT2; 12 int2 = mod/access y m d h m s
+    if data[i + 3] == 0x02 and data[i + 2] in (0x01, 0x05) and rlen >= 28:
+        for off in (i + 14, i + 26):            # the two seconds fields
+            data[off:off + 2] = ((int.from_bytes(data[off:off + 2], "big") + 7) % 60).to_bytes(2, "big")
+        hits += 1
+    i += rlen
+if hits == 0:
+    sys.exit("gds-restamp: no BGNLIB/BGNSTR record found in " + src + "; refusing")
+open(dst, "wb").write(bytes(data))
+print("gds-restamp: re-stamped " + str(hits) + " records")
+STAMPEOF
+expect "timestamp-churn fixture builds" ok "${PY}" -I "${T}/gds_restamp.py" "${G}" "${T}/restamped.gds"
+
+# --write must keep the attested bytes when the geometry is unchanged and replace them when it is
+# not. Exercises layout/gen_integrated.py's publish_stream() on copies under ${T}; nothing in the
+# checkout is written. Both halves carry a guard that fails if the fixture cannot discriminate.
+cat >"${T}/pub_test.py" <<'PUBEOF'
+import hashlib
+import os
+import shutil
+import sys
+
+sys.path.insert(0, os.path.join(sys.argv[1], "layout"))
+import klayout.db as db
+import gen_integrated as gi
+
+committed, restamped, t = sys.argv[2], sys.argv[3], sys.argv[4]
+
+
+def sha(path):
+    return hashlib.sha256(open(path, "rb").read()).hexdigest()
+
+
+def dig(path):
+    ly = db.Layout()
+    ly.read(path)
+    return gi.digest(ly, ly.cell(gi.TOP))
+
+
+def fail(msg):
+    sys.exit("publish-stream: " + msg + "; refusing")
+
+
+# 1. timestamp churn only: the destination must keep its committed bytes
+dest = os.path.join(t, "pub_dest.gds")
+shutil.copyfile(committed, dest)
+if sha(restamped) == sha(committed):
+    fail("the re-stamped fixture is byte-identical, so this control cannot discriminate")
+if dig(restamped) != dig(committed):
+    fail("the re-stamped fixture moved the geometry digest, so it is not a timestamp-only churn")
+if gi.publish_stream(restamped, dest, dig(restamped)) is not False:
+    fail("replaced a stream whose geometry is unchanged")
+if sha(dest) != sha(committed):
+    fail("churned the bytes of a stream whose geometry is unchanged")
+
+# 2. a real geometry change must be published. Both fixtures are KLayout saves, so they differ by
+#    the inserted box alone -- not by the layer-order permutation a save also introduces.
+plain = os.path.join(t, "pub_plain.gds")
+ly = db.Layout()
+ly.read(committed)
+ly.write(plain)
+edited = os.path.join(t, "pub_edited.gds")
+ly = db.Layout()
+ly.read(committed)
+ly.cell(gi.TOP).shapes(ly.layer(8, 0)).insert(db.Box(-320000, 100000, -315000, 105000))
+ly.write(edited)
+if dig(edited) == dig(plain):
+    fail("the inserted shape did not move the geometry digest, so this control cannot discriminate")
+shutil.copyfile(plain, dest)
+if gi.publish_stream(edited, dest, dig(edited)) is not True:
+    fail("kept a stale stream after the geometry changed")
+if dig(dest) != dig(edited):
+    fail("the published stream does not carry the new geometry")
+
+# 3. an absent destination is created
+missing = os.path.join(t, "pub_missing.gds")
+if gi.publish_stream(restamped, missing, dig(restamped)) is not True or not os.path.exists(missing):
+    fail("did not create an absent destination")
+
+print("publish-stream: timestamp churn kept the attested bytes, geometry change replaced them")
+PUBEOF
+expect "--write keeps attested bytes on churn, replaces them on a geometry change" ok \
+  "${PY}" -I "${T}/pub_test.py" "${ROOT}" "${G}" "${T}/restamped.gds" "${T}"
+
 # keep-out: the only intrusions are the VCTRL pin-access stack (3 shapes, Metal3/4/5), recorded in layout/README.md
 "${PY}" "${ROOT}/layout/gen_top.py" --out "${T}/b.gds" --forbidden-json "${T}/f.json" >/dev/null 2>&1
 klt keepout-check "${G}" --forbidden "${T}/f.json" --margin 20 --cells vco --format json >"${T}/ko.json" 2>/dev/null
@@ -63,4 +177,9 @@ printf 'X' | dd of="${T}/s/.fetched/sg13g2-vco/layout/vco.gds" bs=1 seek=100 con
 # subprocess), not merely exit non-zero: see the expect() note above.
 expect "NEG tampered stream: generator refuses" "refuse:${REFUSAL}" \
   "${PY}" "${ROOT}/layout/gen_integrated.py" --vco "${T}/s/.fetched/sg13g2-vco/layout/vco.gds" --check
+# The churned stream keeps the geometry digest (so --check still passes) but breaks the attestation
+# pin, which is the whole trap in #257: the pin check must refuse it, with its own refusal text.
+expect "NEG timestamp-churned stream fails the attestation pin" \
+  "refuse:pin-check: .* sha256 [0-9a-f]{64} != attested [0-9a-f]{64}; refusing" \
+  pin_check "${T}/restamped.gds"
 echo "${pass} passed, ${bad} failed"; [ "${bad}" = 0 ]
