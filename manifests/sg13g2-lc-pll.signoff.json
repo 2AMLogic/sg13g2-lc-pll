@@ -291,7 +291,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:b059e0abc0acf128ce530e9153271cf8b47df8e44565441e3ee0bde40c9fb082",
+        "content_hash": "sha256:3c1ff7739d3149c286b92cc286c85fe72946913769795915f5c4dce3600a30b4",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -300,7 +300,7 @@
             "path": "sim/testbench-inventory.json",
             "scope": "repo"
           },
-          "content_hash": "sha256:b059e0abc0acf128ce530e9153271cf8b47df8e44565441e3ee0bde40c9fb082",
+          "content_hash": "sha256:3c1ff7739d3149c286b92cc286c85fe72946913769795915f5c4dce3600a30b4",
           "input_verified": true,
           "summary": "T1 item 9 (Testbenches shipped): 34/34 attestation checks passed (klt signoff --attest)",
           "source": "sim/testbench-inventory.json",

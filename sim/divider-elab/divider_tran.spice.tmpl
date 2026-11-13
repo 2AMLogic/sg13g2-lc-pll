@@ -1,7 +1,7 @@
 * sg13g2-lc-pll :: sim/divider-elab -- divider COUNT check at a RELAXED clock (issue #32).
 * Not a speed test: the prescaler output is 625 MHz at 5.0 GHz in; this drives the CML pair at 100 MHz so the
-* counter LOGIC is exercised (FB period in clocks, clocks with MC high). Two codes: N = 100 (M=12, A=2) and
-* N = 90 (M=11, A=1). Nominal corner (hbt_typ, mos_tt, cap_typ), 27 C, 3.3 V. Input: 0.4 Vpp differential
+* counter LOGIC is exercised (FB period in clocks, clocks with MC high). Two codes, tied below and graded against
+* these expected values by scripts/divider_speed_counts.py: N = 100 (M=12, A=4, Xd100) and N = 90 (M=11, A=2, Xd90). Nominal corner (hbt_typ, mos_tt, cap_typ), 27 C, 3.3 V. Input: 0.4 Vpp differential
 * at a 3.18 V common mode (the prescaler's output common mode at its DC operating point, measured here).
 .lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
 .lib @@MODELS_DIR@@/cornerMOShv.lib mos_tt

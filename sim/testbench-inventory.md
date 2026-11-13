@@ -13,7 +13,7 @@ the committed record). Pins: [`pins.json`](pins.json).
 |---|---|---|---|---|
 | 1 | Output frequency, channel | `run-loop-tran.sh`, `sim/loop-tran/` | closed loop reaches 5.0 GHz **on a behavioural VCO/divider stand-in** | lock with the real VCO, prescaler and counters: no bench. Needs the VCO's graded f(Vctrl) (gate G4, `sg13g2-vco` #50/#53) and a divider that runs at 625 MHz (#61). Corners: #39 |
 | 2 | Reference frequency | none (arithmetic, DR-001) | | no simulation bench by design (method A) |
-| 3 | Division ratio | `run-divider-elab.sh`, `sim/divider-elab/` | count check N = 100, 90 at a 100 MHz clock | speed: the divider does **not** divide at 625 MHz (see `sim/loop-power` record); #61 |
+| 3 | Division ratio | `run-divider-elab.sh`, `sim/divider-elab/` | count check N = 100, 90 at a 100 MHz clock, graded against the expected N (#236: the bench exits nonzero on a mismatch) | speed: the divider does **not** divide at 625 MHz (see `sim/loop-power` record); #61 |
 | 4 | Prescaler | `run-prescaler-g1.sh`, `run-prescaler-g3.sh`, `sim/prescaler-div89/` (`klt sim`) | G1 load and toggle limit (superseded /8-/10 build), G3 chain /8 and /9 plus flavour pairs, nominal; /8 and /9 at 5.0 and 5.5 GHz over 27 PVT x 3 supplies, async modulus phases, supply power (`sim/prescaler-div89/records/`) | gate G2 (VCO swing and startup with the prescaler load): `run-vco-prescaler-load.sh` (#87), nominal corner only, not yet in the attested cold start; C-grid open (OSDI varactor, klayout-tools#2511) |
 | 5 | Loop bandwidth, PM | `sim/loop-model/loop_model.py` (method L), pytest | f_c and PM over Kvco x I_cp | circuit-level check: C-grid, #39 |
 | 6 | Charge-pump current | `run-cp-dc.sh` | static I_up and I_dn at 200 uA nominal | trim range, corners: #39 |
@@ -27,4 +27,7 @@ Also inventoried, **not** in the cold start: `scripts/run-vco-smoke.sh` (pin and
 consumed VCO; needs `openvaf-r` and the network).
 
 Negative controls: `test-cp-dc-negative.sh`, `test-prescaler-g1-negative.sh`, `test-loop-tran-negative.sh`,
-`test-jitter-negative.sh`. `run-pfd-sweep.sh`, `run-prescaler-g3.sh` and `run-divider-elab.sh` have none yet.
+`test-jitter-negative.sh`. `run-divider-elab.sh`'s graders have theirs as pytest, not as a deck re-run:
+`sim/divider-elab/test_divider_speed_counts.py` (the local count and speed grader, #236) and
+`test_divider_corner_record.py` (the `klt sim` corner grader). `run-pfd-sweep.sh` and `run-prescaler-g3.sh`
+have none yet.
