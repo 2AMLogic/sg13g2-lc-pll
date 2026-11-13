@@ -18,7 +18,7 @@ the committed record). Pins: [`pins.json`](pins.json).
 | 5 | Loop bandwidth, PM | `sim/loop-model/loop_model.py` (method L), pytest | f_c and PM over Kvco x I_cp | circuit-level check: C-grid, #39 |
 | 6 | Charge-pump current | `run-cp-dc.sh` | static I_up and I_dn at 200 uA nominal | trim range, corners: #39 |
 | 7 | CP compliance, mismatch | `run-cp-dc.sh`, `run-pfd-sweep.sh` | static window, PFD charge vs phase | V_hi,req needs gate G4; Monte Carlo #40 |
-| 8 | Jitter | `run-jitter.sh` | method L, **partial** (VCO target line + R1); method T **not run** (gate G6) | in-band terms by method N, transient-noise cross-check: no bench |
+| 8 | Jitter | `run-jitter.sh` | method L over five terms; the VCO target line and R1 are computed, the three in-band terms are inputs (`NOISE_INPUTS`) and, with none supplied today, are reported **missing, never zero**, so every run is **partial** and names which terms are missing; method T **not run** (gate G6) | in-band inputs: the reference requirement and the method-N definition are #252, the method-N `.noise` bench is #253; transient-noise cross-check: no bench |
 | 9 | Reference spur | `run-loop-tran.sh` | method T on v(Vctrl) at f_ref, stand-in VCO | VCO-output cross-check: no bench; #39, #40 |
 | 10 | Lock time | `run-loop-tran.sh` | start at 1.65 V, stand-in VCO, real PFD/CP/filter | real divider in the loop: no bench; #39 |
 | 11 | Loop power | `run-loop-power.sh` | prescaler + divider currents at 5.0 GHz in; PFD + CP from the locked `loop-tran` record | lock detector, reference and clock buffering: not in the design; the divider's number is for a chain that does not divide |
