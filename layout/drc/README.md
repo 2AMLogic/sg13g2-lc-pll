@@ -357,3 +357,84 @@ with `SKIP` when either is absent, so it never reports a check it did not run as
 - klayout-tools#5444 — no tool-side way to derive a native deck's declared category set
   (`--list-rules` is curated-only), so `--expect-rule-categories-file` has to be
   hand-derived per deck; the evaluator in `native_rule_categories.rb` is that work.
+
+### Curated deck models the `SVaricap` carve-out: item 3 `met` (#36, 2026-11-13)
+
+**No layout changed.** `layout/top.gds` is byte-identical to the stream every run above used
+(`sha256:92b05723…`, the geometry attested for item 2); no generator, deck, threshold or waiver
+was touched. What changed is klt: klayout-tools#5442 landed the `NW.c` `SVaricap` carve-out
+(upstream PR, merged 2026-11-13), so the 64 `nwell.enclosing.pactiv.1` markers on the pinned
+VCO's `BANKP`/`BANKN` banks — a documented curated-deck deviation from the foundry runset all
+along, never geometry — are no longer counted.
+
+```
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 0 = clean
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root "$PDK_ROOT" \
+    --expect-rule-categories-file layout/drc/native_rule_categories.txt \
+    --format json -o layout/drc/top.crosscheck.json                       # exit 0
+klt drc --check layout/drc/top.drc.json                                   # re-hash: match
+klt drc --check layout/drc/top.crosscheck.json                            # re-hash: match
+scripts/test-drc-svaricap-liveness.sh                                     # 4 passed, 0 failed
+scripts/test-native-rule-categories.sh                                    # ALL PASS (15 checks)
+```
+
+`klt 0.9.2.dev964+g02db14ecf46b` (contains the fix; `02db14ec` is 24 commits ahead of the fix
+commit `3360cf13`), klayout 0.30.13 (klt warns the build was tested on 0.30.12), PDK
+`ihp-sg13g2` `fetched:0.3.0`, input `sha256:92b05723…`, curated deck `sha256:cf6dfead…` (was
+`e8929ac8…` — the deck itself changed, which is the point), native deck `ihp-sg13g2.drc`
+`sha256:0620b737…` and include-chain tree `sha256:3715ff58…` (both unchanged), no `--deck-var`.
+
+| Engine | 1798 baseline | 348 | 322 | 64 | **now** |
+|---|---|---|---|---|---|
+| native | 1798 | 348 | 322 | 0, `clean` (590/590) | **0, `clean`** (590/590 asserted, `coverage_assertion.satisfied: true`) |
+| curated | 783 | 79 | 64 | 64 | **0, `clean`** |
+
+**The negative control is what makes this a result** (`scripts/test-drc-svaricap-liveness.sh`, new
+here). A deck that silently stopped checking P+ Activ would report the same `clean`, so the script
+removes the **2** `SVaricap` texts on `63/0` from a scratch copy of the stream — geometry
+untouched — and asserts the **64** `nwell.enclosing.pactiv.1` findings return and nothing else
+fires. It also asserts the rule's `klt drc --list-rules` description names the carve-out. Run
+against klt `0.9.1` (the newest PyPI release, 2026-11-05, which predates the fix) those two legs
+fail and the control legs still pass, so the script discriminates rather than restating the run.
+It needs klt and a python with `klayout` but no PDK; like the other local-only scripts it is not
+in `scripts/ci-harness.sh`, whose runner installs the 0.8.0 signoff pin.
+
+**Coverage of the cited (curated) report, verbatim** — the clean verdict is clean **for covered
+layers**: `coverage.rules_skipped` = `[]`. `coverage.deck_scope` =
+`['Act','Cnt','Gat','M1','M2','M3','M4','M5','MIM','NW','TM1','TM2','TV1','TV2','V1','V2','V3','V4','pSD','x']`.
+`coverage.layers_in_stream_without_rules` is **non-empty** (39 layers: 1/23, 5/23, 8/2, 8/22,
+8/23, 8/25, 10/2, 10/22, 10/23, 10/25, 26/0, 27/0, 27/2, 27/25, 28/0, 30/22, 30/23, 30/25, 40/0,
+44/0, 46/21, 50/22, 50/23, 51/0, 52/0, 67/22, 67/23, 67/25, 111/0, 126/2, 126/23, 126/25, 128/0,
+129/0, 134/23, 134/25, 148/0, 156/0, 160/0 — two fewer than the 41 above: `32/0` and `63/0` are
+now read by the recogniser). `coverage.unchecked_rules` still names `NW.b1` (net-aware PWell width
+between different-net NWells; only the geometric `nwell.space.1` ran), `coverage.unmodeled_rules`
+names 14 declared-but-unmodelled rules (`LU.a`, `LU.c`, `LU.c1`, `LU.d`, `LU.d1`, `Pad.a1`,
+`Pad.aR`, `Pad.bR`, `Pad.d`, `Pad.d1R`, `Pad.dR`, `Pad.gR`, `Pad.jR`, `Pad.kR`), and
+`coverage.voltage_domain_warnings` still names the `ThickGateOx` ('-HV') domain. 63 rules checked.
+
+**Signoff.** `manifests/sg13g2-lc-pll.signoff.json` regenerated with the pinned
+`klayout-tools==0.8.0` (unchanged — the pin grades the grader, not the producer): item 3 `met`,
+citing `layout/drc/top.drc.json`, `check_status: clean`, `input_verified: true`, with the
+`coverage` block reported in the citation. T1 met 4 -> 5; every other item's status and reason is
+unchanged, and a second run of the same command is byte-identical to the committed record.
+`manifests/sg13g2-lc-pll.json`'s item 3 `content_hash` was corrected in the same pass: it pinned
+the **report file's** sha256, but `klt signoff` compares that pin against the envelope's
+`provenance.input.content_hash`, so item 3 graded `stale_evidence` the moment `status` stopped
+failing first. It now pins `sha256:92b05723…`, the stream hash — the same value item 2 pins.
+
+**Reproducible from a git commit, not a release.** No PyPI `klayout-tools` carries the carve-out
+(latest `0.9.1`, 2026-11-05; the fix merged 2026-11-13), so the report records
+`provenance.deck.released: false` and its reproduction spec is
+`provenance.klt_reinstall_spec` — `klayout-tools @ git+…@02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35`
+— as the earlier dev-build runs did. `klt deck resolve --content-hash sha256:cf6dfead…` says so
+itself: *"no known release ships deck content hash … (known deck history covers v0.1.0..v0.9.1 —
+the hash may predate the table's start, be from an unreleased build, or never have shipped)"*. No
+new tool-friction issue was filed for this: the generic gap — committed evidence naming a deck
+revision no release ships, with no way to map it back — is klayout-tools#1193 and #4010, both
+closed by the `klt deck resolve` / `deck hash` capability used above, which answers correctly here.
+What remains is release cadence, not a missing capability.
+
+**G8 keep-out is unchanged and still not clean:** re-run here, `klt keepout-check` (margin 20 um,
+`--cells vco`, forbidden Activ/GatPoly/Cont/pSD/Metal1-5 and their fill) `status: violated`, 3
+violations, all the VCTRL pin-access stack (sg13g2-vco#314). It is not part of item 3's verdict.
+`layout/top.gds` has still not been through LVS (#37) or PEX (#41).

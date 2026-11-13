@@ -9,7 +9,7 @@ record.
 
 - **`sg13g2-lc-pll.json`**: the block manifest. `block: sg13g2-lc-pll`,
   `kind: analog` (an integer-N LC PLL with no mixed-signal partition decided
-  today; if that changes, `kind` may change with it). `evidence` cites items 1, 3 (the `klt drc` report `layout/drc/top.drc.json`, graded `unmet` / `check_failed`: 64 violations, #36), 9 and 10
+  today; if that changes, `kind` may change with it). `evidence` cites items 1, 3 (the `klt drc` report `layout/drc/top.drc.json`, graded `met`: `status: clean`, clean for the layers the curated deck covers, #36), 9 and 10
   (`manifests/design-sources.attest.json`, `manifests/testbenches.attest.json`,
   `manifests/repo-hygiene.attest.json`) and item 6 (the `klt yield` report of the
   charge-pump Monte Carlo, `sim/cp-mc/records/`, graded `unmet` / `check_failed`:
@@ -26,7 +26,7 @@ record.
   When upstream moves, re-vendor and regenerate the record in the same PR.
 - **`sg13g2-lc-pll.signoff.json`**: **the verdict of record**, the committed
   output of the command below. Never hand-edit it. Besides the 11 T1 items
-  (items 1, 2, 9 and 10 `met`, the rest `unmet` / `check_failed` or
+  (items 1, 2, 3, 9 and 10 `met`, the rest `unmet` / `check_failed` or
   `no_evidence`), `klt` 0.8.0 also lists 3 non-T1 rows
   (`tier_not_supported`); these are part of its output, not a design claim.
 
@@ -67,8 +67,9 @@ run on `push` to `main` and not only on pull requests.
 
 ## Current verdict
 
-**Not-T1, 4 of 11 T1 items met** (item 1 design sources, item 2 layout, item 9
-testbenches, item 10 repo hygiene).
+**Not-T1, 5 of 11 T1 items met** (item 1 design sources, item 2 layout, item 3 DRC — clean
+for covered layers, see [`layout/README.md`](../layout/README.md) for the coverage the verdict
+excludes — item 9 testbenches, item 10 repo hygiene).
 
 ## Attest envelopes (T1 items 1, 9 and 10)
 
