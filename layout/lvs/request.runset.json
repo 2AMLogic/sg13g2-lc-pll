@@ -1,0 +1,5 @@
+{
+  "layout": {"file": "../top.gds", "top": "lc_pll_top"},
+  "reference": {"netlist": "top.reference.spice", "top": "pll_top"},
+  "engine": "klayout-runset"
+}
