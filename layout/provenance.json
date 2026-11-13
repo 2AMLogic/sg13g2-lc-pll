@@ -16,7 +16,7 @@
   },
   "gen_integrated": {
    "path": "layout/gen_integrated.py",
-   "sha256": "50f0a5b013035eef586d7c45a2d0a144e53dc2adc8c529b99b187ab49a62f43a"
+   "sha256": "68fea8616b9a2d8093dac1806ce00d6ad84d2a7d5d1a34487657dc8ff48d540c"
   },
   "gen_top": {
    "path": "layout/gen_top.py",

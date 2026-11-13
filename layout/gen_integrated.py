@@ -442,7 +442,10 @@ def main():
         if want["output"]["geometry_sha256"] != dg:
             sys.exit(f"gen_integrated: geometry digest {dg} != committed {want['output']['geometry_sha256']}")
         print("gen_integrated: geometry digest matches layout/provenance.json")
-    print(f"gen_integrated: routes {{{', '.join(f'{k}: {v['length_um']} um' for k, v in routes.items())}}}; "
+    # Built outside the f-string: nesting the same quote type inside an f-string expression
+    # needs PEP 701 (Python 3.12+), and CI pins 3.10 (.github/workflows/{harness,signoff}.yml).
+    route_summary = ", ".join(f"{k}: {v['length_um']} um" for k, v in routes.items())
+    print(f"gen_integrated: routes {{{route_summary}}}; "
           f"collisions={collisions_total}; fill squares removed={fill_removed}")
 
 
