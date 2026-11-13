@@ -4,6 +4,8 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-13
 
+- **Issue #36** (closed): T1 item 3 (DRC clean): klt drc on the integrated layout with coverage disclosed
+- **PR #248**: docs(drc): record clean curated+native DRC and grade T1 item 3 met
 - **Issue #241** (closed): Nothing detects a stale testbenches.attest.json: signoff binds item 9 by the inventory hash, not the attest's per-file hashes
 - **PR #244**: ci(signoff): check each attest envelope's per-file hashes, add restamp-attest.sh
 - **Issue #236** (closed): Consolidate the three divider N-per-window counters; the local 100 MHz count check is never graded
