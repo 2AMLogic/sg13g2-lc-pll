@@ -78,12 +78,14 @@ the provenance records the klt version). An older klt refuses the HBT groups and
 **Devices drawn (2026-11-10).** Every device of the six blocks is drawn (0 `undrawn_devices`) and every `.subckt`
 port is labelled (`scripts/test-layout-cells.sh`: no KNOWN-GAP). The ideal `R` cards were replaced by `rppd`/`rhigh`
 in the netlists (#164, PR #169), so the resistors are drawn with `klt gen res_array` at the netlist W/L
-(prescaler 208 units, divider 621, in total with HBTs, MOS and caps).
+(prescaler 209 units, divider 621, in total with HBTs, MOS and caps).
 
 **Not met:**
 - The prescaler's INP/INN tank-load capacitance is NOT extracted: the 2.1 fF budget is unverified until PEX on
   the integrated loop (#41). The input group is placed first to keep its geometry compact; that is not a measurement.
-- Cells are placement only: no routing, no tap/guard ties, no DRC/LVS (#36, #37). Areas are bounding boxes.
+- Cells are placement only: no routing, no LVS (#35, #37). Since #202 every `nfet` `mos_array` group carries a
+  `mos_array add_guard_ring` pSD substrate tap ring on net `VSS` (see "LU.b substrate taps"); the ring is drawn but
+  not tied to anything by a route, and `pfet` groups have no ring. Areas are bounding boxes.
   The loop-filter cell is 131458 um2 because the schematic's `cap_cmim` units (12 x 70.9 um square) are drawn as specified.
 
 ## Integrated top (#35)
@@ -210,6 +212,8 @@ Rules that went to zero natively: Cnt.g1, Cnt.g2, Cnt.c, Cnt.d, Cnt.e, Act.b, Ga
   `ihp-sg13g2`. `guard_ring` and `mos_array add_guard_ring` draw an n-well tie with no pSD and off-grid Cont; tried on the nfet groups
   (chunks of <= 96 units), it raised the native count to 559 (176 new `cont_drw_Offgrid`, LU.b not reduced) and was reverted. Tap net would
   be VSS (the nfets' bulk net). Tool gap: 2AMLogic/klayout-tools#5231. Hand-drawn taps were not added.
+  *(Fixed in "LU.b substrate taps and native re-run" below once #5231 landed: `add_guard_ring` draws a pSD ring on
+  `ihp-sg13g2` from klt `0.9.2.dev887+gec7400b7d8e5`, and LU.b went 322 -> 0.)*
 - **M1.b 22 / Cnt.b 4:** attributed and fixed in the next section (the "5 nm `bjt_array` abutment" attribution recorded here was wrong).
 - G8 keep-out is unchanged (3 VCTRL violations, sg13g2-vco#314); `layout/top.gds` has not been through LVS (#37) or PEX (#41).
 
@@ -239,8 +243,89 @@ curated deck `sha256:85a9012a…`; same commands as above, plus `klt drc --check
 The curated `metal1.space.1` / `cont.space.1` hits (11 / 4) are gone for the same reasons. The curated deck hash differs from the 348 run because the
 installed klt moved, so the two columns are not byte-for-byte the same deck. Placements, routes (VOP 850.105 / VON 611.845 um, collisions 13) and the
 tank-load geometric estimate are unchanged, and the VCO stream is untouched. **Item 3 of #36 stays `unmet`:** `LU.b` 322 (no P-substrate tap drawable via
-`klt gen`; waits on 2AMLogic/klayout-tools#5231, tap net VSS `0`, not hand-drawn) and the 64 VCO curated hits remain. Pins re-stamped: `manifests/layout.attest.json`,
+`klt gen`; waits on 2AMLogic/klayout-tools#5231, tap net VSS `0`, not hand-drawn; fixed in the next section) and the 64 VCO curated hits remain. Pins re-stamped: `manifests/layout.attest.json`,
 `layout/drc/top.drc.json`, `manifests/sg13g2-lc-pll.json`, signoff record (`klayout-tools==0.8.0`).
+
+### LU.b substrate taps and native re-run (#202, 2026-11-13)
+
+**The tool gap closed.** `mos_array add_guard_ring` on `ihp-sg13g2` now draws a **pSD** tap ring (layer 14/0, no `NWell`,
+contacts on grid) instead of the n-well tie with off-grid `Cont` recorded above; the change is 2AMLogic/klayout-tools#5231,
+merged upstream as klayout-tools#5261 and present in the klt provisioned on the worker,
+`0.9.2.dev887+gec7400b7d8e5`. Verified before using it, on a throwaway 2x2 `nfet` array (`w 0.42 / l 0.3`, `hv`,
+`gate_contact`) outside this tree: without the ring the native deck reports `LU.b` 4, with it **0 violations on both
+engines**. Per-layer shape counts of the two probe streams differ by exactly the ring: `1/0` `Activ` +1, `6/0` `Cont` +8,
+`8/0` `Metal1` +1, **`14/0` `pSD` +1**, and `31/0` `NWell` still absent -- a p+ substrate tie, not the n-well tie.
+The 302-unit divider `nfet` group (`2 x 151`, `w 2 / l 0.5`) was then generated standalone with the ring: also 0 on both
+engines. The CI `klt` pin (`klayout-tools==0.8.0`, `signoff.yml`) still predates the fix; bumping it stays out of scope here.
+
+**The fix, in the generator.** `layout/cells/common.py` `plan()` passes `add_guard_ring: true` on every `nfet` `mos_array`
+group (13 groups: divider 2, cp 6, pfd 2, lockdet 3) and records that group's `tap_net` in `layout/cells.provenance.json`.
+The net is **read from the netlist**, never invented: it is the 4th node of the device cards (`D G S B`), which is `VSS`
+for every nfet in all four blocks; a group whose units disagreed on it would be refused (`PlanError`) rather than tied
+together. `pfet` groups get no ring — `LU.b` is an N+Activ-inside-PWell rule and the native deck reports no n-well-tie
+rule against the pfet arrays. Nothing is hand-drawn, no stream is edited, no rule is waived.
+
+```
+.venv/bin/python layout/gen_cells.py --write && .venv/bin/python layout/gen_integrated.py --write
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root /home/ubuntu/share/pdk --format json -o layout/drc/top.crosscheck.json   # exit 3
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json     # curated, exit 3; klt drc --check = match
+```
+
+`klt 0.9.2.dev887+gec7400b7d8e5`, klayout 0.30.13, PDK `ihp-sg13g2` `fetched:0.3.0`, input `layout/top.gds`
+`sha256:92b05723…`, native deck `ihp-sg13g2.drc` `sha256:0620b737…` (unchanged, still no `--deck-var`), curated deck
+`sha256:e8929ac8…` (differs from the 322 run only because the installed klt moved).
+
+| Engine | 1798 baseline | 348 | 322 | **now** | Per rule now |
+|---|---|---|---|---|---|
+| native | 1798 | 348 | 322 | **0** | - (`LU.b` 322 -> 0) |
+| curated | 783 | 79 | 64 | **64** | nwell.enclosing.pactiv.1 64 (VCO `SVaricap`, sg13g2-vco#315, not waived) |
+
+**What "native 0" does and does not say.** The report is `violation_count: 0`, but klt grades the run
+`status: coverage_unknown`, `coverage.unknown = [{engine_execution:["klayout"], unmeasured_rule_execution}]`, and its
+`coverage.rules_checked` is **empty** — that list is derived from the rules that produced violations (it held exactly
+`['LU.b']` on the 322 run), so a zero-violation native run cannot enumerate what ran. This is *no violations reported by
+the native deck as invoked*, not an established clean sweep of every native rule. The curated engine is the one with real
+coverage accounting here (63 rules checked, 0 skipped, 41 stream layers with no rule).
+klt does offer the opt-in assertion that would upgrade this to `clean` (`klt drc --expect-rule-categories[-file]`,
+klayout-tools#2697), and it is deliberately **not** used: it requires the deck's declared RDB rule categories to be
+established independently of the accepted run, and `ihp-sg13g2.drc` pulls its rule groups in through `-rd`-gated
+includes (`rule_decks/`), so that set varies with switches this run does not supply. Supplying a count read back from
+this very run would be circular. Establishing the list, with the `--deck-var` set it belongs to, is #36 work.
+
+**Item 3 of #36 stays `unmet`.** The curated deck still reports the 64 `nwell.enclosing.pactiv.1` hits on the VCO's
+`SVaricap` banks, placed unmodified from `sg13g2-vco@17e49a8` and reported as sg13g2-vco#315 — not waived, not edited.
+Item 3's metric blocker (`drc__error__count`) is unchanged at 64.
+
+**Collateral in the same regeneration, measured separately.** The committed `cells.provenance.json` was stale against
+`design/netlist/{prescaler,pll_top}.spice`, which moved in PR #170 *after* the 322 run, so `gen_cells.py --check` already
+failed on `main` before this change. To keep the two effects apart, the tree was first regenerated with **no code change**
+(`layout/top.gds` `sha256:0b6ae957…`): native **322**, curated **64** — byte-for-byte the same verdict as the committed
+run, so the netlist drift is DRC-neutral and the 322 -> 0 above is the tap rings alone. The drift itself: prescaler
+208 -> 209 units, 23027.5 -> 25258.9 um2 (one `rppd` group `l 77.7` becomes `l 120.65` + `l 38.65`), bbox 51.6 -> 56.6 um
+tall at the same 446.27 um width; `MC` route 319.08 -> 365.32 um.
+
+**Effect of the rings.** Cell areas (um2): divider 17279.1 -> 18297.8, cp 1746.6 -> 2258.0, pfd 1080.7 -> 1272.5,
+lockdet 26539.5 -> 27090.4; prescaler and loop filter have no nfet group and are unchanged by the rings. Each ringed
+group grows 1.1 um per side, so no cell placement in `gen_integrated.PLACE` moved and the closest pair (prescaler
+bottom -241.6 um, divider top -242.16 um) still clears by 0.56 um with no violation between them. Routes `DN`
+433.3 -> 435.5, `UP` 426.36 -> 428.56, `VCP` 156.35 -> 165.15 um; `collisions` stays 13. **The tank nets are untouched**
+(VOP 850.105 um, VON 611.845 um), so the tank-load geometric estimate (73.16 / 52.66 fF against the 2.1 fF budget, not
+extracted, PEX is #41) is unchanged and still outside budget. The VCO subtree still byte-matches the pinned stream
+(`scripts/test-layout-top.sh`: `klt clip` + `klt diff`), and G8 keep-out is unchanged (3 VCTRL intrusions, sg13g2-vco#314).
+
+**The rings are drawn, not connected.** Each ring's `TAP_N/S/E/W` ports are on Metal1 and no route ties them to `VSS`;
+these cells are placement-only and VSS is in `not_routed` (supply ERC is #38). The `VSS` port label still sits on a device
+terminal, as before. An LVS run would see each ring as a floating net — LVS is #37 and no LVS claim is made here.
+
+Checks: `scripts/test-layout-cells.sh` (all cells regenerate to the committed provenance, 42/42 port labels, negatives
+fire), `scripts/test-layout-top.sh` (9/9), `klt drc --check layout/drc/top.drc.json` = match. Pins re-stamped:
+`manifests/layout.attest.json` (`klt signoff --attest 2`), `layout/drc/top.drc.json`, `layout/drc/top.crosscheck.json`,
+`manifests/sg13g2-lc-pll.json`, signoff record (`klayout-tools==0.8.0`, item 2 still `met`, 4 of 11 T1 items met).
+
+**Tool friction filed:** `klt signoff --attest 2 -o PATH` writes a JSON envelope **without** the `manifest_entry` block
+that the same command emits on `--format json` stdout, and `klt signoff --manifest` binds evidence through that block —
+an attestation written with `-o` grades `unmet` / `stale_evidence`. Worked around here by redirecting `--format json`;
+reported generically as 2AMLogic/klayout-tools#5429.
 
 ## Regeneration after the `cml_dff_latch` resize (#187)
 
