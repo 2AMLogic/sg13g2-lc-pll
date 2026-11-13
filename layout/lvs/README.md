@@ -1,7 +1,7 @@
 # layout/lvs: T1 item 4 (LVS) attempt
 
 **Status: item 4 stays `unmet`. No `klt lvs` envelope exists; both engines stop before a compare.**
-Tracker for the tool gap: `2AMLogic/klayout-tools#5402`. Nothing here is a `match`.
+Tracker for the current tool gap: `2AMLogic/klayout-tools#5407` (earlier gap #5402 is fixed). Nothing here is a `match`.
 
 ## Inputs
 
@@ -23,6 +23,19 @@ So the inductor, varactor and `npn13G2v` recognition question the issue names is
 no `device_census` or `coverage.declared_not_recognized` was produced. `power_connectivity` is
 `unchecked` for any non-gate-level reference (its `expected_nets` option is refused otherwise).
 
+## Re-run 2026-11-13 (`klt 0.9.2.dev879+gd0673a77ebba`, includes klayout-tools PR 5404)
+
+| Run | Outcome |
+|---|---|
+| `klt lvs layout/lvs/request.json` (curated `sg13g2`, `form: subckt-call`) | unchanged: exit 1, `inductor` / `sg13_hv_svaricap` not known devices for the curated deck. |
+| `engine: klayout-runset`, PDK `sg13g2.lvs` as `deck_file`, no `form`, `lc_pll_top` vs `pll_top` | past the earlier errors: the compare runs, then `klt` raises `ValueError: invalid coverage: checked: work identity must be a nonempty string` in `_build_coverage` (`lvs_runset.py`) and writes no envelope. Filed as `2AMLogic/klayout-tools#5407`. |
+
+Still no `device_census`, no `coverage.declared_not_recognized`, no `power_connectivity` verdict, so
+`npn13G2v` recognition remains unobserved. Item 4 stays `unmet`; `layout/drc/top.drc.json` is still
+`violations`, so a `match` would not be expected even without the crash. The runset request used
+absolute paths in a scratch file (`/tmp`) and is not committed; a committed runset request is added
+once the tool produces an envelope.
+
 ## Not done
 
 - No hand-written plain-element reference in the runset's dialect: that is a second, unreviewed
@@ -31,5 +44,5 @@ no `device_census` or `coverage.declared_not_recognized` was produced. `power_co
   (`gen_integrated.py`), so a `match` would not be expected even with the tool gap closed.
 - `manifests/sg13g2-lc-pll.signoff.json` is not touched.
 
-Re-run once `klayout-tools#5402` lands; then commit the envelope as `top.lvs.json` and check it with
+Re-run once `klayout-tools#5407` lands; then commit the envelope as `top.lvs.json` and check it with
 `klt lvs --check layout/lvs/top.lvs.json`.
