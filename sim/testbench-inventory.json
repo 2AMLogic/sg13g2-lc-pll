@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "t1-attestation-inventory",
   "t1_item": 9,
-  "description": "Testbench inventory for spec rows 1-11 (the per-row table with owner issues is sim/testbench-inventory.md). cold_start is scripts/run-benches.sh: it runs every unattended simulation bench once (nominal corner, one local ngspice at a time, records to a scratch dir) and fails if any cannot run to completion. NOT in cold_start: scripts/run-vco-smoke.sh (needs openvaf-r and the network; its only committed record is a failure, sim/vco-smoke/records/20261018-024845-17e49a8.md), so its files are inventoried as present but it is not attested to run. Corner grids and Monte Carlo are #39/#40 through klt sim. Negative controls shipped: cp-dc, prescaler-g1, loop-tran, jitter (and the fetch/pin tests); pfd-sweep, prescaler-g3 and divider-elab have none yet (sim/testbench-inventory.md).",
+  "description": "Testbench inventory for spec rows 1-11 (the per-row table with owner issues is sim/testbench-inventory.md). cold_start is scripts/run-benches.sh: it runs every unattended simulation bench once (nominal corner, one local ngspice at a time, records to a scratch dir) and fails if any cannot run to completion. NOT in cold_start: scripts/run-jitter-t-cost.sh (the method T cost ladder: a deck-list klt sim request to the batch fleet, hours of fleet time; its --smoke mode is one short local ngspice; record sim/jitter/records/20261103-140556-4050b52-tcost.md) and scripts/run-vco-smoke.sh (needs openvaf-r and the network; its only committed record is a failure, sim/vco-smoke/records/20261018-024845-17e49a8.md), so its files are inventoried as present but it is not attested to run. Corner grids and Monte Carlo are #39/#40 through klt sim. Negative controls shipped: cp-dc, prescaler-g1, loop-tran, jitter (and the fetch/pin tests); pfd-sweep, prescaler-g3 and divider-elab have none yet (sim/testbench-inventory.md).",
   "testbenches": [
     "scripts/run-benches.sh",
     "scripts/run-cp-dc.sh",
@@ -28,6 +28,9 @@
     "sim/loop-power/loop_power.spice.tmpl",
     "scripts/run-jitter.sh",
     "scripts/test-jitter-negative.sh",
+    "scripts/run-jitter-t-cost.sh",
+    "scripts/jitter_t_analyze.py",
+    "sim/jitter/jitter_t.spice.tmpl",
     "sim/loop-model/loop_model.py",
     "sim/loop-model/loop-filter.json",
     "sim/loop-model/test_loop_model.py",

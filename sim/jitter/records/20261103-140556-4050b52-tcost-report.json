@@ -1,0 +1,130 @@
+{
+  "schema_version": 3,
+  "mode": "decks",
+  "backend": "batch",
+  "engine": "ngspice",
+  "status": "pass",
+  "unit_count": 4,
+  "passed": 4,
+  "errored": 0,
+  "timed_out": 0,
+  "units": [
+    {
+      "id": "t20us",
+      "status": "pass",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_s": 206.671,
+      "engine_version": null,
+      "deck": "t20us.spice",
+      "deck_sha256": "06dffc97912e3e5b524bdb5e964dec239b8028db76644a16b39af159ce8b5893",
+      "stdout": "t20us/stdout.bin",
+      "stderr": "t20us/stderr.bin",
+      "outputs": [
+        "fb.data"
+      ],
+      "missing_outputs": [],
+      "host_resolved": [
+        "/opt/pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerMOShv.lib",
+        "/opt/pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerCAP.lib",
+        "/opt/pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerRES.lib"
+      ],
+      "diagnostics": []
+    },
+    {
+      "id": "t50us",
+      "status": "pass",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_s": 540.967,
+      "engine_version": null,
+      "deck": "t50us.spice",
+      "deck_sha256": "9a5d8d287270fff7901f25dbc0a1a883b7aa402e033def65136d8a5d5d097c0d",
+      "stdout": "t50us/stdout.bin",
+      "stderr": "t50us/stderr.bin",
+      "outputs": [
+        "fb.data"
+      ],
+      "missing_outputs": [],
+      "host_resolved": [
+        "/opt/pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerMOShv.lib",
+        "/opt/pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerCAP.lib",
+        "/opt/pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerRES.lib"
+      ],
+      "diagnostics": []
+    },
+    {
+      "id": "t100us",
+      "status": "pass",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_s": 1065.869,
+      "engine_version": null,
+      "deck": "t100us.spice",
+      "deck_sha256": "df3a662e3458c5a8479adf18d38a8b877dc7995b32611644bb78c068343f0ed2",
+      "stdout": "t100us/stdout.bin",
+      "stderr": "t100us/stderr.bin",
+      "outputs": [
+        "fb.data"
+      ],
+      "missing_outputs": [],
+      "host_resolved": [
+        "/opt/pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerMOShv.lib",
+        "/opt/pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerCAP.lib",
+        "/opt/pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerRES.lib"
+      ],
+      "diagnostics": []
+    },
+    {
+      "id": "t200us",
+      "status": "pass",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_s": 2157.18,
+      "engine_version": null,
+      "deck": "t200us.spice",
+      "deck_sha256": "9f80dbf91a6e766ee41b2da2fcf956665cd6130ba75c519305f526b2900e3d83",
+      "stdout": "t200us/stdout.bin",
+      "stderr": "t200us/stderr.bin",
+      "outputs": [
+        "fb.data"
+      ],
+      "missing_outputs": [],
+      "host_resolved": [
+        "/opt/pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerMOShv.lib",
+        "/opt/pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerCAP.lib",
+        "/opt/pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerRES.lib"
+      ],
+      "diagnostics": []
+    }
+  ],
+  "outdir": "/tmp/jt88/out",
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": null,
+    "ngspice_binary": null,
+    "klt_version": "0.8.0",
+    "max_workers": 4,
+    "engine_host": "worker",
+    "remote": {
+      "provider": "aws-batch-fleet",
+      "job_id": "klt-sim-f1312d731ee9",
+      "region": "us-east-1",
+      "instance_id": "i-04b0daa94b6e2dc3f",
+      "instance_type": "c7i.8xlarge",
+      "availability_zone": "us-east-1a",
+      "ami_id": "ami-0fa5ef830209100bd",
+      "lifecycle": "spot",
+      "spot": true,
+      "state": "done",
+      "exit_code": "0",
+      "concurrency": "2",
+      "physical_cores": "16",
+      "elapsed_seconds": 2163,
+      "runner_klt_version": "0.8.0",
+      "client_klt_version": "0.8.1.dev1290+ga4a2197355e4",
+      "runner_compatibility": "match"
+    },
+    "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice"
+  }
+}
