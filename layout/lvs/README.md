@@ -46,3 +46,35 @@ once the tool produces an envelope.
 
 Re-run once `klayout-tools#5407` lands; then commit the envelope as `top.lvs.json` and check it with
 `klt lvs --check layout/lvs/top.lvs.json`.
+
+## Run 2026-11-13 (`klt 0.9.2.dev883+gd109c11dce60`, klayout 0.30.13): first envelope, `status: mismatch`
+
+Committed: `request.runset.json` (relative paths) and `top.lvs.json` (the envelope).
+Reproduce from this directory with
+`klt lvs request.runset.json --deck-file <PDK>/libs.tech/klayout/tech/lvs/sg13g2.lvs --format json -o top.lvs.json`
+(single local run; the PDK `sg13g2.lvs` runset, `engine: klayout-runset`, deck sha256 `e01bcb1e...`).
+`klt lvs --check top.lvs.json`, run from `layout/lvs/`, exits 0: that re-hashes the inputs only and is
+**not** an LVS verdict. The LVS verdict is `status: mismatch`.
+
+| Field | Value |
+|---|---|
+| `status` | `mismatch` (1787 net, 677 device, 16 pin errors; 0 nets / devices / pins matched) |
+| `power_connectivity` | `unchecked`: the runset's extracted netlist has no instance-level power pins. This is "does not apply", not "verified". |
+| layout `device_census` | `sg13_hv_nmos` 391, `npn13G2v` 137, `rppd` 85, `sg13_hv_svaricap` 32, `cap_cmim` 20, `rhigh` 6, `inductor` 2, `ptap1` 1 |
+| reference `device_census` | empty (3 top-level devices, 2 pins) |
+| `coverage.checked` | `cap_cmim, inductor, npn13G2v, ptap1, rhigh, rppd, sg13_hv_nmos, sg13_hv_svaricap` |
+| `declared_not_recognized` | 35 deck classes absent from this layout (e.g. `npn13G2`, `npn13G2l`, `inductor3`, `ntap1`, `sg13_hv_pmos`) |
+
+Reading it:
+
+- **`npn13G2v` is recognized** on the layout side (137 devices, in `coverage.checked`), as are the
+  inductor and the HV varactor. Recognition is no longer the blocker the issue feared.
+- **The compare itself is not meaningful yet.** The reference top (`pll_top`) reaches the runset as
+  3 subcircuit-call cards (`XPFD`, `XCP`, ...), not primitive devices, so nothing can pair with the
+  1782-net flat layout extraction. The 0-matched counts say the two sides were not on the same footing,
+  not that 674 devices are individually wrong. How the compare treats the VCO (flat vs black box):
+  flat on the layout side, unexpanded on the reference side.
+- The ~1.1 MB envelope is committed as evidence of this state, not as a pass. Item 4 stays `unmet`;
+  `manifests/sg13g2-lc-pll.signoff.json` is not touched. `layout/drc/top.drc.json` is also still `violations`.
+- Needed next (not done here; a hand-flattened reference would be a second, unreviewed netlist):
+  a runset-compatible path for a hierarchical subcircuit-call reference. Tracked upstream as `2AMLogic/klayout-tools#5406` (open).
