@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Grade the row 11 loop-power C-grid artifacts and write the dated append-only record.
 
-    python3 -I make_record.py --stage 1 --art DIR [--art DIR ...] --jobs ID[,ID...] --out-dir records [--commit SHA]
+    python3 -I make_record.py --stage 1 --art DIR [--art DIR ...] [--report R.json ...] \
+        --jobs ID[,ID...] --out-dir records [--commit SHA]
 
 DIR holds one sub-directory per corner (corner.json, ngspice.log), as downloaded by `klt sim --attach <shard job>`
 into -o DIR/<job>. The values are read from the .meas lines of each corner's ngspice.log.
@@ -9,12 +10,14 @@ A corner counts as "divides" only if tfb (three FB periods, rise 1 to rise 4 aft
 Not-dividing corners keep their currents, labelled not-a-row-11-number, and are left out of the min/typ/max.
 PFD + CP + bias is NOT simulated here: a single nominal-corner constant from the newest sim/loop-tran record is added
 and labelled as such.
-The simulator pin verdict is computed by sim/ngpin.py from the version the artifacts record (a klt report beside the
-corner directories, else the ngspice start-up banner in each corner's log); with neither it reads "unchecked".
+The simulator pin verdict is computed by sim/ngpin.py from `environment.engine_version` of the klt reports named
+with `--report`. Nothing is inferred from the downloaded corner artifacts: they carry no version this repo can
+show (see report_engines). With no `--report` the record states the check as "unchecked", never as a match.
 """
 import argparse
 import datetime
 import glob
+import gzip
 import json
 import os
 import re
@@ -31,31 +34,37 @@ BUDGET_MW = 20.0
 TFB_LO, TFB_HI = 58.5e-9, 61.5e-9
 
 
-_REPORT_ENGINE = {}   # job directory -> engine_version of the klt report beside it (read once per job)
+def read_report(path):
+    """A klt report JSON, plain or gzipped (`.json.gz`, as the records keep them)."""
+    with open(path, "rb") as f:
+        raw = f.read()
+    if raw[:2] == b"\x1f\x8b":
+        raw = gzip.decompress(raw)
+    return json.loads(raw)
 
 
-def engine_version(job_dir, log):
-    """The ngspice version this corner actually ran on, from the artifacts `klt sim --attach` left behind.
+def report_engines(paths, jobs=()):
+    """The ngspice version each `--report` records, from `environment.engine_version`.
 
-    Two places carry it: a klt report JSON beside the corner directories (`environment.engine_version`),
-    and the ngspice start-up banner in the corner's own log. Returns None when neither does -- the record
-    then says the pin check is unchecked, never that it matched.
+    The version is read only from a report the caller names: nothing is inferred from the
+    artifact tree. The corner artifacts `klt sim --attach` downloads are not a source here --
+    they carry no version this repo can show. `ngspice -b -o FILE` writes the start-up banner
+    to stdout, not into FILE, and all 32 ngspice captures on file are `-o`-shaped and carry no
+    `ngspice-<n>` line; a corner's `ngspice.log` is therefore not known to hold one. With no
+    `--report` the list is empty and the record reads "unchecked" -- never "match".
+
+    A report whose `environment.remote.job_id` names a job this record is not grading is
+    refused rather than used: it would label these corners with a version they did not run on.
     """
-    if job_dir not in _REPORT_ENGINE:
-        _REPORT_ENGINE[job_dir] = None
-        for j in sorted(glob.glob(os.path.join(job_dir, "*.json")) + glob.glob(os.path.join(job_dir, "..", "*.json"))):
-            try:
-                with open(j) as f:
-                    v = (json.load(f).get("environment") or {}).get("engine_version")
-            except (OSError, ValueError, AttributeError):
-                continue
-            if v:
-                _REPORT_ENGINE[job_dir] = str(v)
-                break
-    if _REPORT_ENGINE[job_dir]:
-        return _REPORT_ENGINE[job_dir]
-    m = re.search(r"^\*{2,}\s*ngspice-([0-9][0-9.]*)", log, re.M)
-    return m.group(1) if m else None
+    out = []
+    for p in paths:
+        env = read_report(p).get("environment") or {}
+        jid = (env.get("remote") or {}).get("job_id")
+        if jobs and jid and jid not in jobs:
+            sys.exit("--report %s is job %s, which is not among --jobs (%s): it does not "
+                     "describe these corners" % (p, jid, ", ".join(jobs)))
+        out.append(env.get("engine_version"))
+    return out
 
 
 def meas(log, name):
@@ -82,7 +91,6 @@ def load(dirs):
                 "vdd": float(m.group(1)), "ip": None if ip is None else -ip, "id_": None if idd is None else -idd,
                 "tfb": meas(log, "tfb"), "pspp": meas(log, "pspp"),
                 "converged": ip is not None and idd is not None,
-                "engine": engine_version(os.path.dirname(cdir), log),
                 "diag": [l for l in log.splitlines() if "timestep too small" in l or "aborted" in l][:1],
             }
     return sorted(rows.values(), key=lambda r: (r["proc"], r["t"], r["vdd"]))
@@ -92,6 +100,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", type=int, required=True)
     ap.add_argument("--art", action="append", required=True)
+    ap.add_argument("--report", action="append", default=[],
+                    help="klt report JSON for a shard job (repeatable). The simulator pin verdict is "
+                         "computed from environment.engine_version of these reports; with none given the "
+                         "record states the check as unchecked.")
     ap.add_argument("--jobs", required=True)
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--commit", default="unknown")
@@ -101,6 +113,7 @@ def main():
     for d in a.art:
         dirs += [x for x in glob.glob(os.path.join(d, "klt-sim-*")) if os.path.isdir(x)] or [d]
     rows = load(dirs)
+    engines = report_engines(a.report, [j for j in a.jobs.split(",") if j])
     for r in rows:
         r["divides"] = r["converged"] and r["tfb"] is not None and TFB_LO <= r["tfb"] <= TFB_HI
         r["pp"] = None if not r["divides"] else r["ip"] * r["vdd"] * 1e3
@@ -135,11 +148,10 @@ def main():
     w(("- **Method**: `klt sim` on the Spot batch fleet (`backend batch`), request `request-stage%d.json` generated by `make_requests.py`; "
       "transient `4p 120n`, supply current of each rail averaged over 40-120 ns (`.meas avg`), power = V_dd x |I|. Division check: `tfb` = three FB periods "
       "(rise 1 to rise 4 after 40 ns) must be 58.5-61.5 ns (FB = 50 MHz at N = 100). Fleet shard jobs: %s.") % (a.stage, "`" + a.jobs.replace(",", "`, `") + "`"))
-    engines = [r["engine"] for r in rows]
     w("- **Simulator**: the fleet ran %s, %s. The earlier nominal record (`sim/loop-power/records/`) used a different start-up, see below; "
       "a divide failure here may be a start-up artifact of the ramp and is not proven to be a design failure."
-      % (ngpin.engine(engines, unknown="an ngspice version the downloaded artifacts do not record"),
-         ngpin.verdict(engines, source="the downloaded corner artifacts")))
+      % (ngpin.engine(engines, unknown="an ngspice version no `--report` was given to state"),
+         ngpin.verdict(engines, source="the reports given with `--report`")))
     w("- **Start-up (differs from `scripts/run-loop-power.sh`)**: the HBT prescaler DC operating point did not converge from the powered state at most corners "
       "(`timestep too small` on the reference HBT; a first pass of 18 stage-2 corners returned 4 converged). Supplies, IREF and the drive common mode ramp from 0 V over 3 ns "
       "(`loop_power_body.spice`); the window is 40-120 ns. No `.ic`/`.nodeset` seeding of the latches.")

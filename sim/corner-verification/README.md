@@ -46,7 +46,9 @@ matters is decided by V_hi,req (gate G4, VCO graded f(Vctrl)); it is not graded 
 
 `make_requests.py` writes `request-stage{1,2}.json` (stage 1 = 5 MOS x 3 MIM x 3 HBT x 3 T at 3.300 V = 135; stage 2 = SLOW/TYP/FAST x 3 T x
 {2.970, 3.630} V = 18); `loop_power_body.spice` is the prescaler + M/A divider at N = 100 driven at 5.0 GHz (same circuit as
-`sim/loop-power`); `make_record.py` grades the downloaded corner artifacts into `loop-power/records/`. Both stages went to the Spot batch
+`sim/loop-power`); `make_record.py` grades the downloaded corner artifacts into `loop-power/records/`. Pass each shard's klt report with
+`--report` as well: the record's simulator pin verdict is read from `environment.engine_version` of those reports and from nothing else, so
+without them it states the check as `unchecked` rather than guessing a version from the corner artifacts. Both stages went to the Spot batch
 fleet as sharded jobs (`--max-units-per-job`, the fleet's 3600 s whole-job ceiling); nothing ran on the dispatch host. Simulator: ngspice 46
 on the fleet, pin is 47.
 
