@@ -5,24 +5,26 @@
 .lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
 .lib @@MODELS_DIR@@/cornerMOShv.lib mos_tt
 .lib @@MODELS_DIR@@/cornerCAP.lib cap_typ
+.lib @@MODELS_DIR@@/cornerRES.lib res_typ
 .option temp=27
 .include @@DIV_NETLIST@@
 VDD vdd 0 3.3
 V1 one 0 dc 3.3
 VZ zero 0 0
-* ideal-clock counters (M = 12: m3 m2 m1 m0 = 1100; A = 2: a1 a0 = 10)
+* ideal-clock counters (M = 12: m3 m2 m1 m0 = 1100; A = 4: a2 a1 a0 = 100)
 VCK3 ck3 0 pulse(0 3.3 0 80p 80p 720p 1600p)
 VCK4 ck4 0 pulse(0 3.3 0 72.7p 72.7p 654.5p 1454.5p)
 XM3 ck3 zero zero one one tc3 tcn3 vdd 0 mcounter
-XA3 ck3 tc3 tcn3 zero one mci3 vdd 0 acounter
+XA3 ck3 tc3 tcn3 zero zero one mci3 vdd 0 acounter
 XF3 tc3 ck3 fbi3 vdd 0 dff_tg_hv
 XM4 ck4 zero zero one one tc4 tcn4 vdd 0 mcounter
-XA4 ck4 tc4 tcn4 zero one mci4 vdd 0 acounter
+XA4 ck4 tc4 tcn4 zero zero one mci4 vdd 0 acounter
 XF4 tc4 ck4 fbi4 vdd 0 dff_tg_hv
 .save v(ck3) v(mci3) v(fbi3) v(ck4) v(mci4) v(fbi4)
 .control
 pre_osdi @@OSDI_PSP@@
 pre_osdi @@OSDI_PSP_NQS@@
+pre_osdi @@OSDI_R3@@
 op
 tran 20p 150n 0 20p
 wrdata @@OUT_DIR@@/speedC.data v(ck3) v(mci3) v(fbi3) v(ck4) v(mci4) v(fbi4)

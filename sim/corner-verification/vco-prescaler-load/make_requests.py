@@ -10,21 +10,23 @@ Reads the sha256-verified fetched VCO deck (.fetched/sg13g2-vco/design/vco.spice
   request-{loaded,unloaded}-stage{1,2}.json
 Stage 1 = 5 MOS x 3 MIM x 3 HBT x 3 T at 3.300 V (loaded: Vctrl 1.65 V only; unloaded: not requested, the nominal
           unloaded point is in sim/vco-prescaler-load).
+Stage 0 = nominal point only (TYP, 27 C, 3.3 V, Vctrl in {0, 1.65, 3.3} V), loaded and unloaded.
 Stage 2 = SLOW/TYP/FAST x 3 T x {2.970, 3.630} V, Vctrl in {0, 1.65, 3.3} V, loaded and unloaded.
 """
+import hashlib
 import json
 import os
 import re
 import shutil
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
+sys.path.insert(0, os.path.join(ROOT, "sim"))
+import corner_set  # noqa: E402  (the spec C-grid, defined once in sim/corner_set.py)
+
 FETCHED = os.path.join(ROOT, ".fetched", "sg13g2-vco")
-LIB = "libs.tech/ngspice/models/"
 OSDI = "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/"
-MOS = ["tt", "ss", "ff", "sf", "fs"]
-MIM = ["typ", "bcs", "wcs"]
-HBT = ["typ", "bcs", "wcs"]
 TSTOP = "20n"
 
 LOAD = """* The prescaler input on the tank (gate G1 load): same instance, bias and start-up .ic as sim/vco-prescaler-load.
@@ -68,21 +70,25 @@ def body(loaded):
     return "\n".join(out) + "\n"
 
 
-def sections(mos, mim, hbt):
-    return [
-        {"lib": LIB + "cornerMOShv.lib", "section": "mos_" + mos},
-        {"lib": LIB + "cornerCAP.lib", "section": "cap_" + mim},
-        {"lib": LIB + "cornerHBT.lib", "section": "hbt_" + hbt},
-    ]
+FAMILIES = ("mos", "mim", "hbt")  # the VCO holds HV MOS, MIM caps and HBTs
 
 
-def req(tag, stage, shard=None, temps=(-40, 27, 125)):
+def sections(mos, mim, hbt, loaded=False):
+    # the prescaler (22f2579) has rppd / rhigh instances: resistor corner follows the MIM corner name (typ/bcs/wcs)
+    fam = FAMILIES + (("res",) if loaded else ())
+    return corner_set.sections(fam, mos=mos, mim=mim, hbt=hbt, res=mim)
+
+
+def req(tag, stage, shard=None, temps=tuple(corner_set.TEMPS), dsubw=False):
     loaded = tag == "loaded"
     comment = [
         "Gate G2 corner envelope, stage %d of the spec C-grid: pinned sg13g2-vco (unmodified) %s the prescaler input on the tank." % (stage, "with" if loaded else "without"),
         "Per corner: fosc_t40 = time of 30 periods of v(vd) = v(OUTP)-v(OUTN) (rising zero crossings 40 to 70, so f = 30 / fosc_t40); vpp = peak-to-peak over 10-%s; tst = first time v(vd) reaches +0.2 V from the 10 mV .ic kick (startup proxy, not the row 6 g_m / loss ratio)." % TSTOP,
         "No limits are set on the requests: the record grades row 1 (4.5-5.5 GHz), row 7 (>= 0.40 Vpp) and the loaded-vs-unloaded shift."]
-    d = {"_comment": comment, "netlist": "vco_%s.spice" % tag, "netlist_source": "schematic",
+    if dsubw:
+        comment.append("APPROXIMATION (issue #173 operator ruling): the varactor subckt is a local copy (svar_dsubw125.spice) in which ONLY the dsubw diode card carries tnom = 125; "
+                       "every unit, at any temperature, uses that card. No other card, deck or VCO line changes. Every 125 C number is an approximation, not the PDK card as shipped.")
+    d = {"_comment": comment, "netlist": "vco_%s%s.spice" % (tag, "_dsubw" if dsubw else ""), "netlist_source": "schematic",
          "engine": "ngspice", "backend": "batch", "models": {"pdk": "ihp-sg13g2"},
          "analysis": {"kind": "tran", "args": "1p %s 0 2p" % TSTOP}}
     d["measurements"] = [
@@ -93,26 +99,70 @@ def req(tag, stage, shard=None, temps=(-40, 27, 125)):
         {"name": "tst", "unit": "s", "spec_row": "6", "on_unreached": "null",
          "spice": ".meas tran tst when v(vd)=0.2 rise=1"},
     ]
-    if stage == 1:
+    if stage == 0:
+        # nominal: mos_tt / cap_typ / hbt_typ, 27 C, 3.3 V, Vctrl = 0, 1.65, 3.3 V (the AC 1 loaded-vs-unloaded comparison)
         d["corners"] = {
-            "process": [{"name": "mos_%s/cap_%s/hbt_%s" % (m, c, h), "sections": sections(m, c, h)}
-                        for m in MOS for c in MIM for h in HBT if shard in (None, m)],
+            "process": [{"name": "TYP", "sections": sections(*corner_set.bundle("TYP", FAMILIES), loaded=loaded)}],
+            "temperature_c": [27],
+            "params": {"vddv": [corner_set.V_STAGE1] * 3, "vctrl": [0, 1.65, 3.3]},
+        }
+    elif stage == 1:
+        d["corners"] = {
+            "process": [{"name": "mos_%s/cap_%s/hbt_%s" % (m, c, h), "sections": sections(m, c, h, loaded)}
+                        for m in corner_set.MOS for c in corner_set.MIM for h in corner_set.HBT
+                        if shard in (None, m)],
             "temperature_c": list(temps),
-            "params": {"vddv": [3.3], "vctrl": [1.65]},
+            "params": {"vddv": [corner_set.V_STAGE1], "vctrl": [1.65]},
         }
     else:
         d["corners"] = {
             "process": [p for p in (
-                {"name": "SLOW", "sections": sections("ss", "wcs", "wcs")},
-                {"name": "TYP", "sections": sections("tt", "typ", "typ")},
-                {"name": "FAST", "sections": sections("ff", "bcs", "bcs")},
+                {"name": b, "sections": sections(*corner_set.bundle(b, FAMILIES), loaded=loaded)}
+                for b in corner_set.BUNDLES
             ) if shard in (None, p["name"])],
             "temperature_c": list(temps),
-            "params": {"vddv": [2.97] * 3 + [3.63] * 3, "vctrl": [0, 1.65, 3.3] * 2},  # zipped, so the 6 (vddv, vctrl) pairs
+            # zipped, so the 6 (vddv, vctrl) pairs
+            "params": {"vddv": [v for v in corner_set.V_STAGE2 for _ in range(3)], "vctrl": [0, 1.65, 3.3] * 2},
         }
-    pre = [OSDI + "mosvar.osdi"] + ([OSDI + "psp103.osdi"] if loaded else [])
+    pre = [OSDI + "mosvar.osdi"] + ([OSDI + "psp103.osdi", OSDI + "r3_cmc.osdi"] if loaded else [])
     d["options"] = {"timeout_s": 900, "keep_artifacts": True, "osdi_preload": pre}
     return d
+
+
+def dsubw_svar():
+    """Local copy of the PDK varactor subckt (sg13g2_svaricaphv_mod.lib, hash-pinned in sim/pins.json), renamed
+    svar_loc / svar_loc_mod, with ONLY the dsubw diode card given tnom = 125 (the `rd` variant of 2AMLogic/sg13g2-vco#303)."""
+    pins = json.load(open(os.path.join(ROOT, "sim", "pins.json")))
+    pdk = os.environ.get("PDK_ROOT") or os.path.join(os.path.expanduser("~"), "share", "pdk")
+    path = os.path.join(pdk, "ihp-sg13g2", "libs.tech", "ngspice", "models", "sg13g2_svaricaphv_mod.lib")
+    raw = open(path, "rb").read()
+    want = pins["pdk"]["model_libs_sha256"]["sg13g2_svaricaphv_mod.lib"]
+    if hashlib.sha256(raw).hexdigest() != want:
+        raise SystemExit("%s is not the pinned PDK file (sha256 != %s)" % (path, want))
+    lines = raw.decode().splitlines()
+    a = next(i for i, l in enumerate(lines) if l.startswith(".subckt sg13_hv_svaricap "))
+    b = next(i for i, l in enumerate(lines) if l.startswith(".ends sg13_hv_svaricap"))
+    out = ["* Local copy of the PDK varactor subckt sg13_hv_svaricap (sg13g2_svaricaphv_mod.lib, sha256 %s, lines %d-%d)." % (want, a + 1, b + 1),
+           "* Generated by make_requests.py. Changes vs the PDK text: the subckt is renamed svar_loc, its mosvar model svar_loc_mod,",
+           "* and the dsubw diode card gains `tnom = 125`. Nothing else (issue #173 operator ruling; the `rd` variant of sg13g2-vco#303)."]
+    n = 0
+    for l in lines[a:b + 1]:
+        if l.startswith((".subckt", ".ends")):
+            l = l.replace("sg13_hv_svaricap", "svar_loc")
+        else:
+            l = l.replace("sg13_hv_svaricap", "svar_loc_mod")
+        if l.startswith(".model dsubw d "):
+            l = l.replace(".model dsubw d ", ".model dsubw d tnom = 125 ", 1)
+            n += 1
+        out.append(l)
+    assert n == 1, "expected exactly one dsubw model card"
+    return "\n".join(out) + "\n"
+
+
+def dsubw_body(loaded):
+    b = body(loaded)
+    assert " sg13_hv_svaricap " in b
+    return b.replace(" sg13_hv_svaricap ", " svar_loc ") + ".include svar_dsubw125.spice\n"
 
 
 def main():
@@ -125,12 +175,38 @@ def main():
     # ceiling of 3600 s on the fleet and ~820 s per corner mean one 54-unit job is killed (see README).
     # Stage 2 shards by process corner (18 units), stage 1 by MOS corner (27 units).
     jobs = [("loaded", 1, None), ("loaded", 2, None), ("unloaded", 2, None)]
-    jobs += [("loaded", 2, p) for p in ("SLOW", "TYP", "FAST")] + [("unloaded", 2, p) for p in ("SLOW", "TYP", "FAST")]
-    jobs += [("loaded", 1, m) for m in MOS]
+    jobs += [(t, 2, p) for t in ("loaded", "unloaded") for p in corner_set.BUNDLES]
+    jobs += [("loaded", 1, m) for m in corner_set.MOS]
     for tag, stage, shard in jobs:
         name = "request-%s-stage%d%s.json" % (tag, stage, "" if shard is None else "-" + shard)
         with open(os.path.join(HERE, name), "w") as f:
             json.dump(req(tag, stage, shard), f, indent=1)
+            f.write("\n")
+
+
+def dsubw():
+    """Issue #173: the 125 C units with ONLY dsubw referenced to 125 C, plus 27 C control units under the same substitution."""
+    with open(os.path.join(HERE, "svar_dsubw125.spice"), "w") as f:
+        f.write(dsubw_svar())
+    for tag in ("unloaded", "loaded"):
+        with open(os.path.join(HERE, "vco_%s_dsubw.spice" % tag), "w") as f:
+            f.write(dsubw_body(tag == "loaded"))
+    jobs = []
+    for tag in ("loaded", "unloaded"):
+        for p in corner_set.BUNDLES:
+            jobs.append((tag, 2, p, (27, 125)))   # 27 C = control (must equal the unmodified 27 C records), 125 C = the owed units
+    for m in corner_set.MOS:
+        jobs.append(("loaded", 1, m, (27, 125) if m == "tt" else (125,)))   # stage 1: 125 C units; 27 C control only in the tt shard
+    for tag, stage, shard, temps in jobs:
+        with open(os.path.join(HERE, "request-%s-stage%d-dsubw-%s.json" % (tag, stage, shard)), "w") as f:
+            json.dump(req(tag, stage, shard, temps, dsubw=True), f, indent=1)
+            f.write("\n")
+
+
+def nominal():
+    for tag in ("loaded", "unloaded"):
+        with open(os.path.join(HERE, "request-%s-nominal.json" % tag), "w") as f:
+            json.dump(req(tag, 0), f, indent=1)
             f.write("\n")
 
 
@@ -144,3 +220,5 @@ def extra():
 
 main()
 extra()
+nominal()
+dsubw()

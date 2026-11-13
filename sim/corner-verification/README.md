@@ -106,6 +106,7 @@ Some `request-*.json` files are generator output and are no longer tracked (`.gi
 - `loop-power/request-stage2-97-s-<PROC>-<T>-<VDD>.json` (18): `cd sim/corner-verification/loop-power && python3 -I make_stage2_shards_97.py` (reads the tracked `request-stage2-97-fix1.json`). Run it before any `make_*_97*.py` probe script, which reads these shards from the current directory.
 - `loop-power/request-stage1-missing<i>.json`: `python3 -I make_requests.py --missing <stage-1 records>`. The set that was recorded is two runs: indices 3..21 from the `20261103-133412`, `20261103-193448`, `20261103-215804` records, indices 0..2 from those plus `20261104-032646`.
 - `vco-prescaler-load/request-{loaded,unloaded}-stage{1,2}[-<shard>].json` (16): `scripts/fetch-vco.sh && python3 -I sim/corner-verification/vco-prescaler-load/make_requests.py`.
+- `vco-prescaler-load/{vco_loaded,vco_unloaded,vco_loaded_dsubw,vco_unloaded_dsubw,svar_dsubw125,sg13g2_inductor_em}.spice` (issue #212): written by the same command (its `main()` and `dsubw()`); `sg13g2_inductor_em.spice` is a copy of the pinned `.fetched/` VCO inductor model. Records that name these decks are unchanged; see `vco-prescaler-load/records/20261112-issue212-generated-decks-removed.md`.
 
 ## Row status
 

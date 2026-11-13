@@ -12,7 +12,11 @@ sim/build/
 # generated klt sim requests (issue #106): rebuild with the generators named in sim/corner-verification/README.md
 sim/corner-verification/loop-power/request-stage1-missing*.json
 sim/corner-verification/loop-power/request-stage2-97-s-*.json
-sim/corner-verification/vco-prescaler-load/request-*-stage*.json
+sim/corner-verification/vco-prescaler-load/request-*.json
+# generated decks from the same generator (issue #212); sg13g2_inductor_em.spice is a copy of the pinned fetched VCO file
+sim/corner-verification/vco-prescaler-load/vco_*loaded*.spice
+sim/corner-verification/vco-prescaler-load/svar_dsubw125.spice
+sim/corner-verification/vco-prescaler-load/sg13g2_inductor_em.spice
 # synthesis / P&R scratch
 flow/build/
 # local klt install, created by the setup script

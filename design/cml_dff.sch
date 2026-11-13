@@ -6,7 +6,7 @@ K {}
 V {}
 S {}
 E {}
-C {cml_latch.sym} 400 0 0 0 {name=XM}
+C {cml_dff_latch.sym} 400 0 0 0 {name=XM}
 C {lab_pin.sym} 360 -80 0 0 {name=l1 lab=D}
 C {lab_pin.sym} 360 -40 0 0 {name=l2 lab=DB}
 C {lab_pin.sym} 360 0 0 0 {name=l3 lab=CK}
@@ -16,7 +16,7 @@ C {lab_pin.sym} 440 -20 2 0 {name=l6 lab=M}
 C {lab_pin.sym} 440 20 2 0 {name=l7 lab=MB}
 C {lab_pin.sym} 400 -160 2 0 {name=l8 lab=VDD}
 C {lab_pin.sym} 400 160 2 0 {name=l9 lab=VSS}
-C {cml_latch.sym} 800 0 0 0 {name=XS}
+C {cml_dff_latch.sym} 800 0 0 0 {name=XS}
 C {lab_pin.sym} 760 -80 0 0 {name=l10 lab=M}
 C {lab_pin.sym} 760 -40 0 0 {name=l11 lab=MB}
 C {lab_pin.sym} 760 0 0 0 {name=l12 lab=CKB}

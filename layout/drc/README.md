@@ -1,0 +1,440 @@
+# layout/drc: T1 item 3 (DRC) run log
+
+Chronological record of the DRC runs against the integrated top, moved here verbatim from
+`layout/README.md` (#230) so the overview above states the current result and the log sits
+next to the reports it describes: `request.json`, `top.drc.json`, `top.crosscheck.json` and
+the native rule-category files. Oldest run first; **the current state is the last
+subsection**. Commands are written relative to the repository root, so run them from there,
+not from this directory. The current-state summary and the link back live in
+`../README.md`; the LVS counterpart is `../lvs/README.md`.
+
+## DRC of the integrated top (#36, T1 item 3) — NOT clean
+
+```
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 3 = violations
+klt drc --check layout/drc/top.drc.json                                   # re-hash: match
+```
+
+Run 2026-11-10, `klt 0.9.2.dev422+g1560fe3aac8d`, klayout 0.30.13 (the build was tested on 0.30.12; klt warns that counts may differ), curated deck `sg13g2`
+content hash `sha256:1c95db40596afc5412e216009bcf0b775d1d74895b32738447eccbc76336dd15`, input `layout/top.gds`
+(`sha256:b05b0bcb…`, the geometry attested for item 2; re-run 2026-11-10 after the #187 prescaler regeneration, was 747 violations on `b04df5f5…`). Result: **`status: violations`, 783 violations, 12 rules**. Item 3 stays `unmet`
+(`check_failed`, `drc__error__count` 783). No waiver was added and no stream was edited. Superseded by the divider placement fix (#202, below): 79 violations on `4a7f8645…`.
+
+Where they sit (`source_path` of each violation):
+
+| Source | Count | Rules |
+|---|---|---|
+| prescaler `hbt_npn13g2v` (+ divider HBT 2) | 520 `npn13G2V` + others; ~576 under `lcpll_prescaler` | activ/cont/gatpoly/metal1 space and enclosure, nwell.enclosing.pactiv.hv |
+| divider pfet/nfet/top, cp nfet, prescaler resistors | ~150 | gatpoly/metal1 width and space, activ.space, cont.space, nwell.enclosing.pactiv.hv |
+| **VCO** `BANKP`/`BANKN` varactor banks | 64 (32 `SVaricap` + 32) | `nwell.enclosing.pactiv.1` (32 + 32) |
+
+The 64 VCO findings are in the stream placed unmodified from `sg13g2-vco@17e49a8` and are not waived or edited here; they are reported as sg13g2-vco#315.
+Whether the loop-cell findings are real or the curated deck's unconditional approximation of device-internal carve-outs (the HBT and
+varactor PCells are foundry-drawn) is not established by this run; `--engine both` against the PDK-native deck was run later (see "Native cross-check"): the findings are real.
+
+**Coverage (verbatim from the report):** `coverage.rules_skipped` = `[]`. `coverage.deck_scope` = `['Act','Cnt','Gat','M1','M2','M3','M4','M5','MIM','NW','TM1','TM2','TV1','TV2','V1','V2','V3','V4','pSD']`.
+`coverage.layers_in_stream_without_rules` is **non-empty** (41 layers: 1/23, 5/23, 8/2, 8/22, 8/23, 8/25, 10/2, 10/22, 10/23, 10/25, 26/0, 27/0, 27/2, 27/25, 28/0, 30/22, 30/23, 30/25, 32/0, 40/0, 44/0, 46/21, 50/22, 50/23, 51/0, 52/0, 63/0, 67/22, 67/23, 67/25, 111/0, 126/2, 126/23, 126/25, 128/0, 129/0, 134/23, 134/25, 148/0, 156/0, 160/0), so even a clean result would be clean for covered layers only.
+
+**G8 keep-out** (`klt keepout-check`, margin 20 um, `--cells vco`, forbidden Activ/GatPoly/Cont/pSD/Metal1-5 and their fill): `status: violated`, 3 violations, all the VCTRL
+pin-access stack already recorded under "Integrated top (#35)" (tracked at sg13g2-vco#314). Not clean.
+
+### Native cross-check (2026-11-10, `--engine both`)
+
+```
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root /home/ubuntu/share/pdk --format json -o layout/drc/top.crosscheck.json   # exit 3
+```
+
+`klt 0.9.2.dev457+g5cd6aad7c733`, klayout 0.30.13 (klt warns the build was tested on 0.30.12), PDK `ihp-sg13g2` `fetched:0.3.0`
+(host PDK at `~/share/pdk`, not installed or changed by this work), input `sha256:b05b0bcb…`. Curated deck hash
+`sha256:0c0014b1…` (the installed klt's deck changed since the earlier run, so `layout/drc/top.drc.json` was re-run and re-stamped:
+same 783 violations, `klt drc --check` = match). Native deck `ihp-sg13g2.drc` `sha256:0620b737…`, run with no `--deck-var`
+(klt warns the deck's `-rd` globals were not supplied, so gated rule groups may not have run; native coverage is `known: false`).
+
+- **Native engine: `status: violations`, 1798 violations**, 16 rules checked: Cnt.g1 475, Cnt.g2 489, Cnt.c 127, M1.b 288, LU.b 87,
+  Act.b 85, Cnt.b 82, M1.a 36, Gat.b 32, Gat.d 29, Cnt.d 23, Gat.a 16, Cnt.e 13, M1.e 10, CntB.h1 5, pSD.c1 1.
+  `layers_in_stream_without_rules` is empty for the native deck, but `coverage.unknown` holds `unmeasured_rule_execution`.
+- **The loop-cell findings are real, not a curated-deck approximation.** The native deck also flags them. Largest sources: the
+  `lcpll_divider_pfet_w5_l0p5` cell (Cnt.g1/g2/c, Act.b, M1.b: about 1250), the prescaler HBT (`npn13G2V`: Act.b, Cnt.b, Cnt.d, M1.b: about 210),
+  prescaler `rppd` resistors, and `LU.b` (max N+Activ-to-tap space 20 um) across the nfet cells of the charge pump, PFD and lock detector,
+  which have no tap ties yet (see "Not done"). Top-level: M1.a 36, Gat.a 16, M1.e 10, CntB.h1 5.
+- **VCO stream:** the native deck reports nothing under the VCO cell. The 64 curated `nwell.enclosing.pactiv.1` hits on `SVaricap` are the
+  curated deck's missing carve-out (sg13g2-vco#315), consistent with the closed ruling; not waived, not edited.
+- **Comparison:** klt reports `comparison.state: not_comparable` (no rule-id mapping between the curated and native decks), so there is
+  no region-level agreement figure.
+- Item 3 stays `unmet`. No waiver, deck edit or stream edit was made. The fix is a `layout/gen_cells.py` change (pfet w5 cell first,
+  then HBT contact/metal spacing, then tap ties for LU.b) and belongs to a follow-up issue.
+
+### Divider placement fix and native re-run (#202, 2026-11-10)
+
+**Cause of the pfet/prescaler findings: overlapping placement, not the generated cells.** In `layout/gen_integrated.py` the divider
+sat at (300.0, -251.0) um while the prescaler occupies x 281..727, y -236.6..-185 um, so the two cells overlapped (879 overlapping
+shapes, measured per layer with `klayout.db` Region AND of the two instances). The native deck attributed the resulting Cnt/Act/M1
+hits to `lcpll_divider_pfet_w5_l0p5` and the prescaler HBT. The divider is now at (445.0, -310.0) um: clear of the prescaler (7.8 um
+below it) and of the loop filter (x <= 430.7 um). VCO stream, VOP/VON routes (850.105 / 611.845 um)
+and the tank-load estimate (73.16 / 52.66 fF, not extracted, against 2.1 fF) are unchanged; only the divider-connected routes moved
+(FB 995.87 -> 1199.87 um). One cell did change for an unrelated reason: the committed `cells.provenance.json` predated the
+current `design/netlist/prescaler.spice` (`gen_cells.py --check` already reported a prescaler geometry/netlist mismatch on `main` before this
+change), so regenerating moves one prescaler `rppd` group from L = 8.0 to 7.8 um (`lcpll_prescaler_resrppd_w1_l8` -> `_l7p8`); the pfd/lockdet
+provenance only picks up the new `pll_top.spice` hash. The "before" columns below were measured on the stale-cell stream; the divider
+placement is what removed the pfet/HBT/resistor findings (both effects are in the "after" numbers). The generator code is unchanged.
+
+```
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root /home/ubuntu/share/pdk --format json -o layout/drc/top.crosscheck.json   # exit 3
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json     # curated, exit 3; klt drc --check = match
+```
+
+`klt 0.9.2.dev457+g5cd6aad7c733`, klayout 0.30.13, input `sha256:4a7f8645…` (stream), curated deck `sha256:0c0014b1…`, native deck
+`ihp-sg13g2.drc` `sha256:0620b737…` (no `--deck-var`, native coverage still `known: false`). Same commands as the 1798 baseline above.
+
+| Engine | Before (`b05b0bcb…`) | After (`4a7f8645…`) | Per rule after |
+|---|---|---|---|
+| native | 1798 | **348** | LU.b 322, M1.b 22, Cnt.b 4 |
+| curated | 783 | **79** | nwell.enclosing.pactiv.1 64 (VCO `SVaricap`, sg13g2-vco#315, not waived), metal1.space.1 11, cont.space.1 4 |
+
+Rules that went to zero natively: Cnt.g1, Cnt.g2, Cnt.c, Cnt.d, Cnt.e, Act.b, Gat.a, Gat.b, Gat.d, M1.a, M1.e, CntB.h1, pSD.c1.
+
+**Residual (item 3 stays `unmet`):**
+- **LU.b 322** (divider 235, cp 35, pfd 33, lockdet 19): the nfet cells have no substrate tap. Not fixed: `klt gen` has no pSD P-tap on
+  `ihp-sg13g2`. `guard_ring` and `mos_array add_guard_ring` draw an n-well tie with no pSD and off-grid Cont; tried on the nfet groups
+  (chunks of <= 96 units), it raised the native count to 559 (176 new `cont_drw_Offgrid`, LU.b not reduced) and was reverted. Tap net would
+  be VSS (the nfets' bulk net). Tool gap: 2AMLogic/klayout-tools#5231. Hand-drawn taps were not added.
+  *(Fixed in "LU.b substrate taps and native re-run" below once #5231 landed: `add_guard_ring` draws a pSD ring on
+  `ihp-sg13g2` from klt `0.9.2.dev887+gec7400b7d8e5`, and LU.b went 322 -> 0.)*
+- **M1.b 22 / Cnt.b 4:** attributed and fixed in the next section (the "5 nm `bjt_array` abutment" attribution recorded here was wrong).
+- G8 keep-out is unchanged (3 VCTRL violations, sg13g2-vco#314); `layout/top.gds` has not been through LVS (#37) or PEX (#41).
+
+### M1.b / Cnt.b attribution and fix (#202, 2026-11-10)
+
+**Measured, not assumed.** The 22 `M1.b` hits split by reported cell: 10 in `lc_pll_top` (5 nm x 205 nm), 10 in the prescaler/divider HBT
+cells (same 5 nm marker, cell-local frame; the same gaps seen through the hierarchy), 1 + 1 at 160 nm x 864 nm (top and `lcpll_cp_nfet_w6_l0p3__core`).
+A flat Metal1 `Region.space_check(180)` on the merged stream gives 11 gaps with everything and **0 with the top-level shapes removed**
+(`klayout.db`, instances only), so the gaps are not `bjt_array` unit abutment (the tool pitch is 2.0 um, consistent with the closed
+klayout-tools#5232): they are created by the generated top level.
+
+- **M1.b (22 -> 0), `layout/gen_integrated.py`.** The 0.7 um Metal1 via-stack pad at a pin overlaps the pin's own polygon but leaves a 5 nm
+  slit to another piece of the same HBT Metal1 polygon (10 sites: prescaler 8, divider 2), and in one place (cp nfet) sits 160 nm from a different
+  terminal's strip. The generator now trims each pad to keep 0.18 um from Metal1 polygons it does not touch, then closes notches per merged polygon
+  (a closing of 2 x 91 nm applied only to polygons that hold a pad, so it never bridges two polygons). No route, via or placement moved.
+- **Cnt.b (4 -> 0), `layout/gen_top.py`.** The guard-ring Cont row is laid out as four straight runs at 0.34 um pitch; at the corners the runs meet
+  off-pitch and leave Cont-to-Cont gaps of 30 nm and less. A contact closer than one pitch to an already-kept one is now dropped.
+
+Re-run (`klt 0.9.2.dev514+g65867de9adc8`, klayout 0.30.13, input `sha256:5e184029…`, native deck `ihp-sg13g2.drc` `sha256:0620b737…`,
+curated deck `sha256:85a9012a…`; same commands as above, plus `klt drc --check layout/drc/top.drc.json` = match):
+
+| Engine | 1798 baseline | 348 (#202 first pass) | **now** | Per rule now |
+|---|---|---|---|---|
+| native | 1798 | 348 | **322** | LU.b 322 |
+| curated | 783 | 79 | **64** | nwell.enclosing.pactiv.1 64 (VCO `SVaricap`, sg13g2-vco#315, not waived) |
+
+The curated `metal1.space.1` / `cont.space.1` hits (11 / 4) are gone for the same reasons. The curated deck hash differs from the 348 run because the
+installed klt moved, so the two columns are not byte-for-byte the same deck. Placements, routes (VOP 850.105 / VON 611.845 um, collisions 13) and the
+tank-load geometric estimate are unchanged, and the VCO stream is untouched. **Item 3 of #36 stays `unmet`:** `LU.b` 322 (no P-substrate tap drawable via
+`klt gen`; waits on 2AMLogic/klayout-tools#5231, tap net VSS `0`, not hand-drawn; fixed in the next section) and the 64 VCO curated hits remain. Pins re-stamped: `manifests/layout.attest.json`,
+`layout/drc/top.drc.json`, `manifests/sg13g2-lc-pll.json`, signoff record (`klayout-tools==0.8.0`).
+
+### LU.b substrate taps and native re-run (#202, 2026-11-13)
+
+**The tool gap closed.** `mos_array add_guard_ring` on `ihp-sg13g2` now draws a **pSD** tap ring (layer 14/0, no `NWell`,
+contacts on grid) instead of the n-well tie with off-grid `Cont` recorded above; the change is 2AMLogic/klayout-tools#5231,
+merged upstream as klayout-tools#5261 and present in the klt provisioned on the worker,
+`0.9.2.dev887+gec7400b7d8e5`. Verified before using it, on a throwaway 2x2 `nfet` array (`w 0.42 / l 0.3`, `hv`,
+`gate_contact`) outside this tree: without the ring the native deck reports `LU.b` 4, with it **0 violations on both
+engines**. Per-layer shape counts of the two probe streams differ by exactly the ring: `1/0` `Activ` +1, `6/0` `Cont` +8,
+`8/0` `Metal1` +1, **`14/0` `pSD` +1**, and `31/0` `NWell` still absent -- a p+ substrate tie, not the n-well tie.
+The 302-unit divider `nfet` group (`2 x 151`, `w 2 / l 0.5`) was then generated standalone with the ring: also 0 on both
+engines. The CI `klt` pin (`klayout-tools==0.8.0`, `signoff.yml`) still predates the fix; bumping it stays out of scope here.
+
+**The fix, in the generator.** `layout/cells/common.py` `plan()` passes `add_guard_ring: true` on every `nfet` `mos_array`
+group (13 groups: divider 2, cp 6, pfd 2, lockdet 3) and records that group's `tap_net` in `layout/cells.provenance.json`.
+The net is **read from the netlist**, never invented: it is the 4th node of the device cards (`D G S B`), which is `VSS`
+for every nfet in all four blocks; a group whose units disagreed on it would be refused (`PlanError`) rather than tied
+together. `pfet` groups get no ring — `LU.b` is an N+Activ-inside-PWell rule and the native deck reports no n-well-tie
+rule against the pfet arrays. Nothing is hand-drawn, no stream is edited, no rule is waived.
+
+```
+.venv/bin/python layout/gen_cells.py --write && .venv/bin/python layout/gen_integrated.py --write
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root /home/ubuntu/share/pdk --format json -o layout/drc/top.crosscheck.json   # exit 3
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json     # curated, exit 3; klt drc --check = match
+```
+
+`klt 0.9.2.dev887+gec7400b7d8e5`, klayout 0.30.13, PDK `ihp-sg13g2` `fetched:0.3.0`, input `layout/top.gds`
+`sha256:92b05723…`, native deck `ihp-sg13g2.drc` `sha256:0620b737…` (unchanged, still no `--deck-var`), curated deck
+`sha256:e8929ac8…` (differs from the 322 run only because the installed klt moved).
+
+| Engine | 1798 baseline | 348 | 322 | **now** | Per rule now |
+|---|---|---|---|---|---|
+| native | 1798 | 348 | 322 | **0** | - (`LU.b` 322 -> 0) |
+| curated | 783 | 79 | 64 | **64** | nwell.enclosing.pactiv.1 64 (VCO `SVaricap`, sg13g2-vco#315, not waived) |
+
+**What "native 0" does and does not say.** The report is `violation_count: 0`, but klt grades the run
+`status: coverage_unknown`, `coverage.unknown = [{engine_execution:["klayout"], unmeasured_rule_execution}]`, and its
+`coverage.rules_checked` is **empty** — that list is derived from the rules that produced violations (it held exactly
+`['LU.b']` on the 322 run), so a zero-violation native run cannot enumerate what ran. This is *no violations reported by
+the native deck as invoked*, not an established clean sweep of every native rule. The curated engine is the one with real
+coverage accounting here (63 rules checked, 0 skipped, 41 stream layers with no rule).
+klt does offer the opt-in assertion that would upgrade this to `clean` (`klt drc --expect-rule-categories[-file]`,
+klayout-tools#2697), and it is deliberately **not** used: it requires the deck's declared RDB rule categories to be
+established independently of the accepted run, and `ihp-sg13g2.drc` pulls its rule groups in through `-rd`-gated
+includes (`rule_decks/`), so that set varies with switches this run does not supply. Supplying a count read back from
+this very run would be circular. Establishing the list, with the `--deck-var` set it belongs to, is #36 work.
+*(Done in "Native coverage established" below: the set was derived from the deck source, not from a run, and the
+native engine now grades `clean` with all 590 declared rules asserted. The `--deck-var` set it belongs to is the
+empty one — the deck's own in-script defaults.)*
+
+**Item 3 of #36 stays `unmet`.** The curated deck still reports the 64 `nwell.enclosing.pactiv.1` hits on the VCO's
+`SVaricap` banks, placed unmodified from `sg13g2-vco@17e49a8` and reported as sg13g2-vco#315 — not waived, not edited.
+Item 3's metric blocker (`drc__error__count`) is unchanged at 64.
+
+**Collateral in the same regeneration, measured separately.** The committed `cells.provenance.json` was stale against
+`design/netlist/{prescaler,pll_top}.spice`, which moved in PR #170 *after* the 322 run, so `gen_cells.py --check` already
+failed on `main` before this change. To keep the two effects apart, the tree was first regenerated with **no code change**
+(`layout/top.gds` `sha256:0b6ae957…`): native **322**, curated **64** — byte-for-byte the same verdict as the committed
+run, so the netlist drift is DRC-neutral and the 322 -> 0 above is the tap rings alone. The drift itself: prescaler
+208 -> 209 units, 23027.5 -> 25258.9 um2 (one `rppd` group `l 77.7` becomes `l 120.65` + `l 38.65`), bbox 51.6 -> 56.6 um
+tall at the same 446.27 um width; `MC` route 319.08 -> 365.32 um.
+
+**Effect of the rings.** Cell areas (um2): divider 17279.1 -> 18297.8, cp 1746.6 -> 2258.0, pfd 1080.7 -> 1272.5,
+lockdet 26539.5 -> 27090.4; prescaler and loop filter have no nfet group and are unchanged by the rings. Each ringed
+group grows 1.1 um per side, so no cell placement in `gen_integrated.PLACE` moved and the closest pair (prescaler
+bottom -241.6 um, divider top -242.16 um) still clears by 0.56 um with no violation between them. Routes `DN`
+433.3 -> 435.5, `UP` 426.36 -> 428.56, `VCP` 156.35 -> 165.15 um; `collisions` stays 13. **The tank nets are untouched**
+(VOP 850.105 um, VON 611.845 um), so the tank-load geometric estimate (73.16 / 52.66 fF against the 2.1 fF budget, not
+extracted, PEX is #41) is unchanged and still outside budget. The VCO subtree still byte-matches the pinned stream
+(`scripts/test-layout-top.sh`: `klt clip` + `klt diff`), and G8 keep-out is unchanged (3 VCTRL intrusions, sg13g2-vco#314).
+
+**The rings are drawn, not connected.** Each ring's `TAP_N/S/E/W` ports are on Metal1 and no route ties them to `VSS`;
+these cells are placement-only and VSS is in `not_routed` (supply ERC is #38). The `VSS` port label still sits on a device
+terminal, as before. An LVS run would see each ring as a floating net — LVS is #37 and no LVS claim is made here.
+
+Checks: `scripts/test-layout-cells.sh` (all cells regenerate to the committed provenance, 42/42 port labels, negatives
+fire), `scripts/test-layout-top.sh` (9/9), `klt drc --check layout/drc/top.drc.json` = match. Pins re-stamped:
+`manifests/layout.attest.json` (`klt signoff --attest 2`), `layout/drc/top.drc.json`, `layout/drc/top.crosscheck.json`,
+`manifests/sg13g2-lc-pll.json`, signoff record (`klayout-tools==0.8.0`, item 2 still `met`, 4 of 11 T1 items met).
+
+**Tool friction filed:** `klt signoff --attest 2 -o PATH` writes a JSON envelope **without** the `manifest_entry` block
+that the same command emits on `--format json` stdout, and `klt signoff --manifest` binds evidence through that block —
+an attestation written with `-o` grades `unmet` / `stale_evidence`. Worked around here by redirecting `--format json`;
+reported generically as 2AMLogic/klayout-tools#5429.
+
+### Native coverage established: 590/590 declared rules asserted (#36, 2026-11-13)
+
+**No layout changed.** `layout/top.gds` is byte-identical to the stream the section above
+recorded (`sha256:92b05723…`, the geometry attested for item 2) and no generator was
+touched. What changed is what the native run's zero means.
+
+**The problem.** The section above records the native engine as `violation_count: 0` but
+`status: coverage_unknown`, because KLayout's RDB categories are *declarations* klt cannot
+vouch for, and the report's `coverage.rules_checked` is derived from rules that produced
+findings — so a clean native run can never enumerate what ran. klt's opt-in fix,
+`klt drc --expect-rule-categories-file` (klayout-tools#2697/#2806), requires the category
+list to be established **independently of the run being accepted**: "copying the accepted
+run's own categories is circular."
+
+**How the list was established.** `layout/drc/native_rule_categories.rb` reads the deck's
+own Ruby source, splices its `# %include` chain the way KLayout's DRC preprocessor does,
+replaces every KLayout layer primitive with an inert stub, and records every
+`.output(<category>, …)` call the deck's own control flow reaches for a given `-rd` switch
+set. **No layout is read, the DRC engine never runs, and klt is not involved**, so the
+derivation cannot be contaminated by the report it is used to accept. It is the deck's
+gating logic, not a transcription of it.
+
+```
+ruby layout/drc/native_rule_categories.rb \
+     --deck "$PDK_ROOT/ihp-sg13g2/libs.tech/klayout/tech/drc/ihp-sg13g2.drc" \
+     --pdk-root "$PDK_ROOT" \
+     --out layout/drc/native_rule_categories.txt \
+     --provenance layout/drc/native_rule_categories.provenance.json
+scripts/test-native-rule-categories.sh                     # 15 checks (regen, hashes, premises, negatives)
+```
+
+Output: `layout/drc/native_rule_categories.txt`, **590 names**;
+`layout/drc/native_rule_categories.provenance.json`, the sha256 of each of the **39** files
+in the include chain plus the premises below. The derived set matches the categories the
+accepted run declares exactly (0 missing, 0 unexpected) — but it was derived first, from
+the deck, and the run is what is being checked against it.
+
+**Premises, measured rather than assumed.** The deck's category emission is switch-gated
+except in three places, so a list is valid only for a deck revision, a switch set and these:
+
+| Premise | Why it matters | Checked how | Value |
+|---|---|---|---|
+| chip area | sets the deck's `en_tiles` | generator re-run at 2e6 um2 | set unchanged (guards run mode only) |
+| total MIM area < 174800 um2 | `MIM.gR` is declared only above it | `klayout.db` on 36/0 | 70744.2 um2 (declared: no); feeding 200000 um2 adds exactly `MIM.gR` |
+| no EdgeSeal boundary | `Seal.l` is declared only with one | `klayout.db` on 39/4 | layer absent from the stream |
+
+`rule_decks/density.drc` and `rule_decks/antenna.drc`, whose rules declare a category only
+when a measured density is out of range, are **not** in this deck's `%include` chain; the
+test asserts that too, so a PDK bump that pulls them in fails rather than silently
+narrowing the asserted set. Negative controls in the same script show each switch actually
+moves the set (`no_offgrid` 590 -> 397, `no_angle` -> 380, `no_beol` -> 473, `no_feol` ->
+540, `precheck_drc` -> 484, and `tables=nwell` with every group flag off -> exactly the
+four NWell-table rules).
+
+**The run.** `klt 0.9.2.dev887+gec7400b7d8e5`, klayout 0.30.13 (klt warns the build was
+tested on 0.30.12), PDK `ihp-sg13g2` `fetched:0.3.0`, input `layout/top.gds`
+`sha256:92b05723…`, curated deck `sha256:e8929ac8…`, native deck `ihp-sg13g2.drc`
+`sha256:0620b737…`, no `--deck-var`.
+
+```
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root "$PDK_ROOT" \
+    --expect-rule-categories-file layout/drc/native_rule_categories.txt \
+    --format json -o layout/drc/top.crosscheck.json      # exit 3 (the curated 64)
+klt drc --check layout/drc/top.crosscheck.json                            # re-hash: match
+klt drc --check layout/drc/top.drc.json                                   # re-hash: match
+```
+
+| Engine | 1798 baseline | 348 | 322 | previous | **now** |
+|---|---|---|---|---|---|
+| native | 1798 | 348 | 322 | 0, `coverage_unknown` | **0, `clean`** (590/590 asserted) |
+| curated | 783 | 79 | 64 | 64 | **64** (VCO `SVaricap`, not waived) |
+
+`coverage_assertion`: `kind: expected_rule_category_names`, `missing_names: []`,
+`unexpected_names: []`, `satisfied: true`. Native `coverage.known` is now `true`,
+`coverage.checked` holds all 590 rules and `coverage.unknown` is `[]` — previously
+`[{engine_execution:["klayout"], unmeasured_rule_execution}]`. The deck still warns
+`deck_globals_not_supplied` (a static scan: no `--deck-var` was passed), and that warning is
+left standing: the assertion, not the absence of the warning, is what establishes coverage.
+
+**What "native clean" does and does not say.** It says: the IHP primary runset, run with
+its in-script switch defaults, declared 590 rule categories — the exact set this repo
+derived from the deck source — and none of them produced a marker on this stream. It does
+**not** carry layer coverage: for an externally-run deck klt leaves `coverage.deck_layers`,
+`coverage.layers_checked`, `coverage.layers_in_stream_without_rules`,
+`coverage.rules_skipped` and `coverage.deck_scope` **empty**, because it does not model the
+native deck's layer set. The curated engine remains the one with layer accounting (63 rules
+checked, 0 skipped, 41 stream layers with no rule).
+
+**Item 3 of #36 stays `unmet`, and the cited evidence stays the curated report.** Two
+reasons, both deliberate:
+
+- The curated run still reports its 64 `nwell.enclosing.pactiv.1` markers on the VCO's
+  `SVaricap` banks. They are a documented curated-deck deviation — the report's own
+  `runset_correspondence` entry states that PDK rule `NW.c` first removes P+ Activ
+  interacting with a text-recognised `SVaricap` while this deck checks it unconditionally,
+  "so findings whose `source_cell` is a PDK `SVaricap` device are expected to be absent
+  from the runset (deck over-report, not a real enclosure violation)" (klayout-tools#5212,
+  sg13g2-vco#315). Nothing was waived and no stream or deck was edited. `klt signoff`
+  grades item 3 on `status` alone, so the item's metric blocker `drc__error__count` is
+  unchanged at 64 and the record (`klayout-tools==0.8.0`, as CI) is byte-identical.
+- **Citing the native report instead would be a worse claim, not a better one.** Item 3
+  requires `coverage.layers_in_stream_without_rules`, `coverage.rules_skipped` and
+  `coverage.deck_scope` to be quoted from the cited envelope; on the native report all
+  three are empty for want of modelling, not for want of gaps. A `met` cited that way
+  would be exactly the "clean verdict from a deck with undisclosed holes" the item
+  warns against. The curated report, which discloses 41 rule-free stream layers, is the
+  honest citation even though it is the one that fails.
+
+So the remaining blocker for item 3 is upstream, not in this layout: the curated deck has
+to model the `SVaricap` carve-out (or offer a deck-authored, non-waiver disposition for a
+`runset_note` deviation). Filed as klayout-tools#5442.
+
+**Coverage of the cited (curated) report, verbatim and unchanged:** `coverage.rules_skipped`
+= `[]`. `coverage.deck_scope` = `['Act','Cnt','Gat','M1','M2','M3','M4','M5','MIM','NW','TM1','TM2','TV1','TV2','V1','V2','V3','V4','pSD','x']`.
+`coverage.layers_in_stream_without_rules` is **non-empty** (41 layers: 1/23, 5/23, 8/2, 8/22,
+8/23, 8/25, 10/2, 10/22, 10/23, 10/25, 26/0, 27/0, 27/2, 27/25, 28/0, 30/22, 30/23, 30/25,
+32/0, 40/0, 44/0, 46/21, 50/22, 50/23, 51/0, 52/0, 63/0, 67/22, 67/23, 67/25, 111/0, 126/2,
+126/23, 126/25, 128/0, 129/0, 134/23, 134/25, 148/0, 156/0, 160/0), so even a clean curated
+result would be clean for covered layers only. `coverage.unchecked_rules` names `NW.b1` (net-aware
+PWell width between different-net NWells; only the geometric `nwell.space.1` ran) and
+`coverage.voltage_domain_warnings` names the `ThickGateOx` ('-HV') domain, whose
+channel-length-specific GatPoly widths this deck has not transcribed.
+
+**G8 keep-out is unchanged and still not clean:** `klt keepout-check` `status: violated`,
+3 violations, all the VCTRL pin-access stack (sg13g2-vco#314). `layout/top.gds` has still
+not been through LVS (#37) or PEX (#41).
+
+`scripts/test-native-rule-categories.sh` needs `ruby` and the PDK, so like the other
+`test-layout-*.sh` scripts it is **local-only** and not in `scripts/ci-harness.sh`; it exits 0
+with `SKIP` when either is absent, so it never reports a check it did not run as passed.
+
+**Tool friction filed (generic, on the tool tracker):**
+- klayout-tools#5442 — a `runset_note` deviation is documented but still counted, so a
+  stream containing the PDK varactor can never grade clean without a user waiver.
+- klayout-tools#5443 — a native deck's recorded `content_hash` covers only the entry
+  `.drc`, not the 38 `%include`d files that carry the rules, so `--check` re-hashing cannot
+  see a rule file move. This repo hashes the chain itself in
+  `native_rule_categories.provenance.json` as the workaround.
+- klayout-tools#5444 — no tool-side way to derive a native deck's declared category set
+  (`--list-rules` is curated-only), so `--expect-rule-categories-file` has to be
+  hand-derived per deck; the evaluator in `native_rule_categories.rb` is that work.
+
+### Curated deck models the `SVaricap` carve-out: item 3 `met` (#36, 2026-11-13)
+
+**No layout changed.** `layout/top.gds` is byte-identical to the stream every run above used
+(`sha256:92b05723…`, the geometry attested for item 2); no generator, deck, threshold or waiver
+was touched. What changed is klt: klayout-tools#5442 landed the `NW.c` `SVaricap` carve-out
+(upstream PR, merged 2026-11-13), so the 64 `nwell.enclosing.pactiv.1` markers on the pinned
+VCO's `BANKP`/`BANKN` banks — a documented curated-deck deviation from the foundry runset all
+along, never geometry — are no longer counted.
+
+```
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 0 = clean
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root "$PDK_ROOT" \
+    --expect-rule-categories-file layout/drc/native_rule_categories.txt \
+    --format json -o layout/drc/top.crosscheck.json                       # exit 0
+klt drc --check layout/drc/top.drc.json                                   # re-hash: match
+klt drc --check layout/drc/top.crosscheck.json                            # re-hash: match
+scripts/test-drc-svaricap-liveness.sh                                     # 4 passed, 0 failed
+scripts/test-native-rule-categories.sh                                    # ALL PASS (15 checks)
+```
+
+`klt 0.9.2.dev964+g02db14ecf46b` (contains the fix; `02db14ec` is 24 commits ahead of the fix
+commit `3360cf13`), klayout 0.30.13 (klt warns the build was tested on 0.30.12), PDK
+`ihp-sg13g2` `fetched:0.3.0`, input `sha256:92b05723…`, curated deck `sha256:cf6dfead…` (was
+`e8929ac8…` — the deck itself changed, which is the point), native deck `ihp-sg13g2.drc`
+`sha256:0620b737…` and include-chain tree `sha256:3715ff58…` (both unchanged), no `--deck-var`.
+
+| Engine | 1798 baseline | 348 | 322 | 64 | **now** |
+|---|---|---|---|---|---|
+| native | 1798 | 348 | 322 | 0, `clean` (590/590) | **0, `clean`** (590/590 asserted, `coverage_assertion.satisfied: true`) |
+| curated | 783 | 79 | 64 | 64 | **0, `clean`** |
+
+**The negative control is what makes this a result** (`scripts/test-drc-svaricap-liveness.sh`, new
+here). A deck that silently stopped checking P+ Activ would report the same `clean`, so the script
+removes the **2** `SVaricap` texts on `63/0` from a scratch copy of the stream — geometry
+untouched — and asserts the **64** `nwell.enclosing.pactiv.1` findings return and nothing else
+fires. It also asserts the rule's `klt drc --list-rules` description names the carve-out. Run
+against klt `0.9.1` (the newest PyPI release, 2026-11-05, which predates the fix) those two legs
+fail and the control legs still pass, so the script discriminates rather than restating the run.
+It needs klt and a python with `klayout` but no PDK; like the other local-only scripts it is not
+in `scripts/ci-harness.sh`, whose runner installs the 0.8.0 signoff pin.
+
+**Coverage of the cited (curated) report, verbatim** — the clean verdict is clean **for covered
+layers**: `coverage.rules_skipped` = `[]`. `coverage.deck_scope` =
+`['Act','Cnt','Gat','M1','M2','M3','M4','M5','MIM','NW','TM1','TM2','TV1','TV2','V1','V2','V3','V4','pSD','x']`.
+`coverage.layers_in_stream_without_rules` is **non-empty** (39 layers: 1/23, 5/23, 8/2, 8/22,
+8/23, 8/25, 10/2, 10/22, 10/23, 10/25, 26/0, 27/0, 27/2, 27/25, 28/0, 30/22, 30/23, 30/25, 40/0,
+44/0, 46/21, 50/22, 50/23, 51/0, 52/0, 67/22, 67/23, 67/25, 111/0, 126/2, 126/23, 126/25, 128/0,
+129/0, 134/23, 134/25, 148/0, 156/0, 160/0 — two fewer than the 41 above: `32/0` and `63/0` are
+now read by the recogniser). `coverage.unchecked_rules` still names `NW.b1` (net-aware PWell width
+between different-net NWells; only the geometric `nwell.space.1` ran), `coverage.unmodeled_rules`
+names 14 declared-but-unmodelled rules (`LU.a`, `LU.c`, `LU.c1`, `LU.d`, `LU.d1`, `Pad.a1`,
+`Pad.aR`, `Pad.bR`, `Pad.d`, `Pad.d1R`, `Pad.dR`, `Pad.gR`, `Pad.jR`, `Pad.kR`), and
+`coverage.voltage_domain_warnings` still names the `ThickGateOx` ('-HV') domain. 63 rules checked.
+
+**Signoff.** `manifests/sg13g2-lc-pll.signoff.json` regenerated with the pinned
+`klayout-tools==0.8.0` (unchanged — the pin grades the grader, not the producer): item 3 `met`,
+citing `layout/drc/top.drc.json`, `check_status: clean`, `input_verified: true`, with the
+`coverage` block reported in the citation. T1 met 4 -> 5; every other item's status and reason is
+unchanged, and a second run of the same command is byte-identical to the committed record.
+`manifests/sg13g2-lc-pll.json`'s item 3 `content_hash` was corrected in the same pass: it pinned
+the **report file's** sha256, but `klt signoff` compares that pin against the envelope's
+`provenance.input.content_hash`, so item 3 graded `stale_evidence` the moment `status` stopped
+failing first. It now pins `sha256:92b05723…`, the stream hash — the same value item 2 pins.
+
+**Reproducible from a git commit, not a release.** No PyPI `klayout-tools` carries the carve-out
+(latest `0.9.1`, 2026-11-05; the fix merged 2026-11-13), so the report records
+`provenance.deck.released: false` and its reproduction spec is
+`provenance.klt_reinstall_spec` — `klayout-tools @ git+…@02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35`
+— as the earlier dev-build runs did. `klt deck resolve --content-hash sha256:cf6dfead…` says so
+itself: *"no known release ships deck content hash … (known deck history covers v0.1.0..v0.9.1 —
+the hash may predate the table's start, be from an unreleased build, or never have shipped)"*. No
+new tool-friction issue was filed for this: the generic gap — committed evidence naming a deck
+revision no release ships, with no way to map it back — is klayout-tools#1193 and #4010, both
+closed by the `klt deck resolve` / `deck hash` capability used above, which answers correctly here.
+What remains is release cadence, not a missing capability.
+
+**G8 keep-out is unchanged and still not clean:** re-run here, `klt keepout-check` (margin 20 um,
+`--cells vco`, forbidden Activ/GatPoly/Cont/pSD/Metal1-5 and their fill) `status: violated`, 3
+violations, all the VCTRL pin-access stack (sg13g2-vco#314). It is not part of item 3's verdict.
+`layout/top.gds` has still not been through LVS (#37) or PEX (#41).

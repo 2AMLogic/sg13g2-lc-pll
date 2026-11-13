@@ -1,11 +1,12 @@
 * sg13g2-lc-pll :: sim/divider-elab -- divider COUNT check at a RELAXED clock (issue #32).
 * Not a speed test: the prescaler output is 625 MHz at 5.0 GHz in; this drives the CML pair at 100 MHz so the
-* counter LOGIC is exercised (FB period in clocks, clocks with MC high). Two codes: N = 100 (M=12, A=2) and
-* N = 90 (M=11, A=1). Nominal corner (hbt_typ, mos_tt, cap_typ), 27 C, 3.3 V. Input: 0.4 Vpp differential
+* counter LOGIC is exercised (FB period in clocks, clocks with MC high). Two codes, tied below and graded against
+* these expected values by scripts/divider_speed_counts.py: N = 100 (M=12, A=4, Xd100) and N = 90 (M=11, A=2, Xd90). Nominal corner (hbt_typ, mos_tt, cap_typ), 27 C, 3.3 V. Input: 0.4 Vpp differential
 * at a 3.18 V common mode (the prescaler's output common mode at its DC operating point, measured here).
 .lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
 .lib @@MODELS_DIR@@/cornerMOShv.lib mos_tt
 .lib @@MODELS_DIR@@/cornerCAP.lib cap_typ
+.lib @@MODELS_DIR@@/cornerRES.lib res_typ
 .option temp=27
 .include @@DIV_NETLIST@@
 VDD vdd 0 3.3
@@ -15,12 +16,13 @@ XQR iref iref rr 0 npn13G2v Nx=1 El=1
 RR rr 0 2400
 VIP inp 0 dc 3.18 sin(3.18 0.2 100meg)
 VIN inn 0 dc 3.18 sin(3.18 -0.2 100meg)
-Xd100 inp inn iref 0 0 one one 0 one mc100 fb100 vdd 0 divider
-Xd90  inp inn iref one one 0 one one 0 mc90 fb90 vdd 0 divider
+Xd100 inp inn iref 0 0 one one 0 0 one mc100 fb100 vdd 0 divider
+Xd90  inp inn iref one one 0 one 0 one 0 mc90 fb90 vdd 0 divider
 .save v(xd100.ck) v(mc100) v(fb100) v(mc90) v(fb90)
 .control
 pre_osdi @@OSDI_PSP@@
 pre_osdi @@OSDI_PSP_NQS@@
+pre_osdi @@OSDI_R3@@
 tran 200p 640n 0 200p
 wrdata @@OUT_DIR@@/div.data v(xd100.ck) v(mc100) v(fb100) v(mc90) v(fb90)
 .endc

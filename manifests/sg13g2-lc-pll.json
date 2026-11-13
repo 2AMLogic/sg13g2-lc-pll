@@ -4,7 +4,15 @@
   "evidence": {
     "1": {
       "file": "manifests/design-sources.attest.json",
-      "content_hash": "sha256:6be0076a6fbc68505afc7f165777acf138b962a7f7fca7efaefbdb42d6e8fbfb"
+      "content_hash": "sha256:47ee5d135e235bf13876dfa89191f2a160231488d0cf9fdec5910f14804d0ebb"
+    },
+    "2": {
+      "file": "manifests/layout.attest.json",
+      "content_hash": "sha256:92b057231507bab3fdd09f0f681b1abce9e4e32964dc1f0bfc9bf73a6106e246"
+    },
+    "3": {
+      "file": "layout/drc/top.drc.json",
+      "content_hash": "sha256:92b057231507bab3fdd09f0f681b1abce9e4e32964dc1f0bfc9bf73a6106e246"
     },
     "5": [
       {
@@ -34,7 +42,7 @@
     ],
     "9": {
       "file": "manifests/testbenches.attest.json",
-      "content_hash": "sha256:b059e0abc0acf128ce530e9153271cf8b47df8e44565441e3ee0bde40c9fb082"
+      "content_hash": "sha256:3c1ff7739d3149c286b92cc286c85fe72946913769795915f5c4dce3600a30b4"
     },
     "10": {
       "file": "manifests/repo-hygiene.attest.json",

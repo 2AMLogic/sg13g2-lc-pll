@@ -1,5 +1,5 @@
 v {xschem version=3.4.8RC file_version=1.3
-sg13g2-lc-pll :: pll_top -- integer-N LC PLL loop top: REF -> pfd (pinned sg13g2-pll) -> cp -> loopfilter -> vco -> prescaler -> divider -> pfd FB, lock_detector (pinned sg13g2-pll) on UP/DN. vco is a black-box interface symbol: the pinned sg13g2-vco bytes are never edited, and its netlist (a flat bench, no .subckt) is supplied by the testbench. N = 100 tied here (M = 12, A = 2). VDDV is the VCO supply branch (tie to VDD in a testbench; the isolation network of spec section 5 is not designed here). IREFCP = 20 uA (cp), IREFPS = 50 uA (prescaler and divider tails).
+sg13g2-lc-pll :: pll_top -- integer-N LC PLL loop top: REF -> pfd (pinned sg13g2-pll) -> cp -> loopfilter -> vco -> prescaler -> divider -> pfd FB, lock_detector (pinned sg13g2-pll) on UP/DN. vco is a black-box interface symbol: the pinned sg13g2-vco bytes are never edited, and its netlist (a flat bench, no .subckt) is supplied by the testbench. N = 100 tied here (M = 12, A = 4; N = 8 M + A, P = 8/9). VDDV is the VCO supply branch (tie to VDD in a testbench; the isolation network of spec section 5 is not designed here). IREFCP = 20 uA (cp), IREFPS = 50 uA (prescaler and divider tails).
 }
 G {}
 K {}
@@ -48,7 +48,8 @@ C {lab_pin.sym} 2960 100 0 0 {name=l33 lab=VSS}
 C {lab_pin.sym} 2960 140 0 0 {name=l34 lab=VDD}
 C {lab_pin.sym} 2960 180 0 0 {name=l35 lab=VDD}
 C {lab_pin.sym} 2960 220 0 0 {name=l36 lab=VSS}
-C {lab_pin.sym} 2960 260 0 0 {name=l37 lab=VDD}
+C {lab_pin.sym} 2960 260 0 0 {name=l37 lab=VSS}
+C {lab_pin.sym} 2960 300 0 0 {name=l37a lab=VDD}
 C {lab_pin.sym} 3040 -60 2 0 {name=l38 lab=MC}
 C {lab_pin.sym} 3040 -20 2 0 {name=l39 lab=FB}
 C {lab_pin.sym} 3000 -380 2 0 {name=l40 lab=VDD}

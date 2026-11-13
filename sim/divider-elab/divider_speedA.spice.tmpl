@@ -4,6 +4,7 @@
 .lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
 .lib @@MODELS_DIR@@/cornerMOShv.lib mos_tt
 .lib @@MODELS_DIR@@/cornerCAP.lib cap_typ
+.lib @@MODELS_DIR@@/cornerRES.lib res_typ
 .option temp=27
 .include @@DIV_NETLIST@@
 VDD vdd 0 3.3
@@ -15,16 +16,17 @@ VP1 inp1 0 dc 3.18 sin(3.18 0.2 625meg)
 VN1 inn1 0 dc 3.18 sin(3.18 -0.2 625meg)
 VP2 inp2 0 dc 3.18 sin(3.18 0.2 687.5meg)
 VN2 inn2 0 dc 3.18 sin(3.18 -0.2 687.5meg)
-Xa0r625 inp1 inn1 iref 0 0 one one 0 0 mca1 fba1 vdd 0 divider
-Xa0r687 inp2 inn2 iref 0 0 one one 0 0 mca2 fba2 vdd 0 divider
-Xa3r625 inp1 inn1 iref 0 0 one one one one mcb1 fbb1 vdd 0 divider
-Xa3r687 inp2 inn2 iref 0 0 one one one one mcb2 fbb2 vdd 0 divider
-.save v(xa0r625.ck) v(mca1) v(fba1) v(xa0r687.ck) v(mca2) v(fba2) v(xa3r625.ck) v(mcb1) v(fbb1) v(xa3r687.ck) v(mcb2) v(fbb2)
+Xa0r625 inp1 inn1 iref 0 0 one one 0 0 0 mca1 fba1 vdd 0 divider
+Xa0r687 inp2 inn2 iref 0 0 one one 0 0 0 mca2 fba2 vdd 0 divider
+Xa7r625 inp1 inn1 iref 0 0 one one one one one mcb1 fbb1 vdd 0 divider
+Xa7r687 inp2 inn2 iref 0 0 one one one one one mcb2 fbb2 vdd 0 divider
+.save v(xa0r625.ck) v(mca1) v(fba1) v(xa0r687.ck) v(mca2) v(fba2) v(xa7r625.ck) v(mcb1) v(fbb1) v(xa7r687.ck) v(mcb2) v(fbb2)
 .control
 pre_osdi @@OSDI_PSP@@
 pre_osdi @@OSDI_PSP_NQS@@
+pre_osdi @@OSDI_R3@@
 op
 tran 20p 150n 0 20p
-wrdata @@OUT_DIR@@/speedA.data v(xa0r625.ck) v(mca1) v(fba1) v(xa0r687.ck) v(mca2) v(fba2) v(xa3r625.ck) v(mcb1) v(fbb1) v(xa3r687.ck) v(mcb2) v(fbb2)
+wrdata @@OUT_DIR@@/speedA.data v(xa0r625.ck) v(mca1) v(fba1) v(xa0r687.ck) v(mca2) v(fba2) v(xa7r625.ck) v(mcb1) v(fbb1) v(xa7r687.ck) v(mcb2) v(fbb2)
 .endc
 .end

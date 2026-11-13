@@ -1,0 +1,26 @@
+* sg13g2-lc-pll :: sim/prescaler-div89 (cin) -- first-stage differential input admittance, spec section 1 load budget.
+* NOMINAL ONLY: hbt_typ, 27 C, 3.3 V, DC operating point of the (unclocked) prescaler, MC low, ideal IREF = 50 uA.
+* AC 1 V differential (0.5 V each side) at the tank-node pins INP/INN; C = Im(Yin)/(2 pi f), G = Re(Yin).
+* Placeholders (@@...@@): @@MODELS_DIR@@ = ihp-sg13g2/libs.tech/ngspice/models, @@NETLIST@@ = the prescaler netlist.
+* Run:  sed -e "s|@@MODELS_DIR@@|$M|" -e "s|@@NETLIST@@|design/netlist/prescaler.spice|" cin_probe.spice.tmpl > cin.cir
+*       echo 'set ngbehavior=hsa' > .spiceinit && ngspice -b cin.cir
+.lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
+.option temp=27
+.include @@NETLIST@@
+VDD vdd 0 3.3
+IRF vdd iref dc 50u
+VMC mc 0 dc 0
+X1 inp inn mc iref outp outn vdd 0 prescaler
+VIP inp 0 dc 3.3 ac 0.5
+VIN inn 0 dc 3.3 ac -0.5
+.control
+op
+foreach f 5.0e9 5.5e9
+  ac lin 1 $f $f
+  let yin = -i(vip)/1
+  let cdiff = imag(yin)/(2*pi*$f)
+  let gdiff = real(yin)
+  echo "AC $f cdiff_F $&cdiff gdiff_S $&gdiff"
+end
+.endc
+.end

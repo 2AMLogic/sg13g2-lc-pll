@@ -1,0 +1,152 @@
+{
+  "netlist": "div89_chain.cir",
+  "engine": "ngspice",
+  "models": {
+    "pdk": "sg13g2"
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "1p 24n 0 2p"
+  },
+  "corners": {
+    "process": [
+      {
+        "name": "SLOW",
+        "sections": [
+          {
+            "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+            "section": "hbt_wcs"
+          },
+          {
+            "lib": "libs.tech/ngspice/models/cornerRES.lib",
+            "section": "res_wcs"
+          }
+        ]
+      },
+      {
+        "name": "TYP",
+        "sections": [
+          {
+            "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+            "section": "hbt_typ"
+          },
+          {
+            "lib": "libs.tech/ngspice/models/cornerRES.lib",
+            "section": "res_typ"
+          }
+        ]
+      },
+      {
+        "name": "FAST",
+        "sections": [
+          {
+            "lib": "libs.tech/ngspice/models/cornerHBT.lib",
+            "section": "hbt_bcs"
+          },
+          {
+            "lib": "libs.tech/ngspice/models/cornerRES.lib",
+            "section": "res_bcs"
+          }
+        ]
+      }
+    ],
+    "temperature_c": [
+      -40,
+      27,
+      125
+    ],
+    "params": {
+      "vddv": [
+        2.97,
+        2.97,
+        2.97,
+        2.97,
+        3.3,
+        3.3,
+        3.3,
+        3.3,
+        3.63,
+        3.63,
+        3.63,
+        3.63
+      ],
+      "fin": [
+        5000000000.0,
+        5000000000.0,
+        5500000000.0,
+        5500000000.0,
+        5000000000.0,
+        5000000000.0,
+        5500000000.0,
+        5500000000.0,
+        5000000000.0,
+        5000000000.0,
+        5500000000.0,
+        5500000000.0
+      ],
+      "mcv": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ]
+    }
+  },
+  "options": {
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set ngbehavior=hsa"
+    ],
+    "osdi_preload": [
+      "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi"
+    ]
+  },
+  "measurements": [
+    {
+      "name": "x_zero",
+      "unit": "s",
+      "crossings": {
+        "signal": "v(outp)-v(outn)",
+        "level": 0.0,
+        "edge": "rise",
+        "from": "6n",
+        "max": 200
+      }
+    },
+    {
+      "name": "x_hi",
+      "unit": "s",
+      "crossings": {
+        "signal": "v(outp)-v(outn)",
+        "level": 0.1,
+        "edge": "rise",
+        "from": "6n",
+        "max": 200
+      }
+    },
+    {
+      "name": "x_lo",
+      "unit": "s",
+      "crossings": {
+        "signal": "v(outp)-v(outn)",
+        "level": -0.1,
+        "edge": "fall",
+        "from": "6n",
+        "max": 200
+      }
+    },
+    {
+      "name": "i_vdd_avg",
+      "spice": ".meas tran i_vdd_avg AVG i(vdd) FROM=8n TO=24n",
+      "unit": "A"
+    }
+  ]
+}

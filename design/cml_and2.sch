@@ -6,10 +6,10 @@ K {}
 V {}
 S {}
 E {}
-C {res.sym} 400 0 0 0 {name=RL1 value=2400 footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rppd.sym} 400 0 0 0 {name=RL1 model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=9.05u}
 C {lab_pin.sym} 400 -30 2 0 {name=l1 lab=VDD}
 C {lab_pin.sym} 400 30 2 0 {name=l2 lab=Q}
-C {res.sym} 800 0 0 0 {name=RL2 value=2400 footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rppd.sym} 800 0 0 0 {name=RL2 model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=9.05u}
 C {lab_pin.sym} 800 -30 2 0 {name=l3 lab=VDD}
 C {lab_pin.sym} 800 30 2 0 {name=l4 lab=QB}
 C {sg13g2_pr/npn13G2v.sym} 1200 0 0 0 {name=QA1 model=npn13G2v Nx=1 El=1 spiceprefix=X}
@@ -37,10 +37,10 @@ C {lab_pin.sym} 420 370 2 0 {name=l21 lab=tc}
 C {lab_pin.sym} 380 400 0 0 {name=l22 lab=IB}
 C {lab_pin.sym} 420 430 2 0 {name=l23 lab=teT}
 C {lab_pin.sym} 420 400 2 0 {name=l24 lab=VSS}
-C {res.sym} 800 400 0 0 {name=RT value=1200 footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rppd.sym} 800 400 0 0 {name=RT model=rppd body=VSS spiceprefix=X w=2u b=0 m=1 l=9.05u}
 C {lab_pin.sym} 800 370 2 0 {name=l25 lab=teT}
 C {lab_pin.sym} 800 430 2 0 {name=l26 lab=VSS}
-C {res.sym} 1200 400 0 0 {name=RTC value=2.4k footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rppd.sym} 1200 400 0 0 {name=RTC model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=9.05u}
 C {lab_pin.sym} 1200 370 2 0 {name=l901 lab=t}
 C {lab_pin.sym} 1200 430 2 0 {name=l902 lab=tc}
 C {ipin.sym} -400 0 0 0 {name=p1 lab=A}

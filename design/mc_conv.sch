@@ -1,24 +1,24 @@
 v {xschem version=3.4.8RC file_version=1.3
-sg13g2-lc-pll :: mc_conv -- CMOS (0/3.3 V) modulus control to CML: base resistor, 0.7*VDD reference divider (keeps the off-side Vce under BVCEO), loaded pair
+sg13g2-lc-pll :: mc_conv -- CMOS (0/3.3 V) modulus control to CML: RIN/RB input divider (MC high puts bm at 0.756*VDD, 0.056*VDD above vr, so the tail Vce stays under BVCEO), 0.7*VDD reference divider (keeps the off-side Vce under BVCEO), loaded pair
 }
 G {}
 K {}
 V {}
 S {}
 E {}
-C {res.sym} 400 0 0 0 {name=RIN value=20k footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rppd.sym} 400 0 0 0 {name=RIN model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=38.65u}
 C {lab_pin.sym} 400 -30 2 0 {name=l1 lab=MC}
 C {lab_pin.sym} 400 30 2 0 {name=l2 lab=bm}
-C {res.sym} 800 0 0 0 {name=RD1 value=12k footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rppd.sym} 800 0 0 0 {name=RD1 model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=46.4u}
 C {lab_pin.sym} 800 -30 2 0 {name=l3 lab=VDD}
 C {lab_pin.sym} 800 30 2 0 {name=l4 lab=vr}
-C {res.sym} 1200 0 0 0 {name=RD2 value=28k footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rppd.sym} 1200 0 0 0 {name=RD2 model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=108.8u}
 C {lab_pin.sym} 1200 -30 2 0 {name=l5 lab=vr}
 C {lab_pin.sym} 1200 30 2 0 {name=l6 lab=VSS}
-C {res.sym} 1600 0 0 0 {name=RL1 value=2400 footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rppd.sym} 1600 0 0 0 {name=RL1 model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=9.05u}
 C {lab_pin.sym} 1600 -30 2 0 {name=l7 lab=VDD}
 C {lab_pin.sym} 1600 30 2 0 {name=l8 lab=MCP}
-C {res.sym} 2000 0 0 0 {name=RL2 value=2400 footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rppd.sym} 2000 0 0 0 {name=RL2 model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=9.05u}
 C {lab_pin.sym} 2000 -30 2 0 {name=l9 lab=VDD}
 C {lab_pin.sym} 2000 30 2 0 {name=l10 lab=MCN}
 C {sg13g2_pr/npn13G2v.sym} 2400 0 0 0 {name=QM1 model=npn13G2v Nx=1 El=1 spiceprefix=X}
@@ -36,9 +36,12 @@ C {lab_pin.sym} 820 370 2 0 {name=l19 lab=t}
 C {lab_pin.sym} 780 400 0 0 {name=l20 lab=IB}
 C {lab_pin.sym} 820 430 2 0 {name=l21 lab=teT}
 C {lab_pin.sym} 820 400 2 0 {name=l22 lab=VSS}
-C {res.sym} 1200 400 0 0 {name=RT value=1200 footprint=1206 device=resistor m=1}
+C {sg13g2_pr/rppd.sym} 1200 400 0 0 {name=RT model=rppd body=VSS spiceprefix=X w=2u b=0 m=1 l=9.05u}
 C {lab_pin.sym} 1200 370 2 0 {name=l23 lab=teT}
 C {lab_pin.sym} 1200 430 2 0 {name=l24 lab=VSS}
+C {sg13g2_pr/rppd.sym} 1600 400 0 0 {name=RB model=rppd body=VSS spiceprefix=X w=1u b=0 m=1 l=120.65u}
+C {lab_pin.sym} 1600 370 2 0 {name=l25 lab=bm}
+C {lab_pin.sym} 1600 430 2 0 {name=l26 lab=VSS}
 C {ipin.sym} -400 0 0 0 {name=p1 lab=MC}
 C {ipin.sym} -400 100 0 0 {name=p2 lab=IB}
 C {opin.sym} 1400 0 0 0 {name=p3 lab=MCP}
