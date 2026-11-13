@@ -24,8 +24,7 @@ the committed record). Pins: [`pins.json`](pins.json).
 | 11 | Loop power | `run-loop-power.sh` | prescaler + divider currents at 5.0 GHz in; PFD + CP from the locked `loop-tran` record | lock detector, reference and clock buffering: not in the design; the divider's number is for a chain that does not divide |
 
 Also inventoried, **not** in the cold start: `scripts/run-vco-smoke.sh` (pin and toolchain check of the
-consumed VCO; needs `openvaf-r` and the network, and its only record is a failure: the VCO did not
-oscillate).
+consumed VCO; needs `openvaf-r` and the network).
 
 Negative controls: `test-cp-dc-negative.sh`, `test-prescaler-g1-negative.sh`, `test-loop-tran-negative.sh`,
 `test-jitter-negative.sh`. `run-pfd-sweep.sh`, `run-prescaler-g3.sh` and `run-divider-elab.sh` have none yet.

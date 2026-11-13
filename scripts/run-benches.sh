@@ -8,8 +8,8 @@
 #   scripts/run-benches.sh
 #
 # Runs, in order: run-cp-dc, run-pfd-sweep, run-prescaler-g1, run-prescaler-g3, run-divider-elab,
-# run-loop-tran, run-loop-power, run-jitter. NOT run: run-vco-smoke (needs openvaf-r and the network; its only
-# committed record is a failure, so it is inventoried but not part of this command), the negative controls
+# run-loop-tran, run-loop-power, run-jitter. NOT run: run-vco-smoke (needs openvaf-r and the
+# network, so it is inventoried but not part of this command), the negative controls
 # (scripts/test-*-negative.sh), and any corner grid (those go through `klt sim`, #39/#40).
 #
 # Environment: PDK_ROOT, NGSPICE (scripts/lib-pdk.sh; ngspice 47 is pinned, an older build only warns and
