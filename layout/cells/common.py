@@ -52,6 +52,13 @@ VOLTAGE_FLAVOR = "hv"   # thick-oxide marker (DR-002 Decision 0: 3.3 V devices t
 MOS_W_FLOOR_UM = 0.42   # below this mos_array needs dogbone_terminals (klayout-tools#4851)
 GROUP_SPACING_UM = 4.0
 BLOCK_TARGET_WIDTH_UM = 220.0
+# A MOS card is `D G S B <model>`: the bulk net a tap ring would carry is the 4th node.
+MOS_BULK_INDEX = 3
+# nfet N+Activ inside the p-well needs a pSD substrate tie within 20 um (native rule LU.b).
+# `mos_array add_guard_ring` draws that ring itself on ihp-sg13g2 from klayout-tools#5231
+# (klt >= 0.9.2.dev887+gec7400b7d8e5); older builds drew an n-well tie with off-grid Cont
+# instead, which is why the tie was not drawn before (layout/README.md "LU.b substrate taps").
+TAP_RING_FLAVORS = ("nfet",)
 
 
 def sha256(path):
@@ -91,6 +98,26 @@ def _slug(v):
     return f"{v:g}".replace(".", "p").replace("-", "m")
 
 
+def _tap_net(block, flav, w, l, mem):
+    """The bulk net a `flav` group's tap ring carries, or None if that flavor gets no ring.
+
+    The net is read from the device cards' 4th node, never invented. One ring is one body
+    potential, so a group whose units disagree on it is refused rather than tied together.
+    """
+    if flav not in TAP_RING_FLAVORS:
+        return None
+    who = f"{block} {flav} w={w:g} l={l:g}"
+    short = [m for m in mem if len(m["nets"]) <= MOS_BULK_INDEX]
+    if short:
+        raise PlanError(f"{who}: {short[0]['path']} has {len(short[0]['nets'])} nodes, "
+                        "need D G S B for a tap ring")
+    bulks = sorted({m["nets"][MOS_BULK_INDEX] for m in mem})
+    if len(bulks) != 1:
+        raise PlanError(f"{who}: units sit on different bulk nets {bulks}; "
+                        "one tap ring cannot carry two body potentials")
+    return bulks[0]
+
+
 def plan(block, devices):
     """Group leaf devices into klt gen requests. Each unit gets the device's nets."""
     mos, res, caps, hbt = {}, {}, {}, {}
@@ -114,13 +141,16 @@ def plan(block, devices):
     groups = []
     for (flav, w, l, ng), mem in sorted(mos.items()):
         rows = max(r for r in range(1, math.isqrt(len(mem)) + 1) if len(mem) % r == 0)
+        tap_net = _tap_net(block, flav, w, l, mem)
         groups.append({
             "id": f"{block}_{flav}_w{_slug(w)}_l{_slug(l)}" + (f"_ng{ng}" if ng > 1 else ""),
             "generator": "mos_array", "klass": flav, "count": len(mem),
             "params": {"w_um": w, "l_um": l, "fingers": ng, "rows": rows, "cols": len(mem) // rows,
                        "dummy": 0, "flavor": flav, "voltage_flavor": VOLTAGE_FLAVOR,
                        "topology": "array", "gate_contact": True,
-                       **({"dogbone_terminals": True} if w < MOS_W_FLOOR_UM else {})},
+                       **({"dogbone_terminals": True} if w < MOS_W_FLOOR_UM else {}),
+                       **({"add_guard_ring": True} if tap_net is not None else {})},
+            **({"tap_net": tap_net} if tap_net is not None else {}),
             "terminals": [{"port": f"U{i}_{t}", "net": m["nets"][k], "unit": m["path"]}
                           for i, m in enumerate(mem) for k, t in enumerate("DGS")],
         })
@@ -294,6 +324,7 @@ def build_block(cell, subckt, netlist, out_dir, input_first=()):
                                if any(p in u["nets"] for u in undrawn)],
         "groups": [{"id": g["id"], "generator": g["generator"], "klass": g["klass"], "units": g["count"],
                     "params": g["params"], "origin_um": origins[g["id"]],
+                    **({"tap_net": g["tap_net"]} if "tap_net" in g else {}),
                     "bbox_um": [reports[g["id"]]["bbox_um"][k] for k in ("x0", "y0", "x1", "y1")]}
                    for g in groups],
         "commands": cmds + [f"klt gen-compose {cell}.compose.json --format json"],

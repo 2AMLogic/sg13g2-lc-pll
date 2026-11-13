@@ -1,29 +1,30 @@
 {
  "cells": [
   {
-   "area_um2": 23027.5,
+   "area_um2": 25258.9,
    "bbox_um": [
     0.0,
     0.0,
     446.27,
-    51.6
+    56.6
    ],
    "cell": "lcpll_prescaler",
    "commands": [
     "klt gen bjt_array --pdk ihp-sg13g2 --params \"{\\\"add_collector_ring\\\": false, \\\"cols\\\": 43, \\\"dummy\\\": 0, \\\"flavor\\\": \\\"npn13G2v\\\", \\\"rows\\\": 3, \\\"topology\\\": \\\"array\\\"}\" --cell-name lcpll_prescaler_hbt_npn13g2v -o lcpll_prescaler_hbt_npn13g2v.gds --format json",
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 108.8, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l108p8 -o lcpll_prescaler_resrppd_w1_l108p8.gds --format json",
+    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 120.65, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l120p65 -o lcpll_prescaler_resrppd_w1_l120p65.gds --format json",
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 15.3, \\\"num\\\": 12, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l15p3 -o lcpll_prescaler_resrppd_w1_l15p3.gds --format json",
+    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 38.65, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l38p65 -o lcpll_prescaler_resrppd_w1_l38p65.gds --format json",
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 46.4, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l46p4 -o lcpll_prescaler_resrppd_w1_l46p4.gds --format json",
-    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 77.7, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l77p7 -o lcpll_prescaler_resrppd_w1_l77p7.gds --format json",
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 7.8, \\\"num\\\": 8, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l7p8 -o lcpll_prescaler_resrppd_w1_l7p8.gds --format json",
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 9.05, \\\"num\\\": 43, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l9p05 -o lcpll_prescaler_resrppd_w1_l9p05.gds --format json",
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 9.05, \\\"num\\\": 13, \\\"rows\\\": 1, \\\"width_um\\\": 2.0}\" --cell-name lcpll_prescaler_resrppd_w2_l9p05 -o lcpll_prescaler_resrppd_w2_l9p05.gds --format json",
     "klt gen-compose lcpll_prescaler.compose.json --format json"
    ],
-   "device_units": 208,
+   "device_units": 209,
    "gds": "layout/build/cells/lcpll_prescaler.gds",
    "generator": "python layout/gen_cells.py --blocks lcpll_prescaler",
-   "geometry_sha256": "9ba3cae5dc2b4c3f3a2b0a4599a16c32585fbfd66809b5ef2e702e19fc2245d6",
+   "geometry_sha256": "e2cffb20276262fa58a578d905a137d1ceda1a2a1f14d7274e2ea3b949a39320",
    "groups": [
     {
      "bbox_um": [
@@ -77,6 +78,30 @@
      "bbox_um": [
       0.0,
       0.0,
+      121.49000000000001,
+      1.0
+     ],
+     "generator": "res_array",
+     "id": "lcpll_prescaler_resrppd_w1_l120p65",
+     "klass": "rppd",
+     "origin_um": {
+      "x": 0.0,
+      "y": 34.6
+     },
+     "params": {
+      "dummy": 0,
+      "flavor": "rppd",
+      "length_um": 120.65,
+      "num": 1,
+      "rows": 1,
+      "width_um": 1.0
+     },
+     "units": 1
+    },
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
       199.18,
       1.0
      ],
@@ -85,7 +110,7 @@
      "klass": "rppd",
      "origin_um": {
       "x": 0.0,
-      "y": 34.6
+      "y": 39.6
      },
      "params": {
       "dummy": 0,
@@ -101,20 +126,20 @@
      "bbox_um": [
       0.0,
       0.0,
-      47.24,
+      39.49,
       1.0
      ],
      "generator": "res_array",
-     "id": "lcpll_prescaler_resrppd_w1_l46p4",
+     "id": "lcpll_prescaler_resrppd_w1_l38p65",
      "klass": "rppd",
      "origin_um": {
       "x": 0.0,
-      "y": 39.6
+      "y": 44.6
      },
      "params": {
       "dummy": 0,
       "flavor": "rppd",
-      "length_um": 46.4,
+      "length_um": 38.65,
       "num": 1,
       "rows": 1,
       "width_um": 1.0
@@ -125,20 +150,20 @@
      "bbox_um": [
       0.0,
       0.0,
-      78.54,
+      47.24,
       1.0
      ],
      "generator": "res_array",
-     "id": "lcpll_prescaler_resrppd_w1_l77p7",
+     "id": "lcpll_prescaler_resrppd_w1_l46p4",
      "klass": "rppd",
      "origin_um": {
-      "x": 51.24,
-      "y": 39.6
+      "x": 43.49,
+      "y": 44.6
      },
      "params": {
       "dummy": 0,
       "flavor": "rppd",
-      "length_um": 77.7,
+      "length_um": 46.4,
       "num": 1,
       "rows": 1,
       "width_um": 1.0
@@ -156,8 +181,8 @@
      "id": "lcpll_prescaler_resrppd_w1_l7p8",
      "klass": "rppd",
      "origin_um": {
-      "x": 133.78,
-      "y": 39.6
+      "x": 94.73,
+      "y": 44.6
      },
      "params": {
       "dummy": 0,
@@ -181,7 +206,7 @@
      "klass": "rppd",
      "origin_um": {
       "x": 0.0,
-      "y": 44.6
+      "y": 49.6
      },
      "params": {
       "dummy": 0,
@@ -205,7 +230,7 @@
      "klass": "rppd",
      "origin_um": {
       "x": 0.0,
-      "y": 49.6
+      "y": 54.6
      },
      "params": {
       "dummy": 0,
@@ -219,7 +244,7 @@
     }
    ],
    "netlist": "design/netlist/prescaler.spice",
-   "netlist_sha256": "8f545e93e1615f8797397e6a97f5e9362c42c01bbd5b766e4080682414c9fdb7",
+   "netlist_sha256": "add4d3b39706242e478f9c4f23a7d7352a63ec877af45d953eb68eba0d78e6ca",
    "port_labels": {
     "INN": {
      "layer": "8/0",
@@ -238,8 +263,8 @@
     },
     "MC": {
      "layer": "8/0",
-     "x_um": 51.45,
-     "y_um": 40.1
+     "x_um": 0.21,
+     "y_um": 45.1
     },
     "OUTN": {
      "layer": "8/0",
@@ -279,20 +304,20 @@
    "undrawn_only_ports": []
   },
   {
-   "area_um2": 17279.1,
+   "area_um2": 18297.8,
    "bbox_um": [
-    -0.15,
-    -0.15,
-    262.49,
-    65.64
+    -1.25,
+    -1.25,
+    263.59,
+    67.84
    ],
    "cell": "lcpll_divider",
    "commands": [
     "klt gen cap_array --pdk ihp-sg13g2 --params \"{\\\"num\\\": 2, \\\"plate_h_um\\\": 14.0, \\\"plate_w_um\\\": 14.0}\" --cell-name lcpll_divider_cmim_w14_l14 -o lcpll_divider_cmim_w14_l14.gds --format json",
     "klt gen cap_array --pdk ihp-sg13g2 --params \"{\\\"num\\\": 1, \\\"plate_h_um\\\": 8.0, \\\"plate_w_um\\\": 8.0}\" --cell-name lcpll_divider_cmim_w8_l8 -o lcpll_divider_cmim_w8_l8.gds --format json",
     "klt gen bjt_array --pdk ihp-sg13g2 --params \"{\\\"add_collector_ring\\\": false, \\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"flavor\\\": \\\"npn13G2v\\\", \\\"rows\\\": 2, \\\"topology\\\": \\\"array\\\"}\" --cell-name lcpll_divider_hbt_npn13g2v -o lcpll_divider_hbt_npn13g2v.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 10.0}\" --cell-name lcpll_divider_nfet_w10_l0p5 -o lcpll_divider_nfet_w10_l0p5.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 151, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 2, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_divider_nfet_w2_l0p5 -o lcpll_divider_nfet_w2_l0p5.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"add_guard_ring\\\": true, \\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 10.0}\" --cell-name lcpll_divider_nfet_w10_l0p5 -o lcpll_divider_nfet_w10_l0p5.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"add_guard_ring\\\": true, \\\"cols\\\": 151, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 2, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_divider_nfet_w2_l0p5 -o lcpll_divider_nfet_w2_l0p5.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 10.0}\" --cell-name lcpll_divider_pfet_w10_l0p5 -o lcpll_divider_pfet_w10_l0p5.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 151, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 2, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 5.0}\" --cell-name lcpll_divider_pfet_w5_l0p5 -o lcpll_divider_pfet_w5_l0p5.gds --format json",
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rhigh\\\", \\\"length_um\\\": 15.35, \\\"num\\\": 4, \\\"rows\\\": 1, \\\"width_um\\\": 0.5}\" --cell-name lcpll_divider_resrhigh_w0p5_l15p35 -o lcpll_divider_resrhigh_w0p5_l15p35.gds --format json",
@@ -303,7 +328,7 @@
    "device_units": 621,
    "gds": "layout/build/cells/lcpll_divider.gds",
    "generator": "python layout/gen_cells.py --blocks lcpll_divider",
-   "geometry_sha256": "0ac50618bcf7998ea694d946bbfa47ef398c97a21da6255962e787700f71dfda",
+   "geometry_sha256": "d41108b1bacb7ec0b9f772dd09ec830bd3f61ca98a14890ab6b6e770a24cdabf",
    "groups": [
     {
      "bbox_um": [
@@ -373,10 +398,10 @@
     },
     {
      "bbox_um": [
-      -0.15,
-      -0.15,
-      3.23,
-      11.07
+      -1.25,
+      -1.25,
+      4.33,
+      12.17
      ],
      "generator": "mos_array",
      "id": "lcpll_divider_nfet_w10_l0p5",
@@ -386,6 +411,7 @@
       "y": 0.0
      },
      "params": {
+      "add_guard_ring": true,
       "cols": 2,
       "dummy": 0,
       "fingers": 1,
@@ -397,14 +423,15 @@
       "voltage_flavor": "hv",
       "w_um": 10.0
      },
+     "tap_net": "VSS",
      "units": 2
     },
     {
      "bbox_um": [
-      -0.15,
-      -0.15,
-      262.49,
-      6.390000000000001
+      -1.25,
+      -1.25,
+      263.59000000000003,
+      7.49
      ],
      "generator": "mos_array",
      "id": "lcpll_divider_nfet_w2_l0p5",
@@ -414,6 +441,7 @@
       "y": 21.34
      },
      "params": {
+      "add_guard_ring": true,
       "cols": 151,
       "dummy": 0,
       "fingers": 1,
@@ -425,6 +453,7 @@
       "voltage_flavor": "hv",
       "w_um": 2.0
      },
+     "tap_net": "VSS",
      "units": 302
     },
     {
@@ -439,7 +468,7 @@
      "klass": "pfet",
      "origin_um": {
       "x": 0.0,
-      "y": 31.88
+      "y": 34.08
      },
      "params": {
       "cols": 2,
@@ -467,7 +496,7 @@
      "klass": "pfet",
      "origin_um": {
       "x": 0.0,
-      "y": 47.1
+      "y": 49.3
      },
      "params": {
       "cols": 151,
@@ -495,7 +524,7 @@
      "klass": "rhigh",
      "origin_um": {
       "x": 0.0,
-      "y": 63.64
+      "y": 65.84
      },
      "params": {
       "dummy": 0,
@@ -519,7 +548,7 @@
      "klass": "rhigh",
      "origin_um": {
       "x": 70.26,
-      "y": 63.64
+      "y": 65.84
      },
      "params": {
       "dummy": 0,
@@ -543,7 +572,7 @@
      "klass": "rppd",
      "origin_um": {
       "x": 105.9,
-      "y": 63.64
+      "y": 65.84
      },
      "params": {
       "dummy": 0,
@@ -622,7 +651,7 @@
     "VDD": {
      "layer": "8/0",
      "x_um": 0.21,
-     "y_um": 36.88
+     "y_um": 39.08
     },
     "VSS": {
      "layer": "8/0",
@@ -653,21 +682,21 @@
    "undrawn_only_ports": []
   },
   {
-   "area_um2": 1746.6,
+   "area_um2": 2258.0,
    "bbox_um": [
-    -0.15,
-    -0.15,
-    85.55,
-    20.23
+    -1.25,
+    -1.25,
+    98.75,
+    21.33
    ],
    "cell": "lcpll_cp",
    "commands": [
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_cp_nfet_w2_l0p5 -o lcpll_cp_nfet_w2_l0p5.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 1, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 1.0, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_cp_nfet_w2_l1 -o lcpll_cp_nfet_w2_l1.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 5, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 1.0, \\\"rows\\\": 4, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 3.8}\" --cell-name lcpll_cp_nfet_w3p8_l1 -o lcpll_cp_nfet_w3p8_l1.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 3, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 1.0, \\\"rows\\\": 3, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 4.0}\" --cell-name lcpll_cp_nfet_w4_l1 -o lcpll_cp_nfet_w4_l1.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.3, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 6.0}\" --cell-name lcpll_cp_nfet_w6_l0p3 -o lcpll_cp_nfet_w6_l0p3.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 1, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 6.0}\" --cell-name lcpll_cp_nfet_w6_l0p5 -o lcpll_cp_nfet_w6_l0p5.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"add_guard_ring\\\": true, \\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_cp_nfet_w2_l0p5 -o lcpll_cp_nfet_w2_l0p5.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"add_guard_ring\\\": true, \\\"cols\\\": 1, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 1.0, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_cp_nfet_w2_l1 -o lcpll_cp_nfet_w2_l1.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"add_guard_ring\\\": true, \\\"cols\\\": 5, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 1.0, \\\"rows\\\": 4, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 3.8}\" --cell-name lcpll_cp_nfet_w3p8_l1 -o lcpll_cp_nfet_w3p8_l1.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"add_guard_ring\\\": true, \\\"cols\\\": 3, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 1.0, \\\"rows\\\": 3, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 4.0}\" --cell-name lcpll_cp_nfet_w4_l1 -o lcpll_cp_nfet_w4_l1.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"add_guard_ring\\\": true, \\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.3, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 6.0}\" --cell-name lcpll_cp_nfet_w6_l0p3 -o lcpll_cp_nfet_w6_l0p3.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"add_guard_ring\\\": true, \\\"cols\\\": 1, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 6.0}\" --cell-name lcpll_cp_nfet_w6_l0p5 -o lcpll_cp_nfet_w6_l0p5.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 5, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 1.0, \\\"rows\\\": 4, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 3.8}\" --cell-name lcpll_cp_pfet_w3p8_l1 -o lcpll_cp_pfet_w3p8_l1.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 1.0, \\\"rows\\\": 2, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 4.0}\" --cell-name lcpll_cp_pfet_w4_l1 -o lcpll_cp_pfet_w4_l1.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 2, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 5.0}\" --cell-name lcpll_cp_pfet_w5_l0p5 -o lcpll_cp_pfet_w5_l0p5.gds --format json",
@@ -677,14 +706,14 @@
    "device_units": 63,
    "gds": "layout/build/cells/lcpll_cp.gds",
    "generator": "python layout/gen_cells.py --blocks lcpll_cp",
-   "geometry_sha256": "383d1c1f30b8181b8926d5b0f350fa4ba384bb7d1d68c090460d57cb0916fa7a",
+   "geometry_sha256": "c90159b2d6b3bd641e060a4fb13c5b8a6d3d5286b8e71346ade22b565ba1e8d6",
    "groups": [
     {
      "bbox_um": [
-      -0.15,
-      -0.15,
-      3.23,
-      3.0700000000000003
+      -1.25,
+      -1.25,
+      4.33,
+      4.17
      ],
      "generator": "mos_array",
      "id": "lcpll_cp_nfet_w2_l0p5",
@@ -694,6 +723,7 @@
       "y": 0.0
      },
      "params": {
+      "add_guard_ring": true,
       "cols": 2,
       "dummy": 0,
       "fingers": 1,
@@ -705,23 +735,25 @@
       "voltage_flavor": "hv",
       "w_um": 2.0
      },
+     "tap_net": "VSS",
      "units": 2
     },
     {
      "bbox_um": [
-      -0.15,
-      -0.15,
-      1.99,
-      3.0700000000000003
+      -1.25,
+      -1.25,
+      3.09,
+      4.17
      ],
      "generator": "mos_array",
      "id": "lcpll_cp_nfet_w2_l1",
      "klass": "nfet",
      "origin_um": {
-      "x": 7.38,
+      "x": 9.58,
       "y": 0.0
      },
      "params": {
+      "add_guard_ring": true,
       "cols": 1,
       "dummy": 0,
       "fingers": 1,
@@ -733,23 +765,25 @@
       "voltage_flavor": "hv",
       "w_um": 2.0
      },
+     "tap_net": "VSS",
      "units": 1
     },
     {
      "bbox_um": [
-      -0.15,
-      -0.15,
-      10.950000000000001,
-      20.23
+      -1.25,
+      -1.25,
+      12.05,
+      21.330000000000002
      ],
      "generator": "mos_array",
      "id": "lcpll_cp_nfet_w3p8_l1",
      "klass": "nfet",
      "origin_um": {
-      "x": 13.52,
+      "x": 17.92,
       "y": 0.0
      },
      "params": {
+      "add_guard_ring": true,
       "cols": 5,
       "dummy": 0,
       "fingers": 1,
@@ -761,23 +795,25 @@
       "voltage_flavor": "hv",
       "w_um": 3.8
      },
+     "tap_net": "VSS",
      "units": 20
     },
     {
      "bbox_um": [
-      -0.15,
-      -0.15,
-      6.47,
-      15.71
+      -1.25,
+      -1.25,
+      7.57,
+      16.81
      ],
      "generator": "mos_array",
      "id": "lcpll_cp_nfet_w4_l1",
      "klass": "nfet",
      "origin_um": {
-      "x": 28.62,
+      "x": 35.22,
       "y": 0.0
      },
      "params": {
+      "add_guard_ring": true,
       "cols": 3,
       "dummy": 0,
       "fingers": 1,
@@ -789,23 +825,25 @@
       "voltage_flavor": "hv",
       "w_um": 4.0
      },
+     "tap_net": "VSS",
      "units": 9
     },
     {
      "bbox_um": [
-      -0.15,
-      -0.15,
-      2.83,
-      7.07
+      -1.25,
+      -1.25,
+      3.93,
+      8.17
      ],
      "generator": "mos_array",
      "id": "lcpll_cp_nfet_w6_l0p3",
      "klass": "nfet",
      "origin_um": {
-      "x": 39.24,
+      "x": 48.04,
       "y": 0.0
      },
      "params": {
+      "add_guard_ring": true,
       "cols": 2,
       "dummy": 0,
       "fingers": 1,
@@ -817,23 +855,25 @@
       "voltage_flavor": "hv",
       "w_um": 6.0
      },
+     "tap_net": "VSS",
      "units": 2
     },
     {
      "bbox_um": [
-      -0.15,
-      -0.15,
-      1.49,
-      7.07
+      -1.25,
+      -1.25,
+      2.59,
+      8.17
      ],
      "generator": "mos_array",
      "id": "lcpll_cp_nfet_w6_l0p5",
      "klass": "nfet",
      "origin_um": {
-      "x": 46.22,
+      "x": 57.22,
       "y": 0.0
      },
      "params": {
+      "add_guard_ring": true,
       "cols": 1,
       "dummy": 0,
       "fingers": 1,
@@ -845,6 +885,7 @@
       "voltage_flavor": "hv",
       "w_um": 6.0
      },
+     "tap_net": "VSS",
      "units": 1
     },
     {
@@ -858,7 +899,7 @@
      "id": "lcpll_cp_pfet_w3p8_l1",
      "klass": "pfet",
      "origin_um": {
-      "x": 51.86,
+      "x": 65.06,
       "y": 0.0
      },
      "params": {
@@ -886,7 +927,7 @@
      "id": "lcpll_cp_pfet_w4_l1",
      "klass": "pfet",
      "origin_um": {
-      "x": 66.96,
+      "x": 80.16,
       "y": 0.0
      },
      "params": {
@@ -914,7 +955,7 @@
      "id": "lcpll_cp_pfet_w5_l0p5",
      "klass": "pfet",
      "origin_um": {
-      "x": 75.34,
+      "x": 88.54,
       "y": 0.0
      },
      "params": {
@@ -942,7 +983,7 @@
      "id": "lcpll_cp_pfet_w6_l0p3",
      "klass": "pfet",
      "origin_um": {
-      "x": 82.72,
+      "x": 95.92,
       "y": 0.0
      },
      "params": {
@@ -970,7 +1011,7 @@
     },
     "IREF": {
      "layer": "8/0",
-     "x_um": 14.44,
+     "x_um": 18.84,
      "y_um": 4.51
     },
     "UP": {
@@ -980,12 +1021,12 @@
     },
     "VDD": {
      "layer": "8/0",
-     "x_um": 47.35,
+     "x_um": 58.35,
      "y_um": 3.0
     },
     "VOUT": {
      "layer": "8/0",
-     "x_um": 40.17,
+     "x_um": 48.97,
      "y_um": 3.0
     },
     "VSS": {
@@ -1148,17 +1189,17 @@
    "undrawn_only_ports": []
   },
   {
-   "area_um2": 1080.7,
+   "area_um2": 1272.5,
    "bbox_um": [
-    -0.15,
-    -0.15,
-    42.77,
+    -1.25,
+    -1.25,
+    47.17,
     25.03
    ],
    "cell": "lcpll_pfd",
    "commands": [
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 8, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 4, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_pfd_nfet_w2_l0p5 -o lcpll_pfd_nfet_w2_l0p5.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 1, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 4.0}\" --cell-name lcpll_pfd_nfet_w4_l0p5 -o lcpll_pfd_nfet_w4_l0p5.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"add_guard_ring\\\": true, \\\"cols\\\": 8, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 4, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_pfd_nfet_w2_l0p5 -o lcpll_pfd_nfet_w2_l0p5.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"add_guard_ring\\\": true, \\\"cols\\\": 1, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 4.0}\" --cell-name lcpll_pfd_nfet_w4_l0p5 -o lcpll_pfd_nfet_w4_l0p5.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 1, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 10.0}\" --cell-name lcpll_pfd_pfet_w10_l0p5 -o lcpll_pfd_pfet_w10_l0p5.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 8, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 4, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 5.0}\" --cell-name lcpll_pfd_pfet_w5_l0p5 -o lcpll_pfd_pfet_w5_l0p5.gds --format json",
     "klt gen-compose lcpll_pfd.compose.json --format json"
@@ -1166,14 +1207,14 @@
    "device_units": 66,
    "gds": "layout/build/cells/lcpll_pfd.gds",
    "generator": "python layout/gen_cells.py --blocks lcpll_pfd",
-   "geometry_sha256": "6599e5a37a13c332a97a8fb23c60a3406ebf61239574026ff79e872bb38c7eed",
+   "geometry_sha256": "ca07569e515d9c1f8d9093ffa56570e16950ccd0ae386f32d3e84a544469ed8b",
    "groups": [
     {
      "bbox_um": [
-      -0.15,
-      -0.15,
-      13.67,
-      13.030000000000001
+      -1.25,
+      -1.25,
+      14.77,
+      14.13
      ],
      "generator": "mos_array",
      "id": "lcpll_pfd_nfet_w2_l0p5",
@@ -1183,6 +1224,7 @@
       "y": 0.0
      },
      "params": {
+      "add_guard_ring": true,
       "cols": 8,
       "dummy": 0,
       "fingers": 1,
@@ -1194,23 +1236,25 @@
       "voltage_flavor": "hv",
       "w_um": 2.0
      },
+     "tap_net": "VSS",
      "units": 32
     },
     {
      "bbox_um": [
-      -0.15,
-      -0.15,
-      1.49,
-      5.07
+      -1.25,
+      -1.25,
+      2.59,
+      6.17
      ],
      "generator": "mos_array",
      "id": "lcpll_pfd_nfet_w4_l0p5",
      "klass": "nfet",
      "origin_um": {
-      "x": 17.82,
+      "x": 20.02,
       "y": 0.0
      },
      "params": {
+      "add_guard_ring": true,
       "cols": 1,
       "dummy": 0,
       "fingers": 1,
@@ -1222,6 +1266,7 @@
       "voltage_flavor": "hv",
       "w_um": 4.0
      },
+     "tap_net": "VSS",
      "units": 1
     },
     {
@@ -1235,7 +1280,7 @@
      "id": "lcpll_pfd_pfet_w10_l0p5",
      "klass": "pfet",
      "origin_um": {
-      "x": 23.46,
+      "x": 27.86,
       "y": 0.0
      },
      "params": {
@@ -1263,7 +1308,7 @@
      "id": "lcpll_pfd_pfet_w5_l0p5",
      "klass": "pfet",
      "origin_um": {
-      "x": 29.1,
+      "x": 33.5,
       "y": 0.0
      },
      "params": {
@@ -1282,7 +1327,7 @@
     }
    ],
    "netlist": "design/netlist/pll_top.spice",
-   "netlist_sha256": "bd29d4742013e38d7415e650ced7d61af51c61ee13da85a51f8dfc58e6c3f013",
+   "netlist_sha256": "465e4f904b5ec74b9d7ef887d0e76995f141aa9d29740631b420359710ec92ac",
    "port_labels": {
     "DN": {
      "layer": "8/0",
@@ -1306,7 +1351,7 @@
     },
     "VDD": {
      "layer": "8/0",
-     "x_um": 23.67,
+     "x_um": 28.07,
      "y_um": 5.0
     },
     "VSS": {
@@ -1330,19 +1375,19 @@
    "undrawn_only_ports": []
   },
   {
-   "area_um2": 26539.5,
+   "area_um2": 27090.4,
    "bbox_um": [
     0.0,
-    -0.15,
+    -1.25,
     500.84,
     52.84
    ],
    "cell": "lcpll_lockdet",
    "commands": [
     "klt gen cap_array --pdk ihp-sg13g2 --params \"{\\\"num\\\": 2, \\\"plate_h_um\\\": 45.0, \\\"plate_w_um\\\": 45.0}\" --cell-name lcpll_lockdet_cmim_w45_l45 -o lcpll_lockdet_cmim_w45_l45.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 1, \\\"dogbone_terminals\\\": true, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 12.0, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 0.25}\" --cell-name lcpll_lockdet_nfet_w0p25_l12 -o lcpll_lockdet_nfet_w0p25_l12.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 5, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 3, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_lockdet_nfet_w2_l0p5 -o lcpll_lockdet_nfet_w2_l0p5.gds --format json",
-    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 3, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 2.0, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_lockdet_nfet_w2_l2 -o lcpll_lockdet_nfet_w2_l2.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"add_guard_ring\\\": true, \\\"cols\\\": 1, \\\"dogbone_terminals\\\": true, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 12.0, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 0.25}\" --cell-name lcpll_lockdet_nfet_w0p25_l12 -o lcpll_lockdet_nfet_w0p25_l12.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"add_guard_ring\\\": true, \\\"cols\\\": 5, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 3, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_lockdet_nfet_w2_l0p5 -o lcpll_lockdet_nfet_w2_l0p5.gds --format json",
+    "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"add_guard_ring\\\": true, \\\"cols\\\": 3, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"nfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 2.0, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 2.0}\" --cell-name lcpll_lockdet_nfet_w2_l2 -o lcpll_lockdet_nfet_w2_l2.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 5, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 0.5, \\\"rows\\\": 3, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 5.0}\" --cell-name lcpll_lockdet_pfet_w5_l0p5 -o lcpll_lockdet_pfet_w5_l0p5.gds --format json",
     "klt gen mos_array --pdk ihp-sg13g2 --params \"{\\\"cols\\\": 3, \\\"dummy\\\": 0, \\\"fingers\\\": 1, \\\"flavor\\\": \\\"pfet\\\", \\\"gate_contact\\\": true, \\\"l_um\\\": 2.0, \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\", \\\"voltage_flavor\\\": \\\"hv\\\", \\\"w_um\\\": 5.0}\" --cell-name lcpll_lockdet_pfet_w5_l2 -o lcpll_lockdet_pfet_w5_l2.gds --format json",
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rhigh\\\", \\\"length_um\\\": 500.0, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 0.5}\" --cell-name lcpll_lockdet_resrhigh_w0p5_l500 -o lcpll_lockdet_resrhigh_w0p5_l500.gds --format json",
@@ -1351,7 +1396,7 @@
    "device_units": 40,
    "gds": "layout/build/cells/lcpll_lockdet.gds",
    "generator": "python layout/gen_cells.py --blocks lcpll_lockdet",
-   "geometry_sha256": "b6c731accf073ff9e568b8ecc81fd72bc3d393d64c35a56fa3ba76dd6dc2981a",
+   "geometry_sha256": "dec9ca08fff2ae51e6c3674ddcfaa444a9085f933d8375d94774957152ec6ede",
    "groups": [
     {
      "bbox_um": [
@@ -1376,10 +1421,10 @@
     },
     {
      "bbox_um": [
-      -0.15,
-      -0.15,
-      13.19,
-      1.79
+      -1.25,
+      -1.25,
+      14.290000000000001,
+      2.89
      ],
      "generator": "mos_array",
      "id": "lcpll_lockdet_nfet_w0p25_l12",
@@ -1389,6 +1434,7 @@
       "y": 0.0
      },
      "params": {
+      "add_guard_ring": true,
       "cols": 1,
       "dogbone_terminals": true,
       "dummy": 0,
@@ -1401,23 +1447,25 @@
       "voltage_flavor": "hv",
       "w_um": 0.25
      },
+     "tap_net": "VSS",
      "units": 1
     },
     {
      "bbox_um": [
-      -0.15,
-      -0.15,
-      8.45,
-      9.71
+      -1.25,
+      -1.25,
+      9.55,
+      10.81
      ],
      "generator": "mos_array",
      "id": "lcpll_lockdet_nfet_w2_l0p5",
      "klass": "nfet",
      "origin_um": {
-      "x": 114.24,
+      "x": 116.44,
       "y": 0.0
      },
      "params": {
+      "add_guard_ring": true,
       "cols": 5,
       "dummy": 0,
       "fingers": 1,
@@ -1429,23 +1477,25 @@
       "voltage_flavor": "hv",
       "w_um": 2.0
      },
+     "tap_net": "VSS",
      "units": 15
     },
     {
      "bbox_um": [
-      -0.15,
-      -0.15,
-      9.47,
-      3.0700000000000003
+      -1.25,
+      -1.25,
+      10.57,
+      4.17
      ],
      "generator": "mos_array",
      "id": "lcpll_lockdet_nfet_w2_l2",
      "klass": "nfet",
      "origin_um": {
-      "x": 126.84,
+      "x": 131.24,
       "y": 0.0
      },
      "params": {
+      "add_guard_ring": true,
       "cols": 3,
       "dummy": 0,
       "fingers": 1,
@@ -1457,6 +1507,7 @@
       "voltage_flavor": "hv",
       "w_um": 2.0
      },
+     "tap_net": "VSS",
      "units": 3
     },
     {
@@ -1470,7 +1521,7 @@
      "id": "lcpll_lockdet_pfet_w5_l0p5",
      "klass": "pfet",
      "origin_um": {
-      "x": 140.46,
+      "x": 147.06,
       "y": 0.0
      },
      "params": {
@@ -1498,7 +1549,7 @@
      "id": "lcpll_lockdet_pfet_w5_l2",
      "klass": "pfet",
      "origin_um": {
-      "x": 153.06,
+      "x": 159.66,
       "y": 0.0
      },
      "params": {
@@ -1541,26 +1592,26 @@
     }
    ],
    "netlist": "design/netlist/pll_top.spice",
-   "netlist_sha256": "bd29d4742013e38d7415e650ced7d61af51c61ee13da85a51f8dfc58e6c3f013",
+   "netlist_sha256": "465e4f904b5ec74b9d7ef887d0e76995f141aa9d29740631b420359710ec92ac",
    "port_labels": {
     "DN": {
      "layer": "8/0",
-     "x_um": 116.65,
+     "x_um": 118.85,
      "y_um": 2.71
     },
     "LOCK": {
      "layer": "8/0",
-     "x_um": 129.47,
+     "x_um": 133.87,
      "y_um": 1.0
     },
     "UP": {
      "layer": "8/0",
-     "x_um": 114.91,
+     "x_um": 117.11,
      "y_um": 2.71
     },
     "VDD": {
      "layer": "8/0",
-     "x_um": 135.95,
+     "x_um": 140.35,
      "y_um": 1.0
     },
     "VSS": {
@@ -1584,7 +1635,7 @@
   }
  ],
  "command": ".venv/bin/python layout/gen_cells.py --write",
- "klt": "klt 0.9.2.dev457+g5cd6aad7c733",
+ "klt": "klt 0.9.2.dev887+gec7400b7d8e5",
  "pdk": "ihp-sg13g2",
  "schema": 1
 }
