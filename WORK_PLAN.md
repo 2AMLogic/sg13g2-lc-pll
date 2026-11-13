@@ -41,12 +41,19 @@ Issues currently being built (`loom:building`).
 - **#178**: Stale sim/prescaler-g3: drives the old /4-/5 stage, not the merged /8-/9 prescaler
 - **#197**: Divider stops dividing at 125C after start-up (7 of 54 corner units): SLOW 625/687.5 MHz, TYP 687.5 MHz
 - **#206**: spec: state clock output swing and load for a downstream TX mux
+- **#245**: Finish the Metal1 pad-trim guard in gen_integrated.py and remove its inert bindings and duplicate helpers
+- **#252**: Spec section 4: state the reference phase-noise requirement and define method N for the switching blocks (decision record)
+- **#257**: gen_integrated.py --write churns the attested top.gds on an unchanged design (GDS timestamps)
+- **#258**: make_record.py: G2 closure line cannot see a 125 C unit missing from the reports
+- **#261**: Compute the ngspice pin verdict in the klt sim record generators: five scripts print "pin 47: mismatch" as a literal
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
-_None._
+- **#262**: docs(spec): add DR-007 — reference noise mask, in-band split, method N narrowed to the charge pump
+- **#265**: refactor(sim): compute the ngspice pin verdict in sim/ngpin.py, drop the five literals
+- **#266**: fix(sim): grade the G2 125 C closure line against the requested grid
 
 ## Approved (Awaiting Merge)
 
@@ -54,6 +61,8 @@ PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 
 - **#200**: docs(sim): trace 125C divider stall to M-counter terminal-count setup path
 - **#207**: docs(spec): add clock-output interface row 15 and DR-006, stated as not met
+- **#256**: feat(layout): test trimmed Metal1 pads still cover their Via1, record the count
+- **#264**: fix(layout): keep the attested top.gds bytes when --write finds no geometry change
 
 ## Proposed
 
@@ -69,6 +78,9 @@ Issues carrying `loom:curated`.
 - **#197**: Divider stops dividing at 125C after start-up (7 of 54 corner units): SLOW 625/687.5 MHz, TYP 687.5 MHz *(curated)*
 - **#206**: spec: state clock output swing and load for a downstream TX mux *(curated)*
 - **#237**: Retire the stale smoke-record clause in sim/testbench-inventory.json (needs a re-attestation #228 could not run locally) *(curated)*
+- **#252**: Spec section 4: state the reference phase-noise requirement and define method N for the switching blocks (decision record) *(curated)*
+- **#257**: gen_integrated.py --write churns the attested top.gds on an unchanged design (GDS timestamps) *(curated)*
+- **#258**: make_record.py: G2 closure line cannot see a 125 C unit missing from the reports *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -76,10 +88,6 @@ Issues carrying `loom:curated`.
 - **#146**: Consolidate crossing-probe boilerplate across 11 loop-power make_*_97 generators *(hermit)*
 - **#223**: Drop vendored manifests/design-evidence-tiers.md: the pinned klt 0.8.0 bundles the identical doc *(hermit)*
 - **#227**: Retire the local nominal G2 bench (run-vco-prescaler-load.sh): superseded by the batch stage-0 request and cannot elaborate the current prescaler *(hermit)*
-- **#239**: Consolidate the spec corner-set table: seven request generators each re-encode the DR-004 SLOW/TYP/FAST bundles, and they have diverged *(hermit)*
-- **#243**: Compute the verdict lines in the G2 C-grid record generator: make_record.py --dsubw prints one run's conclusions as literals *(hermit)*
-- **#245**: Finish the Metal1 pad-trim guard in gen_integrated.py and remove its inert bindings and duplicate helpers *(hermit)*
-- **#247**: Finish the method-L jitter model: three noise terms are zero placeholders owed to method N, which no issue owns *(hermit)*
 - **#250**: Remove the PFD_VARIANT=reset-fix mode from run-pfd-sweep.sh: against the current pin it half-applies and would write a mislabeled record *(hermit)*
 
 ## Epics
@@ -94,10 +102,10 @@ _None._
 | Very important | 0 |
 | Important | 5 |
 | Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 5 |
-| PRs awaiting review | 0 |
-| Approved PRs awaiting merge | 2 |
-| Curated | 10 |
-| Architect / Hermit proposals | 9 |
+| In Progress (`loom:building`) | 10 |
+| PRs awaiting review | 3 |
+| Approved PRs awaiting merge | 4 |
+| Curated | 13 |
+| Architect / Hermit proposals | 5 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
