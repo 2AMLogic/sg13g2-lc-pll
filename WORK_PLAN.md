@@ -20,9 +20,11 @@ _None._
 
 `loom:important`; taken before unlabelled work.
 
+- **#36**: T1 item 3 (DRC clean): klt drc on the integrated layout with coverage disclosed
 - **#37**: T1 item 4 (LVS clean): klt lvs of the integrated layout vs the top netlist (npn13G2v recognized)
 - **#39**: T1 item 5 (corner verification): klt sim envelopes over C-grid for every target row
 - **#86**: Item 5 remainder (gated): C-grid envelopes for rows 1, 8, 9, 10 and row 7 upper edge
+- **#149**: Divider speed decks use PSP RF models but never load psp103_nqs.osdi (attest 9 fails on a clean host)
 - **#199**: Divider M-counter terminal-count path fails setup at 125C (7 of 54 corner units)
 
 ## Ready
@@ -39,7 +41,6 @@ Issues currently being built (`loom:building`).
 - **#88**: G6: measure transient-noise cost versus run length for method T
 - **#178**: Stale sim/prescaler-g3: drives the old /4-/5 stage, not the merged /8-/9 prescaler
 - **#197**: Divider stops dividing at 125C after start-up (7 of 54 corner units): SLOW 625/687.5 MHz, TYP 687.5 MHz
-- **#202**: layout: fix gen_cells.py findings from native DRC cross-check (pfet w5 cell, HBT spacing, LU.b tap ties)
 - **#206**: spec: state clock output swing and load for a downstream TX mux
 
 ## PRs Awaiting Review
@@ -75,6 +76,10 @@ Issues carrying `loom:curated`.
 - **#143**: Stop tracking 19 regenerable loop-power probe request JSONs (extends #106) *(hermit)*
 - **#146**: Consolidate crossing-probe boilerplate across 11 loop-power make_*_97 generators *(hermit)*
 - **#219**: Remove archived pre-DR-005 prescaler cells (div2_cml, div2_ef_hs, div2_latch_hs, div45_dm): uninstantiated *(hermit)*
+- **#222**: Run the divider corner grader's negative-control tests in CI; drop unused frange helper *(hermit)*
+- **#223**: Drop vendored manifests/design-evidence-tiers.md: the pinned klt 0.8.0 bundles the identical doc *(hermit)*
+- **#227**: Retire the local nominal G2 bench (run-vco-prescaler-load.sh): superseded by the batch stage-0 request and cannot elaborate the current prescaler *(hermit)*
+- **#228**: Remove the stale 'pinned VCO did not oscillate' reason from two record generators and seven other files *(hermit)*
 
 ## Epics
 
@@ -86,12 +91,12 @@ _None._
 |------|-------|
 | Operator merge-risk holds | 2 |
 | Very important | 0 |
-| Important | 4 |
+| Important | 6 |
 | Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 6 |
+| In Progress (`loom:building`) | 5 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 2 |
 | Curated | 10 |
-| Architect / Hermit proposals | 3 |
+| Architect / Hermit proposals | 7 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
