@@ -1,4 +1,4 @@
-# DR-003: Row 7 - charge-pump up/down mismatch, proposal to relax 2 % to 6 %
+# DR-008: Row 7 - charge-pump up/down mismatch, proposal to relax 2 % to 6 %
 
 - **Status**: proposed. This is a **relax-after-measured-FAIL** proposal (`2AMLogic/2am` `ratification/protocol.md` §2-3).
   It changes no ratified row until it is ratified: the PR takes the EE key (Step 5 re-derivation) and the market key,
