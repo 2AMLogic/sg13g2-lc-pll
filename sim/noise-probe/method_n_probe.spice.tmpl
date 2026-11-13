@@ -16,6 +16,15 @@
 *       the loop filter is deliberately absent (the method-L model applies its shaping, and
 *       R1's thermal noise is already a separate model term; including it here would
 *       double-count it).
+*   (b2) What are the per-leg DC currents at that same operating point? Three further
+*       copies of cp, each with its own output forced to the same Vctrl through its own
+*       noiseless 0 V sense and its own IREF: UP asserted alone (the leg that sources),
+*       DN asserted alone (the leg that sinks), and neither asserted (both tails dumped).
+*       These let the record show residual = I_up - I_dn instead of asserting it against
+*       figures from another run, and they separate the balanced steering state from the
+*       both-dumped state, whose residual is also small. DR-007 section 5 field 3 requires
+*       them beside the residual. They carry no `ac` drive and share only the ideal VDD and
+*       ground nodes with copy (b), so they do not enter its noise analysis.
 *   (c) Does .noise return device noise for npn13G2v (VBIC)? Same noiseless current sense
 *       on the collector of a common-emitter device at VBE = 0.85 V.
 *
@@ -45,6 +54,24 @@ HSENS ns 0 VSENSE 1
 IREF vdd iref dc 20u ac 1
 XCP hi hi iref vout vdd 0 cp
 
+* (b2) per-leg DC currents, same netlist, same corner, same forced Vctrl = 2.0 V and
+*      IREF = 20 uA. DC only: no ac drive, so these copies are not in (b)'s noise analysis.
+VLO lo 0 0
+VCTRLU vcu 0 2.0
+VSENSEU voutu vcu 0
+IREFU vdd irefu dc 20u
+XCPU hi lo irefu voutu vdd 0 cp
+
+VCTRLD vcd 0 2.0
+VSENSED voutd vcd 0
+IREFD vdd irefd dc 20u
+XCPD lo hi irefd voutd vdd 0 cp
+
+VCTRLZ vcz 0 2.0
+VSENSEZ voutz vcz 0
+IREFZ vdd irefz dc 20u
+XCPZ lo lo irefz voutz vdd 0 cp
+
 * (c) npn13G2v common emitter at VBE = 0.85 V
 VCC vcc 0 3.3
 VB  b 0 0.85
@@ -59,6 +86,8 @@ pre_osdi @@OSDI_PSP@@
 pre_osdi @@OSDI_PSP_NQS@@
 op
 print i(VSENSE) i(VSENSEQ)
+echo "--- (b2) per-leg DC currents: UP alone, DN alone, both dumped ---"
+print i(VSENSEU) i(VSENSED) i(VSENSEZ)
 echo "--- (a) calibration: 1 kohm, expect sqrt(4kTR) = 4.0714e-9 V/sqrt(Hz) ---"
 noise v(nr) ICAL lin 2 1k 10k 1
 setplot noise1

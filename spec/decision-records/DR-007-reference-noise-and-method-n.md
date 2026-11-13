@@ -101,7 +101,8 @@ The pump is **current-steering**: `design/cp_leg_p.sch` and `design/cp_leg_n.sch
 at all times and switch them between VOUT and VDUMP. So during the overlap window both legs steer to VOUT and
 the pump's device noise reaches the loop filter; outside it both steer to VDUMP and it does not. That window
 is a genuine DC solution -- unlike a latch's -- because no node in it is bistable: the probe below balances to
-a 2.1 uA residual against legs of about 198 uA each.
+a 2.1 uA residual between two legs that are both live at the output, measured in the probe's own deck at
+the probed netlist: I_up = 196.273 uA, I_dn = 198.353 uA, I_up - I_dn = -2.080 uA.
 
 V_ctrl in lock is per corner and comes from the VCO's graded f(V_ctrl) grid (**gate G4**). Until G4 closes, a
 method-N number states the V_ctrl it used and is **not** a C-grid grade.
@@ -180,7 +181,12 @@ Next to the number, per CLAUDE.md "Noise needs its method". A number missing any
 1. **Block**, and the netlist file with its sha256, plus the repository commit.
 2. **Corner**: MOS / MIM / HBT model corner, temperature, and supply.
 3. **Operating point**: which inputs are asserted, every forced node voltage -- at minimum V_ctrl and the bias
-   current -- and the DC residual that shows the pump is in the balanced steering state.
+   current -- and **the per-leg DC currents beside the residual**: I_up with UP asserted alone, I_dn with DN
+   asserted alone, both at the same netlist, corner and forced nodes, so the record *shows*
+   residual = I_up - I_dn rather than asserting it. The residual on its own does not establish the balanced
+   steering state: with both switches dumping, the probe behind this record reads 4 fA, which also passes
+   "small against a leg", and a deck with UP/DN polarity reversed would pass it too. Figures from another
+   netlist revision do not substitute; cite the run that produced them and its netlist hash.
 4. **Analysis** and its frequency range and point density (`.noise`, 10 kHz-10 MHz, points per decade).
 5. **The quantity read**, its node, and **its units**, with the calibration that fixed the units.
 6. **The conversion formula with the numeric value of every input**: I_cp, t_on, T_ref (= 1/f_ref), N.
@@ -191,7 +197,7 @@ Next to the number, per CLAUDE.md "Noise needs its method". A number missing any
 
 ## Evidence
 
-`sim/noise-probe/records/20261113-171443-3706968.md` -- ONE local `ngspice -b`, nominal corner
+`sim/noise-probe/records/20261113-174218-8211fdd.md` -- ONE local `ngspice -b`, nominal corner
 (`mos_tt` / `hbt_typ`), 27 C, nominal 3.3 V, one operating point. Simulated, no spec row graded. It settles
 three things this record relies on and nothing else:
 

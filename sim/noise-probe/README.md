@@ -37,7 +37,7 @@ Keep `OMP_NUM_THREADS` at 2: the host is shared.
 
 ## Finding (see the record)
 
-`records/20261113-171443-3706968.md`, nominal corner, simulated, no spec row graded:
+`records/20261113-174218-8211fdd.md`, nominal corner, simulated, no spec row graded:
 
 1. `onoise_spectrum` is an **amplitude** density in V/sqrt(Hz). A 1 kohm resistor reads
    4.071372e-09, against sqrt(4kTR) = 4.0714e-09 and 4kTR = 1.6576e-17.
@@ -46,6 +46,10 @@ Keep `OMP_NUM_THREADS` at 2: the host is shared.
    it is device noise.
 3. `npn13G2v` (VBIC) returns non-zero device noise, with the 1 MHz plateau at 83 % of full
    collector shot noise in amplitude.
+4. At the probed operating point the pump's two legs are both live at the output:
+   I_up = 196.273 uA, I_dn = 198.353 uA, difference -2.080 uA, which is the probed point's
+   own residual. Measured by three single-leg copies in the same deck and run, so the
+   record shows the balanced steering state instead of asserting it from another run.
 
 What the probe does **not** settle -- the gating approximation for flicker noise, any other
 corner, the PFD, the divider, and the charge pump's on-time in lock -- is listed in the

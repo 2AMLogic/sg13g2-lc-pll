@@ -296,6 +296,14 @@ The loop is graded on the **same grid** as the VCO so the two are comparable.
 
 ## Appended updates (ratified text above is unchanged)
 
+- **Section 4 method text, edited in place (PR #262, DR-007).** No ratified *row* changes, and rows 1-13, the
+  5 / 2 / 2.9 e-4 in-band / reference-spur / other split and the -138 dBc/Hz total are untouched. What changed is
+  section 4's method prose, which DR-001 ratified as method, not as a row: the method-L "Inputs" bullet now names
+  the reference term's source and its value, a "Component noise: ngspice `.noise` (method **N**)" subsection is
+  added, and the in-band budget line gains three sub-rows carrying DR-001's 5e-4 rad^2 split
+  2 / 2 / 1 e-4 across reference, PFD/CP and divider/prescaler. The replaced text is quoted in
+  [DR-007](decision-records/DR-007-reference-noise-and-method-n.md) "Context"; each edited passage cites DR-007.
+  This entry keeps the heading above true -- the edit is in place, not appended.
 - **Row 4, appended (PR #161, DR-005).** The row 4 text above describes the pre-DR-005 arrangement (fixed ÷2 first
   stage, then ÷4/5). The topology that supersedes it is in
   [DR-005](decision-records/DR-005-prescaler-p89-div23-first-stage.md): a **÷2/3 dual-modulus** HBT CML first stage on
