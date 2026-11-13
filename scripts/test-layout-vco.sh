@@ -7,10 +7,20 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PY="${LAYOUT_PY:-${ROOT}/.venv/bin/python}"
 T="$(mktemp -d)"; trap 'rm -rf "${T}"' EXIT
 pass=0; bad=0
-expect() { # <name> <ok|refuse> <cmd...>
+# Plain `refuse` passes on any non-zero exit, so it cannot tell a detected fault from a crash
+# (a SyntaxError, a missing klayout); `refuse:<ERE>` also requires the checker's own refusal
+# text in the output, which is what makes a negative control discriminating (#234).
+expect() { # <name> <ok|refuse|refuse:ERE> <cmd...>
   local name="$1" want="$2"; shift 2
   "$@" >"${T}/out" 2>&1; local rc=$?
-  if { [ "${want}" = ok ] && [ "${rc}" = 0 ]; } || { [ "${want}" = refuse ] && [ "${rc}" != 0 ]; }; then
+  local ok=0
+  case "${want}" in
+    ok) [ "${rc}" = 0 ] && ok=1 ;;
+    refuse) [ "${rc}" != 0 ] && ok=1 ;;
+    refuse:*) [ "${rc}" != 0 ] && grep -qE "${want#refuse:}" "${T}/out" && ok=1 ;;
+    *) echo "FAIL ${name}: unknown expectation '${want}'"; bad=$((bad+1)); return ;;
+  esac
+  if [ "${ok}" = 1 ]; then
     echo "PASS ${name} (rc=${rc})"; pass=$((pass+1))
   else echo "FAIL ${name} (rc=${rc})"; sed 's/^/    /' "${T}/out"; bad=$((bad+1)); fi
 }
@@ -18,6 +28,8 @@ VCO="${ROOT}/.fetched/sg13g2-vco/layout/vco.gds"
 G="${T}/top.gds"
 FORB="${T}/forbidden.json"
 RING='[-331.13,-132.03,331.13,316.26]'   # ring outer edge = vco bbox + 20 (keep-out) + 5 + 1
+# layout/gen_top.py's refusal on a VCO stream whose sha256 differs from reuse.lock.json.
+REFUSAL='gen_top: .* sha256 [0-9a-f]{64} != pinned [0-9a-f]{64}; refusing'
 
 expect "fetched VCO files verify"   ok "${ROOT}/scripts/fetch-vco.sh" --verify
 expect "generate top cell"          ok "${PY}" "${ROOT}/layout/gen_top.py" --out "${G}" --forbidden-json "${FORB}"
@@ -52,7 +64,9 @@ cp "${ROOT}/scripts/fetch-vco.sh" "${T}/s/scripts/"; cp "${ROOT}/reuse.lock.json
 cp "${VCO}" "${T}/s/.fetched/sg13g2-vco/layout/vco.gds"
 printf 'X' | dd of="${T}/s/.fetched/sg13g2-vco/layout/vco.gds" bs=1 seek=100 conv=notrunc 2>/dev/null
 expect "NEG tampered stream: fetch-vco --verify" refuse "${T}/s/scripts/fetch-vco.sh" --verify
-expect "NEG tampered stream: generator refuses"  refuse "${PY}" "${ROOT}/layout/gen_top.py" --vco "${T}/s/.fetched/sg13g2-vco/layout/vco.gds" --out "${T}/x.gds"
+# Must carry gen_top.py's own sha256 refusal, not merely exit non-zero: see expect() above.
+expect "NEG tampered stream: generator refuses"  "refuse:${REFUSAL}" \
+  "${PY}" "${ROOT}/layout/gen_top.py" --vco "${T}/s/.fetched/sg13g2-vco/layout/vco.gds" --out "${T}/x.gds"
 
 echo "${pass} passed, ${bad} failed"
 [ "${bad}" = 0 ]

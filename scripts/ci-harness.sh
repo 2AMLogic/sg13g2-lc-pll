@@ -12,6 +12,7 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${ROOT}"
+bash scripts/test-py-compile.sh
 bash scripts/test-fetch-vco.sh 2AMLogic/sg13g2-vco fetch-vco.sh design/vco.spice
 bash scripts/test-fetch-vco.sh 2AMLogic/sg13g2-pll fetch-pll.sh design/pfd.sch
 python3 scripts/gen_prescaler_vce_request.py --check
