@@ -20,7 +20,6 @@ _None._
 
 `loom:important`; taken before unlabelled work.
 
-- **#36**: T1 item 3 (DRC clean): klt drc on the integrated layout with coverage disclosed
 - **#37**: T1 item 4 (LVS clean): klt lvs of the integrated layout vs the top netlist (npn13G2v recognized)
 - **#39**: T1 item 5 (corner verification): klt sim envelopes over C-grid for every target row
 - **#86**: Item 5 remainder (gated): C-grid envelopes for rows 1, 8, 9, 10 and row 7 upper edge
@@ -31,7 +30,7 @@ _None._
 
 Human-approved issues ready for implementation (`loom:issue`).
 
-- **#36**: T1 item 3 (DRC clean): klt drc on the integrated layout with coverage disclosed
+_None._
 
 ## In Progress
 
@@ -60,7 +59,6 @@ PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 
 Issues carrying `loom:curated`.
 
-- **#36**: T1 item 3 (DRC clean): klt drc on the integrated layout with coverage disclosed *(curated)*
 - **#37**: T1 item 4 (LVS clean): klt lvs of the integrated layout vs the top netlist (npn13G2v recognized) *(curated)*
 - **#48**: T1 item 8 (characterization): per-row characterization report over the DR-001 rows, attested with klt signoff --attest 8 *(curated)*
 - **#82**: spec decision: CP up/down mismatch (row 7) limit and yield target *(curated)*
@@ -81,6 +79,8 @@ Issues carrying `loom:curated`.
 - **#239**: Consolidate the spec corner-set table: seven request generators each re-encode the DR-004 SLOW/TYP/FAST bundles, and they have diverged *(hermit)*
 - **#243**: Compute the verdict lines in the G2 C-grid record generator: make_record.py --dsubw prints one run's conclusions as literals *(hermit)*
 - **#245**: Finish the Metal1 pad-trim guard in gen_integrated.py and remove its inert bindings and duplicate helpers *(hermit)*
+- **#247**: Finish the method-L jitter model: three noise terms are zero placeholders owed to method N, which no issue owns *(hermit)*
+- **#250**: Remove the PFD_VARIANT=reset-fix mode from run-pfd-sweep.sh: against the current pin it half-applies and would write a mislabeled record *(hermit)*
 
 ## Epics
 
@@ -92,12 +92,12 @@ _None._
 |------|-------|
 | Operator merge-risk holds | 2 |
 | Very important | 0 |
-| Important | 6 |
-| Ready (`loom:issue`) | 1 |
+| Important | 5 |
+| Ready (`loom:issue`) | 0 |
 | In Progress (`loom:building`) | 5 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 2 |
-| Curated | 11 |
-| Architect / Hermit proposals | 7 |
+| Curated | 10 |
+| Architect / Hermit proposals | 9 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
