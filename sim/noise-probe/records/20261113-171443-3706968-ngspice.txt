@@ -1,0 +1,104 @@
+Warning: m=xx on .subckt line will override multiplier m hierarchy!
+
+Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+Note: Compatibility modes selected: hs a
+
+
+Circuit: * sg13g2-lc-pll :: sim/noise-probe -- dr-007 method-n feasibility probe.
+
+option SCALE: Scale is set to 1 for instance and model parameters
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+i(vsense) = -2.08029e-06
+i(vsenseq) = 1.160036e-03
+--- (a) calibration: 1 kohm, expect sqrt(4kTR) = 4.0714e-9 V/sqrt(Hz) ---
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 2
+ Reference value :  1.00000e+04Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 1
+    * sg13g2-lc-pll :: sim/noise-probe -- dr-007 method-n feasibility probe.
+    Noise Spectral Density Curves  Fri Nov 13 17:16:10  2026
+--------------------------------------------------------------------------------
+Index   frequency       onoise_spectrum 
+--------------------------------------------------------------------------------
+0	1.000000e+03	4.071372e-09	
+1	1.000000e+04	4.071372e-09	
+--- (b) charge pump output current noise, A/sqrt(Hz) ---
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 31
+
+No. of Data Rows : 1
+    * sg13g2-lc-pll :: sim/noise-probe -- dr-007 method-n feasibility probe.
+    Noise Spectral Density Curves  Fri Nov 13 17:16:10  2026
+--------------------------------------------------------------------------------
+Index   frequency       onoise_spectrum 
+--------------------------------------------------------------------------------
+0	1.000000e+04	1.273491e-10	
+1	1.258925e+04	1.132207e-10	
+2	1.584893e+04	1.007099e-10	
+3	1.995262e+04	8.963523e-11	
+4	2.511886e+04	7.983597e-11	
+5	3.162278e+04	7.117026e-11	
+6	3.981072e+04	6.351270e-11	
+7	5.011872e+04	5.675252e-11	
+8	6.309573e+04	5.079184e-11	
+9	7.943282e+04	4.554413e-11	
+10	1.000000e+05	4.093289e-11	
+11	1.258925e+05	3.689032e-11	
+12	1.584893e+05	3.335625e-11	
+13	1.995262e+05	3.027705e-11	
+14	2.511886e+05	2.760471e-11	
+15	3.162278e+05	2.529593e-11	
+16	3.981072e+05	2.331135e-11	
+17	5.011872e+05	2.161490e-11	
+18	6.309573e+05	2.017323e-11	
+19	7.943282e+05	1.895527e-11	
+20	1.000000e+06	1.793199e-11	
+21	1.258925e+06	1.707611e-11	
+22	1.584893e+06	1.636204e-11	
+23	1.995262e+06	1.576575e-11	
+24	2.511886e+06	1.526477e-11	
+25	3.162278e+06	1.483844e-11	
+26	3.981072e+06	1.446876e-11	
+27	5.011872e+06	1.414199e-11	
+28	6.309573e+06	1.385085e-11	
+29	7.943282e+06	1.359511e-11	
+30	1.000000e+07	1.337807e-11	
+--- (c) npn13G2v collector current noise, A/sqrt(Hz) ---
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+ Reference value :  1.00000e+04
+No. of Data Rows : 7
+
+No. of Data Rows : 1
+    * sg13g2-lc-pll :: sim/noise-probe -- dr-007 method-n feasibility probe.
+    Noise Spectral Density Curves  Fri Nov 13 17:16:10  2026
+--------------------------------------------------------------------------------
+Index   frequency       onoise_spectrum 
+--------------------------------------------------------------------------------
+0	1.000000e+04	2.114419e-11	
+1	3.162278e+04	1.768126e-11	
+2	1.000000e+05	1.643523e-11	
+3	3.162278e+05	1.602295e-11	
+4	1.000000e+06	1.590920e-11	
+5	3.162278e+06	1.605446e-11	
+6	1.000000e+07	1.743197e-11	
+Note: Simulation executed from .control section 

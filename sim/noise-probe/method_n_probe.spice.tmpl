@@ -1,0 +1,78 @@
+* sg13g2-lc-pll :: sim/noise-probe -- DR-007 method-N feasibility probe.
+* ONE local ngspice -b, nominal corner (mos_tt / hbt_typ), 27 C, nominal 3.3 V.
+* It answers three yes/no questions and nothing else. It is NOT a bench: one operating
+* point, one corner, no negative control, no corner grid, not in sim/testbench-inventory.json.
+* The method-N bench is issue #253.
+*
+*   (a) Units calibration. A 1 kohm resistor read through a noiseless unity VCVS. If
+*       ngspice's onoise_spectrum is an amplitude density in V/sqrt(Hz) it must read
+*       sqrt(4kTR) = 4.0714e-9 at 300.15 K; if it were a power density in V^2/Hz it would
+*       read 1.6576e-17. This fixes the units every other number in the record is in.
+*   (b) Does .noise return device noise for the charge pump's sg13_hv_nmos / sg13_hv_pmos
+*       (PSP103 through the OSDI module)? cp.spice contains no resistors, so any non-zero
+*       output noise is device noise. The CP output current is sensed by a 0 V source plus
+*       a 1 V/A CCVS -- both noiseless -- so v(ns) numerically equals the CP's short-circuit
+*       output current noise in A/sqrt(Hz). The output is held at Vctrl by an ideal source:
+*       the loop filter is deliberately absent (the method-L model applies its shaping, and
+*       R1's thermal noise is already a separate model term; including it here would
+*       double-count it).
+*   (c) Does .noise return device noise for npn13G2v (VBIC)? Same noiseless current sense
+*       on the collector of a common-emitter device at VBE = 0.85 V.
+*
+* Operating point for (b): UP and DN both asserted, i.e. both legs steering their tail
+* current to VOUT. That is the UP/DN reset-overlap state the charge pump is in during t_on
+* in lock, and it is the state DR-007 defines method N's operating point as.
+*
+* Placeholders (@@...@@) are substituted by hand (see sim/noise-probe/README.md);
+* nothing else is substituted.
+.lib @@MODELS_DIR@@/cornerMOShv.lib mos_tt
+.lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
+.option scale=1 temp=27
+.include @@CP_NETLIST@@
+
+* (a) units calibration
+RCAL n1 0 1k
+ICAL 0 n1 dc 0 ac 1
+ECAL nr 0 n1 0 1
+
+* (b) charge pump, both legs steered to VOUT, output held at Vctrl = 2.0 V,
+*     IREF = 20 uA (I_cp ~ 200 uA, spec row 6 typical)
+VDD vdd 0 3.3
+VHI hi 0 3.3
+VCTRL vc 0 2.0
+VSENSE vout vc 0
+HSENS ns 0 VSENSE 1
+IREF vdd iref dc 20u ac 1
+XCP hi hi iref vout vdd 0 cp
+
+* (c) npn13G2v common emitter at VBE = 0.85 V
+VCC vcc 0 3.3
+VB  b 0 0.85
+VSENSEQ vcc c 0
+HSENSQ nh 0 VSENSEQ 1
+IBQ 0 bx dc 0 ac 1
+VBX bx b 0
+XQ1 c b 0 0 npn13G2v Nx=1 El=1
+
+.control
+pre_osdi @@OSDI_PSP@@
+pre_osdi @@OSDI_PSP_NQS@@
+op
+print i(VSENSE) i(VSENSEQ)
+echo "--- (a) calibration: 1 kohm, expect sqrt(4kTR) = 4.0714e-9 V/sqrt(Hz) ---"
+noise v(nr) ICAL lin 2 1k 10k 1
+setplot noise1
+print onoise_spectrum
+destroy all
+echo "--- (b) charge pump output current noise, A/sqrt(Hz) ---"
+noise v(ns) IREF dec 10 1e4 1e7 1
+setplot noise1
+wrdata @@DATA_OUT@@ onoise_spectrum
+print onoise_spectrum
+destroy all
+echo "--- (c) npn13G2v collector current noise, A/sqrt(Hz) ---"
+noise v(nh) IBQ dec 2 1e4 1e7 1
+setplot noise1
+print onoise_spectrum
+.endc
+.end
