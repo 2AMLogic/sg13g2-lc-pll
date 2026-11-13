@@ -4,6 +4,8 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-13
 
+- **Issue #202** (closed): layout: fix gen_cells.py findings from native DRC cross-check (pfet w5 cell, HBT spacing, LU.b tap ties)
+- **PR #224**: layout: draw pSD substrate tap rings on every nfet group, native DRC 322 -> 0
 - **PR #220**: docs(layout): commit first runset LVS envelope (mismatch)
 - **PR #218**: docs(layout): record LVS re-run on klt dev879 and runset coverage crash
 
