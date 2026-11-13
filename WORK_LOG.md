@@ -4,6 +4,18 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-13
 
+- **Issue #241** (closed): Nothing detects a stale testbenches.attest.json: signoff binds item 9 by the inventory hash, not the attest's per-file hashes
+- **PR #244**: ci(signoff): check each attest envelope's per-file hashes, add restamp-attest.sh
+- **Issue #236** (closed): Consolidate the three divider N-per-window counters; the local 100 MHz count check is never graded
+- **PR #240**: refactor(sim): grade the divider 100 MHz count check with the speed grader
+- **Issue #228** (closed): Remove the stale 'pinned VCO did not oscillate' reason from two record generators and seven other files
+- **PR #238**: docs: retire the 'VCO did not oscillate' reason from two record generators and six doc sites
+- **Issue #234** (closed): layout/gen_integrated.py is a SyntaxError on Python 3.10 (the CI-pinned version)
+- **PR #235**: fix(layout): make gen_integrated parse on Python 3.10, add a compile gate
+- **Issue #222** (closed): Run the divider corner grader's negative-control tests in CI; drop unused frange helper
+- **PR #233**: test(ci): run divider corner grader negative controls, make two discriminating
+- **Issue #230** (closed): Split the DRC run log out of layout/README.md into layout/drc/README.md (350 of 498 lines)
+- **PR #232**: docs(layout): move the DRC run log into layout/drc/README.md
 - **PR #226**: feat(drc): derive the IHP runset's declared rule set from the deck, native DRC coverage_unknown -> clean
 - **Issue #202** (closed): layout: fix gen_cells.py findings from native DRC cross-check (pfet w5 cell, HBT spacing, LU.b tap ties)
 - **PR #224**: layout: draw pSD substrate tap rings on every nfet group, native DRC 322 -> 0

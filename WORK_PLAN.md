@@ -31,7 +31,7 @@ _None._
 
 Human-approved issues ready for implementation (`loom:issue`).
 
-_None._
+- **#36**: T1 item 3 (DRC clean): klt drc on the integrated layout with coverage disclosed
 
 ## In Progress
 
@@ -70,16 +70,17 @@ Issues carrying `loom:curated`.
 - **#178**: Stale sim/prescaler-g3: drives the old /4-/5 stage, not the merged /8-/9 prescaler *(curated)*
 - **#197**: Divider stops dividing at 125C after start-up (7 of 54 corner units): SLOW 625/687.5 MHz, TYP 687.5 MHz *(curated)*
 - **#206**: spec: state clock output swing and load for a downstream TX mux *(curated)*
+- **#237**: Retire the stale smoke-record clause in sim/testbench-inventory.json (needs a re-attestation #228 could not run locally) *(curated)*
 
 ## Proposed (Architect / Hermit)
 
 - **#143**: Stop tracking 19 regenerable loop-power probe request JSONs (extends #106) *(hermit)*
 - **#146**: Consolidate crossing-probe boilerplate across 11 loop-power make_*_97 generators *(hermit)*
-- **#219**: Remove archived pre-DR-005 prescaler cells (div2_cml, div2_ef_hs, div2_latch_hs, div45_dm): uninstantiated *(hermit)*
-- **#222**: Run the divider corner grader's negative-control tests in CI; drop unused frange helper *(hermit)*
 - **#223**: Drop vendored manifests/design-evidence-tiers.md: the pinned klt 0.8.0 bundles the identical doc *(hermit)*
 - **#227**: Retire the local nominal G2 bench (run-vco-prescaler-load.sh): superseded by the batch stage-0 request and cannot elaborate the current prescaler *(hermit)*
-- **#228**: Remove the stale 'pinned VCO did not oscillate' reason from two record generators and seven other files *(hermit)*
+- **#239**: Consolidate the spec corner-set table: seven request generators each re-encode the DR-004 SLOW/TYP/FAST bundles, and they have diverged *(hermit)*
+- **#243**: Compute the verdict lines in the G2 C-grid record generator: make_record.py --dsubw prints one run's conclusions as literals *(hermit)*
+- **#245**: Finish the Metal1 pad-trim guard in gen_integrated.py and remove its inert bindings and duplicate helpers *(hermit)*
 
 ## Epics
 
@@ -92,11 +93,11 @@ _None._
 | Operator merge-risk holds | 2 |
 | Very important | 0 |
 | Important | 6 |
-| Ready (`loom:issue`) | 0 |
+| Ready (`loom:issue`) | 1 |
 | In Progress (`loom:building`) | 5 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 2 |
-| Curated | 10 |
+| Curated | 11 |
 | Architect / Hermit proposals | 7 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
