@@ -101,8 +101,8 @@ in the netlists (#164, PR #169), so the resistors are drawn with `klt gen res_ar
 ## Integrated top (#35)
 
 ```
-.venv/bin/python layout/gen_integrated.py --write      # -> layout/top.gds + layout/provenance.json
-scripts/test-layout-top.sh                             # reproducibility, VCO byte-match, keep-out record, negatives
+.venv/bin/python layout/gen_integrated.py --write      # -> layout/provenance.json (+ layout/top.gds if the geometry moved)
+scripts/test-layout-top.sh                             # reproducibility, attestation pin, VCO byte-match, keep-out record, negatives
 ```
 
 `gen_integrated.py` runs `gen_top.py` (VCO + keep-out + ring + fill), places the six `gen_cells.py` cells below the VCO,
@@ -111,6 +111,26 @@ hashes (VCO stream, cells provenance, generators), the output sha256 and geometr
 paths and lengths, collisions and the tank-node estimate. GDS bytes carry writer state, so reproducibility is checked on
 the geometry digest (`--check`), not the file hash. T1 item 2 is cited by `manifests/layout.attest.json`
 (`klt signoff --attest 2 --input layout/top.gds`), which pins the stream sha256.
+
+**`--write` is geometry-aware, so it is safe to re-run (#257).** KLayout stamps wall-clock time into the GDS
+`BGNLIB`/`BGNSTR` records, so regenerating an unchanged design still produces different bytes -- and those bytes are what
+the item 2 attestation pins. `--write` therefore writes the fresh stream to `layout/build/top.gds`, compares its geometry
+digest against the digest of `layout/top.gds` as it sits on disk, and replaces the committed stream only when the two
+differ. Always re-run it after editing a generator: `layout/provenance.json` is rewritten either way (the input hashes
+legitimately change), and the attested bytes are left alone unless the geometry actually moved. Each run says which
+happened, and `klayout_module` keeps describing whichever module wrote the stream now on disk.
+
+After a run that reports `geometry changed -- replaced`, the attestation pin is stale and must be re-stamped:
+
+```
+klt signoff --attest 2 --input layout/top.gds          # refresh manifests/layout.attest.json
+```
+
+`scripts/restamp-attest.sh` covers items 1, 9 and 10 only, not item 2. The hash also appears in
+`manifests/sg13g2-lc-pll.json` (`evidence.2`/`evidence.3`), `manifests/sg13g2-lc-pll.signoff.json` and the item 3 DRC
+evidence (`layout/drc/top.drc.json`, `layout/drc/top.crosscheck.json`), so all of those have to be refreshed with it.
+`scripts/test-layout-top.sh` fails until they agree: it checks `layout/top.gds` against the hash
+`manifests/layout.attest.json` pins, which the geometry digest (`--check`) cannot see.
 
 **Routing (placement-level, not signoff; DRC/LVS/PEX are #36/#37/#41).** Tank nets VOP/VON on TopMetal1 (2 um);
 other nets Metal5 horizontal / Metal4 vertical (1 um) with via stacks at each pin. Every route polygon is checked against
