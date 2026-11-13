@@ -42,7 +42,7 @@
     ],
     "9": {
       "file": "manifests/testbenches.attest.json",
-      "content_hash": "sha256:b059e0abc0acf128ce530e9153271cf8b47df8e44565441e3ee0bde40c9fb082"
+      "content_hash": "sha256:3c1ff7739d3149c286b92cc286c85fe72946913769795915f5c4dce3600a30b4"
     },
     "10": {
       "file": "manifests/repo-hygiene.attest.json",
