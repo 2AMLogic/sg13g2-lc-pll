@@ -10,7 +10,17 @@ name: klt signoff
 # the record rot: whoever changes cited evidence (or the manifest, or the
 # vendored checklist doc) must regenerate the record in the same PR.
 #
-# See manifests/README.md for the convention.
+# The manifest compare is not enough on its own. The manifest cites items 1, 9
+# and 10 by their *inventory's* sha256, so editing an inventoried **file** moves
+# nothing the manifest or the record can notice -- the attest envelope's own
+# per-file hashes go stale in silence (#241; all three envelopes were stale on
+# `main` when this was added). So each envelope is also re-checked against the
+# files it pins, with `klt signoff --attest N --check`. Those steps run on `push`
+# to `main` as well, because an envelope also goes stale when two PRs merge
+# cleanly and neither diff touches the other's attested files (PR #240 after
+# #238).
+#
+# See manifests/README.md for the convention and the re-stamp recipe.
 
 on:
   push:
@@ -33,7 +43,11 @@ jobs:
           python-version: "3.10"
 
       - name: Install pinned klt
-        run: pip install klayout-tools==0.8.0
+        # numpy and pytest are not for klt: item 10's `harness-tests` attestation check
+        # really runs `bash scripts/ci-harness.sh`, which needs them. No PDK, ngspice or
+        # xschem is installed here -- every `local_only` check stays skipped, which is
+        # what makes the --check form runnable on a bare runner at all.
+        run: pip install klayout-tools==0.8.0 numpy pytest
 
       - name: Re-run klt signoff and compare against the committed record
         run: |
@@ -62,3 +76,78 @@ jobs:
           fi
           echo "Committed signoff record is fresh: it matches a fresh klt signoff run."
           python3 -c "import json; d=json.load(open('manifests/sg13g2-lc-pll.signoff.json')); print('tier verdict of record:', d['tier'], '(T1 items met: %d/%d)' % (d['t1_met_count'], d['t1_item_count']))"
+
+      # ---------------------------------------------------------------------- #
+      # Each committed `klt signoff --attest` envelope pins a sha256 per
+      # inventoried file. The manifest compare above cannot see those hashes
+      # move (it binds the envelope by the inventory's hash), so re-check each
+      # one against the files it pins. Exit 0 = reproduces; 3 = drifted (klt
+      # prints the per-field diff); anything else = the inventory or the
+      # committed envelope is broken.
+      # ---------------------------------------------------------------------- #
+
+      - name: Attest envelope is fresh - item 1 (design sources)
+        run: |
+          set -uo pipefail
+          rc=0
+          klt signoff --attest 1 \
+              --inventory manifests/design-sources.inventory.json \
+              --check manifests/design-sources.attest.json || rc=$?
+          if [ "$rc" -eq 0 ]; then
+            echo "manifests/design-sources.attest.json reproduces: every inventoried file still matches its pinned hash."
+            exit 0
+          fi
+          if [ "$rc" -ne 3 ]; then
+            echo "::error::klt signoff --attest 1 --check exited $rc (expected 0 or 3): manifests/design-sources.inventory.json or manifests/design-sources.attest.json is unreadable or malformed"
+            exit 1
+          fi
+          echo "::error::manifests/design-sources.attest.json is stale: an inventoried design source or derived netlist changed without the envelope being re-stamped (the drifted hashes are listed above). Re-stamp it in this same PR with:"
+          echo "  scripts/restamp-attest.sh 1"
+          echo "That runs the six 'design/netlist.sh --check <cell>' freshness commands for real (klt + the SG13G2 PDK, so run it locally, not here) and writes nothing unless they all pass. See manifests/README.md."
+          exit 1
+
+      - name: Attest envelope is fresh - item 10 (repo hygiene)
+        run: |
+          set -uo pipefail
+          rc=0
+          klt signoff --attest 10 \
+              --inventory manifests/repo-hygiene.inventory.json \
+              --check manifests/repo-hygiene.attest.json || rc=$?
+          if [ "$rc" -eq 0 ]; then
+            echo "manifests/repo-hygiene.attest.json reproduces: every inventoried file still matches its pinned hash."
+            exit 0
+          fi
+          if [ "$rc" -ne 3 ]; then
+            echo "::error::klt signoff --attest 10 --check exited $rc (expected 0 or 3): manifests/repo-hygiene.inventory.json or manifests/repo-hygiene.attest.json is unreadable or malformed, or the harness-tests command could not run"
+            exit 1
+          fi
+          echo "::error::manifests/repo-hygiene.attest.json is stale: README.md, LICENSE or one of the two workflow files changed without the envelope being re-stamped (the drifted hashes are listed above). Re-stamp it in this same PR with:"
+          echo "  scripts/restamp-attest.sh 10"
+          echo "Run it AFTER your last edit to either workflow file - the inventory pins their bytes too. See manifests/README.md."
+          exit 1
+
+      - name: Attest envelope drift - item 9 (testbenches, warning-only until #242)
+        # Warning, not error, on purpose. Item 9's envelope is stale on `main`
+        # today and its only honest fix is a real `scripts/run-benches.sh` cold
+        # start on the Spot batch fleet (#242, which waits on #149). Re-stamping
+        # it here would carry a committed `pass` forward next to fresh hashes of
+        # files that bench run never saw. So the drift is reported on every run
+        # and blocks nothing; #242 turns this step into an error. `!cancelled()`
+        # keeps it visible even when the two steps above fail.
+        if: ${{ !cancelled() }}
+        run: |
+          set -uo pipefail
+          rc=0
+          klt signoff --attest 9 \
+              --inventory sim/testbench-inventory.json \
+              --check manifests/testbenches.attest.json || rc=$?
+          if [ "$rc" -eq 0 ]; then
+            echo "manifests/testbenches.attest.json reproduces: every inventoried file still matches its pinned hash."
+            exit 0
+          fi
+          if [ "$rc" -ne 3 ]; then
+            echo "::error::klt signoff --attest 9 --check exited $rc (expected 0 or 3): sim/testbench-inventory.json or manifests/testbenches.attest.json is unreadable or malformed"
+            exit 1
+          fi
+          echo "::warning::manifests/testbenches.attest.json is stale: an inventoried testbench script or deck changed without the envelope being re-stamped (the drifted hashes are listed above). This is NOT failing the job: item 9's envelope carries a local_only cold start (bash scripts/run-benches.sh) that executes those files, so it can only be re-stamped from a real cold start on the Spot batch fleet - tracked in #242, which waits on #149. 'scripts/restamp-attest.sh 9' deliberately refuses while any inventoried file drifts."
+          exit 0
