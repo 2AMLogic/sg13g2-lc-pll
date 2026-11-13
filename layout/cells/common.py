@@ -57,7 +57,7 @@ MOS_BULK_INDEX = 3
 # nfet N+Activ inside the p-well needs a pSD substrate tie within 20 um (native rule LU.b).
 # `mos_array add_guard_ring` draws that ring itself on ihp-sg13g2 from klayout-tools#5231
 # (klt >= 0.9.2.dev887+gec7400b7d8e5); older builds drew an n-well tie with off-grid Cont
-# instead, which is why the tie was not drawn before (layout/README.md "LU.b substrate taps").
+# instead, which is why the tie was not drawn before (layout/drc/README.md "LU.b substrate taps").
 TAP_RING_FLAVORS = ("nfet",)
 
 
