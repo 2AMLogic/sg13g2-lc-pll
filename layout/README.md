@@ -291,6 +291,9 @@ klayout-tools#2697), and it is deliberately **not** used: it requires the deck's
 established independently of the accepted run, and `ihp-sg13g2.drc` pulls its rule groups in through `-rd`-gated
 includes (`rule_decks/`), so that set varies with switches this run does not supply. Supplying a count read back from
 this very run would be circular. Establishing the list, with the `--deck-var` set it belongs to, is #36 work.
+*(Done in "Native coverage established" below: the set was derived from the deck source, not from a run, and the
+native engine now grades `clean` with all 590 declared rules asserted. The `--deck-var` set it belongs to is the
+empty one — the deck's own in-script defaults.)*
 
 **Item 3 of #36 stays `unmet`.** The curated deck still reports the 64 `nwell.enclosing.pactiv.1` hits on the VCO's
 `SVaricap` banks, placed unmodified from `sg13g2-vco@17e49a8` and reported as sg13g2-vco#315 — not waived, not edited.
@@ -326,6 +329,148 @@ fire), `scripts/test-layout-top.sh` (9/9), `klt drc --check layout/drc/top.drc.j
 that the same command emits on `--format json` stdout, and `klt signoff --manifest` binds evidence through that block —
 an attestation written with `-o` grades `unmet` / `stale_evidence`. Worked around here by redirecting `--format json`;
 reported generically as 2AMLogic/klayout-tools#5429.
+
+### Native coverage established: 590/590 declared rules asserted (#36, 2026-11-13)
+
+**No layout changed.** `layout/top.gds` is byte-identical to the stream the section above
+recorded (`sha256:92b05723…`, the geometry attested for item 2) and no generator was
+touched. What changed is what the native run's zero means.
+
+**The problem.** The section above records the native engine as `violation_count: 0` but
+`status: coverage_unknown`, because KLayout's RDB categories are *declarations* klt cannot
+vouch for, and the report's `coverage.rules_checked` is derived from rules that produced
+findings — so a clean native run can never enumerate what ran. klt's opt-in fix,
+`klt drc --expect-rule-categories-file` (klayout-tools#2697/#2806), requires the category
+list to be established **independently of the run being accepted**: "copying the accepted
+run's own categories is circular."
+
+**How the list was established.** `layout/drc/native_rule_categories.rb` reads the deck's
+own Ruby source, splices its `# %include` chain the way KLayout's DRC preprocessor does,
+replaces every KLayout layer primitive with an inert stub, and records every
+`.output(<category>, …)` call the deck's own control flow reaches for a given `-rd` switch
+set. **No layout is read, the DRC engine never runs, and klt is not involved**, so the
+derivation cannot be contaminated by the report it is used to accept. It is the deck's
+gating logic, not a transcription of it.
+
+```
+ruby layout/drc/native_rule_categories.rb \
+     --deck "$PDK_ROOT/ihp-sg13g2/libs.tech/klayout/tech/drc/ihp-sg13g2.drc" \
+     --pdk-root "$PDK_ROOT" \
+     --out layout/drc/native_rule_categories.txt \
+     --provenance layout/drc/native_rule_categories.provenance.json
+scripts/test-native-rule-categories.sh                     # 15 checks (regen, hashes, premises, negatives)
+```
+
+Output: `layout/drc/native_rule_categories.txt`, **590 names**;
+`layout/drc/native_rule_categories.provenance.json`, the sha256 of each of the **39** files
+in the include chain plus the premises below. The derived set matches the categories the
+accepted run declares exactly (0 missing, 0 unexpected) — but it was derived first, from
+the deck, and the run is what is being checked against it.
+
+**Premises, measured rather than assumed.** The deck's category emission is switch-gated
+except in three places, so a list is valid only for a deck revision, a switch set and these:
+
+| Premise | Why it matters | Checked how | Value |
+|---|---|---|---|
+| chip area | sets the deck's `en_tiles` | generator re-run at 2e6 um2 | set unchanged (guards run mode only) |
+| total MIM area < 174800 um2 | `MIM.gR` is declared only above it | `klayout.db` on 36/0 | 70744.2 um2 (declared: no); feeding 200000 um2 adds exactly `MIM.gR` |
+| no EdgeSeal boundary | `Seal.l` is declared only with one | `klayout.db` on 39/4 | layer absent from the stream |
+
+`rule_decks/density.drc` and `rule_decks/antenna.drc`, whose rules declare a category only
+when a measured density is out of range, are **not** in this deck's `%include` chain; the
+test asserts that too, so a PDK bump that pulls them in fails rather than silently
+narrowing the asserted set. Negative controls in the same script show each switch actually
+moves the set (`no_offgrid` 590 -> 397, `no_angle` -> 380, `no_beol` -> 473, `no_feol` ->
+540, `precheck_drc` -> 484, and `tables=nwell` with every group flag off -> exactly the
+four NWell-table rules).
+
+**The run.** `klt 0.9.2.dev887+gec7400b7d8e5`, klayout 0.30.13 (klt warns the build was
+tested on 0.30.12), PDK `ihp-sg13g2` `fetched:0.3.0`, input `layout/top.gds`
+`sha256:92b05723…`, curated deck `sha256:e8929ac8…`, native deck `ihp-sg13g2.drc`
+`sha256:0620b737…`, no `--deck-var`.
+
+```
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root "$PDK_ROOT" \
+    --expect-rule-categories-file layout/drc/native_rule_categories.txt \
+    --format json -o layout/drc/top.crosscheck.json      # exit 3 (the curated 64)
+klt drc --check layout/drc/top.crosscheck.json                            # re-hash: match
+klt drc --check layout/drc/top.drc.json                                   # re-hash: match
+```
+
+| Engine | 1798 baseline | 348 | 322 | previous | **now** |
+|---|---|---|---|---|---|
+| native | 1798 | 348 | 322 | 0, `coverage_unknown` | **0, `clean`** (590/590 asserted) |
+| curated | 783 | 79 | 64 | 64 | **64** (VCO `SVaricap`, not waived) |
+
+`coverage_assertion`: `kind: expected_rule_category_names`, `missing_names: []`,
+`unexpected_names: []`, `satisfied: true`. Native `coverage.known` is now `true`,
+`coverage.checked` holds all 590 rules and `coverage.unknown` is `[]` — previously
+`[{engine_execution:["klayout"], unmeasured_rule_execution}]`. The deck still warns
+`deck_globals_not_supplied` (a static scan: no `--deck-var` was passed), and that warning is
+left standing: the assertion, not the absence of the warning, is what establishes coverage.
+
+**What "native clean" does and does not say.** It says: the IHP primary runset, run with
+its in-script switch defaults, declared 590 rule categories — the exact set this repo
+derived from the deck source — and none of them produced a marker on this stream. It does
+**not** carry layer coverage: for an externally-run deck klt leaves `coverage.deck_layers`,
+`coverage.layers_checked`, `coverage.layers_in_stream_without_rules`,
+`coverage.rules_skipped` and `coverage.deck_scope` **empty**, because it does not model the
+native deck's layer set. The curated engine remains the one with layer accounting (63 rules
+checked, 0 skipped, 41 stream layers with no rule).
+
+**Item 3 of #36 stays `unmet`, and the cited evidence stays the curated report.** Two
+reasons, both deliberate:
+
+- The curated run still reports its 64 `nwell.enclosing.pactiv.1` markers on the VCO's
+  `SVaricap` banks. They are a documented curated-deck deviation — the report's own
+  `runset_correspondence` entry states that PDK rule `NW.c` first removes P+ Activ
+  interacting with a text-recognised `SVaricap` while this deck checks it unconditionally,
+  "so findings whose `source_cell` is a PDK `SVaricap` device are expected to be absent
+  from the runset (deck over-report, not a real enclosure violation)" (klayout-tools#5212,
+  sg13g2-vco#315). Nothing was waived and no stream or deck was edited. `klt signoff`
+  grades item 3 on `status` alone, so the item's metric blocker `drc__error__count` is
+  unchanged at 64 and the record (`klayout-tools==0.8.0`, as CI) is byte-identical.
+- **Citing the native report instead would be a worse claim, not a better one.** Item 3
+  requires `coverage.layers_in_stream_without_rules`, `coverage.rules_skipped` and
+  `coverage.deck_scope` to be quoted from the cited envelope; on the native report all
+  three are empty for want of modelling, not for want of gaps. A `met` cited that way
+  would be exactly the "clean verdict from a deck with undisclosed holes" the item
+  warns against. The curated report, which discloses 41 rule-free stream layers, is the
+  honest citation even though it is the one that fails.
+
+So the remaining blocker for item 3 is upstream, not in this layout: the curated deck has
+to model the `SVaricap` carve-out (or offer a deck-authored, non-waiver disposition for a
+`runset_note` deviation). Filed as klayout-tools#5442.
+
+**Coverage of the cited (curated) report, verbatim and unchanged:** `coverage.rules_skipped`
+= `[]`. `coverage.deck_scope` = `['Act','Cnt','Gat','M1','M2','M3','M4','M5','MIM','NW','TM1','TM2','TV1','TV2','V1','V2','V3','V4','pSD','x']`.
+`coverage.layers_in_stream_without_rules` is **non-empty** (41 layers: 1/23, 5/23, 8/2, 8/22,
+8/23, 8/25, 10/2, 10/22, 10/23, 10/25, 26/0, 27/0, 27/2, 27/25, 28/0, 30/22, 30/23, 30/25,
+32/0, 40/0, 44/0, 46/21, 50/22, 50/23, 51/0, 52/0, 63/0, 67/22, 67/23, 67/25, 111/0, 126/2,
+126/23, 126/25, 128/0, 129/0, 134/23, 134/25, 148/0, 156/0, 160/0), so even a clean curated
+result would be clean for covered layers only. `coverage.unchecked_rules` names `NW.b1` (net-aware
+PWell width between different-net NWells; only the geometric `nwell.space.1` ran) and
+`coverage.voltage_domain_warnings` names the `ThickGateOx` ('-HV') domain, whose
+channel-length-specific GatPoly widths this deck has not transcribed.
+
+**G8 keep-out is unchanged and still not clean:** `klt keepout-check` `status: violated`,
+3 violations, all the VCTRL pin-access stack (sg13g2-vco#314). `layout/top.gds` has still
+not been through LVS (#37) or PEX (#41).
+
+`scripts/test-native-rule-categories.sh` needs `ruby` and the PDK, so like the other
+`test-layout-*.sh` scripts it is **local-only** and not in `scripts/ci-harness.sh`; it exits 0
+with `SKIP` when either is absent, so it never reports a check it did not run as passed.
+
+**Tool friction filed (generic, on the tool tracker):**
+- klayout-tools#5442 — a `runset_note` deviation is documented but still counted, so a
+  stream containing the PDK varactor can never grade clean without a user waiver.
+- klayout-tools#5443 — a native deck's recorded `content_hash` covers only the entry
+  `.drc`, not the 38 `%include`d files that carry the rules, so `--check` re-hashing cannot
+  see a rule file move. This repo hashes the chain itself in
+  `native_rule_categories.provenance.json` as the workaround.
+- klayout-tools#5444 — no tool-side way to derive a native deck's declared category set
+  (`--list-rules` is curated-only), so `--expect-rule-categories-file` has to be
+  hand-derived per deck; the evaluator in `native_rule_categories.rb` is that work.
 
 ## Regeneration after the `cml_dff_latch` resize (#187)
 
