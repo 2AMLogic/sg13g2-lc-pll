@@ -6,8 +6,9 @@ substrate guard ring and metal filler. Loop-block cells are drawn by `gen_cells.
 and `gen_integrated.py` places them under the VCO and routes the integrated top
 (`layout/top.gds`, "Integrated top (#35)" below).
 
-Sign-off state of that stream: DRC has been run (item 3 still `unmet` — "DRC of the integrated
-top" below for the current numbers, [`layout/drc/README.md`](drc/README.md) for the run log);
+Sign-off state of that stream: DRC is clean on both engines and item 3 reads `met`, clean for
+the layers the deck covers — "DRC of the integrated top" below for the verdict and the coverage
+it excludes, [`layout/drc/README.md`](drc/README.md) for the run log;
 LVS reaches a `mismatch` ([`layout/lvs/README.md`](lvs/README.md), item 4 `unmet`); PEX has not
 been run (#41).
 
@@ -131,37 +132,81 @@ foreign geometry on its layer. Not routed: VDD, VDDV, VSS, REF, IREFCP, LOCK, di
 - CI pin: `.github/workflows/signoff.yml` stays at `klayout-tools==0.8.0`, which grades item 2 `met` from the attest envelope.
   Moving the pin to 0.9.1 grades item 1 `stale_evidence` (3 met -> 1), so the bump is left out.
 
-## DRC of the integrated top (#36, T1 item 3) — item 3 still `unmet`
+## DRC of the integrated top (#36, T1 item 3) — item 3 `met`, clean for covered layers
 
 ```
-klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 3 = violations
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 0 = clean
 klt drc --check layout/drc/top.drc.json                                   # re-hash: match
+scripts/test-drc-svaricap-liveness.sh                                     # 4 checks, incl. the negative control
 ```
 
-Current state, run 2026-11-13, `klt 0.9.2.dev887+gec7400b7d8e5`, klayout 0.30.13 (klt warns the
+Current state, run 2026-11-13, `klt 0.9.2.dev964+g02db14ecf46b`, klayout 0.30.13 (klt warns the
 build was tested on 0.30.12), PDK `ihp-sg13g2` `fetched:0.3.0`, input `layout/top.gds`
-`sha256:92b05723…` (the geometry attested for item 2), curated deck `sha256:e8929ac8…`, native
-deck `ihp-sg13g2.drc` `sha256:0620b737…`, single local runs, `--engine both`:
+`sha256:92b05723…` (the geometry attested for item 2, byte-identical to the stream the earlier
+runs used — **no layout changed**), curated deck `sha256:cf6dfead…`, native deck
+`ihp-sg13g2.drc` `sha256:0620b737…`, single local runs, `--engine both`:
 
 | Engine | Result |
 |---|---|
 | native (`ihp-sg13g2.drc`) | **0 violations, `status: clean`**, 590/590 declared rule categories asserted (`--expect-rule-categories-file layout/drc/native_rule_categories.txt`; `coverage_assertion.satisfied: true`). Carries **no** layer coverage: for an externally-run deck klt leaves `coverage.deck_layers`, `layers_checked`, `layers_in_stream_without_rules`, `rules_skipped` and `deck_scope` empty. |
-| curated (`sg13g2`) | **64 violations**, all `nwell.enclosing.pactiv.1` on the pinned VCO's `BANKP`/`BANKN` `SVaricap` banks. 63 rules checked, `coverage.rules_skipped` = `[]`, `coverage.deck_scope` = `['Act','Cnt','Gat','M1','M2','M3','M4','M5','MIM','NW','TM1','TM2','TV1','TV2','V1','V2','V3','V4','pSD','x']`, `coverage.layers_in_stream_without_rules` **non-empty** (41 layers, listed in the log), so even a clean curated result would be clean for covered layers only. |
+| curated (`sg13g2`) | **0 violations, `status: clean`**, 63 rules checked. The 64 `nwell.enclosing.pactiv.1` findings the earlier runs recorded (see the run log) are gone because klt now models PDK `NW.c`'s `SVaricap` carve-out (klayout-tools#5442), not because the stream, the rule thresholds or a waiver changed. |
 
-**Item 3 stays `unmet` and the cited evidence stays the curated report** (`klt signoff` grades
-item 3 on `status` alone; the metric blocker `drc__error__count` is 64). The 64 are a documented
-curated-deck deviation from PDK rule `NW.c`, on a stream placed unmodified from
-`sg13g2-vco@17e49a8` — nothing was waived and no stream or deck was edited. The remaining blocker
-is upstream, not in this layout: klayout-tools#5442 (the curated deck has to model the `SVaricap`
-carve-out, or offer a deck-authored non-waiver disposition), with sg13g2-vco#315 on the VCO side.
-Citing the native report instead would be the weaker claim, not the stronger one, because item 3
-requires layer-coverage fields the native report leaves empty for want of modelling.
+**Coverage, verbatim from the cited report** — "clean" here means **clean for covered layers**:
 
-**G8 keep-out is not clean**: `klt keepout-check` (margin 20 um, `--cells vco`), `status: violated`,
-3 violations, all the VCTRL pin-access stack recorded under "Integrated top (#35)"
-(sg13g2-vco#314). `layout/top.gds` has not been through LVS (#37) or PEX (#41).
+- `coverage.rules_skipped` = `[]`.
+- `coverage.unchecked_rules` = one entry, `NW.b1` (31/0): net-aware PWell width between NWell
+  regions of different nets (1.80 um) has no net-aware spacing check in this engine, so only the
+  geometric `nwell.space.1` (0.62 um) ran. **A rule in scope that did not run.**
+- `coverage.deck_scope` = `['Act','Cnt','Gat','M1','M2','M3','M4','M5','MIM','NW','TM1','TM2','TV1','TV2','V1','V2','V3','V4','pSD','x']` — the only DRM chapters this deck transcribes at all.
+- `coverage.unmodeled_rules` = 14 rules the deck declares but does not model: `LU.a`, `LU.c`,
+  `LU.c1`, `LU.d`, `LU.d1` (latch-up, other than the `LU.b` tap spacing) and `Pad.a1`, `Pad.aR`,
+  `Pad.bR`, `Pad.d`, `Pad.d1R`, `Pad.dR`, `Pad.gR`, `Pad.jR`, `Pad.kR`. **Declared in scope,
+  never evaluated.**
+- `coverage.voltage_domain_warnings` names the `ThickGateOx` (44/0, '-HV') domain: the deck
+  applies the general-case '-LV' thresholds regardless of it (e.g. the `Gat.a1`/`Gat.a2`
+  channel-length-specific GatPoly widths, not transcribed).
+- `coverage.layers_in_stream_without_rules` is **non-empty**: 39 layers, `1/23, 5/23, 8/2, 8/22,
+  8/23, 8/25, 10/2, 10/22, 10/23, 10/25, 26/0, 27/0, 27/2, 27/25, 28/0, 30/22, 30/23, 30/25, 40/0,
+  44/0, 46/21, 50/22, 50/23, 51/0, 52/0, 67/22, 67/23, 67/25, 111/0, 126/2, 126/23, 126/25, 128/0,
+  129/0, 134/23, 134/25, 148/0, 156/0, 160/0` — drawn in this stream with no rule behind them
+  (was 41; `32/0` and `63/0` left the list because the new recogniser reads them).
 
-**Full run history** — six dated runs between 2026-11-10 and 2026-11-13, the native rule-category
+**The clean verdict is label-gated, not a silenced rule** (`scripts/test-drc-svaricap-liveness.sh`).
+A deck change that stopped checking P+ Activ altogether would produce a byte-identical-looking
+`clean`, so the discriminating evidence is the negative control: delete the **2** `SVaricap` texts
+on `63/0` from a scratch copy of `layout/top.gds` — geometry untouched — and the same **64**
+`nwell.enclosing.pactiv.1` findings come back, with no other rule firing. The rule's own
+`description` in `klt drc --list-rules` now names the carve-out. The script also fails on klt
+`0.9.1` (the current PyPI release, which predates the fix) with exactly those two legs red, which
+is what makes it a control rather than a tautology.
+
+**Item 3 is `met`, citing the curated report** (`manifests/sg13g2-lc-pll.signoff.json`, T1 met
+4 -> 5; `klt signoff` grades item 3 on `status` alone and reports the `coverage` block above, which
+is why the disclosure here is claimant-enforced). Nothing was waived, and no stream, deck or
+threshold was edited. Two things this claim does **not** say: the native engine's zero carries no
+layer-coverage fields at all, so it cannot substitute for the curated citation; and `NW.b1` plus
+the 39 rule-free layers are outside what either engine measured.
+
+**The cited report is reproducible only from a git commit, not a release.** No PyPI
+`klayout-tools` carries the `SVaricap` carve-out yet (latest is `0.9.1`, 2026-11-05; the fix merged
+2026-11-13), so the report's `provenance.deck.released` is `false` and the reproduction spec is the
+`provenance.klt_reinstall_spec` git pin, as it was for the earlier dev-build runs. The signoff
+**grader** pin is untouched: `.github/workflows/signoff.yml` stays at `klayout-tools==0.8.0`, which
+grades this report item 3 `met` and reproduces the committed record byte-for-byte (the 0.9.1 bump
+is still out for the reason recorded above — it grades item 1 `stale_evidence`).
+
+**One manifest correction came with this.** `manifests/sg13g2-lc-pll.json`'s item 3
+`content_hash` pinned the **report file's** sha256; `klt signoff` compares that pin against the
+envelope's `provenance.input.content_hash` (the layout stream), so the entry had always been a
+`stale_evidence` pin — masked while `status: violations` failed the check first. It now pins
+`sha256:92b05723…`, the same stream hash item 2 pins.
+
+**G8 keep-out is unchanged and still not clean**: `klt keepout-check` (margin 20 um, `--cells vco`),
+`status: violated`, 3 violations, all the VCTRL pin-access stack recorded under "Integrated top
+(#35)" (sg13g2-vco#314). It is not part of item 3's verdict. `layout/top.gds` has not been through
+LVS (#37) or PEX (#41).
+
+**Full run history** — seven dated runs between 2026-11-10 and 2026-11-13, the native rule-category
 derivation, and the tool-friction filings — is in [`layout/drc/README.md`](drc/README.md), beside
 the reports. The LVS counterpart is [`layout/lvs/README.md`](lvs/README.md).
 
