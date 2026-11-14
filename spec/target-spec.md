@@ -91,6 +91,7 @@ DR-001; **L** = linear phase-domain model (§4); **T** = ngspice transient
 | 12 | Supply plan | see §5 | | | | review | C-grid | target, not met |
 | 13 | PVT corner set | see §Corner set | | | | | | target |
 | 14 | Signoff | DRC + LVS clean with the VCO in place; post-layout re-verified | | | `klt drc`, `klt lvs`, `klt extract` on the integrated layout | tool | n/a | target, not met |
+| 15 | PLL clock output at the output interface (**requested by a consumer, not ratified; DR-006 proposed**) | Requested: **≥ 0.4 V per side peak-to-peak = 0.8 Vpp differential**, common mode **≈ 0.6 V**; the requester notes that at ss / 1.08 V a mux was not switched at 0.4 V per side, so the real need is higher (no figure given) | | Current design: **no output interface exists** (VCO row 7, I6: no output buffer in v1). The only swing on record is the tank-node figure of I6: ≥ 0.40 Vpp differential = 0.20 Vpp per side (balanced), current-limited, 204.1 µA tail | Node: the clock output node of this block, **not yet defined** (tank nodes OUTP/OUTN are unbuffered and carry the §1 load budget). Load: a self-biased, AC-coupled squarer; **load value not provided** by the requester. Supply: this block's 3.3 V rail (§5); the consumer's own supply is not this row's. Common mode of the tank nodes: not stated in I6 | Request: stated by the requester, not simulated here. I6 figure: a VCO **target**, not graded into any load. Method for a graded value: **T** (§4 conventions), owed | C-grid | **not met / not claimed.** The tank swing in I6 is half of the request and is ungraded into any load. Meeting it needs an output buffer (§6 Q1), which loads the tank (§1 budget) and re-grades VCO rows 1 and 2; see DR-006 |
 
 ## 3. Kvco range the loop is designed and graded over
 
@@ -256,3 +257,12 @@ The loop is graded on the **same grid** as the VCO so the two are comparable.
   (`N = 8·M + A`) is unchanged. The ≤ 2.1 fF input-load budget still applies; G1 and G2 are not closed by this note,
   and the VCO re-check with the new first stage's load is open (#160). The swallow counter that row 3 needs is 3 bits
   (A in [0, 7]); DR-005 stage 3 records it.
+
+- **Row 15 and Q1 / gates, appended (DR-006, proposed).** Row 15 is a new, not-yet-met row; no ratified figure above is edited
+  (I6 is unchanged). It records a consumer request for the clock at the block's output (≥ 0.4 V per side, 0.8 Vpp
+  differential, ≈ 0.6 V common mode) and states that the current design does **not** meet it and does not claim to. For
+  **Q1**: meeting row 15 needs an output buffer, so the answer "if one is needed it is designed here" now has a stated
+  need behind it, still gated by G1 and G2; the buffer input counts against the 2.1 fF tank-load budget **together
+  with** the prescaler input, and that budget is not changed. **G1 / G2**: neither is closed; G2 additionally covers
+  VCO swing and startup with the buffer attached. Follow-up: a record on `sg13g2-vco` (R-VCO-3) is required, because a
+  buffer supersedes VCO row 7's "no output buffer" statement.
