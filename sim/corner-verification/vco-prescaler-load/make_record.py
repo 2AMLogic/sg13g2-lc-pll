@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 """Grade the G2 C-grid klt sim reports into records/<id>.md and records/<id>-corners.csv.
 
-python3 -I make_record.py [--dsubw --control <records/<id>-corners.csv> ...] <id> <label>=<report.json> ...    label = loaded | unloaded (several reports per label are merged)
+python3 -I make_record.py [--dsubw --control <records/<id>-corners.csv> ... --request <label>=<request.json> ... --note <file>] <id> <label>=<report.json> ...    label = loaded | unloaded (several reports per label are merged)
+Every sentence this script writes is computed from the reports it is given (and from sim/pins.json for the simulator pin); it holds no run's outcome as literal text.
+--request <label>=<request.json> (issue #258): the klt sim requests those reports answer, so the 125 C grid is graded against what was asked for and not only
+against what came back. A requested 125 C unit missing from the reports -- a shard whose report was left off this command line, a unit lost at the fleet's
+whole-job ceiling -- then counts against G2 closure exactly as an errored unit does. With no --request the record says completeness was not checked and
+does not print the closure sentence; the expected counts are read from the request files, never held here as literals.
+Commentary the reports cannot support -- a ruling's context, an untraced cause -- belongs in --note <file>, which is appended verbatim under a heading that marks it hand-written.
 --dsubw (issue #173): the reports come from the vco_*_dsubw.spice decks (ONLY the varactor's dsubw diode card carries tnom = 125). Every 125 C
 number is then labelled an approximation, the leakage bound is quoted, and the 27 C units are compared with the unmodified 27 C records named by --control.
 A corner that errored is listed with its diagnostic code and is never counted as a pass. Nothing is relaxed:
@@ -12,6 +18,7 @@ import collections
 import csv
 import glob
 import json
+import math
 import os
 import re
 import sys
@@ -54,6 +61,59 @@ def supply_currents(report_path):
     return out
 
 
+def pins_ngspice():
+    """The pinned ngspice version read from sim/pins.json (never hard-coded here), or None if it cannot be read."""
+    try:
+        with open(os.path.join(HERE, "..", "..", "pins.json")) as f:
+            return str(json.load(f)["ngspice"]["version"])
+    except (OSError, KeyError, TypeError, ValueError):
+        return None
+
+
+def vnum(s):
+    """Leading version number of a version string ("ngspice-46", "46", "46.1"), for comparison with the pin."""
+    m = re.search(r"\d+(?:\.\d+)*", str(s if s is not None else ""))
+    return m.group(0) if m else None
+
+
+def round4_half(v):
+    """Half the last-place step of a %.4g rendering of v: the rounding uncertainty of the 4 significant figures the control CSVs carry."""
+    v = abs(float(v))
+    return 0.0 if v == 0.0 else 0.5 * 10 ** (math.floor(math.log10(v)) - 3)
+
+
+def requested_125(path):
+    """The 125 C units one klt sim request asks for, as (process name, vddv, vctrl) keys.
+
+    `corners.params` is zipped -- one unit per index across the lists, as make_requests.py builds it and as the
+    returned corner_ids show ("SLOW/novdd/125C/params:vctrl=0,vddv=2.97") -- so a request asks for
+    len(process) x len(zip(params)) units at each temperature on its axis. The key is the triple this script
+    already reads back from every report row, so no klt corner_id rendering is assumed anywhere.
+    """
+    c = json.load(open(path))["corners"]
+    if not any(float(t) == 125.0 for t in c.get("temperature_c") or []):
+        return set()
+    params = c.get("params") or {}
+    unknown = sorted(set(params) - {"vddv", "vctrl"})
+    if unknown:
+        raise SystemExit("make_record.py: %s has param axes this record cannot key 125 C units on: %s" % (path, ", ".join(unknown)))
+    if not params.get("vddv") or not params.get("vctrl"):
+        raise SystemExit("make_record.py: %s has no vddv / vctrl param axis; 125 C units are keyed on them" % path)
+    n = min(len(params["vddv"]), len(params["vctrl"]))
+    return {(p["name"], round(float(params["vddv"][i]), 9), round(float(params["vctrl"][i]), 9))
+            for p in c.get("process") or [] for i in range(n)}
+
+
+def unit_key(x):
+    """The requested_125() key of a graded report row."""
+    return (x["process"], round(float(x["vddv"]), 9), round(float(x["vctrl"]), 9))
+
+
+def unit_name(k):
+    """A requested-unit key as the record names a unit elsewhere."""
+    return "%s %g V / Vctrl %g V" % k
+
+
 def main():
     args = sys.argv[1:]
     dsubw = "--dsubw" in args
@@ -61,6 +121,22 @@ def main():
     while "--control" in args:
         i = args.index("--control")
         controls.append(args[i + 1])
+        del args[i:i + 2]
+    # label -> expected 125 C unit keys, unioned over that label's requests. A label present with an EMPTY set
+    # means a request was given for it that asks for no 125 C unit: `case in requested` is the "was this case's
+    # grid declared?" test below, and only a declared grid can be reported complete.
+    requested = collections.defaultdict(set)
+    while "--request" in args:
+        i = args.index("--request")
+        lab, rpath = args[i + 1].split("=", 1)
+        if lab not in ("loaded", "unloaded"):
+            raise SystemExit("make_record.py: --request label must be loaded or unloaded, got %r" % lab)
+        requested[lab] |= requested_125(rpath)
+        del args[i:i + 2]
+    note = None
+    while "--note" in args:
+        i = args.index("--note")
+        note = args[i + 1]
         del args[i:i + 2]
     args = [a for a in args if a != "--dsubw"]
     rid = args[0]
@@ -153,8 +229,16 @@ def main():
             L += ["- %d of %d 27 C units have an unmodified counterpart in %s and converged under both. Modified minus unmodified: f %+.1f to %+.1f MHz (max %.2f %% of f), Vpp %+.2f to %+.2f mV (max %.2f %%), startup proxy %+.2f to %+.2f ps."
                   % (len(pairs), n27, ", ".join("`%s`" % os.path.basename(c) for c in controls), min(df), max(df), max(abs(x["f_ghz"] - float(b["f_ghz"])) / float(b["f_ghz"]) for x, b in pairs) * 100,
                      min(dv), max(dv), max(abs(x["vpp"] - float(b["vpp"])) / float(b["vpp"]) for x, b in pairs) * 100, min(dt), max(dt)),
-                  "- **The control is close but not identical**: the substitution moves every 27 C figure in the same direction (the diode's `tnom` also rescales its junction parameters, not only the leakage), "
-                  "by the amounts above. The unmodified values in the CSV carry 4 significant figures, so the offset is above their rounding.", ""]
+                  "- **The control is close but not identical.** " + "; ".join(
+                      ("%s %s, above the unmodified value's 4-significant-figure rounding at %d of %d pairs"
+                       % (nm,
+                          "up at every pair" if all(v > 0 for v in dl) else "down at every pair" if all(v < 0 for v in dl)
+                          else "mixed in sign (%d up, %d down, %d equal)" % (len([v for v in dl if v > 0]), len([v for v in dl if v < 0]), len([v for v in dl if v == 0])),
+                          len([1 for m_, b_ in raw if abs(m_ - b_) > round4_half(b_)]), len(raw)))
+                      for nm, dl, raw in (("f", df, [(x["f_ghz"], float(b["f_ghz"])) for x, b in pairs]),
+                                          ("Vpp", dv, [(x["vpp"], float(b["vpp"])) for x, b in pairs]),
+                                          ("startup proxy", dt, [(x["tst_ps"], float(b["tst_ps"])) for x, b in pairs])))
+                  + ". The card's `tnom` rescales the diode's junction parameters as well as its leakage, so a 27 C shift is expected; the direction above is measured, not attributed.", ""]
         else:
             L += ["- no 27 C unit of this stage has an unmodified counterpart; control not available here.", ""]
         cur = [i for v in isup.values() for i in v]
@@ -166,35 +250,96 @@ def main():
             if v:
                 L += ["- Supply current printed in the 125 C `%s` units' `ngspice.log` (`vsup#branch`, operating-point value, same for every Vctrl at one Vdd): %.0f to %.0f uA; the bound is %.1e to %.1e of it."
                       % (lab, min(v) * 1e6, max(v) * 1e6, leak / max(v), leak / min(v))]
-        L += ["- The ruling quoted \"mA\" tank bias; the unloaded VCO's printed supply current is ~0.1 mA (the loaded case adds the prescaler's ~2 mA). The bound stays small either way; "
-              "it bounds the **leakage** difference only, not the other effect of the card's `tnom` (see the 27 C control).", "",
+        if not cur:
+            L += ["- No 125 C unit printed a `vsup#branch` value here, so the bound is not expressed as a fraction of the supply current."]
+        L += ["- The bound covers the **leakage** difference only, not the card's other `tnom` effect on the diode's junction parameters (see the 27 C control above).", "",
               "## Gate G2 at 125 C (this stage)", ""]
         for case in ("loaded", "unloaded"):
             h = [x for x in data.get(case, []) if x["T"] == 125]
+            miss = sorted(requested[case] - {unit_key(x) for x in h}) if case in requested else []
             if not h:
+                if miss:
+                    L += ["- %s: **no 125 C unit returned at all, and this case's request(s) ask for %d** -- every requested unit is absent from the reports given here, so nothing is graded for this case."
+                          % (case, len(requested[case]))]
                 continue
             ok = [x for x in h if x["status"] == "pass" and x["f_ghz"]]
             low = [x for x in ok if x["vpp"] < 0.40]
             unr = [x for x in ok if not x["tst_ps"]]
-            L += ["- %s: %d of %d 125 C units converged under the approximation; %d of those are below 0.40 V (row 7) and %d never reach the 0.2 V startup threshold. "
-                  "Swing and startup are therefore graded for the converged units only, labelled %s; %d unit(s) remain `error` (ungraded)."
-                  % (case, len(ok), len(h), len(low), len(unr), APPROX, len(h) - len(ok))]
-        L += ["- **G2 is NOT recorded as closed for 125 C by this stage**: closure under the label needs every 125 C unit graded and row 7 met, and neither holds here. "
-              "Row 1 (4.5-5.5 GHz) is out of scope (#173) and also unmet at every converged unit. A \"physical failure\" verdict on https://github.com/2AMLogic/sg13g2-vco/issues/309 would also reopen it.",
-              "- Units that still abort do so at the same place as the unmodified run (`Timestep too small; initial timepoint: trouble with xq1`, see `ngspice.log` of each unit); "
-              "the substitution cured the `dsubw` trigger of the unloaded VCO (all 18 unloaded 125 C units of stage 2 converge) but not every loaded unit. Cause of the remainder: **not traced** (no other card, deck or VCO change was allowed). "
-              "No tool gap established; nothing filed on `2AMLogic/klayout-tools`.", "",
-              "## ngspice 47", "",
-              "**Not available**: no host or fleet image offered ngspice 47 (this host and the fleet runner both report ngspice-46; no 47 binary found on this host). "
-              "The unmodified failing 125 C unit was therefore not re-run under 47; the pin (`sim/pins.json`) is unmet and the unmodified abort remains reproduced only on 46 (records `20261110-stage{1,2}.md`, `20261110-125c-probe.md`).", ""]
-    if dsubw:
-        L += ["- **Fleet jobs** (one per request, `klt sim --batch-set ... --wait-for-capacity 600`): " + "; ".join(jobs) + ". A job state of `failed` here means a nonzero verdict exit (errored units), not a runner crash.", ""]
+            sent = ("- %s: %d of %d 125 C units converged under the approximation; %d of those are below 0.40 V (row 7) and %d never reach the 0.2 V startup threshold. "
+                    "Swing and startup are therefore graded for the converged units only, labelled %s; %d unit(s) remain `error` (ungraded)."
+                    % (case, len(ok), len(h), len(low), len(unr), APPROX, len(h) - len(ok)))
+            if miss:
+                sent += (" **%d of the %d 125 C units this case's request(s) ask for were not returned at all** (absent from every report given here, so neither graded nor errored): %s."
+                         % (len(miss), len(requested[case]), "; ".join(unit_name(k) for k in miss)))
+            L += [sent]
+        # The verdict follows the graded data: an errored unit is never a pass, and closure is printed only when every 125 C
+        # unit this stage REQUESTED (--request, issue #258) came back and is graded, and row 7 holds at each. A requested unit
+        # that never reached this script is as ungraded as an errored one, and with no request the completeness of the grid is
+        # unknown, so no closure is claimed. Row 1 and #309 are stated as scope, not as this run's outcome.
+        h125 = [x for case in ("loaded", "unloaded") for x in data.get(case, []) if x["T"] == 125]
+        ok125 = [x for x in h125 if x["status"] == "pass" and x["f_ghz"]]
+        bad125 = [x for x in h125 if x not in ok125]
+        low125 = [x for x in ok125 if x["vpp"] < 0.40]
+        unr125 = [x for x in ok125 if not x["tst_ps"]]
+        ret125 = {case: {unit_key(x) for x in data.get(case, []) if x["T"] == 125} for case in ("loaded", "unloaded")}
+        nreq125 = sum(len(requested[case]) for case in ("loaded", "unloaded") if case in requested)
+        miss125 = [k for case in ("loaded", "unloaded") if case in requested for k in requested[case] - ret125[case]]
+        extra125 = [k for case in ("loaded", "unloaded") if case in requested for k in ret125[case] - requested[case]]
+        # a case whose 125 C units were returned but whose request was not passed: that case's grid is unchecked
+        unchecked = [case for case in ("loaded", "unloaded") if ret125[case] and case not in requested]
+        why = []
+        if bad125:
+            why.append("%d of %d 125 C units ungraded (still `error`)" % (len(bad125), len(h125)))
+        if miss125:
+            why.append("%d of %d requested 125 C units not returned" % (len(miss125), nreq125))
+        if extra125:
+            why.append("%d returned 125 C unit(s) are outside the requested grid (%d unit(s) requested at 125 C), so what is graded here is not what was asked for" % (len(extra125), nreq125))
+        if low125:
+            why.append("%d of the %d converged units below the 0.40 V row 7 bound" % (len(low125), len(ok125)))
+        if unr125:
+            why.append("%d of the %d converged units never reaching the 0.2 V startup threshold (startup ungraded there)" % (len(unr125), len(ok125)))
+        if not h125:
+            L += ["- No 125 C unit was returned in this stage, so gate G2 at 125 C is **not graded** by this record."]
+        elif why:
+            L += ["- **G2 is NOT recorded as closed for 125 C by this stage**: closure under the %s label needs every 125 C unit the stage requested returned and graded, and row 7 (Vpp >= 0.40 V differential) met at each. Not met here: %s."
+                  % (APPROX, "; ".join(why))]
+        elif unchecked:
+            L += ["- **G2 is NOT recorded as closed for 125 C by this stage**: closure needs the requested 125 C grid to be complete in the reports graded here, and no request was given for %s "
+                  "(`--request <label>=<request.json>`), so **completeness against the request was not checked** -- a requested unit absent from these reports would be invisible here. "
+                  "Over the %d 125 C unit(s) that were returned, every one is graded, meets row 7 (Vpp >= 0.40 V differential) and reaches the 0.2 V startup proxy."
+                  % (" and ".join("`%s`" % c for c in unchecked), len(h125))]
+        else:
+            L += ["- **G2 is recorded as closed for 125 C by this stage, under the %s label only**: all %d 125 C units the stage's request(s) ask for were returned and are graded, every one meets row 7 (Vpp >= 0.40 V differential), and the 0.2 V startup proxy is reached at each. "
+                  "The label is the approximation, not the PDK card as shipped." % (APPROX, len(h125))]
+        if ok125:
+            L += ["- Row 1 (4.5-5.5 GHz) is out of scope for this stage (#173); over the units graded here it is met at %d of %d converged 125 C units."
+                  % (len([x for x in ok125 if 4.5 <= x["f_ghz"] <= 5.5]), len(ok125))]
+        L += ["- A \"physical failure\" verdict on https://github.com/2AMLogic/sg13g2-vco/issues/309 reopens gate G2 for 125 C whatever this stage records."]
+        if bad125:
+            cc = collections.Counter(x["diag"] or x["status"] for x in bad125)
+            L += ["- Diagnostic codes of the %d ungraded 125 C unit(s), from the reports: %s. Each unit's `ngspice.log` sits beside its report; this record does not attribute a cause."
+                  % (len(bad125), "; ".join("%d x `%s`" % (n, dg) for dg, n in sorted(cc.items(), key=str)))]
+        L += ["", "## Fleet jobs", "",
+              "- One per request (`klt sim --batch-set ... --wait-for-capacity 600`): " + "; ".join(jobs) + ". A job state of `failed` here means a nonzero verdict exit (errored units), not a runner crash.", ""]
     L += ["Per-corner values: `%s-corners.csv`. The `tst` startup number is a proxy; the row 6 ratio g_m / tank loss >= 3.0 is **not** extracted." % rid, ""]
     e = next(iter(env.values()), {})
-    L += ["- **Simulator**: %s on the fleet (`engine_version`), pin is 47 (`sim/pins.json`): mismatch. OSDI `mosvar.osdi` (both cases) and `psp103.osdi` + `r3_cmc.osdi` (loaded case, for the prescaler's rppd/rhigh; cornerRES.lib `res_<mim corner>` added to the loaded process sections) resolved on the runner under `$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/` (`options.osdi_preload`, runner-resolved; the PDK's prebuilt mosvar.osdi is byte-identical to the pinned compile, sha256 `25e64a37...fb41`)." % e.get("engine_version"),
+    eng, pin = e.get("engine_version"), pins_ngspice()
+    engs = str(eng) if eng else "not reported"
+    if pin is None:
+        pinv = "the pin was not read (`sim/pins.json` unreadable here)"
+    elif vnum(eng) is None:
+        pinv = "pin is %s (`sim/pins.json`): **unchecked** - the reports carry no `engine_version`" % pin
+    elif vnum(eng) == vnum(pin):
+        pinv = "pin is %s (`sim/pins.json`): **match**" % pin
+    else:
+        pinv = "pin is %s (`sim/pins.json`): **mismatch** - every number in this record was produced on the reported version, not the pinned one" % pin
+    L += ["- **Simulator**: %s on the fleet (`engine_version`), %s. OSDI `mosvar.osdi` (both cases) and `psp103.osdi` + `r3_cmc.osdi` (loaded case, for the prescaler's rppd/rhigh; cornerRES.lib `res_<mim corner>` added to the loaded process sections) resolved on the runner under `$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/` (`options.osdi_preload`, runner-resolved; the PDK's prebuilt mosvar.osdi is byte-identical to the pinned compile, sha256 `25e64a37...fb41`)." % (engs, pinv),
           "- **Method**: per corner one `tran 1p 20n 0 2p` from the deck's 10 mV `.ic` kick; fosc = 30 / time between zero rising crossings 40 and 70 of v(OUTP)-v(OUTN); Vpp over 10-20 ns. Same decks as `sim/vco-prescaler-load` except that the supply and Vctrl are `.param` axes and the probe BD is added (see `vco_*.spice`).",
           "- **Load presented**: the prescaler input as in `sim/vco-prescaler-load` (`design/netlist/prescaler.spice`, instance X1 on OUTP/OUTN, ideal 50 uA IREF, sha256 `%s`); G1 device-level figure from `sim/prescaler-div89/records/20261106-222812-0ffb789-cin.md`: 1.837 fF (5.0 GHz) / 1.950 fF (5.5 GHz) differential. Routing capacitance not included." % PSHA,
           "- **Provenance**: requests and bodies in this directory; commit `%s`." % os.environ.get("REC_SHA", "see git"), ""]
+    if note:
+        with open(note) as f:
+            L += ["## Hand-written note (not computed from the reports)", "", f.read().rstrip(), ""]
     with open(os.path.join(HERE, "records", rid + ".md"), "w") as f:
         f.write("\n".join(L))
     print("\n".join(L))

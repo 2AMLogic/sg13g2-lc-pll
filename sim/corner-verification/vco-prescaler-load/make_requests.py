@@ -18,15 +18,15 @@ import json
 import os
 import re
 import shutil
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
+sys.path.insert(0, os.path.join(ROOT, "sim"))
+import corner_set  # noqa: E402  (the spec C-grid, defined once in sim/corner_set.py)
+
 FETCHED = os.path.join(ROOT, ".fetched", "sg13g2-vco")
-LIB = "libs.tech/ngspice/models/"
 OSDI = "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/"
-MOS = ["tt", "ss", "ff", "sf", "fs"]
-MIM = ["typ", "bcs", "wcs"]
-HBT = ["typ", "bcs", "wcs"]
 TSTOP = "20n"
 
 LOAD = """* The prescaler input on the tank (gate G1 load): same instance, bias and start-up .ic as sim/vco-prescaler-load.
@@ -70,19 +70,16 @@ def body(loaded):
     return "\n".join(out) + "\n"
 
 
+FAMILIES = ("mos", "mim", "hbt")  # the VCO holds HV MOS, MIM caps and HBTs
+
+
 def sections(mos, mim, hbt, loaded=False):
-    s = [
-        {"lib": LIB + "cornerMOShv.lib", "section": "mos_" + mos},
-        {"lib": LIB + "cornerCAP.lib", "section": "cap_" + mim},
-        {"lib": LIB + "cornerHBT.lib", "section": "hbt_" + hbt},
-    ]
-    if loaded:
-        # the prescaler (22f2579) has rppd / rhigh instances: resistor corner follows the MIM corner name (typ/bcs/wcs)
-        s.append({"lib": LIB + "cornerRES.lib", "section": "res_" + mim})
-    return s
+    # the prescaler (22f2579) has rppd / rhigh instances: resistor corner follows the MIM corner name (typ/bcs/wcs)
+    fam = FAMILIES + (("res",) if loaded else ())
+    return corner_set.sections(fam, mos=mos, mim=mim, hbt=hbt, res=mim)
 
 
-def req(tag, stage, shard=None, temps=(-40, 27, 125), dsubw=False):
+def req(tag, stage, shard=None, temps=tuple(corner_set.TEMPS), dsubw=False):
     loaded = tag == "loaded"
     comment = [
         "Gate G2 corner envelope, stage %d of the spec C-grid: pinned sg13g2-vco (unmodified) %s the prescaler input on the tank." % (stage, "with" if loaded else "without"),
@@ -105,26 +102,27 @@ def req(tag, stage, shard=None, temps=(-40, 27, 125), dsubw=False):
     if stage == 0:
         # nominal: mos_tt / cap_typ / hbt_typ, 27 C, 3.3 V, Vctrl = 0, 1.65, 3.3 V (the AC 1 loaded-vs-unloaded comparison)
         d["corners"] = {
-            "process": [{"name": "TYP", "sections": sections("tt", "typ", "typ", loaded)}],
+            "process": [{"name": "TYP", "sections": sections(*corner_set.bundle("TYP", FAMILIES), loaded=loaded)}],
             "temperature_c": [27],
-            "params": {"vddv": [3.3] * 3, "vctrl": [0, 1.65, 3.3]},
+            "params": {"vddv": [corner_set.V_STAGE1] * 3, "vctrl": [0, 1.65, 3.3]},
         }
     elif stage == 1:
         d["corners"] = {
             "process": [{"name": "mos_%s/cap_%s/hbt_%s" % (m, c, h), "sections": sections(m, c, h, loaded)}
-                        for m in MOS for c in MIM for h in HBT if shard in (None, m)],
+                        for m in corner_set.MOS for c in corner_set.MIM for h in corner_set.HBT
+                        if shard in (None, m)],
             "temperature_c": list(temps),
-            "params": {"vddv": [3.3], "vctrl": [1.65]},
+            "params": {"vddv": [corner_set.V_STAGE1], "vctrl": [1.65]},
         }
     else:
         d["corners"] = {
             "process": [p for p in (
-                {"name": "SLOW", "sections": sections("ss", "wcs", "wcs", loaded)},
-                {"name": "TYP", "sections": sections("tt", "typ", "typ", loaded)},
-                {"name": "FAST", "sections": sections("ff", "bcs", "bcs", loaded)},
+                {"name": b, "sections": sections(*corner_set.bundle(b, FAMILIES), loaded=loaded)}
+                for b in corner_set.BUNDLES
             ) if shard in (None, p["name"])],
             "temperature_c": list(temps),
-            "params": {"vddv": [2.97] * 3 + [3.63] * 3, "vctrl": [0, 1.65, 3.3] * 2},  # zipped, so the 6 (vddv, vctrl) pairs
+            # zipped, so the 6 (vddv, vctrl) pairs
+            "params": {"vddv": [v for v in corner_set.V_STAGE2 for _ in range(3)], "vctrl": [0, 1.65, 3.3] * 2},
         }
     pre = [OSDI + "mosvar.osdi"] + ([OSDI + "psp103.osdi", OSDI + "r3_cmc.osdi"] if loaded else [])
     d["options"] = {"timeout_s": 900, "keep_artifacts": True, "osdi_preload": pre}
@@ -177,8 +175,8 @@ def main():
     # ceiling of 3600 s on the fleet and ~820 s per corner mean one 54-unit job is killed (see README).
     # Stage 2 shards by process corner (18 units), stage 1 by MOS corner (27 units).
     jobs = [("loaded", 1, None), ("loaded", 2, None), ("unloaded", 2, None)]
-    jobs += [("loaded", 2, p) for p in ("SLOW", "TYP", "FAST")] + [("unloaded", 2, p) for p in ("SLOW", "TYP", "FAST")]
-    jobs += [("loaded", 1, m) for m in MOS]
+    jobs += [(t, 2, p) for t in ("loaded", "unloaded") for p in corner_set.BUNDLES]
+    jobs += [("loaded", 1, m) for m in corner_set.MOS]
     for tag, stage, shard in jobs:
         name = "request-%s-stage%d%s.json" % (tag, stage, "" if shard is None else "-" + shard)
         with open(os.path.join(HERE, name), "w") as f:
@@ -195,9 +193,9 @@ def dsubw():
             f.write(dsubw_body(tag == "loaded"))
     jobs = []
     for tag in ("loaded", "unloaded"):
-        for p in ("SLOW", "TYP", "FAST"):
+        for p in corner_set.BUNDLES:
             jobs.append((tag, 2, p, (27, 125)))   # 27 C = control (must equal the unmodified 27 C records), 125 C = the owed units
-    for m in MOS:
+    for m in corner_set.MOS:
         jobs.append(("loaded", 1, m, (27, 125) if m == "tt" else (125,)))   # stage 1: 125 C units; 27 C control only in the tt shard
     for tag, stage, shard, temps in jobs:
         with open(os.path.join(HERE, "request-%s-stage%d-dsubw-%s.json" % (tag, stage, shard)), "w") as f:
