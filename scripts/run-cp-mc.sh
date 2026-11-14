@@ -16,7 +16,7 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 die() { echo "run-cp-mc: error: $*" >&2; exit 1; }
-PDK_SKIP_PSP103=0
+PDK_SKIP_OSDI_PINS=0
 source "${ROOT}/scripts/lib-pdk.sh"
 source "${ROOT}/scripts/lib-record.sh"
 export PDK_ROOT
