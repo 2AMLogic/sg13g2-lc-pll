@@ -2,8 +2,17 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-11-14
+
+- **Issue #245** (closed): Finish the Metal1 pad-trim guard in gen_integrated.py and remove its inert bindings and duplicate helpers
+- **PR #256**: feat(layout): test trimmed Metal1 pads still cover their Via1, record the count
+
 ### 2026-11-13
 
+- **Issue #257** (closed): gen_integrated.py --write churns the attested top.gds on an unchanged design (GDS timestamps)
+- **PR #264**: fix(layout): keep the attested top.gds bytes when --write finds no geometry change
+- **Issue #258** (closed): make_record.py: G2 closure line cannot see a 125 C unit missing from the reports
+- **PR #266**: fix(sim): grade the G2 125 C closure line against the requested grid
 - **Issue #247** (closed): Method-L jitter model: take the three in-band noise terms as inputs and report an unsupplied term as missing, never 0.0
 - **PR #259**: feat: take the three in-band jitter terms as model inputs and report an unsupplied term as missing
 - **Issue #239** (closed): Consolidate the spec corner-set table: seven request generators each re-encode the DR-004 SLOW/TYP/FAST bundles, and they have diverged

@@ -7,8 +7,12 @@ open PDK, built around the program's LC VCO,
 driving [klayout-tools](https://github.com/2AMLogic/klayout-tools) and the
 open-source xschem + ngspice flow.
 
-**Status: specification ratified (targets only).** Nothing is designed or
-simulated yet; no spec row is met.
+**Status: specification ratified (targets only); T1 evidence 5 of 11 items
+met.** Design sources, layout, DRC clean, testbenches and repo hygiene are
+attested in [`manifests/sg13g2-lc-pll.signoff.json`](manifests/sg13g2-lc-pll.signoff.json);
+LVS clean, full corner verification, Monte Carlo, post-layout verification,
+the characterization report and power delivery are open. **No spec row is
+met** — grading every row is T1 item 5, which is still open.
 
 **Built agent-native.** Every specification, decision record, testbench, and
 line of documentation here is produced by AI agents working from a ratified
@@ -84,7 +88,8 @@ Full rows, methods, corner sets and gates: [`spec/target-spec.md`](spec/target-s
 Maturity ladder: spec ratified → VCO interface agreed with `sg13g2-vco` →
 prescaler simulated across PVT → loop simulated across PVT → integrated
 layout DRC/LVS-clean → post-layout re-verification → shuttle seat → measured
-silicon. **Current position: spec ratified (targets); next is the VCO interface agreement and the prescaler.**
+silicon. **Current position: integrated layout committed and DRC clean; LVS is
+`mismatch` and full corner verification has not run.**
 
 ## Pinned VCO and smoke run
 
