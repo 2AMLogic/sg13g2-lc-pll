@@ -7,8 +7,15 @@ open PDK, built around the program's LC VCO,
 driving [klayout-tools](https://github.com/2AMLogic/klayout-tools) and the
 open-source xschem + ngspice flow.
 
-**Status: specification ratified (targets only).** Nothing is designed or
-simulated yet; no spec row is met.
+**Status: specification ratified (targets only); T1 evidence stands at 5 of 11
+items `met`** — design sources, layout, DRC clean, testbenches shipped, repo
+hygiene — per the verdict of record,
+[`manifests/sg13g2-lc-pll.signoff.json`](manifests/sg13g2-lc-pll.signoff.json)
+(`t1_met_count` / `t1_item_count`, read 2026-11-14; re-read the manifest rather
+than trusting this sentence). The remaining six items are `unmet`: LVS clean,
+full corner verification, Monte Carlo, post-layout verification,
+characterization report, power delivery. **No spec row is met across the
+C-grid**, and **every number in this repo is simulated, never measured.**
 
 **Built agent-native.** Every specification, decision record, testbench, and
 line of documentation here is produced by AI agents working from a ratified
@@ -84,7 +91,12 @@ Full rows, methods, corner sets and gates: [`spec/target-spec.md`](spec/target-s
 Maturity ladder: spec ratified → VCO interface agreed with `sg13g2-vco` →
 prescaler simulated across PVT → loop simulated across PVT → integrated
 layout DRC/LVS-clean → post-layout re-verification → shuttle seat → measured
-silicon. **Current position: spec ratified (targets); next is the VCO interface agreement and the prescaler.**
+silicon. **Current position: past spec ratification, with an integrated layout
+committed and DRC `clean` on both the curated and native decks — but no later
+rung is closed. LVS is `mismatch` (item 4 `unmet`) and full corner verification
+has not run. Gate G2 is open: with the prescaler load attached the pinned VCO
+simulates at 4.134-4.265 GHz, 0 of 90 converged corners inside the 4.5-5.5 GHz
+band ([`sim/corner-verification/vco-prescaler-load/records/`](sim/corner-verification/vco-prescaler-load/records/)).**
 
 ## Pinned VCO and smoke run
 
