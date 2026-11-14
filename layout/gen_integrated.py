@@ -92,9 +92,17 @@ NOT_ROUTED = {
 
 
 def digest(ly, cell):
-    """Writer-independent: merged polygons per layer + label text/position (as gen_cells.digest)."""
+    """Writer-independent: merged polygons per layer + label text/position (as gen_cells.digest).
+
+    Layers are hashed in ascending (layer, datatype) order, NOT in `ly.layer_indexes()`
+    enumeration order: that order is an artefact of the writer and is not preserved across a
+    GDS round trip, so hashing in it made the digest move for a stream that had merely been
+    re-saved -- a geometry mismatch that is not one (#263). Every caller reads `ly` from a
+    stream, where KLayout creates exactly one layer index per (layer, datatype), so the key is
+    a total order over the layers being hashed.
+    """
     h = hashlib.sha256()
-    for li in ly.layer_indexes():
+    for li in sorted(ly.layer_indexes(), key=lambda i: (ly.get_info(i).layer, ly.get_info(i).datatype)):
         info = ly.get_info(li)
         r = db.Region(cell.begin_shapes_rec(li))
         r.merge()
