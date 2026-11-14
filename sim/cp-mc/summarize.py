@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Render the dated sim/cp-mc record (markdown, stdout) from the klt sim reports and klt yield JSON (stdlib only)."""
-import argparse, json, re, collections
+import argparse, json, re, collections, os, sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")))
+import ngpin  # noqa: E402  (the simulator pin check, computed once in sim/ngpin.py)
 
 ap = argparse.ArgumentParser()
 for a in ("nominal", "negative", "yield_target", "yield_fallback"):
@@ -37,7 +40,7 @@ print("- **Estimator**: `klt yield` (%s), Clopper-Pearson empirical yield, 95 %%
 print("- **Pooling caveat**: the estimate pools all %d corners with equal weight, a worst-case envelope and not one distribution (klt yield warns of this); the per-corner table gives the worst single corner." % len(percorner[names[0]]))
 print("- **Corners**: MOS {tt,ss,ff,sf,fs} x T {-40,27,125} C at 3.300 V (15) + {SLOW=ss, TYP=tt, FAST=ff} x {2.970, 3.630} V x T (18) = 33; every point uses the `mos_*_mismatch` section of cornerMOShv.lib. The CP has no MIM or HBT, so those stage-1 axes do not apply. Stage 3 (405-point cross) not run.")
 print("- **Negative control**: same grid and seed, n = %d per corner, up-leg mirror+cascode widened 3.8u->4.6u (about +20 %% I_up; the skew of scripts/test-cp-dc-negative.sh); `klt yield-samples` derives the control from the two unedited reports." % a.n_control)
-print("- **Backend**: batch fleet. sharded into batch jobs of at most 696 units (job ids in the `klt sim` stderr files beside this record; the fleet launched them over several `--resume` passes because of capacity limits); engine ngspice-%s on `%s`. Local ngspice is 46 and the repo pins 47 (sim/pins.json): the pin check in scripts/lib-pdk.sh warns on this host, and a 2-sample batch probe reproduced the local values bit for bit." % (env.get("engine_version"), env.get("engine_host")))
+print("- **Backend**: batch fleet. sharded into batch jobs of at most 696 units (job ids in the `klt sim` stderr files beside this record; the fleet launched them over several `--resume` passes because of capacity limits); engine %s on `%s`, %s (`scripts/lib-pdk.sh` applies the same check to the local binary). A 2-sample batch probe reproduced the local values bit for bit." % (ngpin.engine(env.get("engine_version")), env.get("engine_host"), ngpin.verdict(env.get("engine_version"))))
 print("- **PDK**: IHP-Open-PDK %s, libraries staged to the worker (`options.stage_model_inputs`); psp103.osdi from the pinned PDK. Note sim/pins.json hashes cornerMOShv.lib but not its `sg13g2_moshv_*mismatch.lib` includes; the staged-input sha256s are in the nominal report's `environment.staged_model_inputs`." % a.pdk_tag)
 print("- **Commit**: `%s` (the tree was uncommitted when this ran: the bench files were new); **Host**: %s; run id %s\n" % (a.commit, a.host, a.id))
 print("## Pooled yield, target limits (row 7: mismatch <= 2 %; row 9 contribution: ripple <= 0.52 mV)\n")

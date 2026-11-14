@@ -19,9 +19,13 @@ import hashlib
 import json
 import math
 import shutil
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parent))
+import ngpin  # noqa: E402  (the simulator pin check, computed once in sim/ngpin.py)
+
 T_FROM = 6e-9          # crossings before this are start-up and are ignored
 MIN_EDGES = 8
 TOL_TIN = 0.25         # a period is accepted within +-0.25 input periods of an integer multiple
@@ -125,13 +129,15 @@ def render(g, reports, rec_id, commit, files, netlist):
     out += ["**Result (simulated, not measured): /8 and /9 at 5.0 and 5.5 GHz over %d chain corners (SLOW/TYP/FAST x -40/27/125 C x 2.970/3.300/3.630 V): %s (%d of %d pass); modulus toggled at 16 phases of the output period over %d async corners (5.5 GHz, 2.970 and 3.630 V): %s (%d of %d pass). %d unit(s) failed, %d did not run and are not counted as passes. Overall: %s.**" % (
         len(ch), g["chain_verdict"], sum(r["ok"] for r in ch), len(ch), len(asy), g["async_verdict"], sum(r["ok"] for r in asy), len(asy), nfail, nrun, overall), ""]
     rem = reports[0]["environment"].get("remote", {})
+    engines = [r["environment"].get("engine_version") for r in reports]
     out += [
         "- **Netlist**: `design/netlist/prescaler.spice` sha256 `%s` (checked against its schematic with `design/netlist.sh --check`)" % netlist,
         "- **Stimulus**: 0.4 Vpp differential sine (0.1 V per side, antiphase) on INP/INN at a common mode equal to the supply; supply, IREF (50 uA ideal) and MC ramp 0 -> final in 1 ns, the inputs follow v(vdd) (power-up start; see the comment in `div89_chain.cir`). PDK rppd/rhigh resistors (r3_cmc OSDI, end resistance and parasitic C included), process-tied to the HBT corner. No VCO, no routing parasitics.",
         "- **Pass rule (chain)**: transient 24 ns; rising zero crossings of v(OUTP)-v(OUTN) from 6 ns; at least %d; every period within +-%.2f input periods of N x T_in (N = 8 for MC low, 9 for MC high); crossing counts at +0.1 V (rise) and -0.1 V (fall) within one of the zero-crossing count, i.e. the output swings at least 0.2 Vpp at every cycle. Nominal-only numbers are never labelled corner-bounded here." % (MIN_EDGES, TOL_TIN),
         "- **Pass rule (async)**: transient 34 ns; MC is one 8 ns CMOS-level pulse rising at 8 ns + phi, phi = 0..1500 ps in 100 ps steps (the output period is 1.45-1.64 ns, so every phase of the S1/S2 swallow window is hit); every output period 8 or 9 input periods (+-%.2f), the 8/9 sequence 8..8 9..9 8..8 with at most two changes and starting and ending on 8, 9-periods count within 8 ns / (9 T_in) - 1 .. 8 ns / (8 T_in) + 1, and the swing rule above. This is the asynchronous-modulus retiming check: one swallowed input cycle per prescaler period, no /10 or /17 or /8-hiccup." % TOL_TIN,
-        "- **Simulator**: `ngspice-%s` on the Spot batch fleet (`environment.engine_host` = %s, %s), against sim/pins.json pin 47: **mismatch (fleet ran %s)**. Jobs: %s." % (
-            reports[0]["environment"].get("engine_version"), reports[0]["environment"].get("engine_host"), rem.get("instance_type"), reports[0]["environment"].get("engine_version"),
+        "- **Simulator**: %s on the Spot batch fleet (`environment.engine_host` = %s, %s), %s. Jobs: %s." % (
+            ngpin.engine(engines), reports[0]["environment"].get("engine_host"), rem.get("instance_type"),
+            ngpin.verdict(engines, source="the reports"),
             ", ".join("`%s`" % r["environment"].get("remote", {}).get("job_id") for r in reports)),
         "- **Requests / reports**: " + "; ".join("`%s` sha256 `%s`, report [`%s`](%s) sha256 `%s`" % (f["request_name"], f["request_sha"], f["report_name"], f["report_name"], f["report_sha"]) for f in files),
         "- **PDK**: `models.pdk` sg13g2 on the fleet image; `cornerHBT.lib` staged from this host's IHP-Open-PDK v0.3.0 install (`environment.staged_model_inputs`). SLOW = hbt_wcs + res_wcs, TYP = hbt_typ + res_typ, FAST = hbt_bcs + res_bcs.",

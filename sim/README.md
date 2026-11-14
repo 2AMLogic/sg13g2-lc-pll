@@ -3,6 +3,7 @@
 Evidence and pins. See the repo README for scope.
 
 - [`pins.json`](pins.json) — PDK, OSDI and simulator pins for the smoke bench.
+- [`ngpin.py`](ngpin.py) — the simulator pin check used by the `klt sim` record generators: it compares a report's `environment.engine_version` with `ngspice.version` in `pins.json` (the prefix rule of `scripts/lib-ngpin.sh`, which does the same for the local bench drivers) and returns the sentence the record states. No generator holds a pin verdict as literal text; with no version reported the fragment says `unchecked`, never `match`. Tests: [`test_ngpin.py`](test_ngpin.py).
 - [`vco-smoke/`](vco-smoke/README.md) — smoke run of the pinned `sg13g2-vco` (`reuse.lock.json`); records are append-only.
 - [`loop-model/`](loop-model/loop_model.py) — method-L linear phase-domain loop model: loop-filter sizing, f_c / PM / partial jitter over the Kvco × I_cp grid (VCO noise input is a target, not measured). [`records/`](loop-model/records/README.md): the row 5 envelope over the measured I_cp spread of [`cp-dc`](cp-dc/README.md) (`envelope.py`).
 - [`corner-verification/`](corner-verification/README.md) — `klt sim` C-grid envelopes for T1 item 5 (first slice: charge pump, rows 6-7; other rows declared gaps).

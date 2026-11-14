@@ -24,6 +24,8 @@ import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.abspath(os.path.join(HERE, "..", "..")))
+import ngpin  # noqa: E402  (the simulator pin check, computed once in sim/ngpin.py)
 
 
 def rows(path):
@@ -59,21 +61,6 @@ def supply_currents(report_path):
         if m and m.group(1) not in ("-nan", "nan"):
             out.append(abs(float(m.group(1))))
     return out
-
-
-def pins_ngspice():
-    """The pinned ngspice version read from sim/pins.json (never hard-coded here), or None if it cannot be read."""
-    try:
-        with open(os.path.join(HERE, "..", "..", "pins.json")) as f:
-            return str(json.load(f)["ngspice"]["version"])
-    except (OSError, KeyError, TypeError, ValueError):
-        return None
-
-
-def vnum(s):
-    """Leading version number of a version string ("ngspice-46", "46", "46.1"), for comparison with the pin."""
-    m = re.search(r"\d+(?:\.\d+)*", str(s if s is not None else ""))
-    return m.group(0) if m else None
 
 
 def round4_half(v):
@@ -323,16 +310,8 @@ def main():
               "- One per request (`klt sim --batch-set ... --wait-for-capacity 600`): " + "; ".join(jobs) + ". A job state of `failed` here means a nonzero verdict exit (errored units), not a runner crash.", ""]
     L += ["Per-corner values: `%s-corners.csv`. The `tst` startup number is a proxy; the row 6 ratio g_m / tank loss >= 3.0 is **not** extracted." % rid, ""]
     e = next(iter(env.values()), {})
-    eng, pin = e.get("engine_version"), pins_ngspice()
-    engs = str(eng) if eng else "not reported"
-    if pin is None:
-        pinv = "the pin was not read (`sim/pins.json` unreadable here)"
-    elif vnum(eng) is None:
-        pinv = "pin is %s (`sim/pins.json`): **unchecked** - the reports carry no `engine_version`" % pin
-    elif vnum(eng) == vnum(pin):
-        pinv = "pin is %s (`sim/pins.json`): **match**" % pin
-    else:
-        pinv = "pin is %s (`sim/pins.json`): **mismatch** - every number in this record was produced on the reported version, not the pinned one" % pin
+    engs = ngpin.reported(e.get("engine_version"))
+    pinv = ngpin.verdict(e.get("engine_version"), source="the reports")
     L += ["- **Simulator**: %s on the fleet (`engine_version`), %s. OSDI `mosvar.osdi` (both cases) and `psp103.osdi` + `r3_cmc.osdi` (loaded case, for the prescaler's rppd/rhigh; cornerRES.lib `res_<mim corner>` added to the loaded process sections) resolved on the runner under `$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/` (`options.osdi_preload`, runner-resolved; the PDK's prebuilt mosvar.osdi is byte-identical to the pinned compile, sha256 `25e64a37...fb41`)." % (engs, pinv),
           "- **Method**: per corner one `tran 1p 20n 0 2p` from the deck's 10 mV `.ic` kick; fosc = 30 / time between zero rising crossings 40 and 70 of v(OUTP)-v(OUTN); Vpp over 10-20 ns. Same decks as `sim/vco-prescaler-load` except that the supply and Vctrl are `.param` axes and the probe BD is added (see `vco_*.spice`).",
           "- **Load presented**: the prescaler input as in `sim/vco-prescaler-load` (`design/netlist/prescaler.spice`, instance X1 on OUTP/OUTN, ideal 50 uA IREF, sha256 `%s`); G1 device-level figure from `sim/prescaler-div89/records/20261106-222812-0ffb789-cin.md`: 1.837 fF (5.0 GHz) / 1.950 fF (5.5 GHz) differential. Routing capacitance not included." % PSHA,
