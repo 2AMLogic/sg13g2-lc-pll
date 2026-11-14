@@ -14,7 +14,11 @@ that happened to be true the day it was written.
 
 The comparison is the prefix rule of `scripts/lib-ngpin.sh`: 46 does not match a pin of 47,
 47.1 does. Safe direction: with nothing to compare (no `engine_version`, or an unreadable pin)
-the fragment says "unchecked" or "not read" -- it never says "match".
+the fragment says "unchecked" or "not read" -- it never says "match". Partial evidence is held
+to the same rule: when some of a shard's reports carry a version and some do not, the missing
+ones are named and the whole record reads "unchecked" rather than "match". A version that is
+on file and does not match the pin still reads "mismatch" -- a known disagreement is evidence,
+and is never softened into "unchecked" by a report that reported nothing.
 """
 import json
 import os
@@ -47,18 +51,43 @@ def matches(version, pin):
     return bool(v) and bool(p) and (v == p or v.startswith(p + "."))
 
 
-def _numbers(versions):
-    """The version numbers of `versions` (a string or an iterable of them), in first-seen order."""
-    if versions is None:
-        return []
-    if isinstance(versions, str):
-        versions = [versions]
-    out = []
-    for v in versions:
+def _entries(versions):
+    """`versions` as a list of entries: one `engine_version` value, or an iterable of them.
+
+    A non-string scalar (a JSON number, say) counts as one entry rather than something to
+    iterate: `matches()` already compares such a value by stringifying it, and the generators
+    hand this module `environment.engine_version` straight out of a report, whatever type the
+    schema put there.
+    """
+    if isinstance(versions, (str, bytes, bytearray)):
+        return [versions]
+    try:
+        return list(versions)
+    except TypeError:
+        return [versions]
+
+
+def _scan(versions):
+    """(version numbers in first-seen order, entries with no readable version, total entries).
+
+    The gap count is the point: an entry whose version cannot be read is evidence that is
+    *missing*, not evidence that is absent, so `verdict()` can refuse to answer **match** for a
+    record when part of it never reported what it ran on.
+    """
+    entries = _entries(versions)
+    numbers, gaps = [], 0
+    for v in entries:
         n = vnum(v)
-        if n is not None and n not in out:
-            out.append(n)
-    return out
+        if n is None:
+            gaps += 1
+        elif n not in numbers:
+            numbers.append(n)
+    return numbers, gaps, len(entries)
+
+
+def _numbers(versions):
+    """The version numbers of `versions` (a scalar or an iterable of them), in first-seen order."""
+    return _scan(versions)[0]
 
 
 def reported(versions, unknown="not reported"):
@@ -85,16 +114,32 @@ def verdict(versions, source="the report", path=PINS):
     `versions` is one `environment.engine_version` or an iterable of them (a shard's worth of
     reports); `source` names where they were looked for, for the unchecked case. Returns one of:
     pin not read, unchecked, match, mismatch -- with the disagreement called out when the runs
-    did not all report the same version.
+    did not all report the same version, and with the gap called out when only some of them
+    reported one at all.
     """
     pin = pinned(path)
     if pin is None:
         return "the pin was not read (`sim/pins.json` unreadable here)"
-    got = _numbers(versions)
+    got, gaps, total = _scan(versions)
     head = "pin is %s (`sim/pins.json`): " % pin
     if not got:
         return head + "**unchecked** - no `engine_version` in %s" % source
     ok = all(matches(v, pin) for v in got)
+    if gaps:
+        # Part of this record never reported a version, so the versions that did cannot speak
+        # for the whole of it: the most this can say is **unchecked**, with the gap named. A
+        # version that is on file and does not match the pin is still a **mismatch** -- a known
+        # disagreement is evidence, and must not be softened into "unchecked" by a missing peer.
+        gap = "no `engine_version` in %d of the %d runs here" % (gaps, total)
+        if not ok:
+            return head + "**mismatch** - %s, and the others report %s, not the pinned version" % (
+                gap,
+                reported(got),
+            )
+        return head + (
+            "**unchecked** - %s; the others report %s and match the pin, but the pin cannot be "
+            "confirmed for every number in this record" % (gap, reported(got))
+        )
     if len(got) > 1:
         spread = "more than one version is reported here (%s)" % ", ".join(got)
         if ok:

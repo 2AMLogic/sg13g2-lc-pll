@@ -82,3 +82,39 @@ def test_reported_renders_what_ran():
     assert ngpin.reported(["46", "47"]) == "46 and 47"
     assert ngpin.reported(None) == "not reported"
     assert ngpin.reported([], unknown="not recorded in the artifacts") == "not recorded in the artifacts"
+
+
+def test_a_report_without_a_version_cannot_be_called_a_match(tmp_path):
+    # the hole this module exists to close: one report on the pin, one that never said what it
+    # ran on. The sentence speaks for the whole record, so it must not answer **match**.
+    v = ngpin.verdict(["47", None], source="the reports", path=_pins(tmp_path, "47"))
+    assert "**match**" not in v
+    assert "**unchecked**" in v
+    assert "no `engine_version` in 1 of the 2 runs here" in v
+    assert "47" in v  # the version that *was* reported is still stated
+
+
+def test_a_known_mismatch_is_not_softened_by_a_missing_peer(tmp_path):
+    # the other direction of the same rule: a version on file that misses the pin stays a
+    # **mismatch**; an unreported peer must not downgrade it to **unchecked**.
+    v = ngpin.verdict(["46", None], source="the reports", path=_pins(tmp_path, "47"))
+    assert "**mismatch**" in v and "**unchecked**" not in v
+    assert "no `engine_version` in 1 of the 2 runs here" in v
+
+
+def test_every_report_missing_a_version_is_still_plain_unchecked(tmp_path):
+    for bad in ([None], [None, None], ["", "unknown"]):
+        v = ngpin.verdict(bad, source="the reports", path=_pins(tmp_path, "47"))
+        assert "**unchecked**" in v and "**match**" not in v and "**mismatch**" not in v
+        assert "the reports" in v
+
+
+def test_a_non_string_version_is_compared_not_raised(tmp_path):
+    # a report whose engine_version is a JSON number must not abort the generator; matches()
+    # already stringifies, so these helpers do too.
+    assert "**match**" in ngpin.verdict(47, path=_pins(tmp_path, "47"))
+    assert "**mismatch**" in ngpin.verdict(46, path=_pins(tmp_path, "47"))
+    assert ngpin.engine(46) == "`ngspice-46`"
+    assert ngpin.reported(46) == "46"
+    assert ngpin.engine([46, 47]) == "`ngspice-46` and `ngspice-47`"
+    assert "**match**" in ngpin.verdict([47, "47.1"], path=_pins(tmp_path, "47"))
