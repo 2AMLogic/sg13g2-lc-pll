@@ -4,6 +4,12 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-13
 
+- **Issue #247** (closed): Method-L jitter model: take the three in-band noise terms as inputs and report an unsupplied term as missing, never 0.0
+- **PR #259**: feat: take the three in-band jitter terms as model inputs and report an unsupplied term as missing
+- **Issue #239** (closed): Consolidate the spec corner-set table: seven request generators each re-encode the DR-004 SLOW/TYP/FAST bundles, and they have diverged
+- **PR #255**: refactor: define the spec C-grid corner set once in sim/corner_set.py
+- **Issue #243** (closed): Compute the verdict lines in the G2 C-grid record generator: make_record.py --dsubw prints one run's conclusions as literals
+- **PR #254**: fix(sim): derive the G2 verdict, 27 C control and ngspice pin lines from the graded data
 - **Issue #36** (closed): T1 item 3 (DRC clean): klt drc on the integrated layout with coverage disclosed
 - **PR #248**: docs(drc): record clean curated+native DRC and grade T1 item 3 met
 - **Issue #241** (closed): Nothing detects a stale testbenches.attest.json: signoff binds item 9 by the inventory hash, not the attest's per-file hashes

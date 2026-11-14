@@ -101,16 +101,36 @@ in the netlists (#164, PR #169), so the resistors are drawn with `klt gen res_ar
 ## Integrated top (#35)
 
 ```
-.venv/bin/python layout/gen_integrated.py --write      # -> layout/top.gds + layout/provenance.json
-scripts/test-layout-top.sh                             # reproducibility, VCO byte-match, keep-out record, negatives
+.venv/bin/python layout/gen_integrated.py --write      # -> layout/provenance.json (+ layout/top.gds if the geometry moved)
+scripts/test-layout-top.sh                             # reproducibility, attestation pin, VCO byte-match, keep-out record, negatives
 ```
 
 `gen_integrated.py` runs `gen_top.py` (VCO + keep-out + ring + fill), places the six `gen_cells.py` cells below the VCO,
 routes the inter-block signal nets and writes `layout/top.gds`. `layout/provenance.json` holds the generator chain, input
 hashes (VCO stream, cells provenance, generators), the output sha256 and geometry digest, placements, per-net route
-paths and lengths, collisions and the tank-node estimate. GDS bytes carry writer state, so reproducibility is checked on
+paths and lengths, collisions, the tank-node estimate and the Metal1 pad-trim record (`metal1_pad_trim`). GDS bytes carry writer state, so reproducibility is checked on
 the geometry digest (`--check`), not the file hash. T1 item 2 is cited by `manifests/layout.attest.json`
 (`klt signoff --attest 2 --input layout/top.gds`), which pins the stream sha256.
+
+**`--write` is geometry-aware, so it is safe to re-run (#257).** KLayout stamps wall-clock time into the GDS
+`BGNLIB`/`BGNSTR` records, so regenerating an unchanged design still produces different bytes -- and those bytes are what
+the item 2 attestation pins. `--write` therefore writes the fresh stream to `layout/build/top.gds`, compares its geometry
+digest against the digest of `layout/top.gds` as it sits on disk, and replaces the committed stream only when the two
+differ. Always re-run it after editing a generator: `layout/provenance.json` is rewritten either way (the input hashes
+legitimately change), and the attested bytes are left alone unless the geometry actually moved. Each run says which
+happened, and `klayout_module` keeps describing whichever module wrote the stream now on disk.
+
+After a run that reports `geometry changed -- replaced`, the attestation pin is stale and must be re-stamped:
+
+```
+klt signoff --attest 2 --input layout/top.gds          # refresh manifests/layout.attest.json
+```
+
+`scripts/restamp-attest.sh` covers items 1, 9 and 10 only, not item 2. The hash also appears in
+`manifests/sg13g2-lc-pll.json` (`evidence.2`/`evidence.3`), `manifests/sg13g2-lc-pll.signoff.json` and the item 3 DRC
+evidence (`layout/drc/top.drc.json`, `layout/drc/top.crosscheck.json`), so all of those have to be refreshed with it.
+`scripts/test-layout-top.sh` fails until they agree: it checks `layout/top.gds` against the hash
+`manifests/layout.attest.json` pins, which the geometry digest (`--check`) cannot see.
 
 **Routing (placement-level, not signoff; DRC/LVS/PEX are #36/#37/#41).** Tank nets VOP/VON on TopMetal1 (2 um);
 other nets Metal5 horizontal / Metal4 vertical (1 um) with via stacks at each pin. Every route polygon is checked against
@@ -128,6 +148,14 @@ foreign geometry on its layer. Not routed: VDD, VDDV, VSS, REF, IREFCP, LOCK, di
 - **Route collisions:** `provenance.json` `collisions_total` = 13 overlapping polygons with foreign geometry (nets UP, DN to the
   lock detector and FB at the PFD pin stack). Each is listed per net; none is silently accepted. Cell M4/M5 internals are
   not net-aware here, so some overlaps may be same-net; LVS (#37) decides.
+- **Every Metal1 via-stack pad still covers its own Via1.** `provenance.json` `metal1_pad_trim`: 19 endpoint pads, 1
+  trimmed back from foreign Metal1 for native M1.b, 0 left below their Via1. The trim is bounded by construction rather
+  than by luck -- Metal1 that *touches* a pad is the pad's own landing polygon and never trims it, so a non-touching
+  polygon trims from at best the pad edge and reaches 0.170 um from the pad centre, against the Via1's 0.095 um
+  half-width: `via_cover_margin_um` 0.075. The guard is the regression gate on that margin and arms if the pad shrinks,
+  the via grows, or M1.b widens; `scripts/test-layout-top.sh` exercises it in both directions. A pad found below its via
+  is recorded in `below_via` (with position and uncovered area), never dropped -- dropping it would change geometry to
+  hide an open that DRC (#36) and LVS (#37) must see.
 - Placeholder fill under routes is removed (5 squares); density sign-off is #36.
 - CI pin: `.github/workflows/signoff.yml` stays at `klayout-tools==0.8.0`, which grades item 2 `met` from the attest envelope.
   Moving the pin to 0.9.1 grades item 1 `stale_evidence` (3 met -> 1), so the bump is left out.
