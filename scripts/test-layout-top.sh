@@ -50,11 +50,109 @@ expect "committed stream == attestation pin" ok pin_check "${G}"
 expect "attestation pin == provenance output.sha256" ok bash -c \
   "[ \"${PIN}\" = \"\$(jq -r .output.sha256 '${ROOT}/layout/provenance.json')\" ]"
 
+# layout/gen_integrated.py's digest() is billed as writer-independent, so a KLayout read->write->read
+# of the committed stream -- a clip, a merge, a DRC-prep step, an exported sub-cell -- must digest to
+# the recorded value. It did not before #263: digest() hashed per-layer records in ly.layer_indexes()
+# order, which a re-save permutes, so comparing layout/top.gds against any re-saved copy reported a
+# geometry mismatch that was not one. Three guards keep the case from passing vacuously: the round
+# trip must actually permute the enumeration order, the committed stream must itself digest to the
+# recorded value, and an inserted shape must still move the digest.
+cat >"${T}/rt_test.py" <<'RTEOF'
+"""digest() must survive a KLayout re-save of the committed stream (#263).
+
+  python rt_test.py <root> <committed.gds> <tmpdir> [--enumeration-order]
+
+--enumeration-order re-runs the assertion against digest() as it was before #263 (per-layer
+records hashed in ly.layer_indexes() order). It must then refuse: that is the negative control
+for the ordering fix itself, so a future change that reinstates enumeration order is caught.
+"""
+import hashlib
+import json
+import os
+import sys
+
+sys.path.insert(0, os.path.join(sys.argv[1], "layout"))
+import klayout.db as db
+import gen_integrated as gi
+
+root, committed, t = sys.argv[1], sys.argv[2], sys.argv[3]
+enum_order = "--enumeration-order" in sys.argv[4:]
+
+
+def fail(msg):
+    sys.exit("round-trip: " + msg + "; refusing")
+
+
+def enum_digest(ly, cell):
+    """digest() before #263: identical records, hashed in layer_indexes() enumeration order."""
+    h = hashlib.sha256()
+    for li in ly.layer_indexes():
+        info = ly.get_info(li)
+        r = db.Region(cell.begin_shapes_rec(li))
+        r.merge()
+        polys = sorted(str(p) for p in r.each())
+        txt = sorted(f"{s.text_string}@{(it.trans() * s.text_trans.disp).x},{(it.trans() * s.text_trans.disp).y}"
+                     for it in cell.begin_shapes_rec(li) for s in [it.shape()] if s.is_text())
+        if polys or txt:
+            h.update(f"{info.layer}/{info.datatype}|{';'.join(polys)}|{';'.join(txt)}\n".encode())
+    return h.hexdigest()
+
+
+fn = enum_digest if enum_order else gi.digest
+
+
+def read(path):
+    ly = db.Layout()
+    ly.read(path)
+    return ly
+
+
+def dig(path):
+    ly = read(path)
+    return fn(ly, ly.cell(gi.TOP))
+
+
+def order(path):
+    ly = read(path)
+    return [(ly.get_info(i).layer, ly.get_info(i).datatype) for i in ly.layer_indexes()]
+
+
+# A plain KLayout save of the committed stream: same geometry, a different writer.
+rt = os.path.join(t, "rt.gds")
+read(committed).write(rt)
+
+if order(rt) == order(committed):
+    fail("the round trip did not permute the layer-index order, so this case cannot discriminate")
+# Writer-independence first, stated without reference to the record: the stream and its re-save
+# must digest alike. This is the leg --enumeration-order is pointed at, so it is checked before
+# the one that reads layout/provenance.json.
+if dig(rt) != dig(committed):
+    fail("the round-tripped stream digests to " + dig(rt) + ", not the committed stream's " + dig(committed))
+# ... and the value both sides agree on is the one layout/provenance.json records.
+want = json.load(open(os.path.join(root, "layout/provenance.json")))["output"]["geometry_sha256"]
+if dig(committed) != want:
+    fail("the committed stream digests to " + dig(committed) + ", not the recorded " + want)
+
+# Negative control in the same run: a real geometry change must still move the digest, or the
+# assertions above would hold for a digest() that hashes nothing.
+edited = os.path.join(t, "rt_edited.gds")
+ly = read(committed)
+ly.cell(gi.TOP).shapes(ly.layer(8, 0)).insert(db.Box(-320000, 100000, -315000, 105000))
+ly.write(edited)
+if dig(edited) == want:
+    fail("an inserted shape did not move the digest, so it is not hashing the geometry")
+
+print("round-trip: digest " + want + " survives a KLayout re-save; an inserted shape moves it")
+RTEOF
+expect "geometry digest survives a KLayout round trip" ok \
+  "${PY}" "${T}/rt_test.py" "${ROOT}" "${G}" "${T}"
+
 # The churn this guards against is the GDS timestamp fields and nothing else, so the fixture for it
 # is a byte-level edit of the seconds in every BGNLIB/BGNSTR record -- same size, same geometry,
-# different sha256. Re-saving the stream through KLayout would NOT be an equivalent fixture: it also
-# permutes the layer-index order, and layout/gen_integrated.py's digest() hashes layers in
-# enumeration order, so a re-save moves the geometry digest too.
+# different sha256. Re-saving the stream through KLayout is still NOT an equivalent fixture: it
+# rewrites the whole stream (record layout, cell order, layer-index order), so it isolates nothing.
+# What it no longer does is move the geometry digest -- since #263 digest() hashes layers in sorted
+# (layer, datatype) order, and the round-trip case above is what holds that property.
 cat >"${T}/gds_restamp.py" <<'STAMPEOF'
 """Shift the seconds field of every GDS BGNLIB/BGNSTR timestamp: a byte churn with no geometry."""
 import sys
@@ -122,7 +220,7 @@ if sha(dest) != sha(committed):
     fail("churned the bytes of a stream whose geometry is unchanged")
 
 # 2. a real geometry change must be published. Both fixtures are KLayout saves, so they differ by
-#    the inserted box alone -- not by the layer-order permutation a save also introduces.
+#    the inserted box alone; since #263 a save does not move the digest either way.
 plain = os.path.join(t, "pub_plain.gds")
 ly = db.Layout()
 ly.read(committed)
@@ -177,6 +275,13 @@ printf 'X' | dd of="${T}/s/.fetched/sg13g2-vco/layout/vco.gds" bs=1 seek=100 con
 # subprocess), not merely exit non-zero: see the expect() note above.
 expect "NEG tampered stream: generator refuses" "refuse:${REFUSAL}" \
   "${PY}" "${ROOT}/layout/gen_integrated.py" --vco "${T}/s/.fetched/sg13g2-vco/layout/vco.gds" --check
+# The ordering fix's own negative control: run the round-trip case against the pre-#263
+# enumeration-order digest and it must refuse, with its own refusal text. Without this, removing
+# the sort in layout/gen_integrated.py's digest() would be caught only by the positive case above,
+# which a re-recorded provenance value would quietly re-satisfy.
+expect "NEG enumeration-order digest fails the round trip" \
+  "refuse:round-trip: the round-tripped stream digests to [0-9a-f]{64}, not the committed stream's [0-9a-f]{64}; refusing" \
+  "${PY}" "${T}/rt_test.py" "${ROOT}" "${G}" "${T}" --enumeration-order
 # The churned stream keeps the geometry digest (so --check still passes) but breaks the attestation
 # pin, which is the whole trap in #257: the pin check must refuse it, with its own refusal text.
 expect "NEG timestamp-churned stream fails the attestation pin" \

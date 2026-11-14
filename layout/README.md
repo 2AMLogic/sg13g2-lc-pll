@@ -68,6 +68,9 @@ is placed first), on shared `cells/common.py`: flatten the `.subckt`, group iden
 `klt gen-compose` (placement only; routing is #35), and put one text label per `.subckt` port on a drawn
 terminal of that net. `layout/cells.provenance.json` holds the cell list, area (bbox), generator command, klt
 version, netlist sha256 and a geometry digest; `gen_cells.py --check` fails on any difference.
+The digest hashes merged polygons plus label text/position per layer, in sorted `(layer, datatype)`
+order rather than KLayout's layer-enumeration order, so it is stable across a re-save of the stream
+(#263). Both `digest()` copies -- here and in `gen_integrated.py` -- carry that ordering.
 
 **PFD / lock detector: adopted by method, not by stream.** `sg13g2-pll@e71ff61` has no PFD- or
 lock-detector-specific layout, only `layout/bin/pll_layout.py`, a generic netlist-to-`klt gen` planner for
@@ -109,8 +112,11 @@ scripts/test-layout-top.sh                             # reproducibility, attest
 routes the inter-block signal nets and writes `layout/top.gds`. `layout/provenance.json` holds the generator chain, input
 hashes (VCO stream, cells provenance, generators), the output sha256 and geometry digest, placements, per-net route
 paths and lengths, collisions and the tank-node estimate. GDS bytes carry writer state, so reproducibility is checked on
-the geometry digest (`--check`), not the file hash. T1 item 2 is cited by `manifests/layout.attest.json`
-(`klt signoff --attest 2 --input layout/top.gds`), which pins the stream sha256.
+the geometry digest (`--check`), not the file hash. The digest is writer-independent in both directions:
+it ignores the byte layout of the stream, and since #263 it also ignores the layer-enumeration order, so a
+stream that has merely been re-saved (a clip, a merge, a DRC-prep step) digests to the same value. T1 item 2
+is cited by `manifests/layout.attest.json` (`klt signoff --attest 2 --input layout/top.gds`), which pins the
+stream sha256.
 
 **`--write` is geometry-aware, so it is safe to re-run (#257).** KLayout stamps wall-clock time into the GDS
 `BGNLIB`/`BGNSTR` records, so regenerating an unchanged design still produces different bytes -- and those bytes are what
@@ -254,3 +260,25 @@ the reports. The LVS counterpart is [`layout/lvs/README.md`](lvs/README.md).
   14 `topology`, 1 `topology.hierarchy_mismatch`, 1 `device.geometry_not_compared`, 1 `device.placeholder_value`). Expected for a
   placement-only cell with no routing (#35 routes only the integrated top); not a pass and not claimed as one. Other cells were not re-run
   (their geometry did not change).
+
+## Digest re-baseline for the layer-order fix (#263)
+
+Both `digest()` functions hashed their per-layer records in `ly.layer_indexes()` enumeration order, which a
+GDS writer does not preserve, so a digest billed as writer-independent moved for a stream whose geometry was
+untouched. They now hash in sorted `(layer, datatype)` order. That changes the recorded digest values and
+nothing else. Re-baselined 2026-11-14 against `main` @ `da3c610`, `klt 0.9.2.dev1019+g8907ca2d3a87`,
+klayout 0.30.13 (venv).
+
+- `layout/top.gds` is **byte-identical**: `gen_integrated.py --write` reported `geometry unchanged -- kept
+  ... (attested bytes preserved)`, so `output.sha256` (`92b05723…`) and `manifests/layout.attest.json` are
+  untouched and item 2 needs no re-stamp.
+- `layout/provenance.json`: `output.geometry_sha256` `38796010…` -> `6abc97d6…`, plus the two input pins that
+  follow from the edited files (`inputs.gen_integrated.sha256`, `inputs.cells_provenance.sha256`). The same
+  stream round-tripped through KLayout digested to `22b1852d…` before the fix and to `6abc97d6…` after it.
+- `layout/cells.provenance.json`: the six per-cell `geometry_sha256` values. `area_um2`, `netlist_sha256`,
+  `device_units`, `klt` and `pdk` are unchanged — the host's klt is newer than the recorded
+  `0.9.2.dev887+gec7400b7d8e5`, so the `klt` field it rewrote was reverted rather than committed as drift.
+- The geometry behind the new cell digests was checked against the attested stream, not assumed: for all six
+  cells the per-layer merged-polygon and label record set of the regenerated cell is identical to that of the
+  same cell inside the committed `layout/top.gds`. On this host `gen_cells.py --check` mismatched four of the
+  six committed digests *before* the fix, with every other field matching — the bug on `main`, not drift.
