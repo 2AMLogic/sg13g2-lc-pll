@@ -8,9 +8,12 @@
 #
 # Environment: PYTHON (default python3; needs numpy), RECORD_DIR (default sim/jitter/records),
 #   LOOP_FILTER (default sim/loop-model/loop-filter.json; a different file is recorded by path and sha256),
-#   NOISE_INPUTS (optional: the in-band SSB phase-noise tables referred to the PFD input, recorded by path
-#   and sha256 the same way). With no NOISE_INPUTS the reference, PFD/CP and divider/prescaler terms have no
-#   input: the model reports them as missing, never as zero, and this record says which ones and who owes them.
+#   NOISE_INPUTS (optional: the in-band SSB phase-noise tables referred to the PFD input; the record states its
+#   path and sha256, copies the file next to itself as <id>-noise-inputs.json so a file from outside this
+#   repository still carries its tables, and lists each supplied term's one-line summary and source, read back
+#   from the model's own method block). With no NOISE_INPUTS the reference, PFD/CP and divider/prescaler terms
+#   have no input: the model reports them as missing, never as zero, and this record says which ones and who
+#   owes them.
 # Exit 0 if the model ran and the record was written; non-zero if numpy is missing or the model failed.
 set -euo pipefail
 
@@ -35,16 +38,25 @@ set +e
 RC=$?
 set -e
 [ -s "${WORK}/lm.json" ] || { cat "${WORK}/lm.txt" >&2; die "the model produced no result"; }
-if [ -n "${NOISE_INPUTS}" ]; then
-  NI_DESC="in-band noise inputs \`${NOISE_INPUTS#"${ROOT}/"}\` sha256 \`$(sha256sum "${NOISE_INPUTS}" | cut -d' ' -f1)\`"
-else
-  NI_DESC="in-band noise inputs: **no file supplied** (\`NOISE_INPUTS\` unset)"
-fi
 record_stamp sim scripts
 ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
 cp "${WORK}/lm.txt" "${REC_DIR}/${ID}-model.txt"
+# The in-band inputs are stated, not merely named. The file is copied next to the record so a path outside
+# this repository still carries its tables, and each supplied term's one-line summary and `source` are read
+# back from the model's own method block (never re-parsed from the input file, so the record states what the
+# model actually used). Only the in-band terms carry an `ssb_dbc_per_hz` table, which is what selects them.
+NI_LINES=""; NI_NTERMS=0
+if [ -n "${NOISE_INPUTS}" ]; then
+  cp "${NOISE_INPUTS}" "${REC_DIR}/${ID}-noise-inputs.json"
+  NI_FILTER='.method.inputs | to_entries | map(select(.value | has("ssb_dbc_per_hz")))'
+  NI_NTERMS="$(jq -r "${NI_FILTER} | length" "${WORK}/lm.json")"
+  NI_LINES="$(jq -r "${NI_FILTER}"' | .[] | "  - `\(.key)`: \(.value.value); source: \(.value.source)"' "${WORK}/lm.json")"
+  NI_DESC="in-band noise inputs \`${NOISE_INPUTS#"${ROOT}/"}\` sha256 \`$(sha256sum "${NOISE_INPUTS}" | cut -d' ' -f1)\`, copied next to this record as [\`${ID}-noise-inputs.json\`](${ID}-noise-inputs.json) (supplying ${NI_NTERMS} of the 3 in-band terms, each listed with its source below)"
+else
+  NI_DESC="in-band noise inputs: **no file supplied** (\`NOISE_INPUTS\` unset)"
+fi
 P='.points[] | select(.kvco_hz_per_v==480000000 and .icp_a==0.0002)'
 JIT_PS="$(jq -r "${P} | .jitter_rms_s*1e12*1000|round/1000" "${WORK}/lm.json")"
 # sigma_phi comes from the model's own total, NOT from summing the per-term map: jq `add` skips a
@@ -55,12 +67,13 @@ NMISS="$(jq -r '.method.missing_terms | length' "${WORK}/lm.json")"
 LABEL="$(jq -r "${P} | .jitter_label" "${WORK}/lm.json")"
 if [ "${NMISS}" = 0 ]; then
   PARTIAL_TAG=""; PARTIAL_COL=""
-  COVERAGE="All five spec section 4 terms have an input; each input and its source is in the model's method block above."
-  METHOD_N_NOTE="The in-band terms were supplied from the \`NOISE_INPUTS\` file above; whether that file's numbers come from an ngspice \`.noise\` run (method N) is stated in each term's own \`source\` field, not here."
+  COVERAGE="All five spec section 4 terms have an input: the two computed here are under **Inputs** below, and each supplied in-band term is listed with its \`source\` under **In-band noise inputs supplied** below, its full table in the copied \`${ID}-noise-inputs.json\`."
+  METHOD_N_NOTE="The in-band terms were supplied from the \`NOISE_INPUTS\` file above; whether that file's numbers come from an ngspice \`.noise\` run (method N) is stated in each term's own \`source\` field, listed above, not here."
 else
   PARTIAL_TAG="PARTIAL, "; PARTIAL_COL=" partial"
   METHOD_N_NOTE="Measurement of the in-band terms by ngspice \`.noise\` (method N) is owed and not run (#252, #253)."
   COVERAGE="**${NMISS} of the five spec section 4 terms have no input supplied: ${MISSING}.** The model reports each of them as \`null\` (missing), never as zero, so this number is a floor over the terms that do have an input, not an estimate of the loop's jitter. Their inputs are owed by #252 (the reference requirement and the definition of method N for the switching blocks) and #253 (the method-N bench)."
+  [ "${NI_NTERMS}" = 0 ] || COVERAGE="${COVERAGE} The in-band terms that do have an input are listed with their \`source\` under **In-band noise inputs supplied** below."
 fi
 FC="$(jq -r "${P} | .f_c_hz/1e6*1000|round/1000" "${WORK}/lm.json")"
 PM="$(jq -r "${P} | .pm_deg*10|round/10" "${WORK}/lm.json")"
@@ -72,6 +85,10 @@ PM="$(jq -r "${P} | .pm_deg*10|round/10" "${WORK}/lm.json")"
   echo
   echo "- **Method (spec section 4, primary)**: L, the linear phase-domain model of a type-II third-order charge-pump PLL, L(s) = I_cp Kvco Z(s)/(N s), Z = (R1-C1 || C2) then the unloaded R3-C3 pole. First-order: no in-loop peaking beyond L(s), no sampling-time effects, no charge-pump nonlinearity, no supply or substrate coupling into the tank."
   echo "- **Inputs, each with its source**: N = 100, f_ref = 50 MHz, f_out = 5.0 GHz (spec rows 1-3); loop filter \`${LOOP_FILTER#"${ROOT}/"}\` sha256 \`$(sha256sum "${LOOP_FILTER}" | cut -d' ' -f1)\`; I_cp = 200 uA (row 6); Kvco = 480 MHz/V (section 3 geometric mid); VCO phase noise = the 1/f^2 line through -105 dBc/Hz at 1 MHz, a **target** from \`sg13g2-vco\` row 4 whose method is open there, **not measured**; R1 thermal noise 4kT R1 at 300.15 K; ${NI_DESC}."
+  if [ -n "${NI_LINES}" ]; then
+    echo "- **In-band noise inputs supplied, each with its source** (read from the model's method block, not re-parsed from the file; each table in full in [\`${ID}-noise-inputs.json\`](${ID}-noise-inputs.json), the copy of the file named above):"
+    echo "${NI_LINES}"
+  fi
   echo "- **Estimator**: integrate L(f) over 10 kHz-10 MHz on a log grid, 30 points per decade, trapezoid on log f; sigma_phi^2 = 2 integral L(f) df; sigma_t = sigma_phi/(2 pi f_out). Deterministic given its inputs: no run length, no window, no variance."
   echo "- **Method T cross-check (window >= 100 us, >= 8 windows): NOT RUN.** Reason: it needs a locked 5 GHz loop with noise sources. The closed-loop bench (\`sim/loop-tran\`) uses a noiseless behavioural VCO and divider, and an ngspice transient-noise run of >= 800 us of a 5 GHz loop is gate G6 (unresolved). ${METHOD_N_NOTE}"
   echo "- **Completeness (the model's own label, not this script's wording)**: ${LABEL}"
