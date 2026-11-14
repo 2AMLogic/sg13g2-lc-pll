@@ -23,8 +23,8 @@ die() { echo "run-vco-smoke: error: $*" >&2; exit 1; }
 
 "${ROOT}/scripts/fetch-vco.sh"
 
-# ---- PDK + ngspice: shared check against sim/pins.json, 2-thread cap (PSP103 is not used here) ----
-PDK_SKIP_PSP103=1
+# ---- PDK + ngspice: shared check against sim/pins.json, 2-thread cap (none of the three OSDI libraries is used here) ----
+PDK_SKIP_OSDI_PINS=1
 source "${ROOT}/scripts/lib-pdk.sh"
 source "${ROOT}/scripts/lib-record.sh"
 
