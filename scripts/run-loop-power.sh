@@ -19,7 +19,7 @@ source "${ROOT}/scripts/lib-record.sh"
 "${ROOT}/design/netlist.sh" --check prescaler divider >/dev/null 2>&1 || die "design/netlist/{prescaler,divider}.spice is stale against the schematics (run design/netlist.sh)"
 PRESC_NETLIST="${ROOT}/design/netlist/prescaler.spice"; DIV_NETLIST="${ROOT}/design/netlist/divider.spice"
 TSTOP="${TSTOP:-120n}"; W0="${W0:-40n}"
-REC_DIR="${RECORD_DIR:-${ROOT}/sim/loop-power/records}"; mkdir -p "${REC_DIR}"
+rec_dir loop-power
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@OSDI_R3@@|${OSDI_R3}|g" -e "s|@@PRESC_NETLIST@@|${PRESC_NETLIST}|g" \
     -e "s|@@DIV_NETLIST@@|${DIV_NETLIST}|g" -e "s|@@TSTOP@@|${TSTOP}|g" -e "s|@@W0@@|${W0}|g" -e "s|@@OUT_DIR@@|${WORK}|g" \
@@ -28,7 +28,6 @@ check_deck_placeholders "${WORK}/loop_power.spice"
 write_spiceinit "${WORK}"
 
 record_stamp
-ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
 T_START="$(date +%s)"

@@ -32,7 +32,7 @@ fi
 TSTOP="${TSTOP:-12u}"; TMAX="${TMAX:-200p}"; KVCO_SIGN="${KVCO_SIGN:-1}"
 case "${KVCO_SIGN}" in 1|-1) ;; *) die "KVCO_SIGN must be 1 or -1" ;; esac
 NDIV=100; F0=5.0e9; VC0=2.475; KV=480e6; FREF=50e6; VSTART=1.65; PHI0=0.25
-REC_DIR="${RECORD_DIR:-${ROOT}/sim/loop-tran/records}"; mkdir -p "${REC_DIR}"
+rec_dir loop-tran
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 
 sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@OSDI_R3@@|${OSDI_R3}|g" \
@@ -45,7 +45,6 @@ check_deck_placeholders "${WORK}/loop_tran.spice"
 write_spiceinit "${WORK}"
 
 record_stamp
-ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
 
