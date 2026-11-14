@@ -66,10 +66,11 @@ Unblocked, one PR each, none needs the PDK. None has an issue yet; drafts exist 
 3. **Record the delta between the VCO pin and `sg13g2-vco` main.** Done when a dated record lists, per
    file in `reuse.lock.json`, whether its sha256 differs at upstream `main`, whether the VCTRL top-metal
    pin of `sg13g2-vco#314` is present, and which records and attestations here a pin bump would invalidate.
-4. **Settle the row 5 item-5 citation.** `manifests/sg13g2-lc-pll.json` declares row 5 a gap because a
-   method-L record could not be cited (`klayout-tools#4859`, now closed). Done when either the manifest
-   cites `sim/loop-model/records/*row5-envelope*` and the verdict is regenerated, or the gap text names
-   the `klt` version that is needed and why the pin cannot move yet.
+4. **Settle the row 5 item-5 citation.** `manifests/sg13g2-lc-pll.json` declares row 5 a gap because the
+   method-L record still cannot be cited: the pinned `klt` 0.8.0 lacks the `model-run` evidence kind
+   (first accepted in v0.9.0), and the record itself still needs re-emission in the `model-run` shape.
+   The gap text names both and why the pin cannot move yet. Done when the pin moves and the re-emitted
+   record is cited and the verdict is regenerated.
 5. **Route the supply nets in `gen_integrated.py`** (VDD, VDDV, VSS; `layout/README.md` lists them as not
    routed). Done when the nets are routed, `scripts/test-layout-top.sh` passes and DRC is re-run and
    still `clean`. Needs a PDK host and a re-stamp of items 2 and 3, so it wants a Curator pass to size it.
