@@ -51,6 +51,8 @@ PAD_UM = [0.7, 0.7, 0.7, 0.7, 0.7, 2.0]
 LEVEL = {m[1]: i for i, m in enumerate(METALS)}
 W_TANK, W_SIG = 2.0, 1.0              # TopMetal1 minimum width; Metal4/5 signal width
 CHAN_STEP = 20.0
+SPAN_UM = 200.0                       # channel search reaches this far outside an endpoint pair's bbox
+M1B_SP_UM = 0.18                      # native M1.b Metal1 spacing; the pad trim keeps this to foreign Metal1
 
 # Cell placements: name -> (transform, origin_um). Prescaler is mirrored about the x axis so its
 # INP/INN (y = 1.8 um in the cell) face the VCO above it, INP left of INN as OUTP is left of OUTN.
@@ -87,14 +89,6 @@ NOT_ROUTED = {
     "LOCK": "external pin (lock detector)",
     "divider M0-M3, A0-A2": "tie-offs to VDD/VSS in pll_top; with supplies",
 }
-
-
-def sha256(path):
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for ch in iter(lambda: f.read(1 << 20), b""):
-            h.update(ch)
-    return h.hexdigest()
 
 
 def digest(ly, cell):
@@ -143,7 +137,12 @@ def build_base(vco, out):
 
 
 def load_cell(ly, name):
-    """Read one cell stream into `ly`, return its cell. Sub-cells are prefixed per block so names do not collide."""
+    """Read one cell stream into `ly`, return its cell.
+
+    Sub-cell names are not rewritten here: gen_cells.py already prefixes each block's device cells
+    (`lcpll_cp_nfet_w2_l0p5__core`), and copy_tree leaves the rest to KLayout's `$N` uniquifier, so a
+    name two blocks share (`via_stack`, `npn13G2V`) lands as `via_stack$1` rather than merging.
+    """
     other = db.Layout()
     other.read(os.path.join(CELLS_DIR, f"{name}.gds"))
     c = ly.create_cell(name)
@@ -152,7 +151,8 @@ def load_cell(ly, name):
 
 
 def pins(ly, cell):
-    """First label per text string -> (layer, datatype, DPoint in cell coordinates)."""
+    """First label per text string -> (layer, DPoint in cell coordinates). Datatype is not kept: a pin
+    is matched by layer number alone (LEVEL), and every pin label here sits on datatype 0."""
     out = {}
     for li in ly.layer_indexes():
         info = ly.get_info(li)
@@ -190,6 +190,10 @@ def stack(dbu, pt, lo, hi):
     return shapes
 
 
+def length(pts):
+    return sum(abs(a[0] - b[0]) + abs(a[1] - b[1]) for a, b in zip(pts, pts[1:]))
+
+
 def candidates(p, q, span):
     """Manhattan paths p->q as lists of points, H-first or V-first, with an intermediate channel."""
     paths = [[p, (q[0], p[1]), q], [p, (p[0], q[1]), q]]
@@ -212,7 +216,7 @@ def candidates(p, q, span):
                 pts.append(pt)
         if len(pts) >= 2:
             clean.append(pts)
-    clean.sort(key=lambda pts: sum(abs(a[0] - b[0]) + abs(a[1] - b[1]) for a, b in zip(pts, pts[1:])))
+    clean.sort(key=length)
     return clean
 
 
@@ -237,8 +241,25 @@ def path_shapes(dbu, pts, tank):
     return shapes, levels
 
 
-def length(pts):
-    return sum(abs(a[0] - b[0]) + abs(a[1] - b[1]) for a, b in zip(pts, pts[1:]))
+def trim_pad(dbu, b, base_m1, sp):
+    """Trim one Metal1 via-stack pad box `b` back from Metal1 polygons it does not touch.
+
+    `base_m1` is the merged Metal1 of the top cell, `sp` the M1.b spacing in dbu. Returns
+    (keep, trimmed, uncovered): the region to insert in place of the pad, whether the trim removed
+    anything, and the part of the pad's own concentric Via1 the trim left uncovered -- empty when
+    the pad still encloses its via, non-empty when the pad was cut back past it (an open, or at
+    best a via-enclosure violation). Callers record `uncovered` rather than dropping the pad:
+    changing geometry here would hide a defect DRC (#36) and LVS (#37) must still see.
+    """
+    pad = db.Region(b)
+    foreign = base_m1 - base_m1.interacting(pad)
+    keep = pad - foreign.sized(sp)
+    cx, cy = (b.left + b.right) / 2 * dbu, (b.bottom + b.top) / 2 * dbu
+    uncovered = db.Region(box(dbu, cx, cy, VIA_UM[0], VIA_UM[0])) - keep
+    # `keep != pad` would NOT answer this: db.Region's __eq__ reports two regions holding identical
+    # geometry as unequal, so comparing them directly scores every pad as trimmed. keep is a subset
+    # of pad by construction, so the set difference is the real test.
+    return keep, not (pad - keep).is_empty(), uncovered
 
 
 def to_region(boxes):
@@ -310,10 +331,8 @@ def main():
         return layer, (round(q.x, 3), round(q.y, 3))
 
     # obstacle geometry per layer: everything placed so far (VCO, cells, ring, fill)
-    layer_idx = {}
-
-    def lidx(l, d=0):
-        return ly.layer(l, d)
+    def lidx(l):
+        return ly.layer(l, 0)
 
     def obstacles(l):
         return db.Region(top.begin_shapes_rec(lidx(l))).merged()
@@ -331,13 +350,11 @@ def main():
         for cell, port in ends[1:]:
             pa, pb = base_pin, gpin(cell, port)
             p, q = pa[1], pb[1]
-            span = 200.0
             best = None
-            for pts in candidates(p, q, span):
+            for pts in candidates(p, q, SPAN_UM):
                 shapes, levels = path_shapes(dbu, pts, tank)
                 # endpoint stacks
                 if tank:
-                    tgt = {0: 5, 1: 5}
                     end_levels = [5, 5]
                 else:
                     end_levels = [levels[0], levels[-1]]
@@ -353,7 +370,7 @@ def main():
                 bad = 0
                 for k, bs in allshapes.items():
                     own = to_region(bs)
-                    obs = obstacles(k) if k not in added else (obstacles(k))
+                    obs = obstacles(k)
                     hit = own & obs
                     # allow overlap with the polygons containing the net's own pins on this layer
                     for (lay, pt) in (pa, pb):
@@ -392,6 +409,8 @@ def main():
     # (a pad abutting a device Metal1 shape leaves a 5 nm slit, native M1.b). Closing is per merged polygon, so it only
     # fills inside one net's own polygon and never bridges to a different polygon.
     notch_fill = 0
+    pads_trimmed = 0
+    pads_below_via = []
     if 8 in added:
         m1l = lidx(8)
         # First trim each pad away from Metal1 of a different polygon (a pad wider than the gap to a
@@ -401,14 +420,22 @@ def main():
             if s.is_box() and (s.box.left, s.box.bottom, s.box.right, s.box.top) in pad_boxes:
                 top.shapes(m1l).erase(s)
         base_m1 = db.Region(top.begin_shapes_rec(m1l)).merged()
-        sp = round(0.18 / dbu)
-        trimmed = 0
+        sp = round(M1B_SP_UM / dbu)
+        # Every Metal1 pad in added[8] is the bottom of an endpoint via stack: a route end level is
+        # never below Metal4 (path_shapes picks level 3/4, the tank 5), so stack() spans level 0..>=3
+        # and drops a Via1 of VIA_UM[0] concentrically inside each pad. trim_pad tests that the trim
+        # leaves that core covered -- the check the comment here used to state but never ran -- and
+        # the result is recorded in provenance.json rather than silently accepted, as the module
+        # docstring requires of every geometry edit in this file.
         for b in added[8]:
-            pad = db.Region(b)
-            foreign = base_m1 - base_m1.interacting(pad)
-            keep = pad - foreign.sized(sp)
-            # the pad must still land on the pin polygon: keep it only if the trim leaves the via-sized core
-            trimmed += 1 if keep != pad else 0
+            keep, trimmed, uncovered = trim_pad(dbu, b, base_m1, sp)
+            if trimmed:
+                pads_trimmed += 1
+            if not uncovered.is_empty():
+                cx, cy = (b.left + b.right) / 2 * dbu, (b.bottom + b.top) / 2 * dbu
+                pads_below_via.append({"x_um": round(cx, 3), "y_um": round(cy, 3),
+                                       "via1_um": VIA_UM[0],
+                                       "uncovered_um2": round(uncovered.area() * dbu * dbu, 6)})
             top.shapes(m1l).insert(keep)
         m1 = db.Region(top.begin_shapes_rec(m1l)).merged()
         g = round(0.091 / dbu)  # 2*g > 0.18 um (M1.b)
@@ -422,7 +449,7 @@ def main():
     fill_removed = 0
     for m in range(1, 6):
         fl = ly.layer(*gen_top.LAYERS[f"Metal{m}.filler"])
-        lay = {1: 8, 2: 10, 3: 30, 4: 50, 5: 67}[m]
+        lay = METALS[m - 1][1]
         if lay in added:
             wires = to_region(added[lay]).sized(round(2.0 / dbu))
             fr = db.Region(top.shapes(fl))
@@ -452,7 +479,6 @@ def main():
         except (OSError, ValueError):
             pass
 
-    tank_len = {n: routes[n]["length_um"] for n in TANK}
     rec = {
         "schema_version": 1,
         "block": "sg13g2-lc-pll",
@@ -462,19 +488,36 @@ def main():
                             "python layout/gen_top.py", "python layout/gen_integrated.py --write"],
         "klayout_module": klayout_module,
         "inputs": {
-            "vco_gds": {"path": ".fetched/sg13g2-vco/layout/vco.gds", "sha256": sha256(a.vco),
+            "vco_gds": {"path": ".fetched/sg13g2-vco/layout/vco.gds", "sha256": gen_top.sha256(a.vco),
                         "pinned_in": "reuse.lock.json"},
-            "cells_provenance": {"path": "layout/cells.provenance.json", "sha256": sha256(os.path.join(ROOT, "layout/cells.provenance.json"))},
-            "gen_top": {"path": "layout/gen_top.py", "sha256": sha256(os.path.join(HERE, "gen_top.py"))},
-            "gen_integrated": {"path": "layout/gen_integrated.py", "sha256": sha256(os.path.abspath(__file__))},
+            "cells_provenance": {"path": "layout/cells.provenance.json", "sha256": gen_top.sha256(os.path.join(ROOT, "layout/cells.provenance.json"))},
+            "gen_top": {"path": "layout/gen_top.py", "sha256": gen_top.sha256(os.path.join(HERE, "gen_top.py"))},
+            "gen_integrated": {"path": "layout/gen_integrated.py", "sha256": gen_top.sha256(os.path.abspath(__file__))},
         },
-        "output": {"path": "layout/top.gds", "top_cell": TOP, "sha256": sha256(out), "geometry_sha256": dg},
+        "output": {"path": "layout/top.gds", "top_cell": TOP, "sha256": gen_top.sha256(out), "geometry_sha256": dg},
         "placement_um": {n: {"transform": c, "origin": list(o)} for n, (c, o) in PLACE.items()},
         "routes": routes,
         "tank_node_estimate": tank_estimate(routes),
         "not_routed": NOT_ROUTED,
         "collisions_total": collisions_total,
         "fill_squares_removed_under_routes": fill_removed,
+        "metal1_pad_trim": {
+            "method": ("each endpoint via-stack Metal1 pad (%.2f um) is trimmed back by the M1.b spacing "
+                       "%.2f um from Metal1 polygons it does not touch, then tested for full coverage of "
+                       "its own concentric Via1 (%.2f um). Foreign Metal1 that touches the pad is the "
+                       "pad's own landing polygon, so it never trims; a non-touching polygon trims from "
+                       "at best the pad edge, reaching %.3f um from the pad centre against the via's "
+                       "%.4f um half-width -- so at these three constants the trim cannot reach the via, "
+                       "with via_cover_margin_um to spare. The guard is the regression gate on that "
+                       "margin: it arms if the pad shrinks, the via grows, or M1.b widens."
+                       % (PAD_UM[0], M1B_SP_UM, VIA_UM[0], PAD_UM[0] / 2 - M1B_SP_UM, VIA_UM[0] / 2)),
+            "via_cover_margin_um": round(PAD_UM[0] / 2 - M1B_SP_UM - VIA_UM[0] / 2, 4),
+            "pads_total": len(added.get(8, [])),
+            "pads_trimmed": pads_trimmed,
+            "pads_trimmed_below_via": len(pads_below_via),
+            "below_via": pads_below_via,
+            "notch_fill_polygons": notch_fill,
+        },
     }
     if a.write:
         with open(PROV, "w") as f:
@@ -500,6 +543,8 @@ def main():
     route_summary = ", ".join(f"{k}: {v['length_um']} um" for k, v in routes.items())
     print(f"gen_integrated: routes {{{route_summary}}}; "
           f"collisions={collisions_total}; fill squares removed={fill_removed}")
+    print(f"gen_integrated: Metal1 pads {len(added.get(8, []))}, trimmed={pads_trimmed}, "
+          f"trimmed below Via1={len(pads_below_via)}; notch-fill polygons={notch_fill}")
 
 
 if __name__ == "__main__":

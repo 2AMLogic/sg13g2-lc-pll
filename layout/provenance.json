@@ -16,7 +16,7 @@
   },
   "gen_integrated": {
    "path": "layout/gen_integrated.py",
-   "sha256": "dcccdc1632039af6de18599e3014c3ce600d3e20d13ac1283053e29d0d2da383"
+   "sha256": "49e024265f00d0678c56aeb028ddee38985bf1b9f6af689b8a4130acd8be2216"
   },
   "gen_top": {
    "path": "layout/gen_top.py",
@@ -30,6 +30,15 @@
  },
  "item": "T1 item 2 (Layout)",
  "klayout_module": "0.30.13",
+ "metal1_pad_trim": {
+  "below_via": [],
+  "method": "each endpoint via-stack Metal1 pad (0.70 um) is trimmed back by the M1.b spacing 0.18 um from Metal1 polygons it does not touch, then tested for full coverage of its own concentric Via1 (0.19 um). Foreign Metal1 that touches the pad is the pad's own landing polygon, so it never trims; a non-touching polygon trims from at best the pad edge, reaching 0.170 um from the pad centre against the via's 0.0950 um half-width -- so at these three constants the trim cannot reach the via, with via_cover_margin_um to spare. The guard is the regression gate on that margin: it arms if the pad shrinks, the via grows, or M1.b widens.",
+  "notch_fill_polygons": 10,
+  "pads_total": 19,
+  "pads_trimmed": 1,
+  "pads_trimmed_below_via": 0,
+  "via_cover_margin_um": 0.075
+ },
  "not_routed": {
   "IREFCP": "external pin (charge-pump bias current)",
   "LOCK": "external pin (lock detector)",
