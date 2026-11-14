@@ -11,7 +11,7 @@ die() { echo "run-divider-elab: error: $*" >&2; exit 1; }
 source "${ROOT}/scripts/lib-pdk.sh"
 source "${ROOT}/scripts/lib-record.sh"
 "${ROOT}/design/netlist.sh" --check divider >/dev/null 2>&1 || die "design/netlist/divider.spice is stale (run design/netlist.sh)"
-REC_DIR="${RECORD_DIR:-${ROOT}/sim/divider-elab/records}"; mkdir -p "${REC_DIR}"
+rec_dir divider-elab
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 write_spiceinit "${WORK}"
 NET="${ROOT}/design/netlist/divider.spice"
@@ -21,7 +21,7 @@ for k in elab tran speed speedC speedA; do
   check_deck_placeholders "${WORK}/divider_${k}.spice"
 done
 record_stamp
-ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"; REC="${REC_DIR}/${ID}.md"
+REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
 RUNTIMES=""
 run_deck() {   # run_deck NAME DIE-MESSAGE: one local ngspice -b, sequential; appends the wall time to RUNTIMES

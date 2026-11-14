@@ -27,7 +27,7 @@ CP_NETLIST="${CP_NETLIST:-${ROOT}/design/netlist/cp.spice}"
 "${ROOT}/design/netlist.sh" --check cp >/dev/null 2>&1 || {
   [ "${CP_NETLIST}" != "${ROOT}/design/netlist/cp.spice" ] || die "design/netlist/cp.spice is stale against design/cp.sch (run design/netlist.sh)"
 }
-REC_DIR="${RECORD_DIR:-${ROOT}/sim/cp-dc/records}"; mkdir -p "${REC_DIR}"
+rec_dir cp-dc
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 
 sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" \
@@ -37,7 +37,6 @@ check_deck_placeholders "${WORK}/cp_dc.spice"
 write_spiceinit "${WORK}"
 
 record_stamp
-ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
 

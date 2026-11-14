@@ -31,7 +31,7 @@ if [ -n "${NOISE_INPUTS}" ]; then
   [ -f "${NOISE_INPUTS}" ] || die "${NOISE_INPUTS} not found"
   NI_ARGS=(--noise-inputs "${NOISE_INPUTS}")
 fi
-REC_DIR="${RECORD_DIR:-${ROOT}/sim/jitter/records}"; mkdir -p "${REC_DIR}"
+rec_dir jitter
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 set +e
 "${PY}" -I "${ROOT}/sim/loop-model/loop_model.py" --filter "${LOOP_FILTER}" ${NI_ARGS+"${NI_ARGS[@]}"} --out "${WORK}/lm.json" > "${WORK}/lm.txt" 2>&1
@@ -39,7 +39,6 @@ RC=$?
 set -e
 [ -s "${WORK}/lm.json" ] || { cat "${WORK}/lm.txt" >&2; die "the model produced no result"; }
 record_stamp sim scripts
-ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
 cp "${WORK}/lm.txt" "${REC_DIR}/${ID}-model.txt"
