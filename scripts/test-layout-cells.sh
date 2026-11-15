@@ -15,6 +15,80 @@ bad=0
 "${PY}" "${ROOT}/layout/gen_cells.py" --out "${T}/cells" --check || { echo "FAIL regenerate vs provenance"; bad=$((bad+1)); }
 [ "${bad}" = 0 ] && echo "PASS regenerated cells match layout/cells.provenance.json"
 
+# layout/gen_cells.py's digest() is billed as writer-independent, so each cell's digest must
+# survive a KLayout read->write->read of its stream -- a clip, a merge, a DRC-prep step. It did
+# not before #263: digest() hashed per-layer records in ly.layer_indexes() order, and a re-save
+# permutes that order, so the digest moved for a stream whose geometry was untouched. On `main`
+# before the fix this was live, not hypothetical: the check above mismatched four of the six
+# committed digests on a host whose klt writes the layers in a different order, while the cells'
+# geometry was identical. Each cell carries its own guards so the case cannot pass vacuously.
+"${PY}" -I - "${ROOT}" "${T}/cells" "${T}/rt" <<'RTEOF' || bad=$((bad+1))
+import hashlib, json, os, sys
+import klayout.db as db
+root, cells, rtdir = sys.argv[1:4]
+sys.path.insert(0, os.path.join(root, "layout"))
+import gen_cells as gc
+
+prov = json.load(open(os.path.join(root, "layout/cells.provenance.json")))
+os.makedirs(rtdir, exist_ok=True)
+fail = 0
+
+def enum_digest(gds, cell):
+    """digest() before #263: identical records, hashed in layer_indexes() enumeration order."""
+    ly = db.Layout(); ly.read(gds); c = ly.cell(cell)
+    h = hashlib.sha256()
+    for li in ly.layer_indexes():
+        info = ly.get_info(li)
+        r = db.Region(c.begin_shapes_rec(li)); r.merge()
+        polys = sorted(str(p) for p in r.each())
+        txt = sorted(f"{s.text_string}@{s.text_trans.disp.x},{s.text_trans.disp.y}"
+                     for s in (it.shape() for it in c.begin_shapes_rec(li)) if s.is_text())
+        if polys or txt:
+            h.update(f"{info.layer}/{info.datatype}|{';'.join(polys)}|{';'.join(txt)}\n".encode())
+    return h.hexdigest()
+
+def order(gds):
+    ly = db.Layout(); ly.read(gds)
+    return [(ly.get_info(i).layer, ly.get_info(i).datatype) for i in ly.layer_indexes()]
+
+def resave(gds, dst):
+    ly = db.Layout(); ly.read(gds); ly.write(dst)
+
+for rec in prov["cells"]:
+    if rec["status"] == "undrawn":
+        continue
+    name = rec["cell"]
+    gds = os.path.join(cells, name + ".gds")
+    rt = os.path.join(rtdir, name + ".rt.gds")
+    resave(gds, rt)
+    d, drt = gc.digest(gds, name), gc.digest(rt, name)
+    if order(rt) == order(gds):
+        # No permutation to survive on this klayout: say so rather than banking a vacuous PASS.
+        print(f"KNOWN-GAP {name}: the re-save did not permute the layer-index order, so this cell cannot discriminate the fix")
+    elif drt != d:
+        print(f"FAIL {name}: round-tripped digest {drt} != {d}"); fail += 1
+    elif enum_digest(rt, name) == enum_digest(gds, name):
+        print(f"FAIL NEG {name}: the pre-#263 enumeration-order digest survived the re-save too, so this cell cannot discriminate the fix"); fail += 1
+    else:
+        print(f"PASS {name}: digest survives a KLayout re-save that moves the pre-#263 one")
+    if d != rec["geometry_sha256"]:
+        print(f"FAIL {name}: digest {d} != recorded {rec['geometry_sha256']}"); fail += 1
+
+# Negative control: a real geometry change must still move the digest. The box is placed clear of
+# the cell's bounding box so a merge with existing geometry cannot absorb it.
+rec = next(r for r in prov["cells"] if r["status"] == "drawn")
+name = rec["cell"]
+ly = db.Layout(); ly.read(os.path.join(cells, name + ".gds"))
+b = ly.cell(name).bbox()
+ly.cell(name).shapes(ly.layer(8, 0)).insert(db.Box(b.right + 1000, b.top + 1000, b.right + 2000, b.top + 2000))
+ed = os.path.join(rtdir, name + ".edited.gds"); ly.write(ed)
+if gc.digest(ed, name) == rec["geometry_sha256"]:
+    print(f"FAIL NEG {name}: an inserted shape did not move the digest"); fail += 1
+else:
+    print(f"PASS NEG {name}: an inserted shape moves the digest")
+sys.exit(1 if fail else 0)
+RTEOF
+
 "${PY}" -I - "${ROOT}" "${T}/cells" "${T}/neg" <<'PYEOF' || bad=$((bad+1))
 import json, os, sys
 import klayout.db as db

@@ -31,7 +31,7 @@ PRESC_NETLIST="${PRESC_NETLIST:-${ROOT}/design/netlist/prescaler.spice}"
 if [ "${PRESC_NETLIST}" = "${ROOT}/design/netlist/prescaler.spice" ]; then
   "${ROOT}/design/netlist.sh" --check prescaler >/dev/null 2>&1 || die "design/netlist/prescaler.spice is stale against design/prescaler.sch (run design/netlist.sh)"
 fi
-REC_DIR="${RECORD_DIR:-${ROOT}/sim/prescaler-g1/records}"; mkdir -p "${REC_DIR}"
+rec_dir prescaler-g1
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 
 FIN=5.0e9; AMP=0.1; CBUDGET_FF=2.1; FBAND_TOP=5.5e9
@@ -45,7 +45,6 @@ check_deck_placeholders "${WORK}/prescaler_g1.spice"
 write_spiceinit "${WORK}"
 
 record_stamp
-ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
 

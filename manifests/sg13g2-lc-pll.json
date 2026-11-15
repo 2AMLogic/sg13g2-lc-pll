@@ -60,7 +60,7 @@
       },
       {
         "id": "5",
-        "gap": "row 5 (f_c, PM over the 18-sub-corner I_cp spread x Kvco range) is evidenced by a method-L record, sim/loop-model/records/20261103-021500-9ef9cf4-row5-envelope.md (PASS), which is not a `klt sim` envelope and so cannot be cited as item-5 evidence (klayout-tools#4859)"
+        "gap": "row 5 (f_c, PM over the 18-sub-corner I_cp spread x Kvco range) is evidenced by a method-L record, sim/loop-model/records/20261103-030519-221e27b-row5-envelope.md (PASS, the post-I_cp-move re-run; supersedes 20261103-021500-9ef9cf4), which cannot yet be cited as item-5 evidence: the klt pin (0.8.0) has no model-run evidence kind (first in klayout-tools v0.9.0), and the record still lacks the model-run envelope keys (kind/status/method/measurements) so it must be re-emitted in that shape before it can be cited; the pin cannot move here because a bump regenerates every attest envelope (items 1, 9, 10) and must move .github/workflows/signoff.yml in lockstep with the manifests/README.md pin"
       },
       {
         "id": "7",

@@ -89,6 +89,36 @@ Item 10's inventory pins `README.md`, `LICENSE` and *both workflow files*, so
 even a change to `signoff.yml` itself drifts it — re-stamp item 10 **after** your
 last edit to either workflow.
 
+### README.md and the Guide docs tick
+
+`README.md` is in item 10's `hygiene` inventory, so **any** PR that edits it
+re-stamps `manifests/repo-hygiene.attest.json` in the same PR — the rule in the
+paragraph above has no exception for it.
+
+The Guide's document-maintenance tick cannot do that re-stamp: its staging set
+is fixed at `WORK_LOG.md WORK_PLAN.md README.md` by its Loom-managed role prompt
+(`.loom/roles/guide.md:2369`, verified 2026-11-14 against `c8df23d`), and both
+copies of that prompt (`.loom/roles/guide.md`, `.claude/commands/loom/guide.md`)
+are listed in `.loom/install-metadata.json` and overwritten by
+`.loom/scripts/resync-installed.sh` at every resync (loom 0.19.1294,
+`last_resync` 2026-11-12). A local edit teaching the tick to re-stamp — or to
+stay out of `README.md` — would not survive it, so the fix belongs upstream:
+rjwalters/loom#13892 (filed 2026-11-14) tracks the generic staging-set /
+integrity-check conflict. **`README.md` is therefore not the Guide's to own in
+this repo.** README status corrections go through a normal issue → Builder PR,
+which re-stamps as a matter of course (#277 is the worked instance).
+
+When a Guide docs PR edits `README.md` anyway (PR #274, the only occurrence as
+of 2026-11-14): Doctor runs `scripts/restamp-attest.sh 10`, stages
+`manifests/repo-hygiene.attest.json`, and quotes the script's `[CARRIED]` /
+`[RAN]` lines in the PR. The carry rule permits the re-stamp: item 10's
+`local_only` `design/netlist.sh --check` reads none of the `hygiene` files, so
+drift confined to them is carried (see **The carry rule** below). The PR then
+falls off the docs-only fast path — the Judge's `docs_only_fast_path_check()`
+(`.loom/roles/judge.md:1683`, verified 2026-11-14) re-derives eligibility from
+the PR's own file list, so the added envelope is `NOT ELIGIBLE` and the PR takes
+a full review. That is the intended outcome, not a regression.
+
 ### Re-stamp
 
 ```console

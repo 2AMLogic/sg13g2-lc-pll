@@ -26,13 +26,12 @@ DRY=0; [ "${1:-}" = "--dry-run" ] && DRY=1
 source "${ROOT}/scripts/lib-pdk.sh"
 source "${ROOT}/scripts/lib-record.sh"
 "${ROOT}/scripts/fetch-pll.sh" >/dev/null || die "fetch/verify of the pinned sg13g2-pll files failed"
-REC_DIR="${RECORD_DIR:-${ROOT}/sim/lock-detector/records}"; mkdir -p "${REC_DIR}"
+rec_dir lock-detector
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 TOOL=(python3 -I "${ROOT}/scripts/ld_tool.py")
 TSTOP_PS="$("${TOOL[@]}" body "${WORK}/body.spice" "${WORK}/meas.txt" "${WORK}/meas.json")"
 
 record_stamp
-ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 PLL_PIN="$(jq -r '.imports[] | select(.from=="2AMLogic/sg13g2-pll") | .commit' "${ROOT}/reuse.lock.json")"
 LD_SHA="$(sha256sum "${ROOT}/.fetched/sg13g2-pll/design/netlist/lock_detector.spice" | cut -d' ' -f1)"
 PFD_SHA="$(sha256sum "${ROOT}/.fetched/sg13g2-pll/design/netlist/pfd.spice" | cut -d' ' -f1)"

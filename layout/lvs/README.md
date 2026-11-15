@@ -3,6 +3,10 @@
 **Status: item 4 stays `unmet`. No `klt lvs` envelope exists; both engines stop before a compare.**
 Tracker for the current tool gap: `2AMLogic/klayout-tools#5407` (earlier gap #5402 is fixed). Nothing here is a `match`.
 
+**DRC state changed after the runs below were written.** `layout/drc/top.drc.json` went
+`status: clean` in PR #248 (commit `28cbf88`, 2026-11-13); the dated run sections below keep their
+findings as history and say so in the past tense. Item 4 is unaffected and stays `unmet`.
+
 ## Inputs
 
 - `build_reference.py` -> `top.reference.spice`: `design/netlist/pll_top.spice` (item 1) plus a `vco`
@@ -31,8 +35,9 @@ no `device_census` or `coverage.declared_not_recognized` was produced. `power_co
 | `engine: klayout-runset`, PDK `sg13g2.lvs` as `deck_file`, no `form`, `lc_pll_top` vs `pll_top` | past the earlier errors: the compare runs, then `klt` raises `ValueError: invalid coverage: checked: work identity must be a nonempty string` in `_build_coverage` (`lvs_runset.py`) and writes no envelope. Filed as `2AMLogic/klayout-tools#5407`. |
 
 Still no `device_census`, no `coverage.declared_not_recognized`, no `power_connectivity` verdict, so
-`npn13G2v` recognition remains unobserved. Item 4 stays `unmet`; `layout/drc/top.drc.json` is still
-`violations`, so a `match` would not be expected even without the crash. The runset request used
+`npn13G2v` recognition remains unobserved. Item 4 stays `unmet`; `layout/drc/top.drc.json` was still
+`violations` at the time of this run, so a `match` would not have been expected even without the
+crash (DRC went `clean` later, in PR #248 — see the note at the top). The runset request used
 absolute paths in a scratch file (`/tmp`) and is not committed; a committed runset request is added
 once the tool produces an envelope.
 
@@ -40,8 +45,9 @@ once the tool produces an envelope.
 
 - No hand-written plain-element reference in the runset's dialect: that is a second, unreviewed
   netlist, and a `match` against it would not be evidence about the item-1 netlist.
-- Layout state is unchanged: `layout/drc/top.drc.json` is `violations` and routing is placement-level
-  (`gen_integrated.py`), so a `match` would not be expected even with the tool gap closed.
+- Routing is still placement-level (`gen_integrated.py`), so a `match` would not be expected even
+  with the tool gap closed. DRC is no longer part of that reason: `layout/drc/top.drc.json` is
+  `clean` as of PR #248, and this bullet now rests on the placement-level routing alone.
 - `manifests/sg13g2-lc-pll.signoff.json` is not touched.
 
 Re-run once `klayout-tools#5407` lands; then commit the envelope as `top.lvs.json` and check it with
@@ -75,6 +81,7 @@ Reading it:
   not that 674 devices are individually wrong. How the compare treats the VCO (flat vs black box):
   flat on the layout side, unexpanded on the reference side.
 - The ~1.1 MB envelope is committed as evidence of this state, not as a pass. Item 4 stays `unmet`;
-  `manifests/sg13g2-lc-pll.signoff.json` is not touched. `layout/drc/top.drc.json` is also still `violations`.
+  `manifests/sg13g2-lc-pll.signoff.json` is not touched. `layout/drc/top.drc.json` was also still
+  `violations` at the time of this run (it went `clean` later, in PR #248 — see the note at the top).
 - Needed next (not done here; a hand-flattened reference would be a second, unreviewed netlist):
   a runset-compatible path for a hierarchical subcircuit-call reference. Tracked upstream as `2AMLogic/klayout-tools#5406` (open).
