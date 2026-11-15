@@ -17,7 +17,7 @@ fi
 PDK_DIR="${PDK_ROOT}/ihp-sg13g2"
 MODELS="${PDK_DIR}/libs.tech/ngspice/models"
 while IFS=$'\t' read -r name want; do
-  got="$(sha256sum "${MODELS}/${name}" 2>/dev/null | cut -d' ' -f1)"
+  got="$(sha256sum "${MODELS}/${name}" 2>/dev/null | cut -d' ' -f1 || true)"
   [ "${got}" = "${want}" ] || die "${MODELS}/${name} is ${got:-missing}, pinned ${want}: not the pinned PDK (IHP-Open-PDK $(jq -r .pdk.release_tag "${PINS}"))"
 done < <(jq -r '.pdk.model_libs_sha256 | to_entries[] | [.key, .value] | @tsv' "${PINS}")
 # The three OSDI libraries the decks pre_osdi, pinned identically and skipped together. Why each
@@ -31,7 +31,7 @@ done < <(jq -r '.pdk.model_libs_sha256 | to_entries[] | [.key, .value] | @tsv' "
 if [ "${PDK_SKIP_OSDI_PINS:-0}" != 1 ]; then
   while IFS=$'\t' read -r key var; do
     osdi="${PDK_DIR}/$(jq -r ".${key}.osdi" "${PINS}")"
-    got="$(sha256sum "${osdi}" 2>/dev/null | cut -d' ' -f1)"
+    got="$(sha256sum "${osdi}" 2>/dev/null | cut -d' ' -f1 || true)"
     [ "${got}" = "$(jq -r ".${key}.osdi_sha256" "${PINS}")" ] || die "${osdi} is ${got:-missing}, not the pinned ${key}.osdi"
     declare -g "${var}=${osdi}"
   done < <(printf '%s\t%s\n' psp103 OSDI_PSP psp103_nqs OSDI_PSP_NQS r3_cmc OSDI_R3)

@@ -4,6 +4,8 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-15
 
+- **Issue #291** (closed): Remove six never-read names in project Python: an uncalled nested helper, two silently-ignored parameters, three dead constants
+- **PR #306**: Remove born-dead names: uncalled nested ext(), ignored params, dead constants
 - **Issue #282** (closed): test-layout-vco.sh/-top.sh: five bare-refuse negative controls pass when their fixture generation silently fails
 - **PR #305**: test: make layout negative controls discriminating and guard their fixture generation
 - **Issue #273** (closed): run-jitter.sh: a NOISE_INPUTS file supplying no in-band term still promises a listing the record does not contain
