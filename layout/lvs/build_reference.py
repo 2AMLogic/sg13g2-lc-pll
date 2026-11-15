@@ -10,8 +10,6 @@ Port order matches the `XVCO VCTRL VOP VON VDDV VSS vco` call in pll_top.
     python3 layout/lvs/build_reference.py            # writes layout/lvs/top.reference.spice
 """
 import os
-import re
-import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 VCO = os.path.join(ROOT, ".fetched", "sg13g2-vco", "design", "vco.spice")
@@ -21,14 +19,7 @@ OUT = os.path.join(ROOT, "layout", "lvs", "top.reference.spice")
 lines = open(VCO).read().splitlines()
 start = next(i for i, l in enumerate(lines) if l.startswith("XL1 "))
 end = next(i for i, l in enumerate(lines) if l.startswith("RRE "))
-dev = []
-for l in lines[start:end + 1]:
-    toks = l.split()
-    # node tokens only: strip params (contain '=') and the model name (last non-param token)
-    out = []
-    for t in toks:
-        out.append("VSS" if t == "0" else t)
-    dev.append(" ".join(out))
+dev = [" ".join("VSS" if t == "0" else t for t in l.split()) for l in lines[start:end + 1]]
 body = ["* sg13g2-vco@17e49a8 design/vco.spice device cards, node 0 -> VSS (see build_reference.py)",
         ".subckt vco VCTRL OUTP OUTN VDD VSS"] + dev + [".ends", ""]
 top = open(TOP).read()

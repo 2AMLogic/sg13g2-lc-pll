@@ -26,7 +26,7 @@ PFD_NETLIST="${PFD_ADOPTED}"
 PFD_VARIANT="${PFD_VARIANT:-adopted}"
 CP_NETLIST="${CP_NETLIST:-${ROOT}/design/netlist/cp.spice}"
 "${ROOT}/design/netlist.sh" --check >/dev/null 2>&1 || die "design/netlist/cp.spice is stale against design/cp.sch (run design/netlist.sh)"
-REC_DIR="${RECORD_DIR:-${ROOT}/sim/pfd/records}"; mkdir -p "${REC_DIR}"
+rec_dir pfd
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 case "${PFD_VARIANT}" in
   adopted) ;;
@@ -63,7 +63,6 @@ check_deck_placeholders "${WORK}/pfd_sweep.spice"
 write_spiceinit "${WORK}"
 
 record_stamp
-ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
 
