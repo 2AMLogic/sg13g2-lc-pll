@@ -3,7 +3,7 @@
 An integer-N LC PLL on IHP SG13G2 that closes a loop around the pinned `sg13g2-vco`; this file says
 where the block stands against its ratified targets and the T1 checklist, and what comes next.
 
-**Status as of 2026-11-13, `main` @ `22168ca`.** Every number below is simulated, never measured.
+**Status as of 2026-11-15, `main` @ `6b73625`.** Every number below is simulated, never measured.
 `WORK_PLAN.md` is the label-state queue and `WORK_LOG.md` the merge history; this file is the plan
 they do not carry. The verdict of record is `manifests/sg13g2-lc-pll.signoff.json`.
 
@@ -53,7 +53,8 @@ PRs #269 (#260), #270 (#263), #271 (#268), #265 (#261) are in review; #262 (DR-0
 
 ## Now
 
-Unblocked, one PR each, none needs the PDK. None has an issue yet; drafts exist for the first four.
+Unblocked, one PR each, none needs the PDK. Item 1 is held at #277 (`loom:operator`); item 4 is #303,
+with its pin-bump companion #304 in Next below; items 2, 3 and 5 have no issue yet (as of 2026-11-15).
 
 1. **Bring `README.md` status in line with the verdict of record.** The README still says "Nothing is
    designed or simulated yet" and places the block at "spec ratified". Done when the status line and
@@ -66,11 +67,12 @@ Unblocked, one PR each, none needs the PDK. None has an issue yet; drafts exist 
 3. **Record the delta between the VCO pin and `sg13g2-vco` main.** Done when a dated record lists, per
    file in `reuse.lock.json`, whether its sha256 differs at upstream `main`, whether the VCTRL top-metal
    pin of `sg13g2-vco#314` is present, and which records and attestations here a pin bump would invalidate.
-4. **Settle the row 5 item-5 citation.** `manifests/sg13g2-lc-pll.json` declares row 5 a gap because the
-   method-L record still cannot be cited: the pinned `klt` 0.8.0 lacks the `model-run` evidence kind
-   (first accepted in v0.9.0), and the record itself still needs re-emission in the `model-run` shape.
-   The gap text names both and why the pin cannot move yet. Done when the pin moves and the re-emitted
-   record is cited and the verdict is regenerated.
+4. **Re-emit the row-5 method-L envelope record in the `klt` `model-run` shape** (#303). Row 5's gap
+   names two conditions: the pinned `klt` 0.8.0 lacks the `model-run` evidence kind (first accepted in
+   v0.9.0), and `sim/loop-model/records/20261103-030519-221e27b-row5-envelope.json` is not in that
+   shape. This item is the second only — the re-emission is pure Python, no PDK and no simulator.
+   Done when the record exists in the `model-run` shape with a limits-bearing measurement and a test
+   covers it. The pin bump that lets the verdict cite it is Next (#304).
 5. **Route the supply nets in `gen_integrated.py`** (VDD, VDDV, VSS; `layout/README.md` lists them as not
    routed). Done when the nets are routed, `scripts/test-layout-top.sh` passes and DRC is re-run and
    still `clean`. Needs a PDK host and a re-stamp of items 2 and 3, so it wants a Curator pass to size it.
@@ -84,6 +86,11 @@ Unblocked, one PR each, none needs the PDK. None has an issue yet; drafts exist 
   `run-jitter.sh` runs with all three in-band terms supplied and reports no missing term.
 - **G6 transient-noise cost record** (#88, PR #93): after #149.
 - **Real item-9 cold start enforced in CI** (#242) and the inventory clause (#237): after #149.
+- **`klt` pin bump** (#304): after Now 4, and gated on a decision about item 2's off-pin envelope —
+  `manifests/layout.attest.json` already sits at `0.9.2.dev887`, refreshing it needs
+  `klt signoff --attest 2 --input layout/top.gds`, which `scripts/restamp-attest.sh` does not cover
+  (items 1, 9, 10 only), so this step may need a PDK host. Done when the pinned release accepts
+  `model-run` and the regenerated verdict cites the re-emitted Now-4 record.
 - **VCO pin bump**: after Now 3, if the delta shows a usable change. Done when `reuse.lock.json` moves,
   `scripts/run-vco-smoke.sh` writes a new record, and the keep-out record in `layout/README.md` is re-run.
 - **LVS match** (#37): needs `klayout-tools#5406` (open) for a hierarchical subcircuit-call reference,
@@ -115,8 +122,9 @@ Unblocked, one PR each, none needs the PDK. None has an issue yet; drafts exist 
 - **Tracker hygiene:** the checklist in #5 still reads as of 2026-10-17 with every box open; the
   record in `manifests/` supersedes it.
 
-The tracker has no ready, unclaimed issue today: every open issue is in progress, blocked, held for
-a decision, or an unapproved proposal (#272, #143, #146). The Now list above is the available work.
+Ready, unclaimed issues today: #303 (Now item 4 above), #308 and #297. Every other open issue is in
+progress, blocked, held for a decision, or awaiting review (#143 and #146 are held Hermit proposals;
+#304 awaits its Curator pass). The Now list above is the available work.
 
 ## Not planned
 
