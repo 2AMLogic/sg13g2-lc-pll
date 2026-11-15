@@ -33,7 +33,9 @@ import sys
 
 import klayout.db as db
 
-from cells import common
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+from cells import common  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
