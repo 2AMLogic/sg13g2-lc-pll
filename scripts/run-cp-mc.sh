@@ -22,7 +22,7 @@ source "${ROOT}/scripts/lib-record.sh"
 export PDK_ROOT
 DRY=0; [ "${1:-}" = "--dry-run" ] && DRY=1
 N="${CP_MC_N:-200}"; NC="${CP_MC_N_CONTROL:-20}"; SEED="${CP_MC_SEED:-20261103}"
-REC_DIR="${RECORD_DIR:-${ROOT}/sim/cp-mc/records}"; mkdir -p "${REC_DIR}"
+rec_dir cp-mc
 YPY="${YIELD_PY:-${ROOT}/.venv/bin/python}"
 "${ROOT}/design/netlist.sh" --check cp >/dev/null 2>&1 || die "design/netlist/cp.spice is stale against design/cp.sch (run design/netlist.sh)"
 if [ -n "${CP_MC_WORK:-}" ]; then WORK="${CP_MC_WORK}"; mkdir -p "${WORK}"; else WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT; fi
@@ -40,7 +40,6 @@ for d in nom neg; do klt sim "${WORK}/${d}/request.json" --dry-run --format json
 KLTY="$(dirname "${YPY}")/klt"
 
 record_stamp
-ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"; [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
 
 # klt sim exits 3 when any sample fails a limit (expected, informative); 4+ and 1 are real errors.

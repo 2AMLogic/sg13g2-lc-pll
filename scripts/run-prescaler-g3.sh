@@ -26,7 +26,7 @@ MOS_NETLIST="${MOS_NETLIST:-${ROOT}/design/netlist/mos_latch.spice}"
 if [ "${PRESC_NETLIST}" = "${ROOT}/design/netlist/prescaler.spice" ] && [ "${MOS_NETLIST}" = "${ROOT}/design/netlist/mos_latch.spice" ]; then
   "${ROOT}/design/netlist.sh" --check prescaler mos_latch >/dev/null 2>&1 || die "design/netlist/{prescaler,mos_latch}.spice is stale against its schematic (run design/netlist.sh)"
 fi
-REC_DIR="${RECORD_DIR:-${ROOT}/sim/prescaler-g3/records}"; mkdir -p "${REC_DIR}"
+rec_dir prescaler-g3
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 
 AMP=0.1; CCM=2.3; CAMP=0.15
@@ -52,7 +52,6 @@ render g3_chain.spice.tmpl chain.spice -e "s|@@FIN@@|5e9|g" -e "s|@@FLIST@@|${CH
 render g3_pairs.spice.tmpl pairs.spice -e "s|@@FLIST@@|${PAIR_FLIST}|g" -e "s|@@TRAN_STOP@@|${PAIR_STOP}|g"
 
 record_stamp
-ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
 [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
 
