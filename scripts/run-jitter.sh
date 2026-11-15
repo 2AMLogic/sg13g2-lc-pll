@@ -52,7 +52,9 @@ if [ -n "${NOISE_INPUTS}" ]; then
   NI_FILTER='.method.inputs | to_entries | map(select(.value | has("ssb_dbc_per_hz")))'
   NI_NTERMS="$(jq -r "${NI_FILTER} | length" "${WORK}/lm.json")"
   NI_LINES="$(jq -r "${NI_FILTER}"' | .[] | "  - `\(.key)`: \(.value.value); source: \(.value.source)"' "${WORK}/lm.json")"
-  NI_DESC="in-band noise inputs \`${NOISE_INPUTS#"${ROOT}/"}\` sha256 \`$(sha256sum "${NOISE_INPUTS}" | cut -d' ' -f1)\`, copied next to this record as [\`${ID}-noise-inputs.json\`](${ID}-noise-inputs.json) (supplying ${NI_NTERMS} of the 3 in-band terms, each listed with its source below)"
+  NI_PAREN="(supplying none of the 3 in-band terms)"
+  [ "${NI_NTERMS}" = 0 ] || NI_PAREN="(supplying ${NI_NTERMS} of the 3 in-band terms, each listed with its source below)"
+  NI_DESC="in-band noise inputs \`${NOISE_INPUTS#"${ROOT}/"}\` sha256 \`$(sha256sum "${NOISE_INPUTS}" | cut -d' ' -f1)\`, copied next to this record as [\`${ID}-noise-inputs.json\`](${ID}-noise-inputs.json) ${NI_PAREN}"
 else
   NI_DESC="in-band noise inputs: **no file supplied** (\`NOISE_INPUTS\` unset)"
 fi

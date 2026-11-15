@@ -12,6 +12,11 @@
 #   term must still read as missing. This is the check that fails if a source is dropped from the record.
 # Case 3 (in-band inputs stated, all three): the full-coverage branch must carry all three sources and must
 #   not point at a "method block above" that the record does not contain.
+# Case 4 (zero in-band terms): a NOISE_INPUTS file that parses but supplies no in-band term (the empty
+#   object {}) must produce a record that still states the file's path, sha256 and copied link but makes no
+#   promise of a listing below, and still names all three in-band terms as missing. Checks are ordered so a
+#   failed run cannot be scored as a pass: exit status, then record and copy existence, then positive
+#   checks, and the refute last.
 set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 T="$(mktemp -d)"; trap 'rm -rf "${T}"' EXIT
@@ -89,4 +94,25 @@ if [ "${fails}" = 0 ]; then
   echo "PASS: a full NOISE_INPUTS record states all three sources and points only at what it contains"
 else
   echo "FAIL: ${fails} check(s) failed in case 3; record was:"; cat "${REC_UT}"; exit 1
+fi
+
+# Case 4: a NOISE_INPUTS that parses but supplies zero in-band terms: the record must state the file's
+# provenance without promising a listing that does not exist, and must still name all three in-band terms
+# as missing.
+printf '%s' '{}' > "${T}/ni-empty.json"
+NOISE_INPUTS="${T}/ni-empty.json" RECORD_DIR="${T}/rec4" "${ROOT}/scripts/run-jitter.sh" >"${T}/log4" 2>&1; rc=$?
+[ "${rc}" = 0 ] || { echo "FAIL: bench did not run with an empty-object NOISE_INPUTS (rc=${rc})"; cat "${T}/log4"; exit 1; }
+REC_UT="$(ls "${T}"/rec4/*.md | head -1)"
+[ -s "${REC_UT}" ] || { echo "FAIL: no record file written in rec4"; ls "${T}"/rec4 2>/dev/null; cat "${T}/log4"; exit 1; }
+ID4="$(basename "${REC_UT}" .md)"
+copy_check "${T}/ni-empty.json" "${T}/rec4/${ID4}-noise-inputs.json"
+check "the zero-term wording, with no dangling pointer" 'supplying none of the 3 in-band terms'
+check "the sha256 of the inputs file" "$(sha256sum "${T}/ni-empty.json" | cut -d' ' -f1)"
+check "a link to the copied inputs file" "(${ID4}-noise-inputs.json)"
+check "all three in-band terms named as missing" 'no input supplied: reference_x_N2, pfd_cp_x_N2, divider_prescaler'
+refute "the dangling promise of a listing below" 'each listed with its source below'
+if [ "${fails}" = 0 ]; then
+  echo "PASS: a zero-term NOISE_INPUTS record states its provenance without promising a listing that is not there"
+else
+  echo "FAIL: ${fails} check(s) failed in case 4; record was:"; cat "${REC_UT}"; exit 1
 fi
