@@ -9,9 +9,7 @@ record.
 
 - **`sg13g2-lc-pll.json`**: the block manifest. `block: sg13g2-lc-pll`,
   `kind: analog` (an integer-N LC PLL with no mixed-signal partition decided
-  today; if that changes, `kind` may change with it). `evidence` cites items 1, 3 (the `klt drc` report `layout/drc/top.drc.json`, graded `met`: `status: clean`, clean for the layers the curated deck covers, #36), 9 and 10
-  (`manifests/design-sources.attest.json`, `manifests/testbenches.attest.json`,
-  `manifests/repo-hygiene.attest.json`) and item 6 (the `klt yield` report of the
+  today; if that changes, `kind` may change with it). `evidence` cites items 1, 2, 9 and 10 (the four `klt signoff --attest` envelopes `manifests/design-sources.attest.json`, `manifests/layout.attest.json`, `manifests/testbenches.attest.json`, `manifests/repo-hygiene.attest.json`), item 3 (the `klt drc` report `layout/drc/top.drc.json`, graded `met`: `status: clean`, clean for the layers the curated deck covers, #36) and item 6 (the `klt yield` report of the
   charge-pump Monte Carlo, `sim/cp-mc/records/`, graded `unmet` / `check_failed`:
   the campaign fails the row-7 mismatch target; `spec_rows."6"` declares the two
   rows' unevidenceable parts as gaps); every other T1 item is `unmet` /
@@ -56,7 +54,7 @@ valid and anything else as a failure, then byte-compares the fresh output
 against the committed record.
 
 That compare is **not** enough on its own, which is why the same job also
-re-checks each attest envelope (next section). The manifest cites items 1, 9
+re-checks each inventory-backed attest envelope (next section). The manifest cites items 1, 9
 and 10 by their *inventory's* sha256, so editing an inventoried **file** moves
 nothing the manifest or the record can notice: the envelope's own per-file
 hashes rot in silence. All three envelopes were stale on `main` when the
@@ -71,23 +69,42 @@ run on `push` to `main` and not only on pull requests.
 for covered layers, see [`layout/README.md`](../layout/README.md) for the coverage the verdict
 excludes — item 9 testbenches, item 10 repo hygiene).
 
-## Attest envelopes (T1 items 1, 9 and 10)
+## Attest envelopes (T1 items 1, 2, 9 and 10)
 
-Three T1 items are evidenced by a `klt signoff --attest` envelope: an inventory
-lists the files and the checks, and the tool-produced envelope pins a sha256 per
-file plus each check's outcome. The manifest cites each envelope by its
-*inventory's* sha256.
+Four T1 items are evidenced by a `klt signoff --attest` envelope, and all four
+envelopes are tool-produced. Items 1, 9 and 10 are inventory-backed: an
+inventory lists the files and the checks, and the envelope pins a sha256 per
+file plus each check's outcome; the manifest cites each of those envelopes by
+its *inventory's* sha256. Item 2 has no inventory — its envelope is produced
+from the layout stream (`--attest 2 --input layout/top.gds`, klt >= 0.9.x) and
+pins the stream's own sha256, which is what the manifest cites.
 
 | Item | Inventory | Envelope | `local_only` check |
 |---|---|---|---|
 | 1 Design sources | `design-sources.inventory.json` | `design-sources.attest.json` | six `design/netlist.sh --check <cell>` freshness runs (klt + the PDK) |
+| 2 Layout | — (no inventory; produced from `--input layout/top.gds`, cited by the GDS's own sha256) | `layout.attest.json` | none — its three checks (`stream_readable`, `top_cell_non_empty`, `dbu_on_grid`) are evaluated at attest time from the stream |
 | 9 Testbenches | `../sim/testbench-inventory.json` | `testbenches.attest.json` | cold start `bash scripts/run-benches.sh` (PDK + ngspice, 7200 s) |
 | 10 Repo hygiene | `repo-hygiene.inventory.json` | `repo-hygiene.attest.json` | `design/netlist.sh --check` (xschem); `harness-tests` is **not** `local_only` and really runs |
 
 **Editing an inventoried file means re-stamping its envelope in the same PR.**
 Item 10's inventory pins `README.md`, `LICENSE` and *both workflow files*, so
 even a change to `signoff.yml` itself drifts it — re-stamp item 10 **after** your
-last edit to either workflow.
+last edit to either workflow. Item 2 has no inventoried files — its envelope
+pins `layout/top.gds` itself, so it only goes stale when that GDS changes.
+
+### Item 2 is off-pin
+
+The pinned `klayout-tools==0.8.0` can neither produce nor re-check item 2's
+envelope: its `--attest` covers items 1, 9 and 10, from `--inventory` only —
+`--attest 2 --input` first ships in 0.9.x. The committed envelope was produced
+out-of-band by a 0.9.2 dev build (`provenance.klt_version` records
+`0.9.2.dev887+gec7400b7d8e5`). Refreshing it needs `layout/top.gds` and
+**KLayout** — explicitly not the PDK: `provenance.pdk` is `null`, and the three
+checks (`stream_readable`, `top_cell_non_empty`, `dbu_on_grid`) read the stream
+alone. `scripts/restamp-attest.sh` refuses item 2 by design, and
+`signoff.yml`'s per-envelope `--check` steps cover items 1, 10 and 9 only:
+item 2's envelope is guarded locally by `scripts/test-layout-top.sh`, which no
+workflow runs.
 
 ### README.md and the Guide docs tick
 
@@ -128,7 +145,9 @@ scripts/restamp-attest.sh 10     # manifests/repo-hygiene.attest.json
 ```
 
 That script is the single re-stamp entry point — the one the CI failure message
-names. It runs the pinned `klayout-tools==0.8.0` through `uvx` (never the host
+names. It covers the inventory-backed envelopes only — items 1, 9 and 10 — and
+refuses item 2 (see **Item 2 is off-pin** above). It runs the pinned
+`klayout-tools==0.8.0` through `uvx` (never the host
 `klt`, which is a different version), prints a `[CARRIED]` line for every
 outcome carried and a `[RAN]` line for every command actually run, writes
 nothing unless the resulting envelope is `status: pass`, and then verifies the
