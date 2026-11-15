@@ -30,7 +30,6 @@ from . import netlist
 from .netlist import PlanError, read_subckts  # noqa: F401  (re-exported)
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-NETLIST_DIR = os.path.join(ROOT, "design", "netlist")
 
 PDK = "ihp-sg13g2"
 MOS_MODELS = {"sg13_hv_nmos": "nfet", "sg13_hv_pmos": "pfet"}
@@ -193,7 +192,7 @@ def klt_cmd():
     return os.environ.get("KLT_CMD", "klt").split()
 
 
-def klt(args, cwd, pdk_root=None):
+def klt(args, cwd):
     a = list(args)
     p = subprocess.run(klt_cmd() + a, capture_output=True, text=True, cwd=cwd)
     raw = p.stdout.strip() or p.stderr.strip()
