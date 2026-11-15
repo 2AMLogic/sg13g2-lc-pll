@@ -1837,7 +1837,7 @@
  "provenance": {
   "input": {
    "path": "sim/cp-dc/records/20261103-030519-221e27b-icp-corners-klt-report.json.gz",
-   "sha256": "e001d0b1fa13fc0d40cab7f4a9f7e433009efb029b2d389090eff1999cdb6943"
+   "content_hash": "sha256:e001d0b1fa13fc0d40cab7f4a9f7e433009efb029b2d389090eff1999cdb6943"
   }
  },
  "verdict": "PASS",

@@ -3,13 +3,13 @@
 An integer-N LC PLL on IHP SG13G2 that closes a loop around the pinned `sg13g2-vco`; this file says
 where the block stands against its ratified targets and the T1 checklist, and what comes next.
 
-**Status as of 2026-11-15, `main` @ `6b73625`.** Every number below is simulated, never measured.
+**Status as of 2026-11-15, `main` @ `9083335`.** Every number below is simulated, never measured.
 `WORK_PLAN.md` is the label-state queue and `WORK_LOG.md` the merge history; this file is the plan
 they do not carry. The verdict of record is `manifests/sg13g2-lc-pll.signoff.json`.
 
 ## Where it stands
 
-**Not-T1: 5 of 11 T1 items met** (`klt signoff`, `klayout-tools==0.8.0`).
+**Not-T1: 4 of 11 T1 items met** (`klt signoff`, `klayout-tools==0.9.1`).
 
 | T1 item | Status | Evidence / what is missing |
 |---|---|---|
@@ -17,11 +17,11 @@ they do not carry. The verdict of record is `manifests/sg13g2-lc-pll.signoff.jso
 | 2 Layout | met | `layout/top.gds`, `manifests/layout.attest.json` (placement-level routing, supplies not routed) |
 | 3 DRC clean | met | `layout/drc/top.drc.json`, clean for the layers the deck covers (PR #248) |
 | 4 LVS clean | unmet | first envelope is `mismatch` (`layout/lvs/top.lvs.json`): the hierarchical reference does not pair with the flat extraction; #37 |
-| 5 Corner verification | unmet | row 6 stage 1 passes, stage 2 fails; rows 1, 5, 7, 8, 9, 10, 11 are declared gaps; #39, #86 |
+| 5 Corner verification | unmet | row 6 stage 1 passes, stage 2 fails; rows 1, 7, 8, 9, 10, 11 are declared gaps; the method-L row-5 envelope is cited (`sim/loop-model/records/`, `model-run`); #39, #86 |
 | 6 Monte Carlo | unmet | charge-pump campaign fails the row 7 mismatch target (`sim/cp-mc/records/`); #82 |
 | 7 Post-layout | unmet | no `klt pex` run; #41 |
 | 8 Characterization | unmet | `measurements/characterization.md` is a skeleton, 0 of 14 rows over the C-grid; #48 |
-| 9 Testbenches | met | `manifests/testbenches.attest.json`; the cold start was carried, not re-run (#149, #242) |
+| 9 Testbenches | unmet | `stale_evidence` at the 0.9.1 pin: inventoried bench files drifted after the committed cold start; 0.8.0 could not see member-level drift. Real cold start waits on #242 (#149) |
 | 10 Repo hygiene | met | `manifests/repo-hygiene.attest.json` |
 | 11 Power delivery | unmet | no `klt erc` supply spec; #38 |
 
@@ -53,8 +53,9 @@ PRs #269 (#260), #270 (#263), #271 (#268), #265 (#261) are in review; #262 (DR-0
 
 ## Now
 
-Unblocked, one PR each, none needs the PDK. Item 1 is held at #277 (`loom:operator`); item 4 is #303,
-with its pin-bump companion #304 in Next below; items 2, 3 and 5 have no issue yet (as of 2026-11-15).
+Unblocked, one PR each, none needs the PDK. Item 1 is held at #277 (`loom:operator`); item 4 is #303
+(merged as PR #312), with its pin-bump companion #304 in review; items 2, 3 and 5 have no issue yet
+(as of 2026-11-15).
 
 1. **Bring `README.md` status in line with the verdict of record.** The README still says "Nothing is
    designed or simulated yet" and places the block at "spec ratified". Done when the status line and
@@ -72,7 +73,7 @@ with its pin-bump companion #304 in Next below; items 2, 3 and 5 have no issue y
    v0.9.0), and `sim/loop-model/records/20261103-030519-221e27b-row5-envelope.json` is not in that
    shape. This item is the second only — the re-emission is pure Python, no PDK and no simulator.
    Done when the record exists in the `model-run` shape with a limits-bearing measurement and a test
-   covers it. The pin bump that lets the verdict cite it is Next (#304).
+   covers it. The pin bump that lets the verdict cite it is in review (#304).
 5. **Route the supply nets in `gen_integrated.py`** (VDD, VDDV, VSS; `layout/README.md` lists them as not
    routed). Done when the nets are routed, `scripts/test-layout-top.sh` passes and DRC is re-run and
    still `clean`. Needs a PDK host and a re-stamp of items 2 and 3, so it wants a Curator pass to size it.
@@ -86,11 +87,6 @@ with its pin-bump companion #304 in Next below; items 2, 3 and 5 have no issue y
   `run-jitter.sh` runs with all three in-band terms supplied and reports no missing term.
 - **G6 transient-noise cost record** (#88, PR #93): after #149.
 - **Real item-9 cold start enforced in CI** (#242) and the inventory clause (#237): after #149.
-- **`klt` pin bump** (#304): after Now 4, and gated on a decision about item 2's off-pin envelope —
-  `manifests/layout.attest.json` already sits at `0.9.2.dev887`, refreshing it needs
-  `klt signoff --attest 2 --input layout/top.gds`, which `scripts/restamp-attest.sh` does not cover
-  (items 1, 9, 10 only), so this step may need a PDK host. Done when the pinned release accepts
-  `model-run` and the regenerated verdict cites the re-emitted Now-4 record.
 - **VCO pin bump**: after Now 3, if the delta shows a usable change. Done when `reuse.lock.json` moves,
   `scripts/run-vco-smoke.sh` writes a new record, and the keep-out record in `layout/README.md` is re-run.
 - **LVS match** (#37): needs `klayout-tools#5406` (open) for a hierarchical subcircuit-call reference,
@@ -123,8 +119,8 @@ with its pin-bump companion #304 in Next below; items 2, 3 and 5 have no issue y
   record in `manifests/` supersedes it.
 
 Ready, unclaimed issues today: #303 (Now item 4 above), #308 and #297. Every other open issue is in
-progress, blocked, held for a decision, or awaiting review (#143 and #146 are held Hermit proposals;
-#304 awaits its Curator pass). The Now list above is the available work.
+progress, blocked, held for a decision, or awaiting review (#143 and #146 are held Hermit proposals).
+The Now list above is the available work.
 
 ## Not planned
 

@@ -166,8 +166,11 @@ foreign geometry on its layer. Not routed: VDD, VDDV, VSS, REF, IREFCP, LOCK, di
   is recorded in `below_via` (with position and uncovered area), never dropped -- dropping it would change geometry to
   hide an open that DRC (#36) and LVS (#37) must see.
 - Placeholder fill under routes is removed (5 squares); density sign-off is #36.
-- CI pin: `.github/workflows/signoff.yml` stays at `klayout-tools==0.8.0`, which grades item 2 `met` from the attest envelope.
-  Moving the pin to 0.9.1 grades item 1 `stale_evidence` (3 met -> 1), so the bump is left out.
+- CI pin: `.github/workflows/signoff.yml` moved to `klayout-tools==0.9.1` (#304, 2026-11-15), which still
+  grades item 2 `met` from the attest envelope (measured at both pins). The earlier reason for holding
+  the bump here — "moving the pin to 0.9.1 grades item 1 `stale_evidence` (3 met -> 1)" — did not
+  reproduce at the released 0.9.1: item 1 grades `met` and item 9 is the only status mover (measured,
+  #304 curation).
 
 ## DRC of the integrated top (#36, T1 item 3) — item 3 `met`, clean for covered layers
 
@@ -228,9 +231,10 @@ the 39 rule-free layers are outside what either engine measured.
 `klayout-tools` carries the `SVaricap` carve-out yet (latest is `0.9.1`, 2026-11-05; the fix merged
 2026-11-13), so the report's `provenance.deck.released` is `false` and the reproduction spec is the
 `provenance.klt_reinstall_spec` git pin, as it was for the earlier dev-build runs. The signoff
-**grader** pin is untouched: `.github/workflows/signoff.yml` stays at `klayout-tools==0.8.0`, which
-grades this report item 3 `met` and reproduces the committed record byte-for-byte (the 0.9.1 bump
-is still out for the reason recorded above — it grades item 1 `stale_evidence`).
+**grader** pin graded this report as committed: `klayout-tools==0.8.0` at the time, item 3 `met` and the
+committed record byte-reproducing (the 0.9.1 bump was held back for the reason recorded above, which
+did not reproduce at the released 0.9.1). The pin has since moved to `klayout-tools==0.9.1` (#304,
+2026-11-15); item 3 still grades `met` there.
 
 **One manifest correction came with this.** `manifests/sg13g2-lc-pll.json`'s item 3
 `content_hash` pinned the **report file's** sha256; `klt signoff` compares that pin against the
@@ -262,7 +266,7 @@ the reports. The LVS counterpart is [`layout/lvs/README.md`](lvs/README.md).
   (73.16 / 52.66 fF, not extracted, against 2.1 fF) is unchanged and still not within budget. PEX stays #41.
 - Pins re-stamped to the new stream: `manifests/layout.attest.json` (`klt signoff --attest 2`), `layout/drc/top.drc.json`
   (re-run, 783 violations, see the DRC section), `manifests/sg13g2-lc-pll.json` and the signoff record
-  (`klayout-tools==0.8.0`, as CI). The integrated-top DRC/LVS closure itself stays #36/#37.
+  (`klayout-tools==0.8.0`, as CI was then). The integrated-top DRC/LVS closure itself stays #36/#37.
 - Standalone `lcpll_prescaler` (`klt drc`, curated `sg13g2`, `lcpll_prescaler.gds` sha256 `c3f83edc…`): **0 violations**, 19 rules
   checked (Activ/Cont/GatPoly/pSD/Metal1-2/Via1), 43 skipped because their layers (Metal3-5 etc.) are not in the cell; this is clean for
   the checked layers only. It disagrees with the integrated top, which reports ~576 violations under `lcpll_prescaler` (mostly HBT
