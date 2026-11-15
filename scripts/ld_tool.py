@@ -177,7 +177,7 @@ def interp_root(xs, ys, y0):
     return None
 
 
-def analyze_one(m, vsup):
+def analyze_one(m):
     """m: {name: value}. Returns a dict of derived numbers (None where not derivable)."""
     r = {}
     r["I"] = {}                                     # (vi, pj) -> uA
@@ -241,7 +241,7 @@ def fmt(x, f="%.3f", none="n/a"):
 
 def cmd_analyze(a):
     m = json.load(open(a.values))
-    r = analyze_one(m, a.vsup)
+    r = analyze_one(m)
     out = []
     P = out.append
     P(f"- Held-VWIN grid (V): {', '.join('%g' % v for v in VH)}; phase-error grid (ps): {', '.join(str(p) for p in PHI_PS)}")
@@ -276,7 +276,7 @@ def cmd_summary(a):
     for c in rep["corners"]:
         m = {x["name"]: x["value"] for x in c["measurements"] if x.get("value") is not None}
         vs = (c.get("params") or {}).get("vsup", 3.3)
-        r = analyze_one(m, vs)
+        r = analyze_one(m)
         rows.append((c["corner_id"], c["status"], c["temperature_c"], vs, r, len(m)))
     def f(x, k="%.2f", sc=1.0):
         return "n/a" if x is None else k % (x * sc)
@@ -284,9 +284,6 @@ def cmd_summary(a):
     for cid, st, t, vs, r, n in rows:
         out.append(f"| {cid.split('/')[0]} | {t} | {vs} | {st} | {f(r['vt_dn'])} | {f(r['vt_up'])} | {f(r['twin_r'], '%.2f', 1e9)} | {f(r['twin_f'], '%.2f', 1e9)} | "
                    f"{f(r['phi_up'][1], '%.2f', 1e-3)} | {f(r['phi_up'][-1], '%.2f', 1e-3)} | {f(r['phi_dn'][1], '%.2f', 1e-3)} | {f(r['phi_dn'][-1], '%.2f', 1e-3)} | {n} |")
-    def ext(key, side, fn, which=None):
-        v = [(r[key][side], cid) for cid, _, _, _, r, _ in rows if r[key][side] is not None]
-        return v
     lines = []
     tw = [(min(x for x in (r["twin_r"], r["twin_f"]) if x is not None), cid, t) for cid, _, t, _, r, _ in rows if r["twin_r"] is not None and r["twin_f"] is not None]
     if tw:

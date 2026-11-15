@@ -17,7 +17,6 @@ import json
 import sys
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
 LEAD = 0.3e-9
 
 
