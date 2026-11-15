@@ -4,6 +4,24 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-15
 
+- **Issue #308** (closed): Consolidate duplicated digest() and sha256() helpers in layout/: #263 had to be fixed in two copies, which have since diverged
+- **PR #314**: layout: consolidate duplicated digest() and sha256() into cells/common.py
+- **Issue #298** (closed): Consolidate the append-only record guard into lib-record.sh: 14 call sites, and run-lock-detector.sh:41 has already lost its message clause
+- **PR #316**: refactor(record): assert_new_record in lib-record.sh; one append-only guard for all 14 sites
+- **Issue #300** (closed): Row-5 item-5 citation: the remaining work the new gap text names has no issue, and ROADMAP 'Now' item 4 no longer fits that section's contract
+- **PR #310**: docs: split ROADMAP Now item 4 into the model-run re-emission (#303); move the klt pin bump to Next (#304)
+- **Issue #303** (closed): Re-emit the row-5 method-L envelope record in the klt model-run shape (so item 5 can cite it)
+- **PR #312**: feat: emit row-5 envelope records in the klt model-run signoff shape
+- **Issue #301** (closed): Docs say three klt signoff --attest envelopes (items 1, 9, 10); there are four — item 2's layout.attest.json is omitted repo-wide
+- **PR #315**: docs: count item 2's attest envelope in the manifest evidence index
+- **Issue #294** (closed): README's 'DRC clean' summary omits the deck-coverage qualifier that item 3 calls claimant-enforced
+- **PR #302**: docs: qualify README's DRC-clean ladder sentence with curated-deck coverage pointer
+- **Issue #297** (closed): design/README.md states the mcounter terminal-count decode as Q = 0001; the netlist decodes Q = 0010 (count 2)
+- **PR #311**: docs: withdraw the false mcounter README discrepancy in the #278 record and disambiguate the decode phases
+- **Issue #290** (closed): lib-pdk.sh: a missing model library or OSDI file dies with no message (set -e aborts before the die)
+- **PR #309**: fix: keep the PDK pin check's missing-file die reachable under set -e
+- **Issue #268** (closed): spec/README.md index omits DR-005 (prescaler P8/9 div-2/3 first stage)
+- **PR #271**: test(spec): hold the decision-record index to the tree, index DR-005
 - **Issue #291** (closed): Remove six never-read names in project Python: an uncalled nested helper, two silently-ignored parameters, three dead constants
 - **PR #306**: Remove born-dead names: uncalled nested ext(), ignored params, dead constants
 - **Issue #282** (closed): test-layout-vco.sh/-top.sh: five bare-refuse negative controls pass when their fixture generation silently fails
