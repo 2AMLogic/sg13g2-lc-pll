@@ -5,7 +5,7 @@ Builds the zero-delay model of `mcounter` + `acounter` from the committed
 for the spec row 3 window N = 90-110 at `N = 8*M + A`:
 
   - the combinational decode `DT` the netlist really draws asserts at count 2, one CKL cycle before
-    the registered `TC`/`TC2` fire at count 1 - the phase design/README.md:147 and :181 state for the
+    the registered `TC`/`TC2` fire at count 1 - the phase `design/README.md` states for the
     load and the TC flops (both phases correct; see the record's appended correction),
   - the M counter counts DOWN from the loaded M code through 1 and reloads, with output
     period = M code,
