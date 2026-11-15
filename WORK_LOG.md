@@ -4,6 +4,8 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-15
 
+- **Issue #304** (closed): Bump the klt pin from 0.8.0 to a release that accepts model-run (unblocks the row-5 item-5 citation)
+- **PR #317**: bump the klt pin to 0.9.1 and cite the row-5 model-run record as item-5 evidence
 - **Issue #308** (closed): Consolidate duplicated digest() and sha256() helpers in layout/: #263 had to be fixed in two copies, which have since diverged
 - **PR #314**: layout: consolidate duplicated digest() and sha256() into cells/common.py
 - **Issue #298** (closed): Consolidate the append-only record guard into lib-record.sh: 14 call sites, and run-lock-detector.sh:41 has already lost its message clause
