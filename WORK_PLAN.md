@@ -10,6 +10,7 @@ Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a h
 - **#138**: spec: propose row 7 CP mismatch 6 % at a stated yield via the relax-after-FAIL gate
 - **#200**: docs(sim): trace 125C divider stall to M-counter terminal-count setup path
 - **#207**: docs(spec): add clock-output interface row 15 and DR-006, stated as not met
+- **#262**: docs(spec): add DR-007 — reference noise mask, in-band split, method N narrowed to the charge pump
 
 ## Very Important
 
@@ -27,13 +28,14 @@ Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a h
 - **#41**: T1 item 7 (post-layout): klt pex delta report for the integrated loop
 - **#48**: T1 item 8 (characterization): per-row characterization report over the DR-001 rows, attested with klt signoff --attest 8
 - **#86**: Item 5 remainder (gated): C-grid envelopes for rows 1, 8, 9, 10 and row 7 upper edge
+- **#97**: Divider/prescaler stops dividing at 3.630 V and 125 C corners (row 11 C-grid)
 - **#199**: Divider M-counter terminal-count path fails setup at 125C (7 of 54 corner units)
 
 ## Ready
 
 Human-approved issues ready for implementation (`loom:issue`).
 
-- **#272**: Consolidate the duplicated expect() test harness into one scripts/ library; test-fetch-vco.sh still carries the pre-#234 weak form
+_None._
 
 ## In Progress
 
@@ -45,17 +47,12 @@ Issues currently being built (`loom:building`).
 - **#197**: Divider stops dividing at 125C after start-up (7 of 54 corner units): SLOW 625/687.5 MHz, TYP 687.5 MHz
 - **#206**: spec: state clock output swing and load for a downstream TX mux
 - **#252**: Spec section 4: state the reference phase-noise requirement and define method N for the switching blocks (decision record)
-- **#260**: run-jitter.sh: a record made with NOISE_INPUTS carries only the file's path and sha256, not each term's table and source
-- **#261**: Compute the ngspice pin verdict in the klt sim record generators: five scripts print "pin 47: mismatch" as a literal
-- **#263**: gen_integrated.py digest() is layer-order sensitive, so it is not stable across a GDS round trip
-- **#268**: spec/README.md index omits DR-005 (prescaler P8/9 div-2/3 first stage)
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
-- **#265**: refactor(sim): compute the ngspice pin verdict in sim/ngpin.py, drop the five literals
-- **#271**: test(spec): hold the decision-record index to the tree, index DR-005
+_None._
 
 ## Approved (Awaiting Merge)
 
@@ -65,8 +62,6 @@ PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 - **#200**: docs(sim): trace 125C divider stall to M-counter terminal-count setup path
 - **#207**: docs(spec): add clock-output interface row 15 and DR-006, stated as not met
 - **#262**: docs(spec): add DR-007 — reference noise mask, in-band split, method N narrowed to the charge pump
-- **#269**: feat(jitter): state each in-band noise input's summary and source in the record
-- **#270**: fix(layout): hash digest layers in sorted (layer, datatype) order
 
 ## Proposed
 
@@ -83,9 +78,7 @@ Issues carrying `loom:curated`.
 - **#206**: spec: state clock output swing and load for a downstream TX mux *(curated)*
 - **#237**: Retire the stale smoke-record clause in sim/testbench-inventory.json (needs a re-attestation #228 could not run locally) *(curated)*
 - **#252**: Spec section 4: state the reference phase-noise requirement and define method N for the switching blocks (decision record) *(curated)*
-- **#260**: run-jitter.sh: a record made with NOISE_INPUTS carries only the file's path and sha256, not each term's table and source *(curated)*
-- **#263**: gen_integrated.py digest() is layer-order sensitive, so it is not stable across a GDS round trip *(curated)*
-- **#268**: spec/README.md index omits DR-005 (prescaler P8/9 div-2/3 first stage) *(curated)*
+- **#277**: README status line and ladder position contradict the signoff record (still says "Nothing is designed or simulated yet") *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -103,14 +96,14 @@ _None._
 
 | Bucket | Count |
 |------|-------|
-| Operator merge-risk holds | 3 |
+| Operator merge-risk holds | 4 |
 | Very important | 1 |
-| Important | 7 |
-| Ready (`loom:issue`) | 1 |
-| In Progress (`loom:building`) | 10 |
-| PRs awaiting review | 2 |
-| Approved PRs awaiting merge | 6 |
-| Curated | 14 |
+| Important | 8 |
+| Ready (`loom:issue`) | 0 |
+| In Progress (`loom:building`) | 6 |
+| PRs awaiting review | 0 |
+| Approved PRs awaiting merge | 4 |
+| Curated | 12 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
