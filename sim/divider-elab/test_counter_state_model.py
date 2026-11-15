@@ -4,8 +4,9 @@ Builds the zero-delay model of `mcounter` + `acounter` from the committed
 `design/netlist/divider.spice` (`counter_state_model.py`, no PDK, no simulator) and checks,
 for the spec row 3 window N = 90-110 at `N = 8*M + A`:
 
-  - the terminal-count decode the netlist really draws (count 2, not the count 1 that
-    design/README.md:147 and :181 state - see the record),
+  - the combinational decode `DT` the netlist really draws asserts at count 2, one CKL cycle before
+    the registered `TC`/`TC2` fire at count 1 - the phase `design/README.md` states for the
+    load and the TC flops (both phases correct; see the record's appended correction),
   - the M counter counts DOWN from the loaded M code through 1 and reloads, with output
     period = M code,
   - the divide identity `8*(P-H) + 9*H == N` for every N (P = period, H = MC-high clocks),
@@ -27,6 +28,40 @@ def test_terminal_decode_is_count_2():
     hits = csm.decode_sweep()
     assert hits == [csm.TERMINAL_Q], "DT asserts for %s" % (hits,)
     assert csm.count_of(hits[0]) == 2
+
+
+def _dt_at(d, snap):
+    # DT is a gate network, not a flop, so snapshot() does not carry it: settle it combinationally
+    # from one cycle state (same construction as decode_sweep, with that state's TC/TC2/b flags
+    # restored). settle() does not mutate state, but restore anyway so the counter stays reusable.
+    saved = dict(d.m.state)
+    d.m.state = {b: snap["q"][i] for i, b in enumerate(csm.MSB_FIRST)}
+    d.m.state.update({"b3": snap["b"][0], "b2": snap["b"][1], "b1": snap["b"][2],
+                      "TC": snap["tc"], "TCN": 1 - snap["tc"], "TC2": snap["tc2"]})
+    dt = d.m.settle(d.ext)["DT"]
+    d.m.state = saved
+    return dt
+
+
+def test_dt_registered_phase_separation():
+    # The conflation issue #297 was filed on: DT (combinational, XT1..XT4) asserts at count 2 while
+    # the registered TC/TC2 flops (XFT/XFTN/XFT2 = DFF(DT)) are high one CKL cycle later at count 1,
+    # so design/README.md's Q = 0001 for the TC/load phase and the netlist's count-2 decode are both
+    # correct. Asserted on the model's own limit cycle, per M code the target window reaches.
+    assert csm.decode_sweep() == [csm.TERMINAL_Q]
+    for m in (11, 12, 13):
+        d = csm.DividerCounters(csm.subckts(csm._read()), m, 0)
+        cycle = d.limit_cycle()
+        for k, snap in enumerate(cycle):
+            assert _dt_at(d, snap) == (snap["q"] == csm.TERMINAL_Q), \
+                "M = %d: DT not asserted exactly at count 2 (cycle step %d)" % (m, k)
+        for name, at in (("TC", [k for k, s in enumerate(cycle) if s["tc"]]),
+                         ("TC2", [k for k, s in enumerate(cycle) if s["tc2"]])):
+            assert len(at) == 1, "M = %d: %s high %d times per period" % (m, name, len(at))
+            assert csm.count_of(cycle[at[0]]["q"]) == 1, \
+                "M = %d: %s registered at count %d, not 1" % (m, name, csm.count_of(cycle[at[0]]["q"]))
+            assert cycle[at[0] - 1]["q"] == csm.TERMINAL_Q, \
+                "M = %d: %s does not follow the DT count-2 cycle state" % (m, name)
 
 
 def test_window_counts_down_with_period_m():
