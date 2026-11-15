@@ -117,4 +117,9 @@ def test_model_run_doc_worst_case_matches_binding():
 def test_model_run_doc_provenance_names_the_icp_input():
     doc = _doc(env.envelope(env._flt(), _icp(lm.ICP_DESIGN_A)))
     inp = doc["provenance"]["input"]
-    assert inp["path"] == "sim/cp-dc/records/icp-corners-klt-report.json.gz" and len(inp["sha256"]) == 64
+    assert inp["path"] == "sim/cp-dc/records/icp-corners-klt-report.json.gz"
+    # `klt signoff` binds a manifest citation through provenance.input.content_hash
+    # (sha256:-prefixed); a bare-hex key would make every pinned citation
+    # unverifiable_provenance (#304).
+    assert inp["content_hash"] == "sha256:" + "ab" * 32
+    assert "sha256" not in inp or inp.get("sha256") is None

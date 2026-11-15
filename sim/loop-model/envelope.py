@@ -100,7 +100,7 @@ def model_run_doc(verdict, flt, b, rows, icp_name, icp_sha256, icp_path):
                             "margin": b["pm_min"]["pm_deg"] - lm.PM_MIN_DEG}},
         ],
         "corners": [dict(r, status="pass" if not r["violations"] else "fail") for r in rows],
-        "provenance": {"input": {"path": icp_path, "sha256": icp_sha256}},
+        "provenance": {"input": {"path": icp_path, "content_hash": "sha256:" + icp_sha256}},
         "verdict": verdict,
         "loop_filter": flt,
         "binding": b,
@@ -156,7 +156,7 @@ def main(argv=None):
              flt["r1_ohm"], flt["c1_f"] * 1e12, flt["c2_f"] * 1e12, flt["r3_ohm"], flt["c3_f"] * 1e12),
          "- **Not covered**: filter R/C spread across the corner grid (poly R1/R3 and MIM C1/C2/C3 are not varied here), the 135-point 3.300 V model grid, the local Kvco from the VCO's graded f(Vctrl) (G4: the Kvco axis is the section 3 range, not graded VCO data), the I_cp range 100-400 uA of row 6 (the committed `results/loop-model.json` flags those points and does not gate them), and everything the loop model does not model (sampling, CP nonlinearity, supply and substrate coupling). The full corner-by-corner row 5 grade over the VCO's graded corners is #70.",
          "- **Commit**: `%s` of this repository" % a.commit,
-         "- **Envelope**: emitted in the `klt signoff` `model-run` shape (`schema_version` %d: `kind`, `status` `%s`, `method`, `measurements` with the row-5 `limits`, per-point `corners`) alongside the original `verdict`/`points`/`binding`/`loop_filter` keys. The pinned `klt` 0.8.0 does not grade the `model-run` kind yet; citing this record as item-5 evidence follows the pin bump (#304)." % (doc["schema_version"], doc["status"]),
+         "- **Envelope**: emitted in the `klt signoff` `model-run` shape (`schema_version` %d: `kind`, `status` `%s`, `method`, `measurements` with the row-5 `limits`, per-point `corners`) alongside the original `verdict`/`points`/`binding`/`loop_filter` keys. `provenance.input.content_hash` (`sha256:`-prefixed) pins the I_cp report's bytes, so the record can be cited as item-5 evidence with a manifest `content_hash` pin (#304)." % (doc["schema_version"], doc["status"]),
          "- **Points**: [`%s`](%s) (every (I_cp, Kvco) point)" % (js.name, js.name), "",
          "| bound | binding point | Kvco (MHz/V) | I_cp (uA) | f_c (MHz) | PM (deg) |", "|---|---|---|---|---|---|",
          _row("f_c minimum", b["f_c_min"]), _row("f_c maximum", b["f_c_max"]), _row("PM minimum", b["pm_min"])]

@@ -130,7 +130,7 @@ The curated `metal1.space.1` / `cont.space.1` hits (11 / 4) are gone for the sam
 installed klt moved, so the two columns are not byte-for-byte the same deck. Placements, routes (VOP 850.105 / VON 611.845 um, collisions 13) and the
 tank-load geometric estimate are unchanged, and the VCO stream is untouched. **Item 3 of #36 stays `unmet`:** `LU.b` 322 (no P-substrate tap drawable via
 `klt gen`; waits on 2AMLogic/klayout-tools#5231, tap net VSS `0`, not hand-drawn; fixed in the next section) and the 64 VCO curated hits remain. Pins re-stamped: `manifests/layout.attest.json`,
-`layout/drc/top.drc.json`, `manifests/sg13g2-lc-pll.json`, signoff record (`klayout-tools==0.8.0`).
+`layout/drc/top.drc.json`, `manifests/sg13g2-lc-pll.json`, signoff record (`klayout-tools==0.8.0`, the pin then in force).
 
 ### LU.b substrate taps and native re-run (#202, 2026-11-13)
 
@@ -142,7 +142,9 @@ merged upstream as klayout-tools#5261 and present in the klt provisioned on the 
 engines**. Per-layer shape counts of the two probe streams differ by exactly the ring: `1/0` `Activ` +1, `6/0` `Cont` +8,
 `8/0` `Metal1` +1, **`14/0` `pSD` +1**, and `31/0` `NWell` still absent -- a p+ substrate tie, not the n-well tie.
 The 302-unit divider `nfet` group (`2 x 151`, `w 2 / l 0.5`) was then generated standalone with the ring: also 0 on both
-engines. The CI `klt` pin (`klayout-tools==0.8.0`, `signoff.yml`) still predates the fix; bumping it stays out of scope here.
+engines. The CI `klt` pin (`signoff.yml`) still predates the fix — `klayout-tools==0.8.0` when this was
+written; #304 moved it to `klayout-tools==0.9.1` (2026-11-15), which still predates the fix — and bumping
+it was out of scope here.
 
 **The fix, in the generator.** `layout/cells/common.py` `plan()` passes `add_guard_ring: true` on every `nfet` `mos_array`
 group (13 groups: divider 2, cp 6, pfd 2, lockdet 3) and records that group's `tap_net` in `layout/cells.provenance.json`.
@@ -209,7 +211,7 @@ terminal, as before. An LVS run would see each ring as a floating net — LVS is
 Checks: `scripts/test-layout-cells.sh` (all cells regenerate to the committed provenance, 42/42 port labels, negatives
 fire), `scripts/test-layout-top.sh` (9/9), `klt drc --check layout/drc/top.drc.json` = match. Pins re-stamped:
 `manifests/layout.attest.json` (`klt signoff --attest 2`), `layout/drc/top.drc.json`, `layout/drc/top.crosscheck.json`,
-`manifests/sg13g2-lc-pll.json`, signoff record (`klayout-tools==0.8.0`, item 2 still `met`, 4 of 11 T1 items met).
+`manifests/sg13g2-lc-pll.json`, signoff record (`klayout-tools==0.8.0` as the pin then was, item 2 still `met`, 4 of 11 T1 items met).
 
 **Tool friction filed:** `klt signoff --attest 2 -o PATH` writes a JSON envelope **without** the `manifest_entry` block
 that the same command emits on `--format json` stdout, and `klt signoff --manifest` binds evidence through that block —
@@ -315,7 +317,7 @@ reasons, both deliberate:
   from the runset (deck over-report, not a real enclosure violation)" (klayout-tools#5212,
   sg13g2-vco#315). Nothing was waived and no stream or deck was edited. `klt signoff`
   grades item 3 on `status` alone, so the item's metric blocker `drc__error__count` is
-  unchanged at 64 and the record (`klayout-tools==0.8.0`, as CI) is byte-identical.
+  unchanged at 64 and the record (`klayout-tools==0.8.0`, as CI was then) is byte-identical.
 - **Citing the native report instead would be a worse claim, not a better one.** Item 3
   requires `coverage.layers_in_stream_without_rules`, `coverage.rules_skipped` and
   `coverage.deck_scope` to be quoted from the cited envelope; on the native report all
@@ -413,7 +415,7 @@ names 14 declared-but-unmodelled rules (`LU.a`, `LU.c`, `LU.c1`, `LU.d`, `LU.d1`
 `coverage.voltage_domain_warnings` still names the `ThickGateOx` ('-HV') domain. 63 rules checked.
 
 **Signoff.** `manifests/sg13g2-lc-pll.signoff.json` regenerated with the pinned
-`klayout-tools==0.8.0` (unchanged — the pin grades the grader, not the producer): item 3 `met`,
+`klayout-tools==0.8.0` (the pin as it then was — the pin grades the grader, not the producer): item 3 `met`,
 citing `layout/drc/top.drc.json`, `check_status: clean`, `input_verified: true`, with the
 `coverage` block reported in the citation. T1 met 4 -> 5; every other item's status and reason is
 unchanged, and a second run of the same command is byte-identical to the committed record.
