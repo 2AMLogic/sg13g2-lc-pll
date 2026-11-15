@@ -38,7 +38,7 @@ write_spiceinit "${WORK}"
 
 record_stamp
 REC="${REC_DIR}/${ID}.md"
-[ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
+assert_new_record "${REC}"
 
 set +e
 ( cd "${WORK}" && HOME="${WORK}" "${NGSPICE}" -b cp_dc.spice ) > "${WORK}/ngspice.log" 2>&1

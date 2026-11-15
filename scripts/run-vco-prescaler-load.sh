@@ -60,7 +60,7 @@ COMMIT="$(jq -r '.imports[] | select(.from=="2AMLogic/sg13g2-vco") | .commit' "$
 SHA="$(git -C "${ROOT}" rev-parse --short HEAD)$(git -C "${ROOT}" diff --quiet HEAD -- . 2>/dev/null || echo -dirty)"
 ID="$(date -u +%Y%m%d-%H%M%S)-${SHA}"
 REC_DIR="${ROOT}/sim/vco-prescaler-load/records"; mkdir -p "${REC_DIR}"
-REC="${REC_DIR}/${ID}.md"; [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
+REC="${REC_DIR}/${ID}.md"; assert_new_record "${REC}"
 cat "${WORK}/unloaded.log" > "${REC_DIR}/${ID}-ngspice-unloaded.txt"
 cat "${WORK}/loaded.log" > "${REC_DIR}/${ID}-ngspice-loaded.txt"
 JSON="${WORK}/result.json"

@@ -44,6 +44,8 @@ printf '* @@C@@ comment\nR1 a b 1\n' > "${T}/ok.spice"
 printf 'R1 a b @@R@@\n' > "${T}/bad.spice"
 if ( check_deck_placeholders "${T}/ok.spice" ) 2>/dev/null; then echo "ok   placeholder in comment passes"; else echo "FAIL comment placeholder rejected"; bad=1; fi
 if ( check_deck_placeholders "${T}/bad.spice" ) 2>/dev/null; then echo "FAIL placeholder accepted"; bad=1; else echo "ok   placeholder in deck refused"; fi
+if ( assert_new_record "${ROOT}/sim/x/records/r0" ) 2>/dev/null; then echo "FAIL existing record accepted"; bad=1; else echo "ok   existing record refused"; fi
+if ( assert_new_record "${ROOT}/sim/x/records/fresh.md" ) 2>/dev/null; then echo "ok   absent record accepted"; else echo "FAIL absent record refused"; bad=1; fi
 write_spiceinit "${T}"; [ "$(cat "${T}/.spiceinit")" = "set ngbehavior=hsa" ] && echo "ok   spiceinit" || { echo "FAIL spiceinit"; bad=1; }
 rec_dir zz; [ "${REC_DIR}" = "${ROOT}/sim/zz/records" ] && [ -d "${REC_DIR}" ] \
   && echo "ok   rec_dir default" || { echo "FAIL rec_dir default: REC_DIR='${REC_DIR}'"; bad=1; }

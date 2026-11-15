@@ -53,7 +53,7 @@ render g3_pairs.spice.tmpl pairs.spice -e "s|@@FLIST@@|${PAIR_FLIST}|g" -e "s|@@
 
 record_stamp
 REC="${REC_DIR}/${ID}.md"
-[ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
+assert_new_record "${REC}"
 
 set +e
 ( cd "${WORK}" && HOME="${WORK}" "${NGSPICE}" -b chain.spice ) > "${WORK}/chain.log" 2>&1; RC_CH=$?

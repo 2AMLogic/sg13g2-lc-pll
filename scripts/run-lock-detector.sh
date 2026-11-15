@@ -38,7 +38,7 @@ PFD_SHA="$(sha256sum "${ROOT}/.fetched/sg13g2-pll/design/netlist/pfd.spice" | cu
 
 if [ "${MODE}" = closed ]; then
   PHI="${1:?PHI_PS}"; V0="${2:?V0}"; TUS="${3:?TSTOP_US}"
-  REC="${REC_DIR}/${ID}-closed-phi${PHI}-v0${V0}.md"; [ ! -e "${REC}" ] || die "${REC} exists"
+  REC="${REC_DIR}/${ID}-closed-phi${PHI}-v0${V0}.md"; assert_new_record "${REC}"
   {
     echo ".lib ${MODELS}/cornerMOShv.lib mos_tt"; echo ".lib ${MODELS}/cornerCAP.lib cap_typ"; echo ".lib ${MODELS}/cornerRES.lib res_typ"
     echo ".option scale=1 temp=27"; echo ".global sub!"; echo "VSUB sub! 0 0"; echo "VDD vdd 0 3.3"
@@ -79,7 +79,7 @@ if [ "${MODE}" = closed ]; then
 fi
 
 if [ "${MODE}" = nominal ]; then
-  REC="${REC_DIR}/${ID}-nominal.md"; [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
+  REC="${REC_DIR}/${ID}-nominal.md"; assert_new_record "${REC}"
   {
     echo ".lib ${MODELS}/cornerMOShv.lib mos_tt"
     echo ".lib ${MODELS}/cornerCAP.lib cap_typ"

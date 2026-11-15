@@ -1,7 +1,7 @@
 # shellcheck shell=bash
 # Sourced by the run-* bench drivers that write an append-only record under sim/*/records/: the one
 # definition of the record's ID and commit stamp, the record directory, the unsubstituted-placeholder
-# scan and the scratch .spiceinit.
+# scan, the append-only record guard and the scratch .spiceinit.
 # Consumers: `git grep -ln 'source.*lib-record.sh' -- scripts`. Expects ROOT and die() (as lib-pdk.sh does).
 #
 # "-dirty" means: the commit hash in a record does not describe the inputs, because tracked or untracked
@@ -47,6 +47,9 @@ check_deck_placeholders() {
     if grep -vE '^[[:space:]]*\*' "${f}" | grep -q '@@'; then die "unsubstituted placeholder left in $(basename "${f}")"; fi
   done
 }
+
+# assert_new_record <path>  -> die() if the record already exists; sim/*/records is append-only.
+assert_new_record() { [ ! -e "$1" ] || die "$1 exists; records are append-only"; }
 
 # write_spiceinit <dir>  -> the scratch .spiceinit every bench runs ngspice with.
 write_spiceinit() { printf 'set ngbehavior=hsa\n' > "$1/.spiceinit"; }

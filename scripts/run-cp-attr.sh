@@ -29,7 +29,7 @@ for g in ${GROUPS_RUN}; do
 done
 [ "${DRY}" = 1 ] && { echo "run-cp-attr: all requests validate (dry run, nothing submitted)"; exit 0; }
 record_stamp
-REC="${REC_DIR}/${ID}-attribution.md"; [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
+REC="${REC_DIR}/${ID}-attribution.md"; assert_new_record "${REC}"
 ARGS=()
 for g in ${GROUPS_RUN}; do
   rc=0
