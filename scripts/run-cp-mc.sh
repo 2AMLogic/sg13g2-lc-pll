@@ -40,7 +40,7 @@ for d in nom neg; do klt sim "${WORK}/${d}/request.json" --dry-run --format json
 KLTY="$(dirname "${YPY}")/klt"
 
 record_stamp
-REC="${REC_DIR}/${ID}.md"; [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
+REC="${REC_DIR}/${ID}.md"; assert_new_record "${REC}"
 
 # klt sim exits 3 when any sample fails a limit (expected, informative); 4+ and 1 are real errors.
 run_sim() { # name

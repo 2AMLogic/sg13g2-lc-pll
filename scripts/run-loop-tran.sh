@@ -46,7 +46,7 @@ write_spiceinit "${WORK}"
 
 record_stamp
 REC="${REC_DIR}/${ID}.md"
-[ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
+assert_new_record "${REC}"
 
 T_START="$(date +%s)"
 set +e

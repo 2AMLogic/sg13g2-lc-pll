@@ -40,7 +40,7 @@ set -e
 [ -s "${WORK}/lm.json" ] || { cat "${WORK}/lm.txt" >&2; die "the model produced no result"; }
 record_stamp sim scripts
 REC="${REC_DIR}/${ID}.md"
-[ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
+assert_new_record "${REC}"
 cp "${WORK}/lm.txt" "${REC_DIR}/${ID}-model.txt"
 # The in-band inputs are stated, not merely named. The file is copied next to the record so a path outside
 # this repository still carries its tables, and each supplied term's one-line summary and `source` are read

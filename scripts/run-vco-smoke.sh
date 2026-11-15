@@ -57,7 +57,7 @@ COMMIT="$(jq -r '.imports[] | select(.from=="2AMLogic/sg13g2-vco") | .commit' "$
 ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT:0:7}"
 REC_DIR="${ROOT}/sim/vco-smoke/records"; mkdir -p "${REC_DIR}"
 REC="${REC_DIR}/${ID}.md"
-[ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
+assert_new_record "${REC}"
 RUN=("${NGSPICE}" -b vco_elab.spice)
 [ -z "${SMOKE_CPUSET:-}" ] || RUN=(taskset -c "${SMOKE_CPUSET}" "${RUN[@]}")
 set +e

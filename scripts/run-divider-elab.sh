@@ -22,7 +22,7 @@ for k in elab tran speed speedC speedA; do
 done
 record_stamp
 REC="${REC_DIR}/${ID}.md"
-[ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
+assert_new_record "${REC}"
 RUNTIMES=""
 run_deck() {   # run_deck NAME DIE-MESSAGE: one local ngspice -b, sequential; appends the wall time to RUNTIMES
   local t0 t1; t0="$(date +%s)"
