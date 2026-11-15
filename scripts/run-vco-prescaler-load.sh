@@ -14,7 +14,7 @@ FETCHED="${ROOT}/.fetched"
 die() { echo "run-vco-prescaler-load: error: $*" >&2; exit 1; }
 
 "${ROOT}/scripts/fetch-vco.sh" >/dev/null
-PDK_SKIP_PSP103=1
+PDK_SKIP_OSDI_PINS=1
 source "${ROOT}/scripts/lib-pdk.sh"
 source "${ROOT}/scripts/lib-record.sh"
 
