@@ -27,11 +27,15 @@ import hashlib, json, os, sys
 import klayout.db as db
 root, cells, rtdir = sys.argv[1:4]
 sys.path.insert(0, os.path.join(root, "layout"))
-import gen_cells as gc
+import cells.common as cc
 
 prov = json.load(open(os.path.join(root, "layout/cells.provenance.json")))
 os.makedirs(rtdir, exist_ok=True)
 fail = 0
+
+def cell_digest(gds, cell):
+    ly = db.Layout(); ly.read(gds)
+    return cc.digest(ly, ly.cell(cell))
 
 def enum_digest(gds, cell):
     """digest() before #263: identical records, hashed in layer_indexes() enumeration order."""
@@ -61,7 +65,7 @@ for rec in prov["cells"]:
     gds = os.path.join(cells, name + ".gds")
     rt = os.path.join(rtdir, name + ".rt.gds")
     resave(gds, rt)
-    d, drt = gc.digest(gds, name), gc.digest(rt, name)
+    d, drt = cell_digest(gds, name), cell_digest(rt, name)
     if order(rt) == order(gds):
         # No permutation to survive on this klayout: say so rather than banking a vacuous PASS.
         print(f"KNOWN-GAP {name}: the re-save did not permute the layer-index order, so this cell cannot discriminate the fix")
@@ -82,7 +86,7 @@ ly = db.Layout(); ly.read(os.path.join(cells, name + ".gds"))
 b = ly.cell(name).bbox()
 ly.cell(name).shapes(ly.layer(8, 0)).insert(db.Box(b.right + 1000, b.top + 1000, b.right + 2000, b.top + 2000))
 ed = os.path.join(rtdir, name + ".edited.gds"); ly.write(ed)
-if gc.digest(ed, name) == rec["geometry_sha256"]:
+if cell_digest(ed, name) == rec["geometry_sha256"]:
     print(f"FAIL NEG {name}: an inserted shape did not move the digest"); fail += 1
 else:
     print(f"PASS NEG {name}: an inserted shape moves the digest")
