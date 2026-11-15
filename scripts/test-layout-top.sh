@@ -15,6 +15,10 @@ VCO="${ROOT}/.fetched/sg13g2-vco/layout/vco.gds"; G="${ROOT}/layout/top.gds"
 # layout/gen_top.py's refusal on a VCO stream whose sha256 differs from reuse.lock.json.
 REFUSAL='gen_top: .* sha256 [0-9a-f]{64} != pinned [0-9a-f]{64}; refusing'
 
+# Preflight: the fixture heredocs and generators below run under `${PY} -I`, which excludes user
+# site-packages, so a LAYOUT_PY that cannot import klayout there must fail here, naming itself,
+# before it can degrade the negative controls (#282).
+expect "klayout importable under ${PY} -I" ok "${PY}" -I -c 'import klayout.db'
 expect "fetched VCO files verify" ok "${ROOT}/scripts/fetch-vco.sh" --verify
 expect "regenerated geometry == committed provenance" ok "${PY}" "${ROOT}/layout/gen_integrated.py" --check
 klt clip "${G}" --cell vco -o "${T}/placed.gds" >/dev/null 2>&1
@@ -242,8 +246,9 @@ n="$(jq '[.. | objects | select(has("kind"))] | length' "${T}/ko.json" 2>/dev/nu
 [ -n "${n}" ] && [ "${n}" = 3 ] && { echo "PASS keep-out: 3 recorded VCTRL intrusions"; pass=$((pass+1)); } \
   || { echo "FAIL keep-out intrusions = '${n}', expected the 3 recorded VCTRL ones"; bad=$((bad+1)); }
 
-# negative controls
-"${PY}" -I - "${G}" "${T}" <<'PYEOF'
+# negative controls. The heredoc is guarded: a fixture that did not build is a harness failure,
+# not a passing negative control (the script has no set -e; #282).
+"${PY}" -I - "${G}" "${T}" <<'PYEOF' || { echo "FAIL fixture generation: negative-control streams did not build (see above)"; bad=$((bad+1)); }
 import sys, klayout.db as db
 g, t = sys.argv[1], sys.argv[2]
 ly = db.Layout(); ly.read(g)
@@ -252,7 +257,10 @@ ly = db.Layout(); ly.read(g)
 ly.cell("lc_pll_top").shapes(ly.layer(8, 0)).insert(db.Box(-320000, 100000, -315000, 105000)); ly.write(t + "/intr.gds")
 PYEOF
 klt clip "${T}/edited.gds" --cell vco -o "${T}/edited_clip.gds" >/dev/null 2>&1
-expect "NEG edited VCO cell detected" refuse klt diff "${T}/edited_clip.gds" "${T}/pinned.gds"
+# Must carry klt's own violation status line (rc=3 detection), not merely exit non-zero: a missing
+# input exits rc=1 with `file not found` and no status line, which bare `refuse` scored as a pass
+# (#282). The status strings are klt's, not this repo's — re-measure if the klt pin moves.
+expect "NEG edited VCO cell detected" "refuse:^status: different" klt diff "${T}/edited_clip.gds" "${T}/pinned.gds"
 klt keepout-check "${T}/intr.gds" --forbidden "${T}/f.json" --margin 20 --cells vco --format json >"${T}/ko2.json" 2>/dev/null
 n2="$(jq '[.. | objects | select(has("kind"))] | length' "${T}/ko2.json" 2>/dev/null)"
 [ "${n2}" = 4 ] && { echo "PASS NEG extra keep-out intruder detected (4)"; pass=$((pass+1)); } || { echo "FAIL NEG intruder count '${n2}'"; bad=$((bad+1)); }
