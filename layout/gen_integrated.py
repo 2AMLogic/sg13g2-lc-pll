@@ -23,7 +23,6 @@ Routing is a placement-level global route, not a signoff route (DRC/LVS/PEX are 
     NOT routed here (supply ERC is #38); they are listed in the record as `not_routed`.
 """
 import argparse
-import hashlib
 import json
 import os
 import shutil
@@ -36,6 +35,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 sys.path.insert(0, HERE)
 import gen_top  # noqa: E402
+from cells import common  # noqa: E402
 
 BUILD = os.path.join(ROOT, "layout", "build")
 CELLS_DIR = os.path.join(BUILD, "cells")
@@ -91,29 +91,6 @@ NOT_ROUTED = {
 }
 
 
-def digest(ly, cell):
-    """Writer-independent: merged polygons per layer + label text/position (as gen_cells.digest).
-
-    Layers are hashed in ascending (layer, datatype) order, NOT in `ly.layer_indexes()`
-    enumeration order: that order is an artefact of the writer and is not preserved across a
-    GDS round trip, so hashing in it made the digest move for a stream that had merely been
-    re-saved -- a geometry mismatch that is not one (#263). Every caller reads `ly` from a
-    stream, where KLayout creates exactly one layer index per (layer, datatype), so the key is
-    a total order over the layers being hashed.
-    """
-    h = hashlib.sha256()
-    for li in sorted(ly.layer_indexes(), key=lambda i: (ly.get_info(i).layer, ly.get_info(i).datatype)):
-        info = ly.get_info(li)
-        r = db.Region(cell.begin_shapes_rec(li))
-        r.merge()
-        polys = sorted(str(p) for p in r.each())
-        txt = sorted(f"{s.text_string}@{(it.trans() * s.text_trans.disp).x},{(it.trans() * s.text_trans.disp).y}"
-                     for it in cell.begin_shapes_rec(li) for s in [it.shape()] if s.is_text())
-        if polys or txt:
-            h.update(f"{info.layer}/{info.datatype}|{';'.join(polys)}|{';'.join(txt)}\n".encode())
-    return h.hexdigest()
-
-
 def publish_stream(fresh, dest, fresh_digest):
     """Install `fresh` at `dest` only when the geometry actually differs (#257).
 
@@ -133,7 +110,7 @@ def publish_stream(fresh, dest, fresh_digest):
             cell = cur.cell(TOP)
         except Exception:               # unreadable/corrupt stream on disk: replace it
             cell = None
-        if cell is not None and digest(cur, cell) == fresh_digest:
+        if cell is not None and common.digest(cur, cell) == fresh_digest:
             return False
     shutil.copyfile(fresh, dest)
     return True
@@ -472,7 +449,7 @@ def main():
     ly.write(build_gds)
     chk = db.Layout()
     chk.read(build_gds)
-    dg = digest(chk, chk.cell(TOP))
+    dg = common.digest(chk, chk.cell(TOP))
     replaced = publish_stream(build_gds, OUT_GDS, dg) if a.write else None
     # output.sha256 is the hash of the stream as it sits on disk at output.path.
     out = OUT_GDS if a.write else build_gds
@@ -496,13 +473,13 @@ def main():
                             "python layout/gen_top.py", "python layout/gen_integrated.py --write"],
         "klayout_module": klayout_module,
         "inputs": {
-            "vco_gds": {"path": ".fetched/sg13g2-vco/layout/vco.gds", "sha256": gen_top.sha256(a.vco),
+            "vco_gds": {"path": ".fetched/sg13g2-vco/layout/vco.gds", "sha256": common.sha256(a.vco),
                         "pinned_in": "reuse.lock.json"},
-            "cells_provenance": {"path": "layout/cells.provenance.json", "sha256": gen_top.sha256(os.path.join(ROOT, "layout/cells.provenance.json"))},
-            "gen_top": {"path": "layout/gen_top.py", "sha256": gen_top.sha256(os.path.join(HERE, "gen_top.py"))},
-            "gen_integrated": {"path": "layout/gen_integrated.py", "sha256": gen_top.sha256(os.path.abspath(__file__))},
+            "cells_provenance": {"path": "layout/cells.provenance.json", "sha256": common.sha256(os.path.join(ROOT, "layout/cells.provenance.json"))},
+            "gen_top": {"path": "layout/gen_top.py", "sha256": common.sha256(os.path.join(HERE, "gen_top.py"))},
+            "gen_integrated": {"path": "layout/gen_integrated.py", "sha256": common.sha256(os.path.abspath(__file__))},
         },
-        "output": {"path": "layout/top.gds", "top_cell": TOP, "sha256": gen_top.sha256(out), "geometry_sha256": dg},
+        "output": {"path": "layout/top.gds", "top_cell": TOP, "sha256": common.sha256(out), "geometry_sha256": dg},
         "placement_um": {n: {"transform": c, "origin": list(o)} for n, (c, o) in PLACE.items()},
         "routes": routes,
         "tank_node_estimate": tank_estimate(routes),

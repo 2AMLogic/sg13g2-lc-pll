@@ -8,7 +8,6 @@ Needs the `klayout` Python module, `klt`, and an IHP-SG13G2 PDK that klt can res
 if any cell's geometry digest, area, unit count or netlist hash differs from the committed file.
 """
 import argparse
-import hashlib
 import json
 import os
 import subprocess
@@ -41,32 +40,6 @@ BLOCKS.update({c: _table_block(c, s, n) for c, s, n in TABLE})
 PROV = os.path.join(common.ROOT, "layout", "cells.provenance.json")
 
 
-def digest(gds, cell):
-    """Writer-independent digest: merged polygons per layer plus label text/position.
-
-    Layers are hashed in ascending (layer, datatype) order, NOT in `ly.layer_indexes()`
-    enumeration order: that order is an artefact of the writer and is not preserved across a
-    GDS round trip, so hashing in it made the digest move for a stream that had merely been
-    re-saved -- a geometry mismatch that is not one (#263). `ly` is read from a stream, where
-    KLayout creates exactly one layer index per (layer, datatype), so the key is a total order
-    over the layers being hashed.
-    """
-    ly = db.Layout()
-    ly.read(gds)
-    c = ly.cell(cell)
-    h = hashlib.sha256()
-    for li in sorted(ly.layer_indexes(), key=lambda i: (ly.get_info(i).layer, ly.get_info(i).datatype)):
-        info = ly.get_info(li)
-        r = db.Region(c.begin_shapes_rec(li))
-        r.merge()
-        polys = sorted(str(p) for p in r.each())
-        txt = sorted(f"{s.text_string}@{s.text_trans.disp.x},{s.text_trans.disp.y}"
-                     for s in (it.shape() for it in c.begin_shapes_rec(li)) if s.is_text())
-        if polys or txt:
-            h.update(f"{info.layer}/{info.datatype}|{';'.join(polys)}|{';'.join(txt)}\n".encode())
-    return h.hexdigest()
-
-
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--out", default=os.path.join(common.ROOT, "layout/build/cells"))
@@ -80,7 +53,9 @@ def main():
     for name in a.blocks.split(","):
         r = BLOCKS[name](out)
         if r["status"] != "undrawn":
-            r["geometry_sha256"] = digest(os.path.join(out, name + ".gds"), name)
+            ly = db.Layout()
+            ly.read(os.path.join(out, name + ".gds"))
+            r["geometry_sha256"] = common.digest(ly, ly.cell(name))
             r["gds"] = f"layout/build/cells/{name}.gds"
         else:
             r["geometry_sha256"] = None

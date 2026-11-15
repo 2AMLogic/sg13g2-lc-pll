@@ -65,6 +65,7 @@ import sys
 sys.path.insert(0, os.path.join(sys.argv[1], "layout"))
 import klayout.db as db
 import gen_integrated as gi
+import cells.common as cc
 
 root, committed, t = sys.argv[1], sys.argv[2], sys.argv[3]
 enum_order = "--enumeration-order" in sys.argv[4:]
@@ -89,7 +90,7 @@ def enum_digest(ly, cell):
     return h.hexdigest()
 
 
-fn = enum_digest if enum_order else gi.digest
+fn = enum_digest if enum_order else cc.digest
 
 
 def read(path):
@@ -180,6 +181,7 @@ import sys
 sys.path.insert(0, os.path.join(sys.argv[1], "layout"))
 import klayout.db as db
 import gen_integrated as gi
+import cells.common as cc
 
 committed, restamped, t = sys.argv[2], sys.argv[3], sys.argv[4]
 
@@ -191,7 +193,7 @@ def sha(path):
 def dig(path):
     ly = db.Layout()
     ly.read(path)
-    return gi.digest(ly, ly.cell(gi.TOP))
+    return cc.digest(ly, ly.cell(gi.TOP))
 
 
 def fail(msg):

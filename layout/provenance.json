@@ -16,11 +16,11 @@
   },
   "gen_integrated": {
    "path": "layout/gen_integrated.py",
-   "sha256": "f4c779a06c804972d54a98be229cf06e864f5bf80a5713131b56060e33617efe"
+   "sha256": "714555e49f2100d2f1ecdd1f5fa603468d54798fca1fee952fff48e21ec8eb5d"
   },
   "gen_top": {
    "path": "layout/gen_top.py",
-   "sha256": "1cca9a8d483cdea51db36a7817260fb6315dad8d3bf0fa1b18a5da31029ecf68"
+   "sha256": "ed467993df6ecd4d7340e0b4e572f35c003b8daa4c6f8af27de128aca7b2e2c7"
   },
   "vco_gds": {
    "path": ".fetched/sg13g2-vco/layout/vco.gds",

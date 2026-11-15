@@ -68,6 +68,38 @@ def sha256(path):
     return h.hexdigest()
 
 
+def digest(ly, cell):
+    """Writer-independent geometry digest of `cell` in `ly`: merged polygons per layer plus
+    label text/position. Shared by gen_cells.py and gen_integrated.py (one copy -- the pre-#308
+    pair had diverged on label positions and had to be fixed twice for #263).
+
+    Layers are hashed in ascending (layer, datatype) order, NOT in `ly.layer_indexes()`
+    enumeration order: that order is an artefact of the writer and is not preserved across a
+    GDS round trip, so hashing in it made the digest move for a stream that had merely been
+    re-saved -- a geometry mismatch that is not one (#263). Every caller reads `ly` from a
+    stream, where KLayout creates exactly one layer index per (layer, datatype), so the key is
+    a total order over the layers being hashed.
+
+    Label positions are hashed in the digest target cell's own coordinate system: the instance
+    transform is applied (`it.trans() * s.text_trans.disp`), so a label deep in the hierarchy
+    hashes where the cell's reader sees it. This is also the only convention consistent with the
+    committed records: for the six generated cells the two positions coincide and both
+    conventions reproduce layout/cells.provenance.json, but layout/provenance.json's top-cell
+    digest -- pinned 2026-11-15 -- reproduces only with the transform applied.
+    """
+    h = hashlib.sha256()
+    for li in sorted(ly.layer_indexes(), key=lambda i: (ly.get_info(i).layer, ly.get_info(i).datatype)):
+        info = ly.get_info(li)
+        r = db.Region(cell.begin_shapes_rec(li))
+        r.merge()
+        polys = sorted(str(p) for p in r.each())
+        txt = sorted(f"{s.text_string}@{(it.trans() * s.text_trans.disp).x},{(it.trans() * s.text_trans.disp).y}"
+                     for it in cell.begin_shapes_rec(li) for s in [it.shape()] if s.is_text())
+        if polys or txt:
+            h.update(f"{info.layer}/{info.datatype}|{';'.join(polys)}|{';'.join(txt)}\n".encode())
+    return h.hexdigest()
+
+
 # --- netlist reading and flattening (pure) ---------------------------------------------
 
 

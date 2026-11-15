@@ -70,7 +70,10 @@ terminal of that net. `layout/cells.provenance.json` holds the cell list, area (
 version, netlist sha256 and a geometry digest; `gen_cells.py --check` fails on any difference.
 The digest hashes merged polygons plus label text/position per layer, in sorted `(layer, datatype)`
 order rather than KLayout's layer-enumeration order, so it is stable across a re-save of the stream
-(#263). Both `digest()` copies -- here and in `gen_integrated.py` -- carry that ordering.
+(#263). It is defined once, as `cells/common.py` `digest(ly, cell)`, and both `gen_cells.py` and
+`gen_integrated.py` call it (#308 consolidated the two copies, which had diverged on label positions:
+label positions are hashed with the instance transform applied, so a label hashes where the digest
+target cell's reader sees it).
 
 **PFD / lock detector: adopted by method, not by stream.** `sg13g2-pll@e71ff61` has no PFD- or
 lock-detector-specific layout, only `layout/bin/pll_layout.py`, a generic netlist-to-`klt gen` planner for
