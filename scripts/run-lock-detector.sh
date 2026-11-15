@@ -126,7 +126,7 @@ if [ "${MODE}" = nominal ]; then
 fi
 
 write_grid_record() { # <grid dir>: the record from request.json + report.json (also: `report <grid dir>`)
-  local D="$1" STG="$2" REC_ID TOT
+  local D="$1" STG="$2" REC_ID
   REC_ID="$(basename "${D}")"
   jq -e '.status == "pass"' "${D}/report.json" >/dev/null || die "${D}/report.json is not a complete passing report"
   "${TOOL[@]}" summary "${D}/report.json" "${WORK}/grid.md"

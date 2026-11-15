@@ -28,7 +28,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.abspath(os.path.join(HERE, "..", "..")))
 import ngpin  # noqa: E402  (the simulator pin check, computed once in sim/ngpin.py)
 
-VDD_TXT = 3.3
 PFD_CP_BIAS_MW = 1.71  # sim/loop-power/records/20261103-065025-67d1431-dirty.md, nominal corner only
 BUDGET_MW = 20.0
 TFB_LO, TFB_HI = 58.5e-9, 61.5e-9

@@ -2,8 +2,48 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-11-15
+
+- **Issue #282** (closed): test-layout-vco.sh/-top.sh: five bare-refuse negative controls pass when their fixture generation silently fails
+- **PR #305**: test: make layout negative controls discriminating and guard their fixture generation
+- **Issue #273** (closed): run-jitter.sh: a NOISE_INPUTS file supplying no in-band term still promises a listing the record does not contain
+- **PR #299**: fix: guard the jitter record's inputs parenthetical on the supplied term count
+- **Issue #281** (closed): Define the record ID once in lib-record.sh: the same ID= line is repeated in 11 bench drivers
+- **PR #288**: refactor(record): set the record ID and directory in lib-record.sh, not in each driver
+- **Issue #275** (closed): A Guide docs-maintenance PR that edits README.md always red-lines item 10's attest gate
+- **PR #293**: docs(manifests): record README.md ownership rule and item-10 recovery for Guide docs PRs
+- **Issue #286** (closed): Remove three born-dead lines in layout/lvs/build_reference.py: two unused imports and a comment that claims the LVS reference strips device parameters when it does not
+- **PR #292**: refactor: drop unused imports and false strip comment in LVS reference builder
+- **Issue #280** (closed): Item 5, row 5: cite the method-L envelope or correct the declared gap now that klayout-tools#4859 is closed
+- **PR #296**: manifests: row-5 gap names the klt 0.9.0 model-run gate instead of the closed #4859; regenerate record
+- **Issue #285** (closed): Collapse the triplicated OSDI pin check in lib-pdk.sh, and fix what PDK_SKIP_PSP103 claims to gate
+- **PR #289**: refactor(pdk): one guarded loop for the three OSDI pin checks, flag renamed
+- **Issue #278** (closed): Enumerate the M/A counter state sequence for N = 90-110 (PDK-free), to say which terminal-count decodes are valid for #199
+- **PR #295**: Enumerate M/A counter state sequences from the netlist; settle look-ahead decode validity
+
+### 2026-11-14
+
+- **Issue #263** (closed): gen_integrated.py digest() is layer-order sensitive, so it is not stable across a GDS round trip
+- **PR #270**: fix(layout): hash digest layers in sorted (layer, datatype) order
+- **Issue #279** (closed): Record what a sg13g2-vco pin bump would bring and what it would invalidate (pin 17e49a8 vs upstream main)
+- **PR #287**: docs(sim): record the sg13g2-vco pin delta and what a bump would cost
+- **PR #284**: docs: state README status and ladder from the signoff record; re-tense stale DRC claims
+- **Issue #272** (closed): Consolidate the duplicated expect() test harness into one scripts/ library; test-fetch-vco.sh still carries the pre-#234 weak form
+- **PR #283**: test: consolidate the duplicated expect() harness into scripts/lib-expect.sh
+- **Issue #261** (closed): Compute the ngspice pin verdict in the klt sim record generators: five scripts print "pin 47: mismatch" as a literal
+- **PR #265**: refactor(sim): compute the ngspice pin verdict in sim/ngpin.py, drop the five literals
+- **PR #276**: docs: roadmap as of 2026-11-13
+- **Issue #260** (closed): run-jitter.sh: a record made with NOISE_INPUTS carries only the file's path and sha256, not each term's table and source
+- **PR #269**: feat(jitter): state each in-band noise input's summary and source in the record
+- **Issue #245** (closed): Finish the Metal1 pad-trim guard in gen_integrated.py and remove its inert bindings and duplicate helpers
+- **PR #256**: feat(layout): test trimmed Metal1 pads still cover their Via1, record the count
+
 ### 2026-11-13
 
+- **Issue #257** (closed): gen_integrated.py --write churns the attested top.gds on an unchanged design (GDS timestamps)
+- **PR #264**: fix(layout): keep the attested top.gds bytes when --write finds no geometry change
+- **Issue #258** (closed): make_record.py: G2 closure line cannot see a 125 C unit missing from the reports
+- **PR #266**: fix(sim): grade the G2 125 C closure line against the requested grid
 - **Issue #247** (closed): Method-L jitter model: take the three in-band noise terms as inputs and report an unsupplied term as missing, never 0.0
 - **PR #259**: feat: take the three in-band jitter terms as model inputs and report an unsupplied term as missing
 - **Issue #239** (closed): Consolidate the spec corner-set table: seven request generators each re-encode the DR-004 SLOW/TYP/FAST bundles, and they have diverged
