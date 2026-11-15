@@ -14,8 +14,9 @@
 #     naming the absent path: the hash capture must survive the `set -euo pipefail` every
 #     driver sources it under (issue #290).
 #
-# Every case asserts behaviour that predates the collapse except the two flag cases, which pin
-# the renamed escape hatch and the fail-safe on its retired spelling.
+# Most cases assert behaviour that predates the collapse. The exceptions are the two flag cases,
+# which pin the renamed escape hatch and the fail-safe on its retired spelling, and the three
+# missing-library cases above, whose message only became reachable with the #290 fix.
 #
 #   scripts/test-lib-pdk.sh
 set -uo pipefail
