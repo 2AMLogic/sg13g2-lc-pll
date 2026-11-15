@@ -9,7 +9,10 @@
 #   - PDK_SKIP_OSDI_PINS=1 skips all three checks and leaves all three variables unset;
 #   - the retired spelling PDK_SKIP_PSP103=1 skips nothing. A stale flag name must fail
 #     safe, towards more pin checking, never less;
-#   - the model-library loop above the OSDI block is untouched.
+#   - the model-library loop above the OSDI block is untouched;
+#   - a missing library — model or OSDI — dies with the block's own "is missing" message
+#     naming the absent path: the hash capture must survive the `set -euo pipefail` every
+#     driver sources it under (issue #290).
 #
 # Every case asserts behaviour that predates the collapse except the two flag cases, which pin
 # the renamed escape hatch and the fail-safe on its retired spelling.
@@ -69,21 +72,24 @@ SET_ALL="PSP=${OSDI_DIR}/psp103.osdi NQS=${OSDI_DIR}/psp103_nqs.osdi R3=${OSDI_D
 
 run; ok "clean tree sets all three OSDI_* variables" "${SET_ALL}"
 
-# Each library is pinned on its own: corrupting one must die naming that one's pins.json key.
+# Each library is pinned on its own: corrupting one must die naming that one's pins.json key
+# and the wrong hash it actually found — the real hash, never the missing fallback.
 for k in psp103 psp103_nqs r3_cmc; do
   printf 'tampered\n' > "${OSDI_DIR}/${k}.osdi"
-  run; dies "${k} mismatch is refused" "not the pinned ${k}.osdi"
+  bad="$(h "${OSDI_DIR}/${k}.osdi")"
+  run; dies "${k} mismatch is refused" "is ${bad}, not the pinned ${k}.osdi"
   fixture
 done
 
-# A missing library is refused too. Only the non-zero exit is asserted, not a message: under
-# the `set -euo pipefail` every driver sets, the failing sha256sum aborts the shell at the
-# assignment, so the block's own "is missing" die text is unreachable. Pre-existing and left
-# alone here (#285 is the duplication); tracked separately.
+# A missing library dies with the block's own message, naming the absent path: the `|| true`
+# on the hash capture keeps that die reachable under the `set -euo pipefail` every driver
+# sources this with (#290).
 rm -f "${OSDI_DIR}/r3_cmc.osdi"
-run
-if [ "${RC}" != 0 ]; then echo "ok   a missing OSDI library is refused"
-else echo "FAIL a missing OSDI library is refused: rc=0, output: ${OUT}"; fail=1; fi
+run; dies "a missing OSDI library is refused" "is missing, not the pinned r3_cmc.osdi"
+# A directory at the path is not a hashable file either: refused, and reported as missing.
+mkdir "${OSDI_DIR}/r3_cmc.osdi"
+run; dies "a directory at an OSDI path is refused" "is missing, not the pinned r3_cmc.osdi"
+rmdir "${OSDI_DIR}/r3_cmc.osdi"
 fixture
 
 # The escape hatch gates all three, and says so in its name.
@@ -96,6 +102,12 @@ fixture
 # The model-library loop ahead of the OSDI block still refuses an unpinned PDK.
 printf 'tampered\n' > "${MODELS_DIR}/cornerMOSlv.lib"
 run; dies "an unpinned model library is refused" "not the pinned PDK"
+fixture
+
+# ... and reports a missing one as missing — the same once-unreachable die shape as the
+# OSDI block (#290) — instead of aborting silently.
+rm -f "${MODELS_DIR}/cornerMOSlv.lib"
+run; dies "a missing model library is refused" "is missing, pinned"
 fixture
 
 exit "${fail}"
