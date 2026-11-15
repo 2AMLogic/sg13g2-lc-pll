@@ -92,10 +92,10 @@ Maturity ladder: spec ratified → VCO interface agreed with `sg13g2-vco` →
 prescaler simulated across PVT → loop simulated across PVT → integrated
 layout DRC/LVS-clean → post-layout re-verification → shuttle seat → measured
 silicon. **Current position: past spec ratification, with an integrated layout
-committed and DRC `clean` on both the curated and native decks — clean for the
-layers the curated deck covers ([`layout/drc/README.md`](layout/drc/README.md)
-for the coverage it excludes) — but no later
-rung is closed. LVS is `mismatch` (item 4 `unmet`) and full corner verification
+committed and DRC `clean` on both the curated and native decks — for the
+curated deck, clean for the layers it covers
+([`layout/drc/README.md`](layout/drc/README.md) for the coverage it excludes) —
+but no later rung is closed. LVS is `mismatch` (item 4 `unmet`) and full corner verification
 has not run. Gate G2 is open: with the prescaler load attached the pinned VCO
 simulates at 4.134-4.265 GHz, 0 of 90 converged corners inside the 4.5-5.5 GHz
 band ([`sim/corner-verification/vco-prescaler-load/records/`](sim/corner-verification/vco-prescaler-load/records/)).**
