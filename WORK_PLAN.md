@@ -11,6 +11,7 @@ Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a h
 - **#200**: docs(sim): trace 125C divider stall to M-counter terminal-count setup path
 - **#207**: docs(spec): add clock-output interface row 15 and DR-006, stated as not met
 - **#262**: docs(spec): add DR-007 — reference noise mask, in-band split, method N narrowed to the charge pump
+- **#322**: chore(loom): resync installed Loom to v0.19.1302
 
 ## Very Important
 
@@ -61,6 +62,7 @@ PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 - **#200**: docs(sim): trace 125C divider stall to M-counter terminal-count setup path
 - **#207**: docs(spec): add clock-output interface row 15 and DR-006, stated as not met
 - **#262**: docs(spec): add DR-007 — reference noise mask, in-band split, method N narrowed to the charge pump
+- **#322**: chore(loom): resync installed Loom to v0.19.1302
 
 ## Proposed
 
@@ -95,13 +97,13 @@ _None._
 
 | Bucket | Count |
 |------|-------|
-| Operator merge-risk holds | 4 |
+| Operator merge-risk holds | 5 |
 | Very important | 1 |
 | Important | 8 |
 | Ready (`loom:issue`) | 0 |
 | In Progress (`loom:building`) | 5 |
 | PRs awaiting review | 0 |
-| Approved PRs awaiting merge | 4 |
+| Approved PRs awaiting merge | 5 |
 | Curated | 12 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 0 |
