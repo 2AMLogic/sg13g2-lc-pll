@@ -41,7 +41,6 @@ _None._
 
 Issues currently being built (`loom:building`).
 
-- **#82**: spec decision: CP up/down mismatch (row 7) limit and yield target
 - **#88**: G6: measure transient-noise cost versus run length for method T
 - **#178**: Stale sim/prescaler-g3: drives the old /4-/5 stage, not the merged /8-/9 prescaler
 - **#197**: Divider stops dividing at 125C after start-up (7 of 54 corner units): SLOW 625/687.5 MHz, TYP 687.5 MHz
@@ -100,7 +99,7 @@ _None._
 | Very important | 1 |
 | Important | 8 |
 | Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 6 |
+| In Progress (`loom:building`) | 5 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 4 |
 | Curated | 12 |
