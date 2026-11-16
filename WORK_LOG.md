@@ -2,6 +2,10 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-11-16
+
+- **PR #322**: chore(loom): resync installed Loom to v0.19.1302
+
 ### 2026-11-15
 
 - **Issue #304** (closed): Bump the klt pin from 0.8.0 to a release that accepts model-run (unblocks the row-5 item-5 citation)
