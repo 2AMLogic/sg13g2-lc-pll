@@ -11,7 +11,7 @@ Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a h
 - **#200**: docs(sim): trace 125C divider stall to M-counter terminal-count setup path
 - **#207**: docs(spec): add clock-output interface row 15 and DR-006, stated as not met
 - **#262**: docs(spec): add DR-007 — reference noise mask, in-band split, method N narrowed to the charge pump
-- **#322**: chore(loom): resync installed Loom to v0.19.1302
+- **#324**: chore(loom): resync installed Loom to v0.19.1305
 
 ## Very Important
 
@@ -36,15 +36,13 @@ Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a h
 
 Human-approved issues ready for implementation (`loom:issue`).
 
-_None._
+- **#178**: Stale sim/prescaler-g3: drives the old /4-/5 stage, not the merged /8-/9 prescaler
 
 ## In Progress
 
 Issues currently being built (`loom:building`).
 
 - **#88**: G6: measure transient-noise cost versus run length for method T
-- **#178**: Stale sim/prescaler-g3: drives the old /4-/5 stage, not the merged /8-/9 prescaler
-- **#197**: Divider stops dividing at 125C after start-up (7 of 54 corner units): SLOW 625/687.5 MHz, TYP 687.5 MHz
 - **#206**: spec: state clock output swing and load for a downstream TX mux
 - **#252**: Spec section 4: state the reference phase-noise requirement and define method N for the switching blocks (decision record)
 
@@ -62,7 +60,7 @@ PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 - **#200**: docs(sim): trace 125C divider stall to M-counter terminal-count setup path
 - **#207**: docs(spec): add clock-output interface row 15 and DR-006, stated as not met
 - **#262**: docs(spec): add DR-007 — reference noise mask, in-band split, method N narrowed to the charge pump
-- **#322**: chore(loom): resync installed Loom to v0.19.1302
+- **#324**: chore(loom): resync installed Loom to v0.19.1305
 
 ## Proposed
 
@@ -100,8 +98,8 @@ _None._
 | Operator merge-risk holds | 5 |
 | Very important | 1 |
 | Important | 8 |
-| Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 5 |
+| Ready (`loom:issue`) | 1 |
+| In Progress (`loom:building`) | 3 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 5 |
 | Curated | 12 |
