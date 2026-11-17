@@ -2,6 +2,12 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-11-17
+
+- **PR #327**: chore(loom): resync installed Loom to v0.19.1306
+- **Issue #197** (closed): Divider stops dividing at 125C after start-up (7 of 54 corner units): SLOW 625/687.5 MHz, TYP 687.5 MHz
+- **Issue #82** (closed): spec decision: CP up/down mismatch (row 7) limit and yield target
+
 ### 2026-11-16
 
 - **PR #322**: chore(loom): resync installed Loom to v0.19.1302
