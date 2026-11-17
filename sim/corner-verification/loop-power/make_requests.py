@@ -9,22 +9,15 @@ Stage 2 = SLOW/TYP/FAST x 3 T x {2.970, 3.630} V = 18 sub-corners (DR-004 bundle
 """
 import json
 import os
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-LIB = "libs.tech/ngspice/models/"
-MOS = ["tt", "ss", "ff", "sf", "fs"]
-MIM = ["typ", "bcs", "wcs"]
-HBT = ["typ", "bcs", "wcs"]
+sys.path.insert(0, os.path.abspath(os.path.join(HERE, "..", "..")))
+import corner_set  # noqa: E402  (the spec C-grid, defined once in sim/corner_set.py)
+
+FAMILIES = ("mos", "mim", "hbt")  # this body holds HV MOS, MIM caps and HBTs
 W0, TSTOP = "40n", "120n"
 MAX_UNITS = 5  # units per batch job under --batch-set (--max-units-per-job is not applied there, klayout-tools #4889)
-
-
-def sections(mos, mim, hbt):
-    return [
-        {"lib": LIB + "cornerMOShv.lib", "section": "mos_" + mos},
-        {"lib": LIB + "cornerCAP.lib", "section": "cap_" + mim},
-        {"lib": LIB + "cornerHBT.lib", "section": "hbt_" + hbt},
-    ]
 
 
 def req(stage):
@@ -51,20 +44,18 @@ def req(stage):
     ]
     if stage == 1:
         d["corners"] = {
-            "process": [{"name": "mos_%s/cap_%s/hbt_%s" % (m, c, h), "sections": sections(m, c, h)}
-                        for m in MOS for c in MIM for h in HBT],
-            "temperature_c": [-40, 27, 125],
-            "params": {"vddv": [3.3]},
+            "process": [{"name": "mos_%s/cap_%s/hbt_%s" % (m, c, h),
+                         "sections": corner_set.sections(FAMILIES, mos=m, mim=c, hbt=h)}
+                        for m in corner_set.MOS for c in corner_set.MIM for h in corner_set.HBT],
+            "temperature_c": list(corner_set.TEMPS),
+            "params": {"vddv": [corner_set.V_STAGE1]},
         }
     else:
         d["corners"] = {
-            "process": [
-                {"name": "SLOW", "sections": sections("ss", "wcs", "wcs")},
-                {"name": "TYP", "sections": sections("tt", "typ", "typ")},
-                {"name": "FAST", "sections": sections("ff", "bcs", "bcs")},
-            ],
-            "temperature_c": [-40, 27, 125],
-            "params": {"vddv": [2.97, 3.63]},
+            "process": [{"name": b, "sections": corner_set.bundle_sections(b, FAMILIES)}
+                        for b in corner_set.BUNDLES],
+            "temperature_c": list(corner_set.TEMPS),
+            "params": {"vddv": list(corner_set.V_STAGE2)},
         }
     d["options"] = {"timeout_s": 600, "keep_artifacts": True,
                     "osdi_preload": ["$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"]}
@@ -121,8 +112,8 @@ def res_stage2(m40=False):
     PDK instances since PR #169, so each process name also selects cornerRES.lib (SLOW=res_wcs, TYP=res_typ,
     FAST=res_bcs) and the r3_cmc OSDI is preloaded. The request files written before that carried no resistor model."""
     d = req(2)
-    for p, r in zip(d["corners"]["process"], ("res_wcs", "res_typ", "res_bcs")):
-        p["sections"].append({"lib": LIB + "cornerRES.lib", "section": r})
+    for p in d["corners"]["process"]:
+        p["sections"] += corner_set.bundle_sections(p["name"], ("res",))
     d["options"]["osdi_preload"].append("$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi")
     d["options"]["ngspice_init"] = ["set ngbehavior=hsa"]
     d["_comment"].append("RESISTOR LOADING (issue #164): same 18 stage-2 sub-corners as request-stage2.json, plus cornerRES.lib (SLOW/TYP/FAST = res_wcs/res_typ/res_bcs) and the r3_cmc OSDI. Stage 1 (135 points, independent MOS x MIM x HBT axes) has no resistor axis and is not re-run.")

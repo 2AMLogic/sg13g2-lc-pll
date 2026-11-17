@@ -3,11 +3,12 @@
 Evidence and pins. See the repo README for scope.
 
 - [`pins.json`](pins.json) — PDK, OSDI and simulator pins for the smoke bench.
+- [`ngpin.py`](ngpin.py) — the simulator pin check used by the `klt sim` record generators: it compares a report's `environment.engine_version` with `ngspice.version` in `pins.json` (the prefix rule of `scripts/lib-ngpin.sh`, which does the same for the local bench drivers) and returns the sentence the record states. No generator holds a pin verdict as literal text; with no version reported the fragment says `unchecked`, never `match`. Tests: [`test_ngpin.py`](test_ngpin.py).
 - [`vco-smoke/`](vco-smoke/README.md) — smoke run of the pinned `sg13g2-vco` (`reuse.lock.json`); records are append-only.
 - [`loop-model/`](loop-model/loop_model.py) — method-L linear phase-domain loop model: loop-filter sizing, f_c / PM / partial jitter over the Kvco × I_cp grid (VCO noise input is a target, not measured). [`records/`](loop-model/records/README.md): the row 5 envelope over the measured I_cp spread of [`cp-dc`](cp-dc/README.md) (`envelope.py`).
 - [`corner-verification/`](corner-verification/README.md) — `klt sim` C-grid envelopes for T1 item 5 (first slice: charge pump, rows 6-7; other rows declared gaps).
 - [`prescaler-g1/`](prescaler-g1/README.md) — gate G1: prescaler first-stage input capacitance / conductance at 5.0 GHz and /2 toggle limit (nominal corner only); records are append-only. Its [`prescaler_vce.request.json`](prescaler-g1/prescaler_vce.request.json) is the `klt sim` corner request for the HBT Vce check against BVCEO over the 18 supply sub-corners.
-- [`prescaler-g3/`](prescaler-g3/README.md) — gate G3: /4/5 stage in both modulus states and HBT-vs-HV-MOS CML latch comparison (nominal corner only).
+- [`prescaler-g3/`](prescaler-g3/README.md) — gate G3: whole prescaler in both modulus states (/8, /9) and HBT-vs-HV-MOS CML latch comparison (nominal corner only).
 - [`loop-tran/`](loop-tran/README.md) — closed-loop transient: lock time and reference spur (rows 10, 9) with the real PFD/CP/filter and a behavioural VCO/divider stand-in (nominal corner only).
 - [`loop-power/`](loop-power/README.md) — row 11 for the circuits that exist: prescaler + divider supply power at 5.0 GHz in, plus PFD/CP from the loop-tran record.
 - [`jitter/`](jitter/README.md) — row 8 method-L jitter record with its section 4 method fields (method T not run).

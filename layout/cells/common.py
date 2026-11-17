@@ -30,7 +30,6 @@ from . import netlist
 from .netlist import PlanError, read_subckts  # noqa: F401  (re-exported)
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-NETLIST_DIR = os.path.join(ROOT, "design", "netlist")
 
 PDK = "ihp-sg13g2"
 MOS_MODELS = {"sg13_hv_nmos": "nfet", "sg13_hv_pmos": "pfet"}
@@ -52,6 +51,13 @@ VOLTAGE_FLAVOR = "hv"   # thick-oxide marker (DR-002 Decision 0: 3.3 V devices t
 MOS_W_FLOOR_UM = 0.42   # below this mos_array needs dogbone_terminals (klayout-tools#4851)
 GROUP_SPACING_UM = 4.0
 BLOCK_TARGET_WIDTH_UM = 220.0
+# A MOS card is `D G S B <model>`: the bulk net a tap ring would carry is the 4th node.
+MOS_BULK_INDEX = 3
+# nfet N+Activ inside the p-well needs a pSD substrate tie within 20 um (native rule LU.b).
+# `mos_array add_guard_ring` draws that ring itself on ihp-sg13g2 from klayout-tools#5231
+# (klt >= 0.9.2.dev887+gec7400b7d8e5); older builds drew an n-well tie with off-grid Cont
+# instead, which is why the tie was not drawn before (layout/drc/README.md "LU.b substrate taps").
+TAP_RING_FLAVORS = ("nfet",)
 
 
 def sha256(path):
@@ -59,6 +65,38 @@ def sha256(path):
     with open(path, "rb") as f:
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
+    return h.hexdigest()
+
+
+def digest(ly, cell):
+    """Writer-independent geometry digest of `cell` in `ly`: merged polygons per layer plus
+    label text/position. Shared by gen_cells.py and gen_integrated.py (one copy -- the pre-#308
+    pair had diverged on label positions and had to be fixed twice for #263).
+
+    Layers are hashed in ascending (layer, datatype) order, NOT in `ly.layer_indexes()`
+    enumeration order: that order is an artefact of the writer and is not preserved across a
+    GDS round trip, so hashing in it made the digest move for a stream that had merely been
+    re-saved -- a geometry mismatch that is not one (#263). Every caller reads `ly` from a
+    stream, where KLayout creates exactly one layer index per (layer, datatype), so the key is
+    a total order over the layers being hashed.
+
+    Label positions are hashed in the digest target cell's own coordinate system: the instance
+    transform is applied (`it.trans() * s.text_trans.disp`), so a label deep in the hierarchy
+    hashes where the cell's reader sees it. This is also the only convention consistent with the
+    committed records: for the six generated cells the two positions coincide and both
+    conventions reproduce layout/cells.provenance.json, but layout/provenance.json's top-cell
+    digest -- pinned 2026-11-15 -- reproduces only with the transform applied.
+    """
+    h = hashlib.sha256()
+    for li in sorted(ly.layer_indexes(), key=lambda i: (ly.get_info(i).layer, ly.get_info(i).datatype)):
+        info = ly.get_info(li)
+        r = db.Region(cell.begin_shapes_rec(li))
+        r.merge()
+        polys = sorted(str(p) for p in r.each())
+        txt = sorted(f"{s.text_string}@{(it.trans() * s.text_trans.disp).x},{(it.trans() * s.text_trans.disp).y}"
+                     for it in cell.begin_shapes_rec(li) for s in [it.shape()] if s.is_text())
+        if polys or txt:
+            h.update(f"{info.layer}/{info.datatype}|{';'.join(polys)}|{';'.join(txt)}\n".encode())
     return h.hexdigest()
 
 
@@ -91,6 +129,26 @@ def _slug(v):
     return f"{v:g}".replace(".", "p").replace("-", "m")
 
 
+def _tap_net(block, flav, w, l, mem):
+    """The bulk net a `flav` group's tap ring carries, or None if that flavor gets no ring.
+
+    The net is read from the device cards' 4th node, never invented. One ring is one body
+    potential, so a group whose units disagree on it is refused rather than tied together.
+    """
+    if flav not in TAP_RING_FLAVORS:
+        return None
+    who = f"{block} {flav} w={w:g} l={l:g}"
+    short = [m for m in mem if len(m["nets"]) <= MOS_BULK_INDEX]
+    if short:
+        raise PlanError(f"{who}: {short[0]['path']} has {len(short[0]['nets'])} nodes, "
+                        "need D G S B for a tap ring")
+    bulks = sorted({m["nets"][MOS_BULK_INDEX] for m in mem})
+    if len(bulks) != 1:
+        raise PlanError(f"{who}: units sit on different bulk nets {bulks}; "
+                        "one tap ring cannot carry two body potentials")
+    return bulks[0]
+
+
 def plan(block, devices):
     """Group leaf devices into klt gen requests. Each unit gets the device's nets."""
     mos, res, caps, hbt = {}, {}, {}, {}
@@ -114,13 +172,16 @@ def plan(block, devices):
     groups = []
     for (flav, w, l, ng), mem in sorted(mos.items()):
         rows = max(r for r in range(1, math.isqrt(len(mem)) + 1) if len(mem) % r == 0)
+        tap_net = _tap_net(block, flav, w, l, mem)
         groups.append({
             "id": f"{block}_{flav}_w{_slug(w)}_l{_slug(l)}" + (f"_ng{ng}" if ng > 1 else ""),
             "generator": "mos_array", "klass": flav, "count": len(mem),
             "params": {"w_um": w, "l_um": l, "fingers": ng, "rows": rows, "cols": len(mem) // rows,
                        "dummy": 0, "flavor": flav, "voltage_flavor": VOLTAGE_FLAVOR,
                        "topology": "array", "gate_contact": True,
-                       **({"dogbone_terminals": True} if w < MOS_W_FLOOR_UM else {})},
+                       **({"dogbone_terminals": True} if w < MOS_W_FLOOR_UM else {}),
+                       **({"add_guard_ring": True} if tap_net is not None else {})},
+            **({"tap_net": tap_net} if tap_net is not None else {}),
             "terminals": [{"port": f"U{i}_{t}", "net": m["nets"][k], "unit": m["path"]}
                           for i, m in enumerate(mem) for k, t in enumerate("DGS")],
         })
@@ -163,7 +224,7 @@ def klt_cmd():
     return os.environ.get("KLT_CMD", "klt").split()
 
 
-def klt(args, cwd, pdk_root=None):
+def klt(args, cwd):
     a = list(args)
     p = subprocess.run(klt_cmd() + a, capture_output=True, text=True, cwd=cwd)
     raw = p.stdout.strip() or p.stderr.strip()
@@ -294,6 +355,7 @@ def build_block(cell, subckt, netlist, out_dir, input_first=()):
                                if any(p in u["nets"] for u in undrawn)],
         "groups": [{"id": g["id"], "generator": g["generator"], "klass": g["klass"], "units": g["count"],
                     "params": g["params"], "origin_um": origins[g["id"]],
+                    **({"tap_net": g["tap_net"]} if "tap_net" in g else {}),
                     "bbox_um": [reports[g["id"]]["bbox_um"][k] for k in ("x0", "y0", "x1", "y1")]}
                    for g in groups],
         "commands": cmds + [f"klt gen-compose {cell}.compose.json --format json"],

@@ -27,12 +27,15 @@ $PDK_ROOT/ihp-sg13g2/libs.tech/klayout/tech/sg13g2.lyp (and sg13g2.map for the
 x/22 FILL purposes); the table below is a copy of those rows, not a guess.
 """
 import argparse
-import hashlib
 import json
 import os
 import sys
 
 import klayout.db as db
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+from cells import common  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -57,14 +60,6 @@ PSD_ENC_UM = 0.3
 FILL_GAP_UM, FILL_BAND_UM = 5.0, 40.0
 FILL_SIZE_UM, FILL_PITCH_UM = 4.0, 8.0
 TOP_NAME, VCO_NAME = "lc_pll_top", "vco"
-
-
-def sha256(path):
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
-    return h.hexdigest()
 
 
 def pinned_sha(lock_path, local_rel):
@@ -97,7 +92,7 @@ def main():
     a = ap.parse_args()
 
     want = pinned_sha(a.lock, ".fetched/sg13g2-vco/layout/vco.gds")
-    got = sha256(a.vco)
+    got = common.sha256(a.vco)
     if got != want:
         sys.exit(f"gen_top: {a.vco} sha256 {got} != pinned {want}; refusing (run scripts/fetch-vco.sh)")
 
@@ -131,7 +126,13 @@ def main():
         pts.update([(x, ys0), (x, ys1)])
     for y in range(ys0, ys1 + 1, step):
         pts.update([(xs0, y), (xs1, y)])
+    kept = []
     for x, y in sorted(pts):
+        # The straight runs meet at the corners off-pitch; drop a contact closer than one pitch (Chebyshev) to a kept
+        # one, so the Cont-to-Cont space stays >= pitch - size = 0.18 um (native Cnt.b).
+        if any(max(abs(x - kx), abs(y - ky)) < step for kx, ky in kept):
+            continue
+        kept.append((x, y))
         top.shapes(li["Cont"]).insert(db.Box(x - half, y - half, x + half, y + half))
         n += 1
 

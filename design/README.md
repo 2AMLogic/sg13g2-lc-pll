@@ -103,7 +103,8 @@ capacitance of each resistor; it was not separately extracted per resistor, only
 | 2400 (2.4k) | CML loads RL, followers RF, RREF, RTC, `mc_conv` RL | `rppd` | 1 | 9.05 | 9.1 | 2398 (9.07 um: 2400.3) |
 | 4k | `cml_ef` / `div2_ef_hs` RDF | `rppd` | 1 | 15.3 | 15.3 | 4001 |
 | 12k, 28k | `mc_conv` RD1, RD2 | `rppd` | 1 | 46.4, 108.8 | 46 / 109 | 11991 / 28023 |
-| 20k | `mc_conv` RIN | `rppd` | 1 | 77.7 | 78 | 20032 |
+| 10k | `mc_conv` RIN (issue #165; was 20k, L = 77.7) | `rppd` | 1 | 38.65 | 39 | 9999 (fit, not re-simulated) |
+| 31k | `mc_conv` RB, `bm` to VSS (issue #165) | `rppd` | 1 | 120.65 | 121 | 31063 (fit, not re-simulated) |
 | 50k | `cml2cmos` RB1, RB2, RV1, RV2 | `rhigh` | 0.5 | 15.35 | 31 | 50025 |
 | 100k | `cml2cmos` RF1 | `rhigh` | 0.5 | 30.8 | 62 | 100054 |
 
@@ -143,7 +144,8 @@ only as far as the varactor's DC load is negligible.
 
 **Divider.** `divider` takes the prescaler's CML `OUTP`/`OUTN`, converts them to a CMOS clock (`cml2cmos`:
 HV-NMOS pair, PMOS mirror, tail 4 x `IREF` from the prescaler reference node, two inverters), and runs a
-pulse-swallow counter: `mcounter` counts `M` clocks (loads `M[3:0]` when Q = 0001), `acounter` holds `A`
+pulse-swallow counter: `mcounter` counts `M` clocks (loads `M[3:0]` when Q = 0001 - the registered
+`TC2`; the combinational decode `DT` fires one clock earlier, at Q = 0010), `acounter` holds `A`
 (3 bits, A0..A2) and drives `MC` high for `A` clocks after each load. With the prescaler's P = 8 (`MC` low) or
 9 (`MC` high), **N = 8 M + A, A in [0, 7]**, every integer N reachable provided M >= A (DR-005; spec row 3). N = 100
 is M = 12 (1100), A = 4 (100); the stretch band's bounds are N = 90 (M = 11, A = 2) and N = 110 (M = 13, A = 6). The
@@ -180,8 +182,19 @@ editing the pinned bytes). The gap is filed on `sg13g2-vco` (see the PR).
 **Speed (issue #61).** The first-pass counters did not divide at the prescaler output rate (bisect: `sim/divider-elab/records/20261103-bisect-issue61.md`; the `mcounter` next-state logic, about eight gates deep, stopped between 520 and 550 MHz). Fixed by retiming, with the adopted cells unchanged: `mcounter` now registers its terminal count (`TC`/`TCN` are flop outputs, high exactly when Q = 0001) and per-bit borrow flags (`b1..b3`, lower bits of Q are zero), so every flop-to-flop path is at most three gates; `acounter` has a three-gate-deep next state (two-gate in the 2-bit version; 3 bits since PR #161) with a registered `MC`; the extra clock load on `cml2cmos` is isolated by a one-inverter-plus-three-parallel-`inv_hv` buffer (`CK` -> `CKL`) in `divider`. Requires **M >= 3** (the registered terminal count assumes Q = 0001 is not the loaded value). Verified by `scripts/run-divider-elab.sh`: FB divides N = 100 at 625 and 687.5 MHz through the real `cml2cmos` (simulated, nominal corner `hbt_typ`/`mos_tt`/`cap_typ`, 27 C, 3.3 V, not measured). A prototype of the counter alone divided by 12 at 800 MHz and failed at 900 MHz (nominal, ideal clock; scratch, not a committed record). A = 0 (N = 96) and A = 3 (N = 102) at M = 12 also divide at both rates through the real converter (separate deck `divider_speedA`, same script; simulated, nominal corner, not measured). Not done: any corner other than nominal (the C-grid is #39's `klt sim` envelope work).
 
 **Checks.** `scripts/run-divider-elab.sh` elaborates the divider for five N codes (100, 90, 110, A = 0, A = 3) and counts
-`FB` period and `MC`-high clocks for N = 100 and 90 at a relaxed 100 MHz clock, then runs the speed check (625 and 687.5 MHz, real chain and an ideal-clock bisect control, nominal corner), writing an append-only
+`FB` period and `MC`-high clocks for N = 100 and 90 at a relaxed 100 MHz clock, graded against the expected N by
+`scripts/divider_speed_counts.py` so a wrong count exits the bench nonzero (issue #236), then runs the speed check (625 and 687.5 MHz, real chain and an ideal-clock bisect control, nominal corner), writing an append-only
 record under `sim/divider-elab/records/`. It found two real defects while this was written (a DC-coupled level converter that
 could not reach the inverter threshold, and a case-insensitive net-name collision between a port `A0` and a state bit `a0`);
 SPICE names are case-insensitive, so keep port and internal net names distinct. Item-1 attestation:
 `manifests/design-sources.inventory.json` -> `manifests/design-sources.attest.json` (`klt signoff --attest 1`).
+
+**`mc_conv` input divider on PDK resistors (issue #165, simulated).** `bm = MC x RB / (RIN + RB)`; the fit above gives
+0.7567 (typ), 0.7565 (`res_wcs`, 286 ohm/sq) and 0.7566 (`res_bcs`, 234 ohm/sq) of MC, because both legs are W = 1 um `rppd`
+and only the ~70 ohm end resistance does not scale. At MC = VDD that is 0.056 VDD above `vr` (0.7 VDD) at every resistor corner.
+This is arithmetic on the linear model fit, not a simulated `bm` probe; the evidence is the grids on the merged tree:
+`sim/prescaler-g1/records/20261110-012200-268f3ea-vce.md` (PASS, 0 of 36 over 2.2 V) and
+`sim/prescaler-div89/records/20261110-013500-268f3ea-pdk-divider.md` (same 102 / 108 and 256 / 288 as the #164 record; every
+failure is the known 5.5 GHz SLOW / 125 C limit, none at 5.0 GHz). The `div89_chain` MC level is now a fraction of the supply
+(`mcv` 0 or 1, `MC = mcv x vddv`), so the 3.63 V units get MC = 3.63 V and divide by 9. Records dated 20261109 for #165 were
+taken on the pre-#164 circuit (ideal resistors, `6fbbf0e-dirty`) and are superseded by the two above.

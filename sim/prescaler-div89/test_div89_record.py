@@ -31,7 +31,7 @@ def _corner(periods, hi_drop=0, status="pass", mcv=0.0, phi=None):
 
 def test_clean_div8_and_div9_pass():
     assert d.grade_chain_corner(_corner([8] * 10))["ok"]
-    assert d.grade_chain_corner(_corner([9] * 10, mcv=3.3))["ok"]
+    assert d.grade_chain_corner(_corner([9] * 10, mcv=1.0))["ok"]
 
 
 def test_wrong_ratio_fails():

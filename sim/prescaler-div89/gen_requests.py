@@ -9,9 +9,12 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-# the PDK poly resistors (rppd/rhigh, issue #164) ride the same process name: SLOW = high sheet R, FAST = low
-PROC = [("SLOW", "hbt_wcs", "res_wcs"), ("TYP", "hbt_typ", "res_typ"), ("FAST", "hbt_bcs", "res_bcs")]
-TEMPS = [-40, 27, 125]
+sys.path.insert(0, str(HERE.parent))
+import corner_set  # noqa: E402  (the spec C-grid, defined once in sim/corner_set.py)
+
+# The chain is HBT CML; the PDK poly resistors (rppd/rhigh, issue #164) ride the
+# same process name: SLOW = high sheet R, FAST = low. No MOS or MIM in this netlist.
+FAMILIES = ("hbt", "res")
 
 
 def cross(**axes):
@@ -37,9 +40,9 @@ def request(netlist, stop, t_from, params):
         "models": {"pdk": "sg13g2"},
         "analysis": {"kind": "tran", "args": f"1p {stop} 0 2p"},
         "corners": {
-            "process": [{"name": n, "sections": [{"lib": "libs.tech/ngspice/models/cornerHBT.lib", "section": s},
-                                                 {"lib": "libs.tech/ngspice/models/cornerRES.lib", "section": r}]} for n, s, r in PROC],
-            "temperature_c": TEMPS,
+            "process": [{"name": b, "sections": corner_set.bundle_sections(b, FAMILIES)}
+                        for b in corner_set.BUNDLES],
+            "temperature_c": list(corner_set.TEMPS),
             "params": params,
         },
         "options": {"stage_model_inputs": True, "ngspice_init": ["set ngbehavior=hsa"],
@@ -49,7 +52,7 @@ def request(netlist, stop, t_from, params):
 
 
 def build():
-    chain = request("div89_chain.cir", "24n", "6n", cross(vddv=[2.97, 3.3, 3.63], fin=[5.0e9, 5.5e9], mcv=[0, 3.3]))
+    chain = request("div89_chain.cir", "24n", "6n", cross(vddv=[2.97, 3.3, 3.63], fin=[5.0e9, 5.5e9], mcv=[0, 1]))
     # supply current (negative: it flows out of the source) averaged over 8-24 ns; power = -I x vddv, IREF branch included
     chain["measurements"].append({"name": "i_vdd_avg", "spice": ".meas tran i_vdd_avg AVG i(vdd) FROM=8n TO=24n", "unit": "A"})
     out = {"div89_chain.request.json": chain}

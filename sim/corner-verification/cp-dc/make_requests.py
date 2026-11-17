@@ -6,8 +6,11 @@ Writes request-stage1.json and request-stage2.json next to this file.
 """
 import json
 import os
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.abspath(os.path.join(HERE, "..", "..")))
+import corner_set  # noqa: E402  (the spec C-grid, defined once in sim/corner_set.py)
 
 
 def req(stage):
@@ -24,7 +27,7 @@ def req(stage):
         "netlist_source": "schematic",
         "engine": "ngspice",
         "backend": "batch",
-        "models": {"pdk": "ihp-sg13g2", "lib": "libs.tech/ngspice/models/cornerMOShv.lib"},
+        "models": {"pdk": "ihp-sg13g2", "lib": corner_set.lib_path("mos")},
         "analysis": {"kind": "dc", "args": "VA 1.65 3.3 0.05"},
         "measurements": [
             {"name": "iup_165", "unit": "A", "spec_row": "6", "expr": "i(va)[0]", "limits": {"min": 100e-6, "max": 400e-6}},
@@ -39,16 +42,18 @@ def req(stage):
             "osdi_preload": ["$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"],
         },
     }
+    # MOS-only: the stage-1 MIM and HBT axes do not touch this netlist, and the
+    # stage-2 bundles reduce to their MOS corner.
     if stage == 1:
         d["corners"] = {
-            "process": ["mos_tt", "mos_ss", "mos_ff", "mos_sf", "mos_fs"],
-            "temperature_c": [-40, 27, 125],
+            "process": [corner_set.section("mos", m) for m in corner_set.MOS],
+            "temperature_c": list(corner_set.TEMPS),
         }
     else:
         d["corners"] = {
-            "process": ["mos_ss", "mos_tt", "mos_ff"],
-            "temperature_c": [-40, 27, 125],
-            "supply_v": {"VDD": [2.97, 3.63], "VHI": [2.97, 3.63]},
+            "process": [corner_set.section("mos", m) for m in corner_set.bundle_corners("mos")],
+            "temperature_c": list(corner_set.TEMPS),
+            "supply_v": {"VDD": list(corner_set.V_STAGE2), "VHI": list(corner_set.V_STAGE2)},
         }
         comment.append("supply_v arrays sweep together by index, so VDD and VHI move as one rail.")
     return d

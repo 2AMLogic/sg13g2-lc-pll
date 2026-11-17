@@ -25,8 +25,14 @@ def test_wrong_n_fails():
 
 def test_unconverged_truncated_and_no_toggle_are_not_passes():
     ck = [i + 0.5 for i in range(60)]
-    assert dr.grade_run(_run([0.0, 12.0, 24.0], ck, [1.0], [2.0], status="error"))["status"] == "not-graded"
-    assert dr.grade_run(_run([0.0, 12.0, 24.0], ck, [1.0], [2.0], truncated=True))["status"] == "not-graded"
+    # The unconverged and truncated runs carry a crossing set that grades "pass" on its own
+    # (the control below), so each assertion can only hold via the guard it names. With fewer
+    # than 4 FB edges instead, dropping either guard would just fall through to the no-toggle
+    # guard, which returns "not-graded" too -- so both assertions would still pass.
+    fb, mc_rise, mc_fall = [0.0, 12.0, 24.0, 36.0], [8.01, 20.01, 32.01], [12.0, 24.0, 36.0]
+    assert dr.grade_run(_run(fb, ck, mc_rise, mc_fall))["status"] == "pass"
+    assert dr.grade_run(_run(fb, ck, mc_rise, mc_fall, status="error"))["status"] == "not-graded"
+    assert dr.grade_run(_run(fb, ck, mc_rise, mc_fall, truncated=True))["status"] == "not-graded"
     assert dr.grade_run(_run([0.0, 12.0, 24.0], ck, [1.0], [2.0]))["status"] == "not-graded"
     assert dr.grade({"corners": [_run([0.0, 12.0], ck, [1.0], [2.0])]})["verdict"] == "INCOMPLETE"
 

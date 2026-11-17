@@ -15,6 +15,10 @@ reference cycle per (VWIN, phase-error) point. The equilibrium VWIN of the real 
 VWIN at which that net current is zero.
 """
 import argparse, json, sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "sim"))
+import corner_set  # noqa: E402  (the spec C-grid, defined once in sim/corner_set.py)
 
 T_PS = 20000                       # T_ref = 20 ns (50 MHz)
 PHI_PS = [-10000, -8000, -6000, -4000, -2000, 0, 500, 1000, 2000, 3000, 4000, 5000, 5500, 6000,
@@ -128,27 +132,26 @@ def cmd_body(a):
     print(tstop())
 
 
+# pfd + lock_detector hold HV MOS, MIM caps and poly resistors; no HBT. The MIM
+# corner also picks the poly-resistor corner of the same grid point.
+FAMILIES = ("mos", "mim", "res")
+
+
 def process_bundles(stage, pdk):
-    m = f"{pdk}/ihp-sg13g2/libs.tech/ngspice/models"
-    def b(name, mos, cap, res):
-        return {"name": name, "sections": [{"lib": f"{m}/cornerMOShv.lib", "section": mos},
-                                           {"lib": f"{m}/cornerCAP.lib", "section": cap},
-                                           {"lib": f"{m}/cornerRES.lib", "section": res}]}
+    lib = f"{pdk}/ihp-sg13g2/{corner_set.LIB}"
     if stage == 1:
-        out = []
-        for mos in ("tt", "ss", "ff", "sf", "fs"):
-            for k in ("typ", "bcs", "wcs"):
-                out.append(b(f"mos_{mos}-{k}", f"mos_{mos}", f"cap_{k}", f"res_{k}"))
-        return out
-    return [b("SLOW", "mos_ss", "cap_wcs", "res_wcs"), b("TYP", "mos_tt", "cap_typ", "res_typ"),
-            b("FAST", "mos_ff", "cap_bcs", "res_bcs")]
+        return [{"name": f"mos_{mos}-{k}",
+                 "sections": corner_set.sections(FAMILIES, lib=lib, mos=mos, mim=k, res=k)}
+                for mos in corner_set.MOS for k in corner_set.MIM]
+    return [{"name": b, "sections": corner_set.bundle_sections(b, FAMILIES, lib=lib)}
+            for b in corner_set.BUNDLES]
 
 
 def cmd_request(a):
     ms, _, _, _ = meas_list()
     req = {
         "netlist": a.body, "engine": "ngspice", "backend": "batch",
-        "corners": {"process": process_bundles(a.stage, "$PDK_ROOT"), "temperature_c": [-40, 27, 125]},
+        "corners": {"process": process_bundles(a.stage, "$PDK_ROOT"), "temperature_c": list(corner_set.TEMPS)},
         "analysis": {"kind": "tran", "args": f"50p {tstop()}p 0 50p"},
         "measurements": [{"name": n, "spice": c, "unit": u} for n, c, u in ms],
         "options": {"timeout_s": 1500, "stage_model_inputs": True, "keep_artifacts": False,
@@ -159,9 +162,9 @@ def cmd_request(a):
     # one unit is ~10 minutes of ngspice; the fleet kills a job at 3600 s, so shard 2 units per job
     req["batch"] = {"max_units_per_job": 2, "max_concurrent_jobs": 6}
     if a.stage == 2:
-        req["corners"]["params"] = {"vsup": [2.97, 3.63]}
+        req["corners"]["params"] = {"vsup": list(corner_set.V_STAGE2)}
     else:
-        req["corners"]["params"] = {"vsup": [3.3]}
+        req["corners"]["params"] = {"vsup": [corner_set.V_STAGE1]}
     json.dump(req, open(a.out, "w"), indent=1)
 
 
@@ -174,7 +177,7 @@ def interp_root(xs, ys, y0):
     return None
 
 
-def analyze_one(m, vsup):
+def analyze_one(m):
     """m: {name: value}. Returns a dict of derived numbers (None where not derivable)."""
     r = {}
     r["I"] = {}                                     # (vi, pj) -> uA
@@ -238,7 +241,7 @@ def fmt(x, f="%.3f", none="n/a"):
 
 def cmd_analyze(a):
     m = json.load(open(a.values))
-    r = analyze_one(m, a.vsup)
+    r = analyze_one(m)
     out = []
     P = out.append
     P(f"- Held-VWIN grid (V): {', '.join('%g' % v for v in VH)}; phase-error grid (ps): {', '.join(str(p) for p in PHI_PS)}")
@@ -273,7 +276,7 @@ def cmd_summary(a):
     for c in rep["corners"]:
         m = {x["name"]: x["value"] for x in c["measurements"] if x.get("value") is not None}
         vs = (c.get("params") or {}).get("vsup", 3.3)
-        r = analyze_one(m, vs)
+        r = analyze_one(m)
         rows.append((c["corner_id"], c["status"], c["temperature_c"], vs, r, len(m)))
     def f(x, k="%.2f", sc=1.0):
         return "n/a" if x is None else k % (x * sc)
@@ -281,9 +284,6 @@ def cmd_summary(a):
     for cid, st, t, vs, r, n in rows:
         out.append(f"| {cid.split('/')[0]} | {t} | {vs} | {st} | {f(r['vt_dn'])} | {f(r['vt_up'])} | {f(r['twin_r'], '%.2f', 1e9)} | {f(r['twin_f'], '%.2f', 1e9)} | "
                    f"{f(r['phi_up'][1], '%.2f', 1e-3)} | {f(r['phi_up'][-1], '%.2f', 1e-3)} | {f(r['phi_dn'][1], '%.2f', 1e-3)} | {f(r['phi_dn'][-1], '%.2f', 1e-3)} | {n} |")
-    def ext(key, side, fn, which=None):
-        v = [(r[key][side], cid) for cid, _, _, _, r, _ in rows if r[key][side] is not None]
-        return v
     lines = []
     tw = [(min(x for x in (r["twin_r"], r["twin_f"]) if x is not None), cid, t) for cid, _, t, _, r, _ in rows if r["twin_r"] is not None and r["twin_f"] is not None]
     if tw:

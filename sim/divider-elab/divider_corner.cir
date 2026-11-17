@@ -1,16 +1,17 @@
 * sg13g2-lc-pll :: sim/divider-elab (corner) -- divider (cml2cmos + counters, 3-bit acounter) speed and count check, for `klt sim`.
 * Circuit body only (klt sim owns the .lib/.temp/.control cards). One real-chain instance per deck (a second instance in the
 * same deck broke the bias operating point, issues #153/#155). Input: ideal 0.4 Vpp differential sine at 3.18 V common mode
-* (the prescaler output common mode at nominal), frequency fin. Supply 3.3 V. The code is tied through DC sources set by the
+* (the prescaler output common mode at nominal), frequency fin. Supply 3.3 V, ramped from 0 over tr (issue #166: the supply, the IREF bias and the input common mode start at 0 V and rise together,
+* so the transient starts from a trivial all-zero operating point instead of a DC solve of the biased chain; the sine starts when the ramp ends). The code is tied through DC sources set by the
 * corners.params a0v/a1v/a2v/m0v..m3v (volts, 0 or 3.3): M = 12 and A = 4 (N = 100), A = 0 (N = 96), A = 7 (N = 103),
 * M = 11 and A = 2 (N = 90).
-.param fin=625e6 a0v=0 a1v=0 a2v=3.3 m0v=0 m1v=0 m2v=3.3 m3v=3.3
-VDD vdd 0 3.3
-IRF vdd iref dc 50u
+.param tr=3n fin=625e6 a0v=0 a1v=0 a2v=3.3 m0v=0 m1v=0 m2v=3.3 m3v=3.3
+VDD vdd 0 pwl(0 0 {tr} 3.3)
+IRF vdd iref pwl(0 0 {tr} 50u)
 XQR iref iref rr 0 npn13G2v Nx=1 El=1
 RR rr 0 2400
-VP inp 0 dc 3.18 sin(3.18 0.2 {fin})
-VN inn 0 dc 3.18 sin(3.18 -0.2 {fin})
+BP inp 0 V = v(vdd)*3.18/3.3 + (time > {tr} ? 0.2*sin(2*pi*{fin}*(time-{tr})) : 0)
+BN inn 0 V = v(vdd)*3.18/3.3 - (time > {tr} ? 0.2*sin(2*pi*{fin}*(time-{tr})) : 0)
 VM0 m0 0 {m0v}
 VM1 m1 0 {m1v}
 VM2 m2 0 {m2v}

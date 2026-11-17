@@ -26,20 +26,19 @@ DRY=0; [ "${1:-}" = "--dry-run" ] && DRY=1
 source "${ROOT}/scripts/lib-pdk.sh"
 source "${ROOT}/scripts/lib-record.sh"
 "${ROOT}/scripts/fetch-pll.sh" >/dev/null || die "fetch/verify of the pinned sg13g2-pll files failed"
-REC_DIR="${RECORD_DIR:-${ROOT}/sim/lock-detector/records}"; mkdir -p "${REC_DIR}"
+rec_dir lock-detector
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 TOOL=(python3 -I "${ROOT}/scripts/ld_tool.py")
 TSTOP_PS="$("${TOOL[@]}" body "${WORK}/body.spice" "${WORK}/meas.txt" "${WORK}/meas.json")"
 
 record_stamp
-ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 PLL_PIN="$(jq -r '.imports[] | select(.from=="2AMLogic/sg13g2-pll") | .commit' "${ROOT}/reuse.lock.json")"
 LD_SHA="$(sha256sum "${ROOT}/.fetched/sg13g2-pll/design/netlist/lock_detector.spice" | cut -d' ' -f1)"
 PFD_SHA="$(sha256sum "${ROOT}/.fetched/sg13g2-pll/design/netlist/pfd.spice" | cut -d' ' -f1)"
 
 if [ "${MODE}" = closed ]; then
   PHI="${1:?PHI_PS}"; V0="${2:?V0}"; TUS="${3:?TSTOP_US}"
-  REC="${REC_DIR}/${ID}-closed-phi${PHI}-v0${V0}.md"; [ ! -e "${REC}" ] || die "${REC} exists"
+  REC="${REC_DIR}/${ID}-closed-phi${PHI}-v0${V0}.md"; assert_new_record "${REC}"
   {
     echo ".lib ${MODELS}/cornerMOShv.lib mos_tt"; echo ".lib ${MODELS}/cornerCAP.lib cap_typ"; echo ".lib ${MODELS}/cornerRES.lib res_typ"
     echo ".option scale=1 temp=27"; echo ".global sub!"; echo "VSUB sub! 0 0"; echo "VDD vdd 0 3.3"
@@ -80,7 +79,7 @@ if [ "${MODE}" = closed ]; then
 fi
 
 if [ "${MODE}" = nominal ]; then
-  REC="${REC_DIR}/${ID}-nominal.md"; [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
+  REC="${REC_DIR}/${ID}-nominal.md"; assert_new_record "${REC}"
   {
     echo ".lib ${MODELS}/cornerMOShv.lib mos_tt"
     echo ".lib ${MODELS}/cornerCAP.lib cap_typ"
@@ -127,7 +126,7 @@ if [ "${MODE}" = nominal ]; then
 fi
 
 write_grid_record() { # <grid dir>: the record from request.json + report.json (also: `report <grid dir>`)
-  local D="$1" STG="$2" REC_ID TOT
+  local D="$1" STG="$2" REC_ID
   REC_ID="$(basename "${D}")"
   jq -e '.status == "pass"' "${D}/report.json" >/dev/null || die "${D}/report.json is not a complete passing report"
   "${TOOL[@]}" summary "${D}/report.json" "${WORK}/grid.md"

@@ -12,15 +12,15 @@
  "inputs": {
   "cells_provenance": {
    "path": "layout/cells.provenance.json",
-   "sha256": "24b4f1b29cc3b8abc5a892ebed386072bafd73d077224297452d5da1491a49d5"
+   "sha256": "096e7d2de68896b431afc0baa7e23be149cba0d6a75aeed82e5750c608c6ff9c"
   },
   "gen_integrated": {
    "path": "layout/gen_integrated.py",
-   "sha256": "dbf815d424411c0b71b39d6948dffb89999d6058d11842a20ca518972d0b66b8"
+   "sha256": "714555e49f2100d2f1ecdd1f5fa603468d54798fca1fee952fff48e21ec8eb5d"
   },
   "gen_top": {
    "path": "layout/gen_top.py",
-   "sha256": "8fde7b389740ba8b2dc2baa2606041e7d8d2e081b464b06ecde20912a1d30941"
+   "sha256": "ed467993df6ecd4d7340e0b4e572f35c003b8daa4c6f8af27de128aca7b2e2c7"
   },
   "vco_gds": {
    "path": ".fetched/sg13g2-vco/layout/vco.gds",
@@ -29,7 +29,16 @@
   }
  },
  "item": "T1 item 2 (Layout)",
- "klayout_module": "0.30.12",
+ "klayout_module": "0.30.13",
+ "metal1_pad_trim": {
+  "below_via": [],
+  "method": "each endpoint via-stack Metal1 pad (0.70 um) is trimmed back by the M1.b spacing 0.18 um from Metal1 polygons it does not touch, then tested for full coverage of its own concentric Via1 (0.19 um). Foreign Metal1 that touches the pad is the pad's own landing polygon, so it never trims; a non-touching polygon trims from at best the pad edge, reaching 0.170 um from the pad centre against the via's 0.0950 um half-width -- so at these three constants the trim cannot reach the via, with via_cover_margin_um to spare. The guard is the regression gate on that margin: it arms if the pad shrinks, the via grows, or M1.b widens.",
+  "notch_fill_polygons": 10,
+  "pads_total": 19,
+  "pads_trimmed": 1,
+  "pads_trimmed_below_via": 0,
+  "via_cover_margin_um": 0.075
+ },
  "not_routed": {
   "IREFCP": "external pin (charge-pump bias current)",
   "LOCK": "external pin (lock detector)",
@@ -40,9 +49,9 @@
   "divider M0-M3, A0-A2": "tie-offs to VDD/VSS in pll_top; with supplies"
  },
  "output": {
-  "geometry_sha256": "3ab4f817f4ea6594887a4021f9790952d7eb3dd6adb29560c9e6394c651fbcab",
+  "geometry_sha256": "6abc97d654802c63965ca0a4837ae1cf6e5115f95c9c2c4152c460202fe1b175",
   "path": "layout/top.gds",
-  "sha256": "b05b0bcbc24837333fcc5df4d60cf260776132807d582ad5ec741d9beff13e8f",
+  "sha256": "92b057231507bab3fdd09f0f681b1abce9e4e32964dc1f0bfc9bf73a6106e246",
   "top_cell": "lc_pll_top"
  },
  "placement_um": {
@@ -55,8 +64,8 @@
   },
   "lcpll_divider": {
    "origin": [
-    300.0,
-    -251.0
+    445.0,
+    -310.0
    ],
    "transform": "R0"
   },
@@ -98,7 +107,7 @@
     }
    ],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 433.3,
+   "length_um": 435.5,
    "pins": [
     {
      "cell": "lcpll_pfd",
@@ -118,7 +127,7 @@
      "cell": "lcpll_lockdet",
      "layer": 8,
      "port": "DN",
-     "x_um": -133.35,
+     "x_um": -131.15,
      "y_um": -277.29
     }
    ],
@@ -144,18 +153,18 @@
     },
     {
      "from": "lcpll_pfd.DN",
-     "length_um": 363.77,
+     "length_um": 365.97,
      "path_um": [
       [
        -438.87,
        -219.04
       ],
       [
-       -133.35,
+       -131.15,
        -219.04
       ],
       [
-       -133.35,
+       -131.15,
        -277.29
       ]
      ],
@@ -171,14 +180,14 @@
     }
    ],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 995.87,
+   "length_um": 1199.87,
    "pins": [
     {
      "cell": "lcpll_divider",
      "layer": 8,
      "port": "FB",
-     "x_um": 555.17,
-     "y_um": -225.34
+     "x_um": 700.17,
+     "y_um": -284.34
     },
     {
      "cell": "lcpll_pfd",
@@ -191,18 +200,18 @@
    "segments": [
     {
      "from": "lcpll_divider.FB",
-     "length_um": 995.87,
+     "length_um": 1199.87,
      "path_um": [
       [
-       555.17,
-       -225.34
+       700.17,
+       -284.34
       ],
       [
-       -439.3299999999999,
-       -225.34
+       -439.33,
+       -284.34
       ],
       [
-       -439.3299999999999,
+       -439.33,
        -223.97
       ]
      ],
@@ -213,7 +222,7 @@
   "IREFPS": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 125.9,
+   "length_um": 329.9,
    "pins": [
     {
      "cell": "lcpll_prescaler",
@@ -226,26 +235,26 @@
      "cell": "lcpll_divider",
      "layer": 8,
      "port": "IREF",
-     "x_um": 351.97,
-     "y_um": -249.225
+     "x_um": 496.97,
+     "y_um": -308.225
     }
    ],
    "segments": [
     {
      "from": "lcpll_prescaler.IREF",
-     "length_um": 125.9,
+     "length_um": 329.9,
      "path_um": [
       [
        284.87,
        -190.425
       ],
       [
-       351.97,
+       496.97,
        -190.425
       ],
       [
-       351.97,
-       -249.225
+       496.97,
+       -308.225
       ]
      ],
      "to": "lcpll_divider.IREF"
@@ -255,43 +264,39 @@
   "MC": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 154.6,
+   "length_um": 365.32,
    "pins": [
     {
      "cell": "lcpll_divider",
      "layer": 8,
      "port": "MC",
-     "x_um": 447.29,
-     "y_um": -225.34
+     "x_um": 592.29,
+     "y_um": -284.34
     },
     {
      "cell": "lcpll_prescaler",
      "layer": 8,
      "port": "MC",
-     "x_um": 332.45,
-     "y_um": -225.1
+     "x_um": 281.21,
+     "y_um": -230.1
     }
    ],
    "segments": [
     {
      "from": "lcpll_divider.MC",
-     "length_um": 154.6,
+     "length_um": 365.32,
      "path_um": [
       [
-       447.29,
-       -225.34
+       592.29,
+       -284.34
       ],
       [
-       447.29,
-       -205.34000000000003
+       592.29,
+       -230.1
       ],
       [
-       332.45,
-       -205.34000000000003
-      ],
-      [
-       332.45,
-       -225.1
+       281.21,
+       -230.1
       ]
      ],
      "to": "lcpll_prescaler.MC"
@@ -301,7 +306,7 @@
   "PSN": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 184.595,
+   "length_um": 114.815,
    "pins": [
     {
      "cell": "lcpll_prescaler",
@@ -314,26 +319,26 @@
      "cell": "lcpll_divider",
      "layer": 126,
      "port": "INN",
-     "x_um": 323.3,
-     "y_um": -234.48
+     "x_um": 468.3,
+     "y_um": -293.48
     }
    ],
    "segments": [
     {
      "from": "lcpll_prescaler.OUTN",
-     "length_um": 184.595,
+     "length_um": 114.815,
      "path_um": [
       [
        460.19,
        -186.775
       ],
       [
-       323.3,
+       468.3,
        -186.775
       ],
       [
-       323.3,
-       -234.48
+       468.3,
+       -293.48
       ]
      ],
      "to": "lcpll_divider.INN"
@@ -343,7 +348,7 @@
   "PSP": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 190.555,
+   "length_um": 108.855,
    "pins": [
     {
      "cell": "lcpll_prescaler",
@@ -356,30 +361,26 @@
      "cell": "lcpll_divider",
      "layer": 126,
      "port": "INP",
-     "x_um": 307.6,
-     "y_um": -234.48
+     "x_um": 452.6,
+     "y_um": -293.48
     }
    ],
    "segments": [
     {
      "from": "lcpll_prescaler.OUTP",
-     "length_um": 190.555,
+     "length_um": 108.855,
      "path_um": [
       [
        450.45,
        -186.775
       ],
       [
-       450.45,
-       -214.48000000000002
+       452.6,
+       -186.775
       ],
       [
-       307.6,
-       -214.48000000000002
-      ],
-      [
-       307.6,
-       -234.48
+       452.6,
+       -293.48
       ]
      ],
      "to": "lcpll_divider.INP"
@@ -394,7 +395,7 @@
     }
    ],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 426.36,
+   "length_um": 428.56,
    "pins": [
     {
      "cell": "lcpll_pfd",
@@ -414,7 +415,7 @@
      "cell": "lcpll_lockdet",
      "layer": 8,
      "port": "UP",
-     "x_um": -135.09,
+     "x_um": -132.89,
      "y_um": -277.29
     }
    ],
@@ -440,7 +441,7 @@
     },
     {
      "from": "lcpll_pfd.UP",
-     "length_um": 365.37,
+     "length_um": 367.57,
      "path_um": [
       [
        -435.39,
@@ -451,11 +452,11 @@
        -217.29000000000002
       ],
       [
-       -135.09,
+       -132.89,
        -217.29000000000002
       ],
       [
-       -135.09,
+       -132.89,
        -277.29
       ]
      ],
@@ -466,13 +467,13 @@
   "VCP": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 156.35,
+   "length_um": 165.15,
    "pins": [
     {
      "cell": "lcpll_cp",
      "layer": 8,
      "port": "VOUT",
-     "x_um": -339.83,
+     "x_um": -331.03,
      "y_um": -227.0
     },
     {
@@ -486,14 +487,14 @@
    "segments": [
     {
      "from": "lcpll_cp.VOUT",
-     "length_um": 156.35,
+     "length_um": 165.15,
      "path_um": [
       [
-       -339.83,
+       -331.03,
        -227.0
       ],
       [
-       -339.83,
+       -331.03,
        -364.0799999999999
       ],
       [

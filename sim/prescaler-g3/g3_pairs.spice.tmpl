@@ -8,6 +8,7 @@
 * One transient per clock frequency. Placeholders are filled by scripts/run-prescaler-g3.sh.
 .lib @@MODELS_DIR@@/cornerHBT.lib hbt_typ
 .lib @@MODELS_DIR@@/cornerMOShv.lib mos_tt
+.lib @@MODELS_DIR@@/cornerRES.lib res_typ
 .option temp=27 scale=1
 .include @@PRESC_NETLIST@@
 .include @@MOS_NETLIST1@@
@@ -38,7 +39,9 @@ XM3S m3mp m3mn ckn ckp ibm3 m3qp m3qn vdd 0 mos_latch_w3
 .save v(hqp) v(hqn) v(m1qp) v(m1qn) v(m2qp) v(m2qn) v(m3qp) v(m3qn)
 
 .control
+pre_osdi @@OSDI_R3@@
 pre_osdi @@OSDI_PSP@@
+pre_osdi @@OSDI_PSP_NQS@@
 foreach f @@FLIST@@
   alter vcp sin = [ @@CCM@@ @@CAMP@@ $f ]
   alter vcn sin = [ @@CCM@@ -@@CAMP@@ $f ]

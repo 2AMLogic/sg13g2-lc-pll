@@ -171,6 +171,12 @@ Appended after both hand-run ratification keys at `b31d51ee` asked for changes (
 Still not done, in addition to the list above: the 16 ungraded divider corner runs (9 non-convergence, 7 no-toggle, see above), the
 Vce stress at 3.63 V in /9 mode (FAIL above).
 
+## Follow-up 2026-11-09 (issue #165)
+
+The 3.63 V / MC-high XQT Vce FAIL recorded above is closed by a circuit change inside `mc_conv` (VCO untouched, 2.2 V limit unchanged): `RIN` 20k -> 10k plus `RB` 31k from `bm` to VSS, so MC high puts `bm` at 0.756 VDD instead of VDD. Simulated, not measured: `sim/prescaler-g1/records/20261109-234716-6fbbf0e-dirty-vce.md` reads PASS (0 of 36 over; worst 1.786 V at 2.97 V, 2.108 V at 3.63 V). Cost: /9 now needs MC at or above ~0.94 VDD (`sim/prescaler-div89/records/20261109-235500-6fbbf0e-dirty-mc-conv-xqt.md`).
+
+This follow-up does not close the divider grading. This PR's own divider record, `sim/prescaler-div89/records/20261110-013500-268f3ea-pdk-divider.md`, reads **FAIL**, simulated, not measured: 6 of 108 chain corners fail, all SLOW / 125 C / 5.5 GHz, with a ratio of about 10-11 instead of 8 or 9; and 32 of 288 async modulus-timing corners fail, a check first simulated in that record. Both are added to the "Still not done" items above, together with the 16 ungraded divider corner runs and the VCO re-check listed there. The /9 threshold is MC at or above ~0.94 VDD (`sim/prescaler-div89/records/20261109-235500-6fbbf0e-dirty-mc-conv-xqt.md`); below it the divider falls back to /8. This record does not ratify the divider as passing.
+
 - **Appended note (issue #197): counter corner evidence at 125 C (simulated, not measured).** The 7 hot no-toggle divider units of the
   ramped-start corner record (SLOW/125C 625 MHz and 687.5 MHz A = 4, 0, 7 as listed there, TYP/125C 687.5 MHz A = 4, 0, 7) are traced in
   `sim/divider-elab/records/20261110-3f59e40-hot-stall-trace.md` on two of them (SLOW/125C 625 MHz A = 4, TYP/125C 687.5 MHz A = 4). In both,

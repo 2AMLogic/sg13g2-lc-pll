@@ -4,8 +4,8 @@
 * STAND-IN (not the design): VCO + prescaler + M/A counters are ONE behavioural block, a voltage-controlled
 *       oscillator at f_out(Vctrl)/N whose phase (in cycles of the FB clock) is the integral of that frequency on
 *       the capacitor Cphi (1 F, so V(phi) = cycles). f_out(Vctrl) = F0 + KV*(Vctrl - VC0) is a straight line: the
-*       VCO's graded f(Vctrl) curve does not exist yet (spec gate G4), and the pinned VCO did not oscillate in the
-*       smoke record. FB is a tanh-shaped 0 / 3.3 V square wave from that phase. No noise anywhere.
+*       VCO's graded f(Vctrl) curve does not exist yet (spec gate G4). FB is a tanh-shaped 0 / 3.3 V square
+*       wave from that phase. No noise anywhere.
 * Placeholders (@@...@@) are filled by scripts/run-loop-tran.sh; nothing else is substituted.
 .lib @@MODELS_DIR@@/cornerMOShv.lib mos_tt
 .lib @@MODELS_DIR@@/cornerCAP.lib cap_typ

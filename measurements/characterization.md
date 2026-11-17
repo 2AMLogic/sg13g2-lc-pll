@@ -38,9 +38,10 @@ Blocking issues: #39 corner envelopes, #40 Monte Carlo, #41 post-layout.
 - No row has a C-grid envelope, so no row is reported as passing across
   corners. Monte Carlo (#40) and post-layout with the VCO in place (#41) are
   absent; spec rows 8, 9 and 12 depend on both.
-- The VCO smoke record (`sim/vco-smoke/records/20261018-024845-17e49a8.md`)
-  reports the pinned VCO did not oscillate in that run; it is a toolchain
-  check, not a characterization input, and is not cited.
+- The two VCO smoke records (`sim/vco-smoke/records/`: `20261018-024845-17e49a8.md`,
+  exit 1 on the pinned ngspice-47; `20261103-124045-17e49a8.md`, oscillating at
+  one corner on an off-pin ngspice-46) are a toolchain and pin check, not a
+  characterization input, and are not cited.
 - The attestation inventory
   ([`characterization.inventory.json`](characterization.inventory.json)) cites
   no envelope: the nominal records above are not `klt` envelopes with an

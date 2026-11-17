@@ -11,8 +11,8 @@ scripts/test-loop-tran-negative.sh        # flipped VCO slope and a disconnected
 **Real**: the pinned `sg13g2-pll` PFD, `design/cp.sch`, `design/loopfilter.sch` (3rd order from
 `sim/loop-model`). **Stand-in**: the VCO, prescaler and M/A counters are one behavioural phase accumulator
 (`f_out(Vctrl)/N`) with a straight-line f(Vctrl) centred on the window centre and a positive slope, both
-assumptions (gate G4: the VCO's graded curve does not exist; the pinned VCO did not oscillate in its smoke
-record). So these numbers carry no prescaler or counter delay, no VCO swing, no noise. Every record states
+assumptions (gate G4: the VCO's graded curve does not exist). So these numbers carry no prescaler or
+counter delay, no VCO swing, no noise. Every record states
 its estimators next to the numbers: edge detection, the two readings of the row 10 lock criterion, the row 9
 spur method (T on v(Vctrl), last 40 periods, small-index FM mapping).
 
