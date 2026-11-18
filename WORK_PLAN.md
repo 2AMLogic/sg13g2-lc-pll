@@ -43,6 +43,7 @@ Issues currently being built (`loom:building`).
 - **#88**: G6: measure transient-noise cost versus run length for method T
 - **#206**: spec: state clock output swing and load for a downstream TX mux
 - **#252**: Spec section 4: state the reference phase-noise requirement and define method N for the switching blocks (decision record)
+- **#332**: Merge queue: add the merge_group trigger to the required-check workflow(s)
 
 ## PRs Awaiting Review
 
@@ -72,6 +73,7 @@ Issues carrying `loom:curated`.
 - **#237**: Retire the stale smoke-record clause in sim/testbench-inventory.json (needs a re-attestation #228 could not run locally) *(curated)* *(held)*
 - **#252**: Spec section 4: state the reference phase-noise requirement and define method N for the switching blocks (decision record) *(curated)*
 - **#277**: README status line and ladder position contradict the signoff record (still says "Nothing is designed or simulated yet") *(curated)* *(held)*
+- **#332**: Merge queue: add the merge_group trigger to the required-check workflow(s) *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -93,10 +95,10 @@ _None._
 | Very important | 1 |
 | Important | 8 |
 | Ready (`loom:issue`, net of holds/building/merge-pending) | 1 |
-| In Progress (`loom:building`) | 3 |
+| In Progress (`loom:building`) | 4 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 3 |
-| Curated | 10 |
+| Curated | 11 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
