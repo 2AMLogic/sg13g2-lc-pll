@@ -9,7 +9,9 @@ scripts/run-lock-detector.sh nominal                 # ONE local ngspice (mos_tt
 scripts/run-lock-detector.sh closed PHI_PS V0 TUS    # ONE closed-loop transient, nothing held (spot check)
 scripts/run-lock-detector.sh grid1                   # klt sim --backend batch: 45 points at 3.3 V   (never local)
 scripts/run-lock-detector.sh grid2                   # klt sim --backend batch: 18 supply sub-corners (never local)
-scripts/run-lock-detector.sh report <grid dir>       # rebuild the record .md from request.json + report.json
+scripts/run-lock-detector.sh report <grid dir>       # rebuild the record .md from request.json + report.json alone
+                                                     # (no PDK, ngspice, klt or network; records are append-only:
+                                                     # replay onto a scratch copy of the grid dir)
 scripts/test-fetch-vco.sh 2AMLogic/sg13g2-pll fetch-pll.sh design/pfd.sch                            # negative controls for the pin (now 30 files)
 ```
 

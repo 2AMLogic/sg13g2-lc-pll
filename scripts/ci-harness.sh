@@ -19,6 +19,7 @@ bash scripts/test-fetch-vco.sh 2AMLogic/sg13g2-vco fetch-vco.sh design/vco.spice
 bash scripts/test-fetch-vco.sh 2AMLogic/sg13g2-pll fetch-pll.sh design/pfd.sch
 python3 scripts/gen_prescaler_vce_request.py --check
 bash scripts/test-lib-record.sh
+bash scripts/test-lock-detector-report.sh
 bash scripts/test-lib-pdk.sh
 python3 sim/prescaler-div89/gen_requests.py --check
 python3 -m pytest -q -p no:cacheprovider sim/test_ngpin.py sim/loop-model sim/prescaler-g1 sim/prescaler-div89 sim/divider-elab sim/corner-verification/loop-power
