@@ -2,6 +2,11 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-11-19
+
+- **PR #340**: run-lock-detector: rebuild grid records from the saved artifacts alone
+- **Issue #338** (closed): Remove simulation setup from lock-detector report replay
+
 ### 2026-11-18
 
 - **PR #334**: ci: add merge_group trigger to harness and signoff workflows
