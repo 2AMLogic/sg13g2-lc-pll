@@ -6,21 +6,16 @@
   "t1_item_count": 11,
   "build_t1_item_count": 11,
   "t1_met_count": 4,
-  "unmet_reason_counts": {
-    "check_failed": 2,
-    "no_evidence": 4,
-    "stale_evidence": 1
-  },
   "source_doc": "manifests/design-evidence-tiers.md",
   "source_doc_content_hash": "sha256:08dcbfd2c3f2df152868d86c0ad2aa6a43d393b1d266f0b1e914cd8f0a329c58",
   "build": {
-    "version": "0.9.3.dev1601+gf6e067c81e5f",
-    "package_version": "0.9.3.dev1601+gf6e067c81e5f",
-    "git_commit": "f6e067c81e5f43ceffe7f94ed622046d7611dce7",
-    "git_tag": null,
+    "version": "0.9.1",
+    "package_version": "0.9.1",
+    "git_commit": "4d0d29be4fd991f499d59e783a908082d5e24c56",
+    "git_tag": "v0.9.1",
     "dirty": false,
-    "is_release": false,
-    "grading_ruleset_id": "sha256:d5b55ad70a957bea75aab52663ede476a2890050bb72708df070981621b5da57"
+    "is_release": true,
+    "grading_ruleset_id": "sha256:22c42b66c4d1f99b5c00f6bf53d80b20fa8365860d857a921508ca5ab5f3771b"
   },
   "items": [
     {
@@ -737,7 +732,6 @@
             "higher_is_better": false
           }
         ],
-        "content_hash_pin": "verified",
         "failed_citations": [
           "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage2.json"
         ],
@@ -802,8 +796,6 @@
         }
       ],
       "detail": {
-        "content_hash_pin": "unverifiable",
-        "content_hash_pin_note": "yield envelopes carry no provenance.input.content_hash; the pin cannot be compared",
         "failed_citations": [
           "sim/cp-mc/records/20261103-034036-59b5e16-dirty-yield-target.json"
         ],
