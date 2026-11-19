@@ -37,15 +37,17 @@ source "${ROOT}/scripts/lib-record.sh"   # record IDs, rec_dir, the append-only 
 # run (replay arg empty) that is this machine; for a replay it is the saved report alone, and
 # anything the report does not record is marked unrecorded rather than read off this machine.
 write_grid_record() {
-  local D="$1" STG="$2" REPLAY="${3:-}" REC_ID PFD LD KLT PROV
+  local D="$1" STG="$2" REPLAY="${3:-}" REC_ID PFD LD KLT ENG PROV
   REC_ID="$(basename "${D}")"
   jq -e '.status == "pass"' "${D}/report.json" >/dev/null || die "${D}/report.json is not a complete passing report"
   "${TOOL[@]}" summary "${D}/report.json" "${WORK}/grid.md"
   if [ "${REPLAY}" = replay ]; then
     PFD="$(jq -r '[.environment.netlist_closure[]? | select((.path // "") | endswith("/pfd.spice"))][0].sha256 // "unrecorded"' "${D}/report.json")"
     LD="$(jq -r '[.environment.netlist_closure[]? | select((.path // "") | endswith("/lock_detector.spice"))][0].sha256 // "unrecorded"' "${D}/report.json")"
-    KLT="$(jq -r '.environment.remote.fleet[0].client_klt_version // .environment.remote.fleet[0].runner_klt_version // "unrecorded"' "${D}/report.json")"
-    PROV="- **Cells**: \`2AMLogic/sg13g2-pll\` pfd.spice sha256 \`${PFD}\`, lock_detector.spice sha256 \`${LD}\`, unmodified (as recorded in \`report.json\`; the sg13g2-pll pin and the repo commit are not recorded in the saved report). Generator \`scripts/ld_tool.py\` sha256 \`$(sha256sum "${ROOT}/scripts/ld_tool.py" | cut -d' ' -f1)\` (this rebuild). klt ${KLT}, $(jq -r .environment.engine_version "${D}/report.json" | sed 's/^/ngspice-/') (as recorded in \`report.json\`). Rebuilt from the saved request and report on $(hostname), $(date -u +%Y-%m-%dT%H:%M:%SZ)."
+    KLT="$(jq -r '.environment.remote.fleet[0].client_klt_version // .environment.remote.fleet[0].runner_klt_version // .provenance.klt_version // "unrecorded"' "${D}/report.json")"
+    ENG="$(jq -r '.environment.engine_version // ""' "${D}/report.json")"
+    [ -n "${ENG}" ] && ENG="ngspice-${ENG}" || ENG=unrecorded
+    PROV="- **Cells**: \`2AMLogic/sg13g2-pll\` pfd.spice sha256 \`${PFD}\`, lock_detector.spice sha256 \`${LD}\`, digests as recorded in \`report.json\` (the sg13g2-pll pin and the repo commit are not recorded in the saved report, so the digests cannot be checked against the upstream pin from the saved evidence alone). Generator \`scripts/ld_tool.py\` sha256 \`$(sha256sum "${ROOT}/scripts/ld_tool.py" | cut -d' ' -f1)\` (this rebuild). klt ${KLT}, engine ${ENG}; each is as recorded in \`report.json\`, or unrecorded where the saved report omits it. Rebuilt from the saved request and report on $(hostname), $(date -u +%Y-%m-%dT%H:%M:%SZ)."
   else
     PROV="- **Cells**: \`2AMLogic/sg13g2-pll@${PLL_PIN}\` pfd.spice sha256 \`${PFD_SHA}\`, lock_detector.spice sha256 \`${LD_SHA}\`, unmodified. Commit \`${COMMIT}${DIRTY}\`; generator \`scripts/ld_tool.py\` sha256 \`$(sha256sum "${ROOT}/scripts/ld_tool.py" | cut -d' ' -f1)\`. klt $(klt --version 2>&1 | head -1), $(jq -r .environment.engine_version "${D}/report.json" | sed 's/^/ngspice-/'). Host $(hostname), $(date -u +%Y-%m-%dT%H:%M:%SZ)."
   fi
