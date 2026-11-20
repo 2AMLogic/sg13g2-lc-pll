@@ -85,3 +85,21 @@ Reading it:
   `violations` at the time of this run (it went `clean` later, in PR #248 — see the note at the top).
 - Needed next (not done here; a hand-flattened reference would be a second, unreviewed netlist):
   a runset-compatible path for a hierarchical subcircuit-call reference. Tracked upstream as `2AMLogic/klayout-tools#5406` (open).
+
+## Per-cell compares (#343, `klt 0.9.3.dev2575+g6bd18bbc8637`, klayout 0.30.12)
+
+Committed under `cells/<cell>/` (request + envelope; `klt lvs --check` re-hashes them). The layout is
+the committed `layout/top.gds` with `top` set to the cell, the reference is the cell's own `.subckt` in
+`design/netlist/` (`form: subckt-call`; nothing hand-written). **No cell is matched; item 4 stays `unmet` with #37.**
+
+| Cell | Engine | Status | Reading |
+|---|---|---|---|
+| `lcpll_loopfilter` (routed) | curated `sg13g2` | `mismatch` | equal 16 / 16 devices (14 `cap_cmim`, 2 `rppd`), 0 paired; layout has a `vsubs` net/pin the converted reference lacks, reference classes upper-case |
+| `lcpll_loopfilter` (routed) | `klayout-runset` | `mismatch` | layout 4 devices vs reference 2 (`m=12` multiplier vs drawn units), 0 paired |
+| `lcpll_cp` (placement only) | curated `sg13g2` | `mismatch` | 63 flat layout devices vs 4 reference devices in `cp_bias`/`cp_leg_*`/`cp_dumpbuf` hierarchy (`topology.hierarchy_mismatch`); unrouted, so no match expected |
+
+Tool gaps filed generically: `2AMLogic/klayout-tools#6960` (subckt-call reference pairs 0 devices), `#6961`
+(gen-compose router cannot wire the charge pump). The curated envelopes carry no `device_census` field and no
+`coverage` block in this klt, so the `sg13_hv_pmos` census question stays open for the charge pump; the
+`device_classes` list does include `pfet`. The swapped-net negative control is not run: it needs a `match`
+baseline to flip, and neither cell has one. It becomes meaningful once the two issues above are fixed.

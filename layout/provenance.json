@@ -1,6 +1,6 @@
 {
  "block": "sg13g2-lc-pll",
- "collisions_total": 13,
+ "collisions_total": 17,
  "fill_squares_removed_under_routes": 5,
  "generator": "python layout/gen_integrated.py --write",
  "generator_chain": [
@@ -12,7 +12,7 @@
  "inputs": {
   "cells_provenance": {
    "path": "layout/cells.provenance.json",
-   "sha256": "096e7d2de68896b431afc0baa7e23be149cba0d6a75aeed82e5750c608c6ff9c"
+   "sha256": "9563cdd7da45ecc00656323260e0363d337e6cac56b7f4775d7c06e317e35b5e"
   },
   "gen_integrated": {
    "path": "layout/gen_integrated.py",
@@ -29,7 +29,7 @@
   }
  },
  "item": "T1 item 2 (Layout)",
- "klayout_module": "0.30.13",
+ "klayout_module": "0.30.10",
  "metal1_pad_trim": {
   "below_via": [],
   "method": "each endpoint via-stack Metal1 pad (0.70 um) is trimmed back by the M1.b spacing 0.18 um from Metal1 polygons it does not touch, then tested for full coverage of its own concentric Via1 (0.19 um). Foreign Metal1 that touches the pad is the pad's own landing polygon, so it never trims; a non-touching polygon trims from at best the pad edge, reaching 0.170 um from the pad centre against the via's 0.0950 um half-width -- so at these three constants the trim cannot reach the via, with via_cover_margin_um to spare. The guard is the regression gate on that margin: it arms if the pad shrinks, the via grows, or M1.b widens.",
@@ -49,9 +49,9 @@
   "divider M0-M3, A0-A2": "tie-offs to VDD/VSS in pll_top; with supplies"
  },
  "output": {
-  "geometry_sha256": "6abc97d654802c63965ca0a4837ae1cf6e5115f95c9c2c4152c460202fe1b175",
+  "geometry_sha256": "3a6a6881d8f50634f6af574b47056ea971929c96772051e84315a084eaad678f",
   "path": "layout/top.gds",
-  "sha256": "92b057231507bab3fdd09f0f681b1abce9e4e32964dc1f0bfc9bf73a6106e246",
+  "sha256": "90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
   "top_cell": "lc_pll_top"
  },
  "placement_um": {
@@ -465,7 +465,12 @@
    ]
   },
   "VCP": {
-   "collisions": [],
+   "collisions": [
+    {
+     "overlapping_polygons": 2,
+     "to": "lcpll_loopfilter.VIN"
+    }
+   ],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
    "length_um": 165.15,
    "pins": [
@@ -494,12 +499,16 @@
        -227.0
       ],
       [
-       -331.03,
-       -364.0799999999999
+       -339.1,
+       -227.0
+      ],
+      [
+       -339.1,
+       -364.08
       ],
       [
        -359.1,
-       -364.0799999999999
+       -364.08
       ]
      ],
      "to": "lcpll_loopfilter.VIN"
@@ -507,7 +516,12 @@
    ]
   },
   "VCTRL": {
-   "collisions": [],
+   "collisions": [
+    {
+     "overlapping_polygons": 2,
+     "to": "vco.VCTRL"
+    }
+   ],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
    "length_um": 744.78,
    "pins": [
@@ -536,7 +550,11 @@
        -384.08
       ],
       [
-       -417.7,
+       -397.70000000000005,
+       -384.08
+      ],
+      [
+       -397.70000000000005,
        -57.0
       ],
       [

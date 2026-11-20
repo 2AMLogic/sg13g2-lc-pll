@@ -99,10 +99,19 @@ in the netlists (#164, PR #169), so the resistors are drawn with `klt gen res_ar
 **Not met:**
 - The prescaler's INP/INN tank-load capacitance is NOT extracted: the 2.1 fF budget is unverified until PEX on
   the integrated loop (#41). The input group is placed first to keep its geometry compact; that is not a measurement.
-- Cells are placement only: no routing, no LVS (#35, #37). Since #202 every `nfet` `mos_array` group carries a
-  `mos_array add_guard_ring` pSD substrate tap ring on net `VSS` (see "LU.b substrate taps"); the ring is drawn but
-  not tied to anything by a route, and `pfet` groups have no ring. Areas are bounding boxes.
-  The loop-filter cell is 131458 um2 because the schematic's `cap_cmim` units (12 x 70.9 um square) are drawn as specified.
+- Intra-cell routing and per-cell LVS (#343), by cell:
+
+  | Cell | Intra-cell routing | Per-cell `klt lvs` |
+  |---|---|---|
+  | `lcpll_loopfilter` | routed by `klt gen-compose` (metal2 + metal3 planes), 4 of 4 nets, guard rings tied; the two `rppd` are folded onto 2 rows so the router can escape | `mismatch` (0 of 16 devices, 0 nets paired though the class census is equal), `2AMLogic/klayout-tools#6960` |
+  | `lcpll_cp` | **not routed**: tried routed, the router left 11 of 18 nets unrouted (`crosses already-routed net`), so the cell stays placement-only, `pfet` groups still ringless, `2AMLogic/klayout-tools#6961` | `mismatch` (layout 63 flat devices vs 4 in the reference hierarchy), not a meaningful compare while unrouted |
+  | `lcpll_pfd`, `lcpll_lockdet`, `lcpll_divider`, `lcpll_prescaler` | placement only | not run (follow-ups of #343) |
+
+  No cell is LVS-matched; item 4 stays `unmet` with #37 and nothing here is claimed from per-cell results.
+  Since #202 every `nfet` `mos_array` group carries a `mos_array add_guard_ring` pSD substrate tap ring on
+  net `VSS` (see "LU.b substrate taps"); in placement-only cells it is not tied by a route and `pfet` groups have
+  no ring. Areas are bounding boxes. The loop-filter cell is 133686 um2 because the schematic's `cap_cmim`
+  units (12 x 70.9 um square) are drawn as specified.
 
 ## Integrated top (#35)
 

@@ -1050,25 +1050,25 @@
    "undrawn_only_ports": []
   },
   {
-   "area_um2": 131458.3,
+   "area_um2": 133686.0,
    "bbox_um": [
-    0.0,
+    -0.9,
     0.0,
     870.7,
-    150.98
+    153.38
    ],
    "cell": "lcpll_loopfilter",
    "commands": [
     "klt gen cap_array --pdk ihp-sg13g2 --params \"{\\\"num\\\": 1, \\\"plate_h_um\\\": 43.4, \\\"plate_w_um\\\": 43.4}\" --cell-name lcpll_loopfilter_cmim_w43p4_l43p4 -o lcpll_loopfilter_cmim_w43p4_l43p4.gds --format json",
     "klt gen cap_array --pdk ihp-sg13g2 --params \"{\\\"num\\\": 1, \\\"plate_h_um\\\": 63.4, \\\"plate_w_um\\\": 63.4}\" --cell-name lcpll_loopfilter_cmim_w63p4_l63p4 -o lcpll_loopfilter_cmim_w63p4_l63p4.gds --format json",
     "klt gen cap_array --pdk ihp-sg13g2 --params \"{\\\"num\\\": 12, \\\"plate_h_um\\\": 70.9, \\\"plate_w_um\\\": 70.9}\" --cell-name lcpll_loopfilter_cmim_w70p9_l70p9 -o lcpll_loopfilter_cmim_w70p9_l70p9.gds --format json",
-    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 53.9, \\\"num\\\": 2, \\\"rows\\\": 1, \\\"width_um\\\": 2.0}\" --cell-name lcpll_loopfilter_resrppd_w2_l53p9 -o lcpll_loopfilter_resrppd_w2_l53p9.gds --format json",
+    "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 53.9, \\\"num\\\": 2, \\\"rows\\\": 2, \\\"width_um\\\": 2.0}\" --cell-name lcpll_loopfilter_resrppd_w2_l53p9 -o lcpll_loopfilter_resrppd_w2_l53p9.gds --format json",
     "klt gen-compose lcpll_loopfilter.compose.json --format json"
    ],
    "device_units": 16,
    "gds": "layout/build/cells/lcpll_loopfilter.gds",
    "generator": "python layout/gen_cells.py --blocks lcpll_loopfilter",
-   "geometry_sha256": "bec454440e4ff846d614c756f4a656d7187cc55edc6a7c6673418daa5e7d3014",
+   "geometry_sha256": "2191b40a75d0a43fe02fe627f747530b1bc73e88520b3f373fbd445ce4b2528d",
    "groups": [
     {
      "bbox_um": [
@@ -1137,8 +1137,8 @@
      "bbox_um": [
       0.0,
       0.0,
-      109.98,
-      2.0
+      54.74,
+      4.4
      ],
      "generator": "res_array",
      "id": "lcpll_loopfilter_resrppd_w2_l53p9",
@@ -1152,7 +1152,7 @@
       "flavor": "rppd",
       "length_um": 53.9,
       "num": 2,
-      "rows": 1,
+      "rows": 2,
       "width_um": 2.0
      },
      "units": 2
@@ -1183,6 +1183,45 @@
     "VSS"
    ],
    "ports_unlabelled": [],
+   "routing": {
+    "cross_block_layer_role": "metal3",
+    "layer_role": "metal2",
+    "nets": [
+     {
+      "landed_on_block": true,
+      "length_um": 942.8900000000001,
+      "net": "VSS",
+      "routed": true,
+      "status": "routed"
+     },
+     {
+      "landed_on_block": true,
+      "length_um": 822.2399999999998,
+      "net": "nz1",
+      "routed": true,
+      "status": "routed"
+     },
+     {
+      "landed_on_block": true,
+      "length_um": 169.55,
+      "net": "VIN",
+      "routed": true,
+      "status": "routed"
+     },
+     {
+      "landed_on_block": true,
+      "length_um": 128.54999999999998,
+      "net": "VCTRL",
+      "routed": true,
+      "status": "routed"
+     }
+    ],
+    "requested": true,
+    "single_pin_nets": [],
+    "status": "routed",
+    "unrouted_nets": [],
+    "width_um": 0.6
+   },
    "status": "drawn",
    "subckt": "loopfilter",
    "undrawn_devices": [],
@@ -1635,7 +1674,7 @@
   }
  ],
  "command": ".venv/bin/python layout/gen_cells.py --write",
- "klt": "klt 0.9.2.dev887+gec7400b7d8e5",
+ "klt": "klt 0.9.3.dev2575+g6bd18bbc8637",
  "pdk": "ihp-sg13g2",
  "schema": 1
 }
