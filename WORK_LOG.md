@@ -2,6 +2,10 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-11-20
+
+- **PR #347**: feat(layout): route loop-filter cell, add per-cell LVS envelopes (not matched)
+
 ### 2026-11-19
 
 - **PR #340**: run-lock-detector: rebuild grid records from the saved artifacts alone
