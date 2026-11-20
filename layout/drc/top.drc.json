@@ -324,7 +324,7 @@
       "released": false
     },
     "input": {
-      "content_hash": "sha256:90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+      "content_hash": "sha256:c3397c1daf3a277fd9576c7844695b10e0e2b95eb79c71dc5f8610ff2e6f1aac",
       "role": "layout"
     },
     "klayout_version_mismatch": false
