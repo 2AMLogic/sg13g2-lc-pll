@@ -1,10 +1,15 @@
 """Shared machinery for the loop-block cell generators (layout/cells/<block>.py).
 
-Each block generator turns one `.subckt` of `design/netlist/*.spice` into a placed-device
-cell: flatten the subckt to leaf devices, group identical (class, W, L) devices, draw each
-group with `klt gen mos_array|res_array|cap_array`, place the groups with `klt gen-compose`
-(placement only, no routing: block-to-block and intra-block routing is #35), and stamp one
-text label per `.subckt` port on a drawn terminal of that net.
+Each block generator turns one `.subckt` of `design/netlist/*.spice` into a cell: flatten
+the subckt to leaf devices, group identical (class, W, L) devices, draw each group with
+`klt gen mos_array|res_array|cap_array`, place the groups with `klt gen-compose`, and stamp
+one text label per `.subckt` port on a drawn terminal of that net. Blocks built with
+``route=True`` (#343) additionally wire the cell: the compose request carries a
+``connectivity[]`` entry per flattened net (every unit terminal pin, plus the guard-ring
+``TAP_*`` ports tied to the group's bulk net) and a ``routing`` plane pair, so the wiring
+is drawn by `klt gen-compose`'s router, never by a local polygon helper. Blocks built
+without it are placement-only (block-to-block routing is #35; the remaining cells are
+follow-ups of #343).
 
 Method adapted from 2AMLogic/sg13g2-pll layout/bin/pll_layout.py @ e71ff61 (netlist reader,
 hierarchy flattening, (class, W, L) grouping, klt gen / gen-compose driving). Differences:
@@ -58,6 +63,24 @@ MOS_BULK_INDEX = 3
 # (klt >= 0.9.2.dev887+gec7400b7d8e5); older builds drew an n-well tie with off-grid Cont
 # instead, which is why the tie was not drawn before (layout/drc/README.md "LU.b substrate taps").
 TAP_RING_FLAVORS = ("nfet",)
+# Routed cells (#343) also ring the pfet groups: a `mos_array flavor="pfet"` group with
+# `add_guard_ring` draws its tap ring inside the group's own n-well (the ring's well tie
+# merges with the array well), and its TAP_* ports tie that well to the cards' 4th node.
+# Placement-only cells keep pfet groups ringless so their committed geometry is unchanged.
+ROUTE_TAP_RING_FLAVORS = ("nfet", "pfet")
+# Intra-cell routing planes (klt gen-compose `routing`, ihp-sg13g2 roles): Metal2 backbone
+# with Via1 drops to the Metal1 terminal pads, Metal3 as the retry plane for a leg whose
+# backbone crosses an already-routed net. No generator draws Metal2/Metal3, so the planes
+# hold router geometry only. Width is floored by the deck's own Metal2 minimum-width rule.
+ROUTE_LAYER_ROLE = "metal2"
+ROUTE_CROSS_LAYER_ROLE = "metal3"
+ROUTE_WIDTH_UM = 0.6
+# The router's default landing pads are kept: a smaller request is refused for the cmim
+# groups, whose pins sit on Metal5/TopMetal1 (deck floors 0.62 / 1.26 um).
+# Bulk nets (a group's tap_net: VDD/VSS) route last, together on the highest routing plane
+# (metal3 is the topmost role the family resolves), so their trunks never share -- and so
+# never block a via drop on -- the signal planes below.
+ROUTE_RAIL_LAYER_ROLES = ("metal3",)
 
 
 def sha256(path):
@@ -129,13 +152,13 @@ def _slug(v):
     return f"{v:g}".replace(".", "p").replace("-", "m")
 
 
-def _tap_net(block, flav, w, l, mem):
+def _tap_net(block, flav, w, l, mem, flavors=TAP_RING_FLAVORS):
     """The bulk net a `flav` group's tap ring carries, or None if that flavor gets no ring.
 
     The net is read from the device cards' 4th node, never invented. One ring is one body
     potential, so a group whose units disagree on it is refused rather than tied together.
     """
-    if flav not in TAP_RING_FLAVORS:
+    if flav not in flavors:
         return None
     who = f"{block} {flav} w={w:g} l={l:g}"
     short = [m for m in mem if len(m["nets"]) <= MOS_BULK_INDEX]
@@ -149,7 +172,7 @@ def _tap_net(block, flav, w, l, mem):
     return bulks[0]
 
 
-def plan(block, devices, hbt_split_bases=()):
+def plan(block, devices, hbt_split_bases=(), tap_flavors=TAP_RING_FLAVORS, res_rows=1):
     """Group leaf devices into klt gen requests. Each unit gets the device's nets.
 
     hbt_split_bases: HBT base nets (e.g. a tank-loading input pair) whose units are pulled out
@@ -180,7 +203,7 @@ def plan(block, devices, hbt_split_bases=()):
     groups = []
     for (flav, w, l, ng), mem in sorted(mos.items()):
         rows = max(r for r in range(1, math.isqrt(len(mem)) + 1) if len(mem) % r == 0)
-        tap_net = _tap_net(block, flav, w, l, mem)
+        tap_net = _tap_net(block, flav, w, l, mem, tap_flavors)
         groups.append({
             "id": f"{block}_{flav}_w{_slug(w)}_l{_slug(l)}" + (f"_ng{ng}" if ng > 1 else ""),
             "generator": "mos_array", "klass": flav, "count": len(mem),
@@ -223,7 +246,11 @@ def plan(block, devices, hbt_split_bases=()):
         groups.append({
             "id": f"{block}_res{flav}_w{_slug(w)}_l{_slug(l)}",
             "generator": "res_array", "klass": flav, "count": len(mem),
-            "params": {"length_um": l, "width_um": w, "num": len(mem), "dummy": 0, "rows": 1,
+            # res_rows=2 folds a multi-unit group boustrophedon (R1 mirrored above R0), so
+            # one net's A/B pads never sit on the same row as a neighbour's: a Manhattan
+            # escape from one row then cannot run along a foreign pad (routed cells only;
+            # placement-only cells keep the committed single-row geometry).
+            "params": {"length_um": l, "width_um": w, "num": len(mem), "dummy": 0, "rows": res_rows,
                        "flavor": flav},
             "terminals": [{"port": f"R{i}_{t}", "net": m["nets"][k], "unit": m["path"]}
                           for i, m in enumerate(mem) for k, t in enumerate("AB")],
@@ -285,7 +312,100 @@ def port_net_label_sites(groups, reports, origins):
     return site
 
 
-def build_block(cell, subckt, netlist, out_dir, input_first=(), hbt_split_bases=(), explicit_origins=None):
+def net_pins(groups, reports, origins):
+    """{net: [pin]}: every unit-terminal pin, plus one TAP_* ring port per guarded group
+    tied to the group's bulk net (a closed tap ring is one conductor, so one landing biases
+    the whole ring and, for a pfet group, the merged n-well underneath; landing all four
+    TAP_* ports would multiply the rail bundles by four for no electrical difference). Each
+    pin carries its composed-frame pad position (origin + port position) for routing policy."""
+    nets = {}
+    for g in groups:
+        pos = {p["name"]: p for p in reports[g["id"]]["ports"]}
+        o = origins[g["id"]]
+        for t in g["terminals"]:
+            p = pos[t["port"]]
+            nets.setdefault(t["net"], []).append({"block": g["id"], "port": t["port"],
+                                                  "x": o["x"] + p["x_um"], "y": o["y"] + p["y_um"]})
+        if "tap_net" in g:
+            tap = next((p for p in reports[g["id"]]["ports"] if p["name"].startswith("TAP_")), None)
+            if tap is not None:
+                nets.setdefault(g["tap_net"], []).append(
+                    {"block": g["id"], "port": tap["name"],
+                     "x": o["x"] + tap["x_um"], "y": o["y"] + tap["y_um"]})
+    return nets
+
+
+# Two terminals report the same pad-column x when their centres are closer than this. The
+# generated arrays place same-column pads on one x (S columns, D columns, gate columns), so
+# 0.3 um separates distinct columns and never merges two.
+COLUMN_TOL_UM = 0.3
+# Per-(net, block) routing trunk: one horizontal track above the block's bbox, stacked
+# 1.0 um per net so neighbouring trunks clear the deck's Metal2/Metal3 spacing.
+TRUNK_MARGIN_UM = 1.2
+TRUNK_TRACK_UM = 1.0
+
+
+def _pin(p):
+    return {"block": p["block"], "port": p["port"]}
+
+
+def _block_chains(pins):
+    """{block: [chain, ...]}: same-block pins clustered into pad columns (x within
+    COLUMN_TOL_UM), each chain sorted bottom-up -- S columns, D columns and gate columns of
+    a generated array each sit on one x, so a chain is one terminal column of one net."""
+    by_block = {}
+    for pin in pins:
+        by_block.setdefault(pin["block"], []).append(pin)
+    out = {}
+    for block, bpins in by_block.items():
+        cols = []
+        for pin in sorted(bpins, key=lambda p: p["x"]):
+            if cols and abs(pin["x"] - cols[-1][0]) <= COLUMN_TOL_UM:
+                cols[-1][1].append(pin)
+            else:
+                cols.append((pin["x"], [pin]))
+        out[block] = [sorted(c, key=lambda p: p["y"]) for _, c in cols]
+    return out
+
+
+def column_chains(pins):
+    """Legs chaining same-net pins that share a pad column. The auto backbone for a
+    same-column pair runs vertically at the pins' own column (or one stub to its side,
+    which per-card mirrored arrays keep on same-net pad territory), so it never runs
+    along a foreign pad row -- unlike the nearest-first horizontal pairs, whose backbone
+    crosses the interleaved pads of another net on that row and poisons their via drops.
+    Seeded into the bundle's legs[] before the automatic search."""
+    legs = []
+    for chains in _block_chains(pins).values():
+        for chain in chains:
+            for a, b in zip(chain, chain[1:]):
+                legs.append({"from_pin": _pin(a), "to_pin": _pin(b)})
+    return legs
+
+
+def chain_links(pins, bboxes, tracks, plane):
+    """Legs tying one (net, block)'s column chains (and its TAP_* ring port) together
+    through one horizontal trunk above the block: a leg between two chain tops is forced
+    through waypoints at (chain-top x, trunk y), so its vertical escape runs at the pin's
+    own column -- crossing only same-net rows and the gate rows at their own x -- and the
+    horizontal run sits above every pad of the block. `tracks` stacks the per-net trunks
+    (keyed by block; rails and signals stack independently per `plane`)."""
+    legs = []
+    for block, chains in sorted(_block_chains(pins).items()):
+        if len(chains) < 2:
+            continue
+        k = tracks.get((block, plane), 0)
+        tracks[(block, plane)] = k + 1
+        yt = bboxes[block]["y1"] + TRUNK_MARGIN_UM + k * TRUNK_TRACK_UM
+        tops = [c[-1] for c in sorted(chains, key=lambda c: c[-1]["x"])]
+        for a, b in zip(tops, tops[1:]):
+            legs.append({"from_pin": _pin(a), "to_pin": _pin(b),
+                         "waypoints_um": [[a["x"], yt], [b["x"], yt]]})
+    return legs
+
+
+def build_block(cell, subckt, netlist, out_dir, input_first=(), hbt_split_bases=(), explicit_origins=None,
+                route=False):
     """Generate `cell` (a placed-device cell with port labels) for `subckt` in `netlist`.
 
     input_first: port names whose gate-connected device group is placed first (at the origin),
@@ -293,13 +413,18 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), hbt_split_bases=
     hbt_split_bases / explicit_origins: see plan(); explicit_origins maps group id -> (x, y) and
     overrides the shelf-pack origin of that group (the split input pair is placed by the pin
     span, not by shelf order).
-    Returns the provenance record for the cell. Raises PlanError / RuntimeError on any failure.
+    route: also wire the cell intra-cell through `klt gen-compose` routing (#343) -- one
+    connectivity[] entry per flattened net on the ROUTE_* plane pair, pfet groups ringed and
+    their wells tied. Returns the provenance record for the cell. Raises PlanError /
+    RuntimeError on any failure.
     """
     os.makedirs(out_dir, exist_ok=True)
     subckts = read_subckts(netlist)
     ports = subckts[subckt]["ports"]
     devices = flatten(subckts, subckt)
-    groups = plan(cell, devices, hbt_split_bases)
+    groups = plan(cell, devices, hbt_split_bases,
+                  tap_flavors=ROUTE_TAP_RING_FLAVORS if route else TAP_RING_FLAVORS,
+                  res_rows=2 if route else 1)
     undrawn = [{"device": d["path"], "model": d["model"], "nets": d["nets"],
                 "params": d["params"], "reason": UNDRAWN_MODELS[d["model"]]}
                for d in devices if d["model"] in UNDRAWN_MODELS]
@@ -352,11 +477,50 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), hbt_split_bases=
            "blocks": [{"id": g["id"], "generator_report": reports[g["id"]]} for g in groups],
            "placement": {"strategy": "explicit", "order": [g["id"] for g in groups], "origins_um": origins},
            "options": {"cell_name": cell, "output": f"{cell}.raw.gds"}}
+    routing_rec = None
+    if route:
+        pins = net_pins(groups, reports, origins)
+        rails = sorted({g["tap_net"] for g in groups if "tap_net" in g})
+        # Signals first (biggest bundle first: it claims the primary plane with its trunk,
+        # and a later net whose backbone crosses it is retried on the cross plane -- not the
+        # other way round), bulk nets last on their own dedicated planes. Deterministic.
+        def net_order(item):
+            n, p = item
+            return (n in rails, -len(p), n)
+        conn = []
+        for n, p in sorted(pins.items(), key=net_order):
+            if len(p) < 2:
+                continue
+            e = {"net": n, "pins": [{"block": q["block"], "port": q["port"]} for q in p]}
+            chains = column_chains(p)
+            if chains:
+                e["legs"] = chains
+            if n in rails:
+                e["layer_role"] = ROUTE_RAIL_LAYER_ROLES[rails.index(n) % len(ROUTE_RAIL_LAYER_ROLES)]
+            conn.append(e)
+        req["connectivity"] = conn
+        req["routing"] = {"layer_role": ROUTE_LAYER_ROLE, "width_um": ROUTE_WIDTH_UM,
+                          "cross_block_layer_role": ROUTE_CROSS_LAYER_ROLE}
+        routing_rec = {"requested": True, "layer_role": ROUTE_LAYER_ROLE, "width_um": ROUTE_WIDTH_UM,
+                       "cross_block_layer_role": ROUTE_CROSS_LAYER_ROLE,
+                       "single_pin_nets": sorted(n for n, p in pins.items() if len(p) < 2)}
     with open(os.path.join(out_dir, f"{cell}.compose.json"), "w") as f:
         json.dump(req, f, indent=1, sort_keys=True)
     rc, rep = klt(["gen-compose", f"{cell}.compose.json", "--format", "json"], out_dir)
-    if rc != 0 or "error" in rep:
+    # exit 3 is gen-compose's partial success (nets in unrouted_nets[]): recorded below,
+    # never silently accepted; every other non-zero exit is a failure.
+    if rc not in (0, 3) or "error" in rep:
         raise RuntimeError(f"klt gen-compose failed for {cell}: {rep}")
+    if route:
+        nets_rep, unrouted = rep.get("nets", []), rep.get("unrouted_nets", [])
+        routing_rec.update({
+            "nets": [{"net": n.get("net"), "status": n.get("status"), "routed": n.get("routed"),
+                      "landed_on_block": n.get("landed_on_block"),
+                      "length_um": n.get("route_length_um")} for n in nets_rep],
+            "unrouted_nets": unrouted,
+            "status": ("routed" if nets_rep and not unrouted and all(n.get("routed") for n in nets_rep)
+                       else "partial"),
+        })
 
     # Stamp port labels on a drawn terminal of each port net.
     sites = port_net_label_sites(groups, reports, origins)
@@ -366,6 +530,13 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), hbt_split_bases=
     top = ly.cell(cell)
     if top is None:
         raise RuntimeError(f"{cell}.raw.gds has no cell {cell!r}")
+    if route:
+        # gen-compose labels each routed net it draws, internal ones included (e.g. `nz1`);
+        # the cell contract is one label per `.subckt` port (scripts/test-layout-cells.sh).
+        for li in ly.layer_indexes():
+            for sh in list(top.shapes(li).each(db.Shapes.STexts)):
+                if sh.text_string not in ports:
+                    top.shapes(li).erase(sh)
     placed = {}
     for p in ports:
         if p in sites:
@@ -392,6 +563,7 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), hbt_split_bases=
                     **({"tap_net": g["tap_net"]} if "tap_net" in g else {}),
                     "bbox_um": [reports[g["id"]]["bbox_um"][k] for k in ("x0", "y0", "x1", "y1")]}
                    for g in groups],
+        **({"routing": routing_rec} if routing_rec is not None else {}),
         "commands": cmds + [f"klt gen-compose {cell}.compose.json --format json"],
     }
     if hbt_split_bases:
