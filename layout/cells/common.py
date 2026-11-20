@@ -75,10 +75,8 @@ ROUTE_TAP_RING_FLAVORS = ("nfet", "pfet")
 ROUTE_LAYER_ROLE = "metal2"
 ROUTE_CROSS_LAYER_ROLE = "metal3"
 ROUTE_WIDTH_UM = 0.6
-# Via-drop landing pad side: the 0.42 um default needs 0.63 um of pad pitch, and the
-# narrowest generated groups place neighbouring terminals 0.61-0.62 um apart; 0.40 um
-# pads clear them (the deck's own per-pair floors are still enforced below this override).
-ROUTE_LANDING_PAD_UM = 0.40
+# The router's default landing pads are kept: a smaller request is refused for the cmim
+# groups, whose pins sit on Metal5/TopMetal1 (deck floors 0.62 / 1.26 um).
 # Bulk nets (a group's tap_net: VDD/VSS) route last, together on the highest routing plane
 # (metal3 is the topmost role the family resolves), so their trunks never share -- and so
 # never block a via drop on -- the signal planes below.
@@ -466,11 +464,9 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), route=False):
             conn.append(e)
         req["connectivity"] = conn
         req["routing"] = {"layer_role": ROUTE_LAYER_ROLE, "width_um": ROUTE_WIDTH_UM,
-                          "cross_block_layer_role": ROUTE_CROSS_LAYER_ROLE,
-                          "landing_pad_size_um": ROUTE_LANDING_PAD_UM}
+                          "cross_block_layer_role": ROUTE_CROSS_LAYER_ROLE}
         routing_rec = {"requested": True, "layer_role": ROUTE_LAYER_ROLE, "width_um": ROUTE_WIDTH_UM,
                        "cross_block_layer_role": ROUTE_CROSS_LAYER_ROLE,
-                       "landing_pad_size_um": ROUTE_LANDING_PAD_UM,
                        "single_pin_nets": sorted(n for n, p in pins.items() if len(p) < 2)}
     with open(os.path.join(out_dir, f"{cell}.compose.json"), "w") as f:
         json.dump(req, f, indent=1, sort_keys=True)
@@ -498,6 +494,13 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), route=False):
     top = ly.cell(cell)
     if top is None:
         raise RuntimeError(f"{cell}.raw.gds has no cell {cell!r}")
+    if route:
+        # gen-compose labels each routed net it draws, internal ones included (e.g. `nz1`);
+        # the cell contract is one label per `.subckt` port (scripts/test-layout-cells.sh).
+        for li in ly.layer_indexes():
+            for sh in list(top.shapes(li).each(db.Shapes.STexts)):
+                if sh.text_string not in ports:
+                    top.shapes(li).erase(sh)
     placed = {}
     for p in ports:
         if p in sites:

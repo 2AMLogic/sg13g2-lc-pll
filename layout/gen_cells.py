@@ -20,12 +20,13 @@ from cells import common, prescaler  # noqa: E402
 # Blocks that differ only in cell name, .subckt and netlist file: (CELL, SUBCKT, NETLIST, ROUTE).
 # pfd and lock_detector are the sg13g2-pll subckts as carried in design/netlist/pll_top.spice
 # (adopted at the netlist level, pinned sg13g2-pll@e71ff61, see reuse.lock.json and layout/README.md).
-# ROUTE (#343): the charge pump and loop filter are wired intra-cell through klt gen-compose
-# routing, with every guard ring and pfet well tied to its bulk net. The other four cells are
+# ROUTE (#343): the loop filter is wired intra-cell through klt gen-compose
+# routing (its guard rings and nets tied). The charge pump was tried routed and is left placement-only:
+# the router refuses 11 of its 18 nets ("crosses already-routed net", see layout/README.md). The other cells are
 # placement-only; routing them is a #343 follow-up.
 TABLE = (
     ("lcpll_divider", "divider", "design/netlist/divider.spice", False),
-    ("lcpll_cp", "cp", "design/netlist/cp.spice", True),
+    ("lcpll_cp", "cp", "design/netlist/cp.spice", False),
     ("lcpll_loopfilter", "loopfilter", "design/netlist/loopfilter.spice", True),
     ("lcpll_pfd", "pfd", "design/netlist/pll_top.spice", False),
     ("lcpll_lockdet", "lock_detector", "design/netlist/pll_top.spice", False),
