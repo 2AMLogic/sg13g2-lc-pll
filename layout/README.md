@@ -98,7 +98,9 @@ in the netlists (#164, PR #169), so the resistors are drawn with `klt gen res_ar
 
 **Not met:**
 - The prescaler's INP/INN tank-load capacitance is NOT extracted: the 2.1 fF budget is unverified until PEX on
-  the integrated loop (#41). The input group is placed first to keep its geometry compact; that is not a measurement.
+  the integrated loop (#41). Since #345 the two input devices are split into singleton arrays 240 um apart, one under
+  each tank pin, and the vacated array slots are refilled with 2 portless dummy HBTs (recorded in
+  `cells.provenance.json` `input_pair_split`; LVS #37 must exclude the dummies); that is a placement, not a measurement.
 - Cells are placement only: no routing, no LVS (#35, #37). Since #202 every `nfet` `mos_array` group carries a
   `mos_array add_guard_ring` pSD substrate tap ring on net `VSS` (see "LU.b substrate taps"); the ring is drawn but
   not tied to anything by a route, and `pfet` groups have no ring. Areas are bounding boxes.
@@ -112,7 +114,9 @@ scripts/test-layout-top.sh                             # reproducibility, attest
 ```
 
 `gen_integrated.py` runs `gen_top.py` (VCO + keep-out + ring + fill), places the six `gen_cells.py` cells below the VCO,
-routes the inter-block signal nets and writes `layout/top.gds`. `layout/provenance.json` holds the generator chain, input
+routes the inter-block signal nets and writes `layout/top.gds`. The prescaler sits against the guard ring (the closest
+placement a clean DRC allows) with its two input devices split one under each tank pin (#345; the candidates and the
+floor are recorded in [`tank-floorplan-2026-11-20.md`](tank-floorplan-2026-11-20.md)). `layout/provenance.json` holds the generator chain, input
 hashes (VCO stream, cells provenance, generators), the output sha256 and geometry digest, placements, per-net route
 paths and lengths, collisions, the tank-node estimate and the Metal1 pad-trim record (`metal1_pad_trim`). GDS bytes
 carry writer state, so reproducibility is checked on the geometry digest (`--check`), not the file hash. The digest is
@@ -146,14 +150,20 @@ other nets Metal5 horizontal / Metal4 vertical (1 um) with via stacks at each pi
 foreign geometry on its layer. Not routed: VDD, VDDV, VSS, REF, IREFCP, LOCK, divider M0-M3/A0-A2 tie-offs (supplies: #38).
 
 **Results to read before relying on this layout**
-- **Tank-node budget is not met by this floorplan.** Geometric estimate (method in `provenance.json`
+- **Tank-node budget is not met, and no floorplan of the pinned VCO meets it.** Geometric estimate (method in `provenance.json`
   `tank_node_estimate`: isolated TopMetal1 wire over substrate, magic `extract.tech` area/perimeter caps, no coupling, not
-  extracted): VOP 850 um = 73 fF, VON 612 um = 53 fF, against the 2.1 fF budget (spec §1, I6). Even the direct distance is far
-  above it at 0.086 fF/um, so the budget needs the prescaler input at the tank pins (tens of um), not a route. The floorplan
-  was not optimised; PEX delta is #41. Treat I6 as open; the spec is not edited here.
+  extracted): VOP 110.8 um = 9.5 fF, VON 102.8 um = 8.9 fF, differential route 9.19 fF + 1.837 fF device load = 11.0 fF
+  against the 2.1 fF budget (spec §1, I6). The 2026-11-20 floorplan iteration (#345,
+  [`tank-floorplan-2026-11-20.md`](tank-floorplan-2026-11-20.md)) took the routes from 850/612 um to the geometric floor --
+  the prescaler's two input devices split one under each tank pin, held at the closest clean placement to the guard ring --
+  and records why the floor is the floor: the pins are 74-82 um inside the bbox, and even pins at the bbox edge cannot meet
+  the budget because crossing the 20 um keep-out margin is already 1.72 fF per side. Closing it needs the pin exposure
+  requested in sg13g2-vco#420 plus the buffer of spec §6 Q1 (a `spec/` decision, not layout work). PEX delta is #41. Treat
+  I6 as open; the spec is not edited here.
 - **Keep-out is violated by exactly one net.** `klt keepout-check` (Metal1-5, margin 20) reports 3 violations, all the VCTRL
   pin-access stack (Metal3/4/5 at the VCO's Metal3-only VCTRL pin, about 57 um inside the bbox). Tank routes are on TopMetal1,
-  outside the forbidden set. VCO change requested: sg13g2-vco#314; tool gap: klayout-tools#5198.
+  outside the forbidden set. VCO change requested: sg13g2-vco#314 (landed upstream as `54b72f8c`, not yet in the pinned
+  `17e49a8`; a lock bump also clears these 3, see #279); tank pins requested in sg13g2-vco#420; tool gap: klayout-tools#5198.
 - **Route collisions:** `provenance.json` `collisions_total` = 13 overlapping polygons with foreign geometry (nets UP, DN to the
   lock detector and FB at the PFD pin stack). Each is listed per net; none is silently accepted. Cell M4/M5 internals are
   not net-aware here, so some overlaps may be same-net; LVS (#37) decides.
@@ -165,7 +175,9 @@ foreign geometry on its layer. Not routed: VDD, VDDV, VSS, REF, IREFCP, LOCK, di
   the via grows, or M1.b widens; `scripts/test-layout-top.sh` exercises it in both directions. A pad found below its via
   is recorded in `below_via` (with position and uncovered area), never dropped -- dropping it would change geometry to
   hide an open that DRC (#36) and LVS (#37) must see.
-- Placeholder fill under routes is removed (5 squares); density sign-off is #36.
+- Placeholder fill near placed geometry is removed (542 squares; routes *and* the prescaler cell,
+  which the #345 floorplan moved up into the fill band, where native `M1Fil.c`/`M2Fil.c` want
+  0.42 um filler-to-metal); density sign-off is #36.
 - CI pin: `.github/workflows/signoff.yml` moved to `klayout-tools==0.9.1` (#304, 2026-11-15), which still
   grades item 2 `met` from the attest envelope (measured at both pins). The earlier reason for holding
   the bump here — "moving the pin to 0.9.1 grades item 1 `stale_evidence` (3 met -> 1)" — did not

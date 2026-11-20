@@ -56,9 +56,16 @@ M1B_SP_UM = 0.18                      # native M1.b Metal1 spacing; the pad trim
 
 # Cell placements: name -> (transform, origin_um). Prescaler is mirrored about the x axis so its
 # INP/INN (y = 1.8 um in the cell) face the VCO above it, INP left of INN as OUTP is left of OUTN.
-PRESC_TOP_Y = -185.0
+# The committed origin puts the split input pair (layout/cells/prescaler.py) each under its own
+# tank pin -- INP label at cell (3.87, 1.775), INN 240 um right -- against vco OUTP/OUTN at
+# x = -120/+120, and holds the cell clear of the guard ring (its pSD extends to y = -132.33,
+# gen_top.py RING_GAP_UM + RING_W_UM below the VCO bbox, sized out for Activ enclosure): 0.67 um
+# pSD-to-pSD against psd.space.1's 0.31 um, the closest placement a clean DRC allows. The
+# candidates that were tried for this floorplan, and why the pin positions and the keep-out bound
+# every one of them, are recorded in the dated tank-floorplan record under layout/ (#345).
+PRESC_TOP_Y = -133.0
 PLACE = {
-    "lcpll_prescaler": ("M0", (281.0, PRESC_TOP_Y)),
+    "lcpll_prescaler": ("M0", (-123.87, PRESC_TOP_Y)),
     "lcpll_divider": ("R0", (445.0, -310.0)),
     "lcpll_loopfilter": ("R0", (-440.0, -430.0)),
     "lcpll_pfd": ("R0", (-440.0, -230.0)),
@@ -281,10 +288,31 @@ def tank_estimate(routes):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--vco", default=os.path.join(ROOT, ".fetched/sg13g2-vco/layout/vco.gds"))
+    ap.add_argument("--prescaler-origin", metavar="TRANSFORM,X,Y",
+                    help="try one floorplan (#345): override the lcpll_prescaler placement, "
+                         "e.g. M0,-291.2,-132.5. Evaluation only -- regenerates "
+                         "layout/build/top.gds and prints the route summary and tank estimate, "
+                         "but never writes layout/top.gds or layout/provenance.json and skips "
+                         "the --check digest comparison (a trial placement is expected to differ).")
     mode = ap.add_mutually_exclusive_group()
     mode.add_argument("--write", action="store_true")
     mode.add_argument("--check", action="store_true")
     a = ap.parse_args()
+
+    trial = None
+    if a.prescaler_origin:
+        parts = a.prescaler_origin.split(",")
+        if len(parts) != 3 or parts[0] not in ("R0", "M0"):
+            ap.error("--prescaler-origin wants TRANSFORM,X,Y with TRANSFORM R0 or M0, "
+                     f"got {a.prescaler_origin!r}")
+        try:
+            trial = (parts[0], (float(parts[1]), float(parts[2])))
+        except ValueError:
+            ap.error(f"--prescaler-origin coordinates are not numbers: {a.prescaler_origin!r}")
+        if a.write:
+            ap.error("--prescaler-origin is evaluation-only and refuses --write; "
+                     "to adopt a placement, edit PLACE in this file")
+        PLACE["lcpll_prescaler"] = trial
 
     os.makedirs(BUILD, exist_ok=True)
     base = os.path.join(BUILD, "lc_pll_base.gds")
@@ -430,18 +458,23 @@ def main():
             notch_fill += fill.count()
             top.shapes(m1l).insert(fill)
 
-    # remove filler under the new wires (a chip-level fill tool does this; the placeholder fill here must not short them)
+    # remove filler under the wires and under any cell that sits in the fill band (a chip-level
+    # fill tool does this; the placeholder fill here must not short the routes, and a cell moved
+    # up against the guard ring lands inside the band (#345), where its Metal(n) must keep the
+    # native MFil.c 0.42 um filler clearance the same way). The VCO and the ring never trigger
+    # removal: the band starts FILL_GAP_UM (5) outside the ring, beyond the 2 um sizing here.
     fill_removed = 0
     for m in range(1, 6):
         fl = ly.layer(*gen_top.LAYERS[f"Metal{m}.filler"])
         lay = METALS[m - 1][1]
-        if lay in added:
-            wires = to_region(added[lay]).sized(round(2.0 / dbu))
-            fr = db.Region(top.shapes(fl))
-            keep = fr - fr.interacting(wires)
-            fill_removed += fr.count() - keep.count()
-            top.shapes(fl).clear()
-            top.shapes(fl).insert(keep)
+        fr = db.Region(top.shapes(fl))
+        if fr.is_empty():
+            continue
+        near = obstacles(lay).sized(round(2.0 / dbu))
+        keep = fr - fr.interacting(near)
+        fill_removed += fr.count() - keep.count()
+        top.shapes(fl).clear()
+        top.shapes(fl).insert(keep)
 
     # Always produce the fresh stream under layout/build/; --write then publishes it to
     # layout/top.gds only if the geometry moved (#257).
@@ -450,9 +483,11 @@ def main():
     chk = db.Layout()
     chk.read(build_gds)
     dg = common.digest(chk, chk.cell(TOP))
-    replaced = publish_stream(build_gds, OUT_GDS, dg) if a.write else None
+    # A --prescaler-origin trial never publishes and never compares: its geometry is expected to
+    # differ from the committed record (that difference is the measurement).
+    replaced = publish_stream(build_gds, OUT_GDS, dg) if (a.write and trial is None) else None
     # output.sha256 is the hash of the stream as it sits on disk at output.path.
-    out = OUT_GDS if a.write else build_gds
+    out = OUT_GDS if (a.write and trial is None) else build_gds
 
     # klayout_module describes the writer of `output`. When the committed stream is kept, the
     # module running now did not produce it, so carry the recorded value forward rather than
@@ -504,7 +539,7 @@ def main():
             "notch_fill_polygons": notch_fill,
         },
     }
-    if a.write:
+    if a.write and trial is None:
         with open(PROV, "w") as f:
             json.dump(rec, f, indent=1, sort_keys=True)
             f.write("\n")
@@ -518,6 +553,10 @@ def main():
         else:
             print(f"gen_integrated: geometry unchanged -- kept {OUT_GDS} "
                   f"sha256 {rec['output']['sha256']} (attested bytes preserved)")
+    elif trial is not None:
+        print(f"gen_integrated: trial placement {trial} -- routes and estimate follow "
+              "(layout/build/top.gds, nothing committed)")
+        print("gen_integrated: " + json.dumps(tank_estimate(routes), sort_keys=True))
     else:
         want = json.load(open(PROV))
         if want["output"]["geometry_sha256"] != dg:
