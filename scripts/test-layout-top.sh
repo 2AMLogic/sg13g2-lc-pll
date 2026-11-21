@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Integrated layout check (#35): committed layout/top.gds reproduces, still matches the stream hash
 # manifests/layout.attest.json pins (#257), holds the pinned VCO unmodified, keep-out intrusions are
-# exactly the recorded VCTRL pin-access ones, and the checks can fail.
+# exactly the recorded VCTRL pin-access ones, top metal keeps clear of the VCO's inductor exclusion
+# markers (#361), and the checks can fail.
 # Needs .fetched/ (scripts/fetch-vco.sh), klt, a python with `klayout` (default .venv/bin/python; LAYOUT_PY).
 set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -248,6 +249,105 @@ n="$(jq '[.. | objects | select(has("kind"))] | length' "${T}/ko.json" 2>/dev/nu
 [ -n "${n}" ] && [ "${n}" = 3 ] && { echo "PASS keep-out: 3 recorded VCTRL intrusions"; pass=$((pass+1)); } \
   || { echo "FAIL keep-out intrusions = '${n}', expected the 3 recorded VCTRL ones"; bad=$((bad+1)); }
 
+# Top metal vs the VCO's inductor exclusion markers (#361). keepout-check is blind to top metal by
+# design: gen_top.py's FORBIDDEN_LAYERS stops at Metal5 because the tank routes VOP/VON are
+# TopMetal1 and the VDDV strap is TopMetal2, so widening it would turn every tank route into a
+# violation. The clearance of the top cell's OWN 126/0 and 134/0 shapes to the markers the VCO
+# itself draws (27/0 IND, 148/0 NoRCX) is therefore asserted directly. The checker prints its
+# result on one line and the PASS line quotes it, so the measured minimum distance is recorded --
+# the same reason the keep-out count above is hand-rolled rather than an expect() "ok".
+cat >"${T}/indclear.py" <<'INDEOF'
+"""Top-cell top metal must keep clear of the VCO inductor exclusion markers (#361).
+
+  python indclear.py <stream.gds>
+
+keepout-check cannot make this assertion: its forbidden set deliberately stops at Metal5 (the
+tank routes VOP/VON are TopMetal1, the VDDV strap TopMetal2, so adding top metal to the set
+would flag every tank route). This checks the top cell's OWN TopMetal1 (126/0) and TopMetal2
+(134/0) shapes against the vco cell's 27/0 (IND) and 148/0 (NoRCX) markers instead. Overlap,
+touching (zero clearance) and anything closer than MIN_CLEARANCE_UM refuse; the success line
+reports the measured minimum distance so the caller can quote it.
+"""
+import sys
+
+import klayout.db as db
+
+TOP_CELL, VCO_CELL = "lc_pll_top", "vco"
+TOP_METAL = ((126, 0, "TopMetal1"), (134, 0, "TopMetal2"))
+MARKERS = ((27, 0, "IND"), (148, 0, "NoRCX"))
+MIN_CLEARANCE_UM = 5.0
+
+
+def fail(msg):
+    sys.exit("ind-clearance: " + msg + "; refusing")
+
+
+def pt_seg(px, py, ax, ay, bx, by):
+    """Distance from point to segment; unit is the layout's database unit."""
+    dx, dy = bx - ax, by - ay
+    sq = dx * dx + dy * dy
+    if sq == 0:
+        return ((px - ax) ** 2 + (py - ay) ** 2) ** 0.5
+    t = ((px - ax) * dx + (py - ay) * dy) / sq
+    t = 0.0 if t < 0.0 else (1.0 if t > 1.0 else t)
+    return ((px - ax - t * dx) ** 2 + (py - ay - t * dy) ** 2) ** 0.5
+
+
+def seg_seg(e1, e2):
+    """Segment-segment distance: the minimum of each endpoint against the other segment. Exact
+    for segments that do not cross; crossing edges imply overlapping polygons, and overlap is
+    refused before any distance is computed."""
+    a1, b1, a2, b2 = e1.p1, e1.p2, e2.p1, e2.p2
+    return min(pt_seg(a1.x, a1.y, a2.x, a2.y, b2.x, b2.y),
+               pt_seg(b1.x, b1.y, a2.x, a2.y, b2.x, b2.y),
+               pt_seg(a2.x, a2.y, a1.x, a1.y, b1.x, b1.y),
+               pt_seg(b2.x, b2.y, a1.x, a1.y, b1.x, b1.y))
+
+
+if len(sys.argv) != 2:
+    fail("usage: indclear.py <stream.gds>")
+ly = db.Layout()
+ly.read(sys.argv[1])
+top = ly.cell(TOP_CELL) or fail("no cell '" + TOP_CELL + "' in the stream")
+vco = ly.cell(VCO_CELL) or fail("no cell '" + VCO_CELL + "' in the stream")
+dbu = ly.dbu
+metal = db.Region()
+for layer, dtype, name in TOP_METAL:
+    li = ly.find_layer(layer, dtype)
+    if li is not None:
+        metal += db.Region(top.shapes(li))
+metal = metal.merged()
+if metal.is_empty():
+    fail("the top cell draws no " + "/".join(n for _, _, n in TOP_METAL) + "; nothing to assert")
+worst = None
+for layer, dtype, name in MARKERS:
+    li = ly.find_layer(layer, dtype)
+    if li is None:
+        fail("no %d/%d (%s) layer in the stream" % (layer, dtype, name))
+    marks = db.Region(vco.begin_shapes_rec(li)).merged()
+    if marks.is_empty():
+        fail("the vco cell draws no %d/%d (%s); the markers are pinned VCO content" % (layer, dtype, name))
+    overlap = metal & marks
+    if not overlap.is_empty():
+        fail("top-cell top metal overlaps the %s markers (%d/%d) in %d place(s)"
+             % (name, layer, dtype, overlap.count()))
+    dist = min(seg_seg(e1, e2) * dbu
+               for p1 in metal.each() for p2 in marks.each()
+               for e1 in p1.each_edge() for e2 in p2.each_edge())
+    if dist < MIN_CLEARANCE_UM:
+        fail("minimum distance %.3f um to the %s markers (%d/%d) is under the %.1f um margin"
+             % (dist, name, layer, dtype, MIN_CLEARANCE_UM))
+    worst = dist if worst is None else min(worst, dist)
+print("ind-clearance: top-cell %s keeps %.2f um from the VCO %s markers (>= %.1f um required)"
+      % ("/".join(n for _, _, n in TOP_METAL), worst,
+         "+".join(n for _, _, n in MARKERS), MIN_CLEARANCE_UM))
+INDEOF
+if d="$("${PY}" -I "${T}/indclear.py" "${G}" 2>&1)"; then
+  echo "PASS ${d}"; pass=$((pass+1))
+else
+  echo "FAIL ${d}"; bad=$((bad+1))
+fi
+
 # negative controls. The heredoc is guarded: a fixture that did not build is a harness failure,
 # not a passing negative control (the script has no set -e; #282).
 "${PY}" -I - "${G}" "${T}" <<'PYEOF' || { echo "FAIL fixture generation: negative-control streams did not build (see above)"; bad=$((bad+1)); }
@@ -257,6 +357,30 @@ ly = db.Layout(); ly.read(g)
 ly.cell("vco").shapes(ly.layer(8, 0)).insert(db.Box(0, 0, 1000, 1000)); ly.write(t + "/edited.gds")
 ly = db.Layout(); ly.read(g)
 ly.cell("lc_pll_top").shapes(ly.layer(8, 0)).insert(db.Box(-320000, 100000, -315000, 105000)); ly.write(t + "/intr.gds")
+# #361: a 5 um TopMetal2 box on a 27/0 marker's own bbox centre, drawn on the top cell the way a
+# rerouted VDDV strap would be. The markers are two octagons with a channel between them (their
+# joint bbox centre falls inside that channel), so the centre of ONE marker is used, and the guard
+# must prove the box landed on marker material -- otherwise the refusal below proves nothing.
+ly = db.Layout(); ly.read(g)
+mark = next(db.Region(ly.cell("vco").begin_shapes_rec(ly.layer(27, 0))).merged().each())
+c = mark.bbox().center()
+indbox = db.Box(c.x - 2500, c.y - 2500, c.x + 2500, c.y + 2500)
+if (db.Region(indbox) & db.Region(mark)).is_empty():
+    sys.exit("ind-intruder: a box at the 27/0 bbox centre (%d, %d) misses the marker; fixture cannot discriminate" % (c.x, c.y))
+ly.cell("lc_pll_top").shapes(ly.layer(134, 0)).insert(indbox); ly.write(t + "/ind_intr.gds")
+# ... and the zero-clearance edge case: the same box butted exactly against a marker's bottom
+# edge -- touching without overlapping. Guarded both ways: it must not overlap (that case is the
+# fixture above) and it must touch (a box that stops short would never exercise distance 0).
+ly = db.Layout(); ly.read(g)
+mark = next(db.Region(ly.cell("vco").begin_shapes_rec(ly.layer(27, 0))).merged().each())
+bot = min((e for e in mark.each_edge() if e.p1.y == e.p2.y), key=lambda e: e.p1.y)
+mid = (bot.p1.x + bot.p2.x) // 2
+tbox = db.Box(mid - 2500, bot.p1.y - 5000, mid + 2500, bot.p1.y)
+if not (db.Region(tbox) & db.Region(mark)).is_empty():
+    sys.exit("ind-touch: the butted box overlaps the marker; wanted touch-only")
+if (db.Region(tbox) & db.Region(mark).sized(1)).is_empty():
+    sys.exit("ind-touch: the butted box does not reach the marker; fixture cannot discriminate")
+ly.cell("lc_pll_top").shapes(ly.layer(134, 0)).insert(tbox); ly.write(t + "/ind_touch.gds")
 PYEOF
 klt clip "${T}/edited.gds" --cell vco -o "${T}/edited_clip.gds" >/dev/null 2>&1
 # Must carry klt's own violation status line (rc=3 detection), not merely exit non-zero: a missing
@@ -266,6 +390,14 @@ expect "NEG edited VCO cell detected" "refuse:^status: different" klt diff "${T}
 klt keepout-check "${T}/intr.gds" --forbidden "${T}/f.json" --margin 20 --cells vco --format json >"${T}/ko2.json" 2>/dev/null
 n2="$(jq '[.. | objects | select(has("kind"))] | length' "${T}/ko2.json" 2>/dev/null)"
 [ "${n2}" = 4 ] && { echo "PASS NEG extra keep-out intruder detected (4)"; pass=$((pass+1)); } || { echo "FAIL NEG intruder count '${n2}'"; bad=$((bad+1)); }
+# #361: the clearance check must refuse both the intruding and the merely-touching TopMetal2
+# fixtures with its own refusal text, not just a non-zero exit (the refuse:<ERE> rule, #234/#282).
+expect "NEG TopMetal2 intruder into the IND markers refused" \
+  "refuse:ind-clearance: top-cell top metal overlaps the IND markers \(27/0\) in [0-9]+ place\(s\); refusing" \
+  "${PY}" -I "${T}/indclear.py" "${T}/ind_intr.gds"
+expect "NEG TopMetal2 touching a marker edge refused (zero clearance)" \
+  "refuse:ind-clearance: minimum distance 0\.000 um to the IND markers \(27/0\) is under the [0-9.]+ um margin; refusing" \
+  "${PY}" -I "${T}/indclear.py" "${T}/ind_touch.gds"
 mkdir -p "${T}/s/.fetched/sg13g2-vco/layout"; cp "${VCO}" "${T}/s/.fetched/sg13g2-vco/layout/vco.gds"
 printf 'X' | dd of="${T}/s/.fetched/sg13g2-vco/layout/vco.gds" bs=1 seek=100 conv=notrunc 2>/dev/null
 # Must carry gen_top.py's own sha256 refusal (reached through gen_integrated's build_base
