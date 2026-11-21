@@ -1,0 +1,61 @@
+{
+  "_comment": [
+    "sg13g2-lc-pll supply/connectivity ERC spec, T1 item 11 (#344 writes it, #38 grades it).",
+    "Layers are the IHP SG13G2 numbers pinned for this repo (GatPoly 5/0 + Activ 1/0, Cont 6/0,",
+    "pSD 14/0, NWell 31/0, Metal1..Metal5 8/10/30/50/67, TopMetal1 126, TopMetal2 134; vias",
+    "19/29/49/66/125/133), per layout/gen_top.py LAYERS and layout/gen_integrated.py METALS.",
+    "Label scope: net names are read only from the pin purposes 8/25 (Metal1) and 67/25 (Metal5)",
+    "where every top-level route and cell port label sits. The VCO cell's internal 134/25 'VDD'",
+    "text is deliberately NOT in scope (no topmetal2 label_layer): the island it names is the",
+    "VDDV branch of spec section 5, named by the VDDV landing label on 67/25, and the VCO's own",
+    "naming of its supply must not be read as a tie between top-level VDD and VDDV. VDDV is",
+    "declared with no same_net_as: a drawn VDD-VDDV short must stay an erc.supply_short finding."
+  ],
+  "stackup": [
+    {"name": "gate", "layer": "5/0", "role": "gate", "active_layer": "1/0"},
+    {"name": "metal1", "layer": "8/0", "label_layer": "8/25"},
+    {"name": "metal2", "layer": "10/0"},
+    {"name": "metal3", "layer": "30/0"},
+    {"name": "metal4", "layer": "50/0"},
+    {"name": "metal5", "layer": "67/0", "label_layer": "67/25"},
+    {"name": "topmetal1", "layer": "126/0"},
+    {"name": "topmetal2", "layer": "134/0"}
+  ],
+  "vias": [
+    {"name": "cont", "layer": "6/0", "between": ["gate", "metal1"]},
+    {"name": "via1", "layer": "19/0", "between": ["metal1", "metal2"]},
+    {"name": "via2", "layer": "29/0", "between": ["metal2", "metal3"]},
+    {"name": "via3", "layer": "49/0", "between": ["metal3", "metal4"]},
+    {"name": "via4", "layer": "66/0", "between": ["metal4", "metal5"]},
+    {"name": "topvia1", "layer": "125/0", "between": ["metal5", "topmetal1"]},
+    {"name": "topvia2", "layer": "133/0", "between": ["topmetal1", "topmetal2"]}
+  ],
+  "nets": [
+    {"name": "VDDV", "kind": "supply", "islands": 1,
+     "_comment": "VCO core branch (spec section 5): the TopMetal2 strap from its labelled landing to the VCO's VDD bar. One island: landing tower + strap + VCO bar."},
+    {"name": "VDD", "kind": "supply", "islands": 1,
+     "_comment": "prescaler, PFD, charge pump, divider (+ M2/M3/A2 tie-offs), lock detector. One star from its labelled landing."},
+    {"name": "VSS", "kind": "supply", "islands": 1,
+     "_comment": "One drawn return for every block plus the divider M0/M1/A0/A1 tie-offs and the top-level p+ guard ring. Spec section 5's separate quiet/digital returns are NOT yet drawn: this single island is the honest state, stated in layout/README.md."},
+    {"name": "REF", "_comment": "external reference input to lcpll_pfd.REF"},
+    {"name": "IREFCP", "_comment": "external charge-pump bias current to lcpll_cp.IREF"},
+    {"name": "LOCK", "_comment": "external lock-detector output from lcpll_lockdet.LOCK"}
+  ],
+  "ties": [
+    {"name": "guard_ring", "well_layer": null,
+     "well_boxes": [
+       [-331.43, -132.33, 331.43, -130.73],
+       [-331.43, 314.96, 331.43, 316.56],
+       [-331.43, -132.33, -329.83, 316.56],
+       [329.83, -132.33, 331.43, 316.56]
+     ],
+     "tap_layer": "6/0", "tap_requires": ["14/0"],
+     "connect_to": "metal1", "net": "VSS",
+     "_comment": "The top-level p+ guard ring gen_top.py draws around the keep-out (Activ/pSD/Cont/Metal1 annulus, inner edge VCO bbox + 25 um, 1 um wide, pSD 0.3 larger). Four arm boxes, one per arm; the tap is the ring's Cont-on-pSD row, tied to VSS by the route stack gen_integrated.py lands on the south arm."}
+  ],
+  "ties_disclosure": {
+    "kind": "unexpressible",
+    "reason": "Tie classes this first supply run (#344) does not declare, all cleared by drawing rather than by a tool change: loop-block NWell taps (the pfet groups of the placement-only cells carry no tap rings yet, a #343 follow-up); the cell-internal pSD substrate tap rings of the placement-only cells (untied by a route inside the cells, #343's boundary); and the VCO's substrate/well tie (the ground pin '0' is unreachable at top level without forbidden metal, 2AMLogic/sg13g2-vco#427).",
+    "undeclared_classes": ["loop_block_nwell_taps", "cell_internal_substrate_taps", "vco_substrate_tie"]
+  }
+}
