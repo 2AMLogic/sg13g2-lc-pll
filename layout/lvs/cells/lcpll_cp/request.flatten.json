@@ -1,0 +1,16 @@
+{
+ "layout": {
+  "deck": "sg13g2",
+  "file": "../../../top.gds",
+  "top": "lcpll_cp"
+ },
+ "options": {
+  "flatten_reference": true
+ },
+ "reference": {
+  "deck": "sg13g2",
+  "form": "subckt-call",
+  "netlist": "../../../../design/netlist/cp.spice",
+  "top": "cp"
+ }
+}

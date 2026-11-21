@@ -1,0 +1,4441 @@
+{
+ "blocks": [
+  {
+   "generator_report": {
+    "bbox_um": {
+     "x0": -1.25,
+     "x1": 14.77,
+     "y0": -1.25,
+     "y1": 14.13
+    },
+    "cell_name": "lcpll_pfd_nfet_w2_l0p5",
+    "dbu_um": 0.001,
+    "device_count": 32,
+    "drc_hints": {
+     "matched_group_id": "mos_array:4x8:array",
+     "min_spacing_um": 0.4,
+     "notes": [
+      "family 'sg13g2' declares no S/D implant role ('nplus') for flavor 'nfet' -- no implant mask was drawn"
+     ],
+     "sd_implant_present": false,
+     "snapped_to_grid": false,
+     "voltage_flavor": "hv",
+     "voltage_flavor_mark_present": true
+    },
+    "gds_path": "lcpll_pfd_nfet_w2_l0p5.gds",
+    "generator": "mos_array",
+    "navigable_regions": [],
+    "pdk": {
+     "name": "ihp-sg13g2",
+     "variant": "ihp-sg13g2",
+     "version": "fetched:0.3.0"
+    },
+    "ports": [
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 1.9500000000000002,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 2.87,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 2.41,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 3.6900000000000004,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 4.61,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.15,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U3_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 5.430000000000001,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U3_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 6.3500000000000005,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U3_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 5.890000000000001,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U4_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 7.170000000000001,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U4_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 8.090000000000002,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U4_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.630000000000001,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U5_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 8.910000000000002,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U5_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 9.830000000000002,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U5_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 9.370000000000001,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U6_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 10.650000000000002,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U6_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 11.570000000000002,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U6_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 11.110000000000001,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U7_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 12.390000000000002,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U7_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 13.310000000000002,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U7_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 12.850000000000001,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U8_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U8_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U8_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 6.029999999999999
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U9_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 1.9500000000000002,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U9_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 2.87,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U9_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 2.41,
+      "y_um": 6.029999999999999
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U10_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 3.6900000000000004,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U10_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 4.61,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U10_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.15,
+      "y_um": 6.029999999999999
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U11_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 5.430000000000001,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U11_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 6.3500000000000005,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U11_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 5.890000000000001,
+      "y_um": 6.029999999999999
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U12_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 7.170000000000001,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U12_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 8.090000000000002,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U12_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.630000000000001,
+      "y_um": 6.029999999999999
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U13_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 8.910000000000002,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U13_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 9.830000000000002,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U13_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 9.370000000000001,
+      "y_um": 6.029999999999999
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U14_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 10.650000000000002,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U14_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 11.570000000000002,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U14_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 11.110000000000001,
+      "y_um": 6.029999999999999
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U15_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 12.390000000000002,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U15_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 13.310000000000002,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U15_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 12.850000000000001,
+      "y_um": 6.029999999999999
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U16_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U16_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U16_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 9.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U17_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 1.9500000000000002,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U17_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 2.87,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U17_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 2.41,
+      "y_um": 9.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U18_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 3.6900000000000004,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U18_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 4.61,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U18_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.15,
+      "y_um": 9.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U19_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 5.430000000000001,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U19_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 6.3500000000000005,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U19_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 5.890000000000001,
+      "y_um": 9.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U20_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 7.170000000000001,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U20_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 8.090000000000002,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U20_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.630000000000001,
+      "y_um": 9.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U21_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 8.910000000000002,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U21_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 9.830000000000002,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U21_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 9.370000000000001,
+      "y_um": 9.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U22_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 10.650000000000002,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U22_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 11.570000000000002,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U22_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 11.110000000000001,
+      "y_um": 9.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U23_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 12.390000000000002,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U23_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 13.310000000000002,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U23_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 12.850000000000001,
+      "y_um": 9.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U24_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U24_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U24_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 12.669999999999998
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U25_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 1.9500000000000002,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U25_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 2.87,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U25_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 2.41,
+      "y_um": 12.669999999999998
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U26_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 3.6900000000000004,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U26_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 4.61,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U26_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.15,
+      "y_um": 12.669999999999998
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U27_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 5.430000000000001,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U27_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 6.3500000000000005,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U27_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 5.890000000000001,
+      "y_um": 12.669999999999998
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U28_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 7.170000000000001,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U28_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 8.090000000000002,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U28_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.630000000000001,
+      "y_um": 12.669999999999998
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U29_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 8.910000000000002,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U29_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 9.830000000000002,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U29_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 9.370000000000001,
+      "y_um": 12.669999999999998
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U30_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 10.650000000000002,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U30_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 11.570000000000002,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U30_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 11.110000000000001,
+      "y_um": 12.669999999999998
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U31_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 12.390000000000002,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U31_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 13.310000000000002,
+      "y_um": 10.959999999999999
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U31_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 12.850000000000001,
+      "y_um": 12.669999999999998
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_N",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 6.760000000000001,
+      "y_um": 13.739999999999998
+     },
+     {
+      "direction_deg": 270,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_S",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 6.760000000000001,
+      "y_um": -0.8600000000000001
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_E",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 14.38,
+      "y_um": 6.4399999999999995
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_W",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": -0.8600000000000001,
+      "y_um": 6.4399999999999995
+     }
+    ],
+    "provenance": {
+     "deck": null,
+     "input": null,
+     "klayout_version": "0.30.12",
+     "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
+     "pdk": {
+      "name": "ihp-sg13g2",
+      "source": "search root: ~/share/pdk",
+      "version": "fetched:0.3.0"
+     }
+    },
+    "schema_version": 1,
+    "subcell_naming_scheme": "core-suffix-v1",
+    "warnings": []
+   },
+   "id": "lcpll_pfd_nfet_w2_l0p5"
+  },
+  {
+   "generator_report": {
+    "bbox_um": {
+     "x0": -1.25,
+     "x1": 2.59,
+     "y0": -1.25,
+     "y1": 6.17
+    },
+    "cell_name": "lcpll_pfd_nfet_w4_l0p5",
+    "dbu_um": 0.001,
+    "device_count": 1,
+    "drc_hints": {
+     "matched_group_id": "mos_array:1x1:array",
+     "min_spacing_um": 0.4,
+     "notes": [
+      "family 'sg13g2' declares no S/D implant role ('nplus') for flavor 'nfet' -- no implant mask was drawn"
+     ],
+     "sd_implant_present": false,
+     "snapped_to_grid": false,
+     "voltage_flavor": "hv",
+     "voltage_flavor_mark_present": true
+    },
+    "gds_path": "lcpll_pfd_nfet_w4_l0p5.gds",
+    "generator": "mos_array",
+    "navigable_regions": [],
+    "pdk": {
+     "name": "ihp-sg13g2",
+     "variant": "ihp-sg13g2",
+     "version": "fetched:0.3.0"
+    },
+    "ports": [
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_S",
+      "net": null,
+      "width_um": 4.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 2.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_D",
+      "net": null,
+      "width_um": 4.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 2.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 4.71
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_N",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 0.6699999999999997,
+      "y_um": 5.78
+     },
+     {
+      "direction_deg": 270,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_S",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 0.6699999999999997,
+      "y_um": -0.8600000000000001
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_E",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 2.1999999999999993,
+      "y_um": 2.46
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_W",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": -0.8600000000000001,
+      "y_um": 2.46
+     }
+    ],
+    "provenance": {
+     "deck": null,
+     "input": null,
+     "klayout_version": "0.30.12",
+     "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
+     "pdk": {
+      "name": "ihp-sg13g2",
+      "source": "search root: ~/share/pdk",
+      "version": "fetched:0.3.0"
+     }
+    },
+    "schema_version": 1,
+    "subcell_naming_scheme": "core-suffix-v1",
+    "warnings": []
+   },
+   "id": "lcpll_pfd_nfet_w4_l0p5"
+  },
+  {
+   "generator_report": {
+    "bbox_um": {
+     "x0": -1.32,
+     "x1": 2.66,
+     "y0": -1.32,
+     "y1": 12.24
+    },
+    "cell_name": "lcpll_pfd_pfet_w10_l0p5",
+    "dbu_um": 0.001,
+    "device_count": 1,
+    "drc_hints": {
+     "matched_group_id": "mos_array:1x1:array",
+     "min_spacing_um": 0.4,
+     "notes": [
+      "family 'sg13g2' declares no S/D implant role ('pplus') for flavor 'pfet' -- no implant mask was drawn"
+     ],
+     "sd_implant_present": false,
+     "snapped_to_grid": false,
+     "voltage_flavor": "hv",
+     "voltage_flavor_mark_present": true
+    },
+    "gds_path": "lcpll_pfd_pfet_w10_l0p5.gds",
+    "generator": "mos_array",
+    "navigable_regions": [],
+    "pdk": {
+     "name": "ihp-sg13g2",
+     "variant": "ihp-sg13g2",
+     "version": "fetched:0.3.0"
+    },
+    "ports": [
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_S",
+      "net": null,
+      "width_um": 10.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 5.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_D",
+      "net": null,
+      "width_um": 10.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 5.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 10.71
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_N",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 0.6699999999999997,
+      "y_um": 11.78
+     },
+     {
+      "direction_deg": 270,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_S",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 0.6699999999999997,
+      "y_um": -0.8600000000000001
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_E",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 2.1999999999999993,
+      "y_um": 5.46
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_W",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": -0.8600000000000001,
+      "y_um": 5.46
+     }
+    ],
+    "provenance": {
+     "deck": null,
+     "input": null,
+     "klayout_version": "0.30.12",
+     "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
+     "pdk": {
+      "name": "ihp-sg13g2",
+      "source": "search root: ~/share/pdk",
+      "version": "fetched:0.3.0"
+     }
+    },
+    "schema_version": 1,
+    "subcell_naming_scheme": "core-suffix-v1",
+    "warnings": []
+   },
+   "id": "lcpll_pfd_pfet_w10_l0p5"
+  },
+  {
+   "generator_report": {
+    "bbox_um": {
+     "x0": -1.32,
+     "x1": 14.84,
+     "y0": -1.32,
+     "y1": 26.2
+    },
+    "cell_name": "lcpll_pfd_pfet_w5_l0p5",
+    "dbu_um": 0.001,
+    "device_count": 32,
+    "drc_hints": {
+     "matched_group_id": "mos_array:4x8:array",
+     "min_spacing_um": 0.4,
+     "notes": [
+      "family 'sg13g2' declares no S/D implant role ('pplus') for flavor 'pfet' -- no implant mask was drawn"
+     ],
+     "sd_implant_present": false,
+     "snapped_to_grid": false,
+     "voltage_flavor": "hv",
+     "voltage_flavor_mark_present": true
+    },
+    "gds_path": "lcpll_pfd_pfet_w5_l0p5.gds",
+    "generator": "mos_array",
+    "navigable_regions": [],
+    "pdk": {
+     "name": "ihp-sg13g2",
+     "variant": "ihp-sg13g2",
+     "version": "fetched:0.3.0"
+    },
+    "ports": [
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 1.9500000000000002,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 2.87,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 2.41,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 3.6900000000000004,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 4.61,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.15,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U3_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 5.430000000000001,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U3_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 6.3500000000000005,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U3_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 5.890000000000001,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U4_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 7.170000000000001,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U4_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 8.090000000000002,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U4_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.630000000000001,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U5_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 8.910000000000002,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U5_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 9.830000000000002,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U5_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 9.370000000000001,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U6_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 10.650000000000002,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U6_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 11.570000000000002,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U6_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 11.110000000000001,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U7_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 12.390000000000002,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U7_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 13.310000000000002,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U7_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 12.850000000000001,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U8_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U8_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U8_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 12.030000000000001
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U9_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 1.9500000000000002,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U9_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 2.87,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U9_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 2.41,
+      "y_um": 12.030000000000001
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U10_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 3.6900000000000004,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U10_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 4.61,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U10_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.15,
+      "y_um": 12.030000000000001
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U11_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 5.430000000000001,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U11_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 6.3500000000000005,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U11_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 5.890000000000001,
+      "y_um": 12.030000000000001
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U12_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 7.170000000000001,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U12_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 8.090000000000002,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U12_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.630000000000001,
+      "y_um": 12.030000000000001
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U13_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 8.910000000000002,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U13_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 9.830000000000002,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U13_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 9.370000000000001,
+      "y_um": 12.030000000000001
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U14_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 10.650000000000002,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U14_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 11.570000000000002,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U14_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 11.110000000000001,
+      "y_um": 12.030000000000001
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U15_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 12.390000000000002,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U15_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 13.310000000000002,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U15_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 12.850000000000001,
+      "y_um": 12.030000000000001
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U16_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U16_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U16_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 18.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U17_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 1.9500000000000002,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U17_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 2.87,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U17_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 2.41,
+      "y_um": 18.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U18_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 3.6900000000000004,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U18_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 4.61,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U18_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.15,
+      "y_um": 18.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U19_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 5.430000000000001,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U19_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 6.3500000000000005,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U19_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 5.890000000000001,
+      "y_um": 18.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U20_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 7.170000000000001,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U20_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 8.090000000000002,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U20_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.630000000000001,
+      "y_um": 18.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U21_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 8.910000000000002,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U21_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 9.830000000000002,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U21_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 9.370000000000001,
+      "y_um": 18.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U22_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 10.650000000000002,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U22_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 11.570000000000002,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U22_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 11.110000000000001,
+      "y_um": 18.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U23_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 12.390000000000002,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U23_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 13.310000000000002,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U23_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 12.850000000000001,
+      "y_um": 18.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U24_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U24_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U24_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 24.67
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U25_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 1.9500000000000002,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U25_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 2.87,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U25_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 2.41,
+      "y_um": 24.67
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U26_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 3.6900000000000004,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U26_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 4.61,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U26_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.15,
+      "y_um": 24.67
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U27_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 5.430000000000001,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U27_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 6.3500000000000005,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U27_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 5.890000000000001,
+      "y_um": 24.67
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U28_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 7.170000000000001,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U28_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 8.090000000000002,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U28_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.630000000000001,
+      "y_um": 24.67
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U29_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 8.910000000000002,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U29_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 9.830000000000002,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U29_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 9.370000000000001,
+      "y_um": 24.67
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U30_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 10.650000000000002,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U30_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 11.570000000000002,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U30_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 11.110000000000001,
+      "y_um": 24.67
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U31_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 12.390000000000002,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U31_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 13.310000000000002,
+      "y_um": 21.46
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U31_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 12.850000000000001,
+      "y_um": 24.67
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_N",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 6.760000000000001,
+      "y_um": 25.74
+     },
+     {
+      "direction_deg": 270,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_S",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 6.760000000000001,
+      "y_um": -0.8600000000000001
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_E",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 14.38,
+      "y_um": 12.44
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_W",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": -0.8600000000000001,
+      "y_um": 12.44
+     }
+    ],
+    "provenance": {
+     "deck": null,
+     "input": null,
+     "klayout_version": "0.30.12",
+     "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
+     "pdk": {
+      "name": "ihp-sg13g2",
+      "source": "search root: ~/share/pdk",
+      "version": "fetched:0.3.0"
+     }
+    },
+    "schema_version": 1,
+    "subcell_naming_scheme": "core-suffix-v1",
+    "warnings": []
+   },
+   "id": "lcpll_pfd_pfet_w5_l0p5"
+  }
+ ],
+ "connectivity": [
+  {
+   "net": "DN",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U24_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U27_G"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U29_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U24_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U25_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U27_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U29_G"
+    }
+   ]
+  },
+  {
+   "net": "UP",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U18_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U21_G"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U28_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U18_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U19_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U21_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U28_G"
+    }
+   ]
+  },
+  {
+   "net": "reset",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U17_G"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U23_G"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w4_l0p5",
+     "port": "U0_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w10_l0p5",
+     "port": "U0_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U17_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U23_G"
+    }
+   ]
+  },
+  {
+   "net": "XED_DN.ntmp",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U13_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U15_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U13_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U14_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U15_G"
+    }
+   ]
+  },
+  {
+   "net": "XED_UP.ntmp",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U5_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U7_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U5_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U6_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U7_G"
+    }
+   ]
+  },
+  {
+   "net": "net1",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U19_G"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U20_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U19_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U20_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U21_D"
+    }
+   ]
+  },
+  {
+   "net": "net2",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U25_G"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U26_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U25_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U26_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U27_D"
+    }
+   ]
+  },
+  {
+   "net": "reset_raw",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U28_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U30_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U28_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U29_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U30_G"
+    }
+   ]
+  },
+  {
+   "net": "FB",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U8_G"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U13_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U8_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U13_G"
+    }
+   ]
+  },
+  {
+   "net": "REF",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U0_G"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U5_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U0_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U5_G"
+    }
+   ]
+  },
+  {
+   "net": "XED_DN.XD5",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U12_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U14_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U12_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U14_G"
+    }
+   ]
+  },
+  {
+   "net": "XED_DN.d1",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U8_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U9_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U8_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U9_G"
+    }
+   ]
+  },
+  {
+   "net": "XED_DN.d2",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U9_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U10_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U9_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U10_G"
+    }
+   ]
+  },
+  {
+   "net": "XED_DN.d3",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U10_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U11_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U10_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U11_G"
+    }
+   ]
+  },
+  {
+   "net": "XED_DN.d4",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U11_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U12_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U11_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U12_G"
+    }
+   ]
+  },
+  {
+   "net": "XED_UP.XD5",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U4_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U6_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U4_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U6_G"
+    }
+   ]
+  },
+  {
+   "net": "XED_UP.d1",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U0_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U1_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U0_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U1_G"
+    }
+   ]
+  },
+  {
+   "net": "XED_UP.d2",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U1_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U2_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U1_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U2_G"
+    }
+   ]
+  },
+  {
+   "net": "XED_UP.d3",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U2_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U3_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U2_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U3_G"
+    }
+   ]
+  },
+  {
+   "net": "XED_UP.d4",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U3_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U4_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U3_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U4_G"
+    }
+   ]
+  },
+  {
+   "net": "XLD.RB",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U23_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U26_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U23_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U26_G"
+    }
+   ]
+  },
+  {
+   "net": "XLD.SB",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U22_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U24_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U22_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U24_G"
+    }
+   ]
+  },
+  {
+   "net": "XLU.RB",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U17_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U20_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U17_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U20_G"
+    }
+   ]
+  },
+  {
+   "net": "XLU.SB",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U16_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U18_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U16_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U18_G"
+    }
+   ]
+  },
+  {
+   "net": "reset_d1",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U30_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U31_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U30_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U31_G"
+    }
+   ]
+  },
+  {
+   "net": "reset_d2",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U31_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w4_l0p5",
+     "port": "U0_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w10_l0p5",
+     "port": "U0_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U31_D"
+    }
+   ]
+  },
+  {
+   "net": "set_dn",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U15_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U22_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U15_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U22_G"
+    }
+   ]
+  },
+  {
+   "net": "set_up",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U7_D"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U16_G"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U7_D"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U16_G"
+    }
+   ]
+  },
+  {
+   "net": "XED_DN.XN1.mid1",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U13_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U14_D"
+    }
+   ]
+  },
+  {
+   "net": "XED_UP.XN1.mid1",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U5_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U6_D"
+    }
+   ]
+  },
+  {
+   "net": "XLD.XNQ.mid1",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U24_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U25_D"
+    }
+   ]
+  },
+  {
+   "net": "XLD.XNQB.mid1",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U26_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U27_D"
+    }
+   ]
+  },
+  {
+   "net": "XLU.XNQ.mid1",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U18_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U19_D"
+    }
+   ]
+  },
+  {
+   "net": "XLU.XNQB.mid1",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U20_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U21_D"
+    }
+   ]
+  },
+  {
+   "net": "XNR.mid1",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U28_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U29_D"
+    }
+   ]
+  },
+  {
+   "layer_role": "metal3",
+   "legs": [
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U0_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U8_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U8_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U16_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U16_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U24_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U1_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U9_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U9_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U17_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U17_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U25_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U2_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U10_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U10_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U18_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U18_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U26_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U3_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U11_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U11_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U19_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U19_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U27_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U4_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U12_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U12_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U20_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U20_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U28_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U5_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U13_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U13_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U21_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U21_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U29_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U6_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U14_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U14_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U22_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U22_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U30_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U7_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U15_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U15_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U23_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U23_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_pfet_w5_l0p5",
+      "port": "U31_S"
+     }
+    }
+   ],
+   "net": "VDD",
+   "pins": [
+    {
+     "block": "lcpll_pfd_pfet_w10_l0p5",
+     "port": "U0_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w10_l0p5",
+     "port": "TAP_N"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U0_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U1_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U2_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U3_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U4_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U5_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U6_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U7_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U8_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U9_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U10_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U11_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U12_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U13_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U14_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U15_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U16_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U17_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U18_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U19_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U20_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U21_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U22_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U23_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U24_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U25_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U26_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U27_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U28_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U29_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U30_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "U31_S"
+    },
+    {
+     "block": "lcpll_pfd_pfet_w5_l0p5",
+     "port": "TAP_N"
+    }
+   ]
+  },
+  {
+   "layer_role": "metal3",
+   "legs": [
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U0_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U8_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U8_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U16_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U1_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U9_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U9_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U17_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U17_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U25_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U2_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U10_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U3_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U11_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U11_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U19_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U19_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U27_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U4_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U12_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U21_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U29_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U6_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U14_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U14_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U22_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U22_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U30_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U7_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U15_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U15_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U23_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U23_S"
+     },
+     "to_pin": {
+      "block": "lcpll_pfd_nfet_w2_l0p5",
+      "port": "U31_S"
+     }
+    }
+   ],
+   "net": "VSS",
+   "pins": [
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U0_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U1_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U2_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U3_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U4_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U6_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U7_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U8_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U9_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U10_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U11_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U12_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U14_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U15_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U16_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U17_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U19_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U21_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U22_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U23_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U25_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U27_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U29_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U30_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "U31_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w2_l0p5",
+     "port": "TAP_N"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w4_l0p5",
+     "port": "U0_S"
+    },
+    {
+     "block": "lcpll_pfd_nfet_w4_l0p5",
+     "port": "TAP_N"
+    }
+   ]
+  }
+ ],
+ "options": {
+  "cell_name": "lcpll_pfd",
+  "output": "lcpll_pfd.raw.gds"
+ },
+ "pdk": {
+  "variant": "ihp-sg13g2"
+ },
+ "placement": {
+  "order": [
+   "lcpll_pfd_nfet_w2_l0p5",
+   "lcpll_pfd_nfet_w4_l0p5",
+   "lcpll_pfd_pfet_w10_l0p5",
+   "lcpll_pfd_pfet_w5_l0p5"
+  ],
+  "origins_um": {
+   "lcpll_pfd_nfet_w2_l0p5": {
+    "x": 0.0,
+    "y": 0.0
+   },
+   "lcpll_pfd_nfet_w4_l0p5": {
+    "x": 20.02,
+    "y": 0.0
+   },
+   "lcpll_pfd_pfet_w10_l0p5": {
+    "x": 27.86,
+    "y": 0.0
+   },
+   "lcpll_pfd_pfet_w5_l0p5": {
+    "x": 35.84,
+    "y": 0.0
+   }
+  },
+  "strategy": "explicit"
+ },
+ "routing": {
+  "cross_block_layer_role": "metal3",
+  "layer_role": "metal2",
+  "width_um": 0.6
+ },
+ "schema": "klt.gen_compose.request/1"
+}

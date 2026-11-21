@@ -1,0 +1,1221 @@
+{
+  "schema_version": 3,
+  "engine": "klayout",
+  "layout": {
+    "path": "layout/top.gds",
+    "scope": "repo"
+  },
+  "reference": {
+    "path": "design/netlist/prescaler.spice",
+    "scope": "repo"
+  },
+  "top": "lcpll_prescaler",
+  "reference_top": "PRESCALER",
+  "reference_conversion": {
+    "form": "subckt-call",
+    "deck": "sg13g2",
+    "device_map": null
+  },
+  "parameter_tolerance": null,
+  "options": {
+    "combine_devices": false,
+    "combine_devices_per_circuit": null,
+    "combine_devices_max_attempts": 5,
+    "flatten_layout": false,
+    "flatten_reference": false,
+    "netgen_setup": null,
+    "parameter_tolerance": null,
+    "compare_parameters": null,
+    "power_connectivity": null,
+    "anchor_top_level_pins": null,
+    "strict_top_level_pin_count": false,
+    "compare_mos_flavour": false,
+    "ignore_mos_bulk": false,
+    "supply_nets": [
+      "GND",
+      "VCC",
+      "VDD",
+      "VGND",
+      "VPWR",
+      "VSS"
+    ],
+    "finfet_bulk": null
+  },
+  "hints_applied": null,
+  "constant_nets_applied": null,
+  "status": "mismatch",
+  "power_connectivity": {
+    "status": "unchecked",
+    "reason": "reference.form is 'subckt-call', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+    "power_pins": [],
+    "power_pins_derivation": null,
+    "instance_count": 0,
+    "expected_nets": null,
+    "unchecked_expected_pins": [],
+    "excluded_pins": [],
+    "findings": [],
+    "finding_count": 0
+  },
+  "body_verification": {
+    "status": "unchecked",
+    "reason": "no MOS device was eligible for the body check: the layout's top circuit extracted no 'nfet' or 'pfet' device, under either the deck's generic class names or their compare_mos_flavour-suffixed variants (e.g. 'nfet__<flavour>'), so there was no body terminal to inspect and this run verified nothing about the device bodies",
+    "device_classes": [],
+    "device_count": 0,
+    "inspected_count": 0,
+    "findings": [],
+    "finding_count": 0
+  },
+  "device_parameter_coverage": [
+    {
+      "class": "rppd",
+      "device_kind": "resistor",
+      "layout_devices": 80,
+      "reference_devices": 24,
+      "compared": [],
+      "not_compared": [
+        {
+          "parameter": "R",
+          "reason": "placeholder_value"
+        },
+        {
+          "parameter": "L",
+          "reason": "secondary"
+        },
+        {
+          "parameter": "W",
+          "reason": "secondary"
+        },
+        {
+          "parameter": "A",
+          "reason": "secondary"
+        },
+        {
+          "parameter": "P",
+          "reason": "secondary"
+        }
+      ]
+    }
+  ],
+  "mismatch_count": 46,
+  "error_count": 41,
+  "category_counts": {
+    "device.geometry_not_compared": 1,
+    "device.placeholder_value": 1,
+    "reference.unresolved_subckt_call": 29,
+    "topology": 14,
+    "topology.hierarchy_mismatch": 1
+  },
+  "category_error_counts": {
+    "reference.unresolved_subckt_call": 29,
+    "topology": 12
+  },
+  "counts": {
+    "nets": {
+      "layout": 167,
+      "reference": 9,
+      "matched": 0
+    },
+    "devices": {
+      "layout": 80,
+      "reference": 1,
+      "matched": 0
+    },
+    "pins": {
+      "layout": 9,
+      "reference": 8,
+      "matched": 0
+    }
+  },
+  "device_classes": [
+    "nfet",
+    "pfet",
+    "cap_cmim",
+    "rfcmim",
+    "cap_cmomi",
+    "cap_cmomf",
+    "resistor",
+    "dantenna",
+    "dpantenna"
+  ],
+  "environment": {
+    "engine": "klayout",
+    "engine_version": "0.30.12",
+    "netgen_binary": null,
+    "layout_sha256": "90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+    "reference_sha256": "add4d3b39706242e478f9c4f23a7d7352a63ec877af45d953eb68eba0d78e6ca",
+    "extracted_netlist": null
+  },
+  "provenance": {
+    "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
+    "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+    "klayout_version": "0.30.12",
+    "pdk": null,
+    "deck": {
+      "name": "sg13g2",
+      "content_hash": "sha256:eaaf298957eeced674e4030635c66ba6bdee98adde15fe36203ba047fd7b0669",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+      "role": "layout"
+    },
+    "klayout_version_mismatch": false
+  },
+  "mismatches": [
+    {
+      "category": "device.geometry_not_compared",
+      "severity": "warning",
+      "description": "device class 'rppd' is a resistor class, whose ['A', 'L', 'P', 'W'] parameter(s) KLayout declares *secondary*: kdb.NetlistComparer compares primary parameters only, so none of them took part in this compare and each is NOT verified -- this resistor's geometry could differ between the two sides by any amount and this run would still report 'match'. No parameter of this class was compared at all: the remaining parameter(s) were separately excluded from this run (see the device.placeholder_value/device.parameter_excluded entries), so the two sides were paired on topology alone. Name them in options.compare_parameters to compare them (see docs/cli/lvs.md, 'device.geometry_not_compared')",
+      "side": "both",
+      "net": null,
+      "device": {
+        "layout": null,
+        "reference": null,
+        "class": "rppd"
+      },
+      "property": null,
+      "details": {
+        "device_kind": "resistor",
+        "compared_parameters": [],
+        "not_compared_parameters": [
+          "A",
+          "L",
+          "P",
+          "W"
+        ],
+        "layout_devices": 80,
+        "reference_devices": 24
+      },
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.placeholder_value",
+      "severity": "warning",
+      "description": "reference device class 'RPPD' was converted from a subcircuit call (request.reference.form: \"subckt-call\"), so its 'R' value is the literal 0 placeholder on all 24 reference instance(s) -- klt lvs has no PDK sheet-resistance/capacitance-per-area data to compute a real one. 'R' was therefore excluded from this compare on both sides (layout: 80 instance(s), R 1207.9810568295115..31251.908548707754) and the two sides were paired on topology alone -- that dimension of the compare is not independently verified. Supply a reference in the plain-element form carrying real 'R' values to compare it (see docs/cli/lvs.md, 'device.placeholder_value')",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": null,
+        "reference": null,
+        "class": "RPPD"
+      },
+      "property": null,
+      "details": {
+        "parameter": "R",
+        "device_kind": "resistor",
+        "reference_devices": 24,
+        "layout_devices": 80,
+        "layout_values": [
+          1207.9810568295115,
+          2085.9045725646124,
+          2408.9662027833,
+          4024.2743538767395,
+          10059.06560636183,
+          12062.047713717693,
+          28189.284294234592,
+          31251.908548707754
+        ]
+      },
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QREF' in circuit 'PRESCALER' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "PRESCALER"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QREF"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT1' in circuit 'CML_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT2' in circuit 'CML_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QH1' in circuit 'CML_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QH1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QH2' in circuit 'CML_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QH2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QC1' in circuit 'CML_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QC1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QC2' in circuit 'CML_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QC2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT' in circuit 'CML_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=2)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QE1' in circuit 'CML_EF' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_EF"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QE1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QE2' in circuit 'CML_EF' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_EF"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QE2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QF1' in circuit 'CML_EF' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_EF"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QF1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QF2' in circuit 'CML_EF' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_EF"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QF2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'DF1' in circuit 'CML_EF' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_EF"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "DF1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'DF2' in circuit 'CML_EF' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_EF"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "DF2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT1' in circuit 'CML_DFF_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT2' in circuit 'CML_DFF_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QH1' in circuit 'CML_DFF_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QH1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QH2' in circuit 'CML_DFF_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QH2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QC1' in circuit 'CML_DFF_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QC1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QC2' in circuit 'CML_DFF_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QC2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT' in circuit 'CML_DFF_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=2)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QA1' in circuit 'CML_AND2' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_AND2"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QA1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QA2' in circuit 'CML_AND2' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_AND2"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QA2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QB1' in circuit 'CML_AND2' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_AND2"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QB1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QB2' in circuit 'CML_AND2' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_AND2"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QB2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT' in circuit 'CML_AND2' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=2)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_AND2"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QM1' in circuit 'MC_CONV' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "MC_CONV"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QM1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QM2' in circuit 'MC_CONV' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "MC_CONV"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QM2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT' in circuit 'MC_CONV' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=2)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "MC_CONV"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "topology",
+      "severity": "error",
+      "description": "circuit could not be matched to a counterpart",
+      "side": "both",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_prescaler",
+        "reference": "PRESCALER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "device class has no counterpart on the other side, but no devices of this class were extracted either -- not a real topology mismatch: 'nfet'",
+      "side": "layout",
+      "net": null,
+      "device": {
+        "layout": null,
+        "reference": null,
+        "class": "nfet"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "device class has no counterpart on the other side, but no devices of this class were extracted either -- not a real topology mismatch: 'pfet'",
+      "side": "layout",
+      "net": null,
+      "device": {
+        "layout": null,
+        "reference": null,
+        "class": "pfet"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "error",
+      "description": "circuit could not be matched to a counterpart",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": null,
+        "reference": "NPN13G2V(EL=1|NX=1)"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "error",
+      "description": "circuit could not be matched to a counterpart",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": null,
+        "reference": "DIV89_DM"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "error",
+      "description": "circuit could not be matched to a counterpart",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": null,
+        "reference": "MC_CONV"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "error",
+      "description": "circuit could not be matched to a counterpart",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": null,
+        "reference": "NPN13G2V(EL=1|NX=2)"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "error",
+      "description": "circuit could not be matched to a counterpart",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": null,
+        "reference": "CML_EF"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "error",
+      "description": "circuit could not be matched to a counterpart",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": null,
+        "reference": "CML_AND2"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "error",
+      "description": "circuit could not be matched to a counterpart",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DIV23"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "error",
+      "description": "circuit could not be matched to a counterpart",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "error",
+      "description": "circuit could not be matched to a counterpart",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "error",
+      "description": "circuit could not be matched to a counterpart",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": null,
+        "reference": "DIV2_CML_LS"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "error",
+      "description": "circuit could not be matched to a counterpart",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology.hierarchy_mismatch",
+      "severity": "warning",
+      "description": "the layout netlist is flat (1 circuit) but the reference netlist is hierarchical (12 circuits); per-circuit topology errors here may stem from that structural difference rather than a connectivity defect -- retry with options.flatten_reference: true to compare the flattened reference against the flat layout (see docs/cli/lvs.md, \"topology.hierarchy_mismatch\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    }
+  ],
+  "net_correspondence": []
+}
