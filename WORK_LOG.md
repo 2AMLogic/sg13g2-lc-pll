@@ -2,6 +2,12 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-11-21
+
+- **Issue #353** (closed): Reuse the divider gate evaluator in the prescaler code test
+- **PR #356**: refactor: reuse the divider gate evaluator in the prescaler code test
+- **Issue #358** (closed): WORK_PLAN.md generated-region blurbs drift from render_plan_body()'s literals, defeating the #5890 debounce
+
 ### 2026-11-20
 
 - **PR #347**: feat(layout): route loop-filter cell, add per-cell LVS envelopes (not matched)
