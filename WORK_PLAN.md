@@ -54,7 +54,7 @@ Issues currently being built (`loom:building`).
 
 PRs waiting on Judge (`loom:review-requested`).
 
-- **#359**: feat(layout): route supplies, external pins and divider tie-offs from labelled landings
+_None._
 
 ## Approved (Awaiting Merge)
 
@@ -63,6 +63,7 @@ PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 - **#200**: docs(sim): trace 125C divider stall to M-counter terminal-count setup path
 - **#207**: docs(spec): add clock-output interface row 15 and DR-006, stated as not met
 - **#262**: docs(spec): add DR-007 — reference noise mask, in-band split, method N narrowed to the charge pump
+- **#359**: feat(layout): route supplies, external pins and divider tie-offs from labelled landings
 
 ## Proposed
 
@@ -84,6 +85,7 @@ Issues carrying `loom:curated`.
 - **#346**: layout: route the remaining cells and LVS each against its own subcircuit (follow-up of #343) *(curated)*
 - **#348**: test flake: scripts/ci-harness.sh fetch-pll test fails on signoff when one locked blob is momentarily unreachable *(curated)*
 - **#349**: layout: routed cells get two labels per subckt port, and test-layout-cells.sh set-dedupes so it cannot see it *(curated)*
+- **#361**: layout: no test asserts top-metal routes stay clear of the VCO inductor exclusion markers *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -106,9 +108,9 @@ _None._
 | Important | 9 |
 | Ready (`loom:issue`) | 2 |
 | In Progress (`loom:building`) | 7 |
-| PRs awaiting review | 1 |
-| Approved PRs awaiting merge | 3 |
-| Curated | 16 |
+| PRs awaiting review | 0 |
+| Approved PRs awaiting merge | 4 |
+| Curated | 17 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
