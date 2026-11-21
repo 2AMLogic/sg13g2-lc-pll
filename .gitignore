@@ -102,6 +102,10 @@ flow/build/
 /.loom-local/
 # <<< loom-managed <<<
 
+# Loom daemon account-ranking runtime state (issue #366). Lives outside the
+# loom-managed block above so resync regeneration cannot drop it.
+/.loom/account-ranking.*
+
 # Repo Skills machine-local install metadata (absolute source path + timestamp)
 .claude/skills/repo/.install-local.json
 
