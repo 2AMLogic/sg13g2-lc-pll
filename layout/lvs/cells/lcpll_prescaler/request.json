@@ -1,0 +1,4 @@
+{
+  "layout": {"file": "../../../top.gds", "top": "lcpll_prescaler", "deck": "sg13g2"},
+  "reference": {"netlist": "../../../../design/netlist/prescaler.spice", "top": "prescaler", "form": "subckt-call", "deck": "sg13g2"}
+}

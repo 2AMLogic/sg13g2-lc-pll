@@ -21,9 +21,10 @@ from cells import common, prescaler  # noqa: E402
 # pfd and lock_detector are the sg13g2-pll subckts as carried in design/netlist/pll_top.spice
 # (adopted at the netlist level, pinned sg13g2-pll@e71ff61, see reuse.lock.json and layout/README.md).
 # ROUTE (#343): the loop filter is wired intra-cell through klt gen-compose
-# routing (its guard rings and nets tied). The charge pump was tried routed and is left placement-only:
-# the router refuses 11 of its 18 nets ("crosses already-routed net", see layout/README.md). The other cells are
-# placement-only; routing them is a #343 follow-up.
+# routing (its guard rings and nets tied). Every other cell was trialled routed in #346 and stays
+# placement-only: the router leaves 11 of 18 nets unrouted on the charge pump, 33 of 37 on the pfd,
+# 18 of 23 on the lock detector, 252 of 288 on the divider and 135 of 138 on the prescaler
+# ("crosses already-routed net" etc., klayout-tools#6961; trials and reports in layout/routing/cells/).
 TABLE = (
     ("lcpll_divider", "divider", "design/netlist/divider.spice", False),
     ("lcpll_cp", "cp", "design/netlist/cp.spice", False),

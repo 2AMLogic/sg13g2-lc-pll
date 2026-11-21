@@ -103,3 +103,38 @@ Tool gaps filed generically: `2AMLogic/klayout-tools#6960` (subckt-call referenc
 `coverage` block in this klt, so the `sg13_hv_pmos` census question stays open for the charge pump; the
 `device_classes` list does include `pfet`. The swapped-net negative control is not run: it needs a `match`
 baseline to flip, and neither cell has one. It becomes meaningful once the two issues above are fixed.
+
+## Per-cell compares, all six cells (#346, `klt 0.9.3.dev2575+g6bd18bbc8637`, klayout 0.30.12)
+
+The four remaining cells get the #343 treatment: committed request + envelope under `cells/<cell>/`, layout =
+committed `layout/top.gds` with `top` set to the cell, reference = the cell's own `.subckt` (`form: subckt-call`,
+nothing hand-written). `layout/top.gds` is unchanged since #347 (no cell ships routed; the #346 routing trials all
+came back partial), so the #347 `lcpll_cp` envelope still passes `klt lvs --check` (input freshness only, not a
+verdict) and is cited rather than re-run; the charge pump's flatten retry below is new evidence. **Every cell
+mismatches; item 4 stays `unmet` with #37 and the swapped-net negative control stays pending everywhere (it needs a
+`match` baseline to flip; none exists).**
+
+| Cell | Engine | Status | Reading |
+|---|---|---|---|
+| `lcpll_pfd` (placement only) | curated `sg13g2` | `mismatch` | 66 layout devices (33 `nfet`, 33 `pfet`), 0 paired, 0 of 201/14 nets matched; flat layout vs 6-circuit reference hierarchy (`EDGEDET`, `SRLATCH`, … appear as reference circuits); 2 `device.body_unverified` (tap conductors unlabelled — the cell is unrouted) |
+| `lcpll_pfd` | curated + `flatten_reference` | no envelope | exits 1: `top cell/subcircuit 'pfd' not found in reference netlist` — the flatten path only selects the file's first `.subckt` (`pll_top`), `2AMLogic/klayout-tools#6988`; `request.flatten.json` is committed so the diagnostic reproduces |
+| `lcpll_lockdet` (placement only) | curated `sg13g2` | `mismatch` | 40 layout devices (19 `nfet`, 18 `pfet`, 2 `cap_cmim`, 1 `rhigh`), 0 paired, 0 of 120/11 nets matched; hierarchy mismatch + `device.placeholder_value` on the 16 converted reference `rppd`/`cap_cmim` calls |
+| `lcpll_lockdet` | curated + `flatten_reference` | no envelope | same #6988 failure (`'lock_detector' not found`) |
+| `lcpll_divider` (placement only) | curated `sg13g2` | `mismatch` | 617 layout devices (304 `nfet`, 304 `pfet`, 1 `rppd`, 5 `rhigh`, 3 `cap_cmim`) vs 0 paired, 0 of 1846/19 nets matched; the 4 HBT units drawn by the generator are **not** a curated-deck device class (absent from `device_classes`), so they are invisible to this engine; 1 unresolved reference `NPN13G2V` call |
+| `lcpll_divider` | curated + `flatten_reference` | `mismatch` | reference flattens to 617 devices — census equal — but 0 pair: 1234 `device.unmatched`, 2130 `net.unmatched` (unrouted layout), 3 nets / 26 pins matched; envelope committed as `<cell>.flatten.lvs.json` |
+| `lcpll_prescaler` (placement only) | curated `sg13g2` | `mismatch` | 80 layout `rppd` (the 129 HBT units are not a curated-deck class — prescaler HBT recognition is **not observed** by this engine, matching the #343 note that the curated deck emits no `device_census`/`coverage`); 29 reference `NPN13G2V` calls unresolved (empty placeholders, `device.placeholder_value`); 0 devices paired |
+| `lcpll_prescaler` | curated + `flatten_reference` | `mismatch` | census 80 / 80 `rppd` and the compare engages — 25 devices, 52 nets, 12 pins matched — then `net.split` 110 / `net.merged` 54 (the layout is unrouted, so extracted connectivity cannot agree); envelope committed |
+| `lcpll_cp` | curated + `flatten_reference` | `mismatch` | census 63 / 63 devices (the #347 flat-vs-hierarchy asymmetry gone), 0 paired: 63 `device.unmatched`, 212 `net.unmatched`; envelope committed beside #347's plain curated envelope |
+
+What the flatten retries establish: the `topology.hierarchy_mismatch` note's own recommendation (`options.flatten_reference:
+true`) is the right shape — divider and charge pump reach an equal device census with it — but no device pairs yet
+(#6960 pairing still applies), it cannot even be requested for `pfd`/`lock_detector` whose reference subckt is not the
+first of `pll_top.spice` (#6988), and a placement-only layout can at best half-match (prescaler: splits/merges on
+unrouted nets). Fields this klt does not emit for these envelopes: `device_census`, `coverage` (both engines of #343's
+top-level run had them; the curated per-cell envelopes do not) — the HBT recognition statements above rest on
+`device_classes` + `device_parameter_coverage` + the unresolved-call counts, not a census.
+
+inputs, from each `cells/<cell>/` directory): `klt lvs request.json --format json -o <cell>.lvs.json`
+and `klt lvs request.flatten.json --format json -o <cell>.flatten.lvs.json`; `klt lvs --check` re-hashes the
+inputs and exits 0 for all seven #346 envelopes (the four curated and three flatten ones; it is an input-freshness
+check, not a verdict).

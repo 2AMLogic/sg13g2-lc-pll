@@ -1,0 +1,2950 @@
+{
+ "blocks": [
+  {
+   "generator_report": {
+    "bbox_um": {
+     "x0": 0.0,
+     "x1": 92.9,
+     "y0": 0.0,
+     "y1": 48.34
+    },
+    "cell_name": "lcpll_lockdet_cmim_w45_l45",
+    "dbu_um": 0.001,
+    "device_count": 2,
+    "drc_hints": {
+     "foreign_clearance_um": 0.4,
+     "matched_group_id": "cap_array:2",
+     "min_spacing_um": 0.5,
+     "notes": [],
+     "snapped_to_grid": false
+    },
+    "gds_path": "lcpll_lockdet_cmim_w45_l45.gds",
+    "generator": "cap_array",
+    "navigable_regions": [],
+    "pdk": {
+     "name": "ihp-sg13g2",
+     "variant": "ihp-sg13g2",
+     "version": "fetched:0.3.0"
+    },
+    "ports": [
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 67,
+       "name": null
+      },
+      "name": "C0_BOT",
+      "net": null,
+      "width_um": 46.2,
+      "x_um": 0.0,
+      "y_um": 23.1
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 126,
+       "name": null
+      },
+      "name": "C0_TOP",
+      "net": null,
+      "width_um": 1.64,
+      "x_um": 23.1,
+      "y_um": 47.52
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 67,
+       "name": null
+      },
+      "name": "C1_BOT",
+      "net": null,
+      "width_um": 46.2,
+      "x_um": 46.7,
+      "y_um": 23.1
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 126,
+       "name": null
+      },
+      "name": "C1_TOP",
+      "net": null,
+      "width_um": 1.64,
+      "x_um": 69.80000000000001,
+      "y_um": 47.52
+     }
+    ],
+    "provenance": {
+     "deck": null,
+     "input": null,
+     "klayout_version": "0.30.12",
+     "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
+     "pdk": {
+      "name": "ihp-sg13g2",
+      "source": "search root: ~/share/pdk",
+      "version": "fetched:0.3.0"
+     }
+    },
+    "schema_version": 1,
+    "subcell_naming_scheme": "core-suffix-v1",
+    "warnings": []
+   },
+   "id": "lcpll_lockdet_cmim_w45_l45"
+  },
+  {
+   "generator_report": {
+    "bbox_um": {
+     "x0": -1.25,
+     "x1": 14.290000000000001,
+     "y0": -1.25,
+     "y1": 2.89
+    },
+    "cell_name": "lcpll_lockdet_nfet_w0p25_l12",
+    "dbu_um": 0.001,
+    "device_count": 1,
+    "drc_hints": {
+     "matched_group_id": "mos_array:1x1:array",
+     "min_spacing_um": 0.4,
+     "notes": [
+      "family 'sg13g2' declares no S/D implant role ('nplus') for flavor 'nfet' -- no implant mask was drawn"
+     ],
+     "sd_implant_present": false,
+     "snapped_to_grid": false,
+     "voltage_flavor": "hv",
+     "voltage_flavor_mark_present": true
+    },
+    "gds_path": "lcpll_lockdet_nfet_w0p25_l12.gds",
+    "generator": "mos_array",
+    "navigable_regions": [],
+    "pdk": {
+     "name": "ihp-sg13g2",
+     "variant": "ihp-sg13g2",
+     "version": "fetched:0.3.0"
+    },
+    "ports": [
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_S",
+      "net": null,
+      "width_um": 0.25,
+      "x_um": 0.21000000000000002,
+      "y_um": 0.21000000000000002
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_D",
+      "net": null,
+      "width_um": 0.25,
+      "x_um": 12.829999999999998,
+      "y_um": 0.21000000000000002
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 6.52,
+      "y_um": 1.4300000000000002
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_N",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 6.52,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 270,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_S",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 6.52,
+      "y_um": -0.8600000000000001
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_E",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 13.899999999999999,
+      "y_um": 0.8199999999999998
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_W",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": -0.8600000000000001,
+      "y_um": 0.8199999999999998
+     }
+    ],
+    "provenance": {
+     "deck": null,
+     "input": null,
+     "klayout_version": "0.30.12",
+     "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
+     "pdk": {
+      "name": "ihp-sg13g2",
+      "source": "search root: ~/share/pdk",
+      "version": "fetched:0.3.0"
+     }
+    },
+    "schema_version": 1,
+    "subcell_naming_scheme": "core-suffix-v1",
+    "warnings": []
+   },
+   "id": "lcpll_lockdet_nfet_w0p25_l12"
+  },
+  {
+   "generator_report": {
+    "bbox_um": {
+     "x0": -1.25,
+     "x1": 9.55,
+     "y0": -1.25,
+     "y1": 10.81
+    },
+    "cell_name": "lcpll_lockdet_nfet_w2_l0p5",
+    "dbu_um": 0.001,
+    "device_count": 15,
+    "drc_hints": {
+     "matched_group_id": "mos_array:3x5:array",
+     "min_spacing_um": 0.4,
+     "notes": [
+      "family 'sg13g2' declares no S/D implant role ('nplus') for flavor 'nfet' -- no implant mask was drawn"
+     ],
+     "sd_implant_present": false,
+     "snapped_to_grid": false,
+     "voltage_flavor": "hv",
+     "voltage_flavor_mark_present": true
+    },
+    "gds_path": "lcpll_lockdet_nfet_w2_l0p5.gds",
+    "generator": "mos_array",
+    "navigable_regions": [],
+    "pdk": {
+     "name": "ihp-sg13g2",
+     "variant": "ihp-sg13g2",
+     "version": "fetched:0.3.0"
+    },
+    "ports": [
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 1.9500000000000002,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 2.87,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 2.41,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 3.6900000000000004,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 4.61,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.15,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U3_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 5.430000000000001,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U3_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 6.3500000000000005,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U3_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 5.890000000000001,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U4_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 7.170000000000001,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U4_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 8.090000000000002,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U4_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.630000000000001,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U5_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U5_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U5_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 6.029999999999999
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U6_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 1.9500000000000002,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U6_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 2.87,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U6_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 2.41,
+      "y_um": 6.029999999999999
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U7_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 3.6900000000000004,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U7_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 4.61,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U7_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.15,
+      "y_um": 6.029999999999999
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U8_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 5.430000000000001,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U8_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 6.3500000000000005,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U8_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 5.890000000000001,
+      "y_um": 6.029999999999999
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U9_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 7.170000000000001,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U9_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 8.090000000000002,
+      "y_um": 4.32
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U9_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.630000000000001,
+      "y_um": 6.029999999999999
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U10_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U10_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U10_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 9.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U11_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 1.9500000000000002,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U11_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 2.87,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U11_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 2.41,
+      "y_um": 9.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U12_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 3.6900000000000004,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U12_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 4.61,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U12_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.15,
+      "y_um": 9.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U13_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 5.430000000000001,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U13_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 6.3500000000000005,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U13_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 5.890000000000001,
+      "y_um": 9.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U14_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 7.170000000000001,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U14_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 8.090000000000002,
+      "y_um": 7.64
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U14_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.630000000000001,
+      "y_um": 9.35
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_N",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 4.15,
+      "y_um": 10.419999999999998
+     },
+     {
+      "direction_deg": 270,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_S",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 4.15,
+      "y_um": -0.8600000000000001
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_E",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 9.16,
+      "y_um": 4.779999999999999
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_W",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": -0.8600000000000001,
+      "y_um": 4.779999999999999
+     }
+    ],
+    "provenance": {
+     "deck": null,
+     "input": null,
+     "klayout_version": "0.30.12",
+     "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
+     "pdk": {
+      "name": "ihp-sg13g2",
+      "source": "search root: ~/share/pdk",
+      "version": "fetched:0.3.0"
+     }
+    },
+    "schema_version": 1,
+    "subcell_naming_scheme": "core-suffix-v1",
+    "warnings": []
+   },
+   "id": "lcpll_lockdet_nfet_w2_l0p5"
+  },
+  {
+   "generator_report": {
+    "bbox_um": {
+     "x0": -1.25,
+     "x1": 10.57,
+     "y0": -1.25,
+     "y1": 4.17
+    },
+    "cell_name": "lcpll_lockdet_nfet_w2_l2",
+    "dbu_um": 0.001,
+    "device_count": 3,
+    "drc_hints": {
+     "matched_group_id": "mos_array:1x3:array",
+     "min_spacing_um": 0.4,
+     "notes": [
+      "family 'sg13g2' declares no S/D implant role ('nplus') for flavor 'nfet' -- no implant mask was drawn"
+     ],
+     "sd_implant_present": false,
+     "snapped_to_grid": false,
+     "voltage_flavor": "hv",
+     "voltage_flavor_mark_present": true
+    },
+    "gds_path": "lcpll_lockdet_nfet_w2_l2.gds",
+    "generator": "mos_array",
+    "navigable_regions": [],
+    "pdk": {
+     "name": "ihp-sg13g2",
+     "variant": "ihp-sg13g2",
+     "version": "fetched:0.3.0"
+    },
+    "ports": [
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 2.63,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 1.42,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 3.4499999999999997,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 5.869999999999999,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.66,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_S",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 6.6899999999999995,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_D",
+      "net": null,
+      "width_um": 2.0,
+      "x_um": 9.11,
+      "y_um": 1.0
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.8999999999999995,
+      "y_um": 2.71
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_N",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 4.66,
+      "y_um": 3.7799999999999994
+     },
+     {
+      "direction_deg": 270,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_S",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 4.66,
+      "y_um": -0.8600000000000001
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_E",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 10.18,
+      "y_um": 1.4599999999999997
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_W",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": -0.8600000000000001,
+      "y_um": 1.4599999999999997
+     }
+    ],
+    "provenance": {
+     "deck": null,
+     "input": null,
+     "klayout_version": "0.30.12",
+     "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
+     "pdk": {
+      "name": "ihp-sg13g2",
+      "source": "search root: ~/share/pdk",
+      "version": "fetched:0.3.0"
+     }
+    },
+    "schema_version": 1,
+    "subcell_naming_scheme": "core-suffix-v1",
+    "warnings": []
+   },
+   "id": "lcpll_lockdet_nfet_w2_l2"
+  },
+  {
+   "generator_report": {
+    "bbox_um": {
+     "x0": -1.32,
+     "x1": 9.620000000000001,
+     "y0": -1.32,
+     "y1": 19.88
+    },
+    "cell_name": "lcpll_lockdet_pfet_w5_l0p5",
+    "dbu_um": 0.001,
+    "device_count": 15,
+    "drc_hints": {
+     "matched_group_id": "mos_array:3x5:array",
+     "min_spacing_um": 0.4,
+     "notes": [
+      "family 'sg13g2' declares no S/D implant role ('pplus') for flavor 'pfet' -- no implant mask was drawn"
+     ],
+     "sd_implant_present": false,
+     "snapped_to_grid": false,
+     "voltage_flavor": "hv",
+     "voltage_flavor_mark_present": true
+    },
+    "gds_path": "lcpll_lockdet_pfet_w5_l0p5.gds",
+    "generator": "mos_array",
+    "navigable_regions": [],
+    "pdk": {
+     "name": "ihp-sg13g2",
+     "variant": "ihp-sg13g2",
+     "version": "fetched:0.3.0"
+    },
+    "ports": [
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 1.9500000000000002,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 2.87,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 2.41,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 3.6900000000000004,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 4.61,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.15,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U3_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 5.430000000000001,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U3_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 6.3500000000000005,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U3_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 5.890000000000001,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U4_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 7.170000000000001,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U4_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 8.090000000000002,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U4_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.630000000000001,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U5_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U5_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U5_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 12.030000000000001
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U6_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 1.9500000000000002,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U6_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 2.87,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U6_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 2.41,
+      "y_um": 12.030000000000001
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U7_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 3.6900000000000004,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U7_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 4.61,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U7_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.15,
+      "y_um": 12.030000000000001
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U8_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 5.430000000000001,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U8_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 6.3500000000000005,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U8_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 5.890000000000001,
+      "y_um": 12.030000000000001
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U9_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 7.170000000000001,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U9_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 8.090000000000002,
+      "y_um": 8.82
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U9_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.630000000000001,
+      "y_um": 12.030000000000001
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U10_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U10_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 1.1300000000000001,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U10_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 0.67,
+      "y_um": 18.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U11_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 1.9500000000000002,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U11_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 2.87,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U11_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 2.41,
+      "y_um": 18.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U12_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 3.6900000000000004,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U12_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 4.61,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U12_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.15,
+      "y_um": 18.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U13_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 5.430000000000001,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U13_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 6.3500000000000005,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U13_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 5.890000000000001,
+      "y_um": 18.35
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U14_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 7.170000000000001,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U14_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 8.090000000000002,
+      "y_um": 15.14
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U14_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.630000000000001,
+      "y_um": 18.35
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_N",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 4.15,
+      "y_um": 19.419999999999998
+     },
+     {
+      "direction_deg": 270,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_S",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 4.15,
+      "y_um": -0.8600000000000001
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_E",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 9.16,
+      "y_um": 9.28
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_W",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": -0.8600000000000001,
+      "y_um": 9.28
+     }
+    ],
+    "provenance": {
+     "deck": null,
+     "input": null,
+     "klayout_version": "0.30.12",
+     "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
+     "pdk": {
+      "name": "ihp-sg13g2",
+      "source": "search root: ~/share/pdk",
+      "version": "fetched:0.3.0"
+     }
+    },
+    "schema_version": 1,
+    "subcell_naming_scheme": "core-suffix-v1",
+    "warnings": []
+   },
+   "id": "lcpll_lockdet_pfet_w5_l0p5"
+  },
+  {
+   "generator_report": {
+    "bbox_um": {
+     "x0": -1.32,
+     "x1": 10.64,
+     "y0": -1.32,
+     "y1": 7.24
+    },
+    "cell_name": "lcpll_lockdet_pfet_w5_l2",
+    "dbu_um": 0.001,
+    "device_count": 3,
+    "drc_hints": {
+     "matched_group_id": "mos_array:1x3:array",
+     "min_spacing_um": 0.4,
+     "notes": [
+      "family 'sg13g2' declares no S/D implant role ('pplus') for flavor 'pfet' -- no implant mask was drawn"
+     ],
+     "sd_implant_present": false,
+     "snapped_to_grid": false,
+     "voltage_flavor": "hv",
+     "voltage_flavor_mark_present": true
+    },
+    "gds_path": "lcpll_lockdet_pfet_w5_l2.gds",
+    "generator": "mos_array",
+    "navigable_regions": [],
+    "pdk": {
+     "name": "ihp-sg13g2",
+     "variant": "ihp-sg13g2",
+     "version": "fetched:0.3.0"
+    },
+    "ports": [
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 0.21000000000000002,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 2.63,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U0_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 1.42,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 3.4499999999999997,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 5.869999999999999,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U1_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 4.66,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_S",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 6.6899999999999995,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_D",
+      "net": null,
+      "width_um": 5.0,
+      "x_um": 9.11,
+      "y_um": 2.5
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "U2_G",
+      "net": null,
+      "width_um": 0.42000000000000004,
+      "x_um": 7.8999999999999995,
+      "y_um": 5.71
+     },
+     {
+      "direction_deg": 90,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_N",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 4.66,
+      "y_um": 6.78
+     },
+     {
+      "direction_deg": 270,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_S",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 4.66,
+      "y_um": -0.8600000000000001
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_E",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": 10.18,
+      "y_um": 2.96
+     },
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "TAP_W",
+      "net": null,
+      "width_um": 0.42,
+      "x_um": -0.8600000000000001,
+      "y_um": 2.96
+     }
+    ],
+    "provenance": {
+     "deck": null,
+     "input": null,
+     "klayout_version": "0.30.12",
+     "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
+     "pdk": {
+      "name": "ihp-sg13g2",
+      "source": "search root: ~/share/pdk",
+      "version": "fetched:0.3.0"
+     }
+    },
+    "schema_version": 1,
+    "subcell_naming_scheme": "core-suffix-v1",
+    "warnings": []
+   },
+   "id": "lcpll_lockdet_pfet_w5_l2"
+  },
+  {
+   "generator_report": {
+    "bbox_um": {
+     "x0": 0.0,
+     "x1": 500.84000000000003,
+     "y0": 0.0,
+     "y1": 0.5
+    },
+    "cell_name": "lcpll_lockdet_resrhigh_w0p5_l500",
+    "dbu_um": 0.001,
+    "device_count": 1,
+    "drc_hints": {
+     "foreign_clearance_um": 0.4,
+     "matched_group_id": "res_array:1",
+     "min_spacing_um": 0.5,
+     "notes": [],
+     "snapped_to_grid": false
+    },
+    "gds_path": "lcpll_lockdet_resrhigh_w0p5_l500.gds",
+    "generator": "res_array",
+    "navigable_regions": [],
+    "pdk": {
+     "name": "ihp-sg13g2",
+     "variant": "ihp-sg13g2",
+     "version": "fetched:0.3.0"
+    },
+    "ports": [
+     {
+      "direction_deg": 180,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "R0_A",
+      "net": null,
+      "width_um": 0.5,
+      "x_um": 0.21000000000000002,
+      "y_um": 0.25
+     },
+     {
+      "direction_deg": 0,
+      "layer": {
+       "datatype": 0,
+       "layer": 8,
+       "name": null
+      },
+      "name": "R0_B",
+      "net": null,
+      "width_um": 0.5,
+      "x_um": 500.63,
+      "y_um": 0.25
+     }
+    ],
+    "provenance": {
+     "deck": null,
+     "input": null,
+     "klayout_version": "0.30.12",
+     "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+     "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
+     "pdk": {
+      "name": "ihp-sg13g2",
+      "source": "search root: ~/share/pdk",
+      "version": "fetched:0.3.0"
+     }
+    },
+    "schema_version": 1,
+    "subcell_naming_scheme": "core-suffix-v1",
+    "warnings": []
+   },
+   "id": "lcpll_lockdet_resrhigh_w0p5_l500"
+  }
+ ],
+ "connectivity": [
+  {
+   "net": "ERR",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U6_D"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U8_G"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U12_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U6_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U7_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U8_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U12_G"
+    }
+   ]
+  },
+  {
+   "net": "VWIN",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_cmim_w45_l45",
+     "port": "C1_TOP"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w0p25_l12",
+     "port": "U0_D"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l2",
+     "port": "U0_G"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l2",
+     "port": "U1_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l2",
+     "port": "U0_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l2",
+     "port": "U1_G"
+    },
+    {
+     "block": "lcpll_lockdet_resrhigh_w0p5_l500",
+     "port": "R0_B"
+    }
+   ]
+  },
+  {
+   "net": "XXOR.n1",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U0_D"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U3_G"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U5_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U0_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U1_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U3_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U5_G"
+    }
+   ]
+  },
+  {
+   "net": "ERRD",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_cmim_w45_l45",
+     "port": "C0_TOP"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U11_D"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U13_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U11_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U13_G"
+    }
+   ]
+  },
+  {
+   "net": "XXOR.n2",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U2_D"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U6_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U2_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U3_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U6_G"
+    }
+   ]
+  },
+  {
+   "net": "XXOR.n3",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U4_D"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U7_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U4_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U5_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U7_G"
+    }
+   ]
+  },
+  {
+   "net": "nwide",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U12_D"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U14_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U12_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U13_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U14_G"
+    }
+   ]
+  },
+  {
+   "net": "DN",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U1_G"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U4_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U1_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U4_G"
+    }
+   ]
+  },
+  {
+   "net": "LOCK",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l2",
+     "port": "U0_D"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l2",
+     "port": "U2_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l2",
+     "port": "U1_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l2",
+     "port": "U2_G"
+    }
+   ]
+  },
+  {
+   "net": "UP",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U0_G"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U2_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U0_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U2_G"
+    }
+   ]
+  },
+  {
+   "net": "XDW.d1",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U8_D"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U9_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U8_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U9_G"
+    }
+   ]
+  },
+  {
+   "net": "XDW.d2",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U9_D"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U10_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U9_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U10_G"
+    }
+   ]
+  },
+  {
+   "net": "XDW.d3",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U10_D"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U11_G"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U10_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U11_G"
+    }
+   ]
+  },
+  {
+   "net": "WIDE",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w0p25_l12",
+     "port": "U0_G"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U14_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U14_D"
+    }
+   ]
+  },
+  {
+   "net": "XSCH.nn",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l2",
+     "port": "U0_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l2",
+     "port": "U1_D"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l2",
+     "port": "U2_S"
+    }
+   ]
+  },
+  {
+   "net": "XSCH.np",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_pfet_w5_l2",
+     "port": "U0_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l2",
+     "port": "U1_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l2",
+     "port": "U2_S"
+    }
+   ]
+  },
+  {
+   "net": "XNW.mid1",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U12_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U13_D"
+    }
+   ]
+  },
+  {
+   "net": "XXOR.XN1.mid1",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U0_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U1_D"
+    }
+   ]
+  },
+  {
+   "net": "XXOR.XN2.mid1",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U2_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U3_D"
+    }
+   ]
+  },
+  {
+   "net": "XXOR.XN3.mid1",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U4_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U5_D"
+    }
+   ]
+  },
+  {
+   "net": "XXOR.XN4.mid1",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U6_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U7_D"
+    }
+   ]
+  },
+  {
+   "layer_role": "metal3",
+   "legs": [
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U0_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U5_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U5_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U10_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U1_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U6_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U6_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U11_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U2_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U7_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U7_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U12_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U3_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U8_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U8_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U13_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U4_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U9_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U9_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_pfet_w5_l0p5",
+      "port": "U14_S"
+     }
+    }
+   ],
+   "net": "VDD",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_nfet_w2_l2",
+     "port": "U2_D"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U0_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U1_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U2_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U3_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U4_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U5_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U6_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U7_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U8_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U9_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U10_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U11_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U12_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U13_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "U14_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l0p5",
+     "port": "TAP_N"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l2",
+     "port": "U0_S"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l2",
+     "port": "TAP_N"
+    },
+    {
+     "block": "lcpll_lockdet_resrhigh_w0p5_l500",
+     "port": "R0_A"
+    }
+   ]
+  },
+  {
+   "layer_role": "metal3",
+   "legs": [
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_nfet_w2_l0p5",
+      "port": "U5_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_nfet_w2_l0p5",
+      "port": "U10_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_nfet_w2_l0p5",
+      "port": "U1_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_nfet_w2_l0p5",
+      "port": "U11_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_nfet_w2_l0p5",
+      "port": "U3_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_nfet_w2_l0p5",
+      "port": "U8_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_nfet_w2_l0p5",
+      "port": "U8_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_nfet_w2_l0p5",
+      "port": "U13_S"
+     }
+    },
+    {
+     "from_pin": {
+      "block": "lcpll_lockdet_nfet_w2_l0p5",
+      "port": "U9_S"
+     },
+     "to_pin": {
+      "block": "lcpll_lockdet_nfet_w2_l0p5",
+      "port": "U14_S"
+     }
+    }
+   ],
+   "net": "VSS",
+   "pins": [
+    {
+     "block": "lcpll_lockdet_cmim_w45_l45",
+     "port": "C0_BOT"
+    },
+    {
+     "block": "lcpll_lockdet_cmim_w45_l45",
+     "port": "C1_BOT"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w0p25_l12",
+     "port": "U0_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w0p25_l12",
+     "port": "TAP_N"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U1_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U3_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U5_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U7_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U8_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U9_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U10_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U11_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U13_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "U14_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l0p5",
+     "port": "TAP_N"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l2",
+     "port": "U1_S"
+    },
+    {
+     "block": "lcpll_lockdet_nfet_w2_l2",
+     "port": "TAP_N"
+    },
+    {
+     "block": "lcpll_lockdet_pfet_w5_l2",
+     "port": "U2_D"
+    }
+   ]
+  }
+ ],
+ "options": {
+  "cell_name": "lcpll_lockdet",
+  "output": "lcpll_lockdet.raw.gds"
+ },
+ "pdk": {
+  "variant": "ihp-sg13g2"
+ },
+ "placement": {
+  "order": [
+   "lcpll_lockdet_cmim_w45_l45",
+   "lcpll_lockdet_nfet_w0p25_l12",
+   "lcpll_lockdet_nfet_w2_l0p5",
+   "lcpll_lockdet_nfet_w2_l2",
+   "lcpll_lockdet_pfet_w5_l0p5",
+   "lcpll_lockdet_pfet_w5_l2",
+   "lcpll_lockdet_resrhigh_w0p5_l500"
+  ],
+  "origins_um": {
+   "lcpll_lockdet_cmim_w45_l45": {
+    "x": 0.0,
+    "y": 0.0
+   },
+   "lcpll_lockdet_nfet_w0p25_l12": {
+    "x": 96.9,
+    "y": 0.0
+   },
+   "lcpll_lockdet_nfet_w2_l0p5": {
+    "x": 116.44,
+    "y": 0.0
+   },
+   "lcpll_lockdet_nfet_w2_l2": {
+    "x": 131.24,
+    "y": 0.0
+   },
+   "lcpll_lockdet_pfet_w5_l0p5": {
+    "x": 147.06,
+    "y": 0.0
+   },
+   "lcpll_lockdet_pfet_w5_l2": {
+    "x": 162.0,
+    "y": 0.0
+   },
+   "lcpll_lockdet_resrhigh_w0p5_l500": {
+    "x": 0.0,
+    "y": 52.34
+   }
+  },
+  "strategy": "explicit"
+ },
+ "routing": {
+  "cross_block_layer_role": "metal3",
+  "layer_role": "metal2",
+  "width_um": 0.6
+ },
+ "schema": "klt.gen_compose.request/1"
+}
