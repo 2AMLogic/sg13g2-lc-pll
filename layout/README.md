@@ -182,8 +182,10 @@ column; it is fixed by forced-approach routing, see `FINAL_HORIZONTAL`/`FINAL_VE
 disclosed, not passed: the guard-ring tie is `degenerate_tap_declaration` (Cont-on-pSD cannot be told from device
 contacts by layers alone), three tie classes are disclosed unexpressible (loop-block NWell taps wait on #343's pfet
 rings; cell-internal pSD rings are untied inside placement-only cells; the VCO substrate tie waits on
-sg13g2-vco#427), and substrate continuity between supplies is `undecidable` without a `--pdk` antenna deck. The
-antenna half is `not_checked` (no `--pdk`, per the issue's command). Item 11 is **not** claimed from this: it also
+sg13g2-vco#427), and `erc.supply_short` (substrate continuity between supplies) is inapplicable for the same degenerate
+tap declaration -- the report's own entry names `missing: ["a non-degenerate ties[] tap entry"]`, reason
+`substrate_isolation_undecidable`. The `--pdk` deck is what leaves the antenna half `not_checked`
+(`missing_antenna_pdk`, per the issue's command). Item 11 is **not** claimed from this: it also
 needs item 4's LVS supply pairing (#37).
 
 **Results to read before relying on this layout**
