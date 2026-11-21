@@ -94,7 +94,7 @@ sys.exit(1 if fail else 0)
 RTEOF
 
 "${PY}" -I - "${ROOT}" "${T}/cells" "${T}/neg" <<'PYEOF' || bad=$((bad+1))
-import json, os, sys
+import collections, json, os, sys
 import klayout.db as db
 root, cells, neg = sys.argv[1:4]
 sys.path.insert(0, os.path.join(root, "layout"))
@@ -103,37 +103,61 @@ prov = json.load(open(os.path.join(root, "layout/cells.provenance.json")))
 fail = 0
 
 def labels(gds, cell):
+    """name -> [(layer, x_um, y_um)]: the cell's own labels only (PDK-authored sub-cells such as
+    the sg13g2 HBT carry their own B/C/E text below instances). NOT a set of names: the contract
+    is one label per port at the recorded site, and a set cannot see a second copy of the same
+    string -- routed cells shipped two labels per port through exactly that blind spot (#349)."""
     ly = db.Layout(); ly.read(gds); c = ly.cell(cell)
-    # The cell's own labels only: PDK-authored sub-cells (the sg13g2 HBT) carry their own B/C/E text.
-    return sorted({s.text_string for li in ly.layer_indexes()
-                   for s in c.shapes(li).each() if s.is_text()})
+    out = collections.defaultdict(list)
+    for li in ly.layer_indexes():
+        info = ly.get_info(li)
+        for s in c.shapes(li).each():
+            if s.is_text():
+                d = s.dtext.trans.disp
+                out[s.text_string].append((f"{info.layer}/{info.datatype}", round(d.x, 3), round(d.y, 3)))
+    return out
 
 def check(rec, gds):
     ports = common.read_subckts(os.path.join(root, rec["netlist"]))[rec["subckt"]]["ports"]
     got = labels(gds, rec["cell"])
+    counts = collections.Counter({n: len(v) for n, v in got.items()})
     extra = [l for l in got if l not in ports]
     missing = [p for p in ports if p not in got]
     allowed = set(rec["undrawn_only_ports"])
-    return ports, extra, missing, [m for m in missing if m not in allowed]
+    dupes = sorted(f"{n} x{c}" for n, c in counts.items() if c > 1)
+    # Each stamped port's one label must sit on the layer and at the um site the provenance
+    # recorded. The 0.002 um tolerance is 2 dbu: it absorbs float -> 1 nm-dbu quantisation on the
+    # GDS round trip, while a foreign copy of the label sits um away or on a router label layer.
+    misplaced = sorted(
+        f"{p}:{lay},{x},{y} != recorded {site['layer']},{site['x_um']},{site['y_um']}"
+        for p, site in rec.get("port_labels", {}).items()
+        for lay, x, y in got.get(p, [])
+        if lay != site["layer"] or abs(x - site["x_um"]) > 0.002 or abs(y - site["y_um"]) > 0.002)
+    return ports, extra, missing, dupes, misplaced, [m for m in missing if m not in allowed]
 
 for rec in prov["cells"]:
     if rec["status"] == "undrawn":
         print(f"KNOWN-GAP {rec['cell']}: no drawable device ({len(rec['undrawn_devices'])} undrawn); ports {rec['ports']} unlabelled")
         continue
     gds = os.path.join(cells, rec["cell"] + ".gds")
-    ports, extra, missing, unexplained = check(rec, gds)
-    if extra or unexplained:
-        print(f"FAIL {rec['cell']}: labels not in subckt ports {extra}; ports missing without an undrawn-device reason {unexplained}"); fail += 1
+    ports, extra, missing, dupes, misplaced, unexplained = check(rec, gds)
+    if extra or dupes or misplaced or unexplained:
+        print(f"FAIL {rec['cell']}: labels not in subckt ports {extra}; duplicated labels {dupes}; "
+              f"labels off the recorded site {misplaced}; ports missing without an undrawn-device reason {unexplained}"); fail += 1
     elif missing:
         print(f"KNOWN-GAP {rec['cell']}: ports {missing} reach only undrawn devices; {len(ports)-len(missing)}/{len(ports)} labelled and matching")
     else:
         print(f"PASS {rec['cell']}: {len(ports)} labels == {len(ports)} subckt ports")
 
-# Negative controls on a drawn, complete cell: a dropped label and a renamed label are detected.
+# Negative controls on a drawn, complete cell: a dropped label, a renamed label and a duplicated
+# label (a second copy of a valid port name -- the exact defect that shipped in #349, invisible
+# to a set-based check because the set of names is unchanged) are all detected.
 rec = next(r for r in prov["cells"] if r["status"] == "drawn")
 gds = os.path.join(cells, rec["cell"] + ".gds")
 os.makedirs(neg, exist_ok=True)
-for name, mutate in (("drop", lambda sh, s: sh.erase(s)), ("rename", lambda sh, s: sh.replace(s, db.DText("BOGUS", s.dtext.trans)))):
+for name, mutate in (("drop", lambda sh, s: sh.erase(s)),
+                     ("rename", lambda sh, s: sh.replace(s, db.DText("BOGUS", s.dtext.trans))),
+                     ("duplicate", lambda sh, s: sh.insert(db.DText(s.text_string, s.dtext.trans)))):
     ly = db.Layout(); ly.read(gds); c = ly.cell(rec["cell"])
     for li in ly.layer_indexes():
         done = False
@@ -142,8 +166,8 @@ for name, mutate in (("drop", lambda sh, s: sh.erase(s)), ("rename", lambda sh, 
                 mutate(c.shapes(li), s); done = True; break
         if done: break
     p = os.path.join(neg, name + ".gds"); ly.write(p)
-    _, extra, _, unexplained = check(rec, p)
-    if extra or unexplained:
+    _, extra, _, dupes, misplaced, unexplained = check(rec, p)
+    if extra or dupes or misplaced or unexplained:
         print(f"PASS NEG {name} label detected")
     else:
         print(f"FAIL NEG {name} label NOT detected"); fail += 1

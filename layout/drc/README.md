@@ -440,3 +440,21 @@ What remains is release cadence, not a missing capability.
 `--cells vco`, forbidden Activ/GatPoly/Cont/pSD/Metal1-5 and their fill) `status: violated`, 3
 violations, all the VCTRL pin-access stack (sg13g2-vco#314). It is not part of item 3's verdict.
 `layout/top.gds` has still not been through LVS (#37) or PEX (#41).
+
+## Duplicate port-label fix re-run (#349, 2026-11-21)
+
+`layout/top.gds` was regenerated after the routed loop filter's duplicate port labels were removed
+(`sha256:32b79317…`, was `90fecb47…` from #347; geometry delta = three erased texts inside the
+`lcpll_loopfilter` instance — routes, placements and the 17 recorded collisions are identical).
+The curated request was re-run on the new stream:
+
+```
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 0 = clean
+klt drc --check layout/drc/top.drc.json                                   # re-hash: match
+```
+
+`klt 0.9.3.dev2575+g6bd18bbc8637`, klayout 0.30.10, PDK `ihp-sg13g2` `fetched:0.3.0`
+(`--pdk-root /home/ubuntu/share/pdk`). Result: **`status: clean`, 0 violations** — unchanged
+verdict and unchanged coverage (the erased texts are label-layer only: 10/25, 30/25 and the
+stamped 126/0 / 67/0 texts are not DRC geometry). Item 3 stays `met` citing this report; the
+manifest pins were refreshed with the new stream hash.

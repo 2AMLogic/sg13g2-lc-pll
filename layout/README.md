@@ -82,8 +82,10 @@ its own ring-oscillator netlists. Its method is reused here (attributed in `cell
 layout file exists to hash-pin.
 
 **Pin check.** `klt interface-check` pairs the labels of two placed blocks, so it cannot compare one cell to
-its `.subckt`; `scripts/test-layout-cells.sh` compares label set to port list instead, with drop/rename
-negative controls. It is not in `scripts/ci-harness.sh` (needs `klayout`, a PDK and klt).
+its `.subckt`; `scripts/test-layout-cells.sh` counts each cell's own labels per port name against the port
+list and the recorded `port_labels` site, with drop/rename/duplicate negative controls (a set-based name
+compare let the routed cell's two labels per port through, #349). It is not in `scripts/ci-harness.sh` (needs
+`klayout`, a PDK and klt).
 
 **Tool pin.** The HBT (`bjt_array`, klayout-tools#4850 -> #4855) and sub-0.42 um MOS (`dogbone_terminals`,
 #4851 -> #4854) fixes are in the installed klt used for the committed provenance (`klt 0.9.2.dev420+gf186e14125ed`;

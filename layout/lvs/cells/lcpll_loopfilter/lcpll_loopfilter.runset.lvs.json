@@ -326,12 +326,12 @@
       "CAP_CMIM": 3
     }
   },
-  "mismatch_count": 21,
+  "mismatch_count": 18,
   "error_count": 15,
   "category_counts": {
     "device.unmatched": 6,
     "net.unmatched": 9,
-    "pin.unmatched": 6
+    "pin.unmatched": 3
   },
   "category_error_counts": {
     "device.unmatched": 6,
@@ -349,7 +349,7 @@
       "matched": 0
     },
     "pins": {
-      "layout": 3,
+      "layout": 0,
       "reference": 3,
       "matched": 0
     }
@@ -404,7 +404,7 @@
     "engine_version": "0.30.12",
     "klayout_binary": "klayout",
     "netgen_binary": null,
-    "layout_sha256": "90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+    "layout_sha256": "32b79317bee4f303fb1393abd9753ba6a2a508945a1bd90199180f196d42d126",
     "reference_sha256": "35341299a4ecc524d2c91db5dc5c5f2cb8284a414d70e5b37401c7f85a90ea04",
     "extracted_netlist": null
   },
@@ -420,7 +420,7 @@
       "released": null
     },
     "input": {
-      "content_hash": "sha256:90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+      "content_hash": "sha256:32b79317bee4f303fb1393abd9753ba6a2a508945a1bd90199180f196d42d126",
       "role": "layout"
     },
     "runset": {
@@ -651,6 +651,44 @@
     {
       "category": "net.unmatched",
       "severity": "error",
+      "description": "layout net '$2' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$2",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$3' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$3",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
       "description": "layout net '$4' has no counterpart",
       "side": "layout",
       "net": {
@@ -670,48 +708,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net 'VCTRL' has no counterpart",
+      "description": "layout net '$5' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "VCTRL",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net 'VIN' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "VIN",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net 'VSS' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "VSS",
+        "layout": "$5",
         "reference": null
       },
       "device": null,
@@ -770,63 +770,6 @@
       "net": {
         "layout": null,
         "reference": "VSS"
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "pin.unmatched",
-      "severity": "warning",
-      "description": "pin 'VCTRL' of circuit 'lcpll_loopfilter' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
-      "side": "layout",
-      "net": {
-        "layout": "VCTRL",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "pin.unmatched",
-      "severity": "warning",
-      "description": "pin 'VIN' of circuit 'lcpll_loopfilter' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
-      "side": "layout",
-      "net": {
-        "layout": "VIN",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "pin.unmatched",
-      "severity": "warning",
-      "description": "pin 'VSS' of circuit 'lcpll_loopfilter' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
-      "side": "layout",
-      "net": {
-        "layout": "VSS",
-        "reference": null
       },
       "device": null,
       "property": null,
