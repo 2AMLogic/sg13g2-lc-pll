@@ -46,6 +46,14 @@ Layer numbers: `$PDK_ROOT/ihp-sg13g2/libs.tech/klayout/tech/sg13g2.lyp` and `sg1
   VCO *bounding box* (it does not read the inductor markers), so it checks the margin around
   the whole VCO, not the spiral footprint alone. `klayout-tools#3849` is the tracker for G8;
   spec Q5 is not edited here.
+- Top metal is outside `keepout-check`'s forbidden set **by design**: the tank routes VOP/VON are
+  TopMetal1 (126/0) and the `VDDV` strap is TopMetal2 (134/0), so widening `FORBIDDEN_LAYERS`
+  would flag every tank route. That clearance is asserted separately (#361):
+  `scripts/test-layout-top.sh` requires the top cell's own top metal to keep ≥ 5 um (touching
+  refuses) from the VCO's 27/0 `IND` / 148/0 `NoRCX` markers. Measured minimum on the current
+  `layout/top.gds` (Euclidean, top-cell top metal vs the merged marker regions): 23.00 um, set
+  by the VOP/VON TopMetal1 route edges at y = -23 um against the markers' y = 0 edge; the VDDV
+  strap clears the markers' chamfered inner ends by ~73 um.
 
 ## Not done / caveats
 
