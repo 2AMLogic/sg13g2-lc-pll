@@ -565,7 +565,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+        "content_hash": "sha256:32b79317bee4f303fb1393abd9753ba6a2a508945a1bd90199180f196d42d126",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -574,7 +574,7 @@
             "path": "layout/top.gds",
             "scope": "repo"
           },
-          "content_hash": "sha256:90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+          "content_hash": "sha256:32b79317bee4f303fb1393abd9753ba6a2a508945a1bd90199180f196d42d126",
           "input_verified": true,
           "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
           "source": "layout/top.gds",
@@ -602,7 +602,7 @@
         "command": null,
         "kind": "drc",
         "check_status": "clean",
-        "content_hash": "sha256:90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+        "content_hash": "sha256:32b79317bee4f303fb1393abd9753ba6a2a508945a1bd90199180f196d42d126",
         "input_verified": true,
         "exit_status": 0,
         "coverage": {

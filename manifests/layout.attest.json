@@ -15,7 +15,7 @@
         "check": "stream_readable",
         "role": "layout",
         "passed": true,
-        "content_hash": "sha256:90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db"
+        "content_hash": "sha256:32b79317bee4f303fb1393abd9753ba6a2a508945a1bd90199180f196d42d126"
       },
       {
         "check": "top_cell_non_empty",
@@ -43,7 +43,7 @@
         "path": "layout/top.gds",
         "scope": "repo"
       },
-      "content_hash": "sha256:90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db"
+      "content_hash": "sha256:32b79317bee4f303fb1393abd9753ba6a2a508945a1bd90199180f196d42d126"
     }
   }
 }

@@ -103,3 +103,21 @@ Tool gaps filed generically: `2AMLogic/klayout-tools#6960` (subckt-call referenc
 `coverage` block in this klt, so the `sg13_hv_pmos` census question stays open for the charge pump; the
 `device_classes` list does include `pfet`. The swapped-net negative control is not run: it needs a `match`
 baseline to flip, and neither cell has one. It becomes meaningful once the two issues above are fixed.
+
+## Re-run after the duplicate port-label fix (#349, 2026-11-21, `klt 0.9.3.dev2575+g6bd18bbc8637`, klayout 0.30.10)
+
+`layout/cells/common.py` no longer keeps `gen-compose`'s own net labels on a routed cell, so the
+loop filter carries exactly one label per port at the recorded `port_labels` site (it carried two
+per port; the router's copies sat on 10/25 and 30/25). `layout/top.gds` was regenerated
+(`sha256:32b79317…`, was `90fecb47…`) and the three per-cell envelopes above were re-run against
+it — same commands, same requests, from each cell's directory:
+
+| Cell | Engine | Status | Change vs the run above |
+|---|---|---|---|
+| `lcpll_loopfilter` | curated `sg13g2` | `mismatch` | none beyond the input hash (same 16 / 16 devices, 0 paired) |
+| `lcpll_loopfilter` | `klayout-runset` | `mismatch` | `mismatch_count` 21 -> 18, `pin.unmatched` 6 -> 3: the duplicate labels each produced an extra unmatched named layout net (`VIN`/`VCTRL`/`VSS`) plus a pin warning; with one label per port those nets extract anonymously (`$2`..`$5`) and the phantom entries are gone |
+| `lcpll_cp` | curated `sg13g2` | `mismatch` | none beyond the input hash |
+
+Still no match and no new claim: item 4 stays `unmet` with #37, and the tool gaps (#6960, #6961) are
+unchanged. The re-run does show the duplication was not extraction-neutral, contrary to the issue's
+"believed benign" impact note.
