@@ -4,6 +4,8 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-21
 
+- **PR #359**: feat(layout): route supplies, external pins and divider tie-offs from labelled landings
+- **Issue #344** (closed): layout: route VDD / VDDV / VSS, the REF, IREFCP and LOCK pins and the divider tie-offs in gen_integrated.py (ROADMAP Now 5; prerequisite for items 4 and 11)
 - **Issue #353** (closed): Reuse the divider gate evaluator in the prescaler code test
 - **PR #356**: refactor: reuse the divider gate evaluator in the prescaler code test
 - **Issue #358** (closed): WORK_PLAN.md generated-region blurbs drift from render_plan_body()'s literals, defeating the #5890 debounce

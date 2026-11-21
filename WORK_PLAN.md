@@ -35,8 +35,8 @@ Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a h
 
 Human-approved issues ready for implementation (`loom:issue`).
 
-- **#178**: Stale sim/prescaler-g3: drives the old /4-/5 stage, not the merged /8-/9 prescaler
 - **#350**: layout: nothing asserts the per-cell routing record, so a routed cell regressing to partial lands green (plus dead chain_links helper)
+- **#361**: layout: no test asserts top-metal routes stay clear of the VCO inductor exclusion markers
 
 ## In Progress
 
@@ -45,16 +45,16 @@ Issues currently being built (`loom:building`).
 - **#88**: G6: measure transient-noise cost versus run length for method T
 - **#206**: spec: state clock output swing and load for a downstream TX mux
 - **#252**: Spec section 4: state the reference phase-noise requirement and define method N for the switching blocks (decision record)
-- **#344**: layout: route VDD / VDDV / VSS, the REF, IREFCP and LOCK pins and the divider tie-offs in gen_integrated.py (ROADMAP Now 5; prerequisite for items 4 and 11)
 - **#345**: layout: floorplan iteration to cut the tank route (850 um / 612 um) to the keep-out floor, and record the remaining shortfall against the 2.1 fF budget
 - **#346**: layout: route the remaining cells and LVS each against its own subcircuit (follow-up of #343)
 - **#349**: layout: routed cells get two labels per subckt port, and test-layout-cells.sh set-dedupes so it cannot see it
+- **#362**: layout/README.md: erc.supply_short's skip reason is misattributed to a missing --pdk deck
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
-_None._
+- **#364**: docs: attribute erc.supply_short skip to the degenerate tap declaration, not the --pdk deck
 
 ## Approved (Awaiting Merge)
 
@@ -63,7 +63,6 @@ PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 - **#200**: docs(sim): trace 125C divider stall to M-counter terminal-count setup path
 - **#207**: docs(spec): add clock-output interface row 15 and DR-006, stated as not met
 - **#262**: docs(spec): add DR-007 — reference noise mask, in-band split, method N narrowed to the charge pump
-- **#359**: feat(layout): route supplies, external pins and divider tie-offs from labelled landings
 
 ## Proposed
 
@@ -80,12 +79,12 @@ Issues carrying `loom:curated`.
 - **#252**: Spec section 4: state the reference phase-noise requirement and define method N for the switching blocks (decision record) *(curated)*
 - **#277**: README status line and ladder position contradict the signoff record (still says "Nothing is designed or simulated yet") *(curated)*
 - **#343**: layout: route the charge-pump and loop-filter cells and LVS each against its own subcircuit (first slice of intra-cell routing for item 4) *(curated)*
-- **#344**: layout: route VDD / VDDV / VSS, the REF, IREFCP and LOCK pins and the divider tie-offs in gen_integrated.py (ROADMAP Now 5; prerequisite for items 4 and 11) *(curated)*
 - **#345**: layout: floorplan iteration to cut the tank route (850 um / 612 um) to the keep-out floor, and record the remaining shortfall against the 2.1 fF budget *(curated)*
 - **#346**: layout: route the remaining cells and LVS each against its own subcircuit (follow-up of #343) *(curated)*
 - **#348**: test flake: scripts/ci-harness.sh fetch-pll test fails on signoff when one locked blob is momentarily unreachable *(curated)*
 - **#349**: layout: routed cells get two labels per subckt port, and test-layout-cells.sh set-dedupes so it cannot see it *(curated)*
 - **#361**: layout: no test asserts top-metal routes stay clear of the VCO inductor exclusion markers *(curated)*
+- **#362**: layout/README.md: erc.supply_short's skip reason is misattributed to a missing --pdk deck *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -108,8 +107,8 @@ _None._
 | Important | 9 |
 | Ready (`loom:issue`) | 2 |
 | In Progress (`loom:building`) | 7 |
-| PRs awaiting review | 0 |
-| Approved PRs awaiting merge | 4 |
+| PRs awaiting review | 1 |
+| Approved PRs awaiting merge | 3 |
 | Curated | 17 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 0 |
