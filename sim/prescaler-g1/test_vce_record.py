@@ -1,4 +1,9 @@
-"""Negative controls for the Vce grader: an out-of-rating Vce must FAIL, a non-converged corner is never a pass."""
+"""Negative controls for the Vce grader: an out-of-rating Vce must FAIL, a non-converged corner is never a pass,
+and an empty report is INCOMPLETE, never a PASS."""
+import gzip
+import json
+import re
+
 import vce_record as vr
 
 
@@ -34,3 +39,24 @@ def test_mc_high_only_overstress_fails_and_is_labelled():
     g = vr.grade({"corners": [lo, hi]})
     assert g["verdict"] == "FAIL" and [r["mc"] for r in g["rows"]] == [0.0, 1.0]
     assert [r["exceeds"] for r in g["rows"]] == [False, True]
+
+
+def test_empty_report_grades_incomplete():
+    g = vr.grade({"corners": []})
+    assert g["verdict"] == "INCOMPLETE"
+    assert g["rows"] == []
+    assert (g["n_corners"], g["n_exceeding"], g["n_not_converged"]) == (0, 0, 0)
+
+
+def test_empty_report_records_incomplete(tmp_path):
+    rep = tmp_path / "empty.json"
+    rep.write_text(json.dumps({"environment": {}, "corners": []}))
+    out = tmp_path / "records"
+    assert vr.main(["--report", str(rep), "--out-dir", str(out), "--id", "20990101-000000-empty", "--commit", "deadbeef"]) == 0
+    archived = json.loads(gzip.decompress((out / "20990101-000000-empty-klt-report.json.gz").read_bytes()))
+    assert archived == {"environment": {}, "corners": []}
+    md = (out / "20990101-000000-empty-vce.md").read_text()
+    assert "**INCOMPLETE**" in md
+    assert "No corner was observed" in md
+    assert re.search(r"0 of \d+ requested runs", md)
+    assert re.search(r"\d+ runs requested, 0 observed", md)
