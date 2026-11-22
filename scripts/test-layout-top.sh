@@ -267,6 +267,12 @@ would flag every tank route). This checks the top cell's OWN TopMetal1 (126/0) a
 (134/0) shapes against the vco cell's 27/0 (IND) and 148/0 (NoRCX) markers instead. Overlap,
 touching (zero clearance) and anything closer than MIN_CLEARANCE_UM refuse; the success line
 reports the measured minimum distance so the caller can quote it.
+
+The markers are read in the vco cell's OWN frame (begin_shapes_rec applies no instance
+transform), so the comparison is valid only while lc_pll_top places vco as exactly one
+single-element identity-transform instance -- the placement layout/gen_top.py pins. Any other
+placement is refused up front (#369): measuring it would report clearance against markers that
+are not where the top cell's coordinates say they are.
 """
 import sys
 
@@ -311,6 +317,25 @@ ly.read(sys.argv[1])
 top = ly.cell(TOP_CELL) or fail("no cell '" + TOP_CELL + "' in the stream")
 vco = ly.cell(VCO_CELL) or fail("no cell '" + VCO_CELL + "' in the stream")
 dbu = ly.dbu
+# Frame guard (#369): the marker regions below are built with begin_shapes_rec on the vco cell,
+# which yields vco-LOCAL coordinates -- the transform of the vco instance inside lc_pll_top is
+# NOT applied. The comparison therefore holds only while that placement is exactly one copy at
+# the identity, and a placement that is anything else must refuse here, before any distance is
+# measured: under it the checker would compare top-cell metal against markers that are not
+# where it thinks they are and could report a comfortable clearance that is false.
+places = [i for i in top.each_inst() if i.cell.cell_index() == vco.cell_index()]
+if not places:
+    fail("the top cell does not directly instantiate '" + VCO_CELL + "'; the markers cannot be located")
+if len(places) > 1:
+    fail("the top cell directly places '" + VCO_CELL + "' " + str(len(places)) + " times ("
+         + "; ".join(str(i.cplx_trans) for i in places) + "); exactly one placement is supported")
+place = places[0]
+if place.cell_inst.size() != 1:
+    fail("the '" + VCO_CELL + "' placement is a " + str(place.cell_inst.size()) + "-element array ("
+         + str(place.cplx_trans) + "); a single-copy placement is supported")
+if place.cplx_trans != db.CplxTrans():
+    fail("the '" + VCO_CELL + "' placement is " + str(place.cplx_trans)
+         + ", not the identity; the markers would be measured in the wrong frame")
 metal = db.Region()
 for layer, dtype, name in TOP_METAL:
     li = ly.find_layer(layer, dtype)
@@ -381,6 +406,50 @@ if not (db.Region(tbox) & db.Region(mark)).is_empty():
 if (db.Region(tbox) & db.Region(mark).sized(1)).is_empty():
     sys.exit("ind-touch: the butted box does not reach the marker; fixture cannot discriminate")
 ly.cell("lc_pll_top").shapes(ly.layer(134, 0)).insert(tbox); ly.write(t + "/ind_touch.gds")
+# #369: placement fixtures. indclear.py reads the markers in the vco cell's own frame, so any
+# placement other than one direct, single-element, identity-transform instance must be refused
+# instead of silently mis-measured. ind_shift is the issue's measured false pass: the shifted
+# markers overlap the top cell's own metal (292 um^2 on the committed stream) while the
+# pre-guard checker still reports 23.00 um. The array uses a POSITIVE Y pitch -- KLayout
+# normalizes a negative-pitch array to a displaced origin on readback (verified in #369), which
+# would test the transform leg, not the multiplicity leg this fixture exists for.
+def replace_vco(path, build, expect):
+    """Rewrite the stream with the top cell's direct vco placements replaced, then re-read and
+    require the recorded placement state -- (element count, cplx trans) per direct record -- so
+    a KLayout normalization on write cannot quietly substitute a different fixture."""
+    ly = db.Layout(); ly.read(g)
+    top, vco = ly.cell("lc_pll_top"), ly.cell("vco")
+    for i in [i for i in top.each_inst() if i.cell.cell_index() == vco.cell_index()]:
+        top.erase(i)
+    for a in build(vco.cell_index()):
+        top.insert(a)
+    ly.write(path)
+    ly = db.Layout(); ly.read(path)
+    vi = ly.cell("vco").cell_index()
+    got = [(i.cell_inst.size(), str(i.cplx_trans)) for i in ly.cell("lc_pll_top").each_inst()
+           if i.cell.cell_index() == vi]
+    if got != expect:
+        sys.exit("ind-placement: %s read back as %s, wanted %s; fixture cannot discriminate"
+                 % (path, got, expect))
+
+
+replace_vco(t + "/ind_shift.gds",
+            lambda ci: [db.CellInstArray(ci, db.Trans(db.Trans.R0, 0, -50000))],
+            [(1, "r0 *1 0,-50000")])
+replace_vco(t + "/ind_missing.gds", lambda ci: [], [])
+replace_vco(t + "/ind_dup.gds",
+            lambda ci: [db.CellInstArray(ci, db.Trans()),
+                        db.CellInstArray(ci, db.Trans(db.Trans.R0, 281000, -185000))],
+            [(1, "r0 *1 0,0"), (1, "r0 *1 281000,-185000")])
+replace_vco(t + "/ind_array.gds",
+            lambda ci: [db.CellInstArray(ci, db.Trans(), db.Vector(0, 50000), db.Vector(0, 0), 2, 1)],
+            [(2, "r0 *1 0,0")])
+replace_vco(t + "/ind_rot.gds",
+            lambda ci: [db.CellInstArray(ci, db.Trans(db.Trans.R90, 0, 0))],
+            [(1, "r90 *1 0,0")])
+replace_vco(t + "/ind_mirror.gds",
+            lambda ci: [db.CellInstArray(ci, db.Trans(db.Trans.M0, 0, 0))],
+            [(1, "m0 *1 0,0")])
 PYEOF
 klt clip "${T}/edited.gds" --cell vco -o "${T}/edited_clip.gds" >/dev/null 2>&1
 # Must carry klt's own violation status line (rc=3 detection), not merely exit non-zero: a missing
@@ -398,6 +467,27 @@ expect "NEG TopMetal2 intruder into the IND markers refused" \
 expect "NEG TopMetal2 touching a marker edge refused (zero clearance)" \
   "refuse:ind-clearance: minimum distance 0\.000 um to the IND markers \(27/0\) is under the [0-9.]+ um margin; refusing" \
   "${PY}" -I "${T}/indclear.py" "${T}/ind_touch.gds"
+# #369: each placement fixture must be refused with the checker's own placement diagnostic --
+# the frame assumption the clearance comparison silently rests on, turned into a refusal before
+# any distance is measured or reported.
+expect "NEG translated VCO placement refused (markers would sit in the wrong frame)" \
+  "refuse:ind-clearance: the 'vco' placement is r0 \*1 0,-50000, not the identity; the markers would be measured in the wrong frame; refusing" \
+  "${PY}" -I "${T}/indclear.py" "${T}/ind_shift.gds"
+expect "NEG missing VCO placement refused" \
+  "refuse:ind-clearance: the top cell does not directly instantiate 'vco'; the markers cannot be located; refusing" \
+  "${PY}" -I "${T}/indclear.py" "${T}/ind_missing.gds"
+expect "NEG duplicate VCO placements refused" \
+  "refuse:ind-clearance: the top cell directly places 'vco' 2 times \(r0 \*1 0,0; r0 \*1 281000,-185000\); exactly one placement is supported; refusing" \
+  "${PY}" -I "${T}/indclear.py" "${T}/ind_dup.gds"
+expect "NEG two-element VCO array at an identity origin refused" \
+  "refuse:ind-clearance: the 'vco' placement is a 2-element array \(r0 \*1 0,0\); a single-copy placement is supported; refusing" \
+  "${PY}" -I "${T}/indclear.py" "${T}/ind_array.gds"
+expect "NEG rotated VCO placement refused (r90 at the origin)" \
+  "refuse:ind-clearance: the 'vco' placement is r90 \*1 0,0, not the identity; the markers would be measured in the wrong frame; refusing" \
+  "${PY}" -I "${T}/indclear.py" "${T}/ind_rot.gds"
+expect "NEG mirrored VCO placement refused (m0 at the origin)" \
+  "refuse:ind-clearance: the 'vco' placement is m0 \*1 0,0, not the identity; the markers would be measured in the wrong frame; refusing" \
+  "${PY}" -I "${T}/indclear.py" "${T}/ind_mirror.gds"
 mkdir -p "${T}/s/.fetched/sg13g2-vco/layout"; cp "${VCO}" "${T}/s/.fetched/sg13g2-vco/layout/vco.gds"
 printf 'X' | dd of="${T}/s/.fetched/sg13g2-vco/layout/vco.gds" bs=1 seek=100 conv=notrunc 2>/dev/null
 # Must carry gen_top.py's own sha256 refusal (reached through gen_integrated's build_base
