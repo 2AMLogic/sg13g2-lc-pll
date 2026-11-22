@@ -1,4 +1,10 @@
 """Envelope tests, incl. the negative controls: an out-of-range Kvco or I_cp must be flagged."""
+import json
+import subprocess
+import sys
+
+import pytest
+
 import envelope as env
 import loop_model as lm
 
@@ -123,3 +129,56 @@ def test_model_run_doc_provenance_names_the_icp_input():
     # unverifiable_provenance (#304).
     assert inp["content_hash"] == "sha256:" + "ab" * 32
     assert "sha256" not in inp or inp.get("sha256") is None
+
+
+# --- The shared I_cp reader wiring and the CLI on the three inputs of #368. ---
+
+ARCHIVE = lm.HERE.parent / "cp-dc" / "records" / "20261103-030519-221e27b-icp-corners-klt-report.json.gz"
+
+
+def _icp_report_dict():
+    import gzip
+    return json.loads(gzip.decompress(ARCHIVE.read_bytes()))
+
+
+def _cli(*args):
+    return subprocess.run([sys.executable, str(lm.HERE / "envelope.py"), *args],
+                          capture_output=True, text=True)
+
+
+def test_load_icp_points_reads_the_archive_converted_to_amps():
+    pts = env.load_icp_points(_icp_report_dict())
+    assert len(pts) == 36
+    assert {w for _, w, _ in pts} == {"I_up", "I_dn"}
+    assert all(150e-6 < a < 250e-6 for _, _, a in pts)
+
+
+def test_load_icp_points_reads_the_archive_converted_to_amps():
+    pts = env.load_icp_points(_icp_report_dict())
+    assert len(pts) == 36
+    assert {w for _, w, _ in pts} == {"I_up", "I_dn"}
+    assert all(150e-6 < a < 250e-6 for _, _, a in pts)
+
+
+def test_cli_accepts_the_original_archive(tmp_path):
+    out = tmp_path / "out"
+    r = _cli("--icp-report", str(ARCHIVE), "--out-dir", str(out), "--id", "t")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert (out / "t-row5-envelope.md").exists()
+    doc = json.loads((out / "t-row5-envelope.json").read_text())
+    assert doc["verdict"] == "PASS" and len(doc["points"]) == 180
+
+
+@pytest.mark.parametrize("how", [lambda d: d.__setitem__("corners", d["corners"][:1]),
+                                 lambda d: d.__setitem__("corners", d["corners"][:-1] + [d["corners"][0]])],
+                         ids=["incomplete", "duplicate"])
+def test_cli_refuses_an_altered_grid_before_writing(tmp_path, how):
+    d = _icp_report_dict()
+    how(d)
+    report = tmp_path / "altered.json"
+    report.write_text(json.dumps(d))
+    out = tmp_path / "out"
+    r = _cli("--icp-report", str(report), "--out-dir", str(out), "--id", "t")
+    assert r.returncode != 0, r.stdout + r.stderr
+    assert "corner" in (r.stderr + r.stdout)
+    assert not out.exists() or not any(out.iterdir())
