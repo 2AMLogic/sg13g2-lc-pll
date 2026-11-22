@@ -8,7 +8,9 @@ filter is the committed nominal one. Pure-Python model run (no ngspice): row 5 i
     envelope.py --icp-report sim/cp-dc/records/<id>-icp-corners-klt-report.json.gz \\
                 --out-dir sim/loop-model/records --id YYYYMMDD-HHMMSS-sha [--commit SHA]
 
-Exit 1 if any point violates row 5 (f_c outside [0.5, 2.0] MHz or PM < 45 deg). The filter is NOT
+Exit 1 if any point violates row 5 (f_c outside [0.5, 2.0] MHz or PM < 45 deg), or, before any
+output is written, if the I_cp report does not cover the cp_icp_corners request grid exactly
+once (the shared reader, sim/cp-dc/icp_report.py). The filter is NOT
 varied with the corner here (R1, C1, C2, R3, C3 nominal): the record says so. The JSON record is the
 `klt signoff` `model-run` envelope (schema_version 1) around the original verdict/points/binding/
 loop_filter content.
@@ -22,16 +24,20 @@ from pathlib import Path
 
 import loop_model as lm
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "cp-dc"))
+import icp_report  # noqa: E402  (the shared I_cp report reader, sim/cp-dc/icp_report.py)
+
 
 def load_icp_points(report):
-    """[(corner_id, which, I_cp amps)] from a klt report of cp_icp_corners.request.json."""
+    """[(corner_id, which, I_cp amps)] from a klt report of cp_icp_corners.request.json.
+
+    The corner-grid coverage check lives in the shared reader; only the uA-to-A
+    conversion lives here.
+    """
     pts = []
-    for c in report["corners"]:
-        m = {x["name"]: x.get("value") for x in c["measurements"]}
-        if c["status"] not in ("pass", "fail") or m.get("i_up_ua") is None or m.get("i_dn_ua") is None:
-            raise ValueError("corner %s has no I_up/I_dn" % c["corner_id"])
-        pts.append((c["corner_id"], "I_up", abs(m["i_up_ua"]) * 1e-6))
-        pts.append((c["corner_id"], "I_dn", abs(m["i_dn_ua"]) * 1e-6))
+    for cid, u, d in icp_report.currents(report, icp_report.load_request()):
+        pts.append((cid, "I_up", u * 1e-6))
+        pts.append((cid, "I_dn", d * 1e-6))
     return pts
 
 

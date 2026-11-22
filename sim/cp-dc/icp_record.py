@@ -4,6 +4,8 @@
     icp_record.py --report REPORT.json --out-dir sim/cp-dc/records --id YYYYMMDD-HHMMSS-sha [--commit SHA]
 
 Copies the klt report next to the record (gzip, zeroed header) so sim/loop-model/envelope.py can read it.
+The corner currents themselves come from the shared reader (icp_report.py), which checks the
+report covers the request grid exactly once before anything is written.
 """
 import argparse
 import gzip
@@ -16,18 +18,9 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 import ngpin  # noqa: E402  (the simulator pin check, computed once in sim/ngpin.py)
 
+from icp_report import currents, load_request  # noqa: E402  (the shared reader, same directory)
+
 ICP_NOM_UA = 200.0
-
-
-def currents(report):
-    """[(corner_id, i_up_uA, i_dn_uA)]; refuses a report with an unconverged corner or a missing value."""
-    out = []
-    for c in report["corners"]:
-        m = {x["name"]: x.get("value") for x in c["measurements"]}
-        if c["status"] not in ("pass", "fail") or m.get("i_up_ua") is None or m.get("i_dn_ua") is None:
-            raise SystemExit("corner %s did not produce I_up/I_dn (status %s)" % (c["corner_id"], c["status"]))
-        out.append((c["corner_id"], abs(m["i_up_ua"]), abs(m["i_dn_ua"])))
-    return out
 
 
 def main(argv=None):
@@ -40,7 +33,7 @@ def main(argv=None):
     a = ap.parse_args(argv)
     raw = Path(a.report).read_bytes()
     rep = json.loads(raw)
-    rows = currents(rep)
+    rows = currents(rep, load_request(a.request))
     out = Path(a.out_dir)
     gz, md = out / ("%s-icp-corners-klt-report.json.gz" % a.id), out / ("%s-icp-corners.md" % a.id)
     if gz.exists() or md.exists():
