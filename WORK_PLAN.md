@@ -36,7 +36,7 @@ Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a h
 Human-approved issues ready for implementation (`loom:issue`).
 
 - **#350**: layout: nothing asserts the per-cell routing record, so a routed cell regressing to partial lands green (plus dead chain_links helper)
-- **#361**: layout: no test asserts top-metal routes stay clear of the VCO inductor exclusion markers
+- **#379**: Share the GDS round-trip test for the top layout and block cells
 
 ## In Progress
 
@@ -48,13 +48,14 @@ Issues currently being built (`loom:building`).
 - **#345**: layout: floorplan iteration to cut the tank route (850 um / 612 um) to the keep-out floor, and record the remaining shortfall against the 2.1 fF budget
 - **#346**: layout: route the remaining cells and LVS each against its own subcircuit (follow-up of #343)
 - **#349**: layout: routed cells get two labels per subckt port, and test-layout-cells.sh set-dedupes so it cannot see it
-- **#362**: layout/README.md: erc.supply_short's skip reason is misattributed to a missing --pdk deck
+- **#373**: indclear.py's placement guard reads only DIRECT vco instances; a nested extra copy is still accepted
+- **#376**: Use one divider verdict rule so an empty corner report grades INCOMPLETE
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
-- **#364**: docs: attribute erc.supply_short skip to the degenerate tap declaration, not the --pdk deck
+_None._
 
 ## Approved (Awaiting Merge)
 
@@ -63,6 +64,7 @@ PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 - **#200**: docs(sim): trace 125C divider stall to M-counter terminal-count setup path
 - **#207**: docs(spec): add clock-output interface row 15 and DR-006, stated as not met
 - **#262**: docs(spec): add DR-007 — reference noise mask, in-band split, method N narrowed to the charge pump
+- **#377**: test(layout): refuse nested VCO copies in the top-metal clearance checker
 
 ## Proposed
 
@@ -83,8 +85,7 @@ Issues carrying `loom:curated`.
 - **#346**: layout: route the remaining cells and LVS each against its own subcircuit (follow-up of #343) *(curated)*
 - **#348**: test flake: scripts/ci-harness.sh fetch-pll test fails on signoff when one locked blob is momentarily unreachable *(curated)*
 - **#349**: layout: routed cells get two labels per subckt port, and test-layout-cells.sh set-dedupes so it cannot see it *(curated)*
-- **#361**: layout: no test asserts top-metal routes stay clear of the VCO inductor exclusion markers *(curated)*
-- **#362**: layout/README.md: erc.supply_short's skip reason is misattributed to a missing --pdk deck *(curated)*
+- **#373**: indclear.py's placement guard reads only DIRECT vco instances; a nested extra copy is still accepted *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -106,10 +107,10 @@ _None._
 | Very important | 1 |
 | Important | 9 |
 | Ready (`loom:issue`) | 2 |
-| In Progress (`loom:building`) | 7 |
-| PRs awaiting review | 1 |
-| Approved PRs awaiting merge | 3 |
-| Curated | 17 |
+| In Progress (`loom:building`) | 8 |
+| PRs awaiting review | 0 |
+| Approved PRs awaiting merge | 4 |
+| Curated | 16 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
