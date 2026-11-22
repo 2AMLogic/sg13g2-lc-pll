@@ -22,56 +22,35 @@ bad=0
 # before the fix this was live, not hypothetical: the check above mismatched four of the six
 # committed digests on a host whose klt writes the layers in a different order, while the cells'
 # geometry was identical. Each cell carries its own guards so the case cannot pass vacuously.
+# The shared stream read, re-save, layer-order probe and pre-#263 enumeration-order digest live
+# in scripts/layout_rt.py, shared with scripts/test-layout-top.sh (#379).
 "${PY}" -I - "${ROOT}" "${T}/cells" "${T}/rt" <<'RTEOF' || bad=$((bad+1))
-import hashlib, json, os, sys
+import json, os, sys
 import klayout.db as db
 root, cells, rtdir = sys.argv[1:4]
 sys.path.insert(0, os.path.join(root, "layout"))
+sys.path.insert(0, os.path.join(root, "scripts"))
 import cells.common as cc
+import layout_rt as rt
 
 prov = json.load(open(os.path.join(root, "layout/cells.provenance.json")))
 os.makedirs(rtdir, exist_ok=True)
 fail = 0
-
-def cell_digest(gds, cell):
-    ly = db.Layout(); ly.read(gds)
-    return cc.digest(ly, ly.cell(cell))
-
-def enum_digest(gds, cell):
-    """digest() before #263: identical records, hashed in layer_indexes() enumeration order."""
-    ly = db.Layout(); ly.read(gds); c = ly.cell(cell)
-    h = hashlib.sha256()
-    for li in ly.layer_indexes():
-        info = ly.get_info(li)
-        r = db.Region(c.begin_shapes_rec(li)); r.merge()
-        polys = sorted(str(p) for p in r.each())
-        txt = sorted(f"{s.text_string}@{s.text_trans.disp.x},{s.text_trans.disp.y}"
-                     for s in (it.shape() for it in c.begin_shapes_rec(li)) if s.is_text())
-        if polys or txt:
-            h.update(f"{info.layer}/{info.datatype}|{';'.join(polys)}|{';'.join(txt)}\n".encode())
-    return h.hexdigest()
-
-def order(gds):
-    ly = db.Layout(); ly.read(gds)
-    return [(ly.get_info(i).layer, ly.get_info(i).datatype) for i in ly.layer_indexes()]
-
-def resave(gds, dst):
-    ly = db.Layout(); ly.read(gds); ly.write(dst)
 
 for rec in prov["cells"]:
     if rec["status"] == "undrawn":
         continue
     name = rec["cell"]
     gds = os.path.join(cells, name + ".gds")
-    rt = os.path.join(rtdir, name + ".rt.gds")
-    resave(gds, rt)
-    d, drt = cell_digest(gds, name), cell_digest(rt, name)
-    if order(rt) == order(gds):
+    rtp = os.path.join(rtdir, name + ".rt.gds")
+    rt.resave(gds, rtp)
+    d, drt = rt.digest_of(gds, name, cc.digest), rt.digest_of(rtp, name, cc.digest)
+    if rt.order(rtp) == rt.order(gds):
         # No permutation to survive on this klayout: say so rather than banking a vacuous PASS.
         print(f"KNOWN-GAP {name}: the re-save did not permute the layer-index order, so this cell cannot discriminate the fix")
     elif drt != d:
         print(f"FAIL {name}: round-tripped digest {drt} != {d}"); fail += 1
-    elif enum_digest(rt, name) == enum_digest(gds, name):
+    elif rt.digest_of(rtp, name, rt.enum_digest) == rt.digest_of(gds, name, rt.enum_digest):
         print(f"FAIL NEG {name}: the pre-#263 enumeration-order digest survived the re-save too, so this cell cannot discriminate the fix"); fail += 1
     else:
         print(f"PASS {name}: digest survives a KLayout re-save that moves the pre-#263 one")
@@ -82,11 +61,11 @@ for rec in prov["cells"]:
 # the cell's bounding box so a merge with existing geometry cannot absorb it.
 rec = next(r for r in prov["cells"] if r["status"] == "drawn")
 name = rec["cell"]
-ly = db.Layout(); ly.read(os.path.join(cells, name + ".gds"))
+ly = rt.read(os.path.join(cells, name + ".gds"))
 b = ly.cell(name).bbox()
 ly.cell(name).shapes(ly.layer(8, 0)).insert(db.Box(b.right + 1000, b.top + 1000, b.right + 2000, b.top + 2000))
 ed = os.path.join(rtdir, name + ".edited.gds"); ly.write(ed)
-if cell_digest(ed, name) == rec["geometry_sha256"]:
+if rt.digest_of(ed, name, cc.digest) == rec["geometry_sha256"]:
     print(f"FAIL NEG {name}: an inserted shape did not move the digest"); fail += 1
 else:
     print(f"PASS NEG {name}: an inserted shape moves the digest")
