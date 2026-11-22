@@ -43,3 +43,32 @@ def test_bad_startup_window_is_ignored_but_bad_later_window_fails():
     assert ok["first_n"] != 100 and ok["status"] == "pass"
     bad = dr.grade_run(_run([0.0, 12.0, 24.0, 35.0, 47.0], ck, [], [], a=0))
     assert bad["status"] == "FAIL"
+
+
+def _parts_verdict(tmp_path, *grades):
+    req = tmp_path / "divider_corner_speed.request.json"
+    req.write_bytes(b"{}")
+    parts = [(f"part{i}", g, {"environment": {}}, req) for i, g in enumerate(grades)]
+    headline = dr.render(parts, "t", "deadbeef").splitlines()[2]
+    return headline.split("**")[2]
+
+
+def test_empty_report_grades_incomplete(tmp_path):
+    empty = dr.grade({"corners": []})
+    assert empty["verdict"] == "INCOMPLETE"
+    assert _parts_verdict(tmp_path, empty) == "INCOMPLETE"
+
+
+def test_passing_part_beside_empty_part_is_incomplete(tmp_path):
+    ck = [i + 0.5 for i in range(60)]
+    fb, mc_rise, mc_fall = [0.0, 12.0, 24.0, 36.0], [8.01, 20.01, 32.01], [12.0, 24.0, 36.0]
+    passing = dr.grade({"corners": [_run(fb, ck, mc_rise, mc_fall)]})
+    assert passing["verdict"] == "PASS"
+    assert _parts_verdict(tmp_path, passing, dr.grade({"corners": []})) == "INCOMPLETE"
+
+
+def test_failing_part_beside_empty_part_fails(tmp_path):
+    ck = [i + 0.5 for i in range(60)]
+    failing = dr.grade({"corners": [_run([0.0, 11.0, 22.0, 33.0], ck, [], [])]})
+    assert failing["verdict"] == "FAIL"
+    assert _parts_verdict(tmp_path, failing, dr.grade({"corners": []})) == "FAIL"
