@@ -4,6 +4,8 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-22
 
+- **PR #390**: fix: score an unset BASE_CLEAR as a failed out-of-tree control
+- **Issue #378** (closed): test-layout-top.sh: BASE_CLEAR is unbound under set -u when the committed-stream clearance check fails
 - **PR #388**: fix: grade each div89 report before combining so an empty report is INCOMPLETE
 - **Issue #386** (closed): Use one verdict rule per report so an empty div89 async voltage sweep cannot pass
 - **PR #387**: fix: grade an empty prescaler-g1 Vce report INCOMPLETE, not PASS
