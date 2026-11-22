@@ -153,13 +153,6 @@ def test_load_icp_points_reads_the_archive_converted_to_amps():
     assert all(150e-6 < a < 250e-6 for _, _, a in pts)
 
 
-def test_load_icp_points_reads_the_archive_converted_to_amps():
-    pts = env.load_icp_points(_icp_report_dict())
-    assert len(pts) == 36
-    assert {w for _, w, _ in pts} == {"I_up", "I_dn"}
-    assert all(150e-6 < a < 250e-6 for _, _, a in pts)
-
-
 def test_cli_accepts_the_original_archive(tmp_path):
     out = tmp_path / "out"
     r = _cli("--icp-report", str(ARCHIVE), "--out-dir", str(out), "--id", "t")
