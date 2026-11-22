@@ -2,6 +2,15 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-11-22
+
+- **Issue #375** (closed): Remove the duplicate archive-conversion test in sim/loop-model/test_envelope.py
+- **PR #380**: test: drop duplicated load_icp_points archive test definition
+- **Issue #369** (closed): test(layout): require one VCO placement with an identity transform before checking top-metal clearance
+- **PR #372**: test(layout): refuse unsupported VCO placements in the top-metal clearance checker
+- **Issue #368** (closed): Share the I_cp report reader so incomplete corner grids cannot produce a row-5 pass
+- **PR #371**: sim: enforce the I_cp corner grid through one shared report reader
+
 ### 2026-11-21
 
 - **PR #370**: fix: ignore Loom daemon account-ranking runtime files in gitignore
