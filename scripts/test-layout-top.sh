@@ -349,6 +349,11 @@ print("ind-clearance: top-cell %s keeps %.2f um from the VCO %s markers (>= %.1f
       % ("/".join(n for _, _, n in TOP_METAL), worst,
          "+".join(n for _, _, n in MARKERS), MIN_CLEARANCE_UM))
 INDEOF
+# The success line is the baseline the out-of-tree control below compares against (#373). It is
+# initialised here so that control is still scored when this check fails: under set -u an unassigned
+# BASE_CLEAR aborted the script there and dropped every later case and the tally (#378). Empty
+# means "not measured", never "matches anything".
+BASE_CLEAR=""
 if d="$("${PY}" -I "${T}/indclear.py" "${G}" 2>&1)"; then
   echo "PASS ${d}"; pass=$((pass+1)); BASE_CLEAR="${d}"
 else
@@ -515,7 +520,10 @@ expect "NEG nested VCO copy under a holder cell refused" \
 # ... and the scoping half of #373: a vco holder outside the lc_pll_top hierarchy leaves the
 # measured result bit-for-bit unchanged.
 d="$("${PY}" -I "${T}/indclear.py" "${T}/ind_away.gds" 2>&1)"; rc=$?
-if [ "${rc}" = 0 ] && [ "${d}" = "${BASE_CLEAR}" ]; then
+if [ -z "${BASE_CLEAR}" ]; then
+  echo "FAIL out-of-tree vco holder control: committed-stream ind-clearance baseline unavailable (not measured above)," \
+    "so the result cannot be compared (rc=${rc}): ${d}"; bad=$((bad+1))
+elif [ "${rc}" = 0 ] && [ "${d}" = "${BASE_CLEAR}" ]; then
   echo "PASS ${d} -- an out-of-tree vco holder leaves the result unchanged"; pass=$((pass+1))
 else
   echo "FAIL an out-of-tree vco holder changed the result (rc=${rc}): ${d}"; bad=$((bad+1))
