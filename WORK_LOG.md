@@ -4,6 +4,12 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-21
 
+- **PR #370**: fix: ignore Loom daemon account-ranking runtime files in gitignore
+- **Issue #366** (closed): gitignore: .loom/account-ranking.codex (daemon runtime state) is untracked dirt that fails check-main-clean.sh
+- **PR #367**: test(layout): assert top-metal clearance to the VCO inductor exclusion markers
+- **Issue #361** (closed): layout: no test asserts top-metal routes stay clear of the VCO inductor exclusion markers
+- **PR #364**: docs: attribute erc.supply_short skip to the degenerate tap declaration, not the --pdk deck
+- **Issue #362** (closed): layout/README.md: erc.supply_short's skip reason is misattributed to a missing --pdk deck
 - **PR #359**: feat(layout): route supplies, external pins and divider tie-offs from labelled landings
 - **Issue #344** (closed): layout: route VDD / VDDV / VSS, the REF, IREFCP and LOCK pins and the divider tie-offs in gen_integrated.py (ROADMAP Now 5; prerequisite for items 4 and 11)
 - **Issue #353** (closed): Reuse the divider gate evaluator in the prescaler code test
