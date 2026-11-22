@@ -128,7 +128,7 @@ in the netlists (#164, PR #169), so the resistors are drawn with `klt gen res_ar
 
 ```
 .venv/bin/python layout/gen_integrated.py --write      # -> layout/provenance.json (+ layout/top.gds if the geometry moved)
-scripts/test-layout-top.sh                             # reproducibility, attestation pin, VCO byte-match, keep-out record, negatives
+scripts/test-layout-top.sh                             # reproducibility, attestation pin, VCO byte-match, keep-out record, top-metal clearance, negatives
 ```
 
 `gen_integrated.py` runs `gen_top.py` (VCO + keep-out + ring + fill), places the six `gen_cells.py` cells below the VCO,
