@@ -4,9 +4,8 @@
 production geometry digest (`layout/cells/common.py` `digest()`, writer-independent since
 #263) survives a KLayout read->write->read of a stream, while the digest as it was before
 #263 -- the same per-layer records hashed in `ly.layer_indexes()` enumeration order, which
-a re-save permutes -- does not. The two harnesses carried a private copy each of the stream
-read, the re-save, the layer-order probe and the enumeration-order digest; #379 keeps one
-here. Only the outcomes differ, and they stay at the callers: the per-cell
+a re-save permutes -- does not. RoundTrip.compare checks the layer order, the two stream
+digests and the recorded digest for both harnesses. Each caller reports its own outcomes: the per-cell
 KNOWN-GAP/PASS/FAIL lines in test-layout-cells.sh, the scored `round-trip: ...; refusing`
 exits in test-layout-top.sh, and each harness's own inserted-shape control.
 
@@ -16,6 +15,7 @@ the child cell's own coordinates; the two positions coincide for the six generat
 and the injected fault this module exists to keep is layer order alone).
 """
 import hashlib
+from dataclasses import dataclass
 
 import klayout.db as db
 
@@ -26,16 +26,41 @@ def read(path):
     return ly
 
 
-def resave(src, dst):
-    """A plain KLayout save of `src`: same geometry, a different writer."""
-    read(src).write(dst)
-
-
-def order(path):
+def _layer_order(ly):
     """(layer, datatype) pairs in `ly.layer_indexes()` enumeration order: the writer
     artefact a re-save permutes and digest() must not depend on."""
-    ly = read(path)
     return [(ly.get_info(i).layer, ly.get_info(i).datatype) for i in ly.layer_indexes()]
+
+
+@dataclass(frozen=True)
+class Comparison:
+    order_changed: bool
+    original_digest: str
+    resaved_digest: str
+    digest_survived: bool
+    matches_record: bool
+
+
+class RoundTrip:
+    """An original stream and its re-read KLayout save, reusable across digest functions."""
+
+    def __init__(self, src, dst, cell, recorded):
+        self.original = read(src)
+        self.original.write(dst)
+        self.resaved = read(dst)
+        self.cell = cell
+        self.recorded = recorded
+
+    def compare(self, digest):
+        original = digest(self.original, self.original.cell(self.cell))
+        resaved = digest(self.resaved, self.resaved.cell(self.cell))
+        return Comparison(
+            order_changed=_layer_order(self.original) != _layer_order(self.resaved),
+            original_digest=original,
+            resaved_digest=resaved,
+            digest_survived=original == resaved,
+            matches_record=original == self.recorded,
+        )
 
 
 def digest_of(path, cell, fn):

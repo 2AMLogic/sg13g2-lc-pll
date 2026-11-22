@@ -22,8 +22,8 @@ bad=0
 # before the fix this was live, not hypothetical: the check above mismatched four of the six
 # committed digests on a host whose klt writes the layers in a different order, while the cells'
 # geometry was identical. Each cell carries its own guards so the case cannot pass vacuously.
-# The shared stream read, re-save, layer-order probe and pre-#263 enumeration-order digest live
-# in scripts/layout_rt.py, shared with scripts/test-layout-top.sh (#379).
+# scripts/layout_rt.py compares both streams and the recorded digest for this harness and
+# scripts/test-layout-top.sh (#379).
 "${PY}" -I - "${ROOT}" "${T}/cells" "${T}/rt" <<'RTEOF' || bad=$((bad+1))
 import json, os, sys
 import klayout.db as db
@@ -43,19 +43,20 @@ for rec in prov["cells"]:
     name = rec["cell"]
     gds = os.path.join(cells, name + ".gds")
     rtp = os.path.join(rtdir, name + ".rt.gds")
-    rt.resave(gds, rtp)
-    d, drt = rt.digest_of(gds, name, cc.digest), rt.digest_of(rtp, name, cc.digest)
-    if rt.order(rtp) == rt.order(gds):
+    want = rec["geometry_sha256"]
+    trip = rt.RoundTrip(gds, rtp, name, want)
+    result = trip.compare(cc.digest)
+    if not result.order_changed:
         # No permutation to survive on this klayout: say so rather than banking a vacuous PASS.
         print(f"KNOWN-GAP {name}: the re-save did not permute the layer-index order, so this cell cannot discriminate the fix")
-    elif drt != d:
-        print(f"FAIL {name}: round-tripped digest {drt} != {d}"); fail += 1
-    elif rt.digest_of(rtp, name, rt.enum_digest) == rt.digest_of(gds, name, rt.enum_digest):
+    elif not result.digest_survived:
+        print(f"FAIL {name}: round-tripped digest {result.resaved_digest} != {result.original_digest}"); fail += 1
+    elif trip.compare(rt.enum_digest).digest_survived:
         print(f"FAIL NEG {name}: the pre-#263 enumeration-order digest survived the re-save too, so this cell cannot discriminate the fix"); fail += 1
     else:
         print(f"PASS {name}: digest survives a KLayout re-save that moves the pre-#263 one")
-    if d != rec["geometry_sha256"]:
-        print(f"FAIL {name}: digest {d} != recorded {rec['geometry_sha256']}"); fail += 1
+    if not result.matches_record:
+        print(f"FAIL {name}: digest {result.original_digest} != recorded {want}"); fail += 1
 
 # Negative control: a real geometry change must still move the digest. The box is placed clear of
 # the cell's bounding box so a merge with existing geometry cannot absorb it.

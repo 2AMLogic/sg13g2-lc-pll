@@ -58,8 +58,8 @@ cat >"${T}/rt_test.py" <<'RTEOF'
 records hashed in ly.layer_indexes() order). It must then refuse: that is the negative control
 for the ordering fix itself, so a future change that reinstates enumeration order is caught.
 
-The stream read, the re-save, the layer-order probe and the pre-#263 digest live in
-scripts/layout_rt.py, shared with scripts/test-layout-cells.sh (#379).
+scripts/layout_rt.py compares both streams and the recorded digest for this harness and
+scripts/test-layout-cells.sh (#379).
 """
 import json
 import os
@@ -82,22 +82,17 @@ def fail(msg):
 
 fn = rt.enum_digest if enum_order else cc.digest
 
-# A plain KLayout save of the committed stream: same geometry, a different writer.
-rtp = os.path.join(t, "rt.gds")
-rt.resave(committed, rtp)
-
-if rt.order(rtp) == rt.order(committed):
-    fail("the round trip did not permute the layer-index order, so this case cannot discriminate")
-# Writer-independence first, stated without reference to the record: the stream and its re-save
-# must digest alike. This is the leg --enumeration-order is pointed at, so it is checked before
-# the one that reads layout/provenance.json.
-d, drt = rt.digest_of(committed, gi.TOP, fn), rt.digest_of(rtp, gi.TOP, fn)
-if drt != d:
-    fail("the round-tripped stream digests to " + drt + ", not the committed stream's " + d)
-# ... and the value both sides agree on is the one layout/provenance.json records.
 want = json.load(open(os.path.join(root, "layout/provenance.json")))["output"]["geometry_sha256"]
-if d != want:
-    fail("the committed stream digests to " + d + ", not the recorded " + want)
+trip = rt.RoundTrip(committed, os.path.join(t, "rt.gds"), gi.TOP, want)
+result = trip.compare(fn)
+
+if not result.order_changed:
+    fail("the round trip did not permute the layer-index order, so this case cannot discriminate")
+# --enumeration-order must report the writer-dependent hash before a provenance mismatch.
+if not result.digest_survived:
+    fail(f"the round-tripped stream digests to {result.resaved_digest}, not the committed stream's {result.original_digest}")
+if not result.matches_record:
+    fail(f"the committed stream digests to {result.original_digest}, not the recorded {want}")
 
 # Negative control in the same run: a real geometry change must still move the digest, or the
 # assertions above would hold for a digest() that hashes nothing.
