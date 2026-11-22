@@ -57,16 +57,20 @@ cat >"${T}/rt_test.py" <<'RTEOF'
 --enumeration-order re-runs the assertion against digest() as it was before #263 (per-layer
 records hashed in ly.layer_indexes() order). It must then refuse: that is the negative control
 for the ordering fix itself, so a future change that reinstates enumeration order is caught.
+
+scripts/layout_rt.py compares both streams and the recorded digest for this harness and
+scripts/test-layout-cells.sh (#379).
 """
-import hashlib
 import json
 import os
 import sys
 
 sys.path.insert(0, os.path.join(sys.argv[1], "layout"))
+sys.path.insert(0, os.path.join(sys.argv[1], "scripts"))
 import klayout.db as db
 import gen_integrated as gi
 import cells.common as cc
+import layout_rt as rt
 
 root, committed, t = sys.argv[1], sys.argv[2], sys.argv[3]
 enum_order = "--enumeration-order" in sys.argv[4:]
@@ -76,63 +80,27 @@ def fail(msg):
     sys.exit("round-trip: " + msg + "; refusing")
 
 
-def enum_digest(ly, cell):
-    """digest() before #263: identical records, hashed in layer_indexes() enumeration order."""
-    h = hashlib.sha256()
-    for li in ly.layer_indexes():
-        info = ly.get_info(li)
-        r = db.Region(cell.begin_shapes_rec(li))
-        r.merge()
-        polys = sorted(str(p) for p in r.each())
-        txt = sorted(f"{s.text_string}@{(it.trans() * s.text_trans.disp).x},{(it.trans() * s.text_trans.disp).y}"
-                     for it in cell.begin_shapes_rec(li) for s in [it.shape()] if s.is_text())
-        if polys or txt:
-            h.update(f"{info.layer}/{info.datatype}|{';'.join(polys)}|{';'.join(txt)}\n".encode())
-    return h.hexdigest()
+fn = rt.enum_digest if enum_order else cc.digest
 
-
-fn = enum_digest if enum_order else cc.digest
-
-
-def read(path):
-    ly = db.Layout()
-    ly.read(path)
-    return ly
-
-
-def dig(path):
-    ly = read(path)
-    return fn(ly, ly.cell(gi.TOP))
-
-
-def order(path):
-    ly = read(path)
-    return [(ly.get_info(i).layer, ly.get_info(i).datatype) for i in ly.layer_indexes()]
-
-
-# A plain KLayout save of the committed stream: same geometry, a different writer.
-rt = os.path.join(t, "rt.gds")
-read(committed).write(rt)
-
-if order(rt) == order(committed):
-    fail("the round trip did not permute the layer-index order, so this case cannot discriminate")
-# Writer-independence first, stated without reference to the record: the stream and its re-save
-# must digest alike. This is the leg --enumeration-order is pointed at, so it is checked before
-# the one that reads layout/provenance.json.
-if dig(rt) != dig(committed):
-    fail("the round-tripped stream digests to " + dig(rt) + ", not the committed stream's " + dig(committed))
-# ... and the value both sides agree on is the one layout/provenance.json records.
 want = json.load(open(os.path.join(root, "layout/provenance.json")))["output"]["geometry_sha256"]
-if dig(committed) != want:
-    fail("the committed stream digests to " + dig(committed) + ", not the recorded " + want)
+trip = rt.RoundTrip(committed, os.path.join(t, "rt.gds"), gi.TOP, want)
+result = trip.compare(fn)
+
+if not result.order_changed:
+    fail("the round trip did not permute the layer-index order, so this case cannot discriminate")
+# --enumeration-order must report the writer-dependent hash before a provenance mismatch.
+if not result.digest_survived:
+    fail(f"the round-tripped stream digests to {result.resaved_digest}, not the committed stream's {result.original_digest}")
+if not result.matches_record:
+    fail(f"the committed stream digests to {result.original_digest}, not the recorded {want}")
 
 # Negative control in the same run: a real geometry change must still move the digest, or the
 # assertions above would hold for a digest() that hashes nothing.
 edited = os.path.join(t, "rt_edited.gds")
-ly = read(committed)
+ly = rt.read(committed)
 ly.cell(gi.TOP).shapes(ly.layer(8, 0)).insert(db.Box(-320000, 100000, -315000, 105000))
 ly.write(edited)
-if dig(edited) == want:
+if rt.digest_of(edited, gi.TOP, fn) == want:
     fail("an inserted shape did not move the digest, so it is not hashing the geometry")
 
 print("round-trip: digest " + want + " survives a KLayout re-save; an inserted shape moves it")
