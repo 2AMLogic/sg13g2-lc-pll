@@ -240,7 +240,9 @@ The markers are read in the vco cell's OWN frame (begin_shapes_rec applies no in
 transform), so the comparison is valid only while lc_pll_top places vco as exactly one
 single-element identity-transform instance -- the placement layout/gen_top.py pins. Any other
 placement is refused up front (#369): measuring it would report clearance against markers that
-are not where the top cell's coordinates say they are.
+are not where the top cell's coordinates say they are. A vco nested under another cell is
+refused for the same reason (#373): begin_shapes_rec yields one copy of the markers per cell,
+so a nested copy's keep-out would simply never be compared against the top cell's metal.
 """
 import sys
 
@@ -304,6 +306,18 @@ if place.cell_inst.size() != 1:
 if place.cplx_trans != db.CplxTrans():
     fail("the '" + VCO_CELL + "' placement is " + str(place.cplx_trans)
          + ", not the identity; the markers would be measured in the wrong frame")
+# Hierarchy guard (#373): each_inst above reads only lc_pll_top's OWN instance records, so a
+# second vco reached through another cell passes every direct leg while its markers are never
+# compared against the top cell's metal at all -- on the committed stream a nested copy's
+# translated IND marker overlaps top metal by 292.22 um^2 while the pre-#373 checker still
+# reported 23.00 um. Any other direct child that reaches vco at any depth (called_cells() is
+# transitive) must refuse here like the direct legs do: before any distance is measured.
+vi = vco.cell_index()
+for i in top.each_inst():
+    child = i.cell
+    if child.cell_index() != vi and vi in child.called_cells():
+        fail("the top cell reaches '" + VCO_CELL + "' through '" + child.name + "' (placed "
+             + str(i.cplx_trans) + "); a nested copy's markers are not measured")
 metal = db.Region()
 for layer, dtype, name in TOP_METAL:
     li = ly.find_layer(layer, dtype)
@@ -336,7 +350,7 @@ print("ind-clearance: top-cell %s keeps %.2f um from the VCO %s markers (>= %.1f
          "+".join(n for _, _, n in MARKERS), MIN_CLEARANCE_UM))
 INDEOF
 if d="$("${PY}" -I "${T}/indclear.py" "${G}" 2>&1)"; then
-  echo "PASS ${d}"; pass=$((pass+1))
+  echo "PASS ${d}"; pass=$((pass+1)); BASE_CLEAR="${d}"
 else
   echo "FAIL ${d}"; bad=$((bad+1))
 fi
@@ -418,6 +432,43 @@ replace_vco(t + "/ind_rot.gds",
 replace_vco(t + "/ind_mirror.gds",
             lambda ci: [db.CellInstArray(ci, db.Trans(db.Trans.M0, 0, 0))],
             [(1, "m0 *1 0,0")])
+# #373: nested-placement fixture. The direct vco is left untouched (one identity instance, so
+# every direct leg above still passes) while a holder cell placed at the origin carries a second
+# vco at (0, -50 um) through one intermediate cell -- the issue's measured false pass: the
+# translated IND marker overlaps the top cell's own top metal by 292.22 um^2 while the pre-#373
+# checker still reported 23.00 um. The intermediate cell puts vco TWO levels below the holder,
+# so the readback guard's called_cells() test holds only while called_cells() stays transitive
+# -- the property the hierarchy guard relies on for "at any depth".
+ly = db.Layout(); ly.read(g)
+top, vco = ly.cell("lc_pll_top"), ly.cell("vco")
+holder, mid = ly.create_cell("nest_holder"), ly.create_cell("nest_mid")
+mid.insert(db.CellInstArray(vco.cell_index(), db.Trans(db.Trans.R0, 0, -50000)))
+holder.insert(db.CellInstArray(mid.cell_index(), db.Trans()))
+top.insert(db.CellInstArray(holder.cell_index(), db.Trans()))
+ly.write(t + "/ind_nested.gds")
+ly = db.Layout(); ly.read(t + "/ind_nested.gds")
+vi, hi = ly.cell("vco").cell_index(), ly.cell("nest_holder").cell_index()
+direct = [(i.cell_inst.size(), str(i.cplx_trans)) for i in ly.cell("lc_pll_top").each_inst()
+          if i.cell.cell_index() == vi]
+if direct != [(1, "r0 *1 0,0")]:
+    sys.exit("ind-nested: the direct placement read back as " + str(direct)
+             + ", wanted [(1, 'r0 *1 0,0')]; a direct leg would fire instead of the nested one")
+hpl = [(i.cell_inst.size(), str(i.cplx_trans)) for i in ly.cell("lc_pll_top").each_inst()
+       if i.cell.cell_index() == hi]
+if hpl != [(1, "r0 *1 0,0")] or vi not in ly.cell("nest_holder").called_cells():
+    sys.exit("ind-nested: the holder-to-vco path read back as " + str(hpl)
+             + "; fixture cannot discriminate")
+# ... and the scoping control for the same guard: a cell that calls vco but is placed NOWHERE
+# under lc_pll_top must not affect the result -- only the hierarchy rooted at the top cell is
+# the checker's business. away_holder becomes a second top-level cell of its own.
+ly = db.Layout(); ly.read(g)
+away = ly.create_cell("away_holder")
+away.insert(db.CellInstArray(ly.cell("vco").cell_index(), db.Trans(db.Trans.R0, 0, -50000)))
+ly.write(t + "/ind_away.gds")
+ly = db.Layout(); ly.read(t + "/ind_away.gds")
+ai, vi = ly.cell("away_holder").cell_index(), ly.cell("vco").cell_index()
+if vi not in ly.cell("away_holder").called_cells() or ai in ly.cell("lc_pll_top").called_cells():
+    sys.exit("ind-away: the out-of-tree holder is in-tree or holds no vco; fixture cannot discriminate")
 PYEOF
 klt clip "${T}/edited.gds" --cell vco -o "${T}/edited_clip.gds" >/dev/null 2>&1
 # Must carry klt's own violation status line (rc=3 detection), not merely exit non-zero: a missing
@@ -456,6 +507,19 @@ expect "NEG rotated VCO placement refused (r90 at the origin)" \
 expect "NEG mirrored VCO placement refused (m0 at the origin)" \
   "refuse:ind-clearance: the 'vco' placement is m0 \*1 0,0, not the identity; the markers would be measured in the wrong frame; refusing" \
   "${PY}" -I "${T}/indclear.py" "${T}/ind_mirror.gds"
+# #373: the nested copy must be refused with the checker's own hierarchy diagnostic, naming the
+# holder it is reached through, before any clearance is measured or reported.
+expect "NEG nested VCO copy under a holder cell refused" \
+  "refuse:ind-clearance: the top cell reaches 'vco' through 'nest_holder' \(placed r0 \*1 0,0\); a nested copy's markers are not measured; refusing" \
+  "${PY}" -I "${T}/indclear.py" "${T}/ind_nested.gds"
+# ... and the scoping half of #373: a vco holder outside the lc_pll_top hierarchy leaves the
+# measured result bit-for-bit unchanged.
+d="$("${PY}" -I "${T}/indclear.py" "${T}/ind_away.gds" 2>&1)"; rc=$?
+if [ "${rc}" = 0 ] && [ "${d}" = "${BASE_CLEAR}" ]; then
+  echo "PASS ${d} -- an out-of-tree vco holder leaves the result unchanged"; pass=$((pass+1))
+else
+  echo "FAIL an out-of-tree vco holder changed the result (rc=${rc}): ${d}"; bad=$((bad+1))
+fi
 mkdir -p "${T}/s/.fetched/sg13g2-vco/layout"; cp "${VCO}" "${T}/s/.fetched/sg13g2-vco/layout/vco.gds"
 printf 'X' | dd of="${T}/s/.fetched/sg13g2-vco/layout/vco.gds" bs=1 seek=100 conv=notrunc 2>/dev/null
 # Must carry gen_top.py's own sha256 refusal (reached through gen_integrated's build_base
