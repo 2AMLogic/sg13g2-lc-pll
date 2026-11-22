@@ -4,6 +4,8 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-22
 
+- **Issue #379** (closed): Share the GDS round-trip test for the top layout and block cells
+- **PR #382**: test: share the GDS round-trip machinery between the layout harnesses
 - **Issue #375** (closed): Remove the duplicate archive-conversion test in sim/loop-model/test_envelope.py
 - **PR #380**: test: drop duplicated load_icp_points archive test definition
 - **Issue #369** (closed): test(layout): require one VCO placement with an identity transform before checking top-metal clearance

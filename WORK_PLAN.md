@@ -36,7 +36,6 @@ Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a h
 Human-approved issues ready for implementation (`loom:issue`).
 
 - **#350**: layout: nothing asserts the per-cell routing record, so a routed cell regressing to partial lands green (plus dead chain_links helper)
-- **#379**: Share the GDS round-trip test for the top layout and block cells
 
 ## In Progress
 
@@ -106,7 +105,7 @@ _None._
 | Operator merge-risk holds | 3 |
 | Very important | 1 |
 | Important | 9 |
-| Ready (`loom:issue`) | 2 |
+| Ready (`loom:issue`) | 1 |
 | In Progress (`loom:building`) | 8 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 4 |
