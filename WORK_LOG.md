@@ -4,6 +4,14 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-22
 
+- **PR #388**: fix: grade each div89 report before combining so an empty report is INCOMPLETE
+- **Issue #386** (closed): Use one verdict rule per report so an empty div89 async voltage sweep cannot pass
+- **PR #387**: fix: grade an empty prescaler-g1 Vce report INCOMPLETE, not PASS
+- **Issue #385** (closed): prescaler-g1 Vce grader also grades an empty corner report PASS
+- **PR #384**: fix: grade an empty divider corner report INCOMPLETE, not PASS
+- **Issue #376** (closed): Use one divider verdict rule so an empty corner report grades INCOMPLETE
+- **PR #377**: test(layout): refuse nested VCO copies in the top-metal clearance checker
+- **Issue #373** (closed): indclear.py's placement guard reads only DIRECT vco instances; a nested extra copy is still accepted
 - **Issue #379** (closed): Share the GDS round-trip test for the top layout and block cells
 - **PR #382**: test: share the GDS round-trip machinery between the layout harnesses
 - **Issue #375** (closed): Remove the duplicate archive-conversion test in sim/loop-model/test_envelope.py
