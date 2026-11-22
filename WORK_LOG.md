@@ -2,8 +2,125 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-11-22
+
+- **Issue #379** (closed): Share the GDS round-trip test for the top layout and block cells
+- **PR #382**: test: share the GDS round-trip machinery between the layout harnesses
+- **Issue #375** (closed): Remove the duplicate archive-conversion test in sim/loop-model/test_envelope.py
+- **PR #380**: test: drop duplicated load_icp_points archive test definition
+- **Issue #369** (closed): test(layout): require one VCO placement with an identity transform before checking top-metal clearance
+- **PR #372**: test(layout): refuse unsupported VCO placements in the top-metal clearance checker
+- **Issue #368** (closed): Share the I_cp report reader so incomplete corner grids cannot produce a row-5 pass
+- **PR #371**: sim: enforce the I_cp corner grid through one shared report reader
+
+### 2026-11-21
+
+- **PR #370**: fix: ignore Loom daemon account-ranking runtime files in gitignore
+- **Issue #366** (closed): gitignore: .loom/account-ranking.codex (daemon runtime state) is untracked dirt that fails check-main-clean.sh
+- **PR #367**: test(layout): assert top-metal clearance to the VCO inductor exclusion markers
+- **Issue #361** (closed): layout: no test asserts top-metal routes stay clear of the VCO inductor exclusion markers
+- **PR #364**: docs: attribute erc.supply_short skip to the degenerate tap declaration, not the --pdk deck
+- **Issue #362** (closed): layout/README.md: erc.supply_short's skip reason is misattributed to a missing --pdk deck
+- **PR #359**: feat(layout): route supplies, external pins and divider tie-offs from labelled landings
+- **Issue #344** (closed): layout: route VDD / VDDV / VSS, the REF, IREFCP and LOCK pins and the divider tie-offs in gen_integrated.py (ROADMAP Now 5; prerequisite for items 4 and 11)
+- **Issue #353** (closed): Reuse the divider gate evaluator in the prescaler code test
+- **PR #356**: refactor: reuse the divider gate evaluator in the prescaler code test
+- **Issue #358** (closed): WORK_PLAN.md generated-region blurbs drift from render_plan_body()'s literals, defeating the #5890 debounce
+
+### 2026-11-20
+
+- **PR #347**: feat(layout): route loop-filter cell, add per-cell LVS envelopes (not matched)
+
+### 2026-11-19
+
+- **PR #340**: run-lock-detector: rebuild grid records from the saved artifacts alone
+- **Issue #338** (closed): Remove simulation setup from lock-detector report replay
+
+### 2026-11-18
+
+- **PR #334**: ci: add merge_group trigger to harness and signoff workflows
+- **Issue #332** (closed): Merge queue: add the merge_group trigger to the required-check workflow(s)
+
+### 2026-11-17
+
+- **PR #327**: chore(loom): resync installed Loom to v0.19.1306
+- **Issue #197** (closed): Divider stops dividing at 125C after start-up (7 of 54 corner units): SLOW 625/687.5 MHz, TYP 687.5 MHz
+- **Issue #82** (closed): spec decision: CP up/down mismatch (row 7) limit and yield target
+
+### 2026-11-16
+
+- **PR #322**: chore(loom): resync installed Loom to v0.19.1302
+
+### 2026-11-15
+
+- **Issue #304** (closed): Bump the klt pin from 0.8.0 to a release that accepts model-run (unblocks the row-5 item-5 citation)
+- **PR #317**: bump the klt pin to 0.9.1 and cite the row-5 model-run record as item-5 evidence
+- **Issue #308** (closed): Consolidate duplicated digest() and sha256() helpers in layout/: #263 had to be fixed in two copies, which have since diverged
+- **PR #314**: layout: consolidate duplicated digest() and sha256() into cells/common.py
+- **Issue #298** (closed): Consolidate the append-only record guard into lib-record.sh: 14 call sites, and run-lock-detector.sh:41 has already lost its message clause
+- **PR #316**: refactor(record): assert_new_record in lib-record.sh; one append-only guard for all 14 sites
+- **Issue #300** (closed): Row-5 item-5 citation: the remaining work the new gap text names has no issue, and ROADMAP 'Now' item 4 no longer fits that section's contract
+- **PR #310**: docs: split ROADMAP Now item 4 into the model-run re-emission (#303); move the klt pin bump to Next (#304)
+- **Issue #303** (closed): Re-emit the row-5 method-L envelope record in the klt model-run shape (so item 5 can cite it)
+- **PR #312**: feat: emit row-5 envelope records in the klt model-run signoff shape
+- **Issue #301** (closed): Docs say three klt signoff --attest envelopes (items 1, 9, 10); there are four — item 2's layout.attest.json is omitted repo-wide
+- **PR #315**: docs: count item 2's attest envelope in the manifest evidence index
+- **Issue #294** (closed): README's 'DRC clean' summary omits the deck-coverage qualifier that item 3 calls claimant-enforced
+- **PR #302**: docs: qualify README's DRC-clean ladder sentence with curated-deck coverage pointer
+- **Issue #297** (closed): design/README.md states the mcounter terminal-count decode as Q = 0001; the netlist decodes Q = 0010 (count 2)
+- **PR #311**: docs: withdraw the false mcounter README discrepancy in the #278 record and disambiguate the decode phases
+- **Issue #290** (closed): lib-pdk.sh: a missing model library or OSDI file dies with no message (set -e aborts before the die)
+- **PR #309**: fix: keep the PDK pin check's missing-file die reachable under set -e
+- **Issue #268** (closed): spec/README.md index omits DR-005 (prescaler P8/9 div-2/3 first stage)
+- **PR #271**: test(spec): hold the decision-record index to the tree, index DR-005
+- **Issue #291** (closed): Remove six never-read names in project Python: an uncalled nested helper, two silently-ignored parameters, three dead constants
+- **PR #306**: Remove born-dead names: uncalled nested ext(), ignored params, dead constants
+- **Issue #282** (closed): test-layout-vco.sh/-top.sh: five bare-refuse negative controls pass when their fixture generation silently fails
+- **PR #305**: test: make layout negative controls discriminating and guard their fixture generation
+- **Issue #273** (closed): run-jitter.sh: a NOISE_INPUTS file supplying no in-band term still promises a listing the record does not contain
+- **PR #299**: fix: guard the jitter record's inputs parenthetical on the supplied term count
+- **Issue #281** (closed): Define the record ID once in lib-record.sh: the same ID= line is repeated in 11 bench drivers
+- **PR #288**: refactor(record): set the record ID and directory in lib-record.sh, not in each driver
+- **Issue #275** (closed): A Guide docs-maintenance PR that edits README.md always red-lines item 10's attest gate
+- **PR #293**: docs(manifests): record README.md ownership rule and item-10 recovery for Guide docs PRs
+- **Issue #286** (closed): Remove three born-dead lines in layout/lvs/build_reference.py: two unused imports and a comment that claims the LVS reference strips device parameters when it does not
+- **PR #292**: refactor: drop unused imports and false strip comment in LVS reference builder
+- **Issue #280** (closed): Item 5, row 5: cite the method-L envelope or correct the declared gap now that klayout-tools#4859 is closed
+- **PR #296**: manifests: row-5 gap names the klt 0.9.0 model-run gate instead of the closed #4859; regenerate record
+- **Issue #285** (closed): Collapse the triplicated OSDI pin check in lib-pdk.sh, and fix what PDK_SKIP_PSP103 claims to gate
+- **PR #289**: refactor(pdk): one guarded loop for the three OSDI pin checks, flag renamed
+- **Issue #278** (closed): Enumerate the M/A counter state sequence for N = 90-110 (PDK-free), to say which terminal-count decodes are valid for #199
+- **PR #295**: Enumerate M/A counter state sequences from the netlist; settle look-ahead decode validity
+
+### 2026-11-14
+
+- **Issue #263** (closed): gen_integrated.py digest() is layer-order sensitive, so it is not stable across a GDS round trip
+- **PR #270**: fix(layout): hash digest layers in sorted (layer, datatype) order
+- **Issue #279** (closed): Record what a sg13g2-vco pin bump would bring and what it would invalidate (pin 17e49a8 vs upstream main)
+- **PR #287**: docs(sim): record the sg13g2-vco pin delta and what a bump would cost
+- **PR #284**: docs: state README status and ladder from the signoff record; re-tense stale DRC claims
+- **Issue #272** (closed): Consolidate the duplicated expect() test harness into one scripts/ library; test-fetch-vco.sh still carries the pre-#234 weak form
+- **PR #283**: test: consolidate the duplicated expect() harness into scripts/lib-expect.sh
+- **Issue #261** (closed): Compute the ngspice pin verdict in the klt sim record generators: five scripts print "pin 47: mismatch" as a literal
+- **PR #265**: refactor(sim): compute the ngspice pin verdict in sim/ngpin.py, drop the five literals
+- **PR #276**: docs: roadmap as of 2026-11-13
+- **Issue #260** (closed): run-jitter.sh: a record made with NOISE_INPUTS carries only the file's path and sha256, not each term's table and source
+- **PR #269**: feat(jitter): state each in-band noise input's summary and source in the record
+- **Issue #245** (closed): Finish the Metal1 pad-trim guard in gen_integrated.py and remove its inert bindings and duplicate helpers
+- **PR #256**: feat(layout): test trimmed Metal1 pads still cover their Via1, record the count
+
 ### 2026-11-13
 
+- **Issue #257** (closed): gen_integrated.py --write churns the attested top.gds on an unchanged design (GDS timestamps)
+- **PR #264**: fix(layout): keep the attested top.gds bytes when --write finds no geometry change
+- **Issue #258** (closed): make_record.py: G2 closure line cannot see a 125 C unit missing from the reports
+- **PR #266**: fix(sim): grade the G2 125 C closure line against the requested grid
+- **Issue #247** (closed): Method-L jitter model: take the three in-band noise terms as inputs and report an unsupplied term as missing, never 0.0
+- **PR #259**: feat: take the three in-band jitter terms as model inputs and report an unsupplied term as missing
+- **Issue #239** (closed): Consolidate the spec corner-set table: seven request generators each re-encode the DR-004 SLOW/TYP/FAST bundles, and they have diverged
+- **PR #255**: refactor: define the spec C-grid corner set once in sim/corner_set.py
+- **Issue #243** (closed): Compute the verdict lines in the G2 C-grid record generator: make_record.py --dsubw prints one run's conclusions as literals
+- **PR #254**: fix(sim): derive the G2 verdict, 27 C control and ngspice pin lines from the graded data
 - **Issue #36** (closed): T1 item 3 (DRC clean): klt drc on the integrated layout with coverage disclosed
 - **PR #248**: docs(drc): record clean curated+native DRC and grade T1 item 3 met
 - **Issue #241** (closed): Nothing detects a stale testbenches.attest.json: signoff binds item 9 by the inventory hash, not the attest's per-file hashes

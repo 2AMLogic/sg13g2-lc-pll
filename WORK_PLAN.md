@@ -9,38 +9,46 @@ Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a h
 
 - **#200**: docs(sim): trace 125C divider stall to M-counter terminal-count setup path
 - **#207**: docs(spec): add clock-output interface row 15 and DR-006, stated as not met
+- **#262**: docs(spec): add DR-007 — reference noise mask, in-band split, method N narrowed to the charge pump
 
 ## Very Important
 
 `loom:very-important` (one counts per workspace); every stage takes these first.
 
-_None._
+- **#149**: Divider speed decks use PSP RF models but never load psp103_nqs.osdi (attest 9 fails on a clean host)
 
 ## Important
 
 `loom:important`; taken before unlabelled work.
 
 - **#37**: T1 item 4 (LVS clean): klt lvs of the integrated layout vs the top netlist (npn13G2v recognized)
+- **#38**: T1 item 11 (power delivery): klt erc supply spec for the section-5 supply branches
 - **#39**: T1 item 5 (corner verification): klt sim envelopes over C-grid for every target row
+- **#41**: T1 item 7 (post-layout): klt pex delta report for the integrated loop
+- **#48**: T1 item 8 (characterization): per-row characterization report over the DR-001 rows, attested with klt signoff --attest 8
 - **#86**: Item 5 remainder (gated): C-grid envelopes for rows 1, 8, 9, 10 and row 7 upper edge
-- **#149**: Divider speed decks use PSP RF models but never load psp103_nqs.osdi (attest 9 fails on a clean host)
+- **#97**: Divider/prescaler stops dividing at 3.630 V and 125 C corners (row 11 C-grid)
 - **#199**: Divider M-counter terminal-count path fails setup at 125C (7 of 54 corner units)
+- **#350**: layout: nothing asserts the per-cell routing record, so a routed cell regressing to partial lands green (plus dead chain_links helper)
 
 ## Ready
 
 Human-approved issues ready for implementation (`loom:issue`).
 
-_None._
+- **#350**: layout: nothing asserts the per-cell routing record, so a routed cell regressing to partial lands green (plus dead chain_links helper)
 
 ## In Progress
 
 Issues currently being built (`loom:building`).
 
-- **#82**: spec decision: CP up/down mismatch (row 7) limit and yield target
 - **#88**: G6: measure transient-noise cost versus run length for method T
-- **#178**: Stale sim/prescaler-g3: drives the old /4-/5 stage, not the merged /8-/9 prescaler
-- **#197**: Divider stops dividing at 125C after start-up (7 of 54 corner units): SLOW 625/687.5 MHz, TYP 687.5 MHz
 - **#206**: spec: state clock output swing and load for a downstream TX mux
+- **#252**: Spec section 4: state the reference phase-noise requirement and define method N for the switching blocks (decision record)
+- **#345**: layout: floorplan iteration to cut the tank route (850 um / 612 um) to the keep-out floor, and record the remaining shortfall against the 2.1 fF budget
+- **#346**: layout: route the remaining cells and LVS each against its own subcircuit (follow-up of #343)
+- **#349**: layout: routed cells get two labels per subckt port, and test-layout-cells.sh set-dedupes so it cannot see it
+- **#373**: indclear.py's placement guard reads only DIRECT vco instances; a nested extra copy is still accepted
+- **#376**: Use one divider verdict rule so an empty corner report grades INCOMPLETE
 
 ## PRs Awaiting Review
 
@@ -54,6 +62,8 @@ PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 
 - **#200**: docs(sim): trace 125C divider stall to M-counter terminal-count setup path
 - **#207**: docs(spec): add clock-output interface row 15 and DR-006, stated as not met
+- **#262**: docs(spec): add DR-007 — reference noise mask, in-band split, method N narrowed to the charge pump
+- **#377**: test(layout): refuse nested VCO copies in the top-metal clearance checker
 
 ## Proposed
 
@@ -61,14 +71,20 @@ Issues carrying `loom:curated`.
 
 - **#37**: T1 item 4 (LVS clean): klt lvs of the integrated layout vs the top netlist (npn13G2v recognized) *(curated)*
 - **#48**: T1 item 8 (characterization): per-row characterization report over the DR-001 rows, attested with klt signoff --attest 8 *(curated)*
-- **#82**: spec decision: CP up/down mismatch (row 7) limit and yield target *(curated)*
 - **#88**: G6: measure transient-noise cost versus run length for method T *(curated)*
 - **#97**: Divider/prescaler stops dividing at 3.630 V and 125 C corners (row 11 C-grid) *(curated)*
 - **#149**: Divider speed decks use PSP RF models but never load psp103_nqs.osdi (attest 9 fails on a clean host) *(curated)*
 - **#178**: Stale sim/prescaler-g3: drives the old /4-/5 stage, not the merged /8-/9 prescaler *(curated)*
-- **#197**: Divider stops dividing at 125C after start-up (7 of 54 corner units): SLOW 625/687.5 MHz, TYP 687.5 MHz *(curated)*
 - **#206**: spec: state clock output swing and load for a downstream TX mux *(curated)*
 - **#237**: Retire the stale smoke-record clause in sim/testbench-inventory.json (needs a re-attestation #228 could not run locally) *(curated)*
+- **#252**: Spec section 4: state the reference phase-noise requirement and define method N for the switching blocks (decision record) *(curated)*
+- **#277**: README status line and ladder position contradict the signoff record (still says "Nothing is designed or simulated yet") *(curated)*
+- **#343**: layout: route the charge-pump and loop-filter cells and LVS each against its own subcircuit (first slice of intra-cell routing for item 4) *(curated)*
+- **#345**: layout: floorplan iteration to cut the tank route (850 um / 612 um) to the keep-out floor, and record the remaining shortfall against the 2.1 fF budget *(curated)*
+- **#346**: layout: route the remaining cells and LVS each against its own subcircuit (follow-up of #343) *(curated)*
+- **#348**: test flake: scripts/ci-harness.sh fetch-pll test fails on signoff when one locked blob is momentarily unreachable *(curated)*
+- **#349**: layout: routed cells get two labels per subckt port, and test-layout-cells.sh set-dedupes so it cannot see it *(curated)*
+- **#373**: indclear.py's placement guard reads only DIRECT vco instances; a nested extra copy is still accepted *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -76,10 +92,6 @@ Issues carrying `loom:curated`.
 - **#146**: Consolidate crossing-probe boilerplate across 11 loop-power make_*_97 generators *(hermit)*
 - **#223**: Drop vendored manifests/design-evidence-tiers.md: the pinned klt 0.8.0 bundles the identical doc *(hermit)*
 - **#227**: Retire the local nominal G2 bench (run-vco-prescaler-load.sh): superseded by the batch stage-0 request and cannot elaborate the current prescaler *(hermit)*
-- **#239**: Consolidate the spec corner-set table: seven request generators each re-encode the DR-004 SLOW/TYP/FAST bundles, and they have diverged *(hermit)*
-- **#243**: Compute the verdict lines in the G2 C-grid record generator: make_record.py --dsubw prints one run's conclusions as literals *(hermit)*
-- **#245**: Finish the Metal1 pad-trim guard in gen_integrated.py and remove its inert bindings and duplicate helpers *(hermit)*
-- **#247**: Finish the method-L jitter model: three noise terms are zero placeholders owed to method N, which no issue owns *(hermit)*
 - **#250**: Remove the PFD_VARIANT=reset-fix mode from run-pfd-sweep.sh: against the current pin it half-applies and would write a mislabeled record *(hermit)*
 
 ## Epics
@@ -90,14 +102,14 @@ _None._
 
 | Bucket | Count |
 |------|-------|
-| Operator merge-risk holds | 2 |
-| Very important | 0 |
-| Important | 5 |
-| Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 5 |
+| Operator merge-risk holds | 3 |
+| Very important | 1 |
+| Important | 9 |
+| Ready (`loom:issue`) | 1 |
+| In Progress (`loom:building`) | 8 |
 | PRs awaiting review | 0 |
-| Approved PRs awaiting merge | 2 |
-| Curated | 10 |
-| Architect / Hermit proposals | 9 |
+| Approved PRs awaiting merge | 4 |
+| Curated | 16 |
+| Architect / Hermit proposals | 5 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->

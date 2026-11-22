@@ -23,8 +23,8 @@ die() { echo "run-vco-smoke: error: $*" >&2; exit 1; }
 
 "${ROOT}/scripts/fetch-vco.sh"
 
-# ---- PDK + ngspice: shared check against sim/pins.json, 2-thread cap (PSP103 is not used here) ----
-PDK_SKIP_PSP103=1
+# ---- PDK + ngspice: shared check against sim/pins.json, 2-thread cap (none of the three OSDI libraries is used here) ----
+PDK_SKIP_OSDI_PINS=1
 source "${ROOT}/scripts/lib-pdk.sh"
 source "${ROOT}/scripts/lib-record.sh"
 
@@ -57,7 +57,7 @@ COMMIT="$(jq -r '.imports[] | select(.from=="2AMLogic/sg13g2-vco") | .commit' "$
 ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT:0:7}"
 REC_DIR="${ROOT}/sim/vco-smoke/records"; mkdir -p "${REC_DIR}"
 REC="${REC_DIR}/${ID}.md"
-[ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
+assert_new_record "${REC}"
 RUN=("${NGSPICE}" -b vco_elab.spice)
 [ -z "${SMOKE_CPUSET:-}" ] || RUN=(taskset -c "${SMOKE_CPUSET}" "${RUN[@]}")
 set +e

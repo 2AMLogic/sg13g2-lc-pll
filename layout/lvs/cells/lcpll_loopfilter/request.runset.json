@@ -1,0 +1,5 @@
+{
+  "layout": {"file": "../../../top.gds", "top": "lcpll_loopfilter"},
+  "reference": {"netlist": "../../../../design/netlist/loopfilter.spice", "top": "loopfilter", "form": "subckt-call"},
+  "engine": "klayout-runset"
+}

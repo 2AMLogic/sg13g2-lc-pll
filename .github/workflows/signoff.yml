@@ -10,12 +10,15 @@ name: klt signoff
 # the record rot: whoever changes cited evidence (or the manifest, or the
 # vendored checklist doc) must regenerate the record in the same PR.
 #
-# The manifest compare is not enough on its own. The manifest cites items 1, 9
-# and 10 by their *inventory's* sha256, so editing an inventoried **file** moves
-# nothing the manifest or the record can notice -- the attest envelope's own
-# per-file hashes go stale in silence (#241; all three envelopes were stale on
-# `main` when this was added). So each envelope is also re-checked against the
-# files it pins, with `klt signoff --attest N --check`. Those steps run on `push`
+# The manifest compare is not enough on its own. The manifest cites the attest
+# envelopes through each envelope's provenance.input.content_hash: at 0.8.0 that
+# was each *inventory's* sha256, so editing an inventoried **file** moved nothing
+# the manifest or the record can notice -- the attest envelope's own per-file
+# hashes went stale in silence (#241; all three envelopes were stale on `main`
+# when this was added). At 0.9.1 this still holds for items 9 and 10, but item 1's
+# envelope records a digest over its whole input set, so a drifted design source
+# moves its manifest pin and the record too (#304). So each envelope is also
+# re-checked against the files it pins, with `klt signoff --attest N --check`. Those steps run on `push`
 # to `main` as well, because an envelope also goes stale when two PRs merge
 # cleanly and neither diff touches the other's attested files (PR #240 after
 # #238).
@@ -26,6 +29,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  merge_group:
   workflow_dispatch:
 
 permissions:
@@ -47,7 +51,7 @@ jobs:
         # really runs `bash scripts/ci-harness.sh`, which needs them. No PDK, ngspice or
         # xschem is installed here -- every `local_only` check stays skipped, which is
         # what makes the --check form runnable on a bare runner at all.
-        run: pip install klayout-tools==0.8.0 numpy pytest
+        run: pip install klayout-tools==0.9.1 numpy pytest
 
       - name: Re-run klt signoff and compare against the committed record
         run: |

@@ -538,16 +538,448 @@
     ]
   },
   "provenance": {
-    "klt_version": "0.8.0",
+    "klt_version": "0.9.1",
     "klayout_version": null,
     "pdk": null,
     "deck": null,
     "input": {
-      "path": {
-        "path": "manifests/design-sources.inventory.json",
-        "scope": "repo"
-      },
-      "content_hash": "sha256:47ee5d135e235bf13876dfa89191f2a160231488d0cf9fdec5910f14804d0ebb"
+      "paths": [
+        {
+          "path": {
+            "path": "design/acounter.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:bbe0f93ab1a0f110dda91a40bb27afa126a3ab95a3895bf95d07ee99d4532ab6"
+        },
+        {
+          "path": {
+            "path": "design/acounter.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:aa27b981faba62d3252e998792958d520ae9b2ee48ab7a2042deccd84fded3bf"
+        },
+        {
+          "path": {
+            "path": "design/cml2cmos.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:bd7fb0185f1562e5757724826250298fbf39ae2e7d9beac9e5347e2eb5a33f04"
+        },
+        {
+          "path": {
+            "path": "design/cml2cmos.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:17185ad60c5ac87bbb77387a56266c324911904d2c247954b78672eae4f634a7"
+        },
+        {
+          "path": {
+            "path": "design/cml_and2.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:8bbb58f54ece45c836e69f298db76bd726c5a5bc4c1cb91b49f49dd81465cc9f"
+        },
+        {
+          "path": {
+            "path": "design/cml_and2.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:ed485ef985c22205f84153bf43c8c1183fe08e42da0a05cd623361ce0516f71d"
+        },
+        {
+          "path": {
+            "path": "design/cml_dff.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:9f1b3e831dfbb97e59a448234cabbe3a2116a1d34de7f83533e2d5da10c76f79"
+        },
+        {
+          "path": {
+            "path": "design/cml_dff.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:754628d3c1c2af459030f6b871673ae7ac4abba08ffc5c6f12e2c29312e589c6"
+        },
+        {
+          "path": {
+            "path": "design/cml_dff_latch.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:a92dca225f12b5eb0355e71e74f679b12641cfc9724e6fafbd3bd2d0b02d8120"
+        },
+        {
+          "path": {
+            "path": "design/cml_dff_latch.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:55de01f2090872a701f0c75d4d7cb637178b1d2af074721d787f53d20267fce7"
+        },
+        {
+          "path": {
+            "path": "design/cml_div23.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:a5f35bfb6cbd39e9476083e23676dd77a124c893cadfa470d405d71f8ba40101"
+        },
+        {
+          "path": {
+            "path": "design/cml_div23.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:d21857944e9713eece4dea5a3a4dbbe4019d2829563455351206b97194fc4f04"
+        },
+        {
+          "path": {
+            "path": "design/cml_ef.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:0a4b410630f1771e505ce3ecbb1834915e33752d651387eeb0c52dc1833a6935"
+        },
+        {
+          "path": {
+            "path": "design/cml_ef.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:9b9d65e86c20cd62b345c0b8213887b221cbfd9e681c5eda74fd20c3e0b12f56"
+        },
+        {
+          "path": {
+            "path": "design/cml_latch.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:692c9efdfe72f364d7c1ff66da871c40f35066e9578485a5d87e9c01ba9edade"
+        },
+        {
+          "path": {
+            "path": "design/cml_latch.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:a4e16a36b062a3470f47861f14621a4906b0a059b074422b326c8d0a31dab6eb"
+        },
+        {
+          "path": {
+            "path": "design/cp.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:059d39c373977c5c290ba88f30da42f15fc72bcda861228e3ef7eda2d2c16d70"
+        },
+        {
+          "path": {
+            "path": "design/cp.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:668a3593e189aea665c545b4825eb5497bc794a56fad12f7b411e3835a7932fb"
+        },
+        {
+          "path": {
+            "path": "design/cp_bias.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:8cad1eebce545beacdf1ec40fa87f7e048c24204488995de1ef3377986afe0ab"
+        },
+        {
+          "path": {
+            "path": "design/cp_bias.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:2b6827c0916ddd64fa21f5b92dcfba11bb25fd11104961e92dd1cc4529fcf76a"
+        },
+        {
+          "path": {
+            "path": "design/cp_dumpbuf.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:ec174d52b1f43a3b5dd0df1a06f1098b1d86fd1b98783b7ef09e8630f774a133"
+        },
+        {
+          "path": {
+            "path": "design/cp_dumpbuf.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:1d2786f9f4e0857e7fd370c980bcec32a9d9c8fbf218fa44e87fc4098b454d6d"
+        },
+        {
+          "path": {
+            "path": "design/cp_leg_n.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:71ae8e25c84e4ea776cd0c0ed844a04732bdd886320dc99fc5237974a9364b61"
+        },
+        {
+          "path": {
+            "path": "design/cp_leg_n.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:43485739feea9fa03e5206968b870c9cce469e99a485e72c4b4ca2be4f352456"
+        },
+        {
+          "path": {
+            "path": "design/cp_leg_p.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:7fea8562e9aad3d4f10bd04da833fb073bca1d344212e85f6bb5732586907a01"
+        },
+        {
+          "path": {
+            "path": "design/cp_leg_p.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:0fce3cca74afc23259f753645bbff385fd3f6a9698bd3a3390455a6c9db0f04e"
+        },
+        {
+          "path": {
+            "path": "design/div2_cml.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:12fddb6d7fb8151701fe3dfbf18c8470cb7b419d861e01ce85ec036565cdaea0"
+        },
+        {
+          "path": {
+            "path": "design/div2_cml.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:e2a32be92faf6406d4ace2cc9039926016712dc44cf02860e1f04954f737ba55"
+        },
+        {
+          "path": {
+            "path": "design/div2_cml_ls.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:c5f8770b5359e76ef34d1b408c032f61c48dabff341d9d34f783c517e81f9006"
+        },
+        {
+          "path": {
+            "path": "design/div2_cml_ls.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:de398305a4e76084ed0bb2fd2d8236fe34d375ca364d6eac01abbc5243f94ba1"
+        },
+        {
+          "path": {
+            "path": "design/div2_ef_hs.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:2921ee62b8dcba7faafd3cfc312c69865272bcb4e72074193b8471b3b63b1876"
+        },
+        {
+          "path": {
+            "path": "design/div2_ef_hs.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:93ea6dcc4fb34dee05864a25a7962009d544d54bde97c094b8edc0032511c010"
+        },
+        {
+          "path": {
+            "path": "design/div2_latch_hs.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:d209c1095b2eb0a8422d5a65477ab35250f64fcd925cbeff6a7699cfb4051d10"
+        },
+        {
+          "path": {
+            "path": "design/div2_latch_hs.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:33031c4ace86fdbae0eabf5b1ea4f059354278ad12b05ed4cee8bca9ff8ea28d"
+        },
+        {
+          "path": {
+            "path": "design/div45_dm.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:0dad55cc07a36aea4874fa9faee633de0ffb048fed6afbee78fcb1d5c00cc46e"
+        },
+        {
+          "path": {
+            "path": "design/div45_dm.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:f501b5218ca5c9f278b944cff8cd875c7ed8634adef7986cc87ed9cec8c35b84"
+        },
+        {
+          "path": {
+            "path": "design/divider.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:90df5d42180f15a94b6d71be9204016feafbe45214cae4b2cd3397ddd49a1ac2"
+        },
+        {
+          "path": {
+            "path": "design/divider.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:4ca99ee2bb26d2c43814120901c19b6602cf4d2dfafb8a227ceb20b111770f25"
+        },
+        {
+          "path": {
+            "path": "design/loopfilter.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:7a99fa8108bf1a5f6cc02b59d2671d4f29ddcf910efde232241dcca81ffac4ae"
+        },
+        {
+          "path": {
+            "path": "design/loopfilter.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:52188f2d95618ac144486938a91951e707d4411b305d06cacbdd21f165675a78"
+        },
+        {
+          "path": {
+            "path": "design/mc_conv.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:7b8f054505a2086d0e44cad56de9419db7e2d6707a9d5c04a94fe9eed7dec821"
+        },
+        {
+          "path": {
+            "path": "design/mc_conv.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:f872cd98f05cc1cb1a6ad79bd012f584cc33490ea539502266dddc7929fc0668"
+        },
+        {
+          "path": {
+            "path": "design/mcounter.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:d2f3b4d7c67cd3299f26965b323fc1de17df084a259c175296d56b885897616d"
+        },
+        {
+          "path": {
+            "path": "design/mcounter.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:99f3e64053ebec08913d4eea466559fc1254b429ef67db7e514a6d6a05dc08ef"
+        },
+        {
+          "path": {
+            "path": "design/mos_latch.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:088bed61a6f5350a5de9cbc509da5882bd10f263ac18701a867dd081e83fdeb6"
+        },
+        {
+          "path": {
+            "path": "design/mos_latch.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:0dd1641313cefd0932a807b343a28e29d36bc19732a80ad0a745babc603d2fac"
+        },
+        {
+          "path": {
+            "path": "design/netlist.sh",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:6c425834de3ce4ac5af766d06c41926afea406d1a4186817731a2749c598cfa9"
+        },
+        {
+          "path": {
+            "path": "design/netlist/cp.spice",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:99827833f70681faaf031e345f37730eeba9cb692f9eb46f59a149edfa9c213a"
+        },
+        {
+          "path": {
+            "path": "design/netlist/divider.spice",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:fc5f5ba65871e31323e843b79d4c0a8d694159d227a62b3d5ba44b44daa97e21"
+        },
+        {
+          "path": {
+            "path": "design/netlist/loopfilter.spice",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:35341299a4ecc524d2c91db5dc5c5f2cb8284a414d70e5b37401c7f85a90ea04"
+        },
+        {
+          "path": {
+            "path": "design/netlist/mos_latch.spice",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:078be8e9c3e05b7ca2ccc7741a67a2a6ced236da5733ebe4f60be7516ab48bbc"
+        },
+        {
+          "path": {
+            "path": "design/netlist/pll_top.spice",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:465e4f904b5ec74b9d7ef887d0e76995f141aa9d29740631b420359710ec92ac"
+        },
+        {
+          "path": {
+            "path": "design/netlist/prescaler.spice",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:add4d3b39706242e478f9c4f23a7d7352a63ec877af45d953eb68eba0d78e6ca"
+        },
+        {
+          "path": {
+            "path": "design/pll_top.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:d7364065219a4daea9422e29fb789f8bbd8b3b0550f63d146df58b1f207c8275"
+        },
+        {
+          "path": {
+            "path": "design/pll_top.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:e1650034d2958c4d32356c16a5821db3af372bf24cb265d748cd03d80604294f"
+        },
+        {
+          "path": {
+            "path": "design/prescaler.sch",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:1148d2e803d38a480d7ae7d00ef2366e546d1235f99f12713af73a6fc6897827"
+        },
+        {
+          "path": {
+            "path": "design/prescaler.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:94866ac153b71c5b77cf1d8c9d192436bb9c26696feb50f281007f2f57b403fa"
+        },
+        {
+          "path": {
+            "path": "design/vco.sym",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:a95abd9b04ef7f65226535fb4e07238cae5be02715a44d7e2a9556f98e16318e"
+        },
+        {
+          "path": {
+            "path": "design/xschemrc",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:fb3ea48502cb2edfb6e79f6d42e5ba3e19a5d0423e7cd035a0fa4c07d9273dce"
+        },
+        {
+          "path": {
+            "path": "manifests/design-sources.inventory.json",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:47ee5d135e235bf13876dfa89191f2a160231488d0cf9fdec5910f14804d0ebb"
+        },
+        {
+          "path": {
+            "path": "reuse.lock.json",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:207346f4b5fd36e4461810ad87ec56e80dcada4dd3814160ed12b1ac68ba6992"
+        },
+        {
+          "path": {
+            "path": "sim/loop-model/loop-filter.json",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:4caddf618beb06cdd374c1273c555203666be51ad336449efd18f3f3f037ad3d"
+        }
+      ],
+      "content_hash": "sha256:e1df3b0c13d368e4fe4c2151729396de1f8a7f32a5b83fd6733024299d04245a"
     }
   }
 }

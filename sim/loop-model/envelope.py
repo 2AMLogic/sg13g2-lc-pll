@@ -8,8 +8,12 @@ filter is the committed nominal one. Pure-Python model run (no ngspice): row 5 i
     envelope.py --icp-report sim/cp-dc/records/<id>-icp-corners-klt-report.json.gz \\
                 --out-dir sim/loop-model/records --id YYYYMMDD-HHMMSS-sha [--commit SHA]
 
-Exit 1 if any point violates row 5 (f_c outside [0.5, 2.0] MHz or PM < 45 deg). The filter is NOT
-varied with the corner here (R1, C1, C2, R3, C3 nominal): the record says so.
+Exit 1 if any point violates row 5 (f_c outside [0.5, 2.0] MHz or PM < 45 deg), or, before any
+output is written, if the I_cp report does not cover the cp_icp_corners request grid exactly
+once (the shared reader, sim/cp-dc/icp_report.py). The filter is NOT
+varied with the corner here (R1, C1, C2, R3, C3 nominal): the record says so. The JSON record is the
+`klt signoff` `model-run` envelope (schema_version 1) around the original verdict/points/binding/
+loop_filter content.
 """
 import argparse
 import gzip
@@ -20,16 +24,20 @@ from pathlib import Path
 
 import loop_model as lm
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "cp-dc"))
+import icp_report  # noqa: E402  (the shared I_cp report reader, sim/cp-dc/icp_report.py)
+
 
 def load_icp_points(report):
-    """[(corner_id, which, I_cp amps)] from a klt report of cp_icp_corners.request.json."""
+    """[(corner_id, which, I_cp amps)] from a klt report of cp_icp_corners.request.json.
+
+    The corner-grid coverage check lives in the shared reader; only the uA-to-A
+    conversion lives here.
+    """
     pts = []
-    for c in report["corners"]:
-        m = {x["name"]: x.get("value") for x in c["measurements"]}
-        if c["status"] not in ("pass", "fail") or m.get("i_up_ua") is None or m.get("i_dn_ua") is None:
-            raise ValueError("corner %s has no I_up/I_dn" % c["corner_id"])
-        pts.append((c["corner_id"], "I_up", abs(m["i_up_ua"]) * 1e-6))
-        pts.append((c["corner_id"], "I_dn", abs(m["i_dn_ua"]) * 1e-6))
+    for cid, u, d in icp_report.currents(report, icp_report.load_request()):
+        pts.append((cid, "I_up", u * 1e-6))
+        pts.append((cid, "I_dn", d * 1e-6))
     return pts
 
 
@@ -49,6 +57,61 @@ def binding(rows):
     """The row that binds each row-5 bound: lowest/highest f_c, lowest PM."""
     return {"f_c_min": min(rows, key=lambda r: r["f_c_hz"]), "f_c_max": max(rows, key=lambda r: r["f_c_hz"]),
             "pm_min": min(rows, key=lambda r: r["pm_deg"])}
+
+
+MODEL_RUN_SCHEMA_VERSION = 1
+
+
+def _fc_worst_case(b):
+    """The binding f_c point closest to a row-5 limit, with its margin, both in MHz."""
+    lo, hi = lm.FC_BAND_HZ
+    m_lo = b["f_c_min"]["f_c_hz"] - lo
+    m_hi = hi - b["f_c_max"]["f_c_hz"]
+    r, m = (b["f_c_min"], m_lo) if m_lo <= m_hi else (b["f_c_max"], m_hi)
+    return {"corner_id": r["corner_id"], "value": r["f_c_hz"] / 1e6, "margin": m / 1e6}
+
+
+def model_run_doc(verdict, flt, b, rows, icp_name, icp_sha256, icp_path):
+    """The `klt signoff` `model-run` envelope around the row-5 rollup (schema_version 1).
+
+    Carries the grader's required keys (schema_version, kind, status, method, measurements) and
+    the optional corners/provenance, alongside the existing verdict/points/binding/loop_filter
+    content. `status` is the grader's lowercase token, deliberately not the record's own uppercase
+    `verdict`; every `corners` entry carries its own `status` because the grader re-grades the
+    list point by point. Only `min`/`max` are recognised limit keys.
+    """
+    fc_ok = all(lm.FC_BAND_HZ[0] <= r["f_c_hz"] <= lm.FC_BAND_HZ[1] for r in rows)
+    pm_ok = all(r["pm_deg"] >= lm.PM_MIN_DEG for r in rows)
+    method = ("Method L: the linear phase-domain loop model of spec section 4 "
+              "(sim/loop-model/loop_model.py: L(s) = I_cp Kvco Z(s) / (N s), type-II third order; "
+              "f_c by bisection on |L| = 1, PM from the factor phases; N = %d, f_ref = %g MHz). "
+              "Inputs: I_cp = the currents of klt report %s (sha256 %s); Kvco = KVCO_GRID %s MHz/V "
+              "(spec section 3 range %g-%g); loop filter = committed loop-filter.json held nominal "
+              "in every corner (R1, C1, C2, R3, C3 not varied with corner)."
+              % (lm.N_DIV, lm.F_REF_HZ / 1e6, icp_name, icp_sha256,
+                 "/".join("%g" % (k / 1e6) for k in lm.KVCO_GRID),
+                 lm.KVCO_RANGE_HZ_PER_V[0] / 1e6, lm.KVCO_RANGE_HZ_PER_V[1] / 1e6))
+    return {
+        "schema_version": MODEL_RUN_SCHEMA_VERSION,
+        "kind": "model-run",
+        "status": "pass" if verdict == "PASS" else "fail",
+        "method": method,
+        "measurements": [
+            {"name": "f_c_mhz", "unit": "MHz",
+             "limits": {"min": lm.FC_BAND_HZ[0] / 1e6, "max": lm.FC_BAND_HZ[1] / 1e6},
+             "status": "pass" if fc_ok else "fail", "worst_case": _fc_worst_case(b)},
+            {"name": "pm_deg", "unit": "deg", "limits": {"min": lm.PM_MIN_DEG},
+             "status": "pass" if pm_ok else "fail",
+             "worst_case": {"corner_id": b["pm_min"]["corner_id"], "value": b["pm_min"]["pm_deg"],
+                            "margin": b["pm_min"]["pm_deg"] - lm.PM_MIN_DEG}},
+        ],
+        "corners": [dict(r, status="pass" if not r["violations"] else "fail") for r in rows],
+        "provenance": {"input": {"path": icp_path, "content_hash": "sha256:" + icp_sha256}},
+        "verdict": verdict,
+        "loop_filter": flt,
+        "binding": b,
+        "points": rows,
+    }
 
 
 def _flt():
@@ -82,7 +145,13 @@ def main(argv=None):
     if md.exists() or js.exists():
         sys.exit("records are append-only: %s exists" % md)
     out.mkdir(parents=True, exist_ok=True)
-    js.write_text(json.dumps({"verdict": verdict, "loop_filter": flt, "binding": b, "points": rows}, indent=1) + "\n")
+    repo = Path(__file__).resolve().parents[2]
+    try:
+        icp_path = p.resolve().relative_to(repo).as_posix()
+    except ValueError:
+        icp_path = p.resolve().as_posix()
+    doc = model_run_doc(verdict, flt, b, rows, p.name, hashlib.sha256(raw).hexdigest(), icp_path)
+    js.write_text(json.dumps(doc, indent=1) + "\n")
     icps = [x[2] * 1e6 for x in pts]
     L = ["# row 5 envelope %s" % a.id, "",
          "**Result (simulated, method L, not measured): spec row 5 %s over %d points (%d I_cp values x %d Kvco). f_c %.3f to %.3f MHz against [0.5, 2.0]; PM minimum %.2f deg against >= 45.**" % (
@@ -93,6 +162,7 @@ def main(argv=None):
              flt["r1_ohm"], flt["c1_f"] * 1e12, flt["c2_f"] * 1e12, flt["r3_ohm"], flt["c3_f"] * 1e12),
          "- **Not covered**: filter R/C spread across the corner grid (poly R1/R3 and MIM C1/C2/C3 are not varied here), the 135-point 3.300 V model grid, the local Kvco from the VCO's graded f(Vctrl) (G4: the Kvco axis is the section 3 range, not graded VCO data), the I_cp range 100-400 uA of row 6 (the committed `results/loop-model.json` flags those points and does not gate them), and everything the loop model does not model (sampling, CP nonlinearity, supply and substrate coupling). The full corner-by-corner row 5 grade over the VCO's graded corners is #70.",
          "- **Commit**: `%s` of this repository" % a.commit,
+         "- **Envelope**: emitted in the `klt signoff` `model-run` shape (`schema_version` %d: `kind`, `status` `%s`, `method`, `measurements` with the row-5 `limits`, per-point `corners`) alongside the original `verdict`/`points`/`binding`/`loop_filter` keys. `provenance.input.content_hash` (`sha256:`-prefixed) pins the I_cp report's bytes, so the record can be cited as item-5 evidence with a manifest `content_hash` pin (#304)." % (doc["schema_version"], doc["status"]),
          "- **Points**: [`%s`](%s) (every (I_cp, Kvco) point)" % (js.name, js.name), "",
          "| bound | binding point | Kvco (MHz/V) | I_cp (uA) | f_c (MHz) | PM (deg) |", "|---|---|---|---|---|---|",
          _row("f_c minimum", b["f_c_min"]), _row("f_c maximum", b["f_c_max"]), _row("PM minimum", b["pm_min"])]

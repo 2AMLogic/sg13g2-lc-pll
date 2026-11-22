@@ -130,7 +130,7 @@ The curated `metal1.space.1` / `cont.space.1` hits (11 / 4) are gone for the sam
 installed klt moved, so the two columns are not byte-for-byte the same deck. Placements, routes (VOP 850.105 / VON 611.845 um, collisions 13) and the
 tank-load geometric estimate are unchanged, and the VCO stream is untouched. **Item 3 of #36 stays `unmet`:** `LU.b` 322 (no P-substrate tap drawable via
 `klt gen`; waits on 2AMLogic/klayout-tools#5231, tap net VSS `0`, not hand-drawn; fixed in the next section) and the 64 VCO curated hits remain. Pins re-stamped: `manifests/layout.attest.json`,
-`layout/drc/top.drc.json`, `manifests/sg13g2-lc-pll.json`, signoff record (`klayout-tools==0.8.0`).
+`layout/drc/top.drc.json`, `manifests/sg13g2-lc-pll.json`, signoff record (`klayout-tools==0.8.0`, the pin then in force).
 
 ### LU.b substrate taps and native re-run (#202, 2026-11-13)
 
@@ -142,7 +142,9 @@ merged upstream as klayout-tools#5261 and present in the klt provisioned on the 
 engines**. Per-layer shape counts of the two probe streams differ by exactly the ring: `1/0` `Activ` +1, `6/0` `Cont` +8,
 `8/0` `Metal1` +1, **`14/0` `pSD` +1**, and `31/0` `NWell` still absent -- a p+ substrate tie, not the n-well tie.
 The 302-unit divider `nfet` group (`2 x 151`, `w 2 / l 0.5`) was then generated standalone with the ring: also 0 on both
-engines. The CI `klt` pin (`klayout-tools==0.8.0`, `signoff.yml`) still predates the fix; bumping it stays out of scope here.
+engines. The CI `klt` pin (`signoff.yml`) still predates the fix — `klayout-tools==0.8.0` when this was
+written; #304 moved it to `klayout-tools==0.9.1` (2026-11-15), which still predates the fix — and bumping
+it was out of scope here.
 
 **The fix, in the generator.** `layout/cells/common.py` `plan()` passes `add_guard_ring: true` on every `nfet` `mos_array`
 group (13 groups: divider 2, cp 6, pfd 2, lockdet 3) and records that group's `tap_net` in `layout/cells.provenance.json`.
@@ -209,7 +211,7 @@ terminal, as before. An LVS run would see each ring as a floating net — LVS is
 Checks: `scripts/test-layout-cells.sh` (all cells regenerate to the committed provenance, 42/42 port labels, negatives
 fire), `scripts/test-layout-top.sh` (9/9), `klt drc --check layout/drc/top.drc.json` = match. Pins re-stamped:
 `manifests/layout.attest.json` (`klt signoff --attest 2`), `layout/drc/top.drc.json`, `layout/drc/top.crosscheck.json`,
-`manifests/sg13g2-lc-pll.json`, signoff record (`klayout-tools==0.8.0`, item 2 still `met`, 4 of 11 T1 items met).
+`manifests/sg13g2-lc-pll.json`, signoff record (`klayout-tools==0.8.0` as the pin then was, item 2 still `met`, 4 of 11 T1 items met).
 
 **Tool friction filed:** `klt signoff --attest 2 -o PATH` writes a JSON envelope **without** the `manifest_entry` block
 that the same command emits on `--format json` stdout, and `klt signoff --manifest` binds evidence through that block —
@@ -315,7 +317,7 @@ reasons, both deliberate:
   from the runset (deck over-report, not a real enclosure violation)" (klayout-tools#5212,
   sg13g2-vco#315). Nothing was waived and no stream or deck was edited. `klt signoff`
   grades item 3 on `status` alone, so the item's metric blocker `drc__error__count` is
-  unchanged at 64 and the record (`klayout-tools==0.8.0`, as CI) is byte-identical.
+  unchanged at 64 and the record (`klayout-tools==0.8.0`, as CI was then) is byte-identical.
 - **Citing the native report instead would be a worse claim, not a better one.** Item 3
   requires `coverage.layers_in_stream_without_rules`, `coverage.rules_skipped` and
   `coverage.deck_scope` to be quoted from the cited envelope; on the native report all
@@ -413,7 +415,7 @@ names 14 declared-but-unmodelled rules (`LU.a`, `LU.c`, `LU.c1`, `LU.d`, `LU.d1`
 `coverage.voltage_domain_warnings` still names the `ThickGateOx` ('-HV') domain. 63 rules checked.
 
 **Signoff.** `manifests/sg13g2-lc-pll.signoff.json` regenerated with the pinned
-`klayout-tools==0.8.0` (unchanged — the pin grades the grader, not the producer): item 3 `met`,
+`klayout-tools==0.8.0` (the pin as it then was — the pin grades the grader, not the producer): item 3 `met`,
 citing `layout/drc/top.drc.json`, `check_status: clean`, `input_verified: true`, with the
 `coverage` block reported in the citation. T1 met 4 -> 5; every other item's status and reason is
 unchanged, and a second run of the same command is byte-identical to the committed record.
@@ -438,3 +440,50 @@ What remains is release cadence, not a missing capability.
 `--cells vco`, forbidden Activ/GatPoly/Cont/pSD/Metal1-5 and their fill) `status: violated`, 3
 violations, all the VCTRL pin-access stack (sg13g2-vco#314). It is not part of item 3's verdict.
 `layout/top.gds` has still not been through LVS (#37) or PEX (#41).
+
+### Supply routing re-run: still clean on both engines (#344, 2026-11-21)
+
+**Layout changed.** `gen_integrated.py` now routes the supplies (#344): VDD/VSS stars from
+labelled south-edge landings (1 um Metal4/Metal5, 5155/7399 um), the VDDV TopMetal2 strap (4 um,
+443 um) to the VCO's TopMetal2 VDD bar, REF/IREFCP/LOCK stubs, the divider M0-M3/A0-A2 tie-offs
+and the VSS guard-ring tie. `layout/top.gds` moves to `sha256:60ad1ed0…` (items 2 and 3 re-stamped
+in the same pass: `manifests/layout.attest.json`, `evidence.2`/`evidence.3`, this report and the
+crosscheck below). Signal routes are unchanged except UP (428.56 -> 418.42 um, the same-net
+exclusion lets its second leg take the shorter path) and FB (rerouted to a horizontal Metal5
+approach: its old vertical Metal4 column at x = -439.33 ran through the REF/VSS pin rows and a
+first supply draft shorted REF x VSS through it -- caught by `klt erc`, see `layout/README.md`).
+
+```
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 0 = clean
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root "$PDK_ROOT" \
+    --expect-rule-categories-file layout/drc/native_rule_categories.txt \
+    --format json -o layout/drc/top.crosscheck.json                       # exit 0
+klt drc --check layout/drc/top.drc.json                                   # match
+klt drc --check layout/drc/top.crosscheck.json                            # match
+```
+
+`klt 0.9.3.dev2575+g6bd18bbc8637`, klayout 0.30.12 (regenerated under 0.30.10 too -- the geometry
+digest is writer-independent), PDK `ihp-sg13g2` `fetched:0.3.0` at `~/share/pdk`, input
+`sha256:60ad1ed0…`, curated deck `sha256:eaaf2989…`, native deck `ihp-sg13g2.drc`
+`sha256:0620b737…` and tree `sha256:3715ff58…` (decks unchanged since the 2026-11-13 run; only
+the klt build moved).
+
+| Engine | Result |
+|---|---|
+| native (`ihp-sg13g2.drc`) | **0 violations, `status: clean`**, 590/590 declared rule categories asserted (`coverage_assertion.satisfied: true`). |
+| curated (`sg13g2`) | **0 violations, `status: clean`**, 68 rules checked. |
+
+One interim draft of the supply routing was **not** clean and is why the corridor rules in the
+generator exist: FB's horizontal Metal5 at y = -223.97 next to VDD's at y = -225.0 left 0.03 um
+(`metal5.space.1`, min 0.5), and VDD's fallback at y = -230.0 touched VSS's y = -229.0 run
+edge-to-edge. Both engines caught it; the fix (forced vertical approaches into the PFD/CP south
+pins, `FINAL_VERTICAL` in the generator) draws no Metal5 in that pin row at all. The VDDV strap's
+TopVia1/TopVia2 stacks and the 4 um TopMetal2 crossing the keep-out region are clean on both
+engines (TopMetal2 is outside the forbidden set; the keep-out record stays at exactly the 3 VCTRL
+intrusions).
+
+Coverage is unchanged in shape from the 2026-11-13 run (same decks): the curated report still
+carries `NW.b1` as its one unchecked rule, 14 declared-but-unmodelled rules, the `ThickGateOx`
+voltage-domain warning and a non-empty `layers_in_stream_without_rules` (39 layers, unchanged:
+the VDDV strap's TopMetal2 is 134/0, which the deck already covers -- only its label purposes
+134/23 and 134/25 sit outside it). Clean means clean for covered layers.

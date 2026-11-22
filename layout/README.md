@@ -46,10 +46,21 @@ Layer numbers: `$PDK_ROOT/ihp-sg13g2/libs.tech/klayout/tech/sg13g2.lyp` and `sg1
   VCO *bounding box* (it does not read the inductor markers), so it checks the margin around
   the whole VCO, not the spiral footprint alone. `klayout-tools#3849` is the tracker for G8;
   spec Q5 is not edited here.
+- Top metal is outside `keepout-check`'s forbidden set **by design**: the tank routes VOP/VON are
+  TopMetal1 (126/0) and the `VDDV` strap is TopMetal2 (134/0), so widening `FORBIDDEN_LAYERS`
+  would flag every tank route. That clearance is asserted separately (#361):
+  `scripts/test-layout-top.sh` requires the top cell's own top metal to keep ≥ 5 um (touching
+  refuses) from the VCO's 27/0 `IND` / 148/0 `NoRCX` markers. Measured minimum on the current
+  `layout/top.gds` (Euclidean, top-cell top metal vs the merged marker regions): 23.00 um, set
+  by the VOP/VON TopMetal1 route edges at y = -23 um against the markers' y = 0 edge; the VDDV
+  strap clears the markers' chamfered inner ends by ~73 um.
 
 ## Not done / caveats
 
-- The guard ring carries no net label or tie yet; top-level connectivity to `0` comes with the loop-block integration.
+- The guard ring is tied to `VSS` at its south arm (#344: stack at -160 um, `provenance.json`
+  `supply_route_method.guard_ring_tie`); the ring's own substrate-tie verdict is the ERC record
+  below, and the `klt erc` tie check grades it `skipped-degenerate` (Cont-on-pSD is not
+  distinguishable from device contacts by layers alone).
 - Fill is a placeholder; density sign-off is DRC work (#36).
 - This section describes `gen_top.py`'s scaffold alone: no DRC, LVS or PEX is run by it. The
   integrated top is the stream that has been checked — see the frame above for where.
@@ -68,6 +79,12 @@ is placed first), on shared `cells/common.py`: flatten the `.subckt`, group iden
 `klt gen-compose` (placement only; routing is #35), and put one text label per `.subckt` port on a drawn
 terminal of that net. `layout/cells.provenance.json` holds the cell list, area (bbox), generator command, klt
 version, netlist sha256 and a geometry digest; `gen_cells.py --check` fails on any difference.
+The digest hashes merged polygons plus label text/position per layer, in sorted `(layer, datatype)`
+order rather than KLayout's layer-enumeration order, so it is stable across a re-save of the stream
+(#263). It is defined once, as `cells/common.py` `digest(ly, cell)`, and both `gen_cells.py` and
+`gen_integrated.py` call it (#308 consolidated the two copies, which had diverged on label positions:
+label positions are hashed with the instance transform applied, so a label hashes where the digest
+target cell's reader sees it).
 
 **PFD / lock detector: adopted by method, not by stream.** `sg13g2-pll@e71ff61` has no PFD- or
 lock-detector-specific layout, only `layout/bin/pll_layout.py`, a generic netlist-to-`klt gen` planner for
@@ -93,28 +110,91 @@ in the netlists (#164, PR #169), so the resistors are drawn with `klt gen res_ar
 **Not met:**
 - The prescaler's INP/INN tank-load capacitance is NOT extracted: the 2.1 fF budget is unverified until PEX on
   the integrated loop (#41). The input group is placed first to keep its geometry compact; that is not a measurement.
-- Cells are placement only: no routing, no LVS (#35, #37). Since #202 every `nfet` `mos_array` group carries a
-  `mos_array add_guard_ring` pSD substrate tap ring on net `VSS` (see "LU.b substrate taps"); the ring is drawn but
-  not tied to anything by a route, and `pfet` groups have no ring. Areas are bounding boxes.
-  The loop-filter cell is 131458 um2 because the schematic's `cap_cmim` units (12 x 70.9 um square) are drawn as specified.
+- Intra-cell routing and per-cell LVS (#343), by cell:
+
+  | Cell | Intra-cell routing | Per-cell `klt lvs` |
+  |---|---|---|
+  | `lcpll_loopfilter` | routed by `klt gen-compose` (metal2 + metal3 planes), 4 of 4 nets, guard rings tied; the two `rppd` are folded onto 2 rows so the router can escape | `mismatch` (0 of 16 devices, 0 nets paired though the class census is equal), `2AMLogic/klayout-tools#6960` |
+  | `lcpll_cp` | **not routed**: tried routed, the router left 11 of 18 nets unrouted (`crosses already-routed net`), so the cell stays placement-only, `pfet` groups still ringless, `2AMLogic/klayout-tools#6961` | `mismatch` (layout 63 flat devices vs 4 in the reference hierarchy), not a meaningful compare while unrouted |
+  | `lcpll_pfd`, `lcpll_lockdet`, `lcpll_divider`, `lcpll_prescaler` | placement only | not run (follow-ups of #343) |
+
+  No cell is LVS-matched; item 4 stays `unmet` with #37 and nothing here is claimed from per-cell results.
+  Since #202 every `nfet` `mos_array` group carries a `mos_array add_guard_ring` pSD substrate tap ring on
+  net `VSS` (see "LU.b substrate taps"); in placement-only cells it is not tied by a route and `pfet` groups have
+  no ring. Areas are bounding boxes. The loop-filter cell is 133686 um2 because the schematic's `cap_cmim`
+  units (12 x 70.9 um square) are drawn as specified.
 
 ## Integrated top (#35)
 
 ```
-.venv/bin/python layout/gen_integrated.py --write      # -> layout/top.gds + layout/provenance.json
-scripts/test-layout-top.sh                             # reproducibility, VCO byte-match, keep-out record, negatives
+.venv/bin/python layout/gen_integrated.py --write      # -> layout/provenance.json (+ layout/top.gds if the geometry moved)
+scripts/test-layout-top.sh                             # reproducibility, attestation pin, VCO byte-match, keep-out record, top-metal clearance, negatives
 ```
 
 `gen_integrated.py` runs `gen_top.py` (VCO + keep-out + ring + fill), places the six `gen_cells.py` cells below the VCO,
 routes the inter-block signal nets and writes `layout/top.gds`. `layout/provenance.json` holds the generator chain, input
 hashes (VCO stream, cells provenance, generators), the output sha256 and geometry digest, placements, per-net route
-paths and lengths, collisions and the tank-node estimate. GDS bytes carry writer state, so reproducibility is checked on
-the geometry digest (`--check`), not the file hash. T1 item 2 is cited by `manifests/layout.attest.json`
-(`klt signoff --attest 2 --input layout/top.gds`), which pins the stream sha256.
+paths and lengths, collisions, the tank-node estimate and the Metal1 pad-trim record (`metal1_pad_trim`). GDS bytes
+carry writer state, so reproducibility is checked on the geometry digest (`--check`), not the file hash. The digest is
+writer-independent in both directions: it ignores the byte layout of the stream, and since #263 it also ignores the
+layer-enumeration order, so a stream that has merely been re-saved (a clip, a merge, a DRC-prep step) digests to the
+same value. T1 item 2 is cited by `manifests/layout.attest.json` (`klt signoff --attest 2 --input layout/top.gds`),
+which pins the stream sha256.
+
+**`--write` is geometry-aware, so it is safe to re-run (#257).** KLayout stamps wall-clock time into the GDS
+`BGNLIB`/`BGNSTR` records, so regenerating an unchanged design still produces different bytes -- and those bytes are what
+the item 2 attestation pins. `--write` therefore writes the fresh stream to `layout/build/top.gds`, compares its geometry
+digest against the digest of `layout/top.gds` as it sits on disk, and replaces the committed stream only when the two
+differ. Always re-run it after editing a generator: `layout/provenance.json` is rewritten either way (the input hashes
+legitimately change), and the attested bytes are left alone unless the geometry actually moved. Each run says which
+happened, and `klayout_module` keeps describing whichever module wrote the stream now on disk.
+
+After a run that reports `geometry changed -- replaced`, the attestation pin is stale and must be re-stamped:
+
+```
+klt signoff --attest 2 --input layout/top.gds          # refresh manifests/layout.attest.json
+```
+
+`scripts/restamp-attest.sh` covers items 1, 9 and 10 only, not item 2. The hash also appears in
+`manifests/sg13g2-lc-pll.json` (`evidence.2`/`evidence.3`), `manifests/sg13g2-lc-pll.signoff.json` and the item 3 DRC
+evidence (`layout/drc/top.drc.json`, `layout/drc/top.crosscheck.json`), so all of those have to be refreshed with it.
+`scripts/test-layout-top.sh` fails until they agree: it checks `layout/top.gds` against the hash
+`manifests/layout.attest.json` pins, which the geometry digest (`--check`) cannot see.
 
 **Routing (placement-level, not signoff; DRC/LVS/PEX are #36/#37/#41).** Tank nets VOP/VON on TopMetal1 (2 um);
 other nets Metal5 horizontal / Metal4 vertical (1 um) with via stacks at each pin. Every route polygon is checked against
-foreign geometry on its layer. Not routed: VDD, VDDV, VSS, REF, IREFCP, LOCK, divider M0-M3/A0-A2 tie-offs (supplies: #38).
+foreign geometry on its layer. Supplies and external pins (#344): `VDD` and `VSS` are 1 um Metal4/Metal5 stars from
+labelled south-edge landings (y = -450 um) to every block supply port, the divider's M0-M3/A0-A2 tie-offs
+(XDIV in `design/netlist/pll_top.spice`: M0 M1 M2 M3 = VSS VSS VDD VDD, A0 A1 A2 = VSS VSS VDD) and -- VSS only --
+the guard ring; `VDDV` is its own branch (spec section 5): one 4 um TopMetal2 strap from its labelled landing to the
+VCO's TopMetal2 VDD bar, never joined on-chip to `VDD` (TopMetal2/TopVia1/2 are outside the keep-out's forbidden set,
+so it crosses legally); `REF`, `IREFCP` and `LOCK` are stubs from labelled landings to their block pins. A supply leg's
+collision check excludes shapes the generator drew for the same net and obstacle polygons carrying that net's own label
+(net evidence, not assertion); cell internals stay counted. Not routed: the VCO's ground pin `0` -- Metal1 ~21 um inside
+the keep-out with no top-metal conductor above it, unreachable without forbidden metal (2AMLogic/sg13g2-vco#427;
+VCTRL access is sg13g2-vco#314).
+
+**Return paths (spec section 5, honest state).** One drawn `VSS` reaches every block, the tie-offs and the guard ring:
+the loop-filter ground, the (untied) VCO tank ground and the digital return currents are **not yet separated** -- the
+quiet-vs-digital return split section 5 asks for needs its own floorplan decision (recorded for #38); `VDDV` isolation
+is drawn (own strap, own landing, never joined to `VDD` on-chip).
+
+**First ERC run on the supplies (#344; item 11 evidence base for #38).** `layout/erc/supply-spec.json` declares the
+full SG13G2 metal stack (labels read only from the pin purposes 8/25 and 67/25; the VCO cell's internal 134/25 `VDD`
+text is deliberately outside the label scope -- the island it names is the `VDDV` branch, and the VCO's own naming
+must not be read as a VDD-VDDV tie), the six named nets and the guard-ring substrate tie. Result
+(`klt erc layout/top.gds layout/erc/supply-spec.json --top lc_pll_top --format json > layout/erc/top.erc.json`,
+2026-11-21, `klt 0.9.3.dev2575`): **`erc_status: clean_partial`, 0 findings -- all six nets resolve to exactly their
+declared 1 island** (a first draft's REF route was a real `erc.multiply_driven_net` REF x VSS through the PFD west-pin
+column; it is fixed by forced-approach routing, see `FINAL_HORIZONTAL`/`FINAL_VERTICAL` in the generator). Skipped and
+disclosed, not passed: the guard-ring tie is `degenerate_tap_declaration` (Cont-on-pSD cannot be told from device
+contacts by layers alone), three tie classes are disclosed unexpressible (loop-block NWell taps wait on #343's pfet
+rings; cell-internal pSD rings are untied inside placement-only cells; the VCO substrate tie waits on
+sg13g2-vco#427), and `erc.supply_short` (substrate continuity between supplies) is inapplicable for the same degenerate
+tap declaration -- the report's own entry names `missing: ["a non-degenerate ties[] tap entry"]`, reason
+`substrate_isolation_undecidable`. The `--pdk` deck is what leaves the antenna half `not_checked`
+(`missing_antenna_pdk`, per the issue's command). Item 11 is **not** claimed from this: it also
+needs item 4's LVS supply pairing (#37).
 
 **Results to read before relying on this layout**
 - **Tank-node budget is not met by this floorplan.** Geometric estimate (method in `provenance.json`
@@ -125,12 +205,29 @@ foreign geometry on its layer. Not routed: VDD, VDDV, VSS, REF, IREFCP, LOCK, di
 - **Keep-out is violated by exactly one net.** `klt keepout-check` (Metal1-5, margin 20) reports 3 violations, all the VCTRL
   pin-access stack (Metal3/4/5 at the VCO's Metal3-only VCTRL pin, about 57 um inside the bbox). Tank routes are on TopMetal1,
   outside the forbidden set. VCO change requested: sg13g2-vco#314; tool gap: klayout-tools#5198.
-- **Route collisions:** `provenance.json` `collisions_total` = 13 overlapping polygons with foreign geometry (nets UP, DN to the
-  lock detector and FB at the PFD pin stack). Each is listed per net; none is silently accepted. Cell M4/M5 internals are
-  not net-aware here, so some overlaps may be same-net; LVS (#37) decides.
-- Placeholder fill under routes is removed (5 squares); density sign-off is #36.
-- CI pin: `.github/workflows/signoff.yml` stays at `klayout-tools==0.8.0`, which grades item 2 `met` from the attest envelope.
-  Moving the pin to 0.9.1 grades item 1 `stale_evidence` (3 met -> 1), so the bump is left out.
+- **Route collisions:** `provenance.json` `collisions_total` = **8** overlapping polygons with foreign (unlabelled)
+  geometry. Of the 13 recorded at `0b5b107` (UP 6, DN 6, FB 1) plus the VCP 2 / VCTRL 2 that #343's loop-filter work
+  added (17 on the pre-#344 `main`), 12 were the second star leg's identical base-pin stack overlapping the first
+  leg's -- same net, drawn twice; #344's same-net exclusion removes them, a more honest count, not a relaxation. The 8
+  that remain are cell-internal conductors the generator cannot net-classify, each listed per net for #37: FB 1 (pin
+  stack vs the PFD's gate-strap Metal4 at the pin), REF 2 (pin stack and Metal5 approach vs the PFD's REF gate
+  straps), VCP 2 and VCTRL 2 (pre-existing, at the loop-filter VIN and VCO VCTRL pin access), VSS 1 (an unlabelled
+  piece of the loop-filter's internal VSS Metal5 rail). None is silently accepted or reclassified.
+- **Every Metal1 via-stack pad still covers its own Via1.** `provenance.json` `metal1_pad_trim`: 45 endpoint pads (19
+  signal + the supply/external landings and pin stacks #344 adds), 1
+  trimmed back from foreign Metal1 for native M1.b, 0 left below their Via1. The trim is bounded by construction rather
+  than by luck -- Metal1 that *touches* a pad is the pad's own landing polygon and never trims it, so a non-touching
+  polygon trims from at best the pad edge and reaches 0.170 um from the pad centre, against the Via1's 0.095 um
+  half-width: `via_cover_margin_um` 0.075. The guard is the regression gate on that margin and arms if the pad shrinks,
+  the via grows, or M1.b widens; `scripts/test-layout-top.sh` exercises it in both directions. A pad found below its via
+  is recorded in `below_via` (with position and uncovered area), never dropped -- dropping it would change geometry to
+  hide an open that DRC (#36) and LVS (#37) must see.
+- Placeholder fill under routes is removed (10 squares); density sign-off is #36.
+- CI pin: `.github/workflows/signoff.yml` moved to `klayout-tools==0.9.1` (#304, 2026-11-15), which still
+  grades item 2 `met` from the attest envelope (measured at both pins). The earlier reason for holding
+  the bump here — "moving the pin to 0.9.1 grades item 1 `stale_evidence` (3 met -> 1)" — did not
+  reproduce at the released 0.9.1: item 1 grades `met` and item 9 is the only status mover (measured,
+  #304 curation).
 
 ## DRC of the integrated top (#36, T1 item 3) — item 3 `met`, clean for covered layers
 
@@ -191,9 +288,10 @@ the 39 rule-free layers are outside what either engine measured.
 `klayout-tools` carries the `SVaricap` carve-out yet (latest is `0.9.1`, 2026-11-05; the fix merged
 2026-11-13), so the report's `provenance.deck.released` is `false` and the reproduction spec is the
 `provenance.klt_reinstall_spec` git pin, as it was for the earlier dev-build runs. The signoff
-**grader** pin is untouched: `.github/workflows/signoff.yml` stays at `klayout-tools==0.8.0`, which
-grades this report item 3 `met` and reproduces the committed record byte-for-byte (the 0.9.1 bump
-is still out for the reason recorded above — it grades item 1 `stale_evidence`).
+**grader** pin graded this report as committed: `klayout-tools==0.8.0` at the time, item 3 `met` and the
+committed record byte-reproducing (the 0.9.1 bump was held back for the reason recorded above, which
+did not reproduce at the released 0.9.1). The pin has since moved to `klayout-tools==0.9.1` (#304,
+2026-11-15); item 3 still grades `met` there.
 
 **One manifest correction came with this.** `manifests/sg13g2-lc-pll.json`'s item 3
 `content_hash` pinned the **report file's** sha256; `klt signoff` compares that pin against the
@@ -225,7 +323,7 @@ the reports. The LVS counterpart is [`layout/lvs/README.md`](lvs/README.md).
   (73.16 / 52.66 fF, not extracted, against 2.1 fF) is unchanged and still not within budget. PEX stays #41.
 - Pins re-stamped to the new stream: `manifests/layout.attest.json` (`klt signoff --attest 2`), `layout/drc/top.drc.json`
   (re-run, 783 violations, see the DRC section), `manifests/sg13g2-lc-pll.json` and the signoff record
-  (`klayout-tools==0.8.0`, as CI). The integrated-top DRC/LVS closure itself stays #36/#37.
+  (`klayout-tools==0.8.0`, as CI was then). The integrated-top DRC/LVS closure itself stays #36/#37.
 - Standalone `lcpll_prescaler` (`klt drc`, curated `sg13g2`, `lcpll_prescaler.gds` sha256 `c3f83edc…`): **0 violations**, 19 rules
   checked (Activ/Cont/GatPoly/pSD/Metal1-2/Via1), 43 skipped because their layers (Metal3-5 etc.) are not in the cell; this is clean for
   the checked layers only. It disagrees with the integrated top, which reports ~576 violations under `lcpll_prescaler` (mostly HBT
@@ -234,3 +332,25 @@ the reports. The LVS counterpart is [`layout/lvs/README.md`](lvs/README.md).
   14 `topology`, 1 `topology.hierarchy_mismatch`, 1 `device.geometry_not_compared`, 1 `device.placeholder_value`). Expected for a
   placement-only cell with no routing (#35 routes only the integrated top); not a pass and not claimed as one. Other cells were not re-run
   (their geometry did not change).
+
+## Digest re-baseline for the layer-order fix (#263)
+
+Both `digest()` functions hashed their per-layer records in `ly.layer_indexes()` enumeration order, which a
+GDS writer does not preserve, so a digest billed as writer-independent moved for a stream whose geometry was
+untouched. They now hash in sorted `(layer, datatype)` order. That changes the recorded digest values and
+nothing else. Re-baselined 2026-11-14 against `main` @ `da3c610`, `klt 0.9.2.dev1019+g8907ca2d3a87`,
+klayout 0.30.13 (venv).
+
+- `layout/top.gds` is **byte-identical**: `gen_integrated.py --write` reported `geometry unchanged -- kept
+  ... (attested bytes preserved)`, so `output.sha256` (`92b05723…`) and `manifests/layout.attest.json` are
+  untouched and item 2 needs no re-stamp.
+- `layout/provenance.json`: `output.geometry_sha256` `38796010…` -> `6abc97d6…`, plus the two input pins that
+  follow from the edited files (`inputs.gen_integrated.sha256`, `inputs.cells_provenance.sha256`). The same
+  stream round-tripped through KLayout digested to `22b1852d…` before the fix and to `6abc97d6…` after it.
+- `layout/cells.provenance.json`: the six per-cell `geometry_sha256` values. `area_um2`, `netlist_sha256`,
+  `device_units`, `klt` and `pdk` are unchanged — the host's klt is newer than the recorded
+  `0.9.2.dev887+gec7400b7d8e5`, so the `klt` field it rewrote was reverted rather than committed as drift.
+- The geometry behind the new cell digests was checked against the attested stream, not assumed: for all six
+  cells the per-layer merged-polygon and label record set of the regenerated cell is identical to that of the
+  same cell inside the committed `layout/top.gds`. On this host `gen_cells.py --check` mismatched four of the
+  six committed digests *before* the fix, with every other field matching — the bug on `main`, not drift.

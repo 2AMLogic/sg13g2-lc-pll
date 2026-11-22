@@ -11,7 +11,7 @@
 # run. It writes nothing unless the resulting envelope is `status: pass` and reproduces
 # under `--check`.
 #
-# WHY IT EXISTS (delete it when the pin moves). The pinned klt, 0.8.0, has no way to
+# WHY IT EXISTS (delete it when the pin moves). The pinned klt, 0.9.1, still has no way to
 # refresh an envelope's file hashes without RUNNING its `local_only` commands: `--attest N
 # -o` runs them and `--check` only compares, writing nothing. So carrying a committed
 # `local_only` outcome forward is a call into the wheel's own
@@ -41,7 +41,7 @@
 # line, so the PR that re-stamps can quote them.
 set -euo pipefail
 
-KLT_PIN="klayout-tools==0.8.0"
+KLT_PIN="klayout-tools==0.9.1"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 usage() {

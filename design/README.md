@@ -144,7 +144,8 @@ only as far as the varactor's DC load is negligible.
 
 **Divider.** `divider` takes the prescaler's CML `OUTP`/`OUTN`, converts them to a CMOS clock (`cml2cmos`:
 HV-NMOS pair, PMOS mirror, tail 4 x `IREF` from the prescaler reference node, two inverters), and runs a
-pulse-swallow counter: `mcounter` counts `M` clocks (loads `M[3:0]` when Q = 0001), `acounter` holds `A`
+pulse-swallow counter: `mcounter` counts `M` clocks (loads `M[3:0]` when Q = 0001 - the registered
+`TC2`; the combinational decode `DT` fires one clock earlier, at Q = 0010), `acounter` holds `A`
 (3 bits, A0..A2) and drives `MC` high for `A` clocks after each load. With the prescaler's P = 8 (`MC` low) or
 9 (`MC` high), **N = 8 M + A, A in [0, 7]**, every integer N reachable provided M >= A (DR-005; spec row 3). N = 100
 is M = 12 (1100), A = 4 (100); the stretch band's bounds are N = 90 (M = 11, A = 2) and N = 110 (M = 13, A = 6). The

@@ -8,7 +8,6 @@ Needs the `klayout` Python module, `klt`, and an IHP-SG13G2 PDK that klt can res
 if any cell's geometry digest, area, unit count or netlist hash differs from the committed file.
 """
 import argparse
-import hashlib
 import json
 import os
 import subprocess
@@ -18,45 +17,32 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import klayout.db as db  # noqa: E402
 from cells import common, prescaler  # noqa: E402
 
-# Blocks that differ only in cell name, .subckt and netlist file: (CELL, SUBCKT, NETLIST).
+# Blocks that differ only in cell name, .subckt and netlist file: (CELL, SUBCKT, NETLIST, ROUTE).
 # pfd and lock_detector are the sg13g2-pll subckts as carried in design/netlist/pll_top.spice
 # (adopted at the netlist level, pinned sg13g2-pll@e71ff61, see reuse.lock.json and layout/README.md).
+# ROUTE (#343): the loop filter is wired intra-cell through klt gen-compose
+# routing (its guard rings and nets tied). The charge pump was tried routed and is left placement-only:
+# the router refuses 11 of its 18 nets ("crosses already-routed net", see layout/README.md). The other cells are
+# placement-only; routing them is a #343 follow-up.
 TABLE = (
-    ("lcpll_divider", "divider", "design/netlist/divider.spice"),
-    ("lcpll_cp", "cp", "design/netlist/cp.spice"),
-    ("lcpll_loopfilter", "loopfilter", "design/netlist/loopfilter.spice"),
-    ("lcpll_pfd", "pfd", "design/netlist/pll_top.spice"),
-    ("lcpll_lockdet", "lock_detector", "design/netlist/pll_top.spice"),
+    ("lcpll_divider", "divider", "design/netlist/divider.spice", False),
+    ("lcpll_cp", "cp", "design/netlist/cp.spice", False),
+    ("lcpll_loopfilter", "loopfilter", "design/netlist/loopfilter.spice", True),
+    ("lcpll_pfd", "pfd", "design/netlist/pll_top.spice", False),
+    ("lcpll_lockdet", "lock_detector", "design/netlist/pll_top.spice", False),
 )
 
 
-def _table_block(cell, subckt, netlist):
-    return lambda out_dir: common.build_block(cell, subckt, os.path.join(common.ROOT, netlist), out_dir)
+def _table_block(cell, subckt, netlist, route):
+    return lambda out_dir: common.build_block(cell, subckt, os.path.join(common.ROOT, netlist),
+                                              out_dir, route=route)
 
 
 # Order matters: it fixes the order of cells in layout/cells.provenance.json.
 # prescaler keeps its own module (input_first placement of the tank-loading INP/INN group).
 BLOCKS = {prescaler.CELL: prescaler.generate}
-BLOCKS.update({c: _table_block(c, s, n) for c, s, n in TABLE})
+BLOCKS.update({c: _table_block(c, s, n, r) for c, s, n, r in TABLE})
 PROV = os.path.join(common.ROOT, "layout", "cells.provenance.json")
-
-
-def digest(gds, cell):
-    """Writer-independent digest: merged polygons per layer plus label text/position."""
-    ly = db.Layout()
-    ly.read(gds)
-    c = ly.cell(cell)
-    h = hashlib.sha256()
-    for li in ly.layer_indexes():
-        info = ly.get_info(li)
-        r = db.Region(c.begin_shapes_rec(li))
-        r.merge()
-        polys = sorted(str(p) for p in r.each())
-        txt = sorted(f"{s.text_string}@{s.text_trans.disp.x},{s.text_trans.disp.y}"
-                     for s in (it.shape() for it in c.begin_shapes_rec(li)) if s.is_text())
-        if polys or txt:
-            h.update(f"{info.layer}/{info.datatype}|{';'.join(polys)}|{';'.join(txt)}\n".encode())
-    return h.hexdigest()
 
 
 def main():
@@ -72,14 +58,17 @@ def main():
     for name in a.blocks.split(","):
         r = BLOCKS[name](out)
         if r["status"] != "undrawn":
-            r["geometry_sha256"] = digest(os.path.join(out, name + ".gds"), name)
+            ly = db.Layout()
+            ly.read(os.path.join(out, name + ".gds"))
+            r["geometry_sha256"] = common.digest(ly, ly.cell(name))
             r["gds"] = f"layout/build/cells/{name}.gds"
         else:
             r["geometry_sha256"] = None
         r["generator"] = f"python layout/gen_cells.py --blocks {name}"
         recs.append(r)
+        route_s = f", routing {r['routing']['status']}" if r.get("routing") else ""
         print(f"gen_cells: {name}: {r['status']}: {r['device_units']} units drawn, {len(r['undrawn_devices'])} undrawn, {r['area_um2']} um2, "
-              f"{len(r['port_labels'])}/{len(r['ports'])} ports labelled"
+              f"{len(r['port_labels'])}/{len(r['ports'])} ports labelled{route_s}"
               + (f" (UNLABELLED: {r['ports_unlabelled']})" if r["ports_unlabelled"] else ""))
     klt_v = subprocess.run(common.klt_cmd() + ["--version"], capture_output=True, text=True).stdout.strip()
     doc = {"schema": 1, "klt": klt_v, "pdk": common.PDK,

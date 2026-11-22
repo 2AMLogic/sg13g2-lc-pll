@@ -4,15 +4,15 @@
   "evidence": {
     "1": {
       "file": "manifests/design-sources.attest.json",
-      "content_hash": "sha256:47ee5d135e235bf13876dfa89191f2a160231488d0cf9fdec5910f14804d0ebb"
+      "content_hash": "sha256:e1df3b0c13d368e4fe4c2151729396de1f8a7f32a5b83fd6733024299d04245a"
     },
     "2": {
       "file": "manifests/layout.attest.json",
-      "content_hash": "sha256:92b057231507bab3fdd09f0f681b1abce9e4e32964dc1f0bfc9bf73a6106e246"
+      "content_hash": "sha256:60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005"
     },
     "3": {
       "file": "layout/drc/top.drc.json",
-      "content_hash": "sha256:92b057231507bab3fdd09f0f681b1abce9e4e32964dc1f0bfc9bf73a6106e246"
+      "content_hash": "sha256:60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005"
     },
     "5": [
       {
@@ -27,6 +27,13 @@
         "content_hash": "sha256:eff5595e23241b4a763706155d74215119a1a3e7ffb5fc37436765137ebb6775",
         "rows": [
           "6"
+        ]
+      },
+      {
+        "file": "sim/loop-model/records/20261115-101634-6a08197-row5-envelope.json",
+        "content_hash": "sha256:e001d0b1fa13fc0d40cab7f4a9f7e433009efb029b2d389090eff1999cdb6943",
+        "rows": [
+          "5"
         ]
       }
     ],
@@ -59,8 +66,7 @@
         "gap": "lock at 5.0 GHz runs on a behavioural VCO/divider stand-in (sim/loop-tran); needs graded VCO f(Vctrl) (G4), VCO+prescaler load re-check (G2), divider at 625 MHz (#61). Not enveloped: a stand-in sweep is not a row-1 result"
       },
       {
-        "id": "5",
-        "gap": "row 5 (f_c, PM over the 18-sub-corner I_cp spread x Kvco range) is evidenced by a method-L record, sim/loop-model/records/20261103-021500-9ef9cf4-row5-envelope.md (PASS), which is not a `klt sim` envelope and so cannot be cited as item-5 evidence (klayout-tools#4859)"
+        "id": "5"
       },
       {
         "id": "7",
