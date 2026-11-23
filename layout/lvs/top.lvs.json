@@ -311,12 +311,12 @@
     "status": "insufficient_evidence",
     "findings": []
   },
-  "mismatch_count": 2441,
+  "mismatch_count": 2442,
   "error_count": 2420,
   "category_counts": {
     "device.unmatched": 669,
     "net.unmatched": 1751,
-    "pin.unmatched": 21
+    "pin.unmatched": 22
   },
   "category_error_counts": {
     "device.unmatched": 669,
@@ -334,7 +334,7 @@
       "matched": 0
     },
     "pins": {
-      "layout": 19,
+      "layout": 20,
       "reference": 2,
       "matched": 0
     }
@@ -389,14 +389,14 @@
     "engine_version": "0.30.12",
     "klayout_binary": "klayout",
     "netgen_binary": null,
-    "layout_sha256": "4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
+    "layout_sha256": "1c49ad5dc6df4bc307f519944befb025fdec3476e17eac537115a5952916ab3d",
     "reference_sha256": "c2b5591728dd3635ed515f48f88b156188c6184a9ea2be9d0fd9f9d2a01e27cf",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.9.3.dev3934+g049acce7a82b",
-    "klt_git_commit": "049acce7a82b57c630b30099720fa4d97b1a4bea",
-    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@049acce7a82b57c630b30099720fa4d97b1a4bea",
+    "klt_version": "0.9.3.dev4116+ga9885c2c7fa3",
+    "klt_git_commit": "a9885c2c7fa361166805604ff0b56c82ae5f5740",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@a9885c2c7fa361166805604ff0b56c82ae5f5740",
     "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
@@ -405,7 +405,7 @@
       "released": null
     },
     "input": {
-      "content_hash": "sha256:4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
+      "content_hash": "sha256:1c49ad5dc6df4bc307f519944befb025fdec3476e17eac537115a5952916ab3d",
       "role": "layout"
     },
     "runset": {
@@ -14147,25 +14147,6 @@
       "side": "layout",
       "net": {
         "layout": "$20",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$31' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$31",
         "reference": null
       },
       "device": null,
@@ -32098,158 +32079,6 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$991' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$991",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$992' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$992",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$993' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$993",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$994' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$994",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$995' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$995",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$996' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$996",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$997' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$997",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$998' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$998",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
       "description": "layout net '$999' has no counterpart",
       "side": "layout",
       "net": {
@@ -32273,6 +32102,158 @@
       "side": "layout",
       "net": {
         "layout": "$1000",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$1001' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$1001",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$1002' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$1002",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$1003' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$1003",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$1004' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$1004",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$1005' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$1005",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$1006' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$1006",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$1007' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$1007",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$1008' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$1008",
         "reference": null
       },
       "device": null,
@@ -32592,10 +32573,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1253' has no counterpart",
+      "description": "layout net '$1252' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1253",
+        "layout": "$1252",
         "reference": null
       },
       "device": null,
@@ -34226,10 +34207,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1449' has no counterpart",
+      "description": "layout net '$1440' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1449",
+        "layout": "$1440",
         "reference": null
       },
       "device": null,
@@ -34245,10 +34226,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1450' has no counterpart",
+      "description": "layout net '$1441' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1450",
+        "layout": "$1441",
         "reference": null
       },
       "device": null,
@@ -34264,48 +34245,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1451' has no counterpart",
+      "description": "layout net '$1442' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1451",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$1452' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$1452",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$1453' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$1453",
+        "layout": "$1442",
         "reference": null
       },
       "device": null,
@@ -34363,6 +34306,25 @@
       "side": "layout",
       "net": {
         "layout": "$1456",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$1457' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$1457",
         "reference": null
       },
       "device": null,
@@ -34439,25 +34401,6 @@
       "side": "layout",
       "net": {
         "layout": "$1461",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$1462' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$1462",
         "reference": null
       },
       "device": null,
@@ -35119,10 +35062,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1505' has no counterpart",
+      "description": "layout net '$1497' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1505",
+        "layout": "$1497",
         "reference": null
       },
       "device": null,
@@ -35138,10 +35081,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1506' has no counterpart",
+      "description": "layout net '$1498' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1506",
+        "layout": "$1498",
         "reference": null
       },
       "device": null,
@@ -35157,10 +35100,67 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1507' has no counterpart",
+      "description": "layout net '$1499' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1507",
+        "layout": "$1499",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$1500' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$1500",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$1501' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$1501",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$1509' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$1509",
         "reference": null
       },
       "device": null,
@@ -35442,10 +35442,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1524' has no counterpart",
+      "description": "layout net '$1533' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1524",
+        "layout": "$1533",
         "reference": null
       },
       "device": null,
@@ -35461,10 +35461,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1525' has no counterpart",
+      "description": "layout net '$1534' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1525",
+        "layout": "$1534",
         "reference": null
       },
       "device": null,
@@ -35480,10 +35480,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1526' has no counterpart",
+      "description": "layout net '$1535' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1526",
+        "layout": "$1535",
         "reference": null
       },
       "device": null,
@@ -35499,10 +35499,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1527' has no counterpart",
+      "description": "layout net '$1536' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1527",
+        "layout": "$1536",
         "reference": null
       },
       "device": null,
@@ -35518,10 +35518,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1528' has no counterpart",
+      "description": "layout net '$1537' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1528",
+        "layout": "$1537",
         "reference": null
       },
       "device": null,
@@ -35537,10 +35537,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1529' has no counterpart",
+      "description": "layout net '$1538' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1529",
+        "layout": "$1538",
         "reference": null
       },
       "device": null,
@@ -35556,10 +35556,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1530' has no counterpart",
+      "description": "layout net '$1539' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1530",
+        "layout": "$1539",
         "reference": null
       },
       "device": null,
@@ -35575,29 +35575,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net '$1531' has no counterpart",
+      "description": "layout net '$1540' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "$1531",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$1532' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$1532",
+        "layout": "$1540",
         "reference": null
       },
       "device": null,
@@ -46728,10 +46709,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net 'DN,REF' has no counterpart",
+      "description": "layout net 'A0,A1,M0,M1,VSS' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "DN,REF",
+        "layout": "A0,A1,M0,M1,VSS",
         "reference": null
       },
       "device": null,
@@ -46747,10 +46728,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net 'IREFCP' has no counterpart",
+      "description": "layout net 'A2,M2,M3,VDD' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "IREFCP",
+        "layout": "A2,M2,M3,VDD",
         "reference": null
       },
       "device": null,
@@ -46766,10 +46747,124 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net 'IREFPS' has no counterpart",
+      "description": "layout net 'DN,FB,REF' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "IREFPS",
+        "layout": "DN,FB,REF",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net 'INN,LB,OUTN,VON' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "INN,LB,OUTN,VON",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net 'INN,OUTN,PSN' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "INN,OUTN,PSN",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net 'INP,LB,OUTP,VOP' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "INP,LB,OUTP,VOP",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net 'INP,OUTP' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "INP,OUTP",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net 'IREF,IREFCP' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "IREF,IREFCP",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net 'IREF,IREFPS' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "IREF,IREFPS",
         "reference": null
       },
       "device": null,
@@ -46789,44 +46884,6 @@
       "side": "layout",
       "net": {
         "layout": "LA,VDD,VDDV",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net 'LB,OUTN,VON' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "LB,OUTN,VON",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net 'LB,OUTP,VOP' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "LB,OUTP,VOP",
         "reference": null
       },
       "device": null,
@@ -46884,25 +46941,6 @@
       "side": "layout",
       "net": {
         "layout": "NBIAS",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net 'PSN' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "PSN",
         "reference": null
       },
       "device": null,
@@ -46994,10 +47032,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net 'VCP' has no counterpart",
+      "description": "layout net 'VCP,VIN,VOUT' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "VCP",
+        "layout": "VCP,VIN,VOUT",
         "reference": null
       },
       "device": null,
@@ -47017,44 +47055,6 @@
       "side": "layout",
       "net": {
         "layout": "VCTRL",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net 'VDD' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "VDD",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net 'VSS' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "VSS",
         "reference": null
       },
       "device": null,
@@ -47127,10 +47127,10 @@
     {
       "category": "pin.unmatched",
       "severity": "warning",
-      "description": "pin 'DN,REF' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
+      "description": "pin 'A0,A1,M0,M1,VSS' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
       "side": "layout",
       "net": {
-        "layout": "DN,REF",
+        "layout": "A0,A1,M0,M1,VSS",
         "reference": null
       },
       "device": null,
@@ -47146,10 +47146,10 @@
     {
       "category": "pin.unmatched",
       "severity": "warning",
-      "description": "pin 'IREFCP' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
+      "description": "pin 'A2,M2,M3,VDD' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
       "side": "layout",
       "net": {
-        "layout": "IREFCP",
+        "layout": "A2,M2,M3,VDD",
         "reference": null
       },
       "device": null,
@@ -47165,10 +47165,124 @@
     {
       "category": "pin.unmatched",
       "severity": "warning",
-      "description": "pin 'IREFPS' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
+      "description": "pin 'DN,FB,REF' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
       "side": "layout",
       "net": {
-        "layout": "IREFPS",
+        "layout": "DN,FB,REF",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'INN,LB,OUTN,VON' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
+      "side": "layout",
+      "net": {
+        "layout": "INN,LB,OUTN,VON",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'INN,OUTN,PSN' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
+      "side": "layout",
+      "net": {
+        "layout": "INN,OUTN,PSN",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'INP,LB,OUTP,VOP' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
+      "side": "layout",
+      "net": {
+        "layout": "INP,LB,OUTP,VOP",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'INP,OUTP' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
+      "side": "layout",
+      "net": {
+        "layout": "INP,OUTP",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'IREF,IREFCP' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
+      "side": "layout",
+      "net": {
+        "layout": "IREF,IREFCP",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lc_pll_top",
+        "reference": "LC_PLL_TOP"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'IREF,IREFPS' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
+      "side": "layout",
+      "net": {
+        "layout": "IREF,IREFPS",
         "reference": null
       },
       "device": null,
@@ -47188,44 +47302,6 @@
       "side": "layout",
       "net": {
         "layout": "LA,VDD,VDDV",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "pin.unmatched",
-      "severity": "warning",
-      "description": "pin 'LB,OUTN,VON' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
-      "side": "layout",
-      "net": {
-        "layout": "LB,OUTN,VON",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "pin.unmatched",
-      "severity": "warning",
-      "description": "pin 'LB,OUTP,VOP' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
-      "side": "layout",
-      "net": {
-        "layout": "LB,OUTP,VOP",
         "reference": null
       },
       "device": null,
@@ -47283,25 +47359,6 @@
       "side": "layout",
       "net": {
         "layout": "NBIAS",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "pin.unmatched",
-      "severity": "warning",
-      "description": "pin 'PSN' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
-      "side": "layout",
-      "net": {
-        "layout": "PSN",
         "reference": null
       },
       "device": null,
@@ -47393,10 +47450,10 @@
     {
       "category": "pin.unmatched",
       "severity": "warning",
-      "description": "pin 'VCP' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
+      "description": "pin 'VCP,VIN,VOUT' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
       "side": "layout",
       "net": {
-        "layout": "VCP",
+        "layout": "VCP,VIN,VOUT",
         "reference": null
       },
       "device": null,
@@ -47416,44 +47473,6 @@
       "side": "layout",
       "net": {
         "layout": "VCTRL",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "pin.unmatched",
-      "severity": "warning",
-      "description": "pin 'VDD' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
-      "side": "layout",
-      "net": {
-        "layout": "VDD",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lc_pll_top",
-        "reference": "LC_PLL_TOP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "pin.unmatched",
-      "severity": "warning",
-      "description": "pin 'VSS' of circuit 'lc_pll_top' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
-      "side": "layout",
-      "net": {
-        "layout": "VSS",
         "reference": null
       },
       "device": null,

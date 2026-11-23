@@ -55,6 +55,37 @@ try:
     print("FAIL plan: case-folded split bases did not raise"); fail += 1
 except common.PlanError as e:
     print(f"PASS plan: case-folded split bases raise: {e}")
+
+# port_net_label_sites() unit check (#416): every SG13G2 metal terminal (8, 10, 30, 50, 67,
+# 126, 134) reported on drawing datatype 0 must resolve to metal text datatype 25, while a
+# port terminal on an unmapped layer (e.g. GatPoly 5/0) must raise PlanError loudly.
+metal_layers = (8, 10, 30, 50, 67, 126, 134)
+syn_groups = [{"id": "g0", "terminals": [
+    {"port": f"P{la}", "net": f"N{la}", "unit": "u0"} for la in metal_layers
+]}]
+syn_reports = {"g0": {"ports": [
+    {"name": f"P{la}", "x_um": 1.0, "y_um": 2.0, "layer": {"layer": la, "datatype": 0}}
+    for la in metal_layers
+]}}
+syn_origins = {"g0": {"x": 10.0, "y": 20.0}}
+sites = common.port_net_label_sites(syn_groups, syn_reports, syn_origins)
+want_sites = {f"N{la}": (11.0, 22.0, la, 25) for la in metal_layers}
+if sites == want_sites:
+    print("PASS port_net_label_sites: all 7 SG13G2 metal layers map drawing /0 -> text /25")
+else:
+    print(f"FAIL port_net_label_sites: got {sites}, wanted {want_sites}"); fail += 1
+
+bad_groups = [{"id": "g_poly", "terminals": [{"port": "G0", "net": "IN", "unit": "u0"}]}]
+bad_reports = {"g_poly": {"ports": [
+    {"name": "G0", "x_um": 0.0, "y_um": 0.0, "layer": {"layer": 5, "datatype": 0}}
+]}}
+try:
+    common.port_net_label_sites(bad_groups, bad_reports, {"g_poly": {"x": 0.0, "y": 0.0}})
+    print("FAIL port_net_label_sites: unmapped layer 5/0 did not raise"); fail += 1
+except (common.PlanError, RuntimeError) as e:
+    ok = "g_poly" in str(e) and "IN" in str(e) and "5/0" in str(e)
+    print(("PASS" if ok else "FAIL") + f" port_net_label_sites: unmapped layer 5/0 raises: {e}")
+    fail += 0 if ok else 1
 sys.exit(1 if fail else 0)
 PLANEOF
 
@@ -143,6 +174,10 @@ def labels(gds, cell):
                 out[s.text_string].append((f"{info.layer}/{info.datatype}", round(d.x, 3), round(d.y, 3)))
     return out
 
+# SG13G2 metal pin/net text layers read by sg13g2.lvs (layers_definitions.lvs +
+# general_connections.lvs:57-63) and klt's curated sg13g2 EXTRACTION_DECK.metal_labels (#416).
+METAL_TEXT_LAYERS = {f"{la}/25" for la in (8, 10, 30, 50, 67, 126, 134)}
+
 def check(rec, gds):
     ports = common.read_subckts(os.path.join(root, rec["netlist"]))[rec["subckt"]]["ports"]
     got = labels(gds, rec["cell"])
@@ -151,6 +186,12 @@ def check(rec, gds):
     missing = [p for p in ports if p not in got]
     allowed = set(rec["undrawn_only_ports"])
     dupes = sorted(f"{n} x{c}" for n, c in counts.items() if c > 1)
+    # Every direct text shape on the cell -- and every recorded port_labels entry -- must sit on
+    # an SG13G2 */25 metal text layer (#416: sg13g2.lvs ignores drawing */0 texts).
+    bad_purpose = sorted(
+        [f"{n}:{lay}" for n, v in got.items() for lay, _, _ in v if lay not in METAL_TEXT_LAYERS]
+        + [f"recorded {p}:{site['layer']}" for p, site in rec.get("port_labels", {}).items()
+           if site["layer"] not in METAL_TEXT_LAYERS])
     # Each stamped port's one label must sit on the layer and at the um site the provenance
     # recorded. The 0.002 um tolerance is 2 dbu: it absorbs float -> 1 nm-dbu quantisation on the
     # GDS round trip, while a foreign copy of the label sits um away or on a router label layer.
@@ -159,44 +200,76 @@ def check(rec, gds):
         for p, site in rec.get("port_labels", {}).items()
         for lay, x, y in got.get(p, [])
         if lay != site["layer"] or abs(x - site["x_um"]) > 0.002 or abs(y - site["y_um"]) > 0.002)
-    return ports, extra, missing, dupes, misplaced, [m for m in missing if m not in allowed]
+    return ports, extra, missing, dupes, misplaced, bad_purpose, [m for m in missing if m not in allowed]
 
 for rec in prov["cells"]:
     if rec["status"] == "undrawn":
         print(f"KNOWN-GAP {rec['cell']}: no drawable device ({len(rec['undrawn_devices'])} undrawn); ports {rec['ports']} unlabelled")
         continue
     gds = os.path.join(cells, rec["cell"] + ".gds")
-    ports, extra, missing, dupes, misplaced, unexplained = check(rec, gds)
-    if extra or dupes or misplaced or unexplained:
+    ports, extra, missing, dupes, misplaced, bad_purpose, unexplained = check(rec, gds)
+    if extra or dupes or misplaced or bad_purpose or unexplained:
         print(f"FAIL {rec['cell']}: labels not in subckt ports {extra}; duplicated labels {dupes}; "
-              f"labels off the recorded site {misplaced}; ports missing without an undrawn-device reason {unexplained}"); fail += 1
+              f"labels off the recorded site {misplaced}; labels off */25 metal text purpose {bad_purpose}; "
+              f"ports missing without an undrawn-device reason {unexplained}"); fail += 1
     elif missing:
         print(f"KNOWN-GAP {rec['cell']}: ports {missing} reach only undrawn devices; {len(ports)-len(missing)}/{len(ports)} labelled and matching")
     else:
-        print(f"PASS {rec['cell']}: {len(ports)} labels == {len(ports)} subckt ports")
+        print(f"PASS {rec['cell']}: {len(ports)} labels == {len(ports)} subckt ports (all on */25)")
 
-# Negative controls on a drawn, complete cell: a dropped label, a renamed label and a duplicated
+# Negative controls on a drawn, complete cell: a dropped label, a renamed label, a duplicated
 # label (a second copy of a valid port name -- the exact defect that shipped in #349, invisible
-# to a set-based check because the set of names is unchanged) are all detected.
+# to a set-based check because the set of names is unchanged), and a port label moved from */25
+# to drawing purpose */0 (#416: invisible to sg13g2.lvs) are all detected.
 rec = next(r for r in prov["cells"] if r["status"] == "drawn")
 gds = os.path.join(cells, rec["cell"] + ".gds")
 os.makedirs(neg, exist_ok=True)
-for name, mutate in (("drop", lambda sh, s: sh.erase(s)),
-                     ("rename", lambda sh, s: sh.replace(s, db.DText("BOGUS", s.dtext.trans))),
-                     ("duplicate", lambda sh, s: sh.insert(db.DText(s.text_string, s.dtext.trans)))):
+for name, mutate in (("drop", lambda _ly, sh, _info, s: sh.erase(s)),
+                     ("rename", lambda _ly, sh, _info, s: sh.replace(s, db.DText("BOGUS", s.dtext.trans))),
+                     ("duplicate", lambda _ly, sh, _info, s: sh.insert(db.DText(s.text_string, s.dtext.trans)))):
     ly = db.Layout(); ly.read(gds); c = ly.cell(rec["cell"])
     for li in ly.layer_indexes():
+        info = ly.get_info(li)
         done = False
         for s in list(c.shapes(li).each()):
             if s.is_text():
-                mutate(c.shapes(li), s); done = True; break
+                mutate(ly, c.shapes(li), info, s); done = True; break
         if done: break
     p = os.path.join(neg, name + ".gds"); ly.write(p)
-    _, extra, _, dupes, misplaced, unexplained = check(rec, p)
-    if extra or dupes or misplaced or unexplained:
+    _, extra, _, dupes, misplaced, bad_purpose, unexplained = check(rec, p)
+    if extra or dupes or misplaced or bad_purpose or unexplained:
         print(f"PASS NEG {name} label detected")
     else:
         print(f"FAIL NEG {name} label NOT detected"); fail += 1
+
+# Drawing-purpose (/0) negative control (#416): move one port label from <la>/25 to <la>/0 and
+# assert check() rejects it via bad_purpose even if port_labels also recorded <la>/0.
+ly = db.Layout(); ly.read(gds); c = ly.cell(rec["cell"])
+moved = None
+for li in ly.layer_indexes():
+    info = ly.get_info(li)
+    for s in list(c.shapes(li).each()):
+        if s.is_text():
+            txt, dtrans = s.text_string, s.dtext.trans
+            moved = (txt, info.layer, info.datatype)
+            c.shapes(li).erase(s)
+            c.shapes(ly.layer(info.layer, 0)).insert(db.DText(txt, dtrans))
+            break
+    if moved is not None:
+        break
+p_dt0 = os.path.join(neg, "drawing_dt0.gds"); ly.write(p_dt0)
+if moved is None or moved[2] != 25:
+    print(f"FAIL NEG drawing_dt0: expected a source /25 port label to move to /0, got {moved}"); fail += 1
+else:
+    _, _, _, _, misplaced, bad_purpose, _ = check(rec, p_dt0)
+    forged_rec = dict(rec, port_labels=dict(rec["port_labels"],
+                      **{moved[0]: dict(rec["port_labels"][moved[0]], layer=f"{moved[1]}/0")}))
+    _, _, _, _, _, forged_bad_purpose, _ = check(forged_rec, p_dt0)
+    if bad_purpose and misplaced and forged_bad_purpose:
+        print(f"PASS NEG drawing_dt0 ({moved[0]} {moved[1]}/25 -> {moved[1]}/0) label detected")
+    else:
+        print(f"FAIL NEG drawing_dt0 not cleanly detected: bad_purpose={bad_purpose} "
+              f"misplaced={misplaced} forged_bad_purpose={forged_bad_purpose}"); fail += 1
 sys.exit(1 if fail else 0)
 PYEOF
 

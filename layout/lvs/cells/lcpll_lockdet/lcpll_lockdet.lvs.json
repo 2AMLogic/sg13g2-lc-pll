@@ -348,9 +348,7 @@
       "shapes": 1
     }
   ],
-  "warnings": [
-    "Top cell 'lcpll_lockdet' has no text on the deck's pin label layers. Text is drawn on 8/0, 67/0. Check layout.label_layers."
-  ],
+  "warnings": [],
   "sg13g2_passive_pairing": {
     "status": "insufficient_evidence",
     "findings": []
@@ -371,14 +369,14 @@
     "engine": "klayout",
     "engine_version": "0.30.12",
     "netgen_binary": null,
-    "layout_sha256": "4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
+    "layout_sha256": "1c49ad5dc6df4bc307f519944befb025fdec3476e17eac537115a5952916ab3d",
     "reference_sha256": "465e4f904b5ec74b9d7ef887d0e76995f141aa9d29740631b420359710ec92ac",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.9.3.dev3934+g049acce7a82b",
-    "klt_git_commit": "049acce7a82b57c630b30099720fa4d97b1a4bea",
-    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@049acce7a82b57c630b30099720fa4d97b1a4bea",
+    "klt_version": "0.9.3.dev4116+ga9885c2c7fa3",
+    "klt_git_commit": "a9885c2c7fa361166805604ff0b56c82ae5f5740",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@a9885c2c7fa361166805604ff0b56c82ae5f5740",
     "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
@@ -387,7 +385,7 @@
       "released": false
     },
     "input": {
-      "content_hash": "sha256:4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
+      "content_hash": "sha256:1c49ad5dc6df4bc307f519944befb025fdec3476e17eac537115a5952916ab3d",
       "role": "layout"
     },
     "klayout_version_mismatch": false
