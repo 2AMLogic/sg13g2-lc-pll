@@ -96,3 +96,25 @@ def test_cli_refuses_an_altered_grid_before_writing(tmp_path, case):
     assert r.returncode != 0, r.stdout + r.stderr
     assert "corner" in (r.stderr + r.stdout)
     assert not out.exists() or not any(out.iterdir())
+
+
+def test_cli_has_no_request_override_so_a_partial_report_cannot_pass(tmp_path):
+    d = _report()
+    _single_row(d)
+    report = tmp_path / "one-corner.json"
+    report.write_text(json.dumps(d))
+    req = icp_report.load_request()
+    first = d["corners"][0]
+    req["corners"]["process"] = [p for p in req["corners"]["process"] if p["name"] == first["process"]]
+    req["corners"]["supply_v"] = {r: [v for v in vs if v == first["supply_v"][r]]
+                                  for r, vs in req["corners"]["supply_v"].items()}
+    req["corners"]["temperature_c"] = [t for t in req["corners"]["temperature_c"]
+                                       if t == first["temperature_c"]]
+    narrowed = tmp_path / "narrowed.request.json"
+    narrowed.write_text(json.dumps(req))
+    out = tmp_path / "out"
+    r = _cli("--report", str(report), "--request", str(narrowed),
+             "--out-dir", str(out), "--id", "t")
+    assert r.returncode != 0, r.stdout + r.stderr
+    assert "unrecognized arguments" in r.stderr
+    assert not out.exists() or not any(out.iterdir())
