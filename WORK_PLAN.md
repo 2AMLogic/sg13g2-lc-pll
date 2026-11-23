@@ -44,6 +44,7 @@ Issues currently being built (`loom:building`).
 - **#88**: G6: measure transient-noise cost versus run length for method T
 - **#206**: spec: state clock output swing and load for a downstream TX mux
 - **#252**: Spec section 4: state the reference phase-noise requirement and define method N for the switching blocks (decision record)
+- **#343**: layout: route the charge-pump and loop-filter cells and LVS each against its own subcircuit (first slice of intra-cell routing for item 4)
 - **#345**: layout: floorplan iteration to cut the tank route (850 um / 612 um) to the keep-out floor, and record the remaining shortfall against the 2.1 fF budget
 - **#346**: layout: route the remaining cells and LVS each against its own subcircuit (follow-up of #343)
 - **#349**: layout: routed cells get two labels per subckt port, and test-layout-cells.sh set-dedupes so it cannot see it
@@ -89,6 +90,7 @@ Issues carrying `loom:curated`.
 - **#223**: Drop vendored manifests/design-evidence-tiers.md: the pinned klt 0.8.0 bundles the identical doc *(hermit)*
 - **#227**: Retire the local nominal G2 bench (run-vco-prescaler-load.sh): superseded by the batch stage-0 request and cannot elaborate the current prescaler *(hermit)*
 - **#250**: Remove the PFD_VARIANT=reset-fix mode from run-pfd-sweep.sh: against the current pin it half-applies and would write a mislabeled record *(hermit)*
+- **#392**: Remove the charge-pump record writer’s alternate request option to prevent false 18-corner summaries *(hermit)*
 
 ## Epics
 
@@ -102,10 +104,10 @@ _None._
 | Very important | 1 |
 | Important | 9 |
 | Ready (`loom:issue`) | 1 |
-| In Progress (`loom:building`) | 6 |
+| In Progress (`loom:building`) | 7 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 3 |
 | Curated | 15 |
-| Architect / Hermit proposals | 5 |
+| Architect / Hermit proposals | 6 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
