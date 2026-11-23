@@ -112,15 +112,25 @@ in the netlists (#164, PR #169), so the resistors are drawn with `klt gen res_ar
   the integrated loop (#41). Since #345 the two input devices are split into singleton arrays 240 um apart, one under
   each tank pin, and the vacated array slots are refilled with 2 portless dummy HBTs (recorded in
   `cells.provenance.json` `input_pair_split`; LVS #37 must exclude the dummies); that is a placement, not a measurement.
-- Intra-cell routing and per-cell LVS (#343), by cell:
+- Intra-cell routing and per-cell LVS (#343, completed for every cell by #346), by cell. #346 trialled routing on five
+  cells (the four remaining cells plus a repeat of the charge pump; the loop filter is separate: shipped routed, 4 of 4,
+  `layout/cells.provenance.json`; scratch `build_block(..., route=True)` trials, `klt 0.9.3.dev2575+g6bd18bbc8637`; evidence —
+  the compose request and routing report per trial — under [`layout/routing/cells/`](routing/cells/)):
 
   | Cell | Intra-cell routing | Per-cell `klt lvs` |
   |---|---|---|
   | `lcpll_loopfilter` | routed by `klt gen-compose` (metal2 + metal3 planes), 4 of 4 nets, guard rings tied; the two `rppd` are folded onto 2 rows so the router can escape | `mismatch` (0 of 16 devices, 0 nets paired though the class census is equal), `2AMLogic/klayout-tools#6960` |
-  | `lcpll_cp` | **not routed**: tried routed, the router left 11 of 18 nets unrouted (`crosses already-routed net`), so the cell stays placement-only, `pfet` groups still ringless, `2AMLogic/klayout-tools#6961` | `mismatch` (layout 63 flat devices vs 4 in the reference hierarchy), not a meaningful compare while unrouted |
-  | `lcpll_pfd`, `lcpll_lockdet`, `lcpll_divider`, `lcpll_prescaler` | placement only | not run (follow-ups of #343) |
+  | `lcpll_cp` | **not routed**: tried routed (#347, re-verified by #346: 7 of 18 nets routed, 11 unrouted — `ICN, ICP, XLEGN.sw, XLEGP.sw, VDUMP, DNB, UPB, VOUT, XBIAS.nx, VSS, VDD`, `crosses already-routed net`), so the cell stays placement-only, `pfet` groups still ringless, `2AMLogic/klayout-tools#6961` | `mismatch` (layout 63 flat devices vs 4 in the reference hierarchy), not a meaningful compare while unrouted |
+  | `lcpll_pfd` | **not routed**: trial left 4 of 37 nets routed, 33 unrouted (`crosses already-routed net`; `VDD` and `VSS` both partial) — stays placement-only, `2AMLogic/klayout-tools#6961` | `mismatch` (66 layout devices, 0 paired; flat layout vs 6-circuit reference hierarchy) |
+  | `lcpll_lockdet` | **not routed**: trial left 5 of 23 nets routed, 18 unrouted (crosses; `VDD` partial, `VSS` unrouted; 0.21 um `metal2.space.1` spacing diagnostics on `DN`, `XXOR.XN1.mid1`, `XXOR.XN2.mid1`) — stays placement-only | `mismatch` (40 layout devices, 0 paired; hierarchy mismatch) |
+  | `lcpll_divider` | **not routed**: trial left 36 of 288 nets routed, 252 unrouted (crosses; `IREF`, `VDD`, `VSS` all partial; single-pin `INP`/`INN` kept out of the request) — stays placement-only | `mismatch` (617 layout devices — the 4 HBT units are not a curated-deck class — 0 paired; hierarchy mismatch) |
+  | `lcpll_prescaler` | **not routed**: trial left 3 of 138 nets routed, 135 unrouted (`IREF` and `VDD` routed, `VSS` partial; other nets report crossing `IREF` or `VDD`; single-pin `INP`/`INN`/`MC` kept out) — stays placement-only | `mismatch` (80 layout devices — the 129 HBT units are not a curated-deck class — 0 paired; 29 reference `NPN13G2V` calls unresolved) |
 
-  No cell is LVS-matched; item 4 stays `unmet` with #37 and nothing here is claimed from per-cell results.
+  None of the five trials fully routes, so no shipped generator entry changed and the integrated stream is untouched; those
+  cells stay placement-only in `layout/top.gds` and the bulk/tie criterion is moot for them. Rail verdicts as recorded:
+  charge pump `IREF` routed, `VDD`/`VSS` partial; pfd `VDD`/`VSS` partial; lock detector `VDD` partial, `VSS` unrouted;
+  divider `IREF`/`VDD`/`VSS` partial; prescaler `IREF`/`VDD` routed, `VSS` partial. No cell is LVS-matched; item 4 stays `unmet` with #37 and nothing here is claimed from
+  per-cell results.
   Since #202 every `nfet` `mos_array` group carries a `mos_array add_guard_ring` pSD substrate tap ring on
   net `VSS` (see "LU.b substrate taps"); in placement-only cells it is not tied by a route and `pfet` groups have
   no ring. Areas are bounding boxes. The loop-filter cell is 133686 um2 because the schematic's `cap_cmim`
