@@ -108,9 +108,15 @@ baseline to flip, and neither cell has one. It becomes meaningful once the two i
 
 The four remaining cells get the #343 treatment: committed request + envelope under `cells/<cell>/`, layout =
 committed `layout/top.gds` with `top` set to the cell, reference = the cell's own `.subckt` (`form: subckt-call`,
-nothing hand-written). `layout/top.gds` is unchanged since #347 (the five #346 routing trials, four remaining cells plus a charge-pump repeat, all
-came back partial and none shipped; the loop filter is separate, shipped fully routed 4/4), so the #347 `lcpll_cp` envelope still passes `klt lvs --check` (input freshness only, not a
-verdict) and is cited rather than re-run; the charge pump's flatten retry below is new evidence. **Every cell
+nothing hand-written). These envelopes pin the `layout/top.gds` stream `90fecb47...`, which is what `main` held when they were produced
+(the five #346 routing trials, four remaining cells plus a charge-pump repeat, all came back partial and none
+shipped; the loop filter is separate, shipped fully routed 4/4). `main` has since moved to `60ad1ed0...`
+(#344, `c1e1155`, supply / external-pin / divider tie-off routing), so on this head `klt lvs --check` reports
+`environment.layout_sha256` drift for all seven #346 envelopes and for #347's `lcpll_cp` envelope, which is cited
+rather than re-run. This is provenance staleness, not changed readings: the `lcpll_pfd` and `lcpll_lockdet`
+requests were re-run against `60ad1ed0...` and gave byte-identical verdicts, device/net counts and category
+counts (the top-level routing sits above these cells); the other cells' readings were not re-run. Refreshing the
+envelopes is tracked in #413. The charge pump's flatten retry below is new evidence. **Every cell
 mismatches; item 4 stays `unmet` with #37 and the swapped-net negative control stays pending everywhere (it needs a
 `match` baseline to flip; none exists).**
 
@@ -135,7 +141,8 @@ the curated top-level request exits 1 during conversion on `inductor` and `sg13_
 exists, and the curated per-cell envelopes do not carry them) — the HBT recognition statements above rest on
 `device_classes` + `device_parameter_coverage` + the unresolved-call counts, not a census.
 
-inputs, from each `cells/<cell>/` directory): `klt lvs request.json --format json -o <cell>.lvs.json`
-and `klt lvs request.flatten.json --format json -o <cell>.flatten.lvs.json`; `klt lvs --check` re-hashes the
-inputs and exits 0 for all seven #346 envelopes (the four curated and three flatten ones; it is an input-freshness
-check, not a verdict).
+Reproduce (needs `klt`, the KLayout Python module and an IHP-SG13G2 PDK; the committed requests use relative paths, so run
+from each `cells/<cell>/` directory): `klt lvs request.json --format json -o <cell>.lvs.json`
+and `klt lvs request.flatten.json --format json -o <cell>.flatten.lvs.json`. `klt lvs --check` re-hashes the
+inputs and currently reports `environment.layout_sha256` drift (`90fecb47...` recorded, `60ad1ed0...` on this head)
+for all seven #346 envelopes; it is an input-freshness check, not a verdict.
