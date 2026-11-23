@@ -8,10 +8,10 @@
 ## Context
 
 A downstream 10 Gb/s half-rate SerDes TX mux (`2AMLogic/sg13g2-serdes`, `spec/decisions/DR-009-mux-clock-swing.md`
-and `spec/clock-requirement.md`, Level / load row; cited from the issue, not readable or verified from this repo)
+and `spec/clock-requirement.md`, Level / load row; cited via the issue and read at `f72fa11`; the consumer's own grading, not re-verified here)
 needs the 5.0 GHz clock at **≥ 0.4 V per side (0.8 Vpp differential), common mode ≈ 0.6 V**, into a self-biased,
 AC-coupled squarer. The requester reports that at ss / 1.08 V the mux output was not switched with 0.4 V per side, so the
-real need is higher; no higher figure was given. Whether DR-009 is ratified there is not known here.
+real need is higher; no higher figure was given. DR-009 is proposed there, not ratified (read at `f72fa11`).
 
 `spec/target-spec.md` had no row for the clock at an output interface. I6 (VCO row 7) is a **target**: no output buffer
 in v1, swing ≥ 0.40 Vpp differential (0.20 Vpp per side, balanced), current-limited, 204.1 µA tail, at the tank. It is a
