@@ -21,6 +21,7 @@ hierarchy flattening, (class, W, L) grouping, klt gen / gen-compose driving). Di
 
 Nothing here draws raw polygons except the port text labels (klayout.db).
 """
+from collections import Counter
 import hashlib
 import json
 import math
@@ -263,6 +264,18 @@ def plan(block, devices, hbt_split_bases=(), tap_flavors=TAP_RING_FLAVORS, res_r
             "terminals": [{"port": f"C{i}_{t}", "net": m["nets"][k], "unit": m["path"]}
                           for i, m in enumerate(mem) for k, t in enumerate(("TOP", "BOT"))],
         })
+    # One post-assembly uniqueness check (#415): a split-off singleton's id is derived from
+    # the unit's base net, so two units of one flavour sharing a split base net (including
+    # the .lower()-folded spelling of two different nets) would emit two groups with one id
+    # -- which build_block keys reports, origins and explicit_origins by, silently
+    # collapsing them. Refuse here; one check over every assembled id covers the
+    # mos/res/cap paths too.
+    dupes = {gid for gid, n in Counter(g["id"] for g in groups).items() if n > 1}
+    if dupes:
+        units = {gid: sorted({t["unit"] for g in groups if g["id"] == gid for t in g["terminals"]})
+                 for gid in dupes}
+        raise PlanError(f"{block}: colliding group ids: "
+                        + "; ".join(f"{gid} (units {', '.join(units[gid])})" for gid in sorted(dupes)))
     return groups
 
 
