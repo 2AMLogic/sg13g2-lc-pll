@@ -331,12 +331,12 @@
     "status": "insufficient_evidence",
     "findings": []
   },
-  "mismatch_count": 21,
+  "mismatch_count": 18,
   "error_count": 15,
   "category_counts": {
     "device.unmatched": 6,
     "net.unmatched": 9,
-    "pin.unmatched": 6
+    "pin.unmatched": 3
   },
   "category_error_counts": {
     "device.unmatched": 6,
@@ -354,7 +354,7 @@
       "matched": 0
     },
     "pins": {
-      "layout": 3,
+      "layout": 0,
       "reference": 3,
       "matched": 0
     }
@@ -409,14 +409,14 @@
     "engine_version": "0.30.12",
     "klayout_binary": "klayout",
     "netgen_binary": null,
-    "layout_sha256": "60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005",
+    "layout_sha256": "4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
     "reference_sha256": "35341299a4ecc524d2c91db5dc5c5f2cb8284a414d70e5b37401c7f85a90ea04",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.9.3.dev3829+gaabdc195edea",
-    "klt_git_commit": "aabdc195edeacaf29053ca598391e3e425b386a2",
-    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@aabdc195edeacaf29053ca598391e3e425b386a2",
+    "klt_version": "0.9.3.dev3910+g8703ad519ff7",
+    "klt_git_commit": "8703ad519ff7cfc76f589d09f77a32545e627477",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@8703ad519ff7cfc76f589d09f77a32545e627477",
     "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
@@ -425,7 +425,7 @@
       "released": null
     },
     "input": {
-      "content_hash": "sha256:60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005",
+      "content_hash": "sha256:4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
       "role": "layout"
     },
     "runset": {
@@ -656,6 +656,44 @@
     {
       "category": "net.unmatched",
       "severity": "error",
+      "description": "layout net '$2' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$2",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$3' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$3",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
       "description": "layout net '$4' has no counterpart",
       "side": "layout",
       "net": {
@@ -675,48 +713,10 @@
     {
       "category": "net.unmatched",
       "severity": "error",
-      "description": "layout net 'VCTRL' has no counterpart",
+      "description": "layout net '$5' has no counterpart",
       "side": "layout",
       "net": {
-        "layout": "VCTRL",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net 'VIN' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "VIN",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net 'VSS' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "VSS",
+        "layout": "$5",
         "reference": null
       },
       "device": null,
@@ -775,63 +775,6 @@
       "net": {
         "layout": null,
         "reference": "VSS"
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "pin.unmatched",
-      "severity": "warning",
-      "description": "pin 'VCTRL' of circuit 'lcpll_loopfilter' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
-      "side": "layout",
-      "net": {
-        "layout": "VCTRL",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "pin.unmatched",
-      "severity": "warning",
-      "description": "pin 'VIN' of circuit 'lcpll_loopfilter' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
-      "side": "layout",
-      "net": {
-        "layout": "VIN",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "pin.unmatched",
-      "severity": "warning",
-      "description": "pin 'VSS' of circuit 'lcpll_loopfilter' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
-      "side": "layout",
-      "net": {
-        "layout": "VSS",
-        "reference": null
       },
       "device": null,
       "property": null,

@@ -163,7 +163,7 @@
     {
       "layer": 1,
       "datatype": 20,
-      "shapes": 12
+      "shapes": 16
     },
     {
       "layer": 1,
@@ -178,7 +178,7 @@
     {
       "layer": 8,
       "datatype": 22,
-      "shapes": 1368
+      "shapes": 1157
     },
     {
       "layer": 8,
@@ -188,7 +188,7 @@
     {
       "layer": 10,
       "datatype": 22,
-      "shapes": 1368
+      "shapes": 1159
     },
     {
       "layer": 10,
@@ -198,12 +198,12 @@
     {
       "layer": 26,
       "datatype": 0,
-      "shapes": 6
+      "shapes": 8
     },
     {
       "layer": 30,
       "datatype": 22,
-      "shapes": 1368
+      "shapes": 1363
     },
     {
       "layer": 30,
@@ -223,7 +223,7 @@
     {
       "layer": 50,
       "datatype": 22,
-      "shapes": 1363
+      "shapes": 1344
     },
     {
       "layer": 50,
@@ -233,7 +233,7 @@
     {
       "layer": 51,
       "datatype": 0,
-      "shapes": 12
+      "shapes": 16
     },
     {
       "layer": 52,
@@ -243,7 +243,7 @@
     {
       "layer": 67,
       "datatype": 22,
-      "shapes": 1363
+      "shapes": 1234
     },
     {
       "layer": 67,
@@ -273,7 +273,7 @@
     {
       "layer": 156,
       "datatype": 0,
-      "shapes": 6
+      "shapes": 8
     },
     {
       "layer": 160,
@@ -281,7 +281,9 @@
       "shapes": 1
     }
   ],
-  "warnings": [],
+  "warnings": [
+    "Top cell 'lcpll_loopfilter' has no text on the deck's pin label layers. Text is drawn on 67/0, 126/0. Check layout.label_layers."
+  ],
   "sg13g2_passive_pairing": {
     "status": "insufficient_evidence",
     "findings": []
@@ -302,14 +304,14 @@
     "engine": "klayout",
     "engine_version": "0.30.12",
     "netgen_binary": null,
-    "layout_sha256": "60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005",
+    "layout_sha256": "4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
     "reference_sha256": "35341299a4ecc524d2c91db5dc5c5f2cb8284a414d70e5b37401c7f85a90ea04",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.9.3.dev3829+gaabdc195edea",
-    "klt_git_commit": "aabdc195edeacaf29053ca598391e3e425b386a2",
-    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@aabdc195edeacaf29053ca598391e3e425b386a2",
+    "klt_version": "0.9.3.dev3910+g8703ad519ff7",
+    "klt_git_commit": "8703ad519ff7cfc76f589d09f77a32545e627477",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@8703ad519ff7cfc76f589d09f77a32545e627477",
     "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
@@ -318,7 +320,7 @@
       "released": false
     },
     "input": {
-      "content_hash": "sha256:60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005",
+      "content_hash": "sha256:4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
       "role": "layout"
     },
     "klayout_version_mismatch": false

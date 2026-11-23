@@ -1,0 +1,4 @@
+{
+  "layout": {"file": "../../../top.gds", "top": "lcpll_lockdet", "deck": "sg13g2"},
+  "reference": {"netlist": "../../../../design/netlist/pll_top.spice", "top": "lock_detector", "form": "subckt-call", "deck": "sg13g2"}
+}

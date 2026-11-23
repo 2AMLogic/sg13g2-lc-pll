@@ -1,7 +1,7 @@
 {
  "block": "sg13g2-lc-pll",
  "collisions_total": 8,
- "fill_squares_removed_under_routes": 10,
+ "fill_squares_removed_under_routes": 583,
  "generator": "python layout/gen_integrated.py --write",
  "generator_chain": [
   "scripts/fetch-vco.sh",
@@ -12,11 +12,11 @@
  "inputs": {
   "cells_provenance": {
    "path": "layout/cells.provenance.json",
-   "sha256": "9563cdd7da45ecc00656323260e0363d337e6cac56b7f4775d7c06e317e35b5e"
+   "sha256": "63135fafce97477bf745e67578ef5f1e2639080b5cd4062df2eb0103e2dfb0fe"
   },
   "gen_integrated": {
    "path": "layout/gen_integrated.py",
-   "sha256": "d0e690adcd560bdbfbc3c18e8d1e174487d662346abb4b4b4c9f9f8b316162cf"
+   "sha256": "94ce470207d3121f51a2056b2da63998df7906d04fef477220f577accd6e0975"
   },
   "gen_top": {
    "path": "layout/gen_top.py",
@@ -29,7 +29,7 @@
   }
  },
  "item": "T1 item 2 (Layout)",
- "klayout_module": "0.30.10",
+ "klayout_module": "0.30.12",
  "landings_um": {
   "IREFCP": {
    "label_layer": "67/25",
@@ -81,9 +81,9 @@
   "VCO ground (`0`)": "pin-access: the VCO ground pin is Metal1 ~21 um inside the 20 um keep-out with no TopMetal1/2 conductor above it, so a top-level tie needs forbidden metal; upstream pin-access request 2AMLogic/sg13g2-vco#427 (VCTRL is #314)"
  },
  "output": {
-  "geometry_sha256": "41b1f65273fc6d57b75bb463815b4e1f62f0837b46d96707979d2b2132e56a03",
+  "geometry_sha256": "5354df8b59f87b0db15d97c46a2b84e85a6959d0f04882ec5da580d371fff22a",
   "path": "layout/top.gds",
-  "sha256": "60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005",
+  "sha256": "4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
   "top_cell": "lc_pll_top"
  },
  "placement_um": {
@@ -124,8 +124,8 @@
   },
   "lcpll_prescaler": {
    "origin": [
-    281.0,
-    -185.0
+    -123.87,
+    -133.0
    ],
    "transform": "M0"
   }
@@ -291,14 +291,14 @@
   "IREFPS": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 329.9,
+   "length_um": 775.57,
    "pins": [
     {
      "cell": "lcpll_prescaler",
      "layer": 8,
      "port": "IREF",
-     "x_um": 284.87,
-     "y_um": -190.425
+     "x_um": -120.0,
+     "y_um": -149.625
     },
     {
      "cell": "lcpll_divider",
@@ -311,15 +311,15 @@
    "segments": [
     {
      "from": "lcpll_prescaler.IREF",
-     "length_um": 329.9,
+     "length_um": 775.57,
      "path_um": [
       [
-       284.87,
-       -190.425
+       -120.0,
+       -149.625
       ],
       [
        496.97,
-       -190.425
+       -149.625
       ],
       [
        496.97,
@@ -375,7 +375,7 @@
   "MC": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 365.32,
+   "length_um": 810.99,
    "pins": [
     {
      "cell": "lcpll_divider",
@@ -388,26 +388,26 @@
      "cell": "lcpll_prescaler",
      "layer": 8,
      "port": "MC",
-     "x_um": 281.21,
-     "y_um": -230.1
+     "x_um": -123.66,
+     "y_um": -189.3
     }
    ],
    "segments": [
     {
      "from": "lcpll_divider.MC",
-     "length_um": 365.32,
+     "length_um": 810.99,
      "path_um": [
       [
        592.29,
        -284.34
       ],
       [
-       281.21,
+       -123.66,
        -284.34
       ],
       [
-       281.21,
-       -230.1
+       -123.66,
+       -189.3
       ]
      ],
      "to": "lcpll_prescaler.MC"
@@ -417,14 +417,14 @@
   "PSN": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 114.815,
+   "length_um": 560.485,
    "pins": [
     {
      "cell": "lcpll_prescaler",
      "layer": 8,
      "port": "OUTN",
-     "x_um": 460.19,
-     "y_um": -186.775
+     "x_um": 55.32,
+     "y_um": -145.975
     },
     {
      "cell": "lcpll_divider",
@@ -437,15 +437,15 @@
    "segments": [
     {
      "from": "lcpll_prescaler.OUTN",
-     "length_um": 114.815,
+     "length_um": 560.485,
      "path_um": [
       [
-       460.19,
-       -186.775
+       55.32,
+       -145.975
       ],
       [
        468.3,
-       -186.775
+       -145.975
       ],
       [
        468.3,
@@ -459,14 +459,14 @@
   "PSP": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 108.855,
+   "length_um": 554.525,
    "pins": [
     {
      "cell": "lcpll_prescaler",
      "layer": 8,
      "port": "OUTP",
-     "x_um": 450.45,
-     "y_um": -186.775
+     "x_um": 45.58,
+     "y_um": -145.975
     },
     {
      "cell": "lcpll_divider",
@@ -479,15 +479,19 @@
    "segments": [
     {
      "from": "lcpll_prescaler.OUTP",
-     "length_um": 108.855,
+     "length_um": 554.525,
      "path_um": [
       [
-       450.45,
-       -186.775
+       45.58,
+       -145.975
+      ],
+      [
+       45.58,
+       -273.48
       ],
       [
        452.6,
-       -186.775
+       -273.48
       ],
       [
        452.6,
@@ -718,7 +722,7 @@
   "VDD": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 5155.485,
+   "length_um": 4993.915,
    "pins": [
     {
      "cell": "(landing)",
@@ -759,8 +763,8 @@
      "cell": "lcpll_prescaler",
      "layer": 8,
      "port": "VDD",
-     "x_um": 333.57,
-     "y_um": -190.425
+     "x_um": 120.0,
+     "y_um": -138.425
     },
     {
      "cell": "lcpll_pfd",
@@ -867,23 +871,23 @@
     },
     {
      "from": "(landing).VDD",
-     "length_um": 713.145,
+     "length_um": 551.575,
      "path_um": [
       [
        -120.0,
        -450.0
       ],
       [
-       -120.0,
-       -430.0
+       -100.0,
+       -450.0
       ],
       [
-       333.57,
-       -430.0
+       -100.0,
+       -138.425
       ],
       [
-       333.57,
-       -190.425
+       120.0,
+       -138.425
       ]
      ],
      "to": "lcpll_prescaler.VDD"
@@ -992,7 +996,7 @@
   "VON": {
    "collisions": [],
    "layers": "TopMetal1 (126/0), width 2.0 um",
-   "length_um": 611.845,
+   "length_um": 102.775,
    "pins": [
     {
      "cell": "vco",
@@ -1005,26 +1009,22 @@
      "cell": "lcpll_prescaler",
      "layer": 8,
      "port": "INN",
-     "x_um": 577.07,
-     "y_um": -186.775
+     "x_um": 120.0,
+     "y_um": -134.775
     }
    ],
    "segments": [
     {
      "from": "vco.OUTN",
-     "length_um": 611.845,
+     "length_um": 102.775,
      "path_um": [
       [
        120.0,
        -32.0
       ],
       [
-       577.07,
-       -32.0
-      ],
-      [
-       577.07,
-       -186.775
+       120.0,
+       -134.77499999999998
       ]
      ],
      "to": "lcpll_prescaler.INN"
@@ -1034,7 +1034,7 @@
   "VOP": {
    "collisions": [],
    "layers": "TopMetal1 (126/0), width 2.0 um",
-   "length_um": 850.105,
+   "length_um": 110.775,
    "pins": [
     {
      "cell": "vco",
@@ -1047,14 +1047,14 @@
      "cell": "lcpll_prescaler",
      "layer": 8,
      "port": "INP",
-     "x_um": 567.33,
-     "y_um": -186.775
+     "x_um": -120.0,
+     "y_um": -134.775
     }
    ],
    "segments": [
     {
      "from": "vco.OUTP",
-     "length_um": 850.105,
+     "length_um": 110.775,
      "path_um": [
       [
        -120.0,
@@ -1062,11 +1062,7 @@
       ],
       [
        -120.0,
-       -186.775
-      ],
-      [
-       567.33,
-       -186.775
+       -134.77499999999998
       ]
      ],
      "to": "lcpll_prescaler.INP"
@@ -1081,7 +1077,7 @@
     }
    ],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 7398.99,
+   "length_um": 7034.92,
    "pins": [
     {
      "cell": "(landing)",
@@ -1129,8 +1125,8 @@
      "cell": "lcpll_prescaler",
      "layer": 8,
      "port": "VSS",
-     "x_um": 390.43,
-     "y_um": -215.1
+     "x_um": -14.44,
+     "y_um": -174.3
     },
     {
      "cell": "lcpll_pfd",
@@ -1286,7 +1282,7 @@
     },
     {
      "from": "(landing).VSS",
-     "length_um": 845.33,
+     "length_um": 481.26,
      "path_um": [
       [
        -220.0,
@@ -1294,11 +1290,11 @@
       ],
       [
        -220.0,
-       -215.1
+       -174.3
       ],
       [
-       390.43,
-       -215.1
+       -14.44,
+       -174.3
       ]
      ],
      "to": "lcpll_prescaler.VSS"
@@ -1425,12 +1421,12 @@
   "method": "route length x (width x area_cap + 2 x perimeter_cap) of an isolated TopMetal1 wire over substrate, from IHP-Open-PDK magic extract.tech; excludes sidewall coupling to neighbours, the via-stack pads, the underlying devices and the prescaler's own input capacitance",
   "nets": {
    "VON": {
-    "c_route_ff": 52.66,
-    "length_um": 611.845
+    "c_route_ff": 8.85,
+    "length_um": 102.775
    },
    "VOP": {
-    "c_route_ff": 73.16,
-    "length_um": 850.105
+    "c_route_ff": 9.53,
+    "length_um": 110.775
    }
   },
   "per_um_ff": 0.0861,

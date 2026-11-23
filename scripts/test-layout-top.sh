@@ -332,8 +332,10 @@ expect "NEG timestamp-churned stream fails the attestation pin" \
 # them covers the other recorded shape of the layout input: after the 2026-11 refresh every
 # committed report records {"scope":"repo","path":...}, so the report-relative-string branch is
 # exercised by rewriting the top report's input to the equivalent "../top.gds" on a copy -- the
-# exact-match on the success line asserts the rewritten report was still counted (a branch that
-# silently skipped it would report 3).
+# exact-match on the success line asserts the rewritten report was still counted: the expected
+# count is the unmodified tree's own count, taken from the same function, so a branch that silently
+# skipped the rewritten report reports one fewer, and a newly committed envelope never breaks the
+# control by changing the inventory size.
 mkdir -p "${T}/lvstale/layout" "${T}/lvsmiss/layout" "${T}/lvsstr/layout"
 cp -r "${ROOT}/layout/lvs" "${T}/lvstale/layout/"
 cp -r "${ROOT}/layout/lvs" "${T}/lvsmiss/layout/"
@@ -350,8 +352,9 @@ expect "NEG stale LVS layout hash refused, report named" \
 expect "NEG missing LVS layout hash refused, report named" \
   "refuse:lvs-fresh: .*lcpll_loopfilter\.lvs\.json records no environment\.layout_sha256; refusing" \
   lvs_fresh_check "${T}/lvsmiss" "${LVS_STREAM_SHA}"
+base="$(lvs_fresh_check "${ROOT}" "${LVS_STREAM_SHA}" 2>&1)"
 d="$(lvs_fresh_check "${T}/lvsstr" "${LVS_STREAM_SHA}" 2>&1)"; rc=$?
-if [ "${rc}" = 0 ] && [ "${d}" = "lvs-fresh: 4 committed report(s) pin the shipped stream ${LVS_STREAM_SHA}" ]; then
+if [ "${rc}" = 0 ] && [ "${d}" = "${base}" ] && [[ "${base}" =~ ^lvs-fresh:\ [1-9][0-9]*\ committed ]]; then
   echo "PASS LVS input recorded as a report-relative string still resolves and counts"; pass=$((pass+1))
 else
   echo "FAIL report-relative string form (rc=${rc}): ${d}"; bad=$((bad+1))

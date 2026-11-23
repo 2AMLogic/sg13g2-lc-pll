@@ -93,8 +93,10 @@ its own ring-oscillator netlists. Its method is reused here (attributed in `cell
 layout file exists to hash-pin.
 
 **Pin check.** `klt interface-check` pairs the labels of two placed blocks, so it cannot compare one cell to
-its `.subckt`; `scripts/test-layout-cells.sh` compares label set to port list instead, with drop/rename
-negative controls. It is not in `scripts/ci-harness.sh` (needs `klayout`, a PDK and klt).
+its `.subckt`; `scripts/test-layout-cells.sh` counts each cell's own labels per port name against the port
+list and the recorded `port_labels` site, with drop/rename/duplicate negative controls (a set-based name
+compare let the routed cell's two labels per port through, #349). It is not in `scripts/ci-harness.sh` (needs
+`klayout`, a PDK and klt).
 
 **Tool pin.** The HBT (`bjt_array`, klayout-tools#4850 -> #4855) and sub-0.42 um MOS (`dogbone_terminals`,
 #4851 -> #4854) fixes are in the installed klt used for the committed provenance (`klt 0.9.2.dev420+gf186e14125ed`;
@@ -109,16 +111,28 @@ in the netlists (#164, PR #169), so the resistors are drawn with `klt gen res_ar
 
 **Not met:**
 - The prescaler's INP/INN tank-load capacitance is NOT extracted: the 2.1 fF budget is unverified until PEX on
-  the integrated loop (#41). The input group is placed first to keep its geometry compact; that is not a measurement.
-- Intra-cell routing and per-cell LVS (#343), by cell:
+  the integrated loop (#41). Since #345 the two input devices are split into singleton arrays 240 um apart, one under
+  each tank pin, and the vacated array slots are refilled with 2 portless dummy HBTs (recorded in
+  `cells.provenance.json` `input_pair_split`; LVS #37 must exclude the dummies); that is a placement, not a measurement.
+- Intra-cell routing and per-cell LVS (#343, completed for every cell by #346), by cell. #346 trialled routing on five
+  cells (the four remaining cells plus a repeat of the charge pump; the loop filter is separate: shipped routed, 4 of 4,
+  `layout/cells.provenance.json`; scratch `build_block(..., route=True)` trials, `klt 0.9.3.dev2575+g6bd18bbc8637`; evidence —
+  the compose request and routing report per trial — under [`layout/routing/cells/`](routing/cells/)):
 
   | Cell | Intra-cell routing | Per-cell `klt lvs` |
   |---|---|---|
   | `lcpll_loopfilter` | routed by `klt gen-compose` (metal2 + metal3 planes), 4 of 4 nets, guard rings tied; the two `rppd` are folded onto 2 rows so the router can escape | `mismatch` (0 of 16 devices, 0 nets paired though the class census is equal), `2AMLogic/klayout-tools#6960` |
-  | `lcpll_cp` | **not routed**: tried routed, the router left 11 of 18 nets unrouted (`crosses already-routed net`), so the cell stays placement-only, `pfet` groups still ringless, `2AMLogic/klayout-tools#6961` | `mismatch` (layout 63 flat devices vs 4 in the reference hierarchy), not a meaningful compare while unrouted |
-  | `lcpll_pfd`, `lcpll_lockdet`, `lcpll_divider`, `lcpll_prescaler` | placement only | not run (follow-ups of #343) |
+  | `lcpll_cp` | **not routed**: tried routed (#347, re-verified by #346: 7 of 18 nets routed, 11 unrouted — `ICN, ICP, XLEGN.sw, XLEGP.sw, VDUMP, DNB, UPB, VOUT, XBIAS.nx, VSS, VDD`, `crosses already-routed net`), so the cell stays placement-only, `pfet` groups still ringless, `2AMLogic/klayout-tools#6961` | `mismatch` (layout 63 flat devices vs 4 in the reference hierarchy), not a meaningful compare while unrouted |
+  | `lcpll_pfd` | **not routed**: trial left 4 of 37 nets routed, 33 unrouted (`crosses already-routed net`; `VDD` and `VSS` both partial) — stays placement-only, `2AMLogic/klayout-tools#6961` | `mismatch` (66 layout devices, 0 paired; flat layout vs 6-circuit reference hierarchy) |
+  | `lcpll_lockdet` | **not routed**: trial left 5 of 23 nets routed, 18 unrouted (crosses; `VDD` partial, `VSS` unrouted; 0.21 um `metal2.space.1` spacing diagnostics on `DN`, `XXOR.XN1.mid1`, `XXOR.XN2.mid1`) — stays placement-only | `mismatch` (40 layout devices, 0 paired; hierarchy mismatch) |
+  | `lcpll_divider` | **not routed**: trial left 36 of 288 nets routed, 252 unrouted (crosses; `IREF`, `VDD`, `VSS` all partial; single-pin `INP`/`INN` kept out of the request) — stays placement-only | `mismatch` (617 layout devices — the 4 HBT units are not a curated-deck class — 0 paired; hierarchy mismatch) |
+  | `lcpll_prescaler` | **not routed**: trial left 3 of 138 nets routed, 135 unrouted (`IREF` and `VDD` routed, `VSS` partial; other nets report crossing `IREF` or `VDD`; single-pin `INP`/`INN`/`MC` kept out) — stays placement-only | `mismatch` (80 layout devices — the 129 HBT units are not a curated-deck class — 0 paired; 29 reference `NPN13G2V` calls unresolved) |
 
-  No cell is LVS-matched; item 4 stays `unmet` with #37 and nothing here is claimed from per-cell results.
+  None of the five trials fully routes, so no shipped generator entry changed and the integrated stream is untouched; those
+  cells stay placement-only in `layout/top.gds` and the bulk/tie criterion is moot for them. Rail verdicts as recorded:
+  charge pump `IREF` routed, `VDD`/`VSS` partial; pfd `VDD`/`VSS` partial; lock detector `VDD` partial, `VSS` unrouted;
+  divider `IREF`/`VDD`/`VSS` partial; prescaler `IREF`/`VDD` routed, `VSS` partial. No cell is LVS-matched; item 4 stays `unmet` with #37 and nothing here is claimed from
+  per-cell results.
   Since #202 every `nfet` `mos_array` group carries a `mos_array add_guard_ring` pSD substrate tap ring on
   net `VSS` (see "LU.b substrate taps"); in placement-only cells it is not tied by a route and `pfet` groups have
   no ring. Areas are bounding boxes. The loop-filter cell is 133686 um2 because the schematic's `cap_cmim`
@@ -132,7 +146,9 @@ scripts/test-layout-top.sh                             # reproducibility, attest
 ```
 
 `gen_integrated.py` runs `gen_top.py` (VCO + keep-out + ring + fill), places the six `gen_cells.py` cells below the VCO,
-routes the inter-block signal nets and writes `layout/top.gds`. `layout/provenance.json` holds the generator chain, input
+routes the inter-block signal nets and writes `layout/top.gds`. The prescaler sits against the guard ring (the closest
+placement a clean DRC allows) with its two input devices split one under each tank pin (#345; the candidates and the
+floor are recorded in [`tank-floorplan-2026-11-20.md`](tank-floorplan-2026-11-20.md)). `layout/provenance.json` holds the generator chain, input
 hashes (VCO stream, cells provenance, generators), the output sha256 and geometry digest, placements, per-net route
 paths and lengths, collisions, the tank-node estimate and the Metal1 pad-trim record (`metal1_pad_trim`). GDS bytes
 carry writer state, so reproducibility is checked on the geometry digest (`--check`), not the file hash. The digest is
@@ -184,7 +200,8 @@ full SG13G2 metal stack (labels read only from the pin purposes 8/25 and 67/25; 
 text is deliberately outside the label scope -- the island it names is the `VDDV` branch, and the VCO's own naming
 must not be read as a VDD-VDDV tie), the six named nets and the guard-ring substrate tie. Result
 (`klt erc layout/top.gds layout/erc/supply-spec.json --top lc_pll_top --format json > layout/erc/top.erc.json`,
-2026-11-21, `klt 0.9.3.dev2575`): **`erc_status: clean_partial`, 0 findings -- all six nets resolve to exactly their
+2026-11-21, `klt 0.9.3.dev2575`; re-run 2026-11-23 on the #345 stream `sha256:c897060c…` with `klt 0.9.3.dev3808`,
+same verdict): **`erc_status: clean_partial`, 0 findings -- all six nets resolve to exactly their
 declared 1 island** (a first draft's REF route was a real `erc.multiply_driven_net` REF x VSS through the PFD west-pin
 column; it is fixed by forced-approach routing, see `FINAL_HORIZONTAL`/`FINAL_VERTICAL` in the generator). Skipped and
 disclosed, not passed: the guard-ring tie is `degenerate_tap_declaration` (Cont-on-pSD cannot be told from device
@@ -197,14 +214,20 @@ tap declaration -- the report's own entry names `missing: ["a non-degenerate tie
 needs item 4's LVS supply pairing (#37).
 
 **Results to read before relying on this layout**
-- **Tank-node budget is not met by this floorplan.** Geometric estimate (method in `provenance.json`
+- **Tank-node budget is not met, and no floorplan of the pinned VCO meets it.** Geometric estimate (method in `provenance.json`
   `tank_node_estimate`: isolated TopMetal1 wire over substrate, magic `extract.tech` area/perimeter caps, no coupling, not
-  extracted): VOP 850 um = 73 fF, VON 612 um = 53 fF, against the 2.1 fF budget (spec §1, I6). Even the direct distance is far
-  above it at 0.086 fF/um, so the budget needs the prescaler input at the tank pins (tens of um), not a route. The floorplan
-  was not optimised; PEX delta is #41. Treat I6 as open; the spec is not edited here.
+  extracted): VOP 110.8 um = 9.5 fF, VON 102.8 um = 8.9 fF, differential route 9.19 fF + 1.837 fF device load = 11.0 fF
+  against the 2.1 fF budget (spec §1, I6). The 2026-11-20 floorplan iteration (#345,
+  [`tank-floorplan-2026-11-20.md`](tank-floorplan-2026-11-20.md)) took the routes from 850/612 um to the geometric floor --
+  the prescaler's two input devices split one under each tank pin, held at the closest clean placement to the guard ring --
+  and records why the floor is the floor: the pins are 74-82 um inside the bbox, and even pins at the bbox edge cannot meet
+  the budget because crossing the 20 um keep-out margin is already 1.72 fF per side. Closing it needs the pin exposure
+  requested in sg13g2-vco#420 plus the buffer of spec §6 Q1 (a `spec/` decision, not layout work). PEX delta is #41. Treat
+  I6 as open; the spec is not edited here.
 - **Keep-out is violated by exactly one net.** `klt keepout-check` (Metal1-5, margin 20) reports 3 violations, all the VCTRL
   pin-access stack (Metal3/4/5 at the VCO's Metal3-only VCTRL pin, about 57 um inside the bbox). Tank routes are on TopMetal1,
-  outside the forbidden set. VCO change requested: sg13g2-vco#314; tool gap: klayout-tools#5198.
+  outside the forbidden set. VCO change requested: sg13g2-vco#314 (landed upstream as `54b72f8c`, not yet in the pinned
+  `17e49a8`; a lock bump also clears these 3, see #279); tank pins requested in sg13g2-vco#420; tool gap: klayout-tools#5198.
 - **Route collisions:** `provenance.json` `collisions_total` = **8** overlapping polygons with foreign (unlabelled)
   geometry. Of the 13 recorded at `0b5b107` (UP 6, DN 6, FB 1) plus the VCP 2 / VCTRL 2 that #343's loop-filter work
   added (17 on the pre-#344 `main`), 12 were the second star leg's identical base-pin stack overlapping the first
@@ -222,7 +245,9 @@ needs item 4's LVS supply pairing (#37).
   the via grows, or M1.b widens; `scripts/test-layout-top.sh` exercises it in both directions. A pad found below its via
   is recorded in `below_via` (with position and uncovered area), never dropped -- dropping it would change geometry to
   hide an open that DRC (#36) and LVS (#37) must see.
-- Placeholder fill under routes is removed (10 squares); density sign-off is #36.
+- Placeholder fill near placed geometry is removed (583 squares; signal routes, supply routes *and* the prescaler cell,
+  which the #345 floorplan moved up into the fill band, where native `M1Fil.c`/`M2Fil.c` want
+  0.42 um filler-to-metal); density sign-off is #36.
 - CI pin: `.github/workflows/signoff.yml` moved to `klayout-tools==0.9.1` (#304, 2026-11-15), which still
   grades item 2 `met` from the attest envelope (measured at both pins). The earlier reason for holding
   the bump here — "moving the pin to 0.9.1 grades item 1 `stale_evidence` (3 met -> 1)" — did not
