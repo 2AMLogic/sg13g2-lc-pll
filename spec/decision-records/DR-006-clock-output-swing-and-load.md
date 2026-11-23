@@ -13,9 +13,15 @@ needs the 5.0 GHz clock at **≥ 0.4 V per side (0.8 Vpp differential), common m
 AC-coupled squarer. The requester reports that at ss / 1.08 V the mux output was not switched with 0.4 V per side, so the
 real need is higher; no higher figure was given. Whether DR-009 is ratified there is not known here.
 
-`spec/target-spec.md` had no row for the clock at an output interface. The only swing figure is I6 (VCO row 7): no
-output buffer in v1, swing ≥ 0.40 Vpp differential (0.20 Vpp per side, balanced), current-limited, 204.1 µA tail,
-at the tank, not graded into any load.
+`spec/target-spec.md` had no row for the clock at an output interface. I6 (VCO row 7) is a **target**: no output buffer
+in v1, swing ≥ 0.40 Vpp differential (0.20 Vpp per side, balanced), current-limited, 204.1 µA tail, at the tank. It is a
+minimum with no upper bound, so comparing it with the request does not establish a required gain or a buffer.
+
+Historical simulations (method T, not measured) did grade tank swing with the prescaler attached: nominal 0.549–0.620 Vpp
+differential (`sim/vco-prescaler-load/records/20261110-nominal-batch.md`) and 0.451–0.814 Vpp over 36 converged of 54
+loaded C-grid points (`sim/corner-verification/vco-prescaler-load/records/20261110-stage2.md`). All converged points are
+at f_osc 3.686–4.298 GHz, none at 5.0 GHz; the 125 °C points did not converge; the prescaler snapshot was sha256
+`41c32b6c…` and the current netlist hashes `add4d3b3…`. None of this is swing at a 5 GHz output into the squarer.
 
 ## Decision
 
@@ -23,19 +29,24 @@ at the tank, not graded into any load.
    differential, common mode, load (self-biased AC-coupled squarer; **load value not provided**), supply, corner set
    (C-grid), and method owed (T). The request is recorded as the requester gave it. Figures are the requester's
    request or the VCO's target; none is simulated or measured here.
-2. **Status: not met / not claimed.** I6's 0.40 Vpp differential is half of the requested 0.8 Vpp differential and is
-   ungraded into any load. The row must not be read as met.
+2. **Status: not met / not claimed.** No swing at a 5 GHz output into the squarer is graded, so no pass and no measured
+   failure is claimed. The row must not be read as met. Where swing is observed, and which side of the AC coupling owns the
+   ≈ 0.6 V common mode, are undefined (the coupling blocks DC). The requester's 1.08 V is the receiver's supply in a coupled
+   test, separate from this block's own 2.97–3.63 V grid (§5).
 3. I6 and every other ratified row are **unchanged**. The request is not folded into I6 and I6 is not reworded to fit it.
 
 ## Consequences
 
-- Meeting row 15 needs an **output buffer**. Per Q1 (§6) a buffer is designed here, not in the VCO. It supersedes VCO row
+- A buffer is a **candidate** for isolating the tank, not a demonstrated need. If adopted, per Q1 (§6) it is designed here,
+  not in the VCO. It would supersede VCO row
   7's "no output buffer" statement and re-grades VCO rows 1 and 2 (and G2's swing and startup re-check), so a record on
   `sg13g2-vco` is required (request R-VCO-3). That issue is a follow-up; this record does not file it on the VCO's behalf
   and edits no VCO file or `reuse.lock.json`.
 - The **2.1 fF tank-load budget (§1) is unchanged**. The buffer input counts against it together with the prescaler
-  input (the stage-2 first-stage input capacitance is already 1.837 fF at 5.0 GHz and 1.950 fF at 5.5 GHz per DR-005, so
-  headroom for a buffer on the same nodes is small and unsimulated).
+  input (DR-005 records 1.837 fF at 5.0 GHz and 1.950 fF at 5.5 GHz, **historical nominal device-level estimates** from
+  Im(Ydiff)/(2πf) at the prescaler's DC operating point on netlist `334d242e…`; the current netlist, `add4d3b3…`, models
+  the input-stage bias resistors. The 0.263 / 0.150 fF left from 2.1 fF is for that snapshot only and is shared by routing
+  and any new input. A fresh simulation is needed before it is used as design margin.)
 - Whether the ≥ 0.8 Vpp differential is attainable, with which buffer, at what power, is open: a later design and
   simulation issue, graded over C-grid with the method of §4, including the ss / 1.08 V case the requester names.
 - Q1 and the Gates table get an appended entry in `spec/target-spec.md` ("Appended updates"); G1 and G2 stay open.
@@ -43,4 +54,4 @@ at the tank, not graded into any load.
 ## Not done
 
 No buffer is designed or simulated. No swing is graded at an output node or into the squarer. The load value is not
-known. The consumer's ss / 1.08 V requirement is not quantified. Row 15 is unratified.
+known, nor is the receiver's sufficient input swing (consumer DR-009 is proposed, pinned `f72fa11`). The consumer's ss / 1.08 V requirement is not quantified. Row 15 is unratified.
