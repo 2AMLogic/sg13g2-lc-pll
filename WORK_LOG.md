@@ -4,6 +4,7 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-23
 
+- **Issue #219** (closed): Remove archived pre-DR-005 prescaler cells (div2_cml, div2_ef_hs, div2_latch_hs, div45_dm): uninstantiated
 - **PR #421**: fix: derive the cornerRES clause, rail-gated Vce headline and div89 grid text from the request
 - **Issue #401** (closed): Three remaining input-immutable spans in emitted record text: the cornerRES legend half, the head's minimum-supply clause, and div89_record's PDK legend
 - **PR #417**: fix(layout): refuse colliding group ids in common.plan()
