@@ -324,7 +324,12 @@
     "reference": {
       "RPPD": 2,
       "CAP_CMIM": 3
-    }
+    },
+    "reference_source": null
+  },
+  "sg13g2_passive_pairing": {
+    "status": "insufficient_evidence",
+    "findings": []
   },
   "mismatch_count": 21,
   "error_count": 15,
@@ -404,14 +409,14 @@
     "engine_version": "0.30.12",
     "klayout_binary": "klayout",
     "netgen_binary": null,
-    "layout_sha256": "90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+    "layout_sha256": "60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005",
     "reference_sha256": "35341299a4ecc524d2c91db5dc5c5f2cb8284a414d70e5b37401c7f85a90ea04",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
-    "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
-    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+    "klt_version": "0.9.3.dev3829+gaabdc195edea",
+    "klt_git_commit": "aabdc195edeacaf29053ca598391e3e425b386a2",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@aabdc195edeacaf29053ca598391e3e425b386a2",
     "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
@@ -420,7 +425,7 @@
       "released": null
     },
     "input": {
-      "content_hash": "sha256:90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+      "content_hash": "sha256:60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005",
       "role": "layout"
     },
     "runset": {
@@ -839,5 +844,6 @@
       "subcircuit": null
     }
   ],
-  "net_correspondence": []
+  "net_correspondence": [],
+  "mismatches_omitted": false
 }

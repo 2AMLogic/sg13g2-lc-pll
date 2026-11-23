@@ -103,3 +103,31 @@ Tool gaps filed generically: `2AMLogic/klayout-tools#6960` (subckt-call referenc
 `coverage` block in this klt, so the `sg13_hv_pmos` census question stays open for the charge pump; the
 `device_classes` list does include `pfet`. The swapped-net negative control is not run: it needs a `match`
 baseline to flip, and neither cell has one. It becomes meaningful once the two issues above are fixed.
+
+## Envelope refresh 2026-11-23 (#413, `klt 0.9.3.dev3829+gaabdc195edea`, klayout 0.30.12)
+
+The stream moved in `c1e1155` (#344: supplies, external pins, divider tie-offs), but the four committed
+envelopes still pinned the previous `layout/top.gds` (`90fecb47…` for the cells, `5e184029…` for top), so
+`klt lvs --check` reported `[DRIFTED] environment.layout_sha256` on all of them — provenance staleness,
+not wrong verdicts. All four requests were re-run once from their directories against the shipped stream
+(`sha256:60ad1ed0…`, the same bytes `manifests/layout.attest.json` pins); `klt lvs --check <report>` now
+exits 0 on each. No verdict changed and item 4 stays `unmet`.
+
+| Report | Status | vs the previous envelope |
+|---|---|---|
+| `top.lvs.json` | `mismatch` | layout side moved with the stream: 1740 nets (was 1782), 664 devices (was 674), 20 pins (was 14), still 0 matched — the reference-side pairing limitation (#5406) is unchanged. Layout census: `rppd` 85→86, `cap_cmim` 20→9, others identical. |
+| `cells/lcpll_loopfilter/lcpll_loopfilter.lvs.json` | `mismatch` | counts identical (16/16 devices, 5/4 nets, 0 paired) |
+| `cells/lcpll_loopfilter/lcpll_loopfilter.runset.lvs.json` | `mismatch` | counts identical (4/2 devices, 5/4 nets, 0 paired) |
+| `cells/lcpll_cp/lcpll_cp.lvs.json` | `mismatch` | counts identical (63/4 devices, 194/12 nets, 0 paired) |
+
+Tool/deck: the runset reports used the PDK's `libs.tech/klayout/tech/lvs/sg13g2.lvs`
+(`sha256:e01bcb1e…`, unchanged); the curated reports used klt's embedded `sg13g2` deck, whose content
+hash moved with the klt pin (`eaaf2989…` → `e5459fe9…`) — host tool drift, like the
+`provenance.klt_version` field. The refreshed `top.lvs.json` also records its layout input in the newer
+repo-scope form (`{"scope":"repo","path":"layout/top.gds"}`) instead of the report-relative `../top.gds`
+string the 2026-11-13 envelope carried.
+
+`scripts/test-layout-top.sh` now enforces the pin (#413): it discovers every committed `*.lvs.json` under
+`layout/lvs/` whose recorded layout input is the integrated GDS — either path form — and refuses when a
+report's `environment.layout_sha256` is stale or missing, naming the file and both hashes, so the next
+stream bump fails the layout test at the commit that causes it instead of silently stranding the evidence.
