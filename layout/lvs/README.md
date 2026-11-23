@@ -104,19 +104,77 @@ Tool gaps filed generically: `2AMLogic/klayout-tools#6960` (subckt-call referenc
 `device_classes` list does include `pfet`. The swapped-net negative control is not run: it needs a `match`
 baseline to flip, and neither cell has one. It becomes meaningful once the two issues above are fixed.
 
-## Re-run after the duplicate port-label fix (#349, 2026-11-21, `klt 0.9.3.dev2575+g6bd18bbc8637`, klayout 0.30.10)
+## Per-cell compares, all six cells (#346, `klt 0.9.3.dev2575+g6bd18bbc8637`, klayout 0.30.12)
+
+The four remaining cells get the #343 treatment: committed request + envelope under `cells/<cell>/`, layout =
+committed `layout/top.gds` with `top` set to the cell, reference = the cell's own `.subckt` (`form: subckt-call`,
+nothing hand-written). These envelopes pin the `layout/top.gds` stream `90fecb47...`, which is what `main` held when they were produced
+(the five #346 routing trials, four remaining cells plus a charge-pump repeat, all came back partial and none
+shipped; the loop filter is separate, shipped fully routed 4/4). `main` has since moved to `60ad1ed0...`
+(#344, `c1e1155`, supply / external-pin / divider tie-off routing), so on this head `klt lvs --check` reports
+`environment.layout_sha256` drift for all seven #346 envelopes and for #347's `lcpll_cp` envelope, which is cited
+rather than re-run. This is provenance staleness, not changed readings: the `lcpll_pfd` and `lcpll_lockdet`
+requests were re-run against `60ad1ed0...` and gave byte-identical verdicts, device/net counts and category
+counts (the top-level routing sits above these cells); the other cells' readings were not re-run. Refreshing the
+envelopes is tracked in #413. The charge pump's flatten retry below is new evidence. **Every cell
+mismatches; item 4 stays `unmet` with #37 and the swapped-net negative control stays pending everywhere (it needs a
+`match` baseline to flip; none exists).**
+
+| Cell | Engine | Status | Reading |
+|---|---|---|---|
+| `lcpll_pfd` (placement only) | curated `sg13g2` | `mismatch` | 66 layout devices (33 `nfet`, 33 `pfet`), 0 paired, 0 of 201/14 nets matched; flat layout vs 6-circuit reference hierarchy (`EDGEDET`, `SRLATCH`, … appear as reference circuits); 2 `device.body_unverified` (tap conductors unlabelled — the cell is unrouted) |
+| `lcpll_pfd` | curated + `flatten_reference` | no envelope | exits 1: `top cell/subcircuit 'pfd' not found in reference netlist` — the flatten path only selects the file's first `.subckt` (`pll_top`), `2AMLogic/klayout-tools#6988`; `request.flatten.json` is committed so the diagnostic reproduces |
+| `lcpll_lockdet` (placement only) | curated `sg13g2` | `mismatch` | 40 layout devices (19 `nfet`, 18 `pfet`, 2 `cap_cmim`, 1 `rhigh`), 0 paired, 0 of 120/11 nets matched; hierarchy mismatch + `device.placeholder_value` on 2 reference `CAP_CMIM` instances and 1 `RHIGH` instance |
+| `lcpll_lockdet` | curated + `flatten_reference` | no envelope | same #6988 failure (`'lock_detector' not found`) |
+| `lcpll_divider` (placement only) | curated `sg13g2` | `mismatch` | 617 layout devices (304 `nfet`, 304 `pfet`, 1 `rppd`, 5 `rhigh`, 3 `cap_cmim`) vs 0 paired, 0 of 1846/19 nets matched; the 4 HBT units drawn by the generator are **not** a curated-deck device class (absent from `device_classes`), so they are invisible to this engine; 1 unresolved reference `NPN13G2V` call |
+| `lcpll_divider` | curated + `flatten_reference` | `mismatch` | reference flattens to 617 devices — census equal — but 0 pair: 1234 `device.unmatched`, 2130 `net.unmatched` (unrouted layout), 3 nets / 26 pins matched; envelope committed as `<cell>.flatten.lvs.json` |
+| `lcpll_prescaler` (placement only) | curated `sg13g2` | `mismatch` | 80 layout `rppd` (the 129 HBT units are not a curated-deck class — prescaler HBT recognition is **not observed** by this engine, matching the #343 note that the curated envelopes carry no `device_census`/`coverage`); 29 reference `NPN13G2V` calls unresolved (`reference.unresolved_subckt_call`); `device.placeholder_value` applies to 24 reference `RPPD` instances; 0 devices paired |
+| `lcpll_prescaler` | curated + `flatten_reference` | `mismatch` | census 80 / 80 `rppd` and the compare engages — 25 devices, 52 nets, 12 pins matched — then `net.split` 110 / `net.merged` 54 (the layout is unrouted, so extracted connectivity cannot agree); envelope committed |
+| `lcpll_cp` | curated + `flatten_reference` | `mismatch` | census 63 / 63 devices (the #347 flat-vs-hierarchy asymmetry gone), 0 paired: 63 `device.unmatched`, 212 `net.unmatched`; envelope committed beside #347's plain curated envelope |
+
+What the flatten retries establish: the `topology.hierarchy_mismatch` note's own recommendation (`options.flatten_reference:
+true`) is the right shape — divider and charge pump reach an equal device census with it — but no device pairs yet
+(#6960 pairing still applies), it cannot even be requested for `pfd`/`lock_detector` whose reference subckt is not the
+first of `pll_top.spice` (#6988), and a placement-only layout can at best half-match (prescaler: splits/merges on
+unrouted nets). Fields this klt does not emit for these envelopes: `device_census`, `coverage` (only the `klayout-runset` top-level envelope, the committed `top.lvs.json`, carries both; replaying
+the curated top-level request exits 1 during conversion on `inductor` and `sg13_hv_svaricap`, so no curated top-level envelope
+exists, and the curated per-cell envelopes do not carry them) — the HBT recognition statements above rest on
+`device_classes` + `device_parameter_coverage` + the unresolved-call counts, not a census.
+
+Reproduce (needs `klt`, the KLayout Python module and an IHP-SG13G2 PDK; the committed requests use relative paths, so run
+from each `cells/<cell>/` directory): `klt lvs request.json --format json -o <cell>.lvs.json`
+and `klt lvs request.flatten.json --format json -o <cell>.flatten.lvs.json`. `klt lvs --check` re-hashes the
+inputs and currently reports `environment.layout_sha256` drift (`90fecb47...` recorded, `60ad1ed0...` on this head)
+for all seven #346 envelopes; it is an input-freshness check, not a verdict.
+
+## Re-run after the duplicate port-label fix (#349, 2026-11-23, `klt 0.9.3.dev3910+g8703ad519ff7`, klayout 0.30.12)
 
 `layout/cells/common.py` no longer keeps `gen-compose`'s own net labels on a routed cell, so the
 loop filter carries exactly one label per port at the recorded `port_labels` site (it carried two
-per port; the router's copies sat on 10/25 and 30/25). `layout/top.gds` was regenerated
-(`sha256:32b79317…`, was `90fecb47…`) and the three per-cell envelopes above were re-run against
-it — same commands, same requests, from each cell's directory:
+per port; the router's copies sat on 10/25 and 30/25). `layout/top.gds` was regenerated on top of
+`main` after the #344/#345/#346 merges (`sha256:4b8e6867...`, was `c897060c...` on `main`) and the
+three per-cell envelopes above were re-run against it — same commands, same requests, from each
+cell's directory. Counts below are measured from `mismatches[]` / `counts` in the committed
+envelopes, compared with `main`'s copies:
 
-| Cell | Engine | Status | Change vs the run above |
+| Cell | Engine | Status | Change vs `main` |
 |---|---|---|---|
-| `lcpll_loopfilter` | curated `sg13g2` | `mismatch` | none beyond the input hash (same 16 / 16 devices, 0 paired) |
-| `lcpll_loopfilter` | `klayout-runset` | `mismatch` | `mismatch_count` 21 -> 18, `pin.unmatched` 6 -> 3: the duplicate labels each produced an extra unmatched named layout net (`VIN`/`VCTRL`/`VSS`) plus a pin warning; with one label per port those nets extract anonymously (`$2`..`$5`) and the phantom entries are gone |
+| `lcpll_loopfilter` | curated `sg13g2` | `mismatch` | none beyond the input hash (same 16 / 16 devices, 0 paired, `mismatch_count` 31) |
+| `lcpll_loopfilter` | `klayout-runset` | `mismatch` | `mismatch_count` 21 -> 18; `counts.pins.layout` 3 -> **0**; `pin.unmatched` 6 -> 3 (the 3 layout-side warnings gone, the 3 reference-side entries remain); `counts.nets` unchanged (layout 5, reference 4, matched 0) and `net.unmatched` unchanged at 9 — three layout nets lost their names (`VIN`/`VCTRL`/`VSS` -> anonymous `$n`), none was added or removed |
 | `lcpll_cp` | curated `sg13g2` | `mismatch` | none beyond the input hash |
+
+No net was added or removed: the whole `21 -> 18` delta is the three layout-side pin warnings
+disappearing because the runset now recognises no layout pin at all.
+
+**The routed loop filter now presents zero layout pins to the PDK runset.** `counts.pins.layout`
+fell 3 -> 0 and all three reference pins (`VCTRL`/`VIN`/`VSS`) remain unmatched, so this is *further*
+from an eventual `match`, even though `mismatch_count` fell. Mechanism, inferred from the
+before/after pair (the runset deck was not read): the pins the runset recognised came from the
+router's texts on the label purposes 10/25 and 30/25 (no-rule label layers, `layout/drc/README.md`);
+the surviving stamp writes text on drawing purposes (`126/0` / `67/0` / `8/0`, per `port_labels`),
+which the runset evidently does not read as pin text. "One label per port" as implemented is
+therefore a label the PDK LVS runset cannot use. This matters beyond #349: item 4 / #37 needs layout
+pins to match, and #346 routes the other cells onto the same stamp path. Tracked in #416.
 
 Still no match and no new claim: item 4 stays `unmet` with #37, and the tool gaps (#6960, #6961) are
 unchanged. The re-run does show the duplication was not extraction-neutral, contrary to the issue's

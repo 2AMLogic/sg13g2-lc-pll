@@ -31,7 +31,8 @@ The grid goes to the Spot batch fleet; do not loop `ngspice` locally. Single-cor
 ## Method notes
 
 - Pass rules are in the docstring of `div89_record.py` and are repeated in every record. A unit that errored or gave
-  no crossings is never a pass.
+  no crossings is never a pass; each supplied report is graded before combining, and an empty report is INCOMPLETE,
+  never a pass.
 - **Power-up start.** The decks ramp the supply, IREF and MC from 0 over 1 ns and the inputs follow `v(vdd)`. With the
   sources applied at t = 0 the transient operating point failed at FAST / 125 C / 3.63 V ("timestep too small" at the
   bias HBT) and, from a local probe, at 110 C but not at 100 or 120 C: it is a convergence artefact of the start,

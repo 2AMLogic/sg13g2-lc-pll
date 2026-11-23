@@ -1,0 +1,4 @@
+{
+  "layout": {"file": "../../../top.gds", "top": "lcpll_divider", "deck": "sg13g2"},
+  "reference": {"netlist": "../../../../design/netlist/divider.spice", "top": "divider", "form": "subckt-call", "deck": "sg13g2"}
+}
