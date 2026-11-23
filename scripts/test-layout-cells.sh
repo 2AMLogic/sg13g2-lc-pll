@@ -12,6 +12,52 @@ PY="${LAYOUT_PY:-${ROOT}/.venv/bin/python}"
 T="$(mktemp -d)"; trap 'rm -rf "${T}"' EXIT
 bad=0
 
+# plan() unit check (#415): a split-off singleton's id is built from the unit's base net, so
+# two units of one HBT flavour on one split base would plan two groups with one id (and
+# build_block keys reports/origins by it). The post-assembly uniqueness check must refuse
+# that -- and the .lower()-folded spelling of two different base nets -- while the
+# one-unit-per-base shape still plans. Pure python + klayout only; runs before the klt parts.
+"${PY}" -I - "${ROOT}" <<'PLANEOF' || bad=$((bad+1))
+import os, sys
+root = sys.argv[1]
+sys.path.insert(0, os.path.join(root, "layout"))
+from cells import common
+
+def hbt(path, base):
+    return {"path": path, "model": "npn13G2v", "nets": ["vcc", base, "vee"],
+            "params": {"nx": "1"}}
+
+fail = 0
+
+# Two units of one flavour on one split base: refused, naming the colliding id and the units.
+try:
+    common.plan("blk", [hbt("xck1", "INP"), hbt("xck2", "INP"), hbt("xd1", "VB")],
+                hbt_split_bases=("INP",))
+    print("FAIL plan: two units on one split base did not raise"); fail += 1
+except common.PlanError as e:
+    msg = str(e)
+    ok = "blk_hbt_npn13g2v_base_inp" in msg and "xck1" in msg and "xck2" in msg
+    print(("PASS" if ok else "FAIL") + f" plan: two units on one split base raise: {msg}")
+    fail += 0 if ok else 1
+
+# One unit per split base: still plans, ids unique, both singletons present.
+groups = common.plan("blk", [hbt("xck1", "INP"), hbt("xck2", "INN"), hbt("xd1", "VB")],
+                     hbt_split_bases=("INP", "INN"))
+ids = [g["id"] for g in groups]
+ok = len(ids) == len(set(ids)) and {"blk_hbt_npn13g2v_base_inp", "blk_hbt_npn13g2v_base_inn"} <= set(ids)
+print(("PASS" if ok else "FAIL") + f" plan: one unit per split base plans {len(ids)} unique-id groups")
+fail += 0 if ok else 1
+
+# Nets differing only by case fold to one id: also refused.
+try:
+    common.plan("blk", [hbt("xck1", "INP"), hbt("xck2", "inp"), hbt("xd1", "VB")],
+                hbt_split_bases=("INP", "inp"))
+    print("FAIL plan: case-folded split bases did not raise"); fail += 1
+except common.PlanError as e:
+    print(f"PASS plan: case-folded split bases raise: {e}")
+sys.exit(1 if fail else 0)
+PLANEOF
+
 "${PY}" "${ROOT}/layout/gen_cells.py" --out "${T}/cells" --check || { echo "FAIL regenerate vs provenance"; bad=$((bad+1)); }
 [ "${bad}" = 0 ] && echo "PASS regenerated cells match layout/cells.provenance.json"
 
