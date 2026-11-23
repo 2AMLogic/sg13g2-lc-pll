@@ -1,0 +1,1393 @@
+{
+ "cell": "lcpll_prescaler",
+ "diagnostics": [
+  "net 'VSS' could not be routed: 7 of 28 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l9p05.R0_B', 'lcpll_prescaler_resrppd_w1_l9p05.R6_B', 'lcpll_prescaler_resrppd_w1_l9p05.R15_B', 'lcpll_prescaler_resrppd_w1_l9p05.R16_B', 'lcpll_prescaler_resrppd_w1_l9p05.R27_B', 'lcpll_prescaler_resrppd_w1_l9p05.R28_B', 'lcpll_prescaler_resrppd_w1_l9p05.R36_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_resrppd_w1_l9p05.R6_B' -> 'lcpll_prescaler_resrppd_w1_l9p05.R36_B'): crosses already-routed net 'VDD'",
+  "net 'X89.S1' could not be routed: 3 of 7 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q12_B', 'lcpll_prescaler_hbt_npn13g2v.Q93_B', 'lcpll_prescaler_resrppd_w1_l9p05.R32_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q12_B' -> 'lcpll_prescaler_hbt_npn13g2v.Q101_C'): crosses already-routed net 'IREF' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.S1B' could not be routed: 2 of 7 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q13_B', 'lcpll_prescaler_hbt_npn13g2v.Q103_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q102_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q103_B'): crosses already-routed net 'X89.S1' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XC23.CKN' could not be routed: 5 of 7 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q31_E', 'lcpll_prescaler_hbt_npn13g2v.Q59_B', 'lcpll_prescaler_hbt_npn13g2v.Q66_B', 'lcpll_prescaler_hbt_npn13g2v.Q75_B', 'lcpll_prescaler_hbt_npn13g2v.Q82_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q31_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q75_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XC23.CKP' could not be routed: 5 of 7 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q30_E', 'lcpll_prescaler_hbt_npn13g2v.Q58_B', 'lcpll_prescaler_hbt_npn13g2v.Q67_B', 'lcpll_prescaler_hbt_npn13g2v.Q74_B', 'lcpll_prescaler_hbt_npn13g2v.Q83_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q30_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q74_B'): crosses already-routed net 'VDD'",
+  "net 'OUTN' could not be routed: 2 of 6 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q19_B', 'lcpll_prescaler_resrppd_w1_l9p05.R41_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q19_B' -> 'lcpll_prescaler_hbt_npn13g2v.Q114_B'): crosses already-routed net 'IREF' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'OUTP' could not be routed: 5 of 6 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q115_B', 'lcpll_prescaler_hbt_npn13g2v.Q123_C', 'lcpll_prescaler_hbt_npn13g2v.Q124_B', 'lcpll_prescaler_hbt_npn13g2v.Q125_C', 'lcpll_prescaler_resrppd_w1_l9p05.R40_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q123_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q124_B'): crosses already-routed net 'OUTN' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.C1' could not be routed: 4 of 6 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q36_B', 'lcpll_prescaler_hbt_npn13g2v.Q64_B', 'lcpll_prescaler_hbt_npn13g2v.Q86_B', 'lcpll_prescaler_resrppd_w1_l7p8.R2_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q64_B' -> 'lcpll_prescaler_hbt_npn13g2v.Q65_C'): crosses already-routed net 'IREF' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.C1B' could not be routed: 5 of 6 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q62_C', 'lcpll_prescaler_hbt_npn13g2v.Q64_C', 'lcpll_prescaler_hbt_npn13g2v.Q65_B', 'lcpll_prescaler_hbt_npn13g2v.Q87_B', 'lcpll_prescaler_resrppd_w1_l7p8.R3_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q64_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q65_B'): crosses already-routed net 'IREF' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XC23.Q1L' could not be routed: 2 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q36_E', 'lcpll_prescaler_hbt_npn13g2v.Q50_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q36_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q40_C'): crosses already-routed net 'VDD'",
+  "net 'X89.XC23.Q1LB' could not be routed: 4 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q41_C', 'lcpll_prescaler_hbt_npn13g2v.Q41_B', 'lcpll_prescaler_hbt_npn13g2v.Q44_B', 'lcpll_prescaler_hbt_npn13g2v.Q51_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q41_B' -> 'lcpll_prescaler_hbt_npn13g2v.Q41_C'): crosses already-routed net 'X89.XC23.Q1L' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XC23.Q2' could not be routed: 3 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q43_B', 'lcpll_prescaler_hbt_npn13g2v.Q80_B', 'lcpll_prescaler_resrppd_w1_l7p8.R6_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q79_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q80_B'): crosses already-routed net 'IREF' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XC23.Q2B' could not be routed: 4 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q78_C', 'lcpll_prescaler_hbt_npn13g2v.Q80_C', 'lcpll_prescaler_hbt_npn13g2v.Q81_B', 'lcpll_prescaler_resrppd_w1_l7p8.R7_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q80_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q81_B'): crosses already-routed net 'IREF' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XC23.XF1.M' could not be routed: 3 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q56_B', 'lcpll_prescaler_hbt_npn13g2v.Q62_B', 'lcpll_prescaler_resrppd_w1_l7p8.R0_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q55_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q56_B'): crosses already-routed net 'IREF' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XC23.XF1.MB' could not be routed: 4 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q56_C', 'lcpll_prescaler_hbt_npn13g2v.Q57_B', 'lcpll_prescaler_hbt_npn13g2v.Q63_B', 'lcpll_prescaler_resrppd_w1_l7p8.R1_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q56_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q57_B'): crosses already-routed net 'IREF' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XC23.XF2.M' could not be routed: 2 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q78_B', 'lcpll_prescaler_resrppd_w1_l7p8.R4_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q73_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q78_B'): crosses already-routed net 'IREF' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XC23.XF2.MB' could not be routed: 4 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q72_C', 'lcpll_prescaler_hbt_npn13g2v.Q73_B', 'lcpll_prescaler_hbt_npn13g2v.Q79_B', 'lcpll_prescaler_resrppd_w1_l7p8.R5_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q72_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q73_B'): crosses already-routed net 'X89.XC23.XF2.M' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XS1.CKN' could not be routed: 3 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q87_E', 'lcpll_prescaler_hbt_npn13g2v.Q97_B', 'lcpll_prescaler_hbt_npn13g2v.Q104_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q87_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q91_C'): crosses already-routed net 'VDD'",
+  "net 'X89.XS1.CKP' could not be routed: 3 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q86_E', 'lcpll_prescaler_hbt_npn13g2v.Q96_B', 'lcpll_prescaler_hbt_npn13g2v.Q105_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q90_B' -> 'lcpll_prescaler_hbt_npn13g2v.Q96_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XS1.MN' could not be routed: 4 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q94_C', 'lcpll_prescaler_hbt_npn13g2v.Q95_B', 'lcpll_prescaler_hbt_npn13g2v.Q101_B', 'lcpll_prescaler_resrppd_w1_l9p05.R30_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q94_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q95_B'): crosses already-routed net 'X89.S1B' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XS1.MP' could not be routed: 4 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q94_B', 'lcpll_prescaler_hbt_npn13g2v.Q95_C', 'lcpll_prescaler_hbt_npn13g2v.Q100_B', 'lcpll_prescaler_resrppd_w1_l9p05.R29_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q94_B' -> 'lcpll_prescaler_hbt_npn13g2v.Q95_C'): crosses already-routed net 'X89.S1B' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XS2.CKN' could not be routed: 2 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q109_E', 'lcpll_prescaler_hbt_npn13g2v.Q119_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q109_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q113_C'): crosses already-routed net 'VDD'",
+  "net 'X89.XS2.CKP' could not be routed: 3 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q108_E', 'lcpll_prescaler_hbt_npn13g2v.Q118_B', 'lcpll_prescaler_hbt_npn13g2v.Q127_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q108_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q112_C'): crosses already-routed net 'VDD'",
+  "net 'X89.XS2.MN' could not be routed: 3 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q117_B', 'lcpll_prescaler_hbt_npn13g2v.Q123_B', 'lcpll_prescaler_resrppd_w1_l9p05.R38_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q116_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q117_B'): crosses already-routed net 'OUTN' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XS2.MP' could not be routed: 4 of 5 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q116_B', 'lcpll_prescaler_hbt_npn13g2v.Q117_C', 'lcpll_prescaler_hbt_npn13g2v.Q122_B', 'lcpll_prescaler_resrppd_w1_l9p05.R37_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q115_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q116_B'): crosses already-routed net 'OUTN' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.G' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q24_B', 'lcpll_prescaler_resrppd_w1_l9p05.R7_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q21_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q24_B'): crosses already-routed net 'IREF' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.M' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q48_B', 'lcpll_prescaler_resrppd_w1_l9p05.R10_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q48_B' -> 'lcpll_prescaler_resrppd_w1_l9p05.R10_B'): crosses already-routed net 'VDD'",
+  "net 'X89.MCL' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q6_E', 'lcpll_prescaler_hbt_npn13g2v.Q26_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q6_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q10_C'): crosses already-routed net 'VDD'",
+  "net 'X89.MCLB' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q7_E', 'lcpll_prescaler_hbt_npn13g2v.Q27_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q7_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q11_C'): crosses already-routed net 'VDD'",
+  "net 'X89.S1L' could not be routed: 1 of 4 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q12_E') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q12_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q16_C'): crosses already-routed net 'VDD'",
+  "net 'X89.S1LB' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q13_E', 'lcpll_prescaler_hbt_npn13g2v.Q17_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q17_B' -> 'lcpll_prescaler_hbt_npn13g2v.Q17_C'): crosses already-routed net 'X89.S1L' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XC23.D1' could not be routed: 3 of 4 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q45_C', 'lcpll_prescaler_hbt_npn13g2v.Q54_B', 'lcpll_prescaler_resrppd_w1_l9p05.R17_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q45_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q54_B'): crosses already-routed net 'IREF' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XC23.D2' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q70_B', 'lcpll_prescaler_resrppd_w1_l9p05.R20_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q70_B' -> 'lcpll_prescaler_resrppd_w1_l9p05.R20_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XMC.t' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q2_E', 'lcpll_prescaler_hbt_npn13g2v.Q3_E') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q2_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q3_E'): draws a via cut on layer (19, 0) at (13.61, 3.6) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.GB' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q25_B', 'lcpll_prescaler_resrppd_w1_l9p05.R8_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q18_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q25_B'): crosses already-routed net 'IREF' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.MB' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q49_B', 'lcpll_prescaler_resrppd_w1_l9p05.R11_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q49_B' -> 'lcpll_prescaler_resrppd_w1_l9p05.R11_B'): crosses already-routed net 'VDD'",
+  "net 'X89.MCN' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q7_B', 'lcpll_prescaler_resrppd_w1_l9p05.R2_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q2_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q7_B'): crosses already-routed net 'IREF' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.MCP' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q6_B', 'lcpll_prescaler_resrppd_w1_l9p05.R1_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q3_C' -> 'lcpll_prescaler_hbt_npn13g2v.Q6_B'): crosses already-routed net 'IREF' -- a bounded same-block cross-layer detour (4 alternate lanes looped clear of the block's own bbox) was tried first, and each one still conflicted",
+  "net 'X89.XC23.D1B' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q55_B', 'lcpll_prescaler_resrppd_w1_l9p05.R18_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q55_B' -> 'lcpll_prescaler_resrppd_w1_l9p05.R18_B'): crosses already-routed net 'IREF'",
+  "net 'X89.XC23.D2B' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q71_B', 'lcpll_prescaler_resrppd_w1_l9p05.R21_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q71_B' -> 'lcpll_prescaler_resrppd_w1_l9p05.R21_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XC23.XF1.XM.e1' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q55_E', 'lcpll_prescaler_hbt_npn13g2v.Q58_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q54_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q55_E'): draws a via cut on layer (19, 0) at (101.3, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF1.XM.e2' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q57_E', 'lcpll_prescaler_hbt_npn13g2v.Q59_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q56_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q57_E'): draws a via cut on layer (19, 0) at (120.8, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF1.XM.t' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q59_E', 'lcpll_prescaler_resrppd_w1_l9p05.R23_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q58_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q59_E'): draws a via cut on layer (19, 0) at (140.2, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF1.XM.tc' could not be routed: 1 of 3 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l9p05.R23_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q61_C' -> 'lcpll_prescaler_resrppd_w1_l9p05.R23_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XC23.XF1.XM.teT' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q61_E', 'lcpll_prescaler_resrppd_w2_l9p05.R5_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q60_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q61_E'): draws a via cut on layer (19, 0) at (159.7, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF1.XS.e1' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q63_E', 'lcpll_prescaler_hbt_npn13g2v.Q66_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q62_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q63_E'): draws a via cut on layer (19, 0) at (179.2, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF1.XS.e2' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q65_E', 'lcpll_prescaler_hbt_npn13g2v.Q67_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q64_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q65_E'): draws a via cut on layer (19, 0) at (198.7, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF1.XS.t' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q67_E', 'lcpll_prescaler_resrppd_w1_l9p05.R24_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q66_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q67_E'): draws a via cut on layer (19, 0) at (218.2, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF1.XS.tc' could not be routed: 1 of 3 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l9p05.R24_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q68_C' -> 'lcpll_prescaler_resrppd_w1_l9p05.R24_B'): crosses already-routed net 'IREF'",
+  "net 'X89.XC23.XF1.XS.teT' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q69_E', 'lcpll_prescaler_resrppd_w2_l9p05.R6_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q68_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q69_E'): draws a via cut on layer (19, 0) at (237.6, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF2.XM.e1' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q71_E', 'lcpll_prescaler_hbt_npn13g2v.Q74_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q70_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q71_E'): draws a via cut on layer (19, 0) at (257.1, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF2.XM.e2' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q73_E', 'lcpll_prescaler_hbt_npn13g2v.Q75_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q72_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q73_E'): draws a via cut on layer (19, 0) at (276.6, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF2.XM.t' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q75_E', 'lcpll_prescaler_resrppd_w1_l9p05.R25_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q74_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q75_E'): draws a via cut on layer (19, 0) at (296.1, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF2.XM.tc' could not be routed: 1 of 3 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l9p05.R25_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q76_C' -> 'lcpll_prescaler_resrppd_w1_l9p05.R25_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XC23.XF2.XM.teT' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q77_E', 'lcpll_prescaler_resrppd_w2_l9p05.R7_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q76_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q77_E'): draws a via cut on layer (19, 0) at (315.6, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF2.XS.e1' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q79_E', 'lcpll_prescaler_hbt_npn13g2v.Q82_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q78_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q79_E'): draws a via cut on layer (19, 0) at (335, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF2.XS.e2' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q81_E', 'lcpll_prescaler_hbt_npn13g2v.Q83_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q80_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q81_E'): draws a via cut on layer (19, 0) at (354.5, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF2.XS.t' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q83_E', 'lcpll_prescaler_resrppd_w1_l9p05.R26_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q82_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q83_E'): draws a via cut on layer (19, 0) at (374, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XF2.XS.tc' could not be routed: 1 of 3 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l9p05.R26_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q84_C' -> 'lcpll_prescaler_resrppd_w1_l9p05.R26_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XC23.XF2.XS.teT' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q85_E', 'lcpll_prescaler_resrppd_w2_l9p05.R8_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q84_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q85_E'): draws a via cut on layer (19, 0) at (393.5, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XG1.n1' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q43_E', 'lcpll_prescaler_hbt_npn13g2v.Q44_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q42_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q43_E'): draws a via cut on layer (19, 0) at (403.2, 3.6) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XG1.t' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q45_E', 'lcpll_prescaler_resrppd_w1_l9p05.R19_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q44_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q45_E'): draws a via cut on layer (19, 0) at (3.87, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XG1.tc' could not be routed: 1 of 3 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l9p05.R19_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q47_C' -> 'lcpll_prescaler_resrppd_w1_l9p05.R19_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XC23.XG1.teT' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q47_E', 'lcpll_prescaler_resrppd_w2_l9p05.R3_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q46_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q47_E'): draws a via cut on layer (19, 0) at (23.35, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XG2.n1' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q49_E', 'lcpll_prescaler_hbt_npn13g2v.Q50_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q48_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q49_E'): draws a via cut on layer (19, 0) at (42.83, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XG2.t' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q51_E', 'lcpll_prescaler_resrppd_w1_l9p05.R22_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q50_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q51_E'): crosses already-routed net 'VDD'",
+  "net 'X89.XC23.XG2.tc' could not be routed: 1 of 3 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l9p05.R22_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q53_C' -> 'lcpll_prescaler_resrppd_w1_l9p05.R22_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XC23.XG2.teT' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q53_E', 'lcpll_prescaler_resrppd_w2_l9p05.R4_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q52_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q53_E'): draws a via cut on layer (19, 0) at (81.79, 12.8) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XG1.n1' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q19_E', 'lcpll_prescaler_hbt_npn13g2v.Q20_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q18_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q19_E'): draws a via cut on layer (19, 0) at (169.5, 3.6) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XG1.t' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q21_E', 'lcpll_prescaler_resrppd_w1_l9p05.R9_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q20_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q21_E'): draws a via cut on layer (19, 0) at (188.9, 3.6) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XG1.tc' could not be routed: 1 of 3 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l9p05.R9_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q22_C' -> 'lcpll_prescaler_resrppd_w1_l9p05.R9_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XG1.teT' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q23_E', 'lcpll_prescaler_resrppd_w2_l9p05.R1_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q22_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q23_E'): draws a via cut on layer (19, 0) at (208.4, 3.6) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XGM.n1' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q25_E', 'lcpll_prescaler_hbt_npn13g2v.Q26_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q24_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q25_E'): draws a via cut on layer (19, 0) at (227.9, 3.6) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XGM.t' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q27_E', 'lcpll_prescaler_resrppd_w1_l9p05.R12_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q26_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q27_E'): draws a via cut on layer (19, 0) at (247.4, 3.6) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XGM.tc' could not be routed: 1 of 3 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l9p05.R12_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q28_C' -> 'lcpll_prescaler_resrppd_w1_l9p05.R12_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XGM.teT' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q29_E', 'lcpll_prescaler_resrppd_w2_l9p05.R2_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q28_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q29_E'): draws a via cut on layer (19, 0) at (266.9, 3.6) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XMC.bm' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l120p65.R0_A', 'lcpll_prescaler_resrppd_w1_l38p65.R0_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q2_B' -> 'lcpll_prescaler_resrppd_w1_l120p65.R0_A'): crosses already-routed net 'IREF'",
+  "net 'X89.XMC.teT' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q5_E', 'lcpll_prescaler_resrppd_w2_l9p05.R0_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q4_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q5_E'): draws a via cut on layer (19, 0) at (33.09, 3.6) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XMC.vr' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l108p8.R0_A', 'lcpll_prescaler_resrppd_w1_l46p4.R0_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q3_B' -> 'lcpll_prescaler_resrppd_w1_l108p8.R0_A'): crosses already-routed net 'IREF'",
+  "net 'X89.XS1.XM.e1' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q93_E', 'lcpll_prescaler_hbt_npn13g2v.Q96_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q92_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q93_E'): crosses already-routed net 'VDD'",
+  "net 'X89.XS1.XM.e2' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q95_E', 'lcpll_prescaler_hbt_npn13g2v.Q97_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q94_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q95_E'): draws a via cut on layer (19, 0) at (72.05, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XS1.XM.t' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q97_E', 'lcpll_prescaler_resrppd_w1_l9p05.R31_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q96_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q97_E'): draws a via cut on layer (19, 0) at (91.53, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XS1.XM.tc' could not be routed: 1 of 3 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l9p05.R31_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q99_C' -> 'lcpll_prescaler_resrppd_w1_l9p05.R31_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XS1.XM.teT' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q99_E', 'lcpll_prescaler_resrppd_w2_l9p05.R9_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q98_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q99_E'): draws a via cut on layer (19, 0) at (111, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XS1.XS.e1' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q101_E', 'lcpll_prescaler_hbt_npn13g2v.Q104_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q100_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q101_E'): draws a via cut on layer (19, 0) at (130.5, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XS1.XS.e2' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q103_E', 'lcpll_prescaler_hbt_npn13g2v.Q105_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q102_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q103_E'): draws a via cut on layer (19, 0) at (150, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XS1.XS.t' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q105_E', 'lcpll_prescaler_resrppd_w1_l9p05.R34_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q104_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q105_E'): draws a via cut on layer (19, 0) at (169.5, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XS1.XS.tc' could not be routed: 1 of 3 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l9p05.R34_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q106_C' -> 'lcpll_prescaler_resrppd_w1_l9p05.R34_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XS1.XS.teT' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q107_E', 'lcpll_prescaler_resrppd_w2_l9p05.R10_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q106_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q107_E'): draws a via cut on layer (19, 0) at (188.9, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XS2.XM.e1' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q115_E', 'lcpll_prescaler_hbt_npn13g2v.Q118_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q114_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q115_E'): draws a via cut on layer (19, 0) at (266.9, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XS2.XM.e2' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q117_E', 'lcpll_prescaler_hbt_npn13g2v.Q119_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q116_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q117_E'): draws a via cut on layer (19, 0) at (286.3, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XS2.XM.t' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q119_E', 'lcpll_prescaler_resrppd_w1_l9p05.R39_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q118_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q119_E'): draws a via cut on layer (19, 0) at (305.8, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XS2.XM.tc' could not be routed: 1 of 3 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l9p05.R39_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q120_C' -> 'lcpll_prescaler_resrppd_w1_l9p05.R39_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XS2.XM.teT' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q121_E', 'lcpll_prescaler_resrppd_w2_l9p05.R11_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q120_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q121_E'): draws a via cut on layer (19, 0) at (325.3, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XS2.XS.e1' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q123_E', 'lcpll_prescaler_hbt_npn13g2v.Q126_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q122_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q123_E'): draws a via cut on layer (19, 0) at (344.8, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XS2.XS.e2' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q125_E', 'lcpll_prescaler_hbt_npn13g2v.Q127_C') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q124_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q125_E'): draws a via cut on layer (19, 0) at (364.2, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XS2.XS.t' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q127_E', 'lcpll_prescaler_resrppd_w1_l9p05.R42_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q126_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q127_E'): draws a via cut on layer (19, 0) at (383.7, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XS2.XS.tc' could not be routed: 1 of 3 pins could not be connected into one net ('lcpll_prescaler_resrppd_w1_l9p05.R42_B') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q128_C' -> 'lcpll_prescaler_resrppd_w1_l9p05.R42_B'): crosses already-routed net 'VDD'",
+  "net 'X89.XS2.XS.teT' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_prescaler_hbt_npn13g2v.Q129_E', 'lcpll_prescaler_resrppd_w2_l9p05.R12_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_prescaler_hbt_npn13g2v.Q128_E' -> 'lcpll_prescaler_hbt_npn13g2v.Q129_E'): draws a via cut on layer (19, 0) at (403.2, 22) that comes within 0.035um of block 'lcpll_prescaler_hbt_npn13g2v''s own via cuts on that layer -- closer than the resolved deck's own 'via1.space.1' minimum same-layer spacing rule (no overlap, but a real `klt drc` violation on the composed layout, issue #5398: the pin sits inside a cell that already draws its own via array). Reach the net at a port outside that array, or route this net on the block's own metal plane (routing.layer_role) so no via is needed",
+  "net 'X89.XC23.XCK.d1' could not be routed: crosses already-routed net 'IREF'",
+  "net 'X89.XC23.XCK.d2' could not be routed: crosses already-routed net 'IREF'",
+  "net 'X89.XC23.XCK.f1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XC23.XCK.f2' could not be routed: crosses already-routed net 'IREF'",
+  "net 'X89.XC23.XCK.qc1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XC23.XCK.qc2' could not be routed: crosses already-routed net 'IREF'",
+  "net 'X89.XC23.XQ1L.d1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XC23.XQ1L.d2' could not be routed: crosses already-routed net 'IREF'",
+  "net 'X89.XC23.XQ1L.f1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XC23.XQ1L.f2' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XC23.XQ1L.qc1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XC23.XQ1L.qc2' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XES.d1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XES.d2' could not be routed: crosses already-routed net 'IREF'",
+  "net 'X89.XES.f1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XES.f2' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XES.qc1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XES.qc2' could not be routed: crosses already-routed net 'VSS'",
+  "net 'X89.XMCL.d1' could not be routed: crosses already-routed net 'IREF'",
+  "net 'X89.XMCL.d2' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XMCL.f1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XMCL.f2' could not be routed: crosses already-routed net 'IREF'",
+  "net 'X89.XMCL.qc1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XMCL.qc2' could not be routed: crosses already-routed net 'IREF'",
+  "net 'X89.XS1.XEF.d1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XS1.XEF.d2' could not be routed: crosses already-routed net 'X89.XS1.CKN'",
+  "net 'X89.XS1.XEF.f1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XS1.XEF.f2' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XS1.XEF.qc2' could not be routed: crosses already-routed net 'X89.XS1.XEF.qc1'",
+  "net 'X89.XS2.XEF.d1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XS2.XEF.d2' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XS2.XEF.f1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XS2.XEF.f2' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XS2.XEF.qc1' could not be routed: crosses already-routed net 'VDD'",
+  "net 'X89.XS2.XEF.qc2' could not be routed: crosses already-routed net 'VDD'",
+  "net 'reref' could not be routed: crosses already-routed net 'IREF'"
+ ],
+ "exit_code": 3,
+ "klt": "klt 0.9.3.dev2575+g6bd18bbc8637",
+ "nets": [
+  {
+   "landed_on_block": true,
+   "net": "IREF",
+   "pin_count": 40,
+   "route_length_um": 619.88,
+   "routed": true,
+   "status": "routed"
+  },
+  {
+   "landed_on_block": true,
+   "net": "VDD",
+   "pin_count": 39,
+   "route_length_um": 1109.0449999999998,
+   "routed": true,
+   "status": "routed"
+  },
+  {
+   "landed_on_block": true,
+   "net": "VSS",
+   "pin_count": 28,
+   "route_length_um": 239.78000000000003,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.S1",
+   "pin_count": 7,
+   "route_length_um": 79.12999999999998,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.S1B",
+   "pin_count": 7,
+   "route_length_um": 872.7850000000001,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XC23.CKN",
+   "pin_count": 7,
+   "route_length_um": 3.6499999999999995,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XC23.CKP",
+   "pin_count": 7,
+   "route_length_um": 3.6499999999999995,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "OUTN",
+   "pin_count": 6,
+   "route_length_um": 115.64,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "OUTP",
+   "pin_count": 6,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.C1",
+   "pin_count": 6,
+   "route_length_um": 20.679999999999993,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.C1B",
+   "pin_count": 6,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XC23.Q1L",
+   "pin_count": 5,
+   "route_length_um": 455.4999999999999,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.Q1LB",
+   "pin_count": 5,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XC23.Q2",
+   "pin_count": 5,
+   "route_length_um": 20.679999999999964,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.Q2B",
+   "pin_count": 5,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XC23.XF1.M",
+   "pin_count": 5,
+   "route_length_um": 20.680000000000007,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF1.MB",
+   "pin_count": 5,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XC23.XF2.M",
+   "pin_count": 5,
+   "route_length_um": 26.779999999999962,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF2.MB",
+   "pin_count": 5,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XS1.CKN",
+   "pin_count": 5,
+   "route_length_um": 3.650000000000002,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XS1.CKP",
+   "pin_count": 5,
+   "route_length_um": 3.650000000000002,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.MN",
+   "pin_count": 5,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.MP",
+   "pin_count": 5,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XS2.CKN",
+   "pin_count": 5,
+   "route_length_um": 205.24999999999991,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XS2.CKP",
+   "pin_count": 5,
+   "route_length_um": 3.650000000000002,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XS2.MN",
+   "pin_count": 5,
+   "route_length_um": 20.679999999999964,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.MP",
+   "pin_count": 5,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.G",
+   "pin_count": 4,
+   "route_length_um": 20.68000000000002,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.M",
+   "pin_count": 4,
+   "route_length_um": 20.68000000000002,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.MCL",
+   "pin_count": 4,
+   "route_length_um": 3.6499999999999995,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.MCLB",
+   "pin_count": 4,
+   "route_length_um": 3.6499999999999995,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.S1L",
+   "pin_count": 4,
+   "route_length_um": 43.01000000000001,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.S1LB",
+   "pin_count": 4,
+   "route_length_um": 42.61000000000001,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.D1",
+   "pin_count": 4,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XC23.D2",
+   "pin_count": 4,
+   "route_length_um": 19.88000000000001,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XMC.t",
+   "pin_count": 4,
+   "route_length_um": 10.940000000000001,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.GB",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.MB",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.MCN",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.MCP",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.D1B",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.D2B",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF1.XM.e1",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF1.XM.e2",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF1.XM.t",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XC23.XF1.XM.tc",
+   "pin_count": 3,
+   "route_length_um": 10.940000000000008,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF1.XM.teT",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF1.XS.e1",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF1.XS.e2",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF1.XS.t",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XC23.XF1.XS.tc",
+   "pin_count": 3,
+   "route_length_um": 10.940000000000008,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF1.XS.teT",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF2.XM.e1",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF2.XM.e2",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF2.XM.t",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XC23.XF2.XM.tc",
+   "pin_count": 3,
+   "route_length_um": 10.940000000000008,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF2.XM.teT",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF2.XS.e1",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF2.XS.e2",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF2.XS.t",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XC23.XF2.XS.tc",
+   "pin_count": 3,
+   "route_length_um": 10.940000000000008,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XF2.XS.teT",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XG1.n1",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XG1.t",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XC23.XG1.tc",
+   "pin_count": 3,
+   "route_length_um": 10.939999999999994,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XG1.teT",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XG2.n1",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XG2.t",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XC23.XG2.tc",
+   "pin_count": 3,
+   "route_length_um": 10.939999999999994,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XG2.teT",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XG1.n1",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XG1.t",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XG1.tc",
+   "pin_count": 3,
+   "route_length_um": 10.940000000000008,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XG1.teT",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XGM.n1",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XGM.t",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XGM.tc",
+   "pin_count": 3,
+   "route_length_um": 10.940000000000008,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XGM.teT",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XMC.bm",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XMC.teT",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XMC.vr",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.XM.e1",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.XM.e2",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.XM.t",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XS1.XM.tc",
+   "pin_count": 3,
+   "route_length_um": 10.939999999999998,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.XM.teT",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.XS.e1",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.XS.e2",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.XS.t",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XS1.XS.tc",
+   "pin_count": 3,
+   "route_length_um": 10.940000000000012,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.XS.teT",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.XM.e1",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.XM.e2",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.XM.t",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XS2.XM.tc",
+   "pin_count": 3,
+   "route_length_um": 10.940000000000012,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.XM.teT",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.XS.e1",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.XS.e2",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.XS.t",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XS2.XS.tc",
+   "pin_count": 3,
+   "route_length_um": 10.939999999999955,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.XS.teT",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XCK.d1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XCK.d2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XCK.f1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XCK.f2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XCK.qc1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XCK.qc2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XQ1L.d1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XQ1L.d2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XQ1L.f1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XQ1L.f2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XQ1L.qc1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XC23.XQ1L.qc2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XES.d1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XES.d2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XES.f1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XES.f2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XES.qc1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XES.qc2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XMCL.d1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XMCL.d2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XMCL.f1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XMCL.f2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XMCL.qc1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XMCL.qc2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.XEF.d1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.XEF.d2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.XEF.f1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.XEF.f2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "X89.XS1.XEF.qc1",
+   "pin_count": 2,
+   "route_length_um": 54.19500000000001,
+   "routed": true,
+   "status": "routed"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS1.XEF.qc2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.XEF.d1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.XEF.d2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.XEF.f1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.XEF.f2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.XEF.qc1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "X89.XS2.XEF.qc2",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "reref",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  }
+ ],
+ "note": "routing report of the gen-compose trial whose request is request.json (this directory). Reproduce via the generator (issue #346 test plan): build the cell with routing enabled -- for the prescaler, pass route=True to the common.build_block call in layout/cells/prescaler.py (keeping input_first=INPUT_FIRST; it is registered separately from gen_cells.py's TABLE) and `--out` a scratch directory -- which runs klt gen per group and then `klt gen-compose <cell>.compose.json` there; exit 3 = partial. request.json is that compose request verbatim; rerunning gen-compose on it in place also needs the per-group block .gds files the klt gen step writes, so they are not committed. Per-leg pin lists and the blocks/pins/ports echo of the raw report are dropped here for size; per-net verdicts, unrouted net names, single-pin nets and every drc_hints diagnostic note are kept verbatim.",
+ "schema": 1,
+ "single_pin_nets": [
+  "INN",
+  "INP",
+  "MC"
+ ],
+ "unrouted_nets": [
+  "VSS",
+  "X89.S1",
+  "X89.S1B",
+  "X89.XC23.CKN",
+  "X89.XC23.CKP",
+  "OUTN",
+  "OUTP",
+  "X89.C1",
+  "X89.C1B",
+  "X89.XC23.Q1L",
+  "X89.XC23.Q1LB",
+  "X89.XC23.Q2",
+  "X89.XC23.Q2B",
+  "X89.XC23.XF1.M",
+  "X89.XC23.XF1.MB",
+  "X89.XC23.XF2.M",
+  "X89.XC23.XF2.MB",
+  "X89.XS1.CKN",
+  "X89.XS1.CKP",
+  "X89.XS1.MN",
+  "X89.XS1.MP",
+  "X89.XS2.CKN",
+  "X89.XS2.CKP",
+  "X89.XS2.MN",
+  "X89.XS2.MP",
+  "X89.G",
+  "X89.M",
+  "X89.MCL",
+  "X89.MCLB",
+  "X89.S1L",
+  "X89.S1LB",
+  "X89.XC23.D1",
+  "X89.XC23.D2",
+  "X89.XMC.t",
+  "X89.GB",
+  "X89.MB",
+  "X89.MCN",
+  "X89.MCP",
+  "X89.XC23.D1B",
+  "X89.XC23.D2B",
+  "X89.XC23.XF1.XM.e1",
+  "X89.XC23.XF1.XM.e2",
+  "X89.XC23.XF1.XM.t",
+  "X89.XC23.XF1.XM.tc",
+  "X89.XC23.XF1.XM.teT",
+  "X89.XC23.XF1.XS.e1",
+  "X89.XC23.XF1.XS.e2",
+  "X89.XC23.XF1.XS.t",
+  "X89.XC23.XF1.XS.tc",
+  "X89.XC23.XF1.XS.teT",
+  "X89.XC23.XF2.XM.e1",
+  "X89.XC23.XF2.XM.e2",
+  "X89.XC23.XF2.XM.t",
+  "X89.XC23.XF2.XM.tc",
+  "X89.XC23.XF2.XM.teT",
+  "X89.XC23.XF2.XS.e1",
+  "X89.XC23.XF2.XS.e2",
+  "X89.XC23.XF2.XS.t",
+  "X89.XC23.XF2.XS.tc",
+  "X89.XC23.XF2.XS.teT",
+  "X89.XC23.XG1.n1",
+  "X89.XC23.XG1.t",
+  "X89.XC23.XG1.tc",
+  "X89.XC23.XG1.teT",
+  "X89.XC23.XG2.n1",
+  "X89.XC23.XG2.t",
+  "X89.XC23.XG2.tc",
+  "X89.XC23.XG2.teT",
+  "X89.XG1.n1",
+  "X89.XG1.t",
+  "X89.XG1.tc",
+  "X89.XG1.teT",
+  "X89.XGM.n1",
+  "X89.XGM.t",
+  "X89.XGM.tc",
+  "X89.XGM.teT",
+  "X89.XMC.bm",
+  "X89.XMC.teT",
+  "X89.XMC.vr",
+  "X89.XS1.XM.e1",
+  "X89.XS1.XM.e2",
+  "X89.XS1.XM.t",
+  "X89.XS1.XM.tc",
+  "X89.XS1.XM.teT",
+  "X89.XS1.XS.e1",
+  "X89.XS1.XS.e2",
+  "X89.XS1.XS.t",
+  "X89.XS1.XS.tc",
+  "X89.XS1.XS.teT",
+  "X89.XS2.XM.e1",
+  "X89.XS2.XM.e2",
+  "X89.XS2.XM.t",
+  "X89.XS2.XM.tc",
+  "X89.XS2.XM.teT",
+  "X89.XS2.XS.e1",
+  "X89.XS2.XS.e2",
+  "X89.XS2.XS.t",
+  "X89.XS2.XS.tc",
+  "X89.XS2.XS.teT",
+  "X89.XC23.XCK.d1",
+  "X89.XC23.XCK.d2",
+  "X89.XC23.XCK.f1",
+  "X89.XC23.XCK.f2",
+  "X89.XC23.XCK.qc1",
+  "X89.XC23.XCK.qc2",
+  "X89.XC23.XQ1L.d1",
+  "X89.XC23.XQ1L.d2",
+  "X89.XC23.XQ1L.f1",
+  "X89.XC23.XQ1L.f2",
+  "X89.XC23.XQ1L.qc1",
+  "X89.XC23.XQ1L.qc2",
+  "X89.XES.d1",
+  "X89.XES.d2",
+  "X89.XES.f1",
+  "X89.XES.f2",
+  "X89.XES.qc1",
+  "X89.XES.qc2",
+  "X89.XMCL.d1",
+  "X89.XMCL.d2",
+  "X89.XMCL.f1",
+  "X89.XMCL.f2",
+  "X89.XMCL.qc1",
+  "X89.XMCL.qc2",
+  "X89.XS1.XEF.d1",
+  "X89.XS1.XEF.d2",
+  "X89.XS1.XEF.f1",
+  "X89.XS1.XEF.f2",
+  "X89.XS1.XEF.qc2",
+  "X89.XS2.XEF.d1",
+  "X89.XS2.XEF.d2",
+  "X89.XS2.XEF.f1",
+  "X89.XS2.XEF.f2",
+  "X89.XS2.XEF.qc1",
+  "X89.XS2.XEF.qc2",
+  "reref"
+ ],
+ "warnings": []
+}
