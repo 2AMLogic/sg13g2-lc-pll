@@ -440,3 +440,50 @@ What remains is release cadence, not a missing capability.
 `--cells vco`, forbidden Activ/GatPoly/Cont/pSD/Metal1-5 and their fill) `status: violated`, 3
 violations, all the VCTRL pin-access stack (sg13g2-vco#314). It is not part of item 3's verdict.
 `layout/top.gds` has still not been through LVS (#37) or PEX (#41).
+
+### Supply routing re-run: still clean on both engines (#344, 2026-11-21)
+
+**Layout changed.** `gen_integrated.py` now routes the supplies (#344): VDD/VSS stars from
+labelled south-edge landings (1 um Metal4/Metal5, 5155/7399 um), the VDDV TopMetal2 strap (4 um,
+443 um) to the VCO's TopMetal2 VDD bar, REF/IREFCP/LOCK stubs, the divider M0-M3/A0-A2 tie-offs
+and the VSS guard-ring tie. `layout/top.gds` moves to `sha256:60ad1ed0…` (items 2 and 3 re-stamped
+in the same pass: `manifests/layout.attest.json`, `evidence.2`/`evidence.3`, this report and the
+crosscheck below). Signal routes are unchanged except UP (428.56 -> 418.42 um, the same-net
+exclusion lets its second leg take the shorter path) and FB (rerouted to a horizontal Metal5
+approach: its old vertical Metal4 column at x = -439.33 ran through the REF/VSS pin rows and a
+first supply draft shorted REF x VSS through it -- caught by `klt erc`, see `layout/README.md`).
+
+```
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 0 = clean
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root "$PDK_ROOT" \
+    --expect-rule-categories-file layout/drc/native_rule_categories.txt \
+    --format json -o layout/drc/top.crosscheck.json                       # exit 0
+klt drc --check layout/drc/top.drc.json                                   # match
+klt drc --check layout/drc/top.crosscheck.json                            # match
+```
+
+`klt 0.9.3.dev2575+g6bd18bbc8637`, klayout 0.30.12 (regenerated under 0.30.10 too -- the geometry
+digest is writer-independent), PDK `ihp-sg13g2` `fetched:0.3.0` at `~/share/pdk`, input
+`sha256:60ad1ed0…`, curated deck `sha256:eaaf2989…`, native deck `ihp-sg13g2.drc`
+`sha256:0620b737…` and tree `sha256:3715ff58…` (decks unchanged since the 2026-11-13 run; only
+the klt build moved).
+
+| Engine | Result |
+|---|---|
+| native (`ihp-sg13g2.drc`) | **0 violations, `status: clean`**, 590/590 declared rule categories asserted (`coverage_assertion.satisfied: true`). |
+| curated (`sg13g2`) | **0 violations, `status: clean`**, 68 rules checked. |
+
+One interim draft of the supply routing was **not** clean and is why the corridor rules in the
+generator exist: FB's horizontal Metal5 at y = -223.97 next to VDD's at y = -225.0 left 0.03 um
+(`metal5.space.1`, min 0.5), and VDD's fallback at y = -230.0 touched VSS's y = -229.0 run
+edge-to-edge. Both engines caught it; the fix (forced vertical approaches into the PFD/CP south
+pins, `FINAL_VERTICAL` in the generator) draws no Metal5 in that pin row at all. The VDDV strap's
+TopVia1/TopVia2 stacks and the 4 um TopMetal2 crossing the keep-out region are clean on both
+engines (TopMetal2 is outside the forbidden set; the keep-out record stays at exactly the 3 VCTRL
+intrusions).
+
+Coverage is unchanged in shape from the 2026-11-13 run (same decks): the curated report still
+carries `NW.b1` as its one unchecked rule, 14 declared-but-unmodelled rules, the `ThickGateOx`
+voltage-domain warning and a non-empty `layers_in_stream_without_rules` (39 layers, unchanged:
+the VDDV strap's TopMetal2 is 134/0, which the deck already covers -- only its label purposes
+134/23 and 134/25 sit outside it). Clean means clean for covered layers.
