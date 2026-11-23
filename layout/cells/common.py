@@ -172,8 +172,16 @@ def _tap_net(block, flav, w, l, mem, flavors=TAP_RING_FLAVORS):
     return bulks[0]
 
 
-def plan(block, devices, tap_flavors=TAP_RING_FLAVORS, res_rows=1):
-    """Group leaf devices into klt gen requests. Each unit gets the device's nets."""
+def plan(block, devices, hbt_split_bases=(), tap_flavors=TAP_RING_FLAVORS, res_rows=1):
+    """Group leaf devices into klt gen requests. Each unit gets the device's nets.
+
+    hbt_split_bases: HBT base nets (e.g. a tank-loading input pair) whose units are pulled out
+    of the one-per-flavour array into singleton arrays, so the integrator can place each under
+    its own pin (#345). The vacated slots are refilled with dummy devices (params dummy=N), real
+    geometry with no nets, so the remaining array keeps a factorable shape (129 = 3x43 stays
+    3x43 as 127 units + 2 dummies instead of collapsing to 1x127). The dummies carry no ports;
+    LVS (#37) will have to exclude them.
+    """
     mos, res, caps, hbt = {}, {}, {}, {}
     for d in devices:
         who, p = d["path"], d["params"]
@@ -209,16 +217,31 @@ def plan(block, devices, tap_flavors=TAP_RING_FLAVORS, res_rows=1):
                           for i, m in enumerate(mem) for k, t in enumerate("DGS")],
         })
     for flav, mem in sorted(hbt.items()):
-        rows = max(r for r in range(1, math.isqrt(len(mem)) + 1) if len(mem) % r == 0)
+        split = [m for m in mem if m["nets"][1] in hbt_split_bases]
+        keep = [m for m in mem if m["nets"][1] not in hbt_split_bases]
+        if split and not keep:
+            raise PlanError(f"{block}: every {flav} unit would be split off {hbt_split_bases}")
+        n_pos = len(keep) + len(split)
+        rows = max(r for r in range(1, math.isqrt(n_pos) + 1) if n_pos % r == 0)
         groups.append({
             "id": f"{block}_hbt_{flav.lower()}",
-            "generator": "bjt_array", "klass": flav, "count": len(mem),
-            "params": {"flavor": flav, "rows": rows, "cols": len(mem) // rows, "dummy": 0,
+            "generator": "bjt_array", "klass": flav, "count": len(keep),
+            "params": {"flavor": flav, "rows": rows, "cols": n_pos // rows, "dummy": len(split),
                        "topology": "array",
                        "add_collector_ring": False},
             "terminals": [{"port": f"Q{i + 1}_{t}", "net": m["nets"][k], "unit": m["path"]}
-                          for i, m in enumerate(mem) for k, t in enumerate("CBE")],
+                          for i, m in enumerate(keep) for k, t in enumerate("CBE")],
         })
+        for m in split:
+            groups.append({
+                "id": f"{block}_hbt_{flav.lower()}_base_{m['nets'][1].lower()}",
+                "generator": "bjt_array", "klass": flav, "count": 1,
+                "params": {"flavor": flav, "rows": 1, "cols": 1, "dummy": 0,
+                           "topology": "array",
+                           "add_collector_ring": False},
+                "terminals": [{"port": f"Q1_{t}", "net": m["nets"][k], "unit": m["path"]}
+                              for k, t in enumerate("CBE")],
+            })
     for (flav, w, l), mem in sorted(res.items()):
         groups.append({
             "id": f"{block}_res{flav}_w{_slug(w)}_l{_slug(l)}",
@@ -381,11 +404,15 @@ def chain_links(pins, bboxes, tracks, plane):
     return legs
 
 
-def build_block(cell, subckt, netlist, out_dir, input_first=(), route=False):
+def build_block(cell, subckt, netlist, out_dir, input_first=(), hbt_split_bases=(), explicit_origins=None,
+                route=False):
     """Generate `cell` (a placed-device cell with port labels) for `subckt` in `netlist`.
 
     input_first: port names whose gate-connected device group is placed first (at the origin),
     so a tank-loading input (prescaler INP/INN) sits at the cell edge and stays compact.
+    hbt_split_bases / explicit_origins: see plan(); explicit_origins maps group id -> (x, y) and
+    overrides the shelf-pack origin of that group (the split input pair is placed by the pin
+    span, not by shelf order).
     route: also wire the cell intra-cell through `klt gen-compose` routing (#343) -- one
     connectivity[] entry per flattened net on the ROUTE_* plane pair, pfet groups ringed and
     their wells tied. Returns the provenance record for the cell. Raises PlanError /
@@ -395,7 +422,8 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), route=False):
     subckts = read_subckts(netlist)
     ports = subckts[subckt]["ports"]
     devices = flatten(subckts, subckt)
-    groups = plan(cell, devices, tap_flavors=ROUTE_TAP_RING_FLAVORS if route else TAP_RING_FLAVORS,
+    groups = plan(cell, devices, hbt_split_bases,
+                  tap_flavors=ROUTE_TAP_RING_FLAVORS if route else TAP_RING_FLAVORS,
                   res_rows=2 if route else 1)
     undrawn = [{"device": d["path"], "model": d["model"], "nets": d["nets"],
                 "params": d["params"], "reason": UNDRAWN_MODELS[d["model"]]}
@@ -428,7 +456,10 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), route=False):
             continue
         reports[g["id"]] = rep
         cmds.append("klt " + " ".join(json.dumps(a) if " " in a or "{" in a else a for a in args))
-        if rep.get("device_count", g["count"]) != g["count"] and g["generator"] != "cap_array":
+        # bjt_array reports every drawn position, dummy refill included; mos/res groups carry
+        # no dummies today, so the +dummy term is zero for them.
+        if rep.get("device_count", g["count"]) != g["count"] + g["params"].get("dummy", 0) \
+                and g["generator"] != "cap_array":
             raise RuntimeError(f"{g['id']}: drew {rep.get('device_count')} devices, planned {g['count']}")
 
     groups = [g for g in groups if g["id"] not in refused]
@@ -437,6 +468,11 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), route=False):
         b = reports[g["id"]]["bbox_um"]
         sizes.append((g["id"], b["x1"] - b["x0"], b["y1"] - b["y0"]))
     origins = shelf_pack(sizes, BLOCK_TARGET_WIDTH_UM, GROUP_SPACING_UM)
+    if explicit_origins:
+        for gid, o in explicit_origins.items():
+            if gid not in origins:
+                raise RuntimeError(f"{cell}: explicit origin for unknown group {gid!r}")
+            origins[gid] = {"x": round(float(o[0]), 3), "y": round(float(o[1]), 3)}
     req = {"schema": "klt.gen_compose.request/1", "pdk": {"variant": PDK},
            "blocks": [{"id": g["id"], "generator_report": reports[g["id"]]} for g in groups],
            "placement": {"strategy": "explicit", "order": [g["id"] for g in groups], "origins_um": origins},
@@ -512,7 +548,7 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), route=False):
     os.remove(os.path.join(out_dir, f"{cell}.raw.gds"))
 
     bb = top.dbbox()
-    return {
+    rec = {
         "cell": cell, "subckt": subckt, "status": "partial" if undrawn else "drawn", "netlist": os.path.relpath(netlist, ROOT),
         "netlist_sha256": sha256(netlist), "gds": os.path.relpath(gds, ROOT),
         "bbox_um": [round(bb.left, 3), round(bb.bottom, 3), round(bb.right, 3), round(bb.top, 3)],
@@ -530,3 +566,15 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), route=False):
         **({"routing": routing_rec} if routing_rec is not None else {}),
         "commands": cmds + [f"klt gen-compose {cell}.compose.json --format json"],
     }
+    if hbt_split_bases:
+        rec["input_pair_split"] = {
+            "bases": list(hbt_split_bases),
+            "dummy_refill": sum(g["params"].get("dummy", 0) for g in groups),
+            "explicit_origins": {k: dict(x=origins[k]["x"], y=origins[k]["y"])
+                                 for k in (explicit_origins or {}) if k in origins},
+            "note": ("the named base-net units are singleton arrays at explicit origins so the "
+                     "integrated top can drop one tank route on each (#345); the vacated flavour-"
+                     "array slots are refilled with portless dummy devices (real geometry, no "
+                     "nets; LVS #37 must exclude them)"),
+        }
+    return rec

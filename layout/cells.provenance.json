@@ -1,16 +1,18 @@
 {
  "cells": [
   {
-   "area_um2": 25258.9,
+   "area_um2": 30257.1,
    "bbox_um": [
     0.0,
     0.0,
     446.27,
-    56.6
+    67.8
    ],
    "cell": "lcpll_prescaler",
    "commands": [
-    "klt gen bjt_array --pdk ihp-sg13g2 --params \"{\\\"add_collector_ring\\\": false, \\\"cols\\\": 43, \\\"dummy\\\": 0, \\\"flavor\\\": \\\"npn13G2v\\\", \\\"rows\\\": 3, \\\"topology\\\": \\\"array\\\"}\" --cell-name lcpll_prescaler_hbt_npn13g2v -o lcpll_prescaler_hbt_npn13g2v.gds --format json",
+    "klt gen bjt_array --pdk ihp-sg13g2 --params \"{\\\"add_collector_ring\\\": false, \\\"cols\\\": 1, \\\"dummy\\\": 0, \\\"flavor\\\": \\\"npn13G2v\\\", \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\"}\" --cell-name lcpll_prescaler_hbt_npn13g2v_base_inn -o lcpll_prescaler_hbt_npn13g2v_base_inn.gds --format json",
+    "klt gen bjt_array --pdk ihp-sg13g2 --params \"{\\\"add_collector_ring\\\": false, \\\"cols\\\": 1, \\\"dummy\\\": 0, \\\"flavor\\\": \\\"npn13G2v\\\", \\\"rows\\\": 1, \\\"topology\\\": \\\"array\\\"}\" --cell-name lcpll_prescaler_hbt_npn13g2v_base_inp -o lcpll_prescaler_hbt_npn13g2v_base_inp.gds --format json",
+    "klt gen bjt_array --pdk ihp-sg13g2 --params \"{\\\"add_collector_ring\\\": false, \\\"cols\\\": 43, \\\"dummy\\\": 2, \\\"flavor\\\": \\\"npn13G2v\\\", \\\"rows\\\": 3, \\\"topology\\\": \\\"array\\\"}\" --cell-name lcpll_prescaler_hbt_npn13g2v -o lcpll_prescaler_hbt_npn13g2v.gds --format json",
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 108.8, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l108p8 -o lcpll_prescaler_resrppd_w1_l108p8.gds --format json",
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 120.65, \\\"num\\\": 1, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l120p65 -o lcpll_prescaler_resrppd_w1_l120p65.gds --format json",
     "klt gen res_array --pdk ihp-sg13g2 --params \"{\\\"dummy\\\": 0, \\\"flavor\\\": \\\"rppd\\\", \\\"length_um\\\": 15.3, \\\"num\\\": 12, \\\"rows\\\": 1, \\\"width_um\\\": 1.0}\" --cell-name lcpll_prescaler_resrppd_w1_l15p3 -o lcpll_prescaler_resrppd_w1_l15p3.gds --format json",
@@ -24,8 +26,56 @@
    "device_units": 209,
    "gds": "layout/build/cells/lcpll_prescaler.gds",
    "generator": "python layout/gen_cells.py --blocks lcpll_prescaler",
-   "geometry_sha256": "ed1e2575ef4ef96df71521a03ff3ae1dd07cfb8eb5badf72cb77a1126ed76c27",
+   "geometry_sha256": "e5492160731b1aac7e05ae1bfb58ab58ddf00c2af105ae45924544ff7daf2915",
    "groups": [
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
+      7.74,
+      7.2
+     ],
+     "generator": "bjt_array",
+     "id": "lcpll_prescaler_hbt_npn13g2v_base_inn",
+     "klass": "npn13G2v",
+     "origin_um": {
+      "x": 240.0,
+      "y": 0.0
+     },
+     "params": {
+      "add_collector_ring": false,
+      "cols": 1,
+      "dummy": 0,
+      "flavor": "npn13G2v",
+      "rows": 1,
+      "topology": "array"
+     },
+     "units": 1
+    },
+    {
+     "bbox_um": [
+      0.0,
+      0.0,
+      7.74,
+      7.2
+     ],
+     "generator": "bjt_array",
+     "id": "lcpll_prescaler_hbt_npn13g2v_base_inp",
+     "klass": "npn13G2v",
+     "origin_um": {
+      "x": 0.0,
+      "y": 0.0
+     },
+     "params": {
+      "add_collector_ring": false,
+      "cols": 1,
+      "dummy": 0,
+      "flavor": "npn13G2v",
+      "rows": 1,
+      "topology": "array"
+     },
+     "units": 1
+    },
     {
      "bbox_um": [
       0.0,
@@ -38,17 +88,17 @@
      "klass": "npn13G2v",
      "origin_um": {
       "x": 0.0,
-      "y": 0.0
+      "y": 11.2
      },
      "params": {
       "add_collector_ring": false,
       "cols": 43,
-      "dummy": 0,
+      "dummy": 2,
       "flavor": "npn13G2v",
       "rows": 3,
       "topology": "array"
      },
-     "units": 129
+     "units": 127
     },
     {
      "bbox_um": [
@@ -62,7 +112,7 @@
      "klass": "rppd",
      "origin_um": {
       "x": 0.0,
-      "y": 29.6
+      "y": 40.8
      },
      "params": {
       "dummy": 0,
@@ -86,7 +136,7 @@
      "klass": "rppd",
      "origin_um": {
       "x": 0.0,
-      "y": 34.6
+      "y": 45.8
      },
      "params": {
       "dummy": 0,
@@ -110,7 +160,7 @@
      "klass": "rppd",
      "origin_um": {
       "x": 0.0,
-      "y": 39.6
+      "y": 50.8
      },
      "params": {
       "dummy": 0,
@@ -134,7 +184,7 @@
      "klass": "rppd",
      "origin_um": {
       "x": 0.0,
-      "y": 44.6
+      "y": 55.8
      },
      "params": {
       "dummy": 0,
@@ -158,7 +208,7 @@
      "klass": "rppd",
      "origin_um": {
       "x": 43.49,
-      "y": 44.6
+      "y": 55.8
      },
      "params": {
       "dummy": 0,
@@ -182,7 +232,7 @@
      "klass": "rppd",
      "origin_um": {
       "x": 94.73,
-      "y": 44.6
+      "y": 55.8
      },
      "params": {
       "dummy": 0,
@@ -206,7 +256,7 @@
      "klass": "rppd",
      "origin_um": {
       "x": 0.0,
-      "y": 49.6
+      "y": 60.8
      },
      "params": {
       "dummy": 0,
@@ -230,7 +280,7 @@
      "klass": "rppd",
      "origin_um": {
       "x": 0.0,
-      "y": 54.6
+      "y": 65.8
      },
      "params": {
       "dummy": 0,
@@ -243,48 +293,66 @@
      "units": 13
     }
    ],
+   "input_pair_split": {
+    "bases": [
+     "INP",
+     "INN"
+    ],
+    "dummy_refill": 2,
+    "explicit_origins": {
+     "lcpll_prescaler_hbt_npn13g2v_base_inn": {
+      "x": 240.0,
+      "y": 0.0
+     },
+     "lcpll_prescaler_hbt_npn13g2v_base_inp": {
+      "x": 0.0,
+      "y": 0.0
+     }
+    },
+    "note": "the named base-net units are singleton arrays at explicit origins so the integrated top can drop one tank route on each (#345); the vacated flavour-array slots are refilled with portless dummy devices (real geometry, no nets; LVS #37 must exclude them)"
+   },
    "netlist": "design/netlist/prescaler.spice",
    "netlist_sha256": "add4d3b39706242e478f9c4f23a7d7352a63ec877af45d953eb68eba0d78e6ca",
    "port_labels": {
     "INN": {
      "layer": "8/0",
-     "x_um": 296.07,
+     "x_um": 243.87,
      "y_um": 1.775
     },
     "INP": {
      "layer": "8/0",
-     "x_um": 286.33,
+     "x_um": 3.87,
      "y_um": 1.775
     },
     "IREF": {
      "layer": "8/0",
      "x_um": 3.87,
-     "y_um": 5.425
+     "y_um": 16.625
     },
     "MC": {
      "layer": "8/0",
      "x_um": 0.21,
-     "y_um": 45.1
+     "y_um": 56.3
     },
     "OUTN": {
      "layer": "8/0",
      "x_um": 179.19,
-     "y_um": 1.775
+     "y_um": 12.975
     },
     "OUTP": {
      "layer": "8/0",
      "x_um": 169.45,
-     "y_um": 1.775
+     "y_um": 12.975
     },
     "VDD": {
      "layer": "8/0",
-     "x_um": 52.57,
+     "x_um": 243.87,
      "y_um": 5.425
     },
     "VSS": {
      "layer": "8/0",
      "x_um": 109.43,
-     "y_um": 30.1
+     "y_um": 41.3
     }
    },
    "ports": [
