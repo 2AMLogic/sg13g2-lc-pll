@@ -4,6 +4,31 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-23
 
+- **PR #421**: fix: derive the cornerRES clause, rail-gated Vce headline and div89 grid text from the request
+- **Issue #401** (closed): Three remaining input-immutable spans in emitted record text: the cornerRES legend half, the head's minimum-supply clause, and div89_record's PDK legend
+- **PR #417**: fix(layout): refuse colliding group ids in common.plan()
+- **Issue #415** (closed): layout: split-off HBT group ids are not guaranteed unique in common.plan()
+- **PR #414**: fix(layout): re-pin drifted LVS envelopes to the shipped stream and check them
+- **Issue #413** (closed): layout/lvs: committed envelopes on main pin a superseded layout/top.gds (klt lvs --check reports drifted)
+- **PR #412**: fix: match divider_corner_record.py docstring usage to the real --part CLI
+- **Issue #411** (closed): divider_corner_record.py docstring documents a --report CLI that argparse rejects
+- **PR #410**: fix: drop the fixed speed and count sweep prose from divider corner records
+- **Issue #407** (closed): Remove the fixed speed and count sweep descriptions from divider corner records
+- **PR #409**: test: track the four generated Python helpers from test-layout-top.sh in scripts/
+- **Issue #408** (closed): test-layout-top.sh: four more generated Python helpers are still outside the tracked syntax check
+- **PR #406**: test: extract the inductor clearance checker to scripts/indclear.py
+- **Issue #402** (closed): Move the inductor clearance checker out of the layout harness heredoc
+- **PR #403**: chore(sim): retire the local nominal G2 bench, point the README at batch stage 0
+- **Issue #227** (closed): Retire the local nominal G2 bench (run-vco-prescaler-load.sh): superseded by the batch stage-0 request and cannot elaborate the current prescaler
+- **PR #400**: fix: derive the prescaler Scope-line legend and cp-dc comment counts from the request
+- **Issue #399** (closed): Residual input-immutable text in the prescaler-vce record Scope line and the remaining typed 18-corner comments
+- **PR #357**: fix(layout): erase router net labels on routed cells so ports carry one label
+- **Issue #349** (closed): layout: routed cells get two labels per subckt port, and test-layout-cells.sh set-dedupes so it cannot see it
+- **PR #354**: docs(layout): record routing trials and per-cell LVS evidence for the four remaining cells
+- **Issue #346** (closed): layout: route the remaining cells and LVS each against its own subcircuit (follow-up of #343)
+- **PR #351**: feat(layout): split the prescaler input pair under the tank pins, cutting the tank routes to the geometric floor
+- **Issue #345** (closed): layout: floorplan iteration to cut the tank route (850 um / 612 um) to the keep-out floor, and record the remaining shortfall against the 2.1 fF budget
+
 - **PR #398**: fix: derive the loop-model and prescaler record corner counts from the request
 - **Issue #397** (closed): Two more record writers hard-code the 18-corner count: sim/loop-model/envelope.py and sim/prescaler-g1/vce_record.py
 - **PR #396**: fix: derive the cp-dc record's corner count and grid text from the request
