@@ -4,12 +4,15 @@ Each block generator turns one `.subckt` of `design/netlist/*.spice` into a cell
 the subckt to leaf devices, group identical (class, W, L) devices, draw each group with
 `klt gen mos_array|res_array|cap_array`, place the groups with `klt gen-compose`, and stamp
 one text label per `.subckt` port on a drawn terminal of that net. Blocks built with
-``route=True`` (#343) additionally wire the cell: the compose request carries a
-``connectivity[]`` entry per flattened net (every unit terminal pin, plus the guard-ring
-``TAP_*`` ports tied to the group's bulk net) and a ``routing`` plane pair, so the wiring
-is drawn by `klt gen-compose`'s router, never by a local polygon helper. Blocks built
-without it are placement-only (block-to-block routing is #35; the remaining cells are
-follow-ups of #343).
+``route=True`` (#343) additionally wires the cell: `layout/cells/routing.py` plans one
+explicit leg per connection (column chains, strip links, ring ties, between-block trunks)
+for `klt gen-compose` to draw -- Metal3 for the vertical runs, Metal2 for the horizontal
+ones, changing plane at a via ladder -- so no two nets can interlock, and a rectangle
+model of every drawn leg keeps Metal2/Metal3 spacing to other nets before the router
+sees the request. A cell with no MOS group whose ring would tie the substrate (the loop
+filter: `rppd` bodies on VSS, no transistors) gets a `guard_ring` substrate-tie island on
+that net instead. Blocks built without ``route`` are placement-only (block-to-block
+routing is #35; the remaining cells are follow-ups of #343).
 
 Method adapted from 2AMLogic/sg13g2-pll layout/bin/pll_layout.py @ e71ff61 (netlist reader,
 hierarchy flattening, (class, W, L) grouping, klt gen / gen-compose driving). Differences:
@@ -68,19 +71,15 @@ TAP_RING_FLAVORS = ("nfet",)
 # merges with the array well), and its TAP_* ports tie that well to the cards' 4th node.
 # Placement-only cells keep pfet groups ringless so their committed geometry is unchanged.
 ROUTE_TAP_RING_FLAVORS = ("nfet", "pfet")
-# Intra-cell routing planes (klt gen-compose `routing`, ihp-sg13g2 roles): Metal2 backbone
-# with Via1 drops to the Metal1 terminal pads, Metal3 as the retry plane for a leg whose
-# backbone crosses an already-routed net. No generator draws Metal2/Metal3, so the planes
-# hold router geometry only. Width is floored by the deck's own Metal2 minimum-width rule.
-ROUTE_LAYER_ROLE = "metal2"
-ROUTE_CROSS_LAYER_ROLE = "metal3"
-ROUTE_WIDTH_UM = 0.6
-# The router's default landing pads are kept: a smaller request is refused for the cmim
-# groups, whose pins sit on Metal5/TopMetal1 (deck floors 0.62 / 1.26 um).
-# Bulk nets (a group's tap_net: VDD/VSS) route last, together on the highest routing plane
-# (metal3 is the topmost role the family resolves), so their trunks never share -- and so
-# never block a via drop on -- the signal planes below.
-ROUTE_RAIL_LAYER_ROLES = ("metal3",)
+# Routed cells widen the gap between groups (corridor lines for the between-block legs,
+# one per routing.CORRIDOR_PITCH_UM) and give mos_array an interior channel: the D(i) ->
+# S(i+1) pitch must clear a stub and a landing pad on both sides (2 x 1.5 x leg width +
+# Metal2 spacing = 1.47 um), which the generator's default 0.82 um pitch cannot.
+ROUTE_GROUP_SPACING_UM = 10.0
+ROUTE_INTERIOR_CHANNEL_UM = 2.0
+# `XR a b sub rppd`: the third node is the resistor body, the p-substrate potential a
+# substrate tie must land on when no MOS ring ties it.
+RES_BODY_INDEX = 2
 
 
 def sha256(path):
@@ -172,8 +171,9 @@ def _tap_net(block, flav, w, l, mem, flavors=TAP_RING_FLAVORS):
     return bulks[0]
 
 
-def plan(block, devices, tap_flavors=TAP_RING_FLAVORS, res_rows=1):
-    """Group leaf devices into klt gen requests. Each unit gets the device's nets."""
+def plan(block, devices, tap_flavors=TAP_RING_FLAVORS, res_rows=1, interior_channel=0.0):
+    """Group leaf devices into klt gen requests. Each unit gets the device's nets.
+    `interior_channel` (routed cells) reserves a metal-free channel inside mos arrays."""
     mos, res, caps, hbt = {}, {}, {}, {}
     for d in devices:
         who, p = d["path"], d["params"]
@@ -203,7 +203,8 @@ def plan(block, devices, tap_flavors=TAP_RING_FLAVORS, res_rows=1):
                        "dummy": 0, "flavor": flav, "voltage_flavor": VOLTAGE_FLAVOR,
                        "topology": "array", "gate_contact": True,
                        **({"dogbone_terminals": True} if w < MOS_W_FLOOR_UM else {}),
-                       **({"add_guard_ring": True} if tap_net is not None else {})},
+                       **({"add_guard_ring": True} if tap_net is not None else {}),
+                       **({"interior_channel_um": interior_channel} if interior_channel else {})},
             **({"tap_net": tap_net} if tap_net is not None else {}),
             "terminals": [{"port": f"U{i}_{t}", "net": m["nets"][k], "unit": m["path"]}
                           for i, m in enumerate(mem) for k, t in enumerate("DGS")],
@@ -274,111 +275,94 @@ def shelf_pack(sizes, width, gap):
     return org
 
 
-def port_net_label_sites(groups, reports, origins):
-    """{net: (x_um, y_um, layer, datatype)}: the first drawn terminal of each net, block frame."""
-    site = {}
+def port_net_label_sites(groups, reports, origins, clear=False, metal=None):
+    """{net: (x_um, y_um, layer, datatype)}: a drawn terminal of each net, block frame -- the
+    first one, or (`clear`, routed cells) the one with the most room to the nearest terminal
+    of another net: the top-level generator lands a via tower and a 1 um wire on the labelled
+    pin, so a label squeezed between neighbouring pads notches against them (#343)."""
+    terms = []          # (net, x, y, layer, datatype) of every terminal, block frame
+    taps = []           # ring/island ports: a labelled bulk net prefers them (clear ground)
     for g in groups:
         rep = reports[g["id"]]
         pos = {p["name"]: p for p in rep["ports"]}
+        o = origins[g["id"]]
         for t in g["terminals"]:
             p = pos.get(t["port"])
-            if p is None or t["net"] in site:
-                continue
-            o = origins[g["id"]]
-            site[t["net"]] = (o["x"] + p["x_um"], o["y"] + p["y_um"], p["layer"]["layer"], p["layer"]["datatype"])
+            if p is not None:
+                terms.append((t["net"], o["x"] + p["x_um"], o["y"] + p["y_um"],
+                              p["layer"]["layer"], p["layer"]["datatype"]))
+        if "tap_net" in g:
+            for p in rep["ports"]:
+                if p["name"] == "TAP_N":
+                    taps.append((g["tap_net"], o["x"] + p["x_um"], o["y"] + p["y_um"],
+                                 p["layer"]["layer"], p["layer"]["datatype"]))
+    site = {}
+    for net, x, y, la, dt in terms:
+        if net in site:
+            continue
+        if clear:
+            # the top level lands a via tower on the labelled pin: room to the routed metal
+            # of other nets decides, then the distance to their pins
+            far = min((abs(x - x2) + abs(y - y2) for n2, x2, y2, _, _ in terms if n2 != net), default=1e9)
+            if metal is not None:
+                far = min(far, min((max(r[0] - x, x - r[2], r[1] - y, y - r[3], 0.0)
+                                    for (pl, n), rs in metal.rects.items() if n != net for r in rs), default=1e9))
+            cur = site.get(net)
+            if cur is None or far > cur[0]:
+                site[net] = (far, (x, y, la, dt))
+        else:
+            site[net] = (x, y, la, dt)
+    if clear:
+        out = {n: v[1] for n, v in site.items()}
+        for net, x, y, la, dt in taps:      # a ring's north port: metal-free ground around it
+            if net in out:
+                out[net] = (x, y, la, dt)
+        return out
     return site
 
 
-def net_pins(groups, reports, origins):
-    """{net: [pin]}: every unit-terminal pin, plus one TAP_* ring port per guarded group
-    tied to the group's bulk net (a closed tap ring is one conductor, so one landing biases
-    the whole ring and, for a pfet group, the merged n-well underneath; landing all four
-    TAP_* ports would multiply the rail bundles by four for no electrical difference). Each
-    pin carries its composed-frame pad position (origin + port position) for routing policy."""
-    nets = {}
+def _substrate_tie(block, devices, ring_nets):
+    """A `guard_ring` substrate-tie island group for a routed cell whose p-substrate no MOS
+    ring ties (the loop filter: rppd bodies on VSS, no transistors). The ring is one closed
+    conductor, so one island carries the net for the whole cell; drawn as a P-substrate tap
+    (`add_well: false`, klayout-tools #5231), which the curated deck does not extract as a
+    device. None when every resistor body net already has a ring."""
+    bodies = sorted({d["nets"][RES_BODY_INDEX] for d in devices
+                     if d["model"] in RES_MODELS and len(d["nets"]) > RES_BODY_INDEX})
+    uncovered = [n for n in bodies if n not in ring_nets and n is not None]
+    if not uncovered:
+        return None
+    if len(uncovered) > 1:
+        raise PlanError(f"{block}: resistor bodies sit on {uncovered}; one substrate tie "
+                        "cannot carry two body potentials")
+    return {"id": f"{block}_subtap", "generator": "guard_ring", "klass": "ptap", "count": 0,
+            "params": {"inner_width_um": 3.0, "inner_height_um": 2.0, "ring_width_um": 0.42,
+                       "contacts_per_side": 2, "add_well": False},
+            "tap_net": uncovered[0], "terminals": []}
+
+
+def pin_table(groups, reports, origins):
+    """{block: routing.Block}: every port of every group that carries a net -- a terminal
+    pin via the group's terminals, and the north and west ring ports of a group's tap net
+    (one closed conductor: `routing.plan` lands the bulk star on the north port and ties
+    the west port to the device pins)."""
+    from . import routing
+    blocks = {}
     for g in groups:
-        pos = {p["name"]: p for p in reports[g["id"]]["ports"]}
-        o = origins[g["id"]]
-        for t in g["terminals"]:
-            p = pos[t["port"]]
-            nets.setdefault(t["net"], []).append({"block": g["id"], "port": t["port"],
-                                                  "x": o["x"] + p["x_um"], "y": o["y"] + p["y_um"]})
+        rep, o = reports[g["id"]], origins[g["id"]]
+        bb = rep["bbox_um"]
+        pos = {p["name"]: p for p in rep["ports"]}
+        nets = {t["port"]: t["net"] for t in g["terminals"]}
         if "tap_net" in g:
-            tap = next((p for p in reports[g["id"]]["ports"] if p["name"].startswith("TAP_")), None)
-            if tap is not None:
-                nets.setdefault(g["tap_net"], []).append(
-                    {"block": g["id"], "port": tap["name"],
-                     "x": o["x"] + tap["x_um"], "y": o["y"] + tap["y_um"]})
-    return nets
-
-
-# Two terminals report the same pad-column x when their centres are closer than this. The
-# generated arrays place same-column pads on one x (S columns, D columns, gate columns), so
-# 0.3 um separates distinct columns and never merges two.
-COLUMN_TOL_UM = 0.3
-# Per-(net, block) routing trunk: one horizontal track above the block's bbox, stacked
-# 1.0 um per net so neighbouring trunks clear the deck's Metal2/Metal3 spacing.
-TRUNK_MARGIN_UM = 1.2
-TRUNK_TRACK_UM = 1.0
-
-
-def _pin(p):
-    return {"block": p["block"], "port": p["port"]}
-
-
-def _block_chains(pins):
-    """{block: [chain, ...]}: same-block pins clustered into pad columns (x within
-    COLUMN_TOL_UM), each chain sorted bottom-up -- S columns, D columns and gate columns of
-    a generated array each sit on one x, so a chain is one terminal column of one net."""
-    by_block = {}
-    for pin in pins:
-        by_block.setdefault(pin["block"], []).append(pin)
-    out = {}
-    for block, bpins in by_block.items():
-        cols = []
-        for pin in sorted(bpins, key=lambda p: p["x"]):
-            if cols and abs(pin["x"] - cols[-1][0]) <= COLUMN_TOL_UM:
-                cols[-1][1].append(pin)
-            else:
-                cols.append((pin["x"], [pin]))
-        out[block] = [sorted(c, key=lambda p: p["y"]) for _, c in cols]
-    return out
-
-
-def column_chains(pins):
-    """Legs chaining same-net pins that share a pad column. The auto backbone for a
-    same-column pair runs vertically at the pins' own column (or one stub to its side,
-    which per-card mirrored arrays keep on same-net pad territory), so it never runs
-    along a foreign pad row -- unlike the nearest-first horizontal pairs, whose backbone
-    crosses the interleaved pads of another net on that row and poisons their via drops.
-    Seeded into the bundle's legs[] before the automatic search."""
-    legs = []
-    for chains in _block_chains(pins).values():
-        for chain in chains:
-            for a, b in zip(chain, chain[1:]):
-                legs.append({"from_pin": _pin(a), "to_pin": _pin(b)})
-    return legs
-
-
-def chain_links(pins, bboxes, tracks, plane):
-    """Legs tying one (net, block)'s column chains (and its TAP_* ring port) together
-    through one horizontal trunk above the block: a leg between two chain tops is forced
-    through waypoints at (chain-top x, trunk y), so its vertical escape runs at the pin's
-    own column -- crossing only same-net rows and the gate rows at their own x -- and the
-    horizontal run sits above every pad of the block. `tracks` stacks the per-net trunks
-    (keyed by block; rails and signals stack independently per `plane`)."""
-    legs = []
-    for block, chains in sorted(_block_chains(pins).items()):
-        if len(chains) < 2:
-            continue
-        k = tracks.get((block, plane), 0)
-        tracks[(block, plane)] = k + 1
-        yt = bboxes[block]["y1"] + TRUNK_MARGIN_UM + k * TRUNK_TRACK_UM
-        tops = [c[-1] for c in sorted(chains, key=lambda c: c[-1]["x"])]
-        for a, b in zip(tops, tops[1:]):
-            legs.append({"from_pin": _pin(a), "to_pin": _pin(b),
-                         "waypoints_um": [[a["x"], yt], [b["x"], yt]]})
-    return legs
+            for p in rep["ports"]:
+                if p["name"] in ("TAP_N", "TAP_W"):
+                    nets[p["name"]] = g["tap_net"]
+        pins = [{"block": g["id"], "port": name, "x": o["x"] + pos[name]["x_um"],
+                 "y": o["y"] + pos[name]["y_um"], "net": net, "dir": pos[name]["direction_deg"]}
+                for name, net in sorted(nets.items())]
+        blocks[g["id"]] = routing.Block(g["id"], (o["x"] + bb["x0"], o["y"] + bb["y0"],
+                                                  o["x"] + bb["x1"], o["y"] + bb["y1"]), pins)
+    return blocks
 
 
 def build_block(cell, subckt, netlist, out_dir, input_first=(), route=False):
@@ -396,7 +380,12 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), route=False):
     ports = subckts[subckt]["ports"]
     devices = flatten(subckts, subckt)
     groups = plan(cell, devices, tap_flavors=ROUTE_TAP_RING_FLAVORS if route else TAP_RING_FLAVORS,
-                  res_rows=2 if route else 1)
+                  res_rows=2 if route else 1,
+                  interior_channel=ROUTE_INTERIOR_CHANNEL_UM if route else 0.0)
+    if route:
+        tie = _substrate_tie(cell, devices, {g.get("tap_net") for g in groups})
+        if tie is not None:
+            groups.append(tie)
     undrawn = [{"device": d["path"], "model": d["model"], "nets": d["nets"],
                 "params": d["params"], "reason": UNDRAWN_MODELS[d["model"]]}
                for d in devices if d["model"] in UNDRAWN_MODELS]
@@ -428,7 +417,7 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), route=False):
             continue
         reports[g["id"]] = rep
         cmds.append("klt " + " ".join(json.dumps(a) if " " in a or "{" in a else a for a in args))
-        if rep.get("device_count", g["count"]) != g["count"] and g["generator"] != "cap_array":
+        if rep.get("device_count", g["count"]) != g["count"] and g["generator"] not in ("cap_array", "guard_ring"):
             raise RuntimeError(f"{g['id']}: drew {rep.get('device_count')} devices, planned {g['count']}")
 
     groups = [g for g in groups if g["id"] not in refused]
@@ -436,38 +425,43 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), route=False):
     for g in groups:
         b = reports[g["id"]]["bbox_um"]
         sizes.append((g["id"], b["x1"] - b["x0"], b["y1"] - b["y0"]))
-    origins = shelf_pack(sizes, BLOCK_TARGET_WIDTH_UM, GROUP_SPACING_UM)
+    origins = shelf_pack(sizes, BLOCK_TARGET_WIDTH_UM,
+                         ROUTE_GROUP_SPACING_UM if route else GROUP_SPACING_UM)
+    if route and any(g["generator"] == "guard_ring" for g in groups):
+        # A substrate-tie island shelf-packs to a fresh row at the cell's west, where the
+        # top-level supply star must cross the whole cell to reach it (#343: it grazed the
+        # capacitor ladders). It is one closed ring: put it east of every group, south row.
+        east = max(origins[g["id"]]["x"] + reports[g["id"]]["bbox_um"]["x1"] - reports[g["id"]]["bbox_um"]["x0"]
+                   for g in groups if g["generator"] != "guard_ring")
+        for g in groups:
+            if g["generator"] == "guard_ring":
+                origins[g["id"]] = {"x": round(east + ROUTE_GROUP_SPACING_UM, 3), "y": 0.0}
     req = {"schema": "klt.gen_compose.request/1", "pdk": {"variant": PDK},
            "blocks": [{"id": g["id"], "generator_report": reports[g["id"]]} for g in groups],
            "placement": {"strategy": "explicit", "order": [g["id"] for g in groups], "origins_um": origins},
            "options": {"cell_name": cell, "output": f"{cell}.raw.gds"}}
     routing_rec = None
     if route:
-        pins = net_pins(groups, reports, origins)
-        rails = sorted({g["tap_net"] for g in groups if "tap_net" in g})
-        # Signals first (biggest bundle first: it claims the primary plane with its trunk,
-        # and a later net whose backbone crosses it is retried on the cross plane -- not the
-        # other way round), bulk nets last on their own dedicated planes. Deterministic.
-        def net_order(item):
-            n, p = item
-            return (n in rails, -len(p), n)
-        conn = []
-        for n, p in sorted(pins.items(), key=net_order):
-            if len(p) < 2:
-                continue
-            e = {"net": n, "pins": [{"block": q["block"], "port": q["port"]} for q in p]}
-            chains = column_chains(p)
-            if chains:
-                e["legs"] = chains
-            if n in rails:
-                e["layer_role"] = ROUTE_RAIL_LAYER_ROLES[rails.index(n) % len(ROUTE_RAIL_LAYER_ROLES)]
-            conn.append(e)
-        req["connectivity"] = conn
-        req["routing"] = {"layer_role": ROUTE_LAYER_ROLE, "width_um": ROUTE_WIDTH_UM,
-                          "cross_block_layer_role": ROUTE_CROSS_LAYER_ROLE}
-        routing_rec = {"requested": True, "layer_role": ROUTE_LAYER_ROLE, "width_um": ROUTE_WIDTH_UM,
-                       "cross_block_layer_role": ROUTE_CROSS_LAYER_ROLE,
-                       "single_pin_nets": sorted(n for n, p in pins.items() if len(p) < 2)}
+        from . import routing
+        blocks = pin_table(groups, reports, origins)
+        order = sorted(blocks, key=lambda b: blocks[b].x0)
+        rails = {g["tap_net"] for g in groups if "tap_net" in g}
+        conn, rejected, metal = routing.plan(blocks, order, rails, max(b.y1 for b in blocks.values()))
+        if rejected:
+            raise RuntimeError(f"{cell}: routing plan rejected legs of {sorted(set(rejected))}")
+        connectivity = []
+        for n, e in sorted(conn.items(), key=lambda kv: (kv[0] in rails, -len(kv[1]["pins"]), kv[0])):
+            connectivity.append({"net": n, **e})
+        req["connectivity"] = connectivity
+        req["routing"] = {"layer_role": routing.H_ROLE, "width_um": routing.W_PAD_UM,
+                          "cross_block_layer_role": routing.V_ROLE}
+        routing_rec = {"requested": True, "planner": "layout/cells/routing.py",
+                       "planes": {"vertical": routing.V_ROLE, "horizontal": routing.H_ROLE},
+                       "interior_channel_um": ROUTE_INTERIOR_CHANNEL_UM,
+                       "group_gap_um": ROUTE_GROUP_SPACING_UM,
+                       "rails": sorted(rails),
+                       "nets": [{"net": n, "legs": len(e["legs"])} for n, e in sorted(conn.items())],
+                       "unrouted_nets": [], "status": "routed"}
     with open(os.path.join(out_dir, f"{cell}.compose.json"), "w") as f:
         json.dump(req, f, indent=1, sort_keys=True)
     rc, rep = klt(["gen-compose", f"{cell}.compose.json", "--format", "json"], out_dir)
@@ -485,9 +479,12 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), route=False):
             "status": ("routed" if nets_rep and not unrouted and all(n.get("routed") for n in nets_rep)
                        else "partial"),
         })
+        if routing_rec["status"] != "routed":
+            raise RuntimeError(f"{cell}: gen-compose left {unrouted} unrouted")
 
     # Stamp port labels on a drawn terminal of each port net.
-    sites = port_net_label_sites(groups, reports, origins)
+    sites = port_net_label_sites(groups, reports, origins, clear=route,
+                                  metal=metal if route else None)
     missing = [p for p in ports if p not in sites]
     ly = db.Layout()
     ly.read(os.path.join(out_dir, f"{cell}.raw.gds"))

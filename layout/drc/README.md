@@ -487,3 +487,35 @@ carries `NW.b1` as its one unchecked rule, 14 declared-but-unmodelled rules, the
 voltage-domain warning and a non-empty `layers_in_stream_without_rules` (39 layers, unchanged:
 the VDDV strap's TopMetal2 is 134/0, which the deck already covers -- only its label purposes
 134/23 and 134/25 sit outside it). Clean means clean for covered layers.
+
+### Charge-pump routing re-run: still clean on both engines (#343, 2026-11-23)
+
+**Layout changed.** `lcpll_cp` is routed intra-cell (18 of 18 nets, `layout/cells/routing.py`'s explicit-leg
+plan drawn by `klt gen-compose`; `ROUTE_INTERIOR_CHANNEL_UM` 0.8 -> 2.0 so the mos arrays' inter-unit gaps hold
+the via-pad fan-out the 0.46 um S-G-D terminal pitch cannot) and `lcpll_lockdet` moves east 65 um. `layout/top.gds`
+moves to `sha256:2140369c…` (items 2 and 3 re-stamped in the same pass: `manifests/layout.attest.json`,
+`manifests/sg13g2-lc-pll.json` `evidence.2`/`evidence.3`, this report, the crosscheck below and the signoff
+record). Signal route lengths move with the placements (VOP 850.105 um unchanged; UP 483.42, VSS 7730.04).
+
+```
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 0 = clean
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root ~/share/pdk/ihp-sg13g2 \
+    --expect-rule-categories-file layout/drc/native_rule_categories.txt \
+    --format json -o layout/drc/top.crosscheck.json                       # exit 0
+klt drc --check layout/drc/top.drc.json                                   # match
+klt drc --check layout/drc/top.crosscheck.json                            # match
+```
+
+`klt 0.9.3.dev3790+gd901bc795962`, klayout 0.30.12, PDK `ihp-sg13g2` `fetched:0.3.0` at `~/share/pdk`, input
+`sha256:2140369c…`, curated deck `sha256:e5459fe9…`, native deck `ihp-sg13g2.drc` `sha256:0620b737…` and tree
+`sha256:3715ff58…` (decks unchanged since the 2026-11-13 run; only the klt build and the input moved).
+
+| Engine | Result |
+|---|---|
+| native (`ihp-sg13g2.drc`) | **0 violations, `status: clean`**, 590/590 declared rule categories asserted (`coverage_assertion.satisfied: true`). |
+| curated (`sg13g2`) | **0 violations, `status: clean`**, 68 rules checked. |
+
+The routed charge pump's own metal2/metal3 legs and via ladders are part of this clean verdict. Coverage is
+unchanged in shape from the #344 run (same decks): the curated report still carries `NW.b1` as its one unchecked
+rule, 14 declared-but-unmodelled rules, the `ThickGateOx` voltage-domain warning and the same non-empty
+`layers_in_stream_without_rules` list. Clean means clean for covered layers.

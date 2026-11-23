@@ -1,4 +1,16 @@
 {
-  "layout": {"file": "../../../top.gds", "top": "lcpll_cp", "deck": "sg13g2"},
-  "reference": {"netlist": "../../../../design/netlist/cp.spice", "top": "cp", "form": "subckt-call", "deck": "sg13g2"}
+  "layout": {
+    "file": "../../../top.gds",
+    "top": "lcpll_cp",
+    "deck": "sg13g2"
+  },
+  "reference": {
+    "netlist": "../../../../design/netlist/cp.spice",
+    "top": "cp",
+    "form": "subckt-call",
+    "deck": "sg13g2"
+  },
+  "options": {
+    "flatten_reference": true
+  }
 }

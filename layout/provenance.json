@@ -1,6 +1,6 @@
 {
  "block": "sg13g2-lc-pll",
- "collisions_total": 8,
+ "collisions_total": 31,
  "fill_squares_removed_under_routes": 10,
  "generator": "python layout/gen_integrated.py --write",
  "generator_chain": [
@@ -12,11 +12,11 @@
  "inputs": {
   "cells_provenance": {
    "path": "layout/cells.provenance.json",
-   "sha256": "9563cdd7da45ecc00656323260e0363d337e6cac56b7f4775d7c06e317e35b5e"
+   "sha256": "ddc4dbd763b264278c88c83ed366d70c8128a9030526b6615a4de45c024a1381"
   },
   "gen_integrated": {
    "path": "layout/gen_integrated.py",
-   "sha256": "d0e690adcd560bdbfbc3c18e8d1e174487d662346abb4b4b4c9f9f8b316162cf"
+   "sha256": "5ca95bf7878a75431e11319c7e0092ba9323ebb3b1a1b6a95dfc300e7ddfd480"
   },
   "gen_top": {
    "path": "layout/gen_top.py",
@@ -29,7 +29,7 @@
   }
  },
  "item": "T1 item 2 (Layout)",
- "klayout_module": "0.30.10",
+ "klayout_module": "0.30.12",
  "landings_um": {
   "IREFCP": {
    "label_layer": "67/25",
@@ -72,8 +72,8 @@
   "below_via": [],
   "method": "each endpoint via-stack Metal1 pad (0.70 um) is trimmed back by the M1.b spacing 0.18 um from Metal1 polygons it does not touch, then tested for full coverage of its own concentric Via1 (0.19 um). Foreign Metal1 that touches the pad is the pad's own landing polygon, so it never trims; a non-touching polygon trims from at best the pad edge, reaching 0.170 um from the pad centre against the via's 0.0950 um half-width -- so at these three constants the trim cannot reach the via, with via_cover_margin_um to spare. The guard is the regression gate on that margin: it arms if the pad shrinks, the via grows, or M1.b widens.",
   "notch_fill_polygons": 10,
-  "pads_total": 45,
-  "pads_trimmed": 1,
+  "pads_total": 46,
+  "pads_trimmed": 0,
   "pads_trimmed_below_via": 0,
   "via_cover_margin_um": 0.075
  },
@@ -81,9 +81,9 @@
   "VCO ground (`0`)": "pin-access: the VCO ground pin is Metal1 ~21 um inside the 20 um keep-out with no TopMetal1/2 conductor above it, so a top-level tie needs forbidden metal; upstream pin-access request 2AMLogic/sg13g2-vco#427 (VCTRL is #314)"
  },
  "output": {
-  "geometry_sha256": "41b1f65273fc6d57b75bb463815b4e1f62f0837b46d96707979d2b2132e56a03",
+  "geometry_sha256": "9cfdca485261747a8301d7c90cc8391ce9e7b249bcf1497c5030343006733d73",
   "path": "layout/top.gds",
-  "sha256": "60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005",
+  "sha256": "2140369ce7109bb8eb83054fa6636c33740f05d0e2fd6143daa562ee702e9d89",
   "top_cell": "lc_pll_top"
  },
  "placement_um": {
@@ -103,7 +103,7 @@
   },
   "lcpll_lockdet": {
    "origin": [
-    -250.0,
+    -185.0,
     -280.0
    ],
    "transform": "R0"
@@ -132,9 +132,14 @@
  },
  "routes": {
   "DN": {
-   "collisions": [],
+   "collisions": [
+    {
+     "overlapping_polygons": 3,
+     "to": "lcpll_cp.DN"
+    }
+   ],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 435.5,
+   "length_um": 502.5,
    "pins": [
     {
      "cell": "lcpll_pfd",
@@ -147,21 +152,21 @@
      "cell": "lcpll_cp",
      "layer": 8,
      "port": "DN",
-     "x_um": -377.59,
+     "x_um": -375.59,
      "y_um": -227.29
     },
     {
      "cell": "lcpll_lockdet",
      "layer": 8,
      "port": "DN",
-     "x_um": -131.15,
+     "x_um": -66.15,
      "y_um": -277.29
     }
    ],
    "segments": [
     {
      "from": "lcpll_pfd.DN",
-     "length_um": 69.53,
+     "length_um": 71.53,
      "path_um": [
       [
        -438.87,
@@ -172,7 +177,7 @@
        -227.28999999999996
       ],
       [
-       -377.59,
+       -375.59,
        -227.28999999999996
       ]
      ],
@@ -180,18 +185,18 @@
     },
     {
      "from": "lcpll_pfd.DN",
-     "length_um": 365.97,
+     "length_um": 430.97,
      "path_um": [
       [
        -438.87,
        -219.04
       ],
       [
-       -131.15,
+       -66.15,
        -219.04
       ],
       [
-       -131.15,
+       -66.15,
        -277.29
       ]
      ],
@@ -247,9 +252,14 @@
    ]
   },
   "IREFCP": {
-   "collisions": [],
+   "collisions": [
+    {
+     "overlapping_polygons": 4,
+     "to": "lcpll_cp.IREF"
+    }
+   ],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 265.67,
+   "length_um": 251.67,
    "pins": [
     {
      "cell": "(landing)",
@@ -262,25 +272,25 @@
      "cell": "lcpll_cp",
      "layer": 8,
      "port": "IREF",
-     "x_um": -361.16,
+     "x_um": -347.16,
      "y_um": -225.49
     }
    ],
    "segments": [
     {
      "from": "(landing).IREFCP",
-     "length_um": 265.67,
+     "length_um": 251.67,
      "path_um": [
       [
        -320.0,
        -450.0
       ],
       [
-       -361.16,
+       -347.16,
        -450.0
       ],
       [
-       -361.16,
+       -347.16,
        -225.49
       ]
      ],
@@ -333,7 +343,7 @@
   "LOCK": {
    "collisions": [],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 407.13,
+   "length_um": 342.13,
    "pins": [
     {
      "cell": "(landing)",
@@ -346,14 +356,14 @@
      "cell": "lcpll_lockdet",
      "layer": 8,
      "port": "LOCK",
-     "x_um": -116.13,
+     "x_um": -51.13,
      "y_um": -279.0
     }
    ],
    "segments": [
     {
      "from": "(landing).LOCK",
-     "length_um": 407.13,
+     "length_um": 342.13,
      "path_um": [
       [
        120.0,
@@ -361,10 +371,14 @@
       ],
       [
        120.0,
-       -279.0
+       -430.0
       ],
       [
-       -116.13,
+       -51.13,
+       -430.0
+      ],
+      [
+       -51.13,
        -279.0
       ]
      ],
@@ -402,8 +416,8 @@
        -284.34
       ],
       [
-       281.21,
-       -284.34
+       592.29,
+       -230.1
       ],
       [
        281.21,
@@ -546,9 +560,14 @@
    ]
   },
   "UP": {
-   "collisions": [],
+   "collisions": [
+    {
+     "overlapping_polygons": 3,
+     "to": "lcpll_cp.UP"
+    }
+   ],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 418.42,
+   "length_um": 483.42,
    "pins": [
     {
      "cell": "lcpll_pfd",
@@ -568,7 +587,7 @@
      "cell": "lcpll_lockdet",
      "layer": 8,
      "port": "UP",
-     "x_um": -132.89,
+     "x_um": -67.89,
      "y_um": -277.29
     }
    ],
@@ -594,18 +613,18 @@
     },
     {
      "from": "lcpll_pfd.UP",
-     "length_um": 357.43,
+     "length_um": 422.43,
      "path_um": [
       [
        -435.39,
        -222.36
       ],
       [
-       -132.89,
+       -67.89,
        -222.36
       ],
       [
-       -132.89,
+       -67.89,
        -277.29
       ]
      ],
@@ -616,48 +635,44 @@
   "VCP": {
    "collisions": [
     {
-     "overlapping_polygons": 2,
+     "overlapping_polygons": 4,
      "to": "lcpll_loopfilter.VIN"
     }
    ],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 165.15,
+   "length_um": 197.15,
    "pins": [
     {
      "cell": "lcpll_cp",
      "layer": 8,
      "port": "VOUT",
-     "x_um": -331.03,
+     "x_um": -293.03,
      "y_um": -227.0
     },
     {
      "cell": "lcpll_loopfilter",
      "layer": 126,
      "port": "VIN",
-     "x_um": -359.1,
+     "x_um": -353.1,
      "y_um": -364.08
     }
    ],
    "segments": [
     {
      "from": "lcpll_cp.VOUT",
-     "length_um": 165.15,
+     "length_um": 197.15,
      "path_um": [
       [
-       -331.03,
+       -293.03,
        -227.0
       ],
       [
-       -339.1,
-       -227.0
+       -293.03,
+       -364.0799999999999
       ],
       [
-       -339.1,
-       -364.08
-      ],
-      [
-       -359.1,
-       -364.08
+       -353.1,
+       -364.0799999999999
       ]
      ],
      "to": "lcpll_loopfilter.VIN"
@@ -716,9 +731,14 @@
    ]
   },
   "VDD": {
-   "collisions": [],
+   "collisions": [
+    {
+     "overlapping_polygons": 4,
+     "to": "lcpll_cp.VDD"
+    }
+   ],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 5155.485,
+   "length_um": 5096.335,
    "pins": [
     {
      "cell": "(landing)",
@@ -773,14 +793,14 @@
      "cell": "lcpll_cp",
      "layer": 8,
      "port": "VDD",
-     "x_um": -321.65,
-     "y_um": -227.0
+     "x_um": -192.72,
+     "y_um": -222.22
     },
     {
      "cell": "lcpll_lockdet",
      "layer": 8,
      "port": "VDD",
-     "x_um": -109.65,
+     "x_um": -44.65,
      "y_um": -279.0
     }
    ],
@@ -795,7 +815,11 @@
       ],
       [
        -120.0,
-       -282.63
+       -410.0
+      ],
+      [
+       598.79,
+       -410.0
       ],
       [
        598.79,
@@ -814,11 +838,11 @@
       ],
       [
        -120.0,
-       -430.0
+       -410.0
       ],
       [
        659.69,
-       -430.0
+       -410.0
       ],
       [
        659.69,
@@ -837,7 +861,11 @@
       ],
       [
        -120.0,
-       -282.63
+       -410.0
+      ],
+      [
+       457.85,
+       -410.0
       ],
       [
        457.85,
@@ -855,7 +883,11 @@
        -450.0
       ],
       [
-       -120.0,
+       -80.0,
+       -450.0
+      ],
+      [
+       -80.0,
        -270.92
       ],
       [
@@ -875,11 +907,11 @@
       ],
       [
        -120.0,
-       -430.0
+       -410.0
       ],
       [
        333.57,
-       -430.0
+       -410.0
       ],
       [
        333.57,
@@ -913,37 +945,37 @@
     },
     {
      "from": "(landing).VDD",
-     "length_um": 424.65,
+     "length_um": 300.5,
      "path_um": [
       [
        -120.0,
        -450.0
       ],
       [
-       -120.0,
-       -227.0
+       -192.72,
+       -450.0
       ],
       [
-       -321.65,
-       -227.0
+       -192.72,
+       -222.22
       ]
      ],
      "to": "lcpll_cp.VDD"
     },
     {
      "from": "(landing).VDD",
-     "length_um": 181.35,
+     "length_um": 246.35,
      "path_um": [
       [
        -120.0,
        -450.0
       ],
       [
-       -109.65,
+       -44.65,
        -450.0
       ],
       [
-       -109.65,
+       -44.65,
        -279.0
       ]
      ],
@@ -1076,12 +1108,16 @@
   "VSS": {
    "collisions": [
     {
-     "overlapping_polygons": 1,
+     "overlapping_polygons": 4,
+     "to": "lcpll_cp.VSS"
+    },
+    {
+     "overlapping_polygons": 4,
      "to": "lcpll_loopfilter.VSS"
     }
    ],
    "layers": "Metal5 horizontal / Metal4 vertical, width 1.0 um",
-   "length_um": 7398.99,
+   "length_um": 7730.04,
    "pins": [
     {
      "cell": "(landing)",
@@ -1143,22 +1179,22 @@
      "cell": "lcpll_cp",
      "layer": 8,
      "port": "VSS",
-     "x_um": -379.79,
-     "y_um": -229.0
+     "x_um": -276.11,
+     "y_um": -222.22
     },
     {
      "cell": "lcpll_lockdet",
      "layer": 67,
      "port": "VSS",
-     "x_um": -250.0,
+     "x_um": -185.0,
      "y_um": -256.9
     },
     {
      "cell": "lcpll_loopfilter",
-     "layer": 67,
+     "layer": 8,
      "port": "VSS",
-     "x_um": -440.0,
-     "y_um": -407.7
+     "x_um": 442.62,
+     "y_um": -427.37
     },
     {
      "cell": "(guard_ring)",
@@ -1179,11 +1215,11 @@
       ],
       [
        -220.0,
-       -410.0
+       -390.0
       ],
       [
        595.31,
-       -410.0
+       -390.0
       ],
       [
        595.31,
@@ -1202,11 +1238,11 @@
       ],
       [
        -220.0,
-       -410.0
+       -390.0
       ],
       [
        597.05,
-       -410.0
+       -390.0
       ],
       [
        597.05,
@@ -1225,11 +1261,11 @@
       ],
       [
        -220.0,
-       -410.0
+       -390.0
       ],
       [
        650.99,
-       -410.0
+       -390.0
       ],
       [
        650.99,
@@ -1248,11 +1284,11 @@
       ],
       [
        -220.0,
-       -410.0
+       -390.0
       ],
       [
        654.47,
-       -410.0
+       -390.0
       ],
       [
        654.47,
@@ -1271,11 +1307,11 @@
       ],
       [
        -220.0,
-       -410.0
+       -390.0
       ],
       [
        445.21,
-       -410.0
+       -390.0
       ],
       [
        445.21,
@@ -1328,41 +1364,41 @@
     },
     {
      "from": "(landing).VSS",
-     "length_um": 380.79,
+     "length_um": 283.89,
      "path_um": [
       [
        -220.0,
        -450.0
       ],
       [
-       -220.0,
-       -270.0
+       -276.11,
+       -450.0
       ],
       [
-       -379.79,
-       -270.0
-      ],
-      [
-       -379.79,
-       -229.0
+       -276.11,
+       -222.22
       ]
      ],
      "to": "lcpll_cp.VSS"
     },
     {
      "from": "(landing).VSS",
-     "length_um": 223.1,
+     "length_um": 228.1,
      "path_um": [
       [
        -220.0,
        -450.0
       ],
       [
-       -250.0,
-       -450.0
+       -220.0,
+       -430.0
       ],
       [
-       -250.0,
+       -185.0,
+       -430.0
+      ],
+      [
+       -185.0,
        -256.9
       ]
      ],
@@ -1370,7 +1406,7 @@
     },
     {
      "from": "(landing).VSS",
-     "length_um": 262.3,
+     "length_um": 685.25,
      "path_um": [
       [
        -220.0,
@@ -1378,11 +1414,11 @@
       ],
       [
        -220.0,
-       -407.7
+       -427.37
       ],
       [
-       -440.0,
-       -407.7
+       442.62,
+       -427.37
       ]
      ],
      "to": "lcpll_loopfilter.VSS"
@@ -1396,8 +1432,8 @@
        -450.0
       ],
       [
-       -160.0,
-       -450.0
+       -220.0,
+       -131.53
       ],
       [
        -160.0,

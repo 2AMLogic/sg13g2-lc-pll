@@ -22,7 +22,7 @@
     "combine_devices_per_circuit": null,
     "combine_devices_max_attempts": 5,
     "flatten_layout": false,
-    "flatten_reference": false,
+    "flatten_reference": true,
     "netgen_setup": null,
     "parameter_tolerance": null,
     "compare_parameters": null,
@@ -43,7 +43,7 @@
   },
   "hints_applied": null,
   "constant_nets_applied": null,
-  "status": "mismatch",
+  "status": "match",
   "power_connectivity": {
     "status": "unchecked",
     "reason": "reference.form is 'subckt-call', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
@@ -57,25 +57,13 @@
     "finding_count": 0
   },
   "body_verification": {
-    "status": "unverified",
+    "status": "verified",
     "reason": null,
-    "device_classes": [
-      "nfet",
-      "pfet"
-    ],
-    "device_count": 63,
+    "device_classes": [],
+    "device_count": 0,
     "inspected_count": 63,
-    "findings": [
-      {
-        "class": "nfet",
-        "device_count": 35
-      },
-      {
-        "class": "pfet",
-        "device_count": 28
-      }
-    ],
-    "finding_count": 2
+    "findings": [],
+    "finding_count": 0
   },
   "device_parameter_coverage": [
     {
@@ -135,32 +123,165 @@
       ]
     }
   ],
-  "mismatch_count": 8,
-  "error_count": 5,
+  "mismatches_omitted": false,
+  "mismatch_count": 1,
+  "error_count": 0,
   "category_counts": {
-    "device.body_unverified": 2,
-    "topology": 5,
-    "topology.hierarchy_mismatch": 1
+    "topology.flattened": 1
   },
-  "category_error_counts": {
-    "topology": 5
-  },
+  "category_error_counts": {},
   "counts": {
     "nets": {
-      "layout": 194,
-      "reference": 12,
-      "matched": 0
+      "layout": 18,
+      "reference": 18,
+      "matched": 18
     },
     "devices": {
       "layout": 63,
-      "reference": 4,
-      "matched": 0
+      "reference": 63,
+      "matched": 63
     },
     "pins": {
-      "layout": 7,
+      "layout": 6,
       "reference": 6,
-      "matched": 0
+      "matched": 6
     }
+  },
+  "pin_set_difference": {
+    "deck_synthesized_layout_pins": [],
+    "layout_only_pins": [],
+    "layout_only_pins_count": 0,
+    "layout_only_pins_truncated": false,
+    "reference_only_pins": [],
+    "reference_only_pins_count": 0,
+    "reference_only_pins_truncated": false
+  },
+  "ignored_layers": [
+    {
+      "layer": 1,
+      "datatype": 20,
+      "shapes": 12
+    },
+    {
+      "layer": 1,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 5,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 8,
+      "datatype": 22,
+      "shapes": 1368
+    },
+    {
+      "layer": 8,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 10,
+      "datatype": 22,
+      "shapes": 1368
+    },
+    {
+      "layer": 10,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 26,
+      "datatype": 0,
+      "shapes": 6
+    },
+    {
+      "layer": 30,
+      "datatype": 22,
+      "shapes": 1368
+    },
+    {
+      "layer": 30,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 32,
+      "datatype": 0,
+      "shapes": 4
+    },
+    {
+      "layer": 40,
+      "datatype": 0,
+      "shapes": 8
+    },
+    {
+      "layer": 50,
+      "datatype": 22,
+      "shapes": 1363
+    },
+    {
+      "layer": 50,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 51,
+      "datatype": 0,
+      "shapes": 12
+    },
+    {
+      "layer": 52,
+      "datatype": 0,
+      "shapes": 6
+    },
+    {
+      "layer": 67,
+      "datatype": 22,
+      "shapes": 1363
+    },
+    {
+      "layer": 67,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 126,
+      "datatype": 2,
+      "shapes": 4
+    },
+    {
+      "layer": 126,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 134,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 148,
+      "datatype": 0,
+      "shapes": 2
+    },
+    {
+      "layer": 156,
+      "datatype": 0,
+      "shapes": 6
+    },
+    {
+      "layer": 160,
+      "datatype": 0,
+      "shapes": 1
+    }
+  ],
+  "warnings": [],
+  "sg13g2_passive_pairing": {
+    "status": "all_devices_paired",
+    "findings": []
   },
   "device_classes": [
     "nfet",
@@ -171,152 +292,39 @@
     "cap_cmomf",
     "resistor",
     "dantenna",
-    "dpantenna"
+    "dpantenna",
+    "inductor"
   ],
   "environment": {
     "engine": "klayout",
     "engine_version": "0.30.12",
     "netgen_binary": null,
-    "layout_sha256": "90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+    "layout_sha256": "2140369ce7109bb8eb83054fa6636c33740f05d0e2fd6143daa562ee702e9d89",
     "reference_sha256": "99827833f70681faaf031e345f37730eeba9cb692f9eb46f59a149edfa9c213a",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
-    "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
-    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+    "klt_version": "0.9.3.dev3790+gd901bc795962",
+    "klt_git_commit": "d901bc79596215e90d4f9a702bcc35cc4f38d5da",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@d901bc79596215e90d4f9a702bcc35cc4f38d5da",
     "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
       "name": "sg13g2",
-      "content_hash": "sha256:eaaf298957eeced674e4030635c66ba6bdee98adde15fe36203ba047fd7b0669",
+      "content_hash": "sha256:e5459fe971c6c008d99bd59da48f6dc87cdb6d601ce7aabcc755fa134c19da20",
       "released": false
     },
     "input": {
-      "content_hash": "sha256:90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+      "content_hash": "sha256:2140369ce7109bb8eb83054fa6636c33740f05d0e2fd6143daa562ee702e9d89",
       "role": "layout"
     },
     "klayout_version_mismatch": false
   },
   "mismatches": [
     {
-      "category": "device.body_unverified",
+      "category": "topology.flattened",
       "severity": "warning",
-      "description": "35 NMOS device body terminal(s) were compared against the 'vsubs' deck-synthesized substrate net, not a real schematic net -- either no substrate-tap geometry is drawn, or the drawn tap's net carries no name label (a body resolves only to a *named* net; label the tap-connected conductor, e.g. VSS, to resolve it; see docs/cli/extract.md, \"Coverage\")",
-      "side": "layout",
-      "net": null,
-      "device": {
-        "layout": null,
-        "reference": null,
-        "class": "nfet"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.body_unverified",
-      "severity": "warning",
-      "description": "28 PMOS device body terminal(s) were compared against an anonymous, KLayout-synthesized well net, not a real schematic net -- either no drawn or derived well-tap geometry exists, or the tap-connected net carries no name label (a body resolves only to a *named* net; label the tap-connected conductor, e.g. VDD, to resolve it; see docs/cli/extract.md, \"Coverage\")",
-      "side": "layout",
-      "net": null,
-      "device": {
-        "layout": null,
-        "reference": null,
-        "class": "pfet"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "topology",
-      "severity": "error",
-      "description": "circuit could not be matched to a counterpart",
-      "side": "both",
-      "net": null,
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_cp",
-        "reference": "CP"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "topology",
-      "severity": "error",
-      "description": "circuit could not be matched to a counterpart",
-      "side": "reference",
-      "net": null,
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": null,
-        "reference": "CP_BIAS"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "topology",
-      "severity": "error",
-      "description": "circuit could not be matched to a counterpart",
-      "side": "reference",
-      "net": null,
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": null,
-        "reference": "CP_LEG_P"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "topology",
-      "severity": "error",
-      "description": "circuit could not be matched to a counterpart",
-      "side": "reference",
-      "net": null,
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": null,
-        "reference": "CP_LEG_N"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "topology",
-      "severity": "error",
-      "description": "circuit could not be matched to a counterpart",
-      "side": "reference",
-      "net": null,
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": null,
-        "reference": "CP_DUMPBUF"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "topology.hierarchy_mismatch",
-      "severity": "warning",
-      "description": "the layout netlist is flat (1 circuit) but the reference netlist is hierarchical (5 circuits); per-circuit topology errors here may stem from that structural difference rather than a connectivity defect -- retry with options.flatten_reference: true to compare the flattened reference against the flat layout (see docs/cli/lvs.md, \"topology.hierarchy_mismatch\")",
+      "description": "options.flatten_reference flattened the reference netlist before comparing: 5 circuit(s) were collapsed into 1 top-level circuit(s), substituting every subcircuit-call instance in place -- this compare verified topology only after removing the original hierarchy boundaries on this side (see docs/cli/lvs.md, \"topology.flattened\")",
       "side": "reference",
       "net": null,
       "device": null,
@@ -327,5 +335,132 @@
       "subcircuit": null
     }
   ],
-  "net_correspondence": []
+  "net_correspondence": [
+    {
+      "layout": "\\$2",
+      "layout_id": 0,
+      "reference": "BIAS_NX",
+      "reference_id": 12,
+      "pin": false
+    },
+    {
+      "layout": "\\$14",
+      "layout_id": 12,
+      "reference": "BIAS_PX",
+      "reference_id": 13,
+      "pin": false
+    },
+    {
+      "layout": "DN",
+      "layout_id": 6,
+      "reference": "DN",
+      "reference_id": 1,
+      "pin": true
+    },
+    {
+      "layout": "\\$9",
+      "layout_id": 7,
+      "reference": "DNB",
+      "reference_id": 7,
+      "pin": false
+    },
+    {
+      "layout": "\\$7",
+      "layout_id": 5,
+      "reference": "IBP",
+      "reference_id": 8,
+      "pin": false
+    },
+    {
+      "layout": "\\$17",
+      "layout_id": 15,
+      "reference": "ICN",
+      "reference_id": 9,
+      "pin": false
+    },
+    {
+      "layout": "\\$18",
+      "layout_id": 16,
+      "reference": "ICP",
+      "reference_id": 10,
+      "pin": false
+    },
+    {
+      "layout": "IREF",
+      "layout_id": 4,
+      "reference": "IREF",
+      "reference_id": 2,
+      "pin": true
+    },
+    {
+      "layout": "\\$15",
+      "layout_id": 13,
+      "reference": "LEGN_SW",
+      "reference_id": 17,
+      "pin": false
+    },
+    {
+      "layout": "\\$3",
+      "layout_id": 1,
+      "reference": "LEGN_TAIL",
+      "reference_id": 16,
+      "pin": false
+    },
+    {
+      "layout": "\\$16",
+      "layout_id": 14,
+      "reference": "LEGP_SW",
+      "reference_id": 15,
+      "pin": false
+    },
+    {
+      "layout": "\\$5",
+      "layout_id": 3,
+      "reference": "LEGP_TAIL",
+      "reference_id": 14,
+      "pin": false
+    },
+    {
+      "layout": "UP",
+      "layout_id": 9,
+      "reference": "UP",
+      "reference_id": 0,
+      "pin": true
+    },
+    {
+      "layout": "\\$12",
+      "layout_id": 10,
+      "reference": "UPB",
+      "reference_id": 6,
+      "pin": false
+    },
+    {
+      "layout": "VDD",
+      "layout_id": 2,
+      "reference": "VDD",
+      "reference_id": 4,
+      "pin": true
+    },
+    {
+      "layout": "\\$13",
+      "layout_id": 11,
+      "reference": "VDUMP",
+      "reference_id": 11,
+      "pin": false
+    },
+    {
+      "layout": "VOUT",
+      "layout_id": 8,
+      "reference": "VOUT",
+      "reference_id": 3,
+      "pin": true
+    },
+    {
+      "layout": "VSS",
+      "layout_id": 17,
+      "reference": "VSS",
+      "reference_id": 5,
+      "pin": true
+    }
+  ]
 }

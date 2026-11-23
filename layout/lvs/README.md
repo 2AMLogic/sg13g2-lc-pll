@@ -1,7 +1,9 @@
 # layout/lvs: T1 item 4 (LVS) attempt
 
-**Status: item 4 stays `unmet`. No `klt lvs` envelope exists; both engines stop before a compare.**
-Tracker for the current tool gap: `2AMLogic/klayout-tools#5407` (earlier gap #5402 is fixed). Nothing here is a `match`.
+**Status: item 4 stays `unmet`.** The top-level compare (`top.lvs.json`) is `status: mismatch` —
+the reference-form tool gap is `2AMLogic/klayout-tools#5406`. The two routed cells are matched
+against their own `.subckt` references (per-cell section, #343) — a per-cell `match` is not a
+top-level verdict and does not move item 4.
 
 **DRC state changed after the runs below were written.** `layout/drc/top.drc.json` went
 `status: clean` in PR #248 (commit `28cbf88`, 2026-11-13); the dated run sections below keep their
@@ -45,10 +47,14 @@ once the tool produces an envelope.
 
 - No hand-written plain-element reference in the runset's dialect: that is a second, unreviewed
   netlist, and a `match` against it would not be evidence about the item-1 netlist.
-- Routing is still placement-level (`gen_integrated.py`), so a `match` would not be expected even
-  with the tool gap closed. DRC is no longer part of that reason: `layout/drc/top.drc.json` is
-  `clean` as of PR #248, and this bullet now rests on the placement-level routing alone.
-- `manifests/sg13g2-lc-pll.signoff.json` is not touched.
+- Routing is still placement-level at the **top level** (`gen_integrated.py` wires block to block but
+  nothing inside a cell counts toward the top-level compare): the two routed cells (#343) change this
+  only for `lcpll_loopfilter` and `lcpll_cp` internals, and a top-level `match` would still not be
+  expected with the tool gap open — the four placement-only cells are unrouted inside. DRC is no
+  longer part of that reason: `layout/drc/top.drc.json` is `clean` as of PR #248.
+- `manifests/sg13g2-lc-pll.signoff.json` is not touched **by any run in this file before #343's
+  2026-11-23 pass** (that pass re-stamped items 2 and 3 for the new stream; item 4 evidence is
+  untouched and stays `unmet`).
 
 Re-run once `klayout-tools#5407` lands; then commit the envelope as `top.lvs.json` and check it with
 `klt lvs --check layout/lvs/top.lvs.json`.
@@ -103,3 +109,47 @@ Tool gaps filed generically: `2AMLogic/klayout-tools#6960` (subckt-call referenc
 `coverage` block in this klt, so the `sg13_hv_pmos` census question stays open for the charge pump; the
 `device_classes` list does include `pfet`. The swapped-net negative control is not run: it needs a `match`
 baseline to flip, and neither cell has one. It becomes meaningful once the two issues above are fixed.
+
+## Per-cell re-run after the klt fixes (#343, `klt 0.9.3.dev3790+gd901bc795962`, klayout 0.30.12, 2026-11-23)
+
+Both klt issues above are fixed in this build, and `lcpll_cp` is now routed (18 of 18 nets, `layout/README.md`).
+Same committed request shape as above — layout `layout/top.gds` (sha256 `2140369c…`, the routed-CP stream) with
+`top` set to the cell, reference the cell's own `.subckt`, curated `sg13g2` deck. Reproduce from the cell's
+directory with `klt lvs request.json --format json -o <cell>.lvs.json` (the charge pump's request adds
+`options.flatten_reference`, below); `klt lvs --check <cell>.lvs.json` re-hashes the inputs.
+
+| Cell | Engine | Status | Counts (layout = reference = matched) | Body check |
+|---|---|---|---|---|
+| `lcpll_loopfilter` | curated `sg13g2` | **`match`** | 16 / 16 / 16 devices (14 `cap_cmim`, 2 `rppd`), 4 / 4 / 4 nets, 3 / 3 / 3 pins | no MOS in the cell (resistors and caps only) |
+| `lcpll_cp` | curated `sg13g2` | **`match`** | 63 / 63 / 63 devices (`nfet` 35, `pfet` 28), 18 / 18 / 18 nets, 6 / 6 / 6 pins | **`verified`**, 0 findings — the `pfet` n-well ties and `nfet` ring ties hold |
+
+Reading the two matches:
+
+- **The `sg13_hv_pmos` census question the issue raised is answered.** The charge pump's
+  `device_parameter_coverage` reads `nfet` 35 / 35 and `pfet` 28 / 28 (layout / reference), `W` and `L`
+  compared on every MOS, `sg13g2_passive_pairing: all_devices_paired`. The drawn pfets are extracted as
+  pfet and pair with the reference cards.
+- **How the compare treats `cp`'s hierarchy** (`cp_bias`, `cp_leg_p`, `cp_leg_n`, `cp_dumpbuf`): the
+  layout side extracts one flat circuit (63 devices), so the hierarchical reference cannot pair — the
+  #347 run read that as `topology.hierarchy_mismatch`. The committed request sets
+  `options.flatten_reference: true`: `klt lvs` itself collapses the 5 reference circuits into one
+  (substituting every subcircuit call in place; `topology.flattened` is recorded as a warning in the
+  envelope) and the compare then pairs all 63 devices. No netlist is written or edited by hand — the
+  flattened form is produced by the tool from the committed `.spice`.
+- **What the `match` does not verify** (each stated by a warning in the envelope, not silently dropped):
+  passive `R`/`C` values are placeholder-excluded on the subckt-call reference side (the loop filter's
+  caps and resistors pair on topology alone; the layout-side `R` 7021 Ohm / `C` values are recorded in
+  the warnings), and MOS `AS`/`AD`/`PS`/`PD` are secondary parameters KLayout does not compare.
+- The `klayout-runset` engine still mismatches for the loop filter (`lcpll_loopfilter.runset.lvs.json`,
+  refreshed on the same stream): it counts the `m=12` multiplier card as one device against the drawn
+  units, so its device census is not on the same footing as the curated engine's. The curated envelope
+  is the per-cell verdict; the runset envelope is committed as the record of that reading.
+- **Swapped-net negative controls** (`scripts/test-lvs-cells-negative.sh`): one device card of a scratch
+  copy of each reference gets one net swapped (`XC2`'s `VIN` node to `VCTRL`; `XIUP_N`'s gate from `UP`
+  to `DN`) and the same request flips to `mismatch` for both cells. A token-for-token net-name swap is
+  deliberately not the control: it renames both sides of every connection and the comparer — which pairs
+  top-level pins positionally — still matches, which is itself worth knowing about the compare.
+
+Item 4 (top-level LVS) stays `unmet` with #37: these are per-cell compares against per-cell references,
+not the integrated-top compare, and the top-level envelope (`top.lvs.json`, runset engine) is unchanged
+at `mismatch` for the reference-form reasons recorded above.

@@ -43,7 +43,7 @@
   },
   "hints_applied": null,
   "constant_nets_applied": null,
-  "status": "mismatch",
+  "status": "match",
   "power_connectivity": {
     "status": "unchecked",
     "reason": "reference.form is 'subckt-call', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
@@ -117,35 +117,167 @@
       ]
     }
   ],
-  "mismatch_count": 31,
-  "error_count": 25,
+  "mismatches_omitted": false,
+  "mismatch_count": 6,
+  "error_count": 0,
   "category_counts": {
     "device.geometry_not_compared": 2,
     "device.placeholder_value": 2,
-    "device.unmatched": 16,
-    "net.unmatched": 9,
     "topology": 2
   },
-  "category_error_counts": {
-    "device.unmatched": 16,
-    "net.unmatched": 9
-  },
+  "category_error_counts": {},
   "counts": {
     "nets": {
-      "layout": 5,
+      "layout": 4,
       "reference": 4,
-      "matched": 0
+      "matched": 4
     },
     "devices": {
       "layout": 16,
       "reference": 16,
-      "matched": 0
+      "matched": 16
     },
     "pins": {
-      "layout": 4,
+      "layout": 3,
       "reference": 3,
-      "matched": 7
+      "matched": 3
     }
+  },
+  "pin_set_difference": {
+    "deck_synthesized_layout_pins": [],
+    "layout_only_pins": [],
+    "layout_only_pins_count": 0,
+    "layout_only_pins_truncated": false,
+    "reference_only_pins": [],
+    "reference_only_pins_count": 0,
+    "reference_only_pins_truncated": false
+  },
+  "ignored_layers": [
+    {
+      "layer": 1,
+      "datatype": 20,
+      "shapes": 12
+    },
+    {
+      "layer": 1,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 5,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 8,
+      "datatype": 22,
+      "shapes": 1368
+    },
+    {
+      "layer": 8,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 10,
+      "datatype": 22,
+      "shapes": 1368
+    },
+    {
+      "layer": 10,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 26,
+      "datatype": 0,
+      "shapes": 6
+    },
+    {
+      "layer": 30,
+      "datatype": 22,
+      "shapes": 1368
+    },
+    {
+      "layer": 30,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 32,
+      "datatype": 0,
+      "shapes": 4
+    },
+    {
+      "layer": 40,
+      "datatype": 0,
+      "shapes": 8
+    },
+    {
+      "layer": 50,
+      "datatype": 22,
+      "shapes": 1363
+    },
+    {
+      "layer": 50,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 51,
+      "datatype": 0,
+      "shapes": 12
+    },
+    {
+      "layer": 52,
+      "datatype": 0,
+      "shapes": 6
+    },
+    {
+      "layer": 67,
+      "datatype": 22,
+      "shapes": 1363
+    },
+    {
+      "layer": 67,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 126,
+      "datatype": 2,
+      "shapes": 4
+    },
+    {
+      "layer": 126,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 134,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 148,
+      "datatype": 0,
+      "shapes": 2
+    },
+    {
+      "layer": 156,
+      "datatype": 0,
+      "shapes": 6
+    },
+    {
+      "layer": 160,
+      "datatype": 0,
+      "shapes": 1
+    }
+  ],
+  "warnings": [],
+  "sg13g2_passive_pairing": {
+    "status": "all_devices_paired",
+    "findings": []
   },
   "device_classes": [
     "nfet",
@@ -156,29 +288,30 @@
     "cap_cmomf",
     "resistor",
     "dantenna",
-    "dpantenna"
+    "dpantenna",
+    "inductor"
   ],
   "environment": {
     "engine": "klayout",
     "engine_version": "0.30.12",
     "netgen_binary": null,
-    "layout_sha256": "90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+    "layout_sha256": "2140369ce7109bb8eb83054fa6636c33740f05d0e2fd6143daa562ee702e9d89",
     "reference_sha256": "35341299a4ecc524d2c91db5dc5c5f2cb8284a414d70e5b37401c7f85a90ea04",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
-    "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
-    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+    "klt_version": "0.9.3.dev3790+gd901bc795962",
+    "klt_git_commit": "d901bc79596215e90d4f9a702bcc35cc4f38d5da",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@d901bc79596215e90d4f9a702bcc35cc4f38d5da",
     "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
       "name": "sg13g2",
-      "content_hash": "sha256:eaaf298957eeced674e4030635c66ba6bdee98adde15fe36203ba047fd7b0669",
+      "content_hash": "sha256:e5459fe971c6c008d99bd59da48f6dc87cdb6d601ce7aabcc755fa134c19da20",
       "released": false
     },
     "input": {
-      "content_hash": "sha256:90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+      "content_hash": "sha256:2140369ce7109bb8eb83054fa6636c33740f05d0e2fd6143daa562ee702e9d89",
       "role": "layout"
     },
     "klayout_version_mismatch": false
@@ -291,440 +424,6 @@
       "subcircuit": null
     },
     {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$1",
-        "reference": "1_M0",
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$10",
-        "reference": "1_M9",
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$11",
-        "reference": "1_M10",
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$12",
-        "reference": "1_M11",
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$13",
-        "reference": "2",
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$14",
-        "reference": "3",
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$15",
-        "reference": "1",
-        "class": "rppd"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$16",
-        "reference": "3",
-        "class": "rppd"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$2",
-        "reference": "1_M1",
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$3",
-        "reference": "1_M2",
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$4",
-        "reference": "1_M3",
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$5",
-        "reference": "1_M4",
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$6",
-        "reference": "1_M5",
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$7",
-        "reference": "1_M6",
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$8",
-        "reference": "1_M7",
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$9",
-        "reference": "1_M8",
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net has no reference counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "VCTRL",
-        "layout_id": 1,
-        "reference": null,
-        "reference_id": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net has no reference counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "VIN",
-        "layout_id": 3,
-        "reference": null,
-        "reference_id": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net has no reference counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "VSS",
-        "layout_id": 0,
-        "reference": null,
-        "reference_id": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net has no reference counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "\\$3",
-        "layout_id": 2,
-        "reference": null,
-        "reference_id": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net has no reference counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "vsubs",
-        "layout_id": 4,
-        "reference": null,
-        "reference_id": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "reference net has no layout counterpart",
-      "side": "reference",
-      "net": {
-        "layout": null,
-        "layout_id": null,
-        "reference": "NZ1",
-        "reference_id": 3
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "reference net has no layout counterpart",
-      "side": "reference",
-      "net": {
-        "layout": null,
-        "layout_id": null,
-        "reference": "VCTRL",
-        "reference_id": 1
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "reference net has no layout counterpart",
-      "side": "reference",
-      "net": {
-        "layout": null,
-        "layout_id": null,
-        "reference": "VIN",
-        "reference_id": 0
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "reference net has no layout counterpart",
-      "side": "reference",
-      "net": {
-        "layout": null,
-        "layout_id": null,
-        "reference": "VSS",
-        "reference_id": 2
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
       "category": "topology",
       "severity": "warning",
       "description": "device class has no counterpart on the other side, but no devices of this class were extracted either -- not a real topology mismatch: 'nfet'",
@@ -759,5 +458,34 @@
       "subcircuit": null
     }
   ],
-  "net_correspondence": []
+  "net_correspondence": [
+    {
+      "layout": "\\$3",
+      "layout_id": 1,
+      "reference": "NZ1",
+      "reference_id": 3,
+      "pin": false
+    },
+    {
+      "layout": "VCTRL",
+      "layout_id": 0,
+      "reference": "VCTRL",
+      "reference_id": 1,
+      "pin": true
+    },
+    {
+      "layout": "VIN",
+      "layout_id": 2,
+      "reference": "VIN",
+      "reference_id": 0,
+      "pin": true
+    },
+    {
+      "layout": "VSS",
+      "layout_id": 3,
+      "reference": "VSS",
+      "reference_id": 2,
+      "pin": true
+    }
+  ]
 }

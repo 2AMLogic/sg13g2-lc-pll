@@ -76,7 +76,10 @@ One table row per block in `layout/gen_cells.py` (`divider`, `charge_pump`, `loo
 `lock_detector`: cell name, `.subckt`, netlist file), plus `layout/cells/prescaler.py` (its tank-loading input group
 is placed first), on shared `cells/common.py`: flatten the `.subckt`, group identical (class, W, L) devices
 (`m=` expanded to units), draw each group with `klt gen mos_array|res_array|cap_array|bjt_array`, place groups with
-`klt gen-compose` (placement only; routing is #35), and put one text label per `.subckt` port on a drawn
+`klt gen-compose` (the charge pump and loop filter additionally wire intra-cell through
+`layout/cells/routing.py`'s explicit-leg plan -- one `connectivity[]` leg per connection, drawn by
+`klt gen-compose`'s router on the metal2/metal3 plane pair, never by a local polygon helper; #343), and put one
+text label per `.subckt` port on a drawn
 terminal of that net. `layout/cells.provenance.json` holds the cell list, area (bbox), generator command, klt
 version, netlist sha256 and a geometry digest; `gen_cells.py --check` fails on any difference.
 The digest hashes merged polygons plus label text/position per layer, in sorted `(layer, datatype)`
@@ -112,16 +115,18 @@ in the netlists (#164, PR #169), so the resistors are drawn with `klt gen res_ar
   the integrated loop (#41). The input group is placed first to keep its geometry compact; that is not a measurement.
 - Intra-cell routing and per-cell LVS (#343), by cell:
 
-  | Cell | Intra-cell routing | Per-cell `klt lvs` |
+  | Cell | Intra-cell routing | Per-cell `klt lvs` (curated `sg13g2`) |
   |---|---|---|
-  | `lcpll_loopfilter` | routed by `klt gen-compose` (metal2 + metal3 planes), 4 of 4 nets, guard rings tied; the two `rppd` are folded onto 2 rows so the router can escape | `mismatch` (0 of 16 devices, 0 nets paired though the class census is equal), `2AMLogic/klayout-tools#6960` |
-  | `lcpll_cp` | **not routed**: tried routed, the router left 11 of 18 nets unrouted (`crosses already-routed net`), so the cell stays placement-only, `pfet` groups still ringless, `2AMLogic/klayout-tools#6961` | `mismatch` (layout 63 flat devices vs 4 in the reference hierarchy), not a meaningful compare while unrouted |
-  | `lcpll_pfd`, `lcpll_lockdet`, `lcpll_divider`, `lcpll_prescaler` | placement only | not run (follow-ups of #343) |
+  | `lcpll_loopfilter` | routed by `klt gen-compose` (metal2 + metal3 planes), 4 of 4 nets, guard rings and the `rppd` bodies' substrate-tie island tied | **`match`** (16 of 16 devices, 4 of 4 nets, 3 of 3 pins; passive R/C values are placeholder-excluded, see `layout/lvs/README.md`) |
+  | `lcpll_cp` | routed by `klt gen-compose` (metal2 + metal3 planes), 18 of 18 nets, `nfet` rings and `pfet` rings/n-wells tied to `VSS`/`VDD` | **`match`** (63 of 63 devices -- `nfet` 35, `pfet` 28 -- 18 of 18 nets, 6 of 6 pins; the reference's 5-circuit hierarchy is flattened by `options.flatten_reference`, see `layout/lvs/README.md`) |
+  | `lcpll_pfd`, `lcpll_lockdet`, `lcpll_divider`, `lcpll_prescaler` | placement only | not run (#346 follow-ups) |
 
-  No cell is LVS-matched; item 4 stays `unmet` with #37 and nothing here is claimed from per-cell results.
+  Both routed cells are LVS-matched against their own `.subckt` and each `match` flips to `mismatch`
+  under a swapped-net negative control (`scripts/test-lvs-cells-negative.sh`). Item 4 (top-level LVS)
+  stays `unmet` with #37: a per-cell match is not a top-level compare, and nothing here claims it.
   Since #202 every `nfet` `mos_array` group carries a `mos_array add_guard_ring` pSD substrate tap ring on
-  net `VSS` (see "LU.b substrate taps"); in placement-only cells it is not tied by a route and `pfet` groups have
-  no ring. Areas are bounding boxes. The loop-filter cell is 133686 um2 because the schematic's `cap_cmim`
+  net `VSS` (see "LU.b substrate taps"); in placement-only cells it is not tied by a route.
+  Areas are bounding boxes. The loop-filter cell is 133686 um2 because the schematic's `cap_cmim`
   units (12 x 70.9 um square) are drawn as specified.
 
 ## Integrated top (#35)
@@ -354,3 +359,26 @@ klayout 0.30.13 (venv).
   cells the per-layer merged-polygon and label record set of the regenerated cell is identical to that of the
   same cell inside the committed `layout/top.gds`. On this host `gen_cells.py --check` mismatched four of the
   six committed digests *before* the fix, with every other field matching — the bug on `main`, not drift.
+
+## Charge-pump routing and per-cell LVS matches (#343, 2026-11-23)
+
+**Layout changed.** `lcpll_cp` joins `lcpll_loopfilter` as a routed cell: `layout/cells/routing.py`
+plans one explicit leg per connection (Metal3 column chains, Metal2 strips and between-block trunks,
+plane changes at via ladders, a rectangle model keeping same-layer spacing to other nets before the
+router sees the request) and `klt gen-compose` draws them; `ROUTE_INTERIOR_CHANNEL_UM` rises 0.8 -> 2.0
+so the mos arrays' inter-unit gaps hold the fan-out columns the 0.46 um S-G-D terminal pitch cannot
+(a 0.42 um via-drop pad needs 0.63 um of pitch; the auto router's refusal reasons say the same). The
+cell is 18 of 18 nets routed with `nfet` rings on `VSS` and `pfet` rings/n-wells on `VDD`; area 2520.8
+-> 10794.2 um2. `layout/cells.provenance.json`, `layout/provenance.json` and `layout/top.gds`
+(sha256 `2140369c…`) regenerated; `lcpll_lockdet` moves east 65 um (`PLACE`) and the lockdet/cp pin
+towers join `FINAL_VERTICAL` because the routed cells' own escapes occupy the pin rows.
+
+- `scripts/test-layout-cells.sh`: OK (6/6 cells, digests round-trip, labels == ports).
+- `scripts/test-layout-top.sh`: 30 passed, 0 failed.
+- Pins re-stamped to the new stream: `manifests/layout.attest.json` (`klt signoff --attest 2`),
+  `layout/drc/top.drc.json` and `layout/drc/top.crosscheck.json` (both engines **clean** on
+  `2140369c…` — see `drc/README.md`), `manifests/sg13g2-lc-pll.json` (`evidence.2`/`evidence.3`) and
+  the signoff record (items 2 and 3 `met`; item 4 stays `unmet` with #37).
+- Per-cell LVS: both routed cells now read `status: match` under the curated `sg13g2` deck
+  (`lvs/README.md` for the envelopes, the `flatten_reference` treatment of `cp`'s hierarchy, the
+  `pfet` census answer and the swapped-net negative controls).
