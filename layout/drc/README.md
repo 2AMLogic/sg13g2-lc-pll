@@ -536,3 +536,22 @@ layout change claims no new item.
 the tank routes are TopMetal1 (outside the forbidden set) and the moved prescaler adds nothing
 (`scripts/test-layout-top.sh` asserts the count is exactly 3). LVS (#37) and PEX (#41) have not
 run on this stream.
+
+## Duplicate port-label fix re-run (#349, 2026-11-23)
+
+`layout/top.gds` was regenerated after the routed loop filter's duplicate port labels were removed
+(`sha256:4b8e6867…`, was `c897060c…` on `main`; geometry delta = three erased texts inside the
+`lcpll_loopfilter` instance — routes and placements are unchanged).
+The curated request was re-run on the new stream:
+
+```
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 0 = clean
+klt drc --check layout/drc/top.drc.json                                   # re-hash: match
+```
+
+`klt 0.9.3.dev3910+g8703ad519ff7`, klayout 0.30.12, PDK `ihp-sg13g2` `fetched:0.3.0`
+(`--pdk-root /home/ubuntu/share/pdk`); the crosscheck (`top.crosscheck.json`) and the ERC report were re-run on the
+new stream too. Result: **`status: clean`, 0 violations** — unchanged
+verdict and unchanged coverage (the erased texts are label-layer only: 10/25, 30/25 and the
+stamped 126/0 / 67/0 texts are not DRC geometry). Item 3 stays `met` citing this report; the
+manifest pins were refreshed with the new stream hash.

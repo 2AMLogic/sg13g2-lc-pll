@@ -531,12 +531,15 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), hbt_split_bases=
     if top is None:
         raise RuntimeError(f"{cell}.raw.gds has no cell {cell!r}")
     if route:
-        # gen-compose labels each routed net it draws, internal ones included (e.g. `nz1`);
-        # the cell contract is one label per `.subckt` port (scripts/test-layout-cells.sh).
+        # gen-compose labels every net it routes, the `.subckt` port nets included, so sparing
+        # router texts whose string is a port name double-labels those ports against the stamp
+        # below (#349: the routed loop filter shipped two labels per port that way). Erase all
+        # of the composed cell's own texts -- direct shapes only; PDK child-cell text (the
+        # sg13g2 HBT's B/C/E) sits below instances and is untouched -- and let the stamp loop
+        # place exactly one label per port at the site `port_labels` records.
         for li in ly.layer_indexes():
             for sh in list(top.shapes(li).each(db.Shapes.STexts)):
-                if sh.text_string not in ports:
-                    top.shapes(li).erase(sh)
+                top.shapes(li).erase(sh)
     placed = {}
     for p in ports:
         if p in sites:

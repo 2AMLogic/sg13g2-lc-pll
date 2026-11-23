@@ -146,3 +146,36 @@ from each `cells/<cell>/` directory): `klt lvs request.json --format json -o <ce
 and `klt lvs request.flatten.json --format json -o <cell>.flatten.lvs.json`. `klt lvs --check` re-hashes the
 inputs and currently reports `environment.layout_sha256` drift (`90fecb47...` recorded, `60ad1ed0...` on this head)
 for all seven #346 envelopes; it is an input-freshness check, not a verdict.
+
+## Re-run after the duplicate port-label fix (#349, 2026-11-23, `klt 0.9.3.dev3910+g8703ad519ff7`, klayout 0.30.12)
+
+`layout/cells/common.py` no longer keeps `gen-compose`'s own net labels on a routed cell, so the
+loop filter carries exactly one label per port at the recorded `port_labels` site (it carried two
+per port; the router's copies sat on 10/25 and 30/25). `layout/top.gds` was regenerated on top of
+`main` after the #344/#345/#346 merges (`sha256:4b8e6867...`, was `c897060c...` on `main`) and the
+three per-cell envelopes above were re-run against it — same commands, same requests, from each
+cell's directory. Counts below are measured from `mismatches[]` / `counts` in the committed
+envelopes, compared with `main`'s copies:
+
+| Cell | Engine | Status | Change vs `main` |
+|---|---|---|---|
+| `lcpll_loopfilter` | curated `sg13g2` | `mismatch` | none beyond the input hash (same 16 / 16 devices, 0 paired, `mismatch_count` 31) |
+| `lcpll_loopfilter` | `klayout-runset` | `mismatch` | `mismatch_count` 21 -> 18; `counts.pins.layout` 3 -> **0**; `pin.unmatched` 6 -> 3 (the 3 layout-side warnings gone, the 3 reference-side entries remain); `counts.nets` unchanged (layout 5, reference 4, matched 0) and `net.unmatched` unchanged at 9 — three layout nets lost their names (`VIN`/`VCTRL`/`VSS` -> anonymous `$n`), none was added or removed |
+| `lcpll_cp` | curated `sg13g2` | `mismatch` | none beyond the input hash |
+
+No net was added or removed: the whole `21 -> 18` delta is the three layout-side pin warnings
+disappearing because the runset now recognises no layout pin at all.
+
+**The routed loop filter now presents zero layout pins to the PDK runset.** `counts.pins.layout`
+fell 3 -> 0 and all three reference pins (`VCTRL`/`VIN`/`VSS`) remain unmatched, so this is *further*
+from an eventual `match`, even though `mismatch_count` fell. Mechanism, inferred from the
+before/after pair (the runset deck was not read): the pins the runset recognised came from the
+router's texts on the label purposes 10/25 and 30/25 (no-rule label layers, `layout/drc/README.md`);
+the surviving stamp writes text on drawing purposes (`126/0` / `67/0` / `8/0`, per `port_labels`),
+which the runset evidently does not read as pin text. "One label per port" as implemented is
+therefore a label the PDK LVS runset cannot use. This matters beyond #349: item 4 / #37 needs layout
+pins to match, and #346 routes the other cells onto the same stamp path. Tracked in #416.
+
+Still no match and no new claim: item 4 stays `unmet` with #37, and the tool gaps (#6960, #6961) are
+unchanged. The re-run does show the duplication was not extraction-neutral, contrary to the issue's
+"believed benign" impact note.
