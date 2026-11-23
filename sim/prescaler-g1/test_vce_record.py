@@ -7,6 +7,10 @@ import re
 import vce_record as vr
 
 
+def _scope_line(md):
+    return next(l for l in md.splitlines() if l.startswith("- **Scope**"))
+
+
 def _corner(vdd, vals, status="pass"):
     return {"corner_id": "TYP/27C/%s" % vdd, "process": "TYP", "temperature_c": 27, "params": {"vddv": vdd},
             "status": status, "diagnostics": [],
@@ -93,6 +97,14 @@ def test_render_derives_the_count_and_grid_from_a_narrowed_request(tmp_path):
     assert "at every one of the 1 supply sub-corners (2 runs requested, 2 observed)" in md
     assert "18 sub-corners" not in md
     assert "the 18 supply sub-corners" not in md
+    # The Scope line's legend and rails come from the grid too: TYP-only, 2.970 V-only.
+    scope = _scope_line(md)
+    assert set(re.findall(r"([A-Z]+) = hbt_", scope)) == {"TYP"}
+    assert set(re.findall(r"(\d+\.\d{3})", scope.split("Not covered:")[0])) == {"2.970"}
+    assert "SLOW" not in scope and "FAST" not in scope
+    assert "hbt_wcs" not in scope and "hbt_bcs" not in scope
+    assert "beyond the issue's" not in scope
+    assert "3.630" not in md
 
 
 def test_render_derives_the_count_and_grid_from_a_widened_request(tmp_path):
@@ -111,6 +123,28 @@ def test_render_derives_the_count_and_grid_from_a_widened_request(tmp_path):
     assert "48 requested: 24 sub-corners x MC low/high" in md
     assert "at every one of the 24 supply sub-corners (48 runs requested, 2 observed)" in md
     assert "18 sub-corners" not in md
+    # The legend and rail sentence are derived from the widened grid, not typed back in.
+    scope = _scope_line(md)
+    assert set(re.findall(r"([A-Z]+) = hbt_", scope)) == {"SLOW", "TYP", "FAST"}
+    assert "SLOW = hbt_wcs, TYP = hbt_typ, FAST = hbt_bcs" in scope
+    assert set(re.findall(r"(\d+\.\d{3})", scope.split("Not covered:")[0])) == {"2.970", "3.630"}
+    assert "The 3.630 V half is beyond the issue's 2.970 V ask" in scope
+
+
+def test_render_process_legend_falls_back_to_names_without_a_cornerhbt_section(tmp_path):
+    req = json.loads((vr.HERE / "prescaler_vce.request.json").read_text())
+    for p in req["corners"]["process"]:
+        p["sections"] = [s for s in p["sections"] if "cornerHBT" not in s["lib"]]
+    stripped = tmp_path / "res-only.request.json"
+    stripped.write_text(json.dumps(req))
+    rep = tmp_path / "empty.json"
+    rep.write_text(json.dumps({"environment": {}, "corners": []}))
+    out = tmp_path / "records"
+    assert vr.main(["--report", str(rep), "--out-dir", str(out), "--id", "t3",
+                    "--request", str(stripped), "--commit", "deadbeef"]) == 0
+    scope = _scope_line((out / "t3-vce.md").read_text())
+    assert " = hbt_" not in scope
+    assert "C, SLOW, TYP, FAST (the prescaler" in scope
 
 
 def test_render_survives_a_request_without_a_corners_grid(tmp_path):
