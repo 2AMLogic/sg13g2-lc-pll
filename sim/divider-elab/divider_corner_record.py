@@ -8,7 +8,10 @@ N = 8 x clocks + MC-high (prescaler P = 8/9). The run passes if every window aft
 or that has fewer than 4 FB edges is never a pass: verdict FAIL if any converged run gives a wrong N, else INCOMPLETE
 if any is not graded or the report has no corners, else PASS. The same rule combines the part verdicts into the headline.
 
-    divider_corner_record.py --report R.json [--report R2.json ...] --out-dir DIR --id ID --commit SHA
+    divider_corner_record.py --part NAME REPORT REQUEST [--part ...] --out-dir DIR --id ID [--commit SHA]
+
+Each --part carries the request file alongside its report because the record cites that
+file's sha256 for the requested setup.
 """
 import argparse
 import gzip
