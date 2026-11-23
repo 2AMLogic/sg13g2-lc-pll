@@ -318,33 +318,40 @@
   },
   "device_census": {
     "layout": {
-      "rppd": 1,
+      "rppd": 2,
       "cap_cmim": 3
     },
     "reference": {
       "RPPD": 2,
       "CAP_CMIM": 3
-    }
+    },
+    "reference_source": null
   },
-  "mismatch_count": 21,
-  "error_count": 15,
+  "sg13g2_passive_pairing": {
+    "status": "insufficient_evidence",
+    "findings": []
+  },
+  "mismatch_count": 19,
+  "error_count": 13,
   "category_counts": {
-    "device.unmatched": 6,
-    "net.unmatched": 9,
+    "device.property": 2,
+    "device.unmatched": 3,
+    "net.unmatched": 8,
     "pin.unmatched": 6
   },
   "category_error_counts": {
-    "device.unmatched": 6,
-    "net.unmatched": 9
+    "device.property": 2,
+    "device.unmatched": 3,
+    "net.unmatched": 8
   },
   "counts": {
     "nets": {
-      "layout": 5,
+      "layout": 4,
       "reference": 4,
       "matched": 0
     },
     "devices": {
-      "layout": 4,
+      "layout": 5,
       "reference": 2,
       "matched": 0
     },
@@ -404,14 +411,14 @@
     "engine_version": "0.30.12",
     "klayout_binary": "klayout",
     "netgen_binary": null,
-    "layout_sha256": "90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+    "layout_sha256": "2140369ce7109bb8eb83054fa6636c33740f05d0e2fd6143daa562ee702e9d89",
     "reference_sha256": "35341299a4ecc524d2c91db5dc5c5f2cb8284a414d70e5b37401c7f85a90ea04",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
-    "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
-    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+    "klt_version": "0.9.3.dev3790+gd901bc795962",
+    "klt_git_commit": "d901bc79596215e90d4f9a702bcc35cc4f38d5da",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@d901bc79596215e90d4f9a702bcc35cc4f38d5da",
     "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
@@ -420,7 +427,7 @@
       "released": null
     },
     "input": {
-      "content_hash": "sha256:90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+      "content_hash": "sha256:2140369ce7109bb8eb83054fa6636c33740f05d0e2fd6143daa562ee702e9d89",
       "role": "layout"
     },
     "runset": {
@@ -436,13 +443,13 @@
     {
       "category": "device.unmatched",
       "severity": "error",
-      "description": "reference device '1' (class 'RPPD') has no counterpart",
-      "side": "reference",
+      "description": "layout device '4' (class 'cap_cmim') has no counterpart",
+      "side": "layout",
       "net": null,
       "device": {
-        "layout": null,
-        "reference": "1",
-        "class": "RPPD"
+        "layout": "4",
+        "reference": null,
+        "class": "cap_cmim"
       },
       "property": null,
       "details": null,
@@ -456,13 +463,13 @@
     {
       "category": "device.unmatched",
       "severity": "error",
-      "description": "reference device '3' (class 'RPPD') has no counterpart",
-      "side": "reference",
+      "description": "layout device '5' (class 'cap_cmim') has no counterpart",
+      "side": "layout",
       "net": null,
       "device": {
-        "layout": null,
-        "reference": "3",
-        "class": "RPPD"
+        "layout": "5",
+        "reference": null,
+        "class": "cap_cmim"
       },
       "property": null,
       "details": null,
@@ -494,58 +501,68 @@
       "subcircuit": null
     },
     {
-      "category": "device.unmatched",
+      "category": "device.property",
       "severity": "error",
-      "description": "layout device '4' (class 'cap_cmim') has no counterpart",
-      "side": "layout",
-      "net": null,
-      "device": {
-        "layout": "4",
-        "reference": null,
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "layout device '2' (class 'cap_cmim') has no counterpart",
-      "side": "layout",
-      "net": null,
-      "device": {
-        "layout": "2",
-        "reference": null,
-        "class": "cap_cmim"
-      },
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "layout device '1' (class 'rppd') has no counterpart",
-      "side": "layout",
+      "description": "devices '1' / '1' were paired but do not compare equal",
+      "side": "both",
       "net": null,
       "device": {
         "layout": "1",
-        "reference": null,
+        "reference": "1",
         "class": "rppd"
       },
       "property": null,
-      "details": null,
+      "details": {
+        "layout_parameters": {
+          "w": 2.0,
+          "l": 53.900000000000006,
+          "ps": 0.0,
+          "b": 0.0,
+          "m": 1.0
+        },
+        "reference_parameters": {
+          "w": 2.0,
+          "l": 53.900000000000006,
+          "ps": 0.0,
+          "b": 0.0,
+          "m": 1.0
+        }
+      },
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.property",
+      "severity": "error",
+      "description": "devices '2' / '3' were paired but do not compare equal",
+      "side": "both",
+      "net": null,
+      "device": {
+        "layout": "2",
+        "reference": "3",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": {
+        "layout_parameters": {
+          "w": 2.0,
+          "l": 53.900000000000006,
+          "ps": 0.0,
+          "b": 0.0,
+          "m": 1.0
+        },
+        "reference_parameters": {
+          "w": 2.0,
+          "l": 53.900000000000006,
+          "ps": 0.0,
+          "b": 0.0,
+          "m": 1.0
+        }
+      },
       "circuit": {
         "layout": "lcpll_loopfilter",
         "reference": "LCPLL_LOOPFILTER"
@@ -636,25 +653,6 @@
       "side": "layout",
       "net": {
         "layout": "$1",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$4' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$4",
         "reference": null
       },
       "device": null,
@@ -839,5 +837,6 @@
       "subcircuit": null
     }
   ],
-  "net_correspondence": []
+  "net_correspondence": [],
+  "mismatches_omitted": false
 }

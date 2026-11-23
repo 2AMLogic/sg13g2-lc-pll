@@ -64,6 +64,7 @@ PAD_UM = [0.7, 0.7, 0.7, 0.7, 0.7, 2.0, 4.0]
 LEVEL = {m[1]: i for i, m in enumerate(METALS)}
 W_TANK, W_SIG = 2.0, 1.0              # TopMetal1 minimum width; Metal4/5 signal width
 W_SUP, W_TM2 = 1.0, 4.0               # Metal4/5 supply width (divider M/A pin pitch 1.74 um); TopMetal2 VDDV strap
+CELL_PIN_PAD_UM = 0.42                  # via-tower pad at a routed-cell pin: the cell's own pad size
 CHAN_STEP = 20.0
 SPAN_UM = 200.0                       # channel search reaches this far outside an endpoint pair's bbox
 M1B_SP_UM = 0.18                      # native M1.b Metal1 spacing; the pad trim keeps this to foreign Metal1
@@ -77,7 +78,7 @@ PLACE = {
     "lcpll_loopfilter": ("R0", (-440.0, -430.0)),
     "lcpll_pfd": ("R0", (-440.0, -230.0)),
     "lcpll_cp": ("R0", (-380.0, -230.0)),
-    "lcpll_lockdet": ("R0", (-250.0, -280.0)),
+    "lcpll_lockdet": ("R0", (-185.0, -280.0)),
 }
 # net -> list of (cell, port).
 NETS = {
@@ -94,6 +95,7 @@ NETS = {
     "IREFPS": [("lcpll_prescaler", "IREF"), ("lcpll_divider", "IREF")],
 }
 TANK = ("VOP", "VON")
+ROUTED_CELLS = ("lcpll_cp", "lcpll_loopfilter")   # intra-cell wired by #343: dense pad rows
 
 # ---- Supplies and external pins (#344) -------------------------------------------------------------
 # Top-level landings: labelled pads on the south edge, 20 um below the loop-filter bottom edge
@@ -140,11 +142,20 @@ FINAL_HORIZONTAL = {
 # (net, cell, port) whose final approach must be VERTICAL (#344): the pfd/cp south pins sit in a
 # 5 um band (y = -229 .. -223.97) -- VSS into lcpll_pfd.VSS and lcpll_cp.VSS on Metal5 at y = -229
 # leaves no room for VDD's westward run (0.0 um edge gap to a y = -230 Metal5, metal5.space.1),
-# so both VSS legs drop to their pins on Metal4 and draw no Metal5 in that row at all.
+# so both VSS legs drop to their pins on Metal4 and draw no Metal5 in that row at all. The
+# lockdet UP/DN/LOCK legs and the cp VOUT leg join them since #343 wired those cells: a
+# horizontal on the pin row runs the row the routed cell's own escapes and via towers occupy
+# (metal3/metal4 notches at 0.08-0.15 um), so they drop on Metal4 south of the cell instead.
 FINAL_VERTICAL = {
     ("VDD", "lcpll_pfd", "VDD"),
     ("VSS", "lcpll_pfd", "VSS"),
     ("VSS", "lcpll_cp", "VSS"),
+    ("VDD", "lcpll_lockdet", "VDD"),
+    ("VSS", "lcpll_lockdet", "VSS"),
+    ("UP", "lcpll_lockdet", "UP"),
+    ("DN", "lcpll_lockdet", "DN"),
+    ("LOCK", "lcpll_lockdet", "LOCK"),
+    ("VCP", "lcpll_cp", "VOUT"),
 }
 
 NOT_ROUTED = {
@@ -228,11 +239,23 @@ def wire(dbu, a, b, w):
     return db.Box(round((x0 - w / 2) / dbu), round((y0 - w / 2) / dbu), round((x1 + w / 2) / dbu), round((y1 + w / 2) / dbu))
 
 
-def stack(dbu, pt, lo, hi):
-    """Shapes {layer: [Box]} for a via stack at pt from metal level lo to hi (indices into METALS)."""
+def stack(dbu, pt, lo, hi, cell_pin=False):
+    """Shapes {layer: [Box]} for a via stack at pt from metal level lo to hi (indices into
+    METALS). `cell_pin` (#343): the endpoint is a pin inside a routed loop-block cell, whose
+    own routing already lands 0.42 um pads there -- a wider tower pad would notch against
+    the neighbouring nets' pads in the same row, so the tower matches the cell's pad size."""
     shapes = {}
     for lv in range(lo, hi + 1):
-        shapes.setdefault(METALS[lv][1], []).append(box(dbu, pt[0], pt[1], PAD_UM[lv], PAD_UM[lv]))
+        if cell_pin and lv < 5:
+            # tall, not wide: it reaches the cell's own escape metal above the pin (the
+            # router lands a same-net stub there, and a square pad 0.15 um short of it is a
+            # notch), while keeping the pin row's 0.5 um pad pitch to neighbouring nets
+            h = CELL_PIN_PAD_UM / 2.0
+            shapes.setdefault(METALS[lv][1], []).append(
+                db.Box(round((pt[0] - h) / dbu), round((pt[1] - h) / dbu),
+                       round((pt[0] + h) / dbu), round((pt[1] + 3 * h) / dbu)))
+        else:
+            shapes.setdefault(METALS[lv][1], []).append(box(dbu, pt[0], pt[1], PAD_UM[lv], PAD_UM[lv]))
         if lv < hi:
             shapes.setdefault(VIAS[lv], []).append(box(dbu, pt[0], pt[1], VIA_UM[lv], VIA_UM[lv]))
     return shapes
@@ -466,7 +489,8 @@ def main():
                     else [(pb, end_levels[1])]
                 for (lay, ptx), lv in pin_lvls:
                     pl = LEVEL[lay]
-                    for k, v in stack(dbu, ptx, min(pl, lv), max(pl, lv)).items():
+                    for k, v in stack(dbu, ptx, min(pl, lv), max(pl, lv),
+                                       cell_pin=cell in ROUTED_CELLS).items():
                         st.setdefault(k, []).extend(v)
                 allshapes = {k: list(v) for k, v in shapes.items()}
                 for k, v in st.items():

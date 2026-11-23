@@ -2,20 +2,196 @@
   "schema_version": 1,
   "block": "sg13g2-lc-pll",
   "kind": "analog",
+  "spec_rows": [
+    {
+      "id": "6",
+      "item": 5,
+      "state": "graded",
+      "gap": null,
+      "limits": {
+        "min": 0.0001,
+        "max": 0.0004
+      },
+      "unit": "A",
+      "worst": {
+        "corner_id": "mos_ss/VDD=2.970_VHI=2.970V/125C",
+        "value": 0.0001913515,
+        "margin": 9.135150000000001e-05,
+        "relative_margin": 0.9135150000000001
+      },
+      "verdict": "pass",
+      "yield": null,
+      "sources": [
+        {
+          "file": "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage1.json",
+          "measurement": "iup_165"
+        },
+        {
+          "file": "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage1.json",
+          "measurement": "idn_165"
+        },
+        {
+          "file": "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage2.json",
+          "measurement": "iup_165"
+        },
+        {
+          "file": "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage2.json",
+          "measurement": "idn_165"
+        }
+      ]
+    },
+    {
+      "id": "1",
+      "item": 5,
+      "state": "gap",
+      "gap": "lock at 5.0 GHz runs on a behavioural VCO/divider stand-in (sim/loop-tran); needs graded VCO f(Vctrl) (G4), VCO+prescaler load re-check (G2), divider at 625 MHz (#61). Not enveloped: a stand-in sweep is not a row-1 result",
+      "limits": null,
+      "unit": null,
+      "worst": null,
+      "verdict": null,
+      "yield": null,
+      "sources": []
+    },
+    {
+      "id": "5",
+      "item": 5,
+      "state": "unattributable",
+      "gap": null,
+      "limits": null,
+      "unit": null,
+      "worst": null,
+      "verdict": null,
+      "yield": null,
+      "sources": []
+    },
+    {
+      "id": "7",
+      "item": 5,
+      "state": "gap",
+      "gap": "upper edge V_hi,req needs the VCO graded f(Vctrl) (G4); the lower edge FAILS at FAST/3.63 V/-40 C (mismatch 2.19 % > 2 % at 1.65 V), see sim/corner-verification/cp-dc/README.md",
+      "limits": null,
+      "unit": null,
+      "worst": null,
+      "verdict": null,
+      "yield": null,
+      "sources": []
+    },
+    {
+      "id": "8",
+      "item": 5,
+      "state": "gap",
+      "gap": "method L partial, method T not run (G6); needs the real chain",
+      "limits": null,
+      "unit": null,
+      "worst": null,
+      "verdict": null,
+      "yield": null,
+      "sources": []
+    },
+    {
+      "id": "9",
+      "item": 5,
+      "state": "gap",
+      "gap": "reference spur runs on the stand-in VCO (G4, G2, #61)",
+      "limits": null,
+      "unit": null,
+      "worst": null,
+      "verdict": null,
+      "yield": null,
+      "sources": []
+    },
+    {
+      "id": "10",
+      "item": 5,
+      "state": "gap",
+      "gap": "lock time runs on the stand-in VCO and divider (G4, G2, #61)",
+      "limits": null,
+      "unit": null,
+      "worst": null,
+      "verdict": null,
+      "yield": null,
+      "sources": []
+    },
+    {
+      "id": "11",
+      "item": 5,
+      "state": "gap",
+      "gap": "loop power: divider does not divide at 625 MHz (#61); no C-grid envelope yet",
+      "limits": null,
+      "unit": null,
+      "worst": null,
+      "verdict": null,
+      "yield": null,
+      "sources": []
+    },
+    {
+      "id": "7.mismatch",
+      "item": 6,
+      "state": "unattributable",
+      "gap": null,
+      "limits": null,
+      "unit": null,
+      "worst": null,
+      "verdict": null,
+      "yield": null,
+      "sources": []
+    },
+    {
+      "id": "7.v_hi_req",
+      "item": 6,
+      "state": "gap",
+      "gap": "V_hi,req unresolved: owed by the VCO graded f(Vctrl) grid (gate G4, sg13g2-vco #50/#53); the upper compliance edge cannot be pinned",
+      "limits": null,
+      "unit": null,
+      "worst": null,
+      "verdict": null,
+      "yield": null,
+      "sources": []
+    },
+    {
+      "id": "9.cp_ripple",
+      "item": 6,
+      "state": "unattributable",
+      "gap": null,
+      "limits": null,
+      "unit": null,
+      "worst": null,
+      "verdict": null,
+      "yield": null,
+      "sources": []
+    },
+    {
+      "id": "9.locked_loop_spur",
+      "item": 6,
+      "state": "gap",
+      "gap": "method T (locked transient, FFT of v(Vctrl) at f_ref) not run; this campaign covers only the CP-mismatch contribution to the reference ripple",
+      "limits": null,
+      "unit": null,
+      "worst": null,
+      "verdict": null,
+      "yield": null,
+      "sources": []
+    }
+  ],
   "tier": null,
   "t1_item_count": 11,
   "build_t1_item_count": 11,
   "t1_met_count": 4,
+  "unmet_reason_counts": {
+    "check_failed": 2,
+    "no_evidence": 4,
+    "stale_evidence": 1
+  },
   "source_doc": "manifests/design-evidence-tiers.md",
   "source_doc_content_hash": "sha256:08dcbfd2c3f2df152868d86c0ad2aa6a43d393b1d266f0b1e914cd8f0a329c58",
   "build": {
-    "version": "0.9.1",
-    "package_version": "0.9.1",
-    "git_commit": "4d0d29be4fd991f499d59e783a908082d5e24c56",
-    "git_tag": "v0.9.1",
+    "version": "0.9.3.dev3790+gd901bc795962",
+    "package_version": "0.9.3.dev3790+gd901bc795962",
+    "git_commit": "d901bc79596215e90d4f9a702bcc35cc4f38d5da",
+    "git_tag": null,
     "dirty": false,
-    "is_release": true,
-    "grading_ruleset_id": "sha256:22c42b66c4d1f99b5c00f6bf53d80b20fa8365860d857a921508ca5ab5f3771b"
+    "is_release": false,
+    "grading_ruleset_id": "sha256:1b2239d3c432b66a0cee5cc9a7f7c2d3ff0730f81dca501fbe5022c2e9ba0057"
   },
   "items": [
     {
@@ -565,7 +741,7 @@
         "command": null,
         "kind": "generic",
         "check_status": "pass",
-        "content_hash": "sha256:60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005",
+        "content_hash": "sha256:2140369ce7109bb8eb83054fa6636c33740f05d0e2fd6143daa562ee702e9d89",
         "input_verified": true,
         "exit_status": 0,
         "artifact_binding": {
@@ -574,7 +750,7 @@
             "path": "layout/top.gds",
             "scope": "repo"
           },
-          "content_hash": "sha256:60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005",
+          "content_hash": "sha256:2140369ce7109bb8eb83054fa6636c33740f05d0e2fd6143daa562ee702e9d89",
           "input_verified": true,
           "summary": "T1 item 2 (Layout): 3/3 attestation checks passed (klt signoff --attest)",
           "source": "layout/top.gds",
@@ -602,7 +778,7 @@
         "command": null,
         "kind": "drc",
         "check_status": "clean",
-        "content_hash": "sha256:60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005",
+        "content_hash": "sha256:2140369ce7109bb8eb83054fa6636c33740f05d0e2fd6143daa562ee702e9d89",
         "input_verified": true,
         "exit_status": 0,
         "coverage": {
@@ -737,6 +913,16 @@
             "higher_is_better": false
           }
         ],
+        "cited_evidence": {
+          "file": "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage2.json",
+          "command": null,
+          "kind": "sim",
+          "check_status": "fail",
+          "content_hash": "sha256:eff5595e23241b4a763706155d74215119a1a3e7ffb5fc37436765137ebb6775",
+          "input_verified": null,
+          "exit_status": 0
+        },
+        "content_hash_pin": "verified",
         "failed_citations": [
           "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage2.json"
         ],
@@ -801,6 +987,42 @@
         }
       ],
       "detail": {
+        "cited_evidence": {
+          "file": "sim/cp-mc/records/20261103-034036-59b5e16-dirty-yield-target.json",
+          "command": null,
+          "kind": "yield",
+          "check_status": "fail",
+          "content_hash": null,
+          "input_verified": null,
+          "exit_status": 0,
+          "content_hash_unresolved": {
+            "samples": "/tmp/cpmc-work6/samples.json",
+            "searched": [
+              "/tmp/cpmc-work6/samples.json"
+            ]
+          },
+          "yield_campaign": {
+            "sample_size": "insufficient",
+            "undersized_measurements": [
+              "mm_v165_pct",
+              "mm_v200_pct",
+              "mm_v225_pct",
+              "mm_v245_pct"
+            ],
+            "negative_control": "detected",
+            "measurements_without_negative_control": [],
+            "undetected_negative_controls": [],
+            "not_applicable_negative_controls": []
+          }
+        },
+        "content_hash_pin": "unverifiable",
+        "content_hash_pin_note": "yield envelopes carry no provenance.input.content_hash; the pin cannot be compared",
+        "content_hash_unresolved": {
+          "samples": "/tmp/cpmc-work6/samples.json",
+          "searched": [
+            "/tmp/cpmc-work6/samples.json"
+          ]
+        },
         "failed_citations": [
           "sim/cp-mc/records/20261103-034036-59b5e16-dirty-yield-target.json"
         ],
