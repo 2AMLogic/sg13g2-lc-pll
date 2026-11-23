@@ -5,7 +5,6 @@ conditional on. Dead zone and charge-vs-phase only; typical corner, nominal supp
 
 ```bash
 scripts/run-pfd-sweep.sh                      # the pinned PFD, unmodified; writes records/<date>-<sha>.md
-PFD_VARIANT=reset-fix scripts/run-pfd-sweep.sh   # DIAGNOSTIC ONLY: shows what the failure is
 scripts/test-fetch-vco.sh 2AMLogic/sg13g2-pll fetch-pll.sh design/pfd.sch                     # negative controls for the PFD pin's fetch/verify path
 ```
 
@@ -30,8 +29,10 @@ window, dead-zone threshold, monotonicity tolerance) are written in every record
 reported as `2AMLogic/sg13g2-pll#283` (sibling of its #56) and fixed by `sg13g2-pll#284`. The pin was
 bumped to the fix's merge commit (full SHA, per-file sha256), `scripts/test-fetch-vco.sh 2AMLogic/sg13g2-pll fetch-pll.sh design/pfd.sch` still refuses
 the tampered file (`negative-control-fetch-pll-20261030.txt`), and `scripts/run-pfd-sweep.sh` was run
-unmodified (`PFD_VARIANT=adopted`). `PFD_VARIANT=reset-fix` remains a diagnostic against the *old* netlist
-shape and is not meaningful against the fixed pin.
+unmodified. The diagnostic mode that edited a scratch copy of the pinned netlist (one reset
+inverter removed) was removed after the re-pin: it targeted the *old* netlist shape and is not
+meaningful against the fixed pin. Its record is `records/20261023-172447-a47e23f`; its generator
+is commit `a47e23f` in this repository's history.
 
 - `records/` is dated and append-only. `negative-control-*.txt`: output of `scripts/test-fetch-pll.sh`.
 - ngspice is held to 2 OpenMP threads (shared host); the sweep takes several minutes.
