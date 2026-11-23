@@ -179,3 +179,34 @@ pins to match, and #346 routes the other cells onto the same stamp path. Tracked
 Still no match and no new claim: item 4 stays `unmet` with #37, and the tool gaps (#6960, #6961) are
 unchanged. The re-run does show the duplication was not extraction-neutral, contrary to the issue's
 "believed benign" impact note.
+
+## Envelope refresh 2026-11-23 (#413, `klt 0.9.3.dev3934+g049acce7a82b`, klayout 0.30.12)
+
+Every committed envelope whose layout input is the integrated `layout/top.gds` is now pinned to the
+stream on `main` after #349: `sha256:4b8e6867...`, the same bytes `manifests/layout.attest.json` pins. Before this
+refresh (on `main` at `ce39102`) the eleven envelopes pinned three different earlier streams (`90fecb47...` for seven cell
+reports, `5e184029...` for `top.lvs.json`; the three loop-filter / charge-pump reports re-run by #349 already pinned
+`4b8e6867...`), so
+`klt lvs --check` reported `[DRIFTED] environment.layout_sha256` -- provenance staleness, not wrong verdicts.
+The eight stale requests (seven cell reports plus top) were re-run once each from their directories (same requests, same commands as above;
+`top.lvs.json` with `--deck-file <PDK>/libs.tech/klayout/tech/lvs/sg13g2.lvs`, deck `sha256:e01bcb1e...`, unchanged).
+The three #349 envelopes were not re-run: they already record `4b8e6867...`.
+
+| Report | Status | vs the previous envelope |
+|---|---|---|
+| `top.lvs.json` | `mismatch` | layout side moved with the stream (previous committed run at `ce39102` -> now): nets 1782 -> 1746, devices 674 -> 666, pins 14 -> 19 (layout-side `counts`), still 0 matched; `mismatch_count` 2480 -> 2441. Layout device census: `npn13G2v` 137 -> 139, `rppd` 85 -> 86, `cap_cmim` 20 -> 9 (three classes moved; the 2026-11-13 section's `rppd` 85 / `cap_cmim` 20 are the older values). These are layout-side `counts`, not the error counts the 2026-11-13 section quotes (there 1787 / 677 / 16; the current error-count figures, `category_counts`, are 1751 / 669 / 21). Reference-side pairing limitation (#5406) unchanged. |
+| `cells/lcpll_pfd/lcpll_pfd.lvs.json`, `lcpll_lockdet.lvs.json`, `lcpll_divider.lvs.json`, `lcpll_divider.flatten.lvs.json`, `lcpll_prescaler.lvs.json`, `lcpll_prescaler.flatten.lvs.json`, `lcpll_cp.flatten.lvs.json` | `mismatch` | status, `counts` (nets / devices / pins) and `mismatch_count` identical to the previous envelope on all seven. The re-run used a newer `klt` (`0.9.3.dev2575+g6bd18bbc8637` -> `0.9.3.dev3934+g049acce7a82b`), so each of the seven also gained tool-version diagnostics: `device_classes` gained `inductor`; `ignored_layers`, `pin_set_difference` (`deck_synthesized_layout_pins: ["vsubs"]`), `sg13g2_passive_pairing` (`insufficient_evidence`), `mismatches_omitted` (`false`) and `warnings` (top cell has no text on the deck's pin label layers; looks like the already-tracked #416) went from `null` to populated. `lcpll_prescaler.flatten.lvs.json` additionally changed `mismatches` and `net_correspondence` (auto-generated net names). This is tool-version drift, not stream drift. |
+| `cells/lcpll_loopfilter/lcpll_loopfilter.lvs.json`, `.runset.lvs.json`, `cells/lcpll_cp/lcpll_cp.lvs.json` | `mismatch` | not re-run; see the #349 section below (already on `4b8e6867...`) |
+
+No verdict changed and item 4 stays `unmet`. The earlier statement in the #346 section that these envelopes pin
+`90fecb47...` describes the state when they were produced; this section supersedes it for the pins.
+The refreshed `top.lvs.json` records its layout input in the repo-scope form
+(`{"scope":"repo","path":"layout/top.gds"}`) instead of the report-relative `../top.gds` string the 2026-11-13
+envelope carried.
+
+`scripts/test-layout-top.sh` now enforces the pin (#413): it discovers every committed `*.lvs.json` under
+`layout/lvs/` whose recorded layout input is the integrated GDS -- either path form -- and refuses when a
+report's `environment.layout_sha256` is stale or missing, naming the file and both hashes, so the next
+stream bump fails the layout test at the commit that causes it instead of silently stranding the evidence.
+The string-form negative control compares against the unmodified tree's own count, so adding an envelope
+does not break it.

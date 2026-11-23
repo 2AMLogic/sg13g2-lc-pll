@@ -96,6 +96,7 @@
       ]
     }
   ],
+  "mismatches_omitted": false,
   "mismatch_count": 298,
   "error_count": 251,
   "category_counts": {
@@ -133,6 +134,146 @@
       "matched": 12
     }
   },
+  "pin_set_difference": {
+    "deck_synthesized_layout_pins": [
+      "vsubs"
+    ],
+    "layout_only_pins": [],
+    "layout_only_pins_count": 0,
+    "layout_only_pins_truncated": false,
+    "reference_only_pins": [],
+    "reference_only_pins_count": 0,
+    "reference_only_pins_truncated": false
+  },
+  "ignored_layers": [
+    {
+      "layer": 1,
+      "datatype": 20,
+      "shapes": 16
+    },
+    {
+      "layer": 1,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 5,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 8,
+      "datatype": 22,
+      "shapes": 1157
+    },
+    {
+      "layer": 8,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 10,
+      "datatype": 22,
+      "shapes": 1159
+    },
+    {
+      "layer": 10,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 26,
+      "datatype": 0,
+      "shapes": 8
+    },
+    {
+      "layer": 30,
+      "datatype": 22,
+      "shapes": 1363
+    },
+    {
+      "layer": 30,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 32,
+      "datatype": 0,
+      "shapes": 4
+    },
+    {
+      "layer": 40,
+      "datatype": 0,
+      "shapes": 8
+    },
+    {
+      "layer": 50,
+      "datatype": 22,
+      "shapes": 1344
+    },
+    {
+      "layer": 50,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 51,
+      "datatype": 0,
+      "shapes": 16
+    },
+    {
+      "layer": 52,
+      "datatype": 0,
+      "shapes": 6
+    },
+    {
+      "layer": 67,
+      "datatype": 22,
+      "shapes": 1234
+    },
+    {
+      "layer": 67,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 126,
+      "datatype": 2,
+      "shapes": 4
+    },
+    {
+      "layer": 126,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 134,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 148,
+      "datatype": 0,
+      "shapes": 2
+    },
+    {
+      "layer": 156,
+      "datatype": 0,
+      "shapes": 8
+    },
+    {
+      "layer": 160,
+      "datatype": 0,
+      "shapes": 1
+    }
+  ],
+  "warnings": [
+    "Top cell 'lcpll_prescaler' has no text on the deck's pin label layers. Text is drawn on 8/0. Check layout.label_layers."
+  ],
+  "sg13g2_passive_pairing": {
+    "status": "insufficient_evidence",
+    "findings": []
+  },
   "device_classes": [
     "nfet",
     "pfet",
@@ -142,29 +283,30 @@
     "cap_cmomf",
     "resistor",
     "dantenna",
-    "dpantenna"
+    "dpantenna",
+    "inductor"
   ],
   "environment": {
     "engine": "klayout",
     "engine_version": "0.30.12",
     "netgen_binary": null,
-    "layout_sha256": "90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+    "layout_sha256": "4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
     "reference_sha256": "add4d3b39706242e478f9c4f23a7d7352a63ec877af45d953eb68eba0d78e6ca",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
-    "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
-    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+    "klt_version": "0.9.3.dev3934+g049acce7a82b",
+    "klt_git_commit": "049acce7a82b57c630b30099720fa4d97b1a4bea",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@049acce7a82b57c630b30099720fa4d97b1a4bea",
     "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
       "name": "sg13g2",
-      "content_hash": "sha256:eaaf298957eeced674e4030635c66ba6bdee98adde15fe36203ba047fd7b0669",
+      "content_hash": "sha256:e5459fe971c6c008d99bd59da48f6dc87cdb6d601ce7aabcc755fa134c19da20",
       "released": false
     },
     "input": {
-      "content_hash": "sha256:90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+      "content_hash": "sha256:4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
       "role": "layout"
     },
     "klayout_version_mismatch": false
@@ -2161,134 +2303,8 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$518",
-        "layout_id": 0,
-        "reference": null,
-        "reference_id": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.split",
-      "severity": "error",
-      "description": "a reference net's role is divided across multiple layout nets",
-      "side": "layout",
-      "net": {
-        "layout": "\\$520",
-        "layout_id": 2,
-        "reference": null,
-        "reference_id": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.split",
-      "severity": "error",
-      "description": "a reference net's role is divided across multiple layout nets",
-      "side": "layout",
-      "net": {
-        "layout": "\\$521",
-        "layout_id": 3,
-        "reference": null,
-        "reference_id": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.split",
-      "severity": "error",
-      "description": "a reference net's role is divided across multiple layout nets",
-      "side": "layout",
-      "net": {
-        "layout": "\\$522",
-        "layout_id": 4,
-        "reference": null,
-        "reference_id": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.split",
-      "severity": "error",
-      "description": "a reference net's role is divided across multiple layout nets",
-      "side": "layout",
-      "net": {
-        "layout": "\\$523",
-        "layout_id": 5,
-        "reference": null,
-        "reference_id": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.split",
-      "severity": "error",
-      "description": "a reference net's role is divided across multiple layout nets",
-      "side": "layout",
-      "net": {
-        "layout": "\\$524",
-        "layout_id": 6,
-        "reference": null,
-        "reference_id": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.split",
-      "severity": "error",
-      "description": "a reference net's role is divided across multiple layout nets",
-      "side": "layout",
-      "net": {
-        "layout": "\\$525",
-        "layout_id": 7,
-        "reference": null,
-        "reference_id": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.split",
-      "severity": "error",
-      "description": "a reference net's role is divided across multiple layout nets",
-      "side": "layout",
-      "net": {
         "layout": "\\$527",
-        "layout_id": 9,
+        "layout_id": 1,
         "reference": null,
         "reference_id": null
       },
@@ -2306,7 +2322,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$528",
-        "layout_id": 10,
+        "layout_id": 2,
         "reference": null,
         "reference_id": null
       },
@@ -2324,7 +2340,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$529",
-        "layout_id": 11,
+        "layout_id": 3,
         "reference": null,
         "reference_id": null
       },
@@ -2342,7 +2358,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$530",
-        "layout_id": 12,
+        "layout_id": 4,
         "reference": null,
         "reference_id": null
       },
@@ -2360,7 +2376,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$531",
-        "layout_id": 13,
+        "layout_id": 5,
         "reference": null,
         "reference_id": null
       },
@@ -2378,7 +2394,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$532",
-        "layout_id": 14,
+        "layout_id": 6,
         "reference": null,
         "reference_id": null
       },
@@ -2396,25 +2412,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$533",
-        "layout_id": 15,
-        "reference": null,
-        "reference_id": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.split",
-      "severity": "error",
-      "description": "a reference net's role is divided across multiple layout nets",
-      "side": "layout",
-      "net": {
-        "layout": "\\$534",
-        "layout_id": 16,
+        "layout_id": 7,
         "reference": null,
         "reference_id": null
       },
@@ -2432,7 +2430,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$535",
-        "layout_id": 17,
+        "layout_id": 9,
         "reference": null,
         "reference_id": null
       },
@@ -2450,7 +2448,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$536",
-        "layout_id": 18,
+        "layout_id": 10,
         "reference": null,
         "reference_id": null
       },
@@ -2468,7 +2466,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$537",
-        "layout_id": 19,
+        "layout_id": 11,
         "reference": null,
         "reference_id": null
       },
@@ -2486,7 +2484,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$538",
-        "layout_id": 20,
+        "layout_id": 12,
         "reference": null,
         "reference_id": null
       },
@@ -2504,7 +2502,25 @@
       "side": "layout",
       "net": {
         "layout": "\\$539",
-        "layout_id": 21,
+        "layout_id": 13,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$540",
+        "layout_id": 14,
         "reference": null,
         "reference_id": null
       },
@@ -2522,7 +2538,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$541",
-        "layout_id": 23,
+        "layout_id": 15,
         "reference": null,
         "reference_id": null
       },
@@ -2540,7 +2556,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$542",
-        "layout_id": 24,
+        "layout_id": 16,
         "reference": null,
         "reference_id": null
       },
@@ -2558,7 +2574,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$543",
-        "layout_id": 25,
+        "layout_id": 17,
         "reference": null,
         "reference_id": null
       },
@@ -2576,7 +2592,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$544",
-        "layout_id": 26,
+        "layout_id": 18,
         "reference": null,
         "reference_id": null
       },
@@ -2594,7 +2610,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$545",
-        "layout_id": 27,
+        "layout_id": 19,
         "reference": null,
         "reference_id": null
       },
@@ -2612,7 +2628,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$546",
-        "layout_id": 28,
+        "layout_id": 20,
         "reference": null,
         "reference_id": null
       },
@@ -2630,25 +2646,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$547",
-        "layout_id": 29,
-        "reference": null,
-        "reference_id": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.split",
-      "severity": "error",
-      "description": "a reference net's role is divided across multiple layout nets",
-      "side": "layout",
-      "net": {
-        "layout": "\\$548",
-        "layout_id": 30,
+        "layout_id": 21,
         "reference": null,
         "reference_id": null
       },
@@ -2666,7 +2664,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$549",
-        "layout_id": 31,
+        "layout_id": 23,
         "reference": null,
         "reference_id": null
       },
@@ -2684,7 +2682,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$550",
-        "layout_id": 32,
+        "layout_id": 24,
         "reference": null,
         "reference_id": null
       },
@@ -2702,7 +2700,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$551",
-        "layout_id": 33,
+        "layout_id": 25,
         "reference": null,
         "reference_id": null
       },
@@ -2720,7 +2718,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$552",
-        "layout_id": 34,
+        "layout_id": 26,
         "reference": null,
         "reference_id": null
       },
@@ -2738,7 +2736,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$553",
-        "layout_id": 35,
+        "layout_id": 27,
         "reference": null,
         "reference_id": null
       },
@@ -2756,7 +2754,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$554",
-        "layout_id": 36,
+        "layout_id": 28,
         "reference": null,
         "reference_id": null
       },
@@ -2774,7 +2772,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$555",
-        "layout_id": 37,
+        "layout_id": 29,
         "reference": null,
         "reference_id": null
       },
@@ -2792,7 +2790,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$556",
-        "layout_id": 38,
+        "layout_id": 30,
         "reference": null,
         "reference_id": null
       },
@@ -2810,7 +2808,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$557",
-        "layout_id": 39,
+        "layout_id": 31,
         "reference": null,
         "reference_id": null
       },
@@ -2828,7 +2826,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$558",
-        "layout_id": 40,
+        "layout_id": 32,
         "reference": null,
         "reference_id": null
       },
@@ -2846,7 +2844,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$559",
-        "layout_id": 41,
+        "layout_id": 33,
         "reference": null,
         "reference_id": null
       },
@@ -2864,7 +2862,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$560",
-        "layout_id": 42,
+        "layout_id": 34,
         "reference": null,
         "reference_id": null
       },
@@ -2882,7 +2880,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$561",
-        "layout_id": 43,
+        "layout_id": 35,
         "reference": null,
         "reference_id": null
       },
@@ -2900,7 +2898,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$562",
-        "layout_id": 44,
+        "layout_id": 36,
         "reference": null,
         "reference_id": null
       },
@@ -2918,7 +2916,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$563",
-        "layout_id": 45,
+        "layout_id": 37,
         "reference": null,
         "reference_id": null
       },
@@ -2936,7 +2934,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$564",
-        "layout_id": 46,
+        "layout_id": 38,
         "reference": null,
         "reference_id": null
       },
@@ -2954,7 +2952,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$565",
-        "layout_id": 47,
+        "layout_id": 39,
         "reference": null,
         "reference_id": null
       },
@@ -2972,7 +2970,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$566",
-        "layout_id": 48,
+        "layout_id": 40,
         "reference": null,
         "reference_id": null
       },
@@ -2990,7 +2988,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$567",
-        "layout_id": 49,
+        "layout_id": 41,
         "reference": null,
         "reference_id": null
       },
@@ -3008,7 +3006,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$568",
-        "layout_id": 50,
+        "layout_id": 42,
         "reference": null,
         "reference_id": null
       },
@@ -3026,7 +3024,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$569",
-        "layout_id": 51,
+        "layout_id": 43,
         "reference": null,
         "reference_id": null
       },
@@ -3044,7 +3042,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$570",
-        "layout_id": 52,
+        "layout_id": 44,
         "reference": null,
         "reference_id": null
       },
@@ -3062,7 +3060,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$571",
-        "layout_id": 53,
+        "layout_id": 45,
         "reference": null,
         "reference_id": null
       },
@@ -3080,7 +3078,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$572",
-        "layout_id": 54,
+        "layout_id": 46,
         "reference": null,
         "reference_id": null
       },
@@ -3098,7 +3096,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$573",
-        "layout_id": 55,
+        "layout_id": 47,
         "reference": null,
         "reference_id": null
       },
@@ -3116,7 +3114,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$574",
-        "layout_id": 56,
+        "layout_id": 48,
         "reference": null,
         "reference_id": null
       },
@@ -3134,7 +3132,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$575",
-        "layout_id": 57,
+        "layout_id": 49,
         "reference": null,
         "reference_id": null
       },
@@ -3152,7 +3150,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$576",
-        "layout_id": 58,
+        "layout_id": 50,
         "reference": null,
         "reference_id": null
       },
@@ -3170,7 +3168,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$577",
-        "layout_id": 59,
+        "layout_id": 51,
         "reference": null,
         "reference_id": null
       },
@@ -3188,7 +3186,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$578",
-        "layout_id": 60,
+        "layout_id": 52,
         "reference": null,
         "reference_id": null
       },
@@ -3206,7 +3204,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$579",
-        "layout_id": 61,
+        "layout_id": 53,
         "reference": null,
         "reference_id": null
       },
@@ -3224,7 +3222,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$580",
-        "layout_id": 62,
+        "layout_id": 54,
         "reference": null,
         "reference_id": null
       },
@@ -3242,7 +3240,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$581",
-        "layout_id": 63,
+        "layout_id": 55,
         "reference": null,
         "reference_id": null
       },
@@ -3260,7 +3258,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$582",
-        "layout_id": 64,
+        "layout_id": 56,
         "reference": null,
         "reference_id": null
       },
@@ -3278,7 +3276,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$583",
-        "layout_id": 65,
+        "layout_id": 57,
         "reference": null,
         "reference_id": null
       },
@@ -3296,7 +3294,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$584",
-        "layout_id": 66,
+        "layout_id": 58,
         "reference": null,
         "reference_id": null
       },
@@ -3314,7 +3312,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$585",
-        "layout_id": 67,
+        "layout_id": 59,
         "reference": null,
         "reference_id": null
       },
@@ -3332,7 +3330,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$586",
-        "layout_id": 68,
+        "layout_id": 60,
         "reference": null,
         "reference_id": null
       },
@@ -3350,7 +3348,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$587",
-        "layout_id": 69,
+        "layout_id": 61,
         "reference": null,
         "reference_id": null
       },
@@ -3368,7 +3366,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$588",
-        "layout_id": 70,
+        "layout_id": 62,
         "reference": null,
         "reference_id": null
       },
@@ -3386,7 +3384,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$589",
-        "layout_id": 71,
+        "layout_id": 63,
         "reference": null,
         "reference_id": null
       },
@@ -3404,7 +3402,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$590",
-        "layout_id": 72,
+        "layout_id": 64,
         "reference": null,
         "reference_id": null
       },
@@ -3422,7 +3420,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$591",
-        "layout_id": 73,
+        "layout_id": 65,
         "reference": null,
         "reference_id": null
       },
@@ -3440,7 +3438,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$592",
-        "layout_id": 74,
+        "layout_id": 66,
         "reference": null,
         "reference_id": null
       },
@@ -3458,7 +3456,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$593",
-        "layout_id": 75,
+        "layout_id": 67,
         "reference": null,
         "reference_id": null
       },
@@ -3476,7 +3474,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$594",
-        "layout_id": 76,
+        "layout_id": 68,
         "reference": null,
         "reference_id": null
       },
@@ -3494,7 +3492,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$595",
-        "layout_id": 77,
+        "layout_id": 69,
         "reference": null,
         "reference_id": null
       },
@@ -3512,7 +3510,7 @@
       "side": "layout",
       "net": {
         "layout": "\\$596",
-        "layout_id": 78,
+        "layout_id": 70,
         "reference": null,
         "reference_id": null
       },
@@ -3530,6 +3528,150 @@
       "side": "layout",
       "net": {
         "layout": "\\$597",
+        "layout_id": 71,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$598",
+        "layout_id": 72,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$599",
+        "layout_id": 73,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$600",
+        "layout_id": 74,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$601",
+        "layout_id": 75,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$602",
+        "layout_id": 76,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$603",
+        "layout_id": 77,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$604",
+        "layout_id": 78,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$605",
         "layout_id": 79,
         "reference": null,
         "reference_id": null
@@ -3547,7 +3689,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$640",
+        "layout": "\\$648",
         "layout_id": 122,
         "reference": null,
         "reference_id": null
@@ -3565,7 +3707,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$641",
+        "layout": "\\$649",
         "layout_id": 123,
         "reference": null,
         "reference_id": null
@@ -3583,7 +3725,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$642",
+        "layout": "\\$650",
         "layout_id": 124,
         "reference": null,
         "reference_id": null
@@ -3601,7 +3743,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$643",
+        "layout": "\\$651",
         "layout_id": 125,
         "reference": null,
         "reference_id": null
@@ -3619,7 +3761,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$644",
+        "layout": "\\$652",
         "layout_id": 126,
         "reference": null,
         "reference_id": null
@@ -3637,7 +3779,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$645",
+        "layout": "\\$653",
         "layout_id": 127,
         "reference": null,
         "reference_id": null
@@ -3655,7 +3797,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$646",
+        "layout": "\\$654",
         "layout_id": 128,
         "reference": null,
         "reference_id": null
@@ -3673,7 +3815,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$647",
+        "layout": "\\$655",
         "layout_id": 129,
         "reference": null,
         "reference_id": null
@@ -3691,7 +3833,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$648",
+        "layout": "\\$656",
         "layout_id": 130,
         "reference": null,
         "reference_id": null
@@ -3709,7 +3851,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$649",
+        "layout": "\\$657",
         "layout_id": 131,
         "reference": null,
         "reference_id": null
@@ -3727,7 +3869,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$650",
+        "layout": "\\$658",
         "layout_id": 132,
         "reference": null,
         "reference_id": null
@@ -3745,7 +3887,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$651",
+        "layout": "\\$659",
         "layout_id": 133,
         "reference": null,
         "reference_id": null
@@ -3763,7 +3905,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$652",
+        "layout": "\\$660",
         "layout_id": 134,
         "reference": null,
         "reference_id": null
@@ -3781,7 +3923,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$653",
+        "layout": "\\$661",
         "layout_id": 135,
         "reference": null,
         "reference_id": null
@@ -3799,7 +3941,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$654",
+        "layout": "\\$662",
         "layout_id": 136,
         "reference": null,
         "reference_id": null
@@ -3817,7 +3959,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$655",
+        "layout": "\\$663",
         "layout_id": 137,
         "reference": null,
         "reference_id": null
@@ -3835,7 +3977,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$656",
+        "layout": "\\$664",
         "layout_id": 138,
         "reference": null,
         "reference_id": null
@@ -3853,7 +3995,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$657",
+        "layout": "\\$665",
         "layout_id": 139,
         "reference": null,
         "reference_id": null
@@ -3871,7 +4013,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$662",
+        "layout": "\\$670",
         "layout_id": 144,
         "reference": null,
         "reference_id": null
@@ -3889,7 +4031,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$663",
+        "layout": "\\$671",
         "layout_id": 145,
         "reference": null,
         "reference_id": null
@@ -3907,7 +4049,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$664",
+        "layout": "\\$672",
         "layout_id": 146,
         "reference": null,
         "reference_id": null
@@ -3925,7 +4067,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$665",
+        "layout": "\\$673",
         "layout_id": 147,
         "reference": null,
         "reference_id": null
@@ -3943,7 +4085,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$666",
+        "layout": "\\$674",
         "layout_id": 148,
         "reference": null,
         "reference_id": null
@@ -3961,7 +4103,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$667",
+        "layout": "\\$675",
         "layout_id": 149,
         "reference": null,
         "reference_id": null
@@ -3979,7 +4121,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$670",
+        "layout": "\\$678",
         "layout_id": 152,
         "reference": null,
         "reference_id": null
@@ -3997,7 +4139,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$671",
+        "layout": "\\$679",
         "layout_id": 153,
         "reference": null,
         "reference_id": null
@@ -4015,7 +4157,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$672",
+        "layout": "\\$680",
         "layout_id": 154,
         "reference": null,
         "reference_id": null
@@ -4033,7 +4175,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$673",
+        "layout": "\\$681",
         "layout_id": 155,
         "reference": null,
         "reference_id": null
@@ -4051,7 +4193,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$674",
+        "layout": "\\$682",
         "layout_id": 156,
         "reference": null,
         "reference_id": null
@@ -4069,7 +4211,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$675",
+        "layout": "\\$683",
         "layout_id": 157,
         "reference": null,
         "reference_id": null
@@ -4087,7 +4229,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$676",
+        "layout": "\\$684",
         "layout_id": 158,
         "reference": null,
         "reference_id": null
@@ -4105,7 +4247,7 @@
       "description": "a reference net's role is divided across multiple layout nets",
       "side": "layout",
       "net": {
-        "layout": "\\$677",
+        "layout": "\\$685",
         "layout_id": 159,
         "reference": null,
         "reference_id": null
@@ -4124,7 +4266,7 @@
       "side": "layout",
       "net": {
         "layout": "OUTN",
-        "layout_id": 162,
+        "layout_id": 165,
         "reference": null,
         "reference_id": null
       },
@@ -4142,7 +4284,7 @@
       "side": "layout",
       "net": {
         "layout": "OUTP",
-        "layout_id": 161,
+        "layout_id": 164,
         "reference": null,
         "reference_id": null
       },
@@ -4160,7 +4302,7 @@
       "side": "layout",
       "net": {
         "layout": "VDD",
-        "layout_id": 166,
+        "layout_id": 163,
         "reference": null,
         "reference_id": null
       },
@@ -4931,7 +5073,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$599",
+        "layout": "\\$607",
         "layout_id": 81,
         "reference": "89_G1_TC",
         "reference_id": 37
@@ -4949,7 +5091,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$600",
+        "layout": "\\$608",
         "layout_id": 82,
         "reference": "89_G1_T",
         "reference_id": 36
@@ -4967,7 +5109,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$601",
+        "layout": "\\$609",
         "layout_id": 83,
         "reference": "89_ES_D1",
         "reference_id": 33
@@ -4985,7 +5127,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$602",
+        "layout": "\\$610",
         "layout_id": 84,
         "reference": "89_GM_T",
         "reference_id": 40
@@ -5003,7 +5145,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$603",
+        "layout": "\\$611",
         "layout_id": 85,
         "reference": "89_MCL_D1",
         "reference_id": 27
@@ -5021,8 +5163,8 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$604",
-        "layout_id": 86,
+        "layout": "\\$613",
+        "layout_id": 87,
         "reference": "89_GM_TC",
         "reference_id": 41
       },
@@ -5039,7 +5181,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$606",
+        "layout": "\\$614",
         "layout_id": 88,
         "reference": "89_MCL_D2",
         "reference_id": 28
@@ -5057,7 +5199,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$607",
+        "layout": "\\$615",
         "layout_id": 89,
         "reference": "89_S1_EF_D1",
         "reference_id": 109
@@ -5075,8 +5217,8 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$608",
-        "layout_id": 90,
+        "layout": "\\$617",
+        "layout_id": 91,
         "reference": "89_MCL_QC2",
         "reference_id": 25
       },
@@ -5093,7 +5235,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$610",
+        "layout": "\\$618",
         "layout_id": 92,
         "reference": "89_ES_D2",
         "reference_id": 34
@@ -5111,7 +5253,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$611",
+        "layout": "\\$619",
         "layout_id": 93,
         "reference": "89_S1_M_T",
         "reference_id": 113
@@ -5129,26 +5271,8 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$612",
+        "layout": "\\$620",
         "layout_id": 94,
-        "reference": "89_S1_M_TC",
-        "reference_id": 114
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "topology",
-      "severity": "warning",
-      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
-      "side": "both",
-      "net": {
-        "layout": "\\$613",
-        "layout_id": 95,
         "reference": "89_ES_QC2",
         "reference_id": 31
       },
@@ -5165,7 +5289,25 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$614",
+        "layout": "\\$621",
+        "layout_id": 95,
+        "reference": "89_S1_M_TC",
+        "reference_id": 114
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$622",
         "layout_id": 96,
         "reference": "89_S1_S_T",
         "reference_id": 118
@@ -5183,7 +5325,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$615",
+        "layout": "\\$623",
         "layout_id": 97,
         "reference": "89_S2_EF_D1",
         "reference_id": 129
@@ -5201,7 +5343,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$617",
+        "layout": "\\$625",
         "layout_id": 99,
         "reference": "89_S1_S_TC",
         "reference_id": 119
@@ -5219,7 +5361,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$618",
+        "layout": "\\$626",
         "layout_id": 100,
         "reference": "89_S1_EF_QC2",
         "reference_id": 107
@@ -5237,7 +5379,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$619",
+        "layout": "\\$627",
         "layout_id": 101,
         "reference": "89_S1_EF_D2",
         "reference_id": 110
@@ -5255,7 +5397,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$620",
+        "layout": "\\$628",
         "layout_id": 102,
         "reference": "89_C23_CK_D1",
         "reference_id": 61
@@ -5273,7 +5415,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$622",
+        "layout": "\\$630",
         "layout_id": 104,
         "reference": "89_C23_F1_M_T",
         "reference_id": 81
@@ -5291,7 +5433,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$623",
+        "layout": "\\$631",
         "layout_id": 105,
         "reference": "89_C23_F1_M_TC",
         "reference_id": 82
@@ -5309,7 +5451,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$624",
+        "layout": "\\$632",
         "layout_id": 106,
         "reference": "89_C23_F1_S_T",
         "reference_id": 86
@@ -5327,7 +5469,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$625",
+        "layout": "\\$633",
         "layout_id": 107,
         "reference": "89_C23_F1_S_TC",
         "reference_id": 87
@@ -5345,7 +5487,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$626",
+        "layout": "\\$634",
         "layout_id": 108,
         "reference": "89_C23_F2_M_T",
         "reference_id": 93
@@ -5363,7 +5505,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$627",
+        "layout": "\\$635",
         "layout_id": 109,
         "reference": "89_C23_F2_M_TC",
         "reference_id": 94
@@ -5381,7 +5523,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$628",
+        "layout": "\\$636",
         "layout_id": 110,
         "reference": "89_C23_F2_S_T",
         "reference_id": 98
@@ -5399,7 +5541,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$629",
+        "layout": "\\$637",
         "layout_id": 111,
         "reference": "89_C23_F2_S_TC",
         "reference_id": 99
@@ -5417,7 +5559,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$630",
+        "layout": "\\$638",
         "layout_id": 112,
         "reference": "89_C23_G1_T",
         "reference_id": 70
@@ -5435,7 +5577,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$631",
+        "layout": "\\$639",
         "layout_id": 113,
         "reference": "89_C23_G1_TC",
         "reference_id": 71
@@ -5453,7 +5595,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$632",
+        "layout": "\\$640",
         "layout_id": 114,
         "reference": "89_C23_G2_T",
         "reference_id": 74
@@ -5471,7 +5613,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$633",
+        "layout": "\\$641",
         "layout_id": 115,
         "reference": "89_C23_G2_TC",
         "reference_id": 75
@@ -5489,7 +5631,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$634",
+        "layout": "\\$642",
         "layout_id": 116,
         "reference": "89_C23_Q1L_D1",
         "reference_id": 67
@@ -5507,7 +5649,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$636",
+        "layout": "\\$644",
         "layout_id": 118,
         "reference": "89_C23_Q1L_D2",
         "reference_id": 68
@@ -5525,7 +5667,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$637",
+        "layout": "\\$645",
         "layout_id": 119,
         "reference": "89_C23_Q1L_QC2",
         "reference_id": 65
@@ -5543,7 +5685,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$638",
+        "layout": "\\$646",
         "layout_id": 120,
         "reference": "89_C23_CK_D2",
         "reference_id": 62
@@ -5561,7 +5703,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$639",
+        "layout": "\\$647",
         "layout_id": 121,
         "reference": "89_C23_CK_QC2",
         "reference_id": 59
@@ -5579,7 +5721,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$658",
+        "layout": "\\$666",
         "layout_id": 140,
         "reference": "89_S2_M_TC",
         "reference_id": 134
@@ -5597,7 +5739,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$659",
+        "layout": "\\$667",
         "layout_id": 141,
         "reference": "89_S2_M_T",
         "reference_id": 133
@@ -5615,7 +5757,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$660",
+        "layout": "\\$668",
         "layout_id": 142,
         "reference": "89_S2_S_T",
         "reference_id": 138
@@ -5633,7 +5775,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$661",
+        "layout": "\\$669",
         "layout_id": 143,
         "reference": "89_S2_S_TC",
         "reference_id": 139
@@ -5651,7 +5793,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$668",
+        "layout": "\\$676",
         "layout_id": 150,
         "reference": "89_S2_EF_D2",
         "reference_id": 130
@@ -5669,7 +5811,7 @@
       "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
       "side": "both",
       "net": {
-        "layout": "\\$669",
+        "layout": "\\$677",
         "layout_id": 151,
         "reference": "89_S2_EF_QC2",
         "reference_id": 127
@@ -5731,336 +5873,336 @@
   ],
   "net_correspondence": [
     {
-      "layout": "\\$620",
+      "layout": "\\$628",
       "layout_id": 102,
       "reference": "89_C23_CK_D1",
       "reference_id": 61,
       "pin": false
     },
     {
-      "layout": "\\$638",
+      "layout": "\\$646",
       "layout_id": 120,
       "reference": "89_C23_CK_D2",
       "reference_id": 62,
       "pin": false
     },
     {
-      "layout": "\\$621",
+      "layout": "\\$629",
       "layout_id": 103,
       "reference": "89_C23_CK_QC1",
       "reference_id": 57,
       "pin": false
     },
     {
-      "layout": "\\$639",
+      "layout": "\\$647",
       "layout_id": 121,
       "reference": "89_C23_CK_QC2",
       "reference_id": 59,
       "pin": false
     },
     {
-      "layout": "\\$622",
+      "layout": "\\$630",
       "layout_id": 104,
       "reference": "89_C23_F1_M_T",
       "reference_id": 81,
       "pin": false
     },
     {
-      "layout": "\\$623",
+      "layout": "\\$631",
       "layout_id": 105,
       "reference": "89_C23_F1_M_TC",
       "reference_id": 82,
       "pin": false
     },
     {
-      "layout": "\\$624",
+      "layout": "\\$632",
       "layout_id": 106,
       "reference": "89_C23_F1_S_T",
       "reference_id": 86,
       "pin": false
     },
     {
-      "layout": "\\$625",
+      "layout": "\\$633",
       "layout_id": 107,
       "reference": "89_C23_F1_S_TC",
       "reference_id": 87,
       "pin": false
     },
     {
-      "layout": "\\$626",
+      "layout": "\\$634",
       "layout_id": 108,
       "reference": "89_C23_F2_M_T",
       "reference_id": 93,
       "pin": false
     },
     {
-      "layout": "\\$627",
+      "layout": "\\$635",
       "layout_id": 109,
       "reference": "89_C23_F2_M_TC",
       "reference_id": 94,
       "pin": false
     },
     {
-      "layout": "\\$628",
+      "layout": "\\$636",
       "layout_id": 110,
       "reference": "89_C23_F2_S_T",
       "reference_id": 98,
       "pin": false
     },
     {
-      "layout": "\\$629",
+      "layout": "\\$637",
       "layout_id": 111,
       "reference": "89_C23_F2_S_TC",
       "reference_id": 99,
       "pin": false
     },
     {
-      "layout": "\\$630",
+      "layout": "\\$638",
       "layout_id": 112,
       "reference": "89_C23_G1_T",
       "reference_id": 70,
       "pin": false
     },
     {
-      "layout": "\\$631",
+      "layout": "\\$639",
       "layout_id": 113,
       "reference": "89_C23_G1_TC",
       "reference_id": 71,
       "pin": false
     },
     {
-      "layout": "\\$632",
+      "layout": "\\$640",
       "layout_id": 114,
       "reference": "89_C23_G2_T",
       "reference_id": 74,
       "pin": false
     },
     {
-      "layout": "\\$633",
+      "layout": "\\$641",
       "layout_id": 115,
       "reference": "89_C23_G2_TC",
       "reference_id": 75,
       "pin": false
     },
     {
-      "layout": "\\$634",
+      "layout": "\\$642",
       "layout_id": 116,
       "reference": "89_C23_Q1L_D1",
       "reference_id": 67,
       "pin": false
     },
     {
-      "layout": "\\$636",
+      "layout": "\\$644",
       "layout_id": 118,
       "reference": "89_C23_Q1L_D2",
       "reference_id": 68,
       "pin": false
     },
     {
-      "layout": "\\$635",
+      "layout": "\\$643",
       "layout_id": 117,
       "reference": "89_C23_Q1L_QC1",
       "reference_id": 63,
       "pin": false
     },
     {
-      "layout": "\\$637",
+      "layout": "\\$645",
       "layout_id": 119,
       "reference": "89_C23_Q1L_QC2",
       "reference_id": 65,
       "pin": false
     },
     {
-      "layout": "\\$601",
+      "layout": "\\$609",
       "layout_id": 83,
       "reference": "89_ES_D1",
       "reference_id": 33,
       "pin": false
     },
     {
-      "layout": "\\$610",
+      "layout": "\\$618",
       "layout_id": 92,
       "reference": "89_ES_D2",
       "reference_id": 34,
       "pin": false
     },
     {
-      "layout": "\\$598",
+      "layout": "\\$606",
       "layout_id": 80,
       "reference": "89_ES_QC1",
       "reference_id": 29,
       "pin": false
     },
     {
-      "layout": "\\$613",
-      "layout_id": 95,
+      "layout": "\\$620",
+      "layout_id": 94,
       "reference": "89_ES_QC2",
       "reference_id": 31,
       "pin": false
     },
     {
-      "layout": "\\$600",
+      "layout": "\\$608",
       "layout_id": 82,
       "reference": "89_G1_T",
       "reference_id": 36,
       "pin": false
     },
     {
-      "layout": "\\$599",
+      "layout": "\\$607",
       "layout_id": 81,
       "reference": "89_G1_TC",
       "reference_id": 37,
       "pin": false
     },
     {
-      "layout": "\\$602",
+      "layout": "\\$610",
       "layout_id": 84,
       "reference": "89_GM_T",
       "reference_id": 40,
       "pin": false
     },
     {
-      "layout": "\\$604",
-      "layout_id": 86,
+      "layout": "\\$613",
+      "layout_id": 87,
       "reference": "89_GM_TC",
       "reference_id": 41,
       "pin": false
     },
     {
-      "layout": "\\$603",
+      "layout": "\\$611",
       "layout_id": 85,
       "reference": "89_MCL_D1",
       "reference_id": 27,
       "pin": false
     },
     {
-      "layout": "\\$606",
+      "layout": "\\$614",
       "layout_id": 88,
       "reference": "89_MCL_D2",
       "reference_id": 28,
       "pin": false
     },
     {
-      "layout": "\\$605",
-      "layout_id": 87,
+      "layout": "\\$612",
+      "layout_id": 86,
       "reference": "89_MCL_QC1",
       "reference_id": 23,
       "pin": false
     },
     {
-      "layout": "\\$608",
-      "layout_id": 90,
+      "layout": "\\$617",
+      "layout_id": 91,
       "reference": "89_MCL_QC2",
       "reference_id": 25,
       "pin": false
     },
     {
-      "layout": "\\$607",
+      "layout": "\\$615",
       "layout_id": 89,
       "reference": "89_S1_EF_D1",
       "reference_id": 109,
       "pin": false
     },
     {
-      "layout": "\\$619",
+      "layout": "\\$627",
       "layout_id": 101,
       "reference": "89_S1_EF_D2",
       "reference_id": 110,
       "pin": false
     },
     {
-      "layout": "\\$609",
-      "layout_id": 91,
+      "layout": "\\$616",
+      "layout_id": 90,
       "reference": "89_S1_EF_QC1",
       "reference_id": 105,
       "pin": false
     },
     {
-      "layout": "\\$618",
+      "layout": "\\$626",
       "layout_id": 100,
       "reference": "89_S1_EF_QC2",
       "reference_id": 107,
       "pin": false
     },
     {
-      "layout": "\\$611",
+      "layout": "\\$619",
       "layout_id": 93,
       "reference": "89_S1_M_T",
       "reference_id": 113,
       "pin": false
     },
     {
-      "layout": "\\$612",
-      "layout_id": 94,
+      "layout": "\\$621",
+      "layout_id": 95,
       "reference": "89_S1_M_TC",
       "reference_id": 114,
       "pin": false
     },
     {
-      "layout": "\\$614",
+      "layout": "\\$622",
       "layout_id": 96,
       "reference": "89_S1_S_T",
       "reference_id": 118,
       "pin": false
     },
     {
-      "layout": "\\$617",
+      "layout": "\\$625",
       "layout_id": 99,
       "reference": "89_S1_S_TC",
       "reference_id": 119,
       "pin": false
     },
     {
-      "layout": "\\$615",
+      "layout": "\\$623",
       "layout_id": 97,
       "reference": "89_S2_EF_D1",
       "reference_id": 129,
       "pin": false
     },
     {
-      "layout": "\\$668",
+      "layout": "\\$676",
       "layout_id": 150,
       "reference": "89_S2_EF_D2",
       "reference_id": 130,
       "pin": false
     },
     {
-      "layout": "\\$616",
+      "layout": "\\$624",
       "layout_id": 98,
       "reference": "89_S2_EF_QC1",
       "reference_id": 125,
       "pin": false
     },
     {
-      "layout": "\\$669",
+      "layout": "\\$677",
       "layout_id": 151,
       "reference": "89_S2_EF_QC2",
       "reference_id": 127,
       "pin": false
     },
     {
-      "layout": "\\$659",
+      "layout": "\\$667",
       "layout_id": 141,
       "reference": "89_S2_M_T",
       "reference_id": 133,
       "pin": false
     },
     {
-      "layout": "\\$658",
+      "layout": "\\$666",
       "layout_id": 140,
       "reference": "89_S2_M_TC",
       "reference_id": 134,
       "pin": false
     },
     {
-      "layout": "\\$660",
+      "layout": "\\$668",
       "layout_id": 142,
       "reference": "89_S2_S_T",
       "reference_id": 138,
       "pin": false
     },
     {
-      "layout": "\\$661",
+      "layout": "\\$669",
       "layout_id": 143,
       "reference": "89_S2_S_TC",
       "reference_id": 139,
@@ -6068,28 +6210,28 @@
     },
     {
       "layout": "INN",
-      "layout_id": 164,
+      "layout_id": 162,
       "reference": "INN",
       "reference_id": 1,
       "pin": true
     },
     {
       "layout": "INP",
-      "layout_id": 163,
+      "layout_id": 161,
       "reference": "INP",
       "reference_id": 0,
       "pin": true
     },
     {
       "layout": "IREF",
-      "layout_id": 165,
+      "layout_id": 166,
       "reference": "IREF",
       "reference_id": 3,
       "pin": true
     },
     {
       "layout": "MC",
-      "layout_id": 1,
+      "layout_id": 0,
       "reference": "MC",
       "reference_id": 2,
       "pin": true

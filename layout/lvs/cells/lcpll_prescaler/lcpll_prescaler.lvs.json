@@ -96,6 +96,7 @@
       ]
     }
   ],
+  "mismatches_omitted": false,
   "mismatch_count": 46,
   "error_count": 41,
   "category_counts": {
@@ -126,6 +127,146 @@
       "matched": 0
     }
   },
+  "pin_set_difference": {
+    "deck_synthesized_layout_pins": [
+      "vsubs"
+    ],
+    "layout_only_pins": [],
+    "layout_only_pins_count": 0,
+    "layout_only_pins_truncated": false,
+    "reference_only_pins": [],
+    "reference_only_pins_count": 0,
+    "reference_only_pins_truncated": false
+  },
+  "ignored_layers": [
+    {
+      "layer": 1,
+      "datatype": 20,
+      "shapes": 16
+    },
+    {
+      "layer": 1,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 5,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 8,
+      "datatype": 22,
+      "shapes": 1157
+    },
+    {
+      "layer": 8,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 10,
+      "datatype": 22,
+      "shapes": 1159
+    },
+    {
+      "layer": 10,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 26,
+      "datatype": 0,
+      "shapes": 8
+    },
+    {
+      "layer": 30,
+      "datatype": 22,
+      "shapes": 1363
+    },
+    {
+      "layer": 30,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 32,
+      "datatype": 0,
+      "shapes": 4
+    },
+    {
+      "layer": 40,
+      "datatype": 0,
+      "shapes": 8
+    },
+    {
+      "layer": 50,
+      "datatype": 22,
+      "shapes": 1344
+    },
+    {
+      "layer": 50,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 51,
+      "datatype": 0,
+      "shapes": 16
+    },
+    {
+      "layer": 52,
+      "datatype": 0,
+      "shapes": 6
+    },
+    {
+      "layer": 67,
+      "datatype": 22,
+      "shapes": 1234
+    },
+    {
+      "layer": 67,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 126,
+      "datatype": 2,
+      "shapes": 4
+    },
+    {
+      "layer": 126,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 134,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 148,
+      "datatype": 0,
+      "shapes": 2
+    },
+    {
+      "layer": 156,
+      "datatype": 0,
+      "shapes": 8
+    },
+    {
+      "layer": 160,
+      "datatype": 0,
+      "shapes": 1
+    }
+  ],
+  "warnings": [
+    "Top cell 'lcpll_prescaler' has no text on the deck's pin label layers. Text is drawn on 8/0. Check layout.label_layers."
+  ],
+  "sg13g2_passive_pairing": {
+    "status": "insufficient_evidence",
+    "findings": []
+  },
   "device_classes": [
     "nfet",
     "pfet",
@@ -135,29 +276,30 @@
     "cap_cmomf",
     "resistor",
     "dantenna",
-    "dpantenna"
+    "dpantenna",
+    "inductor"
   ],
   "environment": {
     "engine": "klayout",
     "engine_version": "0.30.12",
     "netgen_binary": null,
-    "layout_sha256": "90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+    "layout_sha256": "4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
     "reference_sha256": "add4d3b39706242e478f9c4f23a7d7352a63ec877af45d953eb68eba0d78e6ca",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
-    "klt_git_commit": "6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
-    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe",
+    "klt_version": "0.9.3.dev3934+g049acce7a82b",
+    "klt_git_commit": "049acce7a82b57c630b30099720fa4d97b1a4bea",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@049acce7a82b57c630b30099720fa4d97b1a4bea",
     "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
       "name": "sg13g2",
-      "content_hash": "sha256:eaaf298957eeced674e4030635c66ba6bdee98adde15fe36203ba047fd7b0669",
+      "content_hash": "sha256:e5459fe971c6c008d99bd59da48f6dc87cdb6d601ce7aabcc755fa134c19da20",
       "released": false
     },
     "input": {
-      "content_hash": "sha256:90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db",
+      "content_hash": "sha256:4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
       "role": "layout"
     },
     "klayout_version_mismatch": false

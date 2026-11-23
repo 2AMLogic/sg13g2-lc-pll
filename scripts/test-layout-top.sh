@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Integrated layout check (#35): committed layout/top.gds reproduces, still matches the stream hash
-# manifests/layout.attest.json pins (#257), holds the pinned VCO unmodified, keep-out intrusions are
+# manifests/layout.attest.json pins (#257), every committed LVS envelope under layout/lvs/ pins the
+# shipped stream too (#413), holds the pinned VCO unmodified, keep-out intrusions are
 # exactly the recorded VCTRL pin-access ones, top metal keeps clear of the VCO's inductor exclusion
 # markers (#361), and the checks can fail.
 # Needs .fetched/ (scripts/fetch-vco.sh), klt, a python with `klayout` (default .venv/bin/python; LAYOUT_PY).
@@ -41,6 +42,39 @@ pin_check() { local f="$1" h
 expect "committed stream == attestation pin" ok pin_check "${G}"
 expect "attestation pin == provenance output.sha256" ok bash -c \
   "[ \"${PIN}\" = \"\$(jq -r .output.sha256 '${ROOT}/layout/provenance.json')\" ]"
+
+# #413: a stream bump (c1e1155) left every committed LVS envelope pinning the previous
+# layout/top.gds, so `klt lvs --check` -- the input-freshness signal layout/lvs/README.md
+# documents -- reported `drifted` on all four and stopped distinguishing "describes the shipped
+# stream" from "describes an older one". The same rule the attestation pin check above states for
+# manifests/layout.attest.json, stated for the LVS evidence tree: discover every committed
+# *.lvs.json under layout/lvs/ whose recorded layout input IS the integrated GDS -- klt has
+# recorded that input in both forms, a report-relative string ("../top.gds") and
+# {"scope":"repo","path":"layout/top.gds"} -- and compare the report's
+# environment.layout_sha256 with one digest of the actual file, naming file and both hashes on a
+# drift. Discovery is by glob over the tree, so a newly committed report for the same input is
+# covered the moment it lands. Nothing here re-runs a compare or touches the PDK: the check
+# needs only the report bytes and the stream bytes (`klt lvs --check` stays the fuller probe).
+LVS_STREAM_SHA="$(sha256sum "${G}" | cut -d' ' -f1)"
+lvs_fresh_check() { local root="$1" stream="$2" f t rel pin found=0
+  while IFS= read -r -d '' f; do
+    t="$(jq -r '.layout | type' "${f}" 2>/dev/null)" || continue
+    case "${t}" in
+      string) rel="$(realpath -m --canonicalize-missing --relative-to="${root}" \
+        "${f%/*}/$(jq -r '.layout' "${f}")")" ;;
+      object) rel=""; [ "$(jq -r '.layout.scope // ""' "${f}")" = repo ] \
+        && rel="$(jq -r '.layout.path // ""' "${f}")" ;;
+      *) continue ;;
+    esac
+    [ "${rel}" = layout/top.gds ] || continue
+    found=$((found+1))
+    pin="$(jq -r '.environment.layout_sha256 // ""' "${f}")"
+    [ -n "${pin}" ] || { echo "lvs-fresh: ${f} records no environment.layout_sha256; refusing"; return 1; }
+    [ "${pin}" = "${stream}" ] || { echo "lvs-fresh: ${f} pins layout sha256 ${pin} != stream ${stream}; refusing"; return 1; }
+  done < <(find "${root}/layout/lvs" -name '*.lvs.json' -print0 | sort -z)
+  [ "${found}" -gt 0 ] || { echo "lvs-fresh: no *.lvs.json under ${root}/layout/lvs names the integrated GDS; refusing"; return 1; }
+  echo "lvs-fresh: ${found} committed report(s) pin the shipped stream ${stream}"; }
+expect "committed LVS envelopes pin the shipped stream" ok lvs_fresh_check "${ROOT}" "${LVS_STREAM_SHA}"
 
 # layout/gen_integrated.py's digest() is billed as writer-independent, so a KLayout read->write->read
 # of the committed stream -- a clip, a merge, a DRC-prep step, an exported sub-cell -- must digest to
@@ -290,4 +324,39 @@ expect "committed layout records the pad trim" ok jq -e \
 expect "NEG timestamp-churned stream fails the attestation pin" \
   "refuse:pin-check: .* sha256 [0-9a-f]{64} != attested [0-9a-f]{64}; refusing" \
   pin_check "${T}/restamped.gds"
+
+# #413's own negative controls, on copies under ${T} (tracked evidence untouched): the stale-hash
+# fixture is the issue as found -- one nested report pinning the previous stream's digest while
+# the rest are fresh; the missing-hash fixture is an envelope with the field absent. Each must be
+# refused with the checker's own text, naming the offending file. The string-form control beside
+# them covers the other recorded shape of the layout input: after the 2026-11 refresh every
+# committed report records {"scope":"repo","path":...}, so the report-relative-string branch is
+# exercised by rewriting the top report's input to the equivalent "../top.gds" on a copy -- the
+# exact-match on the success line asserts the rewritten report was still counted: the expected
+# count is the unmodified tree's own count, taken from the same function, so a branch that silently
+# skipped the rewritten report reports one fewer, and a newly committed envelope never breaks the
+# control by changing the inventory size.
+mkdir -p "${T}/lvstale/layout" "${T}/lvsmiss/layout" "${T}/lvsstr/layout"
+cp -r "${ROOT}/layout/lvs" "${T}/lvstale/layout/"
+cp -r "${ROOT}/layout/lvs" "${T}/lvsmiss/layout/"
+cp -r "${ROOT}/layout/lvs" "${T}/lvsstr/layout/"
+jq '.environment.layout_sha256 = "90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db"' \
+  "${ROOT}/layout/lvs/cells/lcpll_cp/lcpll_cp.lvs.json" > "${T}/lvstale/layout/lvs/cells/lcpll_cp/lcpll_cp.lvs.json"
+jq 'del(.environment.layout_sha256)' \
+  "${ROOT}/layout/lvs/cells/lcpll_loopfilter/lcpll_loopfilter.lvs.json" \
+  > "${T}/lvsmiss/layout/lvs/cells/lcpll_loopfilter/lcpll_loopfilter.lvs.json"
+jq '.layout = "../top.gds"' "${ROOT}/layout/lvs/top.lvs.json" > "${T}/lvsstr/layout/lvs/top.lvs.json"
+expect "NEG stale LVS layout hash refused, report named" \
+  "refuse:lvs-fresh: .*lcpll_cp\.lvs\.json pins layout sha256 90fecb47[0-9a-f]{56} != stream ${LVS_STREAM_SHA}; refusing" \
+  lvs_fresh_check "${T}/lvstale" "${LVS_STREAM_SHA}"
+expect "NEG missing LVS layout hash refused, report named" \
+  "refuse:lvs-fresh: .*lcpll_loopfilter\.lvs\.json records no environment\.layout_sha256; refusing" \
+  lvs_fresh_check "${T}/lvsmiss" "${LVS_STREAM_SHA}"
+base="$(lvs_fresh_check "${ROOT}" "${LVS_STREAM_SHA}" 2>&1)"
+d="$(lvs_fresh_check "${T}/lvsstr" "${LVS_STREAM_SHA}" 2>&1)"; rc=$?
+if [ "${rc}" = 0 ] && [ "${d}" = "${base}" ] && [[ "${base}" =~ ^lvs-fresh:\ [1-9][0-9]*\ committed ]]; then
+  echo "PASS LVS input recorded as a report-relative string still resolves and counts"; pass=$((pass+1))
+else
+  echo "FAIL report-relative string form (rc=${rc}): ${d}"; bad=$((bad+1))
+fi
 expect_summary || exit 1
