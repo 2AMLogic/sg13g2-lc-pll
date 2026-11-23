@@ -6,18 +6,19 @@
 Writes D/cp_mc.spice and D/request.json. Every number below that is a stated allowance is named as
 one and echoed into the request's `description`; nothing is tuned to pass.
 """
-import argparse, cmath, json, math, hashlib
+import argparse, cmath, json, math, hashlib, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "sim"))
+import corner_set  # noqa: E402  (the spec C-grid, defined once in sim/corner_set.py)
+
 ICP_NOM = 200e-6            # spec row 6 typical; mismatch is |I_up - I_dn| / ICP_NOM
 F_REF = 50e6                # spec row 2
 TRST_FRAC = 0.1             # t_rst / T_ref: DR-001 section Row 7 stated allowance, NOT derived
 VOUTS = [1.65, 2.00, 2.25, 2.45]   # 1.65 V is the ratified lower edge; the rest probe where V_hi,req could fall (open, gate G4)
 MM_LIMIT_PCT = 2.0          # spec row 7 target
 VR_LIMIT_MV = 0.52          # spec row 9 target ripple budget (DR-001 section Row 9)
-MOS = ["tt", "ss", "ff", "sf", "fs"]
-TEMPS = [-40, 27, 125]
 
 def z_mag(flt, f):
     s = 2j * math.pi * f
@@ -29,16 +30,18 @@ def z_mag(flt, f):
 def tag(v):
     return "v%03d" % round(v * 100)
 
-def units(probe, corner_set="full"):
-    if corner_set == "attr":
+def units(probe, grid="full"):   # `grid` not `corner_set`: that name is the shared corner-set module
+    if grid == "attr":
         # attribution grid (sim/cp-mc/attribute.py): MOS {tt,ss,ff} x T at 3.3 V, 9 units
-        return [{"process": "mos_%s_mismatch" % m, "temperature_c": t, "supply_v": {"vdd": 3.3}} for m in ("tt", "ss", "ff") for t in TEMPS]
+        return [{"process": "mos_%s_mismatch" % m, "temperature_c": t, "supply_v": {"vdd": corner_set.V_STAGE1}}
+                for m in ("tt", "ss", "ff") for t in corner_set.TEMPS]
     if probe:
-        return [{"process": "mos_tt_mismatch", "temperature_c": 27, "supply_v": {"vdd": 3.3}}]
-    u = [{"process": "mos_%s_mismatch" % m, "temperature_c": t, "supply_v": {"vdd": 3.3}} for m in MOS for t in TEMPS]
+        return [{"process": "mos_tt_mismatch", "temperature_c": 27, "supply_v": {"vdd": corner_set.V_STAGE1}}]
+    u = [{"process": "mos_%s_mismatch" % m, "temperature_c": t, "supply_v": {"vdd": corner_set.V_STAGE1}}
+         for m in corner_set.MOS for t in corner_set.TEMPS]
     # stage 2 (spec "Corner set"): SLOW = ss, TYP = tt, FAST = ff; the CP has no MIM or HBT, so those axes of stage 1 do not apply
     u += [{"process": "mos_%s_mismatch" % m, "temperature_c": t, "supply_v": {"vdd": v}}
-          for v in (2.97, 3.63) for m in ("ss", "tt", "ff") for t in TEMPS]
+          for v in corner_set.V_STAGE2 for m in corner_set.bundle_corners("mos") for t in corner_set.TEMPS]
     return u
 
 def main():
@@ -80,7 +83,7 @@ def main():
         "netlist": "cp_mc.spice",
         "engine": "ngspice",
         "backend": "batch",
-        "models": {"pdk": "sg13g2", "lib": "libs.tech/ngspice/models/cornerMOShv.lib"},
+        "models": {"pdk": "sg13g2", "lib": corner_set.lib_path("mos")},
         "corners": {"units": units(a.probe, a.corner_set)},
         "monte_carlo": {"n": a.n, "seed": a.seed, "vary": "mismatch", "quantiles": [1, 50, 99], "k_sigma": 3},
         "analysis_steps": steps,

@@ -15,6 +15,64 @@ bad=0
 "${PY}" "${ROOT}/layout/gen_cells.py" --out "${T}/cells" --check || { echo "FAIL regenerate vs provenance"; bad=$((bad+1)); }
 [ "${bad}" = 0 ] && echo "PASS regenerated cells match layout/cells.provenance.json"
 
+# layout/gen_cells.py's digest() is billed as writer-independent, so each cell's digest must
+# survive a KLayout read->write->read of its stream -- a clip, a merge, a DRC-prep step. It did
+# not before #263: digest() hashed per-layer records in ly.layer_indexes() order, and a re-save
+# permutes that order, so the digest moved for a stream whose geometry was untouched. On `main`
+# before the fix this was live, not hypothetical: the check above mismatched four of the six
+# committed digests on a host whose klt writes the layers in a different order, while the cells'
+# geometry was identical. Each cell carries its own guards so the case cannot pass vacuously.
+# scripts/layout_rt.py compares both streams and the recorded digest for this harness and
+# scripts/test-layout-top.sh (#379).
+"${PY}" -I - "${ROOT}" "${T}/cells" "${T}/rt" <<'RTEOF' || bad=$((bad+1))
+import json, os, sys
+import klayout.db as db
+root, cells, rtdir = sys.argv[1:4]
+sys.path.insert(0, os.path.join(root, "layout"))
+sys.path.insert(0, os.path.join(root, "scripts"))
+import cells.common as cc
+import layout_rt as rt
+
+prov = json.load(open(os.path.join(root, "layout/cells.provenance.json")))
+os.makedirs(rtdir, exist_ok=True)
+fail = 0
+
+for rec in prov["cells"]:
+    if rec["status"] == "undrawn":
+        continue
+    name = rec["cell"]
+    gds = os.path.join(cells, name + ".gds")
+    rtp = os.path.join(rtdir, name + ".rt.gds")
+    want = rec["geometry_sha256"]
+    trip = rt.RoundTrip(gds, rtp, name, want)
+    result = trip.compare(cc.digest)
+    if not result.order_changed:
+        # No permutation to survive on this klayout: say so rather than banking a vacuous PASS.
+        print(f"KNOWN-GAP {name}: the re-save did not permute the layer-index order, so this cell cannot discriminate the fix")
+    elif not result.digest_survived:
+        print(f"FAIL {name}: round-tripped digest {result.resaved_digest} != {result.original_digest}"); fail += 1
+    elif trip.compare(rt.enum_digest).digest_survived:
+        print(f"FAIL NEG {name}: the pre-#263 enumeration-order digest survived the re-save too, so this cell cannot discriminate the fix"); fail += 1
+    else:
+        print(f"PASS {name}: digest survives a KLayout re-save that moves the pre-#263 one")
+    if not result.matches_record:
+        print(f"FAIL {name}: digest {result.original_digest} != recorded {want}"); fail += 1
+
+# Negative control: a real geometry change must still move the digest. The box is placed clear of
+# the cell's bounding box so a merge with existing geometry cannot absorb it.
+rec = next(r for r in prov["cells"] if r["status"] == "drawn")
+name = rec["cell"]
+ly = rt.read(os.path.join(cells, name + ".gds"))
+b = ly.cell(name).bbox()
+ly.cell(name).shapes(ly.layer(8, 0)).insert(db.Box(b.right + 1000, b.top + 1000, b.right + 2000, b.top + 2000))
+ed = os.path.join(rtdir, name + ".edited.gds"); ly.write(ed)
+if rt.digest_of(ed, name, cc.digest) == rec["geometry_sha256"]:
+    print(f"FAIL NEG {name}: an inserted shape did not move the digest"); fail += 1
+else:
+    print(f"PASS NEG {name}: an inserted shape moves the digest")
+sys.exit(1 if fail else 0)
+RTEOF
+
 "${PY}" -I - "${ROOT}" "${T}/cells" "${T}/neg" <<'PYEOF' || bad=$((bad+1))
 import json, os, sys
 import klayout.db as db

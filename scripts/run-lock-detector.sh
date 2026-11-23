@@ -12,34 +12,87 @@
 #                                               `klt sim --backend batch`. A failed submit is reported and
 #                                               exits non-zero: it is NEVER run locally.
 #   scripts/run-lock-detector.sh grid1 --dry-run   validate the request only
+#   scripts/run-lock-detector.sh report <grid dir>
+#                                               rebuild a completed grid's stage record from its saved
+#                                               request.json + report.json alone: no PDK, ngspice, fetch
+#                                               or network. Provenance comes from the saved report;
+#                                               fields it does not record are marked unrecorded.
+#                                               Records are append-only: replay onto a scratch copy.
 #
-# Environment: PDK_ROOT, NGSPICE as for scripts/run-cp-dc.sh; RECORD_DIR (default sim/lock-detector/records).
+# Environment: PDK_ROOT, NGSPICE as for scripts/run-cp-dc.sh (report needs none of them); RECORD_DIR (default sim/lock-detector/records).
 # Method (the same words go in every record): sim/lock-detector/README.md.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 die() { echo "run-lock-detector: error: $*" >&2; exit 1; }
 MODE="${1:-}"; shift || true
-case "${MODE}" in nominal|closed|grid1|grid2|report) ;; *) die "usage: $0 nominal|grid1|grid2 [--dry-run]" ;; esac
+case "${MODE}" in nominal|closed|grid1|grid2|report) ;; *) die "usage: $0 nominal|closed|grid1|grid2|report [--dry-run]" ;; esac
 DRY=0; [ "${1:-}" = "--dry-run" ] && DRY=1
-
-source "${ROOT}/scripts/lib-pdk.sh"
-source "${ROOT}/scripts/lib-record.sh"
-"${ROOT}/scripts/fetch-pll.sh" >/dev/null || die "fetch/verify of the pinned sg13g2-pll files failed"
-REC_DIR="${RECORD_DIR:-${ROOT}/sim/lock-detector/records}"; mkdir -p "${REC_DIR}"
-WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 TOOL=(python3 -I "${ROOT}/scripts/ld_tool.py")
+WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
+source "${ROOT}/scripts/lib-record.sh"   # record IDs, rec_dir, the append-only guard: no PDK or simulator
+
+# write_grid_record <grid dir> <stage> [replay]: the stage record from request.json + report.json
+# (also: `report <grid dir>`). Provenance describes whoever ran the simulations: for a fresh grid
+# run (replay arg empty) that is this machine; for a replay it is the saved report alone, and
+# anything the report does not record is marked unrecorded rather than read off this machine.
+write_grid_record() {
+  local D="$1" STG="$2" REPLAY="${3:-}" REC_ID PFD LD KLT ENG PROV
+  REC_ID="$(basename "${D}")"
+  jq -e '.status == "pass"' "${D}/report.json" >/dev/null || die "${D}/report.json is not a complete passing report"
+  "${TOOL[@]}" summary "${D}/report.json" "${WORK}/grid.md"
+  if [ "${REPLAY}" = replay ]; then
+    PFD="$(jq -r '[.environment.netlist_closure[]? | select((.path // "") | endswith("/pfd.spice"))][0].sha256 // "unrecorded"' "${D}/report.json")"
+    LD="$(jq -r '[.environment.netlist_closure[]? | select((.path // "") | endswith("/lock_detector.spice"))][0].sha256 // "unrecorded"' "${D}/report.json")"
+    KLT="$(jq -r '.environment.remote.fleet[0].client_klt_version // .environment.remote.fleet[0].runner_klt_version // .provenance.klt_version // "unrecorded"' "${D}/report.json")"
+    ENG="$(jq -r '.environment.engine_version // ""' "${D}/report.json")"
+    [ -n "${ENG}" ] && ENG="ngspice-${ENG}" || ENG=unrecorded
+    PROV="- **Cells**: \`2AMLogic/sg13g2-pll\` pfd.spice sha256 \`${PFD}\`, lock_detector.spice sha256 \`${LD}\`, digests as recorded in \`report.json\` (the sg13g2-pll pin and the repo commit are not recorded in the saved report, so the digests cannot be checked against the upstream pin from the saved evidence alone). Generator \`scripts/ld_tool.py\` sha256 \`$(sha256sum "${ROOT}/scripts/ld_tool.py" | cut -d' ' -f1)\` (this rebuild). klt ${KLT}, engine ${ENG}; each is as recorded in \`report.json\`, or unrecorded where the saved report omits it. Rebuilt from the saved request and report on $(hostname), $(date -u +%Y-%m-%dT%H:%M:%SZ)."
+  else
+    PROV="- **Cells**: \`2AMLogic/sg13g2-pll@${PLL_PIN}\` pfd.spice sha256 \`${PFD_SHA}\`, lock_detector.spice sha256 \`${LD_SHA}\`, unmodified. Commit \`${COMMIT}${DIRTY}\`; generator \`scripts/ld_tool.py\` sha256 \`$(sha256sum "${ROOT}/scripts/ld_tool.py" | cut -d' ' -f1)\`. klt $(klt --version 2>&1 | head -1), $(jq -r .environment.engine_version "${D}/report.json" | sed 's/^/ngspice-/'). Host $(hostname), $(date -u +%Y-%m-%dT%H:%M:%SZ)."
+  fi
+  assert_new_record "${D}.md"
+  {
+    echo "# lock-detector 50 MHz re-grade, C-grid stage ${STG}: run ${REC_ID#*-}"
+    echo
+    echo "**Simulated, not measured.** $(jq -r .corner_count "${D}/report.json") corners through \`klt sim --backend batch\` ($(jq -r '.environment.remote.job_id // "sharded batch jobs, see report.json"' "${D}/report.json" 2>/dev/null)); request \`${REC_ID}/request.json\`, report \`${REC_ID}/report.json\`. Stage 1 = MOS {tt,ss,ff,sf,fs} x MIM {typ,bcs,wcs} x T {-40,27,125} at 3.3 V; stage 2 = {2.97, 3.63} V x {SLOW,TYP,FAST} x T (spec Corner set). The HBT axis is omitted: the lock_detector and PFD contain no HBT, so it cannot move any number here. The poly-resistor (rhigh) corner is paired by name with the MIM corner (res_typ/cap_typ, res_bcs/cap_bcs, res_wcs/cap_wcs); the spec does not define a resistor axis, and the unpaired crossings (e.g. fast R with slow C) are not run."
+    echo
+    echo "${PROV}"
+    if [ -f "${D}/report-first-attempt.json.gz" ]; then
+      echo "- **Run history**: the first submission returned $(zcat "${D}/report-first-attempt.json.gz" | jq -r .passed) of $(zcat "${D}/report-first-attempt.json.gz" | jq -r .corner_count) corners (the rest \`lost_shard\`: shard jobs submitted but never launched, a klt/fleet capacity effect); the same request was completed with \`klt sim --backend batch --resume\` on the same outdir. Nothing was run locally. \`report.json\` is the merged complete report, \`report-first-attempt.json\` the partial one."
+    else echo "- **Run history**: complete on the first submission (no partial report)."; fi
+    echo
+    cat "${ROOT}/sim/lock-detector/method.md"
+    echo
+    echo "## Results (per corner; phase columns are |phi| where the net current at the named VWIN trip is zero)"
+    echo
+    cat "${WORK}/grid.md"
+  } > "${D}.md"
+  echo "record: ${D#"${ROOT}/"}.md"
+}
+
+if [ "${MODE}" = report ]; then
+  # Replay: dispatch BEFORE the PDK checks, the pinned fetch and the deck generation below, so a
+  # completed batch grid can be re-graded on a host with no simulation installation.
+  RD="$(cd "${1:?grid dir}" && pwd)"
+  write_grid_record "${RD}" "$(basename "${RD}" | sed 's/.*grid//')" replay
+  exit 0
+fi
+
+# ---- everything below prepares or launches a simulation: PDK checks, pinned fetch, deck generation.
+source "${ROOT}/scripts/lib-pdk.sh"
+"${ROOT}/scripts/fetch-pll.sh" >/dev/null || die "fetch/verify of the pinned sg13g2-pll files failed"
+rec_dir lock-detector
 TSTOP_PS="$("${TOOL[@]}" body "${WORK}/body.spice" "${WORK}/meas.txt" "${WORK}/meas.json")"
 
 record_stamp
-ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 PLL_PIN="$(jq -r '.imports[] | select(.from=="2AMLogic/sg13g2-pll") | .commit' "${ROOT}/reuse.lock.json")"
 LD_SHA="$(sha256sum "${ROOT}/.fetched/sg13g2-pll/design/netlist/lock_detector.spice" | cut -d' ' -f1)"
 PFD_SHA="$(sha256sum "${ROOT}/.fetched/sg13g2-pll/design/netlist/pfd.spice" | cut -d' ' -f1)"
 
 if [ "${MODE}" = closed ]; then
   PHI="${1:?PHI_PS}"; V0="${2:?V0}"; TUS="${3:?TSTOP_US}"
-  REC="${REC_DIR}/${ID}-closed-phi${PHI}-v0${V0}.md"; [ ! -e "${REC}" ] || die "${REC} exists"
+  REC="${REC_DIR}/${ID}-closed-phi${PHI}-v0${V0}.md"; assert_new_record "${REC}"
   {
     echo ".lib ${MODELS}/cornerMOShv.lib mos_tt"; echo ".lib ${MODELS}/cornerCAP.lib cap_typ"; echo ".lib ${MODELS}/cornerRES.lib res_typ"
     echo ".option scale=1 temp=27"; echo ".global sub!"; echo "VSUB sub! 0 0"; echo "VDD vdd 0 3.3"
@@ -80,7 +133,7 @@ if [ "${MODE}" = closed ]; then
 fi
 
 if [ "${MODE}" = nominal ]; then
-  REC="${REC_DIR}/${ID}-nominal.md"; [ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
+  REC="${REC_DIR}/${ID}-nominal.md"; assert_new_record "${REC}"
   {
     echo ".lib ${MODELS}/cornerMOShv.lib mos_tt"
     echo ".lib ${MODELS}/cornerCAP.lib cap_typ"
@@ -124,33 +177,6 @@ if [ "${MODE}" = nominal ]; then
   } > "${REC}"
   echo "record: ${REC#"${ROOT}/"}"; cat "${WORK}/summary.json"; echo
   exit 0
-fi
-
-write_grid_record() { # <grid dir>: the record from request.json + report.json (also: `report <grid dir>`)
-  local D="$1" STG="$2" REC_ID TOT
-  REC_ID="$(basename "${D}")"
-  jq -e '.status == "pass"' "${D}/report.json" >/dev/null || die "${D}/report.json is not a complete passing report"
-  "${TOOL[@]}" summary "${D}/report.json" "${WORK}/grid.md"
-  {
-    echo "# lock-detector 50 MHz re-grade, C-grid stage ${STG}: run ${REC_ID#*-}"
-    echo
-    echo "**Simulated, not measured.** $(jq -r .corner_count "${D}/report.json") corners through \`klt sim --backend batch\` ($(jq -r '.environment.remote.job_id // "sharded batch jobs, see report.json"' "${D}/report.json" 2>/dev/null)); request \`${REC_ID}/request.json\`, report \`${REC_ID}/report.json\`. Stage 1 = MOS {tt,ss,ff,sf,fs} x MIM {typ,bcs,wcs} x T {-40,27,125} at 3.3 V; stage 2 = {2.97, 3.63} V x {SLOW,TYP,FAST} x T (spec Corner set). The HBT axis is omitted: the lock_detector and PFD contain no HBT, so it cannot move any number here. The poly-resistor (rhigh) corner is paired by name with the MIM corner (res_typ/cap_typ, res_bcs/cap_bcs, res_wcs/cap_wcs); the spec does not define a resistor axis, and the unpaired crossings (e.g. fast R with slow C) are not run."
-    echo
-    echo "- **Cells**: \`2AMLogic/sg13g2-pll@${PLL_PIN}\` pfd.spice sha256 \`${PFD_SHA}\`, lock_detector.spice sha256 \`${LD_SHA}\`, unmodified. Commit \`${COMMIT}${DIRTY}\`; generator \`scripts/ld_tool.py\` sha256 \`$(sha256sum "${ROOT}/scripts/ld_tool.py" | cut -d' ' -f1)\`. klt $(klt --version 2>&1 | head -1), $(jq -r .environment.engine_version "${D}/report.json" | sed 's/^/ngspice-/'). Host $(hostname), $(date -u +%Y-%m-%dT%H:%M:%SZ)."
-    if [ -f "${D}/report-first-attempt.json.gz" ]; then
-      echo "- **Run history**: the first submission returned $(zcat "${D}/report-first-attempt.json.gz" | jq -r .passed) of $(zcat "${D}/report-first-attempt.json.gz" | jq -r .corner_count) corners (the rest \`lost_shard\`: shard jobs submitted but never launched, a klt/fleet capacity effect); the same request was completed with \`klt sim --backend batch --resume\` on the same outdir. Nothing was run locally. \`report.json\` is the merged complete report, \`report-first-attempt.json\` the partial one."
-    else echo "- **Run history**: complete on the first submission (no partial report)."; fi
-    echo
-    cat "${ROOT}/sim/lock-detector/method.md"
-    echo
-    echo "## Results (per corner; phase columns are |phi| where the net current at the named VWIN trip is zero)"
-    echo
-    cat "${WORK}/grid.md"
-  } > "${D}.md"
-  echo "record: ${D#"${ROOT}/"}.md"
-}
-if [ "${MODE}" = report ]; then
-  RD="$(cd "${1:?grid dir}" && pwd)"; write_grid_record "${RD}" "$(basename "${RD}" | sed 's/.*grid//')"; exit 0
 fi
 
 # ---- C-grid through klt sim (batch). Never falls back to local.

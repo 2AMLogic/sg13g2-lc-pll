@@ -4,15 +4,15 @@
   "evidence": {
     "1": {
       "file": "manifests/design-sources.attest.json",
-      "content_hash": "sha256:47ee5d135e235bf13876dfa89191f2a160231488d0cf9fdec5910f14804d0ebb"
+      "content_hash": "sha256:e1df3b0c13d368e4fe4c2151729396de1f8a7f32a5b83fd6733024299d04245a"
     },
     "2": {
       "file": "manifests/layout.attest.json",
-      "content_hash": "sha256:5e184029cf32d4d54c44ed4cdb8f6b24c69633b7c437ce6ea8c7a4b0047bcd76"
+      "content_hash": "sha256:60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005"
     },
     "3": {
       "file": "layout/drc/top.drc.json",
-      "content_hash": "sha256:bd0770e8588cd9b1353aac10155c8399a50c392b3d8bd1801d64d034521bcec2"
+      "content_hash": "sha256:60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005"
     },
     "5": [
       {
@@ -28,6 +28,13 @@
         "rows": [
           "6"
         ]
+      },
+      {
+        "file": "sim/loop-model/records/20261115-101634-6a08197-row5-envelope.json",
+        "content_hash": "sha256:e001d0b1fa13fc0d40cab7f4a9f7e433009efb029b2d389090eff1999cdb6943",
+        "rows": [
+          "5"
+        ]
       }
     ],
     "6": [
@@ -42,7 +49,7 @@
     ],
     "9": {
       "file": "manifests/testbenches.attest.json",
-      "content_hash": "sha256:b059e0abc0acf128ce530e9153271cf8b47df8e44565441e3ee0bde40c9fb082"
+      "content_hash": "sha256:3c1ff7739d3149c286b92cc286c85fe72946913769795915f5c4dce3600a30b4"
     },
     "10": {
       "file": "manifests/repo-hygiene.attest.json",
@@ -59,8 +66,7 @@
         "gap": "lock at 5.0 GHz runs on a behavioural VCO/divider stand-in (sim/loop-tran); needs graded VCO f(Vctrl) (G4), VCO+prescaler load re-check (G2), divider at 625 MHz (#61). Not enveloped: a stand-in sweep is not a row-1 result"
       },
       {
-        "id": "5",
-        "gap": "row 5 (f_c, PM over the 18-sub-corner I_cp spread x Kvco range) is evidenced by a method-L record, sim/loop-model/records/20261103-021500-9ef9cf4-row5-envelope.md (PASS), which is not a `klt sim` envelope and so cannot be cited as item-5 evidence (klayout-tools#4859)"
+        "id": "5"
       },
       {
         "id": "7",

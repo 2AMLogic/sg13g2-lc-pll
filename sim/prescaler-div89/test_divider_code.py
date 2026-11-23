@@ -6,7 +6,8 @@ and not from arithmetic tables:
   1. the code tied on `XDIV` is M = 12, A = 4, i.e. N = 8*M + A = 100 (5.0 GHz at a 50 MHz reference);
   2. with the counter widths actually present in the netlist (`mcounter` M pins, `acounter` A pins), every N in
      90-110 has a legal code (A <= M, M >= 3 for the registered terminal count);
-  3. the gate network of `acounter` (evaluated here as a zero-delay boolean model, parsed from the netlist) holds
+  3. the gate network of `acounter` (evaluated with the zero-delay boolean model of
+     `sim/divider-elab/counter_state_model.py`, parsed from this netlist) holds
      MC high for exactly A clocks after a load, for every A the width allows, then low (that is what makes
      N = 9*A + 8*(M - A) = 8*M + A with a P = 8/9 prescaler).
 
@@ -15,9 +16,14 @@ evidence for the counters is in `sim/divider-elab/` (simulated, nominal) and is 
 """
 import os
 import re
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 NETLIST = os.path.join(HERE, "..", "..", "design", "netlist", "pll_top.spice")
+sys.path.insert(0, os.path.abspath(os.path.join(HERE, "..", "divider-elab")))
+
+import counter_state_model as csm  # noqa: E402  (sibling sim/ dir, the repo's sys.path pattern)
+
 P = 8
 N_LO, N_HI, N_TARGET = 90, 110, 100
 M_MIN = 3   # design/README.md: the registered terminal count assumes Q = 0001 is not the loaded value
@@ -26,23 +32,6 @@ M_MIN = 3   # design/README.md: the registered terminal count assumes Q = 0001 i
 def _read():
     with open(NETLIST) as f:
         return f.read().splitlines()
-
-
-def subckts(lines):
-    """{name: (pins, [instance token lists])} for every .subckt in the netlist."""
-    out, cur = {}, None
-    for ln in lines:
-        t = ln.split()
-        if not t or t[0].startswith(("*", "**")):
-            continue
-        if t[0].lower() == ".subckt":
-            cur = (t[1], t[2:], [])
-        elif t[0].lower() == ".ends" and cur:
-            out[cur[0]] = (cur[1], cur[2])
-            cur = None
-        elif cur and t[0][0] in "Xx":
-            cur[2].append(t)
-    return out
 
 
 def top_instance(lines, name):
@@ -56,7 +45,7 @@ def top_instance(lines, name):
 def tied_code():
     """(M, A, m_width, a_width) from the XDIV instance, using the divider's own pin order."""
     lines = _read()
-    subs = subckts(lines)
+    subs = csm.subckts(lines)
     pins = subs["divider"][0]
     inst = top_instance(lines, "XDIV")
     conn = dict(zip(pins, inst[1:1 + len(pins)]))
@@ -101,47 +90,9 @@ def test_narrow_counter_would_be_flagged():
     assert N_TARGET not in codes and 110 not in codes
 
 
-# --- boolean model of acounter, parsed from the netlist ---------------------------------------------------------
-def _gate(kind, ins):
-    if kind == "inv_hv":
-        return int(not ins[0])
-    if kind == "nand2_hv" or kind == "nand3_hv":
-        return int(not all(ins))
-    if kind == "nor2_hv":
-        return int(not any(ins))
-    raise AssertionError("unmodelled cell " + kind)
-
-
-class ACounter:
-    def __init__(self):
-        subs = subckts(_read())
-        self.pins, insts = subs["acounter"]
-        self.flops, self.gates = [], []
-        for t in insts:
-            kind, nets = t[-1], t[1:-1]
-            if kind == "dff_tg_hv":
-                d, _ck, q = nets[:3]
-                self.flops.append((d, q))
-            else:
-                n_in = {"inv_hv": 1, "nand2_hv": 2, "nand3_hv": 3, "nor2_hv": 2}[kind]
-                self.gates.append((kind, nets[:n_in], nets[n_in]))
-        self.state = {q: 0 for _, q in self.flops}
-
-    def settle(self, ext):
-        v = dict(ext); v.update(self.state); v["VDD"], v["VSS"] = 1, 0
-        for _ in range(len(self.gates) + 2):
-            for kind, ins, out in self.gates:
-                if all(i in v for i in ins):
-                    v[out] = _gate(kind, [v[i] for i in ins])
-        return v
-
-    def clock(self, ext):
-        v = self.settle(ext)
-        self.state = {q: v[d] for d, q in self.flops}
-
-
+# --- boolean model of acounter: the shared evaluator, fed this netlist's subckts ---------------------------------
 def _run_load(a_code, width, pre_state):
-    c = ACounter()
+    c = csm.Cell(csm.subckts(_read()), "acounter")
     # arbitrary pre-state for every flop except MC, then one load clock (TC = 1), then free-run (TC = 0)
     for k, q in enumerate(sorted(q for _, q in c.flops if q != "MC")):
         c.state[q] = (pre_state >> k) & 1
@@ -150,10 +101,10 @@ def _run_load(a_code, width, pre_state):
         ext["A%d" % i] = (a_code >> i) & 1
     load = dict(ext, TC=1, TCN=0)
     hold = dict(ext, TC=0, TCN=1)
-    c.clock(load)
+    c.latch(c.settle(load))
     mc_hist = [c.state["MC"]]
     for _ in range(2 ** width + 3):
-        c.clock(hold)
+        c.latch(c.settle(hold))
         mc_hist.append(c.state["MC"])
     return mc_hist, c
 
@@ -169,6 +120,5 @@ def test_acounter_mc_high_for_exactly_a_clocks():
 
 
 if __name__ == "__main__":
-    import sys
     import pytest
     sys.exit(pytest.main([__file__, "-q", "-p", "no:cacheprovider"]))

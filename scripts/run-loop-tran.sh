@@ -32,7 +32,7 @@ fi
 TSTOP="${TSTOP:-12u}"; TMAX="${TMAX:-200p}"; KVCO_SIGN="${KVCO_SIGN:-1}"
 case "${KVCO_SIGN}" in 1|-1) ;; *) die "KVCO_SIGN must be 1 or -1" ;; esac
 NDIV=100; F0=5.0e9; VC0=2.475; KV=480e6; FREF=50e6; VSTART=1.65; PHI0=0.25
-REC_DIR="${RECORD_DIR:-${ROOT}/sim/loop-tran/records}"; mkdir -p "${REC_DIR}"
+rec_dir loop-tran
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 
 sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@OSDI_R3@@|${OSDI_R3}|g" \
@@ -45,9 +45,8 @@ check_deck_placeholders "${WORK}/loop_tran.spice"
 write_spiceinit "${WORK}"
 
 record_stamp
-ID="$(date -u +%Y%m%d-%H%M%S)-${COMMIT}${DIRTY}"
 REC="${REC_DIR}/${ID}.md"
-[ ! -e "${REC}" ] || die "${REC} exists; records are append-only"
+assert_new_record "${REC}"
 
 T_START="$(date +%s)"
 set +e
@@ -75,7 +74,7 @@ CPSHA="$(sha256sum "${CP_NETLIST}" | cut -d' ' -f1)"; LFSHA="$(sha256sum "${LF_N
   echo
   echo "- **Scope**: typical corner (\`mos_tt\`, \`cap_typ\`, \`res_typ\`), 27 C, 3.3 V, I_cp = 200 uA (IREF 20 uA), f_ref = 50 MHz, N = ${NDIV}. One run. No corner grid, no Monte Carlo, no noise. Rows 9 and 10 are **not graded**: they are graded over the C-grid with the real VCO, prescaler and counters in the loop. Numbers are **simulated, not measured**."
   echo "- **REAL in the loop**: the pinned sg13g2-pll PFD (\`.fetched/sg13g2-pll/design/netlist/pfd.spice\` sha256 \`$(sha256sum "${PFD_NETLIST}" | cut -d' ' -f1)\`, \`reuse.lock.json\`), \`${CP_NETLIST#"${ROOT}/"}\` sha256 \`${CPSHA}\`, \`${LF_NETLIST#"${ROOT}/"}\` sha256 \`${LFSHA}\` (third-order filter from \`sim/loop-model/loop-filter.json\`)."
-  echo "- **STAND-IN, not the design**: the VCO, the CML prescaler and the M/A counters are replaced by ONE behavioural block: a phase accumulator (B-source into a 1 F capacitor, V = cycles of the FB clock) integrating f_out(Vctrl)/N, with f_out(Vctrl) = 5.0 GHz + K_VCO (Vctrl - ${VC0} V), K_VCO = $([ "${KVCO_SIGN}" = 1 ] && echo "+" || echo "-")480 MHz/V (the spec section 3 geometric mid), and FB = 1.65 + 1.65 tanh(25 sin(2 pi phase)) V. The line, its centre (the window centre, so 5.0 GHz at ${VC0} V) and its positive sign are **assumptions**: the VCO's graded f(Vctrl) curve is gate G4 and does not exist, and the pinned VCO did not oscillate in the only smoke record. Prescaler delay, counter delay, VCO swing and loading are therefore **not** in these numbers (the prescaler load on the tank is gate G2)."
+  echo "- **STAND-IN, not the design**: the VCO, the CML prescaler and the M/A counters are replaced by ONE behavioural block: a phase accumulator (B-source into a 1 F capacitor, V = cycles of the FB clock) integrating f_out(Vctrl)/N, with f_out(Vctrl) = 5.0 GHz + K_VCO (Vctrl - ${VC0} V), K_VCO = $([ "${KVCO_SIGN}" = 1 ] && echo "+" || echo "-")480 MHz/V (the spec section 3 geometric mid), and FB = 1.65 + 1.65 tanh(25 sin(2 pi phase)) V. The line, its centre (the window centre, so 5.0 GHz at ${VC0} V) and its positive sign are **assumptions**: the VCO's graded f(Vctrl) curve is gate G4 and does not exist. Prescaler delay, counter delay, VCO swing and loading are therefore **not** in these numbers (the prescaler load on the tank is gate G2)."
   echo "- **Deck**: \`sim/loop-tran/loop_tran.spice.tmpl\` sha256 \`$(sha256sum "${ROOT}/sim/loop-tran/loop_tran.spice.tmpl" | cut -d' ' -f1)\`, placeholder substitution only. Initial state: Vctrl, the CP output and the R1-C1 node at ${VSTART} V (the window edge farthest from the 5.0 GHz point at ${VC0} V is equally 1.65 V or 3.30 V; the CP cannot reach 3.30 V, so 1.65 V is used); initial FB phase ${PHI0} cycle; REF starts at t = 0 (PFD enabled at t = 0)."
   echo "- **PDK**: IHP-Open-PDK $(jq -r .pdk.release_tag "${PINS}") (model libraries hash-checked against \`sim/pins.json\`); PSP103 OSDI \`psp103.osdi\` sha256 \`$(jq -r .psp103.osdi_sha256 "${PINS}")\` and r3_cmc OSDI (loop-filter rppd) sha256 \`$(jq -r .r3_cmc.osdi_sha256 "${PINS}")\` (both pinned)"
   echo "- **Simulator**: \`${NG_VER}\` (\`${NGSPICE}\`), one local \`ngspice -b\`, exit status ${NG_RC}, wall ${WALL} s, OMP_NUM_THREADS ${OMP_NUM_THREADS}; \`tran 100p ${TSTOP} 0 ${TMAX}\`, reltol 1e-3; scratch \`.spiceinit\` = \`set ngbehavior=hsa\`"

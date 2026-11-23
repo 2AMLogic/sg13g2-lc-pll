@@ -4,8 +4,8 @@
   gen_corner_requests.py            write the request files
   gen_corner_requests.py --check    exit 1 if the committed files differ
 
-Process SLOW / TYP / FAST = (hbt_wcs, mos_ss, cap_wcs) / (hbt_typ, mos_tt, cap_typ) / (hbt_bcs, mos_ff, cap_bcs),
--40 / 27 / 125 C, 3.3 V. corners.params arrays are zipped by index, one entry per case.
+Process SLOW / TYP / FAST and the temperature axis come from sim/corner_set.py (the spec C-grid,
+DR-004 bundles); 3.3 V. corners.params arrays are zipped by index, one entry per case.
  Bench start (issue #166): VDD, IREF and the input common mode ramp from 0 over tr = 3 ns (divider_corner.cir); the stop times carry 10 ns more.
  speed: 160 ns at the prescaler output rates, N = 100 at 625 and 687.5 MHz, A = 0 (N = 96) and A = 7 (N = 103) at 687.5 MHz.
  count: 650 ns at 100 MHz, N = 100 (A = 4) and N = 90 (M = 11, A = 2).
@@ -18,10 +18,13 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-L = "libs.tech/ngspice/models/"
-PROC = [("SLOW", "hbt_wcs", "mos_ss", "cap_wcs"), ("TYP", "hbt_typ", "mos_tt", "cap_typ"), ("FAST", "hbt_bcs", "mos_ff", "cap_bcs")]
-# PDK resistor loading (issue #164): cornerRES.lib section per process name, r3_cmc OSDI, ngbehavior=hsa as sim/prescaler-div89.
-RES = {"SLOW": "res_wcs", "TYP": "res_typ", "FAST": "res_bcs"}
+sys.path.insert(0, str(HERE.parent))
+import corner_set  # noqa: E402  (the spec C-grid, defined once in sim/corner_set.py)
+
+# The real chain is HBT CML plus HV MOS logic with MIM caps; PDK resistor loading
+# (issue #164) adds cornerRES.lib per process name, the r3_cmc OSDI and
+# ngbehavior=hsa as sim/prescaler-div89.
+FAMILIES = ("hbt", "mos", "mim", "res")
 OSDI = "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/"
 V = 3.3
 # case: (fin, M, A, expected N)
@@ -46,10 +49,9 @@ def request(stop, cases, timeout_s):
         "models": {"pdk": "sg13g2"},
         "analysis": {"kind": "tran", "args": f"20p {stop} 0 20p"},
         "corners": {
-            "process": [{"name": n, "sections": [{"lib": L + "cornerHBT.lib", "section": h}, {"lib": L + "cornerMOShv.lib", "section": m},
-                                                  {"lib": L + "cornerCAP.lib", "section": c},
-                                                  {"lib": L + "cornerRES.lib", "section": RES[n]}]} for n, h, m, c in PROC],
-            "temperature_c": [-40, 27, 125],
+            "process": [{"name": b, "sections": corner_set.bundle_sections(b, FAMILIES)}
+                        for b in corner_set.BUNDLES],
+            "temperature_c": list(corner_set.TEMPS),
             "params": params(cases),
         },
         "options": {"osdi_preload": [OSDI + "psp103.osdi", OSDI + "r3_cmc.osdi"], "stage_model_inputs": True, "timeout_s": timeout_s,
