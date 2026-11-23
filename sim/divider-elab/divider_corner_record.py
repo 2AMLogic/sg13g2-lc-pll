@@ -6,7 +6,7 @@ window, MC-high clocks are those where MC was high 0.3 ns before the edge (state
 N = 8 x clocks + MC-high (prescaler P = 8/9). The run passes if every window after the first gives the expected N = 8 M + A
 (M, A decoded from the tie voltages in the run's params). A run that did not converge, whose crossing lists were truncated,
 or that has fewer than 4 FB edges is never a pass: verdict FAIL if any converged run gives a wrong N, else INCOMPLETE
-if any is not graded, else PASS.
+if any is not graded or the report has no corners, else PASS. The same rule combines the part verdicts into the headline.
 
     divider_corner_record.py --report R.json [--report R2.json ...] --out-dir DIR --id ID --commit SHA
 """
@@ -74,17 +74,25 @@ def grade_run(c):
     return row
 
 
+def _verdict(states):
+    """One verdict rule for both levels: FAIL dominates, INCOMPLETE for an empty collection or
+    any ungraded row / incomplete part, PASS only for a nonempty collection of passes."""
+    if any(s == "FAIL" for s in states):
+        return "FAIL"
+    if not states or any(s in ("INCOMPLETE", "not-graded") for s in states):
+        return "INCOMPLETE"
+    return "PASS"
+
+
 def grade(report):
     rows = [grade_run(c) for c in report["corners"]]
-    bad = sum(1 for r in rows if r["status"] == "FAIL")
-    ng = sum(1 for r in rows if r["status"] == "not-graded")
-    return {"rows": rows, "verdict": "FAIL" if bad else ("INCOMPLETE" if ng else "PASS"), "n_fail": bad, "n_not_graded": ng}
+    return {"rows": rows, "verdict": _verdict([r["status"] for r in rows])}
 
 
 def render(parts, rec_id, commit):
     out = [f"# divider corner check {rec_id}", ""]
     allrows = [r for _, g, _, _ in parts for r in g["rows"]]
-    verdict = "FAIL" if any(g["verdict"] == "FAIL" for _, g, _, _ in parts) else ("INCOMPLETE" if any(g["verdict"] == "INCOMPLETE" for _, g, _, _ in parts) else "PASS")
+    verdict = _verdict([g["verdict"] for _, g, _, _ in parts])
     out += [f"**Result (simulated, not measured): **{verdict}**: {sum(r['status']=='pass' for r in allrows)} of {len(allrows)} runs divide to the expected N; "
             f"{sum(r['status']=='FAIL' for r in allrows)} wrong, {sum(r['status']=='not-graded' for r in allrows)} not graded.**", ""]
     out += ["- **Scope**: the real divider chain (`cml2cmos` + counters, 3-bit `acounter`, `design/netlist/divider.spice`) at SLOW (hbt_wcs, mos_ss, cap_wcs), TYP (hbt_typ, mos_tt, cap_typ) and FAST (hbt_bcs, mos_ff, cap_bcs) x -40 / 27 / 125 C, 3.3 V. TYP/27C is the nominal point. Not covered: supply other than 3.3 V, the real prescaler driving the converter (ideal 0.4 Vpp sine at 3.18 V common mode instead), layout, noise, Monte Carlo, N codes other than those listed.",

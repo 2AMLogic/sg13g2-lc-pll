@@ -8,8 +8,10 @@ chain report (div89_chain.request.json): per corner, MC static. Pass iff the dif
 async reports (div89_async_*.request.json): MC is one 8 ns pulse at phase phi. Pass iff every period is 8 or 9
   input periods (within TOL_TIN), the 8/9 sequence changes at most twice (8..8 9..9 8..8, starting and ending
   on 8), the number of 9-periods is plausible for the 8 ns window, and the swing rule above holds.
-A corner that errored, or gave no crossings, is never a pass: the verdict is FAIL if any corner fails, else
-INCOMPLETE if any did not run, else PASS.
+A corner that errored, or gave no crossings, is never a pass. One verdict rule at every level (each supplied
+report, the combined async set, the headline): a failure takes precedence, an empty report or an ungraded run
+is INCOMPLETE, and only a nonempty set of passes is PASS. Each supplied report is graded before the reports
+are combined, so an async voltage that returned no corners cannot pass unnoticed.
 
     div89_record.py --chain R.json --async R1.json R2.json --out-dir records --commit SHA
 """
@@ -104,16 +106,27 @@ def power_rows(chain_report):
     return sorted(out)
 
 
-def verdict(rows):
-    if any(r["ran"] and not r["ok"] for r in rows):
+def _verdict(states):
+    """One verdict rule at every level of this recorder (a supplied report, the combined async set,
+    the headline): a failure takes precedence, an empty collection or any INCOMPLETE member is
+    INCOMPLETE, and only a nonempty collection of passes is PASS."""
+    if "FAIL" in states:
         return "FAIL"
-    return "INCOMPLETE" if any(not r["ran"] for r in rows) else "PASS"
+    if not states or "INCOMPLETE" in states:
+        return "INCOMPLETE"
+    return "PASS"
+
+
+def verdict(rows):
+    return _verdict(["FAIL" if r["ran"] and not r["ok"] else ("PASS" if r["ran"] else "INCOMPLETE") for r in rows])
 
 
 def grade(chain_report, async_reports):
     ch = [grade_chain_corner(c) for c in chain_report["corners"]]
-    asy = [grade_async_corner(c) for r in async_reports for c in r["corners"]]
-    return {"chain": ch, "async": asy, "chain_verdict": verdict(ch), "async_verdict": verdict(asy)}
+    per = [[grade_async_corner(c) for c in r["corners"]] for r in async_reports]
+    asy_verdicts = [verdict(rows) for rows in per]
+    return {"chain": ch, "async": [r for rows in per for r in rows], "async_report_counts": [len(rows) for rows in per],
+            "chain_verdict": verdict(ch), "async_report_verdicts": asy_verdicts, "async_verdict": _verdict(asy_verdicts)}
 
 
 def _sha(path):
@@ -124,10 +137,11 @@ def render(g, reports, rec_id, commit, files, netlist):
     ch, asy = g["chain"], g["async"]
     nfail = sum(1 for r in ch + asy if r["ran"] and not r["ok"])
     nrun = sum(1 for r in ch + asy if not r["ran"])
-    overall = "FAIL" if "FAIL" in (g["chain_verdict"], g["async_verdict"]) else ("INCOMPLETE" if "INCOMPLETE" in (g["chain_verdict"], g["async_verdict"]) else "PASS")
+    overall = _verdict([g["chain_verdict"], g["async_verdict"]])
+    by_report = " + ".join(str(c) for c in g["async_report_counts"])
     out = ["# prescaler-div89 run %s" % rec_id, ""]
-    out += ["**Result (simulated, not measured): /8 and /9 at 5.0 and 5.5 GHz over %d chain corners (SLOW/TYP/FAST x -40/27/125 C x 2.970/3.300/3.630 V): %s (%d of %d pass); modulus toggled at 16 phases of the output period over %d async corners (5.5 GHz, 2.970 and 3.630 V): %s (%d of %d pass). %d unit(s) failed, %d did not run and are not counted as passes. Overall: %s.**" % (
-        len(ch), g["chain_verdict"], sum(r["ok"] for r in ch), len(ch), len(asy), g["async_verdict"], sum(r["ok"] for r in asy), len(asy), nfail, nrun, overall), ""]
+    out += ["**Result (simulated, not measured): /8 and /9 at 5.0 and 5.5 GHz over %d chain corners (SLOW/TYP/FAST x -40/27/125 C x 2.970/3.300/3.630 V): %s (%d of %d pass); modulus toggle requested at 16 phases of the output period (5.5 GHz, 2.970 and 3.630 V), %d async corner(s) observed across %d supplied report(s) (%s by report): %s (%d of %d pass). %d unit(s) failed, %d did not run and are not counted as passes. Overall: %s.**" % (
+        len(ch), g["chain_verdict"], sum(r["ok"] for r in ch), len(ch), len(asy), len(g["async_report_counts"]), by_report, g["async_verdict"], sum(r["ok"] for r in asy), len(asy), nfail, nrun, overall), ""]
     rem = reports[0]["environment"].get("remote", {})
     engines = [r["environment"].get("engine_version") for r in reports]
     out += [
@@ -139,7 +153,7 @@ def render(g, reports, rec_id, commit, files, netlist):
             ngpin.engine(engines), reports[0]["environment"].get("engine_host"), rem.get("instance_type"),
             ngpin.verdict(engines, source="the reports"),
             ", ".join("`%s`" % r["environment"].get("remote", {}).get("job_id") for r in reports)),
-        "- **Requests / reports**: " + "; ".join("`%s` sha256 `%s`, report [`%s`](%s) sha256 `%s`" % (f["request_name"], f["request_sha"], f["report_name"], f["report_name"], f["report_sha"]) for f in files),
+        "- **Requests / reports**: " + "; ".join("`%s` sha256 `%s`, report [`%s`](%s) sha256 `%s`, verdict %s" % (f["request_name"], f["request_sha"], f["report_name"], f["report_name"], f["report_sha"], v) for f, v in zip(files, [g["chain_verdict"]] + g["async_report_verdicts"])),
         "- **PDK**: `models.pdk` sg13g2 on the fleet image; `cornerHBT.lib` staged from this host's IHP-Open-PDK v0.3.0 install (`environment.staged_model_inputs`). SLOW = hbt_wcs + res_wcs, TYP = hbt_typ + res_typ, FAST = hbt_bcs + res_bcs.",
         "- **Commit**: `%s` of this repository" % commit,
         "- **Jitter / phase-noise numbers**: none (functional division only).",

@@ -15,7 +15,7 @@
         "check": "stream_readable",
         "role": "layout",
         "passed": true,
-        "content_hash": "sha256:c3397c1daf3a277fd9576c7844695b10e0e2b95eb79c71dc5f8610ff2e6f1aac"
+        "content_hash": "sha256:c897060cf0ca5b10bbcce8d976563a13d6c20f251b102bfcc8268eace0144e7d"
       },
       {
         "check": "top_cell_non_empty",
@@ -34,7 +34,7 @@
     ]
   },
   "provenance": {
-    "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
+    "klt_version": "0.9.3.dev3808+g1ad4a837f657",
     "klayout_version": "0.30.12",
     "pdk": null,
     "deck": null,
@@ -43,11 +43,11 @@
         "path": "layout/top.gds",
         "scope": "repo"
       },
-      "content_hash": "sha256:c3397c1daf3a277fd9576c7844695b10e0e2b95eb79c71dc5f8610ff2e6f1aac"
+      "content_hash": "sha256:c897060cf0ca5b10bbcce8d976563a13d6c20f251b102bfcc8268eace0144e7d"
     }
   },
   "manifest_entry": {
     "file": null,
-    "content_hash": "sha256:c3397c1daf3a277fd9576c7844695b10e0e2b95eb79c71dc5f8610ff2e6f1aac"
+    "content_hash": "sha256:c897060cf0ca5b10bbcce8d976563a13d6c20f251b102bfcc8268eace0144e7d"
   }
 }

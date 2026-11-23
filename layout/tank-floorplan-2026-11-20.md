@@ -44,14 +44,17 @@ differential drive sees (Y_diff = jw(C1+C2)/2); the device-level input capacitan
 
 | Candidate | Placement (M0, x, y) | VOP um / fF | VON um / fF | Diff route fF | +1.837 fF | keep-out | collisions |
 |---|---|---|---|---|---|---|---|
-| committed (pre-#345) | (281.0, -185.0) | 850.105 / 73.16 | 611.845 / 52.66 | 62.91 | 64.75 | 3 (VCTRL) | 13 |
-| A: pair centred between the pins | (-291.2, -132.5) | 225.405 / 19.40 | 217.405 / 18.71 | 19.06 | 20.90 | 3 (VCTRL) | 13 |
-| B: pair under OUTP | (-406.33, -132.5) | 110.275 / 9.49 | 332.535 / 28.63 | 19.06 | 20.90 | 3 (VCTRL) | 13 |
-| C: pair split, one device per pin, first try | (-123.87, -132.5) | 110.275 / 9.49 | 102.275 / 8.80 | 9.15 | 10.99 | 3 (VCTRL) | 13 |
-| **C adopted: as above, y moved to -133.0** | **(-123.87, -133.0)** | **110.775 / 9.53** | **102.775 / 8.85** | **9.19** | **11.03** | **3 (VCTRL)** | **13** |
+| committed (pre-#345, `main` `334c3b1`) | (281.0, -185.0) | 850.105 / 73.16 | 611.845 / 52.66 | 62.91 | 64.75 | 3 (VCTRL) | 8 |
+| A: pair centred between the pins | (-291.2, -132.5) | 225.405 / 19.40 | 217.405 / 18.71 | 19.06 | 20.90 | 3 (VCTRL) | 8 |
+| B: pair under OUTP | (-406.33, -132.5) | 110.275 / 9.49 | 332.535 / 28.62 | 19.06 | 20.90 | 3 (VCTRL) | 8 |
+| C: pair split, one device per pin, first try | (-123.87, -132.5) | 110.275 / 9.49 | 102.275 / 8.80 | 9.15 | 10.99 | 3 (VCTRL) | 8 |
+| **C adopted: as above, y moved to -133.0** | **(-123.87, -133.0)** | **110.775 / 9.53** | **102.775 / 8.85** | **9.19** | **11.03** | **3 (VCTRL)** | **8** |
 
 Notes on the rows:
 
+- All five rows were re-measured against post-#344 `main` (`334c3b1`, baseline stream
+  `sha256:60ad1ed0…`): A and B with the pre-split prescaler cell (`origin/main:layout/cells/prescaler.py`),
+  C first try and C adopted with the split prescaler cell.
 - A and B have the same differential figure (19.06 fF): the pin pair is colinear with the
   prescaler edge, so Manhattan length is conserved between them - only the split (C) moves the
   differential figure the budget is graded in. A leaves the pair matched within 8 um; B loads
@@ -64,11 +67,12 @@ Notes on the rows:
   placement and is what is committed.
 - No candidate adds keep-out violations: every row reports exactly the 3 recorded VCTRL
   pin-access ones (Metal3/4/5 at the VCO's Metal3-only VCTRL pin), and `collisions_total` stays
-  13 (nets UP, DN, FB at pin stacks, unchanged by the move).
+  8 (FB 1, REF 2, VCP 2, VCTRL 2, VSS 1 — unchanged by the move, matching pre-#345 `main` after
+  #344's same-net exclusion; zero collisions on VOP/VON).
 
 ## What is committed
 
-`layout/top.gds` sha256 `0eb81d54a1ee84f8f2e5fceb2e2ca182e36a74c03ce0a28e70558e66f96de5f9`
+`layout/top.gds` sha256 `c897060cf0ca5b10bbcce8d976563a13d6c20f251b102bfcc8268eace0144e7d`
 (geometry digest and placements in `layout/provenance.json`): prescaler at M0 (-123.87, -133.0),
 input pair split under the pins, VOP 110.775 um / VON 102.775 um of straight TopMetal1.
 
@@ -78,8 +82,8 @@ Two generator changes came with the move, both DRC-driven:
   old placement (top edge y = -185) was clear of it. Native `M1Fil.c`/`M2Fil.c` (filler space
   to metal 0.42 um) fired on 111 filler squares under the cell, so `gen_integrated.py`'s filler
   removal now clears squares near *any* placed geometry on the matching metal layer, not only
-  near routes (542 squares removed; the VCO and ring still remove none - the band starts 5 um
-  outside the ring, beyond the 2 um removal sizing).
+  near routes (583 squares removed with #344 supply routes included; the VCO and ring still
+  remove none - the band starts 5 um outside the ring, beyond the 2 um removal sizing).
 - Filler marker squares (x/22 datatypes) remain under the cell where real metal keeps 2 um
   clearance; density sign-off is still #36.
 
@@ -133,5 +137,6 @@ klt keepout-check layout/build/top.gds --forbidden /tmp/f.json --margin 20 --cel
 
 Candidates A and B were measured against the pre-split cell (the pair intact, 9.74 um apart);
 re-running them today routes them to the split cell's INP/INN unless `layout/cells/prescaler.py`
-is reverted to the unsplit build first. Run 2026-11-20, klt 0.9.3.dev2575+g6bd18bbc8637,
-klayout 0.30.12, PDK ihp-sg13g2 fetched:0.3.0.
+is reverted to the unsplit build first. Re-run 2026-11-23 against post-#344 `main` (`334c3b1`),
+klt 0.9.3.dev3808+g1ad4a837f657, klayout 0.30.12 (both Python module and standalone binary),
+PDK ihp-sg13g2 fetched:0.3.0.

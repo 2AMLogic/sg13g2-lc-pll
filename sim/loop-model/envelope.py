@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """Spec row 5 envelope: f_c and PM over the measured I_cp spread and the Kvco range (method L).
 
-I_cp comes from the `klt sim` run of sim/cp-dc (the 18 supply sub-corners, I_up and I_dn taken as
-separate I_cp values), Kvco from loop_model.KVCO_GRID (381-606 MHz/V, spec section 3), the loop
-filter is the committed nominal one. Pure-Python model run (no ngspice): row 5 is a method-L row.
+I_cp comes from the `klt sim` run of sim/cp-dc (the supply sub-corners of the cp_icp_corners
+request, I_up and I_dn taken as separate I_cp values), Kvco from loop_model.KVCO_GRID
+(381-606 MHz/V, spec section 3), the loop filter is the committed nominal one. Pure-Python model
+run (no ngspice): row 5 is a method-L row.
 
     envelope.py --icp-report sim/cp-dc/records/<id>-icp-corners-klt-report.json.gz \\
                 --out-dir sim/loop-model/records --id YYYYMMDD-HHMMSS-sha [--commit SHA]
 
-Exit 1 if any point violates row 5 (f_c outside [0.5, 2.0] MHz or PM < 45 deg). The filter is NOT
+Exit 1 if any point violates row 5 (f_c outside [0.5, 2.0] MHz or PM < 45 deg), or, before any
+output is written, if the I_cp report does not cover the cp_icp_corners request grid exactly
+once (the shared reader, sim/cp-dc/icp_report.py). The filter is NOT
 varied with the corner here (R1, C1, C2, R3, C3 nominal): the record says so. The JSON record is the
 `klt signoff` `model-run` envelope (schema_version 1) around the original verdict/points/binding/
 loop_filter content.
@@ -22,16 +25,20 @@ from pathlib import Path
 
 import loop_model as lm
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "cp-dc"))
+import icp_report  # noqa: E402  (the shared I_cp report reader, sim/cp-dc/icp_report.py)
+
 
 def load_icp_points(report):
-    """[(corner_id, which, I_cp amps)] from a klt report of cp_icp_corners.request.json."""
+    """[(corner_id, which, I_cp amps)] from a klt report of cp_icp_corners.request.json.
+
+    The corner-grid coverage check lives in the shared reader; only the uA-to-A
+    conversion lives here.
+    """
     pts = []
-    for c in report["corners"]:
-        m = {x["name"]: x.get("value") for x in c["measurements"]}
-        if c["status"] not in ("pass", "fail") or m.get("i_up_ua") is None or m.get("i_dn_ua") is None:
-            raise ValueError("corner %s has no I_up/I_dn" % c["corner_id"])
-        pts.append((c["corner_id"], "I_up", abs(m["i_up_ua"]) * 1e-6))
-        pts.append((c["corner_id"], "I_dn", abs(m["i_dn_ua"]) * 1e-6))
+    for cid, u, d in icp_report.currents(report, icp_report.load_request()):
+        pts.append((cid, "I_up", u * 1e-6))
+        pts.append((cid, "I_dn", d * 1e-6))
     return pts
 
 
@@ -147,12 +154,13 @@ def main(argv=None):
     doc = model_run_doc(verdict, flt, b, rows, p.name, hashlib.sha256(raw).hexdigest(), icp_path)
     js.write_text(json.dumps(doc, indent=1) + "\n")
     icps = [x[2] * 1e6 for x in pts]
+    n_corners = sum(1 for _, w, _ in pts if w == "I_up")
     L = ["# row 5 envelope %s" % a.id, "",
          "**Result (simulated, method L, not measured): spec row 5 %s over %d points (%d I_cp values x %d Kvco). f_c %.3f to %.3f MHz against [0.5, 2.0]; PM minimum %.2f deg against >= 45.**" % (
              verdict, len(rows), len(pts), len(lm.KVCO_GRID), b["f_c_min"]["f_c_hz"] / 1e6, b["f_c_max"]["f_c_hz"] / 1e6, b["pm_min"]["pm_deg"]), "",
          "- **Method**: L, the linear phase-domain model of spec section 4 (`sim/loop-model/loop_model.py`: `L(s) = I_cp Kvco Z(s) / (N s)`, type-II third order; f_c by bisection on |L| = 1, PM from the factor phases). No jitter, spur or noise number is produced here, so there are no section 4 estimator fields to state. N = %d, f_ref = 50 MHz." % lm.N_DIV,
-         "- **Inputs**: I_cp = the %d currents (I_up and I_dn at each of the 18 supply sub-corners, %.2f to %.2f uA) of `%s` (sha256 of the file `%s`); Kvco = KVCO_GRID %s MHz/V (spec section 3 range 381-606). Loop filter = committed `loop-filter.json`: R1 %.1f ohm, C1 %.2f pF, C2 %.2f pF, R3 %.1f ohm, C3 %.2f pF, **held nominal in every corner**." % (
-             len(pts), min(icps), max(icps), p.name, hashlib.sha256(raw).hexdigest(), [int(k / 1e6) for k in lm.KVCO_GRID],
+         "- **Inputs**: I_cp = the %d currents (I_up and I_dn at each of the %d supply sub-corners, %.2f to %.2f uA) of `%s` (sha256 of the file `%s`); Kvco = KVCO_GRID %s MHz/V (spec section 3 range 381-606). Loop filter = committed `loop-filter.json`: R1 %.1f ohm, C1 %.2f pF, C2 %.2f pF, R3 %.1f ohm, C3 %.2f pF, **held nominal in every corner**." % (
+             len(pts), n_corners, min(icps), max(icps), p.name, hashlib.sha256(raw).hexdigest(), [int(k / 1e6) for k in lm.KVCO_GRID],
              flt["r1_ohm"], flt["c1_f"] * 1e12, flt["c2_f"] * 1e12, flt["r3_ohm"], flt["c3_f"] * 1e12),
          "- **Not covered**: filter R/C spread across the corner grid (poly R1/R3 and MIM C1/C2/C3 are not varied here), the 135-point 3.300 V model grid, the local Kvco from the VCO's graded f(Vctrl) (G4: the Kvco axis is the section 3 range, not graded VCO data), the I_cp range 100-400 uA of row 6 (the committed `results/loop-model.json` flags those points and does not gate them), and everything the loop model does not model (sampling, CP nonlinearity, supply and substrate coupling). The full corner-by-corner row 5 grade over the VCO's graded corners is #70.",
          "- **Commit**: `%s` of this repository" % a.commit,

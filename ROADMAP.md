@@ -78,9 +78,10 @@ Unblocked, one PR each, none needs the PDK. Item 1 is held at #277 (`loom:operat
    shape. This item is the second only — the re-emission is pure Python, no PDK and no simulator.
    Done when the record exists in the `model-run` shape with a limits-bearing measurement and a test
    covers it. The pin bump that lets the verdict cite it is in review (#304).
-5. **Route the supply nets in `gen_integrated.py`** (VDD, VDDV, VSS; `layout/README.md` lists them as not
-   routed). Done when the nets are routed, `scripts/test-layout-top.sh` passes and DRC is re-run and
-   still `clean`. Needs a PDK host and a re-stamp of items 2 and 3, so it wants a Curator pass to size it.
+5. **Route the supply nets in `gen_integrated.py`** (#344, in review): VDD/VDDV/VSS, the REF/IREFCP/LOCK
+   pins and the divider M/A tie-offs are routed from labelled landings (the first `klt erc` supply run is
+   committed with them, `layout/erc/`). Done when the PR is in review; item 2/3 re-stamps and the DRC
+   re-run are in the same PR. Needs a PDK host.
 
 ## Next
 
@@ -94,7 +95,7 @@ Unblocked, one PR each, none needs the PDK. Item 1 is held at #277 (`loom:operat
 - **VCO pin bump**: after Now 3, if the delta shows a usable change. Done when `reuse.lock.json` moves,
   `scripts/run-vco-smoke.sh` writes a new record, and the keep-out record in `layout/README.md` is re-run.
 - **LVS match** (#37): needs `klayout-tools#5406` (open) for a hierarchical subcircuit-call reference,
-  and Now 5 so the supplies exist in the layout.
+  and the supplies drawn in the layout (#344, in review).
 - **ERC supply spec** (#38) and **PEX delta** (#41): after #37.
 - **Rows 1, 9, 10 with the real VCO, prescaler and counters** (#86): after G4 upstream, G2 and #199.
 
