@@ -3,14 +3,15 @@
 
 Run: scripts/fetch-vco.sh && python3 -I sim/corner-verification/vco-prescaler-load/make_requests.py
 Reads the sha256-verified fetched VCO deck (.fetched/sg13g2-vco/design/vco.spice) and writes next to this file:
-  vco_unloaded.spice, vco_loaded.spice   circuit bodies (VCO netlist lines verbatim; only the supply and Vctrl
-                                         sources become parameters, the differential probe BD is added; loaded adds
-                                         the prescaler input X1 on OUTP/OUTN)
-  sg13g2_inductor_em.spice               copy of the fetched, sha256-pinned inductor model (netlist .include)
-  request-{loaded,unloaded}-stage{1,2}.json
-Stage 1 = 5 MOS x 3 MIM x 3 HBT x 3 T at 3.300 V (loaded: Vctrl 1.65 V only; unloaded: not requested, the nominal
-          unloaded point is in sim/vco-prescaler-load).
-Stage 0 = nominal point only (TYP, 27 C, 3.3 V, Vctrl in {0, 1.65, 3.3} V), loaded and unloaded.
+  vco_{unloaded,loaded}.spice,           circuit bodies (VCO netlist lines verbatim; only the supply and Vctrl
+  vco_{unloaded,loaded}_dsubw.spice      sources become parameters, the differential probe BD is added; loaded adds
+                                          the prescaler input X1 on OUTP/OUTN; _dsubw is the #173 varactor copy)
+  sg13g2_inductor_em.spice, svar_dsubw125.spice   inductor-model copy and the local varactor subckt (netlist .include)
+  request-{loaded,unloaded}-nominal.json, request-{loaded,unloaded}-stage{1,2}[-<shard>].json,
+  request-{loaded,unloaded}-stage2-125C.json, request-{loaded,unloaded}-stage{1,2}-dsubw-<shard>.json
+Stage 0 = nominal point only (TYP, 27 C, 3.3 V, Vctrl in {0, 1.65, 3.3} V), loaded and unloaded: the nominal G2
+          bench (sim/vco-prescaler-load/README.md).
+Stage 1 = 5 MOS x 3 MIM x 3 HBT x 3 T at 3.300 V (loaded: Vctrl 1.65 V only; no unloaded stage-1 grid).
 Stage 2 = SLOW/TYP/FAST x 3 T x {2.970, 3.630} V, Vctrl in {0, 1.65, 3.3} V, loaded and unloaded.
 """
 import hashlib
@@ -29,7 +30,8 @@ FETCHED = os.path.join(ROOT, ".fetched", "sg13g2-vco")
 OSDI = "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/"
 TSTOP = "20n"
 
-LOAD = """* The prescaler input on the tank (gate G1 load): same instance, bias and start-up .ic as sim/vco-prescaler-load.
+LOAD = """* The prescaler input on the tank (gate G1 load): instance, bias and start-up .ic as the retired local bench
+* (source at commit 7d07c94; nominal record sim/vco-prescaler-load/records/20261103-123139-ce1d60d.md).
 .include ../../../design/netlist/prescaler.spice
 IRF vdd iref dc 50u
 VMC mc 0 dc 0
