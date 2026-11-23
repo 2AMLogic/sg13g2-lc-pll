@@ -49,64 +49,8 @@ expect "attestation pin == provenance output.sha256" ok bash -c \
 # geometry mismatch that was not one. Three guards keep the case from passing vacuously: the round
 # trip must actually permute the enumeration order, the committed stream must itself digest to the
 # recorded value, and an inserted shape must still move the digest.
-cat >"${T}/rt_test.py" <<'RTEOF'
-"""digest() must survive a KLayout re-save of the committed stream (#263).
-
-  python rt_test.py <root> <committed.gds> <tmpdir> [--enumeration-order]
-
---enumeration-order re-runs the assertion against digest() as it was before #263 (per-layer
-records hashed in ly.layer_indexes() order). It must then refuse: that is the negative control
-for the ordering fix itself, so a future change that reinstates enumeration order is caught.
-
-scripts/layout_rt.py compares both streams and the recorded digest for this harness and
-scripts/test-layout-cells.sh (#379).
-"""
-import json
-import os
-import sys
-
-sys.path.insert(0, os.path.join(sys.argv[1], "layout"))
-sys.path.insert(0, os.path.join(sys.argv[1], "scripts"))
-import klayout.db as db
-import gen_integrated as gi
-import cells.common as cc
-import layout_rt as rt
-
-root, committed, t = sys.argv[1], sys.argv[2], sys.argv[3]
-enum_order = "--enumeration-order" in sys.argv[4:]
-
-
-def fail(msg):
-    sys.exit("round-trip: " + msg + "; refusing")
-
-
-fn = rt.enum_digest if enum_order else cc.digest
-
-want = json.load(open(os.path.join(root, "layout/provenance.json")))["output"]["geometry_sha256"]
-trip = rt.RoundTrip(committed, os.path.join(t, "rt.gds"), gi.TOP, want)
-result = trip.compare(fn)
-
-if not result.order_changed:
-    fail("the round trip did not permute the layer-index order, so this case cannot discriminate")
-# --enumeration-order must report the writer-dependent hash before a provenance mismatch.
-if not result.digest_survived:
-    fail(f"the round-tripped stream digests to {result.resaved_digest}, not the committed stream's {result.original_digest}")
-if not result.matches_record:
-    fail(f"the committed stream digests to {result.original_digest}, not the recorded {want}")
-
-# Negative control in the same run: a real geometry change must still move the digest, or the
-# assertions above would hold for a digest() that hashes nothing.
-edited = os.path.join(t, "rt_edited.gds")
-ly = rt.read(committed)
-ly.cell(gi.TOP).shapes(ly.layer(8, 0)).insert(db.Box(-320000, 100000, -315000, 105000))
-ly.write(edited)
-if rt.digest_of(edited, gi.TOP, fn) == want:
-    fail("an inserted shape did not move the digest, so it is not hashing the geometry")
-
-print("round-trip: digest " + want + " survives a KLayout re-save; an inserted shape moves it")
-RTEOF
 expect "geometry digest survives a KLayout round trip" ok \
-  "${PY}" "${T}/rt_test.py" "${ROOT}" "${G}" "${T}"
+  "${PY}" "${ROOT}/scripts/rt_test.py" "${ROOT}" "${G}" "${T}"
 
 # The churn this guards against is the GDS timestamp fields and nothing else, so the fixture for it
 # is a byte-level edit of the seconds in every BGNLIB/BGNSTR record -- same size, same geometry,
@@ -114,101 +58,13 @@ expect "geometry digest survives a KLayout round trip" ok \
 # rewrites the whole stream (record layout, cell order, layer-index order), so it isolates nothing.
 # What it no longer does is move the geometry digest -- since #263 digest() hashes layers in sorted
 # (layer, datatype) order, and the round-trip case above is what holds that property.
-cat >"${T}/gds_restamp.py" <<'STAMPEOF'
-"""Shift the seconds field of every GDS BGNLIB/BGNSTR timestamp: a byte churn with no geometry."""
-import sys
-
-src, dst = sys.argv[1], sys.argv[2]
-data = bytearray(open(src, "rb").read())
-i, n, hits = 0, len(data), 0
-while i + 4 <= n:
-    rlen = int.from_bytes(data[i:i + 2], "big")
-    if rlen < 4:
-        break
-    # record type 0x01 = BGNLIB, 0x05 = BGNSTR; data type 0x02 = INT2; 12 int2 = mod/access y m d h m s
-    if data[i + 3] == 0x02 and data[i + 2] in (0x01, 0x05) and rlen >= 28:
-        for off in (i + 14, i + 26):            # the two seconds fields
-            data[off:off + 2] = ((int.from_bytes(data[off:off + 2], "big") + 7) % 60).to_bytes(2, "big")
-        hits += 1
-    i += rlen
-if hits == 0:
-    sys.exit("gds-restamp: no BGNLIB/BGNSTR record found in " + src + "; refusing")
-open(dst, "wb").write(bytes(data))
-print("gds-restamp: re-stamped " + str(hits) + " records")
-STAMPEOF
-expect "timestamp-churn fixture builds" ok "${PY}" -I "${T}/gds_restamp.py" "${G}" "${T}/restamped.gds"
+expect "timestamp-churn fixture builds" ok "${PY}" -I "${ROOT}/scripts/gds_restamp.py" "${G}" "${T}/restamped.gds"
 
 # --write must keep the attested bytes when the geometry is unchanged and replace them when it is
 # not. Exercises layout/gen_integrated.py's publish_stream() on copies under ${T}; nothing in the
 # checkout is written. Both halves carry a guard that fails if the fixture cannot discriminate.
-cat >"${T}/pub_test.py" <<'PUBEOF'
-import hashlib
-import os
-import shutil
-import sys
-
-sys.path.insert(0, os.path.join(sys.argv[1], "layout"))
-import klayout.db as db
-import gen_integrated as gi
-import cells.common as cc
-
-committed, restamped, t = sys.argv[2], sys.argv[3], sys.argv[4]
-
-
-def sha(path):
-    return hashlib.sha256(open(path, "rb").read()).hexdigest()
-
-
-def dig(path):
-    ly = db.Layout()
-    ly.read(path)
-    return cc.digest(ly, ly.cell(gi.TOP))
-
-
-def fail(msg):
-    sys.exit("publish-stream: " + msg + "; refusing")
-
-
-# 1. timestamp churn only: the destination must keep its committed bytes
-dest = os.path.join(t, "pub_dest.gds")
-shutil.copyfile(committed, dest)
-if sha(restamped) == sha(committed):
-    fail("the re-stamped fixture is byte-identical, so this control cannot discriminate")
-if dig(restamped) != dig(committed):
-    fail("the re-stamped fixture moved the geometry digest, so it is not a timestamp-only churn")
-if gi.publish_stream(restamped, dest, dig(restamped)) is not False:
-    fail("replaced a stream whose geometry is unchanged")
-if sha(dest) != sha(committed):
-    fail("churned the bytes of a stream whose geometry is unchanged")
-
-# 2. a real geometry change must be published. Both fixtures are KLayout saves, so they differ by
-#    the inserted box alone; since #263 a save does not move the digest either way.
-plain = os.path.join(t, "pub_plain.gds")
-ly = db.Layout()
-ly.read(committed)
-ly.write(plain)
-edited = os.path.join(t, "pub_edited.gds")
-ly = db.Layout()
-ly.read(committed)
-ly.cell(gi.TOP).shapes(ly.layer(8, 0)).insert(db.Box(-320000, 100000, -315000, 105000))
-ly.write(edited)
-if dig(edited) == dig(plain):
-    fail("the inserted shape did not move the geometry digest, so this control cannot discriminate")
-shutil.copyfile(plain, dest)
-if gi.publish_stream(edited, dest, dig(edited)) is not True:
-    fail("kept a stale stream after the geometry changed")
-if dig(dest) != dig(edited):
-    fail("the published stream does not carry the new geometry")
-
-# 3. an absent destination is created
-missing = os.path.join(t, "pub_missing.gds")
-if gi.publish_stream(restamped, missing, dig(restamped)) is not True or not os.path.exists(missing):
-    fail("did not create an absent destination")
-
-print("publish-stream: timestamp churn kept the attested bytes, geometry change replaced them")
-PUBEOF
 expect "--write keeps attested bytes on churn, replaces them on a geometry change" ok \
-  "${PY}" -I "${T}/pub_test.py" "${ROOT}" "${G}" "${T}/restamped.gds" "${T}"
+  "${PY}" -I "${ROOT}/scripts/pub_test.py" "${ROOT}" "${G}" "${T}/restamped.gds" "${T}"
 
 # keep-out: the only intrusions are the VCTRL pin-access stack (3 shapes, Metal3/4/5), recorded in layout/README.md
 "${PY}" "${ROOT}/layout/gen_top.py" --out "${T}/b.gds" --forbidden-json "${T}/f.json" >/dev/null 2>&1
@@ -415,67 +271,13 @@ expect "NEG tampered stream: generator refuses" "refuse:${REFUSAL}" \
 # which a re-recorded provenance value would quietly re-satisfy.
 expect "NEG enumeration-order digest fails the round trip" \
   "refuse:round-trip: the round-tripped stream digests to [0-9a-f]{64}, not the committed stream's [0-9a-f]{64}; refusing" \
-  "${PY}" "${T}/rt_test.py" "${ROOT}" "${G}" "${T}" --enumeration-order
+  "${PY}" "${ROOT}/scripts/rt_test.py" "${ROOT}" "${G}" "${T}" --enumeration-order
 # Metal1 pad-trim guard (#245). Drives gen_integrated.trim_pad over synthetic Metal1 so the guard
 # is exercised in BOTH directions: it must stay quiet on a pad whose via survives the trim, and must
 # report a pad cut back past its own Via1. A check that cannot fail is not a check (same reasoning as
 # the refuse:<ERE> note above). Foreign Metal1 is placed NOT touching the pad, because metal that
 # touches it is the pad's own landing polygon and trim_pad excludes it by construction.
-cat >"${T}/trimguard.py" <<'TRIMEOF'
-import sys
-sys.path.insert(0, sys.argv[1] + "/layout")
-import klayout.db as db
-import gen_integrated as g
-
-dbu = 0.001
-PAD, VIA, SP = g.PAD_UM[0], g.VIA_UM[0], g.M1B_SP_UM
-pad = g.box(dbu, 0, 0, PAD, PAD)
-edge = PAD / 2
-
-
-def run(foreign_boxes, sp_um):
-    base = db.Region(pad)
-    for b in foreign_boxes:
-        base.insert(b)
-    base = base.merged()
-    keep, trimmed, unc = g.trim_pad(dbu, pad, base, round(sp_um / dbu))
-    return trimmed, not unc.is_empty()
-
-
-# a 1 um square whose near edge sits `gap` outside the pad, on the +x side
-def near(gap):
-    return g.box(dbu, edge + gap + 0.5, 0, 1.0, 1.0)
-
-
-# (name, foreign shapes, spacing um, expect_trimmed, expect_below_via)
-cases = [
-    ("no foreign metal",        [],                      SP,   False, False),
-    ("foreign clear of M1.b",   [near(SP + 0.02)],       SP,   False, False),
-    ("worst-case 1 nm gap",     [near(0.001)],           SP,   True,  False),
-    ("foreign both sides",      [near(0.001),
-                                 g.box(dbu, -(edge + 0.501), 0, 1.0, 1.0)], SP, True, False),
-    # The guard must arm if the pad/via/spacing relationship ever regresses. At the shipped constants
-    # the trim reaches edge-SP = %.3f um from centre, clear of the via's %.4f um half-width; widening
-    # the spacing past %.3f um takes it past the via and MUST be reported.
-    ("wider spacing cuts via",  [near(0.001)],           0.30, True,  True),
-    ("wider spacing, 2 sides",  [near(0.001),
-                                 g.box(dbu, -(edge + 0.501), 0, 1.0, 1.0)], 0.40, True, True),
-]
-
-print("  pad=%.2fum via=%.2fum M1.b=%.2fum -> trim reaches %.3fum from centre, via half-width %.4fum"
-      % (PAD, VIA, SP, edge - SP, VIA / 2))
-bad = 0
-for name, foreign, sp_um, want_trim, want_below in cases:
-    trimmed, below = run(foreign, sp_um)
-    if (trimmed, below) != (want_trim, want_below):
-        print("  FAIL %-24s sp=%.2f trimmed=%s below_via=%s, want %s/%s"
-              % (name, sp_um, trimmed, below, want_trim, want_below))
-        bad += 1
-    else:
-        print("  ok   %-24s sp=%.2f trimmed=%-5s below_via=%s" % (name, sp_um, trimmed, below))
-sys.exit(1 if bad else 0)
-TRIMEOF
-expect "pad-trim guard discriminates" ok "${PY}" -I "${T}/trimguard.py" "${ROOT}"
+expect "pad-trim guard discriminates" ok "${PY}" -I "${ROOT}/scripts/trimguard.py" "${ROOT}"
 
 # The committed layout must carry the trim record and have no pad cut below its via (#245).
 expect "committed layout records the pad trim" ok jq -e \
