@@ -133,15 +133,47 @@ def _sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def render(g, reports, rec_id, commit, files, netlist):
+def _section_of(block, prefix):
+    """The block's section name for the lib whose basename starts with `prefix`; None when it has none."""
+    for s in block.get("sections") or []:
+        if isinstance(s, dict) and s.get("section") and Path(str(s.get("lib", ""))).name.startswith(prefix):
+            return s["section"]
+    return None
+
+
+def _chain_grid(chain_request):
+    """(grid text, PDK mapping) from the chain request's corner grid, e.g.
+    ('SLOW/TYP/FAST x -40/27/125 C x 2.970/3.300/3.630 V', 'SLOW = hbt_wcs + res_wcs, ...').
+    Axes a request leaves empty are dropped; a block without a section maps to its name alone."""
+    grid = (chain_request or {}).get("corners") or {}
+    blocks = [b for b in grid.get("process") or [] if isinstance(b, dict) and "name" in b]
+    temps = list(grid.get("temperature_c") or [])
+    supplies = sorted(set((grid.get("params") or {}).get("vddv") or []))
+    axes = []
+    if blocks:
+        axes.append("/".join(b["name"] for b in blocks))
+    if temps:
+        axes.append("%s C" % "/".join("%g" % t for t in temps))
+    if supplies:
+        axes.append("%s V" % "/".join("%.3f" % s for s in supplies))
+    mapping = []
+    for b in blocks:
+        parts = [sec for sec in (_section_of(b, "cornerHBT"), _section_of(b, "cornerRES")) if sec]
+        mapping.append("%s = %s" % (b["name"], " + ".join(parts)) if parts else b["name"])
+    return " x ".join(axes), ", ".join(mapping)
+
+
+def render(g, reports, rec_id, commit, files, netlist, chain_request):
     ch, asy = g["chain"], g["async"]
+    grid_text, pdk_map = _chain_grid(chain_request)
+    grid_paren = " (%s)" % grid_text if grid_text else ""
     nfail = sum(1 for r in ch + asy if r["ran"] and not r["ok"])
     nrun = sum(1 for r in ch + asy if not r["ran"])
     overall = _verdict([g["chain_verdict"], g["async_verdict"]])
     by_report = " + ".join(str(c) for c in g["async_report_counts"])
     out = ["# prescaler-div89 run %s" % rec_id, ""]
-    out += ["**Result (simulated, not measured): /8 and /9 at 5.0 and 5.5 GHz over %d chain corners (SLOW/TYP/FAST x -40/27/125 C x 2.970/3.300/3.630 V): %s (%d of %d pass); modulus toggle requested at 16 phases of the output period (5.5 GHz, 2.970 and 3.630 V), %d async corner(s) observed across %d supplied report(s) (%s by report): %s (%d of %d pass). %d unit(s) failed, %d did not run and are not counted as passes. Overall: %s.**" % (
-        len(ch), g["chain_verdict"], sum(r["ok"] for r in ch), len(ch), len(asy), len(g["async_report_counts"]), by_report, g["async_verdict"], sum(r["ok"] for r in asy), len(asy), nfail, nrun, overall), ""]
+    out += ["**Result (simulated, not measured): /8 and /9 at 5.0 and 5.5 GHz over %d chain corners%s: %s (%d of %d pass); modulus toggle requested at 16 phases of the output period (5.5 GHz, 2.970 and 3.630 V), %d async corner(s) observed across %d supplied report(s) (%s by report): %s (%d of %d pass). %d unit(s) failed, %d did not run and are not counted as passes. Overall: %s.**" % (
+        len(ch), grid_paren, g["chain_verdict"], sum(r["ok"] for r in ch), len(ch), len(asy), len(g["async_report_counts"]), by_report, g["async_verdict"], sum(r["ok"] for r in asy), len(asy), nfail, nrun, overall), ""]
     rem = reports[0]["environment"].get("remote", {})
     engines = [r["environment"].get("engine_version") for r in reports]
     out += [
@@ -154,7 +186,7 @@ def render(g, reports, rec_id, commit, files, netlist):
             ngpin.verdict(engines, source="the reports"),
             ", ".join("`%s`" % r["environment"].get("remote", {}).get("job_id") for r in reports)),
         "- **Requests / reports**: " + "; ".join("`%s` sha256 `%s`, report [`%s`](%s) sha256 `%s`, verdict %s" % (f["request_name"], f["request_sha"], f["report_name"], f["report_name"], f["report_sha"], v) for f, v in zip(files, [g["chain_verdict"]] + g["async_report_verdicts"])),
-        "- **PDK**: `models.pdk` sg13g2 on the fleet image; `cornerHBT.lib` staged from this host's IHP-Open-PDK v0.3.0 install (`environment.staged_model_inputs`). SLOW = hbt_wcs + res_wcs, TYP = hbt_typ + res_typ, FAST = hbt_bcs + res_bcs.",
+        "- **PDK**: `models.pdk` sg13g2 on the fleet image; `cornerHBT.lib` staged from this host's IHP-Open-PDK v0.3.0 install (`environment.staged_model_inputs`).%s" % ((" " + pdk_map + ".") if pdk_map else ""),
         "- **Commit**: `%s` of this repository" % commit,
         "- **Jitter / phase-noise numbers**: none (functional division only).",
         "",
@@ -223,7 +255,8 @@ def main():
             shutil.copyfileobj(f, z)
         req = HERE / (Path(p).stem.replace("report-", "") + ".request.json")
         files.append({"request_name": req.name, "request_sha": _sha(req), "report_name": name, "report_sha": _sha(out / name)})
-    rec.write_text(render(g, reports, a.id, a.commit, files, _sha(HERE.parent.parent / "design/netlist/prescaler.spice")))
+    chain_request = json.loads((HERE / (Path(a.chain).stem.replace("report-", "") + ".request.json")).read_bytes())
+    rec.write_text(render(g, reports, a.id, a.commit, files, _sha(HERE.parent.parent / "design/netlist/prescaler.spice"), chain_request))
     print("record:", rec, g["chain_verdict"], g["async_verdict"])
 
 
