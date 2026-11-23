@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Generate the klt sim requests for the gate G2 C-grid (pinned VCO, with / without the prescaler on the tank).
 
+Requires local IHP-Open-PDK v0.3.0 under `$PDK_ROOT/ihp-sg13g2/` (PDK_ROOT defaults to ~/share/pdk).
 Run: scripts/fetch-vco.sh && python3 -I sim/corner-verification/vco-prescaler-load/make_requests.py
 Reads the sha256-verified fetched VCO deck (.fetched/sg13g2-vco/design/vco.spice) and writes next to this file:
   vco_{unloaded,loaded}.spice,           circuit bodies (VCO netlist lines verbatim; only the supply and Vctrl

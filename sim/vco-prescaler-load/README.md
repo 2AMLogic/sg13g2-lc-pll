@@ -7,11 +7,15 @@ dated and append-only. **Simulated, not measured.**
 
 ## Producing the nominal point
 
-Stage 0 of the corner-grid generator writes the two requests (fetch and generate, as for the C-grid):
+Install IHP-Open-PDK v0.3.0 locally before running the generator. It looks for `ihp-sg13g2/` under
+`~/share/pdk` by default. For another location, set `PDK_ROOT` to the directory containing `ihp-sg13g2/`.
+The generator writes all stages in one run and reads the pinned varactor model to build the 125 °C approximation.
 
 ```bash
 scripts/fetch-vco.sh && python3 -I sim/corner-verification/vco-prescaler-load/make_requests.py
 ```
+
+Stage 0 writes these two requests.
 
 - `sim/corner-verification/vco-prescaler-load/request-loaded-nominal.json`
 - `sim/corner-verification/vco-prescaler-load/request-unloaded-nominal.json`
