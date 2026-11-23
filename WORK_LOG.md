@@ -2,6 +2,15 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-11-23
+
+- **PR #398**: fix: derive the loop-model and prescaler record corner counts from the request
+- **Issue #397** (closed): Two more record writers hard-code the 18-corner count: sim/loop-model/envelope.py and sim/prescaler-g1/vce_record.py
+- **PR #396**: fix: derive the cp-dc record's corner count and grid text from the request
+- **Issue #395** (closed): cp-dc record writer hard-codes the corner count: "18 of 18 corners converged" is printed whatever cp_icp_corners.request.json contains
+- **PR #394**: fix: drop the cp-dc record writer's --request override
+- **Issue #392** (closed): Remove the charge-pump record writer’s alternate request option to prevent false 18-corner summaries
+
 ### 2026-11-22
 
 - **PR #390**: fix: score an unset BASE_CLEAR as a failed out-of-tree control
