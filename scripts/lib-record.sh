@@ -15,10 +15,6 @@
 #   run-vco-smoke.sh     does not call record_stamp or rec_dir, so it sets its own ID and REC_DIR: no repo
 #                        stamp, its record ID is the pinned VCO commit from reuse.lock.json, not HEAD, and it
 #                        deliberately ignores RECORD_DIR.
-#   run-vco-prescaler-load.sh  does not call record_stamp or rec_dir either, so it sets its own ID and REC_DIR:
-#                        it keeps its own `git diff --quiet HEAD -- .` whole-tree stamp (stricter than the
-#                        default, and it does not exclude records), not moved here to leave its IDs unchanged,
-#                        and it deliberately ignores RECORD_DIR.
 
 RECORD_STAMP_PATHS=(design sim scripts reuse.lock.json)
 
