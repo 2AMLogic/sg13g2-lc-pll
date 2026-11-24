@@ -1,6 +1,6 @@
 # layout/lvs: T1 item 4 (LVS) attempt
 
-**Status: item 4 stays `unmet`. No `klt lvs` envelope reaches `status: match`; the current top-level envelope (`top.lvs.json`) is `mismatch` with 0 nets matched.**
+**Item 4 stays `unmet`. Both the earlier top-level report (`top.lvs.json`) and the latest subcircuit-call report (`top.subckt.lvs.json`) record `mismatch` with zero matched nets.**
 Latest top-level run: see "Re-run after klayout-tools#5406 (#37, 2026-11-24)" at the end; generic tool gap `2AMLogic/klayout-tools#7836`. Nothing here is a `match`.
 
 **DRC state changed after the runs below were written.** `layout/drc/top.drc.json` went
