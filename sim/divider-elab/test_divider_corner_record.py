@@ -134,3 +134,19 @@ def test_archived_speed_and_count_replay_preserves_tables_and_verdicts(tmp_path)
         assert _tables(new, part) == _tables(arch, part)
         assert _verdicts(new, part) == _verdicts(arch, part)
     assert new.splitlines()[2] == arch.splitlines()[2]   # headline: 43 of 54 runs, INCOMPLETE
+
+
+def test_second_part_collision_leaves_no_partial_write(tmp_path):
+    import pytest
+    ck = [i + 0.5 for i in range(60)]
+    rep = _write_report(tmp_path, [_run([0.0, 12.0, 24.0, 36.0], ck, [8.01, 20.01, 32.01], [12.0, 24.0, 36.0])], "r.json")
+    req = tmp_path / "q.request.json"
+    req.write_bytes(b"{}")
+    out = tmp_path / "out"
+    out.mkdir()
+    (out / "t-count-klt-report.json.gz").write_bytes(b"keep")
+    with pytest.raises(SystemExit) as e:
+        dr.main(["--part", "speed", str(rep), str(req), "--part", "count", str(rep), str(req),
+                 "--out-dir", str(out), "--id", "t"])
+    assert "t-count-klt-report.json.gz" in str(e.value)
+    assert sorted(p.name for p in out.iterdir()) == ["t-count-klt-report.json.gz"]

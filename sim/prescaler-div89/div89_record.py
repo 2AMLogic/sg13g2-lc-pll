@@ -16,17 +16,15 @@ are combined, so an async voltage that returned no corners cannot pass unnoticed
     div89_record.py --chain R.json --async R1.json R2.json --out-dir records --commit SHA
 """
 import argparse
-import gzip
-import hashlib
 import json
 import math
-import shutil
 import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 import ngpin  # noqa: E402  (the simulator pin check, computed once in sim/ngpin.py)
+import record_util as ru  # noqa: E402  (verdict, request grid, append-only archive helpers)
 
 T_FROM = 6e-9          # crossings before this are start-up and are ignored
 MIN_EDGES = 8
@@ -106,15 +104,7 @@ def power_rows(chain_report):
     return sorted(out)
 
 
-def _verdict(states):
-    """One verdict rule at every level of this recorder (a supplied report, the combined async set,
-    the headline): a failure takes precedence, an empty collection or any INCOMPLETE member is
-    INCOMPLETE, and only a nonempty collection of passes is PASS."""
-    if "FAIL" in states:
-        return "FAIL"
-    if not states or "INCOMPLETE" in states:
-        return "INCOMPLETE"
-    return "PASS"
+_verdict = ru.verdict  # one rule at every level of this recorder (a supplied report, the combined async set, the headline)
 
 
 def verdict(rows):
@@ -130,25 +120,14 @@ def grade(chain_report, async_reports):
 
 
 def _sha(path):
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
-
-
-def _section_of(block, prefix):
-    """The block's section name for the lib whose basename starts with `prefix`; None when it has none."""
-    for s in block.get("sections") or []:
-        if isinstance(s, dict) and s.get("section") and Path(str(s.get("lib", ""))).name.startswith(prefix):
-            return s["section"]
-    return None
+    return ru.sha256_bytes(Path(path).read_bytes())
 
 
 def _chain_grid(chain_request):
     """(grid text, PDK mapping) from the chain request's corner grid, e.g.
     ('SLOW/TYP/FAST x -40/27/125 C x 2.970/3.300/3.630 V', 'SLOW = hbt_wcs + res_wcs, ...').
     Axes a request leaves empty are dropped; a block without a section maps to its name alone."""
-    grid = (chain_request or {}).get("corners") or {}
-    blocks = [b for b in grid.get("process") or [] if isinstance(b, dict) and "name" in b]
-    temps = list(grid.get("temperature_c") or [])
-    supplies = sorted(set((grid.get("params") or {}).get("vddv") or []))
+    blocks, temps, _, supplies = ru.request_corners(chain_request)
     axes = []
     if blocks:
         axes.append("/".join(b["name"] for b in blocks))
@@ -158,7 +137,7 @@ def _chain_grid(chain_request):
         axes.append("%s V" % "/".join("%.3f" % s for s in supplies))
     mapping = []
     for b in blocks:
-        parts = [sec for sec in (_section_of(b, "cornerHBT"), _section_of(b, "cornerRES")) if sec]
+        parts = [sec for sec in (ru.section_of(b, "cornerHBT"), ru.section_of(b, "cornerRES")) if sec]
         mapping.append("%s = %s" % (b["name"], " + ".join(parts)) if parts else b["name"])
     return " x ".join(axes), ", ".join(mapping)
 
@@ -241,18 +220,17 @@ def main():
     ap.add_argument("--commit", default="unknown")
     a = ap.parse_args()
     paths = [a.chain] + a.asyn
-    reports = [json.load(open(p)) for p in paths]
+    raws = [Path(p).read_bytes() for p in paths]
+    reports = [json.loads(raw) for raw in raws]
     g = grade(reports[0], reports[1:])
     out = Path(a.out_dir)
-    out.mkdir(parents=True, exist_ok=True)
     rec = out / ("%s.md" % a.id)
-    if rec.exists():
-        raise SystemExit("%s exists; records are append-only" % rec)
+    names = ["%s-%s.json.gz" % (a.id, Path(p).stem.replace("report-", "")) for p in paths]
+    ru.ensure_new(rec, *(out / n for n in names))
+    out.mkdir(parents=True, exist_ok=True)
     files = []
-    for p, r in zip(paths, reports):
-        name = "%s-%s.json.gz" % (a.id, Path(p).stem.replace("report-", ""))
-        with open(p, "rb") as f, gzip.open(out / name, "wb") as z:
-            shutil.copyfileobj(f, z)
+    for p, name, raw in zip(paths, names, raws):
+        ru.write_report_gz(out / name, raw)
         req = HERE / (Path(p).stem.replace("report-", "") + ".request.json")
         files.append({"request_name": req.name, "request_sha": _sha(req), "report_name": name, "report_sha": _sha(out / name)})
     chain_request = json.loads((HERE / (Path(a.chain).stem.replace("report-", "") + ".request.json")).read_bytes())
