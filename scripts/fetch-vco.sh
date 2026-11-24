@@ -37,10 +37,11 @@ nfiles="$(jq --arg r "${FROM_REPO}" "[${entry} | .files[]?] | length" "${LOCK}")
 
 # curl's own `--retry 2` covers timeouts and 408/429/5xx only (a permanent 404 is not
 # retried); a reset or refused connection is retried by the outer loop below, with
-# backoff. A 404 from both legs is a permanent bad pin, so the loop stops at once
-# instead of sleeping through retries that cannot change the answer.
+# backoff. A 404 from curl paired with a 404 or unauthenticated gh (exit 4, e.g. CI
+# with no GH_TOKEN) is a permanent bad pin, so the loop stops at once instead of
+# sleeping through retries that cannot change the answer.
 fetch_one() { # <upstream path> <dest>  ->  0 on success; sets fetch_err on failure
-  local up="$1" dest="$2" attempt backoff=1 gone
+  local up="$1" dest="$2" attempt backoff=1 gone gh_rc
   command -v curl >/dev/null || command -v gh >/dev/null ||
     { fetch_err="neither curl nor gh is installed"; return 1; }
   for attempt in 1 2 3; do
@@ -52,9 +53,14 @@ fetch_one() { # <upstream path> <dest>  ->  0 on success; sets fetch_err on fail
       grep -q 'error: 404' "${tmp}/err-curl" || gone=0
     fi
     if command -v gh >/dev/null; then
-      gh api -H "Accept: application/vnd.github.raw" \
-        "repos/${FROM_REPO}/contents/${up}?ref=${commit}" >"${dest}" 2>"${tmp}/err-gh" && return 0
-      grep -q 'HTTP 404' "${tmp}/err-gh" || gone=0
+      gh_rc=0
+      if gh api -H "Accept: application/vnd.github.raw" \
+           "repos/${FROM_REPO}/contents/${up}?ref=${commit}" >"${dest}" 2>"${tmp}/err-gh"; then
+        return 0
+      else
+        gh_rc=$?
+      fi
+      [ "${gh_rc}" = 4 ] || grep -Eq 'HTTP 404|gh auth login' "${tmp}/err-gh" || gone=0
     fi
     cat "${tmp}/err-curl" "${tmp}/err-gh" >"${tmp}/fetch-err"
     [ "${gone}" = 0 ] || break

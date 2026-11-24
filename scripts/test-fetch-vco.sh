@@ -99,7 +99,12 @@ STUB
 cat > "${stub}/gh" <<'STUB'
 #!/usr/bin/env bash
 # Test stub: the gh leg must neither succeed nor touch the network.
-if [ -f "$(dirname "${BASH_SOURCE[0]}")/always-404" ]; then echo "gh: Not Found (HTTP 404)" >&2; exit 1; fi
+self="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "${self}/unauth-gh" ]; then
+  echo "To get started with GitHub CLI, please run:  gh auth login" >&2
+  exit 4
+fi
+if [ -f "${self}/always-404" ]; then echo "gh: Not Found (HTTP 404)" >&2; exit 1; fi
 echo "gh: stub failure (HTTP 403)" >&2
 exit 1
 STUB
@@ -129,6 +134,22 @@ PATH="${stub}:${PATH}" FETCH_VCO_REPO=2AMLogic/stub-repo FETCH_PLL_REPO=2AMLogic
 if [ "$(cat "${stub}/count")" = 1 ] && [ $((SECONDS - s0)) -lt 2 ]; then
   echo "PASS 404 not retried (1 attempt)"; pass=$((pass+1))
 else echo "FAIL 404 retried (attempts=$(cat "${stub}/count"), $((SECONDS - s0))s)"; bad=$((bad+1)); fi
+# CI runs without GH_TOKEN, where stock gh exits 4 ("gh auth login") instead of HTTP 404:
+# curl 404 + unauthenticated gh must still fail fast on attempt 1, while curl transport
+# errors + unauthenticated gh must still retry (#432).
+printf '0' > "${stub}/count"; : > "${stub}/unauth-gh"
+s0=${SECONDS}
+PATH="${stub}:${PATH}" FETCH_VCO_REPO=2AMLogic/stub-repo FETCH_PLL_REPO=2AMLogic/stub-repo \
+  expect "permanent 404 with unauthenticated gh fails fast" \
+    "refuse:fetch-vco: stub\\.txt missing or unreachable at [0-9a-f]{40} \\(last error: curl: \\(22\\) The requested URL returned error: 404.*gh auth login" \
+    "${F}"
+if [ "$(cat "${stub}/count")" = 1 ] && [ $((SECONDS - s0)) -lt 2 ]; then
+  echo "PASS 404 with unauthenticated gh not retried (1 attempt)"; pass=$((pass+1))
+else echo "FAIL 404 with unauthenticated gh retried (attempts=$(cat "${stub}/count"), $((SECONDS - s0))s)"; bad=$((bad+1)); fi
 rm -f "${stub}/always-404"
+printf '0' > "${stub}/count"
+PATH="${stub}:${PATH}" FETCH_VCO_REPO=2AMLogic/stub-repo FETCH_PLL_REPO=2AMLogic/stub-repo \
+  expect "transient transport failure retried ok (unauthenticated gh)" ok "${F}"
+rm -f "${stub}/unauth-gh"
 
 expect_summary || exit 1
