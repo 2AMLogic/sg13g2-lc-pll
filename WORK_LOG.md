@@ -2,6 +2,11 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-11-24
+
+- **PR #427**: refactor: share verdict, grid and append-only archive helpers across klt sim record writers
+- **Issue #426** (closed): Share verdict, request-grid and append-only report-archive helpers across the four klt sim record writers
+
 ### 2026-11-23
 
 - **Issue #219** (closed): Remove archived pre-DR-005 prescaler cells (div2_cml, div2_ef_hs, div2_latch_hs, div45_dm): uninstantiated
