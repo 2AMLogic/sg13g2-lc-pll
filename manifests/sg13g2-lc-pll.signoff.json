@@ -924,6 +924,11 @@
               "status": "stale"
             },
             {
+              "path": "sim/cp-dc/cp_dc.spice.tmpl",
+              "content_hash": "sha256:53205b18de1f7b878562605df3c3a8a3cbc5a838d139c7a601cf838ee6e5fe78",
+              "status": "stale"
+            },
+            {
               "path": "sim/loop-model/loop_model.py",
               "content_hash": "sha256:9b0aeff087f475540f3c06c1205c97abc51fff1a0bd95c407a6b3cf2cb418312",
               "status": "stale"
@@ -934,8 +939,18 @@
               "status": "stale"
             },
             {
+              "path": "sim/loop-power/loop_power.spice.tmpl",
+              "content_hash": "sha256:afe9b3cdb906aee083a8b9f6749dab8a5e067671a4105dc26473fc6603e6edfe",
+              "status": "stale"
+            },
+            {
               "path": "sim/loop-tran/loop_tran.spice.tmpl",
               "content_hash": "sha256:770797b273dafaa06277cf5bf4854f68cc37c74246d44d8a429a29098e742b44",
+              "status": "stale"
+            },
+            {
+              "path": "sim/pfd/pfd_sweep.spice.tmpl",
+              "content_hash": "sha256:930a4db5c6e12993afba5ee9c583f402656d98545874af4520cd8463dfe44526",
               "status": "stale"
             }
           ]

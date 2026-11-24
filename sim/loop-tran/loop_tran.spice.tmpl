@@ -35,6 +35,7 @@ Bfb fb 0 V = 1.65 + 1.65*tanh(25*sin(6.283185307*v(phi)))
 
 .control
 pre_osdi @@OSDI_PSP@@
+pre_osdi @@OSDI_PSP_NQS@@
 pre_osdi @@OSDI_R3@@
 save v(ref) v(fb) v(vctrl) v(vcp) i(VDD)
 tran 100p @@TSTOP@@ 0 @@TMAX@@

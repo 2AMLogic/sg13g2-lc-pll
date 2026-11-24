@@ -21,7 +21,7 @@ PRESC_NETLIST="${ROOT}/design/netlist/prescaler.spice"; DIV_NETLIST="${ROOT}/des
 TSTOP="${TSTOP:-120n}"; W0="${W0:-40n}"
 rec_dir loop-power
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
-sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@OSDI_R3@@|${OSDI_R3}|g" -e "s|@@PRESC_NETLIST@@|${PRESC_NETLIST}|g" \
+sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@OSDI_PSP_NQS@@|${OSDI_PSP_NQS}|g" -e "s|@@OSDI_R3@@|${OSDI_R3}|g" -e "s|@@PRESC_NETLIST@@|${PRESC_NETLIST}|g" \
     -e "s|@@DIV_NETLIST@@|${DIV_NETLIST}|g" -e "s|@@TSTOP@@|${TSTOP}|g" -e "s|@@W0@@|${W0}|g" -e "s|@@OUT_DIR@@|${WORK}|g" \
     "${ROOT}/sim/loop-power/loop_power.spice.tmpl" > "${WORK}/loop_power.spice"
 check_deck_placeholders "${WORK}/loop_power.spice"
@@ -39,6 +39,7 @@ WALL=$(( $(date +%s) - T_START ))
 cp "${WORK}/ngspice.log" "${REC_DIR}/${ID}-ngspice.txt"
 grep -q '^ipavg' "${WORK}/ngspice.log" && grep -q '^idavg' "${WORK}/ngspice.log" && [ -s "${WORK}/fb.data" ] \
   || { echo "run-loop-power: ngspice produced no measurements (rc=${NG_RC}); see ${REC_DIR}/${ID}-ngspice.txt" >&2; exit 1; }
+check_no_ignored_models "${REC_DIR}/${ID}-ngspice.txt"
 M() { awk -v k="$1" '$1==k {print $3}' "${WORK}/ngspice.log" | head -1; }
 IP="$(M ipavg)"; ID_="$(M idavg)"; OP_P="$(M OP_IDDP)"; OP_D="$(M OP_IDDD)"
 [ -n "${IP}" ] && [ -n "${ID_}" ] || die "could not read the averaged currents"
@@ -73,6 +74,7 @@ TOT="$(awk -v a="${PP}" -v b="${PD}" -v c="${LT_MW}" 'BEGIN{printf "%.2f", a+b+c
   echo "- **PFD + CP + bias**: $([ -n "${LT_P}" ] && echo "${LT_MW} mW taken from \`sim/loop-tran/records/$(basename "${LT}")\` (locked-state mean supply current of the real PFD/CP, 50 MHz, 200 uA I_cp, IREF 20 uA ideal), not re-simulated here." || echo "no locked loop-tran record found; not included.")"
   echo "- **PDK**: IHP-Open-PDK $(jq -r .pdk.release_tag "${PINS}") (model libraries hash-checked against \`sim/pins.json\`); PSP103 OSDI \`psp103.osdi\` sha256 \`$(jq -r .psp103.osdi_sha256 "${PINS}")\` (pinned)"
   echo "- **Simulator**: \`${NG_VER}\` (\`${NGSPICE}\`), one local \`ngspice -b\`, exit status ${NG_RC}, wall ${WALL} s, OMP_NUM_THREADS ${OMP_NUM_THREADS}; scratch \`.spiceinit\` = \`set ngbehavior=hsa\`"
+  echo "- **Model cards**: ngspice log has ${NG_IGNORED_MODELS} 'Unknown model type ... ignored' line(s) (the run is refused otherwise)"
   echo "- **Pin check**: ${NG_PIN_STATUS}"
   echo "- **Commit**: \`${COMMIT}${DIRTY}\` of this repository"
   echo "- **Host**: $(hostname), $(date -u +%Y-%m-%dT%H:%M:%SZ)"
