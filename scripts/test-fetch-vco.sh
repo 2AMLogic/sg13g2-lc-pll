@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Negative controls for scripts/fetch-vco.sh and its pointed wrappers. Runs in a scratch
 # copy of the repo's lock + scripts; needs network for the fetch-path cases (the missing
-# file case), none for --verify cases once .fetched/ exists.
+# file case), none for --verify cases once .fetched/ exists, and none for the stubbed
+# transient-retry cases (#348).
 #
 #   scripts/test-fetch-vco.sh                                              # the VCO pin
 #   scripts/test-fetch-vco.sh 2AMLogic/sg13g2-pll fetch-pll.sh design/pfd.sch   # the PFD pin
@@ -34,7 +35,7 @@ expect "verify clean tree"             ok     "${F}" --verify
 # Tamper: flip one byte of a fetched file.
 f="${T}/.fetched/${REPO#*/}/${TAMPER}"
 printf 'X' | dd of="${f}" bs=1 seek=10 conv=notrunc 2>/dev/null
-# fetch-vco.sh:66 -- the on-disk hash differs from the lock (no network in --verify).
+# fetch-vco.sh:81 -- the on-disk hash differs from the lock (no network in --verify).
 expect "tampered file (--verify)" \
   "refuse:fetch-vco: MISMATCH .fetched/.*/${TAMPER}: lock [0-9a-f]{64}, on disk [0-9a-f]{64}" \
   "${F}" --verify
@@ -43,22 +44,22 @@ expect "re-fetch repairs tamper"       ok     "${F}"
 # Lock edits.
 lock() { jq --arg r "${REPO}" "(.imports[] | select(.from == \$r)) |= ($1)" "${ROOT}/reuse.lock.json" > "${T}/reuse.lock.json"; }
 lock '.commit = "17e49a8"'
-# fetch-vco.sh:30 -- the same refusal for a short SHA and for a ref.
+# fetch-vco.sh:33 -- the same refusal for a short SHA and for a ref.
 expect "short commit refused" \
   "refuse:fetch-vco: error: commit '17e49a8' is not a full 40-hex SHA" "${F}"
 lock '.commit = "main"'
 expect "ref instead of SHA refused" \
   "refuse:fetch-vco: error: commit 'main' is not a full 40-hex SHA" "${F}"
 lock '.mode = "vendored"'
-# fetch-vco.sh:31
+# fetch-vco.sh:34
 expect "non-fetched mode refused" \
   "refuse:fetch-vco: error: mode is 'vendored', expected 'fetched'" "${F}"
 lock '.files[0].sha256 = ("0" * 64)'
-# fetch-vco.sh:59 -- caught on the fetched bytes, before anything is installed.
+# fetch-vco.sh:74 -- caught on the fetched bytes, before anything is installed.
 expect "wrong sha256 refused" \
   "refuse:fetch-vco: MISMATCH .*: lock 0{64}, fetched [0-9a-f]{64}" "${F}"
 lock '.files[0].upstream = "design/no-such-file.spice"'
-# fetch-vco.sh:56
+# fetch-vco.sh:71
 expect "missing file at commit refused" \
   "refuse:fetch-vco: design/no-such-file.spice missing or unreachable at [0-9a-f]{40}" "${F}"
 cp "${ROOT}/reuse.lock.json" "${T}/reuse.lock.json"
@@ -66,5 +67,52 @@ FETCH_VCO_REPO=2AMLogic/not-in-lock FETCH_PLL_REPO=2AMLogic/not-in-lock \
   expect "import absent from lock refused" \
     "refuse:fetch-vco: error: .* must have exactly one import from 2AMLogic/not-in-lock \\(found 0\\)" \
     "${F}"
+
+# Transient transport failure (#348): one blob blipping mid-fetch must not fail the
+# deterministic gate. curl and gh are stubbed on PATH -- the stub curl dies with a
+# transport error on its first call, then serves the blob -- so the case is offline,
+# deterministic, and cannot pass without fetch_one's retry loop.
+stub="${T}/stub-bin"; mkdir -p "${stub}"
+printf '0' > "${stub}/count"
+printf 'transient-retry stub blob\n' > "${stub}/blob"
+cat > "${stub}/curl" <<'STUB'
+#!/usr/bin/env bash
+# Test stub, not a real fetch: fail once with a transport error, then serve the blob.
+set -u
+self="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+n="$(( $(cat "${self}/count" 2>/dev/null || echo 0) + 1 ))"; echo "${n}" > "${self}/count"
+[ -f "${self}/always-fail" ] && n=1
+dest=""
+while [ $# -gt 0 ]; do
+  case "$1" in -o) dest="$2"; shift 2 ;; *) shift ;; esac
+done
+if [ "${n}" = 1 ]; then
+  echo "curl: (56) Recv failure: Connection reset by peer" >&2
+  exit 56
+fi
+cp "${self}/blob" "${dest}"
+STUB
+cat > "${stub}/gh" <<'STUB'
+#!/usr/bin/env bash
+# Test stub: the gh leg must neither succeed nor touch the network.
+echo "gh: stub failure (HTTP 403)" >&2
+exit 1
+STUB
+chmod +x "${stub}/curl" "${stub}/gh"
+stub_sha="$(sha256sum "${stub}/blob" | cut -d' ' -f1)"
+jq -n --arg sha "${stub_sha}" '{schema: 1, imports: [{from: "2AMLogic/stub-repo",
+  commit: "4444444444444444444444444444444444444444", mode: "fetched",
+  files: [{upstream: "stub.txt", local: ".fetched/stub-repo/stub.txt", sha256: $sha}]}],
+  in_tree: []}' > "${T}/reuse.lock.json"
+PATH="${stub}:${PATH}" FETCH_VCO_REPO=2AMLogic/stub-repo FETCH_PLL_REPO=2AMLogic/stub-repo \
+  expect "transient transport failure retried ok" ok "${F}"
+# Permanent failure: every attempt fails, so the bounded retries run out; the refusal
+# keeps the "missing or unreachable at <commit>" form and names the last error (#348).
+printf '0' > "${stub}/count"; : > "${stub}/always-fail"
+PATH="${stub}:${PATH}" FETCH_VCO_REPO=2AMLogic/stub-repo FETCH_PLL_REPO=2AMLogic/stub-repo \
+  expect "permanent failure names the last error" \
+    "refuse:fetch-vco: stub\\.txt missing or unreachable at [0-9a-f]{40} \\(last error: curl: \\(56\\) Recv failure: Connection reset by peer" \
+    "${F}"
+rm -f "${stub}/always-fail"
 
 expect_summary || exit 1

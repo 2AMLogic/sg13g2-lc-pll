@@ -7,6 +7,9 @@
 # `fetched` mode: no VCO bytes are committed here; they land under .fetched/
 # (gitignored). Exits non-zero on a malformed lock, a missing file at the pinned
 # commit, or any sha256 mismatch. Needs bash, jq, sha256sum, and curl or gh.
+# Each file is fetched with up to three curl-then-gh passes (1 s, 2 s backoff) so a
+# transient transport failure on one blob cannot fail the gate; the final refusal
+# names the last error seen instead of discarding it (#348).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -32,16 +35,28 @@ mode="$(jq -r --arg r "${FROM_REPO}" "${entry} | .mode // \"\"" "${LOCK}")"
 nfiles="$(jq --arg r "${FROM_REPO}" "[${entry} | .files[]?] | length" "${LOCK}")"
 [ "${nfiles}" -gt 0 ] || die "lock lists no files"
 
-fetch_one() { # <upstream path> <dest>
-  local up="$1" dest="$2"
-  if command -v curl >/dev/null &&
-     curl -fsSL --retry 2 -o "${dest}" "https://raw.githubusercontent.com/${FROM_REPO}/${commit}/${up}" 2>/dev/null; then
-    return 0
-  fi
-  if command -v gh >/dev/null &&
-     gh api -H "Accept: application/vnd.github.raw" "repos/${FROM_REPO}/contents/${up}?ref=${commit}" > "${dest}" 2>/dev/null; then
-    return 0
-  fi
+# --retry-all-errors widens curl's own retries from timeouts and 408/429/5xx to
+# transport faults (a reset or refused connection is not retried otherwise).
+fetch_one() { # <upstream path> <dest>  ->  0 on success; sets fetch_err on failure
+  local up="$1" dest="$2" attempt backoff=1
+  command -v curl >/dev/null || command -v gh >/dev/null ||
+    { fetch_err="neither curl nor gh is installed"; return 1; }
+  for attempt in 1 2 3; do
+    [ "${attempt}" = 1 ] || { sleep "${backoff}"; backoff=$((backoff * 2)); }
+    : > "${tmp}/fetch-err"
+    if command -v curl >/dev/null &&
+       curl -fsSL --retry 2 --retry-all-errors -o "${dest}" \
+         "https://raw.githubusercontent.com/${FROM_REPO}/${commit}/${up}" 2>>"${tmp}/fetch-err"; then
+      return 0
+    fi
+    if command -v gh >/dev/null &&
+       gh api -H "Accept: application/vnd.github.raw" \
+         "repos/${FROM_REPO}/contents/${up}?ref=${commit}" >"${dest}" 2>>"${tmp}/fetch-err"; then
+      return 0
+    fi
+  done
+  fetch_err="$(tr '\n' ' ' <"${tmp}/fetch-err")"
+  [ -n "${fetch_err// /}" ] || fetch_err="no error text captured"
   return 1
 }
 
@@ -53,7 +68,7 @@ while IFS=$'\t' read -r up local_rel want; do
   dest="${ROOT}/${local_rel}"
   if [ "${MODE_ARG}" = fetch ]; then
     mkdir -p "${tmp}/$(dirname "${up}")"
-    fetch_one "${up}" "${tmp}/${up}" || { echo "fetch-vco: ${up} missing or unreachable at ${commit}" >&2; fail=1; continue; }
+    fetch_one "${up}" "${tmp}/${up}" || { echo "fetch-vco: ${up} missing or unreachable at ${commit} (last error: ${fetch_err})" >&2; fail=1; continue; }
     got="$(sha256sum "${tmp}/${up}" | cut -d' ' -f1)"
     if [ "${got}" != "${want}" ]; then
       echo "fetch-vco: MISMATCH ${up}: lock ${want}, fetched ${got}" >&2; fail=1; continue
