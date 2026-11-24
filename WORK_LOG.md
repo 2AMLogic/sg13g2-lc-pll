@@ -4,6 +4,11 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-24
 
+- **Issue #418** (closed): Remove broken one-shot sim/loop-power/attempts/issue-84/ scripts (stale against current divider and loop_power template)
+- **PR #442**: chore: remove broken issue-84 scratch scripts
+- **PR #441**: docs: record top-level LVS re-run with subckt-call reference (mismatch)
+- **Issue #416** (closed): layout: routed cells' stamped port labels are not read as pins by the PDK LVS runset (loop filter: layout pins 3 -> 0)
+- **PR #424**: fix(layout): stamp cell port labels on SG13G2 metal text purpose /25
 - **PR #431**: fix: bound-retry transient fetch failures in fetch-vco.sh
 - **Issue #348** (closed): test flake: scripts/ci-harness.sh fetch-pll test fails on signoff when one locked blob is momentarily unreachable
 - **PR #422**: fix: remove the stale reset-fix diagnostic mode from run-pfd-sweep.sh
