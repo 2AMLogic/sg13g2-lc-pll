@@ -16,16 +16,13 @@ record.
   `stale_evidence` at the 0.9.1 pin (see **Current verdict**); every other T1
   item is `unmet` / `no_evidence`. Evidence is added one item at a time, each
   citation pinning the `content_hash` of the artifact it cites.
-- **`design-evidence-tiers.md`**: the T1-T4 checklist the grader parses.
-  Vendored **byte-identical** (no edits, no newline normalisation) from
-  [`2AMLogic/klayout-tools@4d0d29be`](https://github.com/2AMLogic/klayout-tools/blob/4d0d29be4fd991f499d59e783a908082d5e24c56/docs/design-evidence-tiers.md)
-  `docs/design-evidence-tiers.md` — the build commit of the pinned
-  `klayout-tools==0.9.1` wheel (tag `v0.9.1`, 2026-11-05), byte-identical to the
-  copy bundled in that wheel at `klayout_tools/data/design-evidence-tiers.md`.
-  Upstream is MIT-licensed, and this repo's `LICENSE` does not relicense the
-  vendored copy.
-  sha256 `08dcbfd2c3f2df152868d86c0ad2aa6a43d393b1d266f0b1e914cd8f0a329c58`.
-  When upstream moves, re-vendor and regenerate the record in the same PR.
+- **The tier checklist** (T1-T4) is not vendored. The pinned
+  `klayout-tools==0.9.1` wheel bundles it and `klt signoff` selects it on its
+  own; there is no `--tiers-doc` override. Read it at the pinned tag:
+  [`docs/design-evidence-tiers.md` @ `v0.9.1`](https://github.com/2AMLogic/klayout-tools/blob/v0.9.1/docs/design-evidence-tiers.md).
+  The record's `source_doc_content_hash` pins its bytes, and the CI compare
+  below catches a checklist change at a pin bump. (Vendoring was reversed by
+  the operator ruling on #223; see DR-007.)
 - **`sg13g2-lc-pll.signoff.json`**: **the verdict of record**, the committed
   output of the command below. Never hand-edit it. Besides the 11 T1 items
   (items 1, 2, 3 and 10 `met`, the rest `unmet` / `check_failed`,
@@ -40,14 +37,13 @@ The `klt` pin is `klayout-tools==0.9.1` (PyPI), the same pin as
 ```console
 uvx --from "klayout-tools==0.9.1" klt signoff \
     --manifest manifests/sg13g2-lc-pll.json \
-    --tiers-doc manifests/design-evidence-tiers.md \
     --format json > manifests/sg13g2-lc-pll.signoff.json
 ```
 
 `klt signoff --manifest` exits `3` when at least one T1 item is `unmet` (a
 valid, clean run) and `0` when every item is `met`. Any other exit is a hard
 error. Any change that affects the verdict (new evidence, a manifest edit, a
-vendored-doc bump, a pin bump) regenerates and commits the record in the same
+pin bump) regenerates and commits the record in the same
 PR.
 
 ## Freshness is CI-enforced
