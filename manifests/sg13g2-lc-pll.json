@@ -16,14 +16,14 @@
     },
     "5": [
       {
-        "file": "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage1.json",
+        "file": "sim/corner-verification/cp-dc/records/20261103-221e27b-stage1.json",
         "content_hash": "sha256:eff5595e23241b4a763706155d74215119a1a3e7ffb5fc37436765137ebb6775",
         "rows": [
           "6"
         ]
       },
       {
-        "file": "sim/corner-verification/cp-dc/records/20261103-aaf7d98-stage2.json",
+        "file": "sim/corner-verification/cp-dc/records/20261103-221e27b-stage2.json",
         "content_hash": "sha256:eff5595e23241b4a763706155d74215119a1a3e7ffb5fc37436765137ebb6775",
         "rows": [
           "6"
@@ -63,30 +63,30 @@
       },
       {
         "id": "1",
-        "gap": "lock at 5.0 GHz runs on a behavioural VCO/divider stand-in (sim/loop-tran); needs graded VCO f(Vctrl) (G4), VCO+prescaler load re-check (G2), divider at 625 MHz (#61). Not enveloped: a stand-in sweep is not a row-1 result"
+        "gap": "lock at 5.0 GHz runs on a behavioural VCO/divider stand-in (sim/loop-tran); needs graded VCO f(Vctrl) (G4, sg13g2-vco#53), VCO+prescaler load re-check (G2, #173), and divider corner fix (#97, #199); tracked in #86. Not enveloped: a stand-in sweep is not a row-1 result"
       },
       {
         "id": "5"
       },
       {
         "id": "7",
-        "gap": "upper edge V_hi,req needs the VCO graded f(Vctrl) (G4); the lower edge FAILS at FAST/3.63 V/-40 C (mismatch 2.19 % > 2 % at 1.65 V), see sim/corner-verification/cp-dc/README.md"
+        "gap": "lower edge at 1.65 V passes all 33 cp-dc C-grid corners (worst mismatch 1.57 % <= 2 % at SLOW/2.97 V/125 C in 20261103-221e27b-stage2.json, after #67), see sim/corner-verification/README.md; upper edge V_hi,req awaits the VCO graded f(Vctrl) (G4, sg13g2-vco#53), tracked in #86"
       },
       {
         "id": "8",
-        "gap": "method L partial, method T not run (G6); needs the real chain"
+        "gap": "method L partial (in-band inputs #252/#253), method T not run (G6, #88); needs the real chain, tracked in #86"
       },
       {
         "id": "9",
-        "gap": "reference spur runs on the stand-in VCO (G4, G2, #61)"
+        "gap": "reference spur runs on the stand-in VCO (G4 sg13g2-vco#53, G2 #173, divider #97/#199); tracked in #86"
       },
       {
         "id": "10",
-        "gap": "lock time runs on the stand-in VCO and divider (G4, G2, #61)"
+        "gap": "lock time runs on the stand-in VCO and divider (G4 sg13g2-vco#53, G2 #173, divider #97/#199); tracked in #86"
       },
       {
         "id": "11",
-        "gap": "loop power: divider does not divide at 625 MHz (#61); no C-grid envelope yet"
+        "gap": "loop power C-grid ran sharded into markdown records (sim/corner-verification/loop-power/records/20261104-stage1-complete-135.md and 20261103-133405-ce1d60d-dirty-stage2.md, #70) and reads fail (divider stops dividing at 3.630 V / 125 C, #97/#199; lock detector and buffers not in deck); no passing klt sim JSON envelope yet"
       }
     ],
     "6": [

@@ -9,7 +9,7 @@ record.
 
 - **`sg13g2-lc-pll.json`**: the block manifest. `block: sg13g2-lc-pll`,
   `kind: analog` (an integer-N LC PLL with no mixed-signal partition decided
-  today; if that changes, `kind` may change with it). `evidence` cites items 1, 2, 9 and 10 (the four `klt signoff --attest` envelopes `manifests/design-sources.attest.json`, `manifests/layout.attest.json`, `manifests/testbenches.attest.json`, `manifests/repo-hygiene.attest.json`), item 3 (the `klt drc` report `layout/drc/top.drc.json`, graded `met`: `status: clean`, clean for the layers the curated deck covers, #36), item 5 (two `klt sim` corner records for rows 6 and the method-L `model-run` record `sim/loop-model/records/20261115-101634-6a08197-row5-envelope.json` for row 5; graded `unmet` / `check_failed`: the stage-2 corner record fails the row-7 mismatch target, and the item is met only when every cited envelope passes) and item 6 (the `klt yield` report of the
+  today; if that changes, `kind` may change with it). `evidence` cites items 1, 2, 9 and 10 (the four `klt signoff --attest` envelopes `manifests/design-sources.attest.json`, `manifests/layout.attest.json`, `manifests/testbenches.attest.json`, `manifests/repo-hygiene.attest.json`), item 3 (the `klt drc` report `layout/drc/top.drc.json`, graded `met`: `status: clean`, clean for the layers the curated deck covers, #36), item 5 (two passing `klt sim` corner records `sim/corner-verification/cp-dc/records/20261103-221e27b-stage{1,2}.json` for row 6 — also passing row-7 mismatch at 1.65 V after #67 — and the passing method-L `model-run` record `sim/loop-model/records/20261115-101634-6a08197-row5-envelope.json` for row 5; graded `unmet` / `partial_coverage`: every cited envelope passes, while `spec_rows."5"` declares rows 1, 7 (upper edge `V_hi,req`), 8, 9, 10 and 11 as gaps) and item 6 (the `klt yield` report of the
   charge-pump Monte Carlo, `sim/cp-mc/records/`, graded `unmet` / `check_failed`:
   the campaign fails the row-7 mismatch target; `spec_rows."6"` declares the two
   rows' unevidenceable parts as gaps); item 9's envelope is `unmet` /
@@ -28,7 +28,7 @@ record.
   When upstream moves, re-vendor and regenerate the record in the same PR.
 - **`sg13g2-lc-pll.signoff.json`**: **the verdict of record**, the committed
   output of the command below. Never hand-edit it. Besides the 11 T1 items
-  (items 1, 2, 3 and 10 `met`, the rest `unmet` / `check_failed`,
+  (items 1, 2, 3 and 10 `met`, the rest `unmet` / `partial_coverage`, `check_failed`,
   `stale_evidence` or `no_evidence`), `klt` 0.9.1 also lists 3 non-T1 rows
   (`tier_not_supported`); these are part of its output, not a design claim.
 

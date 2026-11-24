@@ -6,41 +6,53 @@ slice; item 5 is `unmet` and stays so (see "Row status").
 
 ## Where the grid ran
 
-Both requests went to the Spot batch fleet (`backend: batch`, `klt sim --wait-for-capacity`), not
-the dispatch host. A first stage-1 submit was refused with `batch_no_capacity` (shared spot vCPU
-quota full); it was retried with a bounded capacity wait and was not run locally. Job ids:
-stage 1 `klt-sim-68a7987fe626`, stage 2 `klt-sim-370cccc80aa5` (an earlier identical-circuit pass,
-`klt-sim-d98401a6c111` / `klt-sim-573cc2fb2559`, ran before the `spec_row` tags were added and gave
-the same verdicts and values). **Simulator: ngspice 46 on the fleet, against the pin of 47**
-(`sim/pins.json`). The records carry the version in `environment`; the pin is not met.
+All `cp-dc` requests went to the Spot batch fleet (`backend: batch`, `klt sim --wait-for-capacity`),
+not the dispatch host. The current manifest-cited records (`20261103-221e27b-stage{1,2}.json`,
+after the #67 XBPC 3u -> 4u retune) ran as stage 1 `klt-sim-edf18b3bafa5` and stage 2
+`klt-sim-2e00c4ef0e97`. Earlier historical pre-#67 records (`20261103-aaf7d98-stage{1,2}.json`,
+stage 1 `klt-sim-68a7987fe626`, stage 2 `klt-sim-370cccc80aa5`, after an initial
+`batch_no_capacity` retry; plus an earlier pre-tag pass `klt-sim-d98401a6c111` /
+`klt-sim-573cc2fb2559`) remain append-only on disk. **Simulator: ngspice 46 on the fleet, against
+the pin of 47** (`sim/pins.json`). The records carry the version in `environment`; the pin is not
+met.
 
 ## `cp-dc/`: charge pump, rows 6 and 7
 
 `make_requests.py` writes `request-stage{1,2}.json`; the circuit body is the shared
 `sim/cp-dc/cp_icp.cir` (the requests reference it as `../../cp-dc/cp_icp.cir`; there is no second
-copy). The records `20261103-*-stage{1,2}` ran against the former `cp_body.spice`
-(`netlist_sha256` `eff5595e...6775`), last changed at `ff3bbf7` and still present at `a4f2611`
-(`git show a4f2611:sim/corner-verification/cp-dc/cp_body.spice`). The merged body adds only
-`.option scale=1`, which a single-corner local run showed leaves I_up/I_dn unchanged. The CP holds only HV MOS, so the HBT and MIM axes do not touch it: the
-135-point grid collapses to 15 distinct points (stage 1, 3.300 V) and the 18 supply sub-corners
-(stage 2, SLOW/TYP/FAST = `mos_ss`/`mos_tt`/`mos_ff` here). Records are append-only under
-`cp-dc/records/`. Measured at V_out = 1.65 V with IREF = 20 uA: I_up, I_dn (limits 100-400 uA, row 6
-design range) and mismatch (limit 2 %, row 7 lower edge). `vtop_est` is the top of the <= 2 %
-window assuming mismatch rises monotonically from 1.65 V; it is reported, not graded.
+copy). The committed records `20261103-*-stage{1,2}.json` ran against the former `cp_body.spice`
+(`netlist_sha256` `eff5595e...6775`, last changed at `ff3bbf7` and still present at `a4f2611`,
+`git show a4f2611:sim/corner-verification/cp-dc/cp_body.spice`), which `.include`d
+`design/netlist/cp.spice` (`20261103-221e27b-stage{1,2}.json` record the current `cp.spice`
+sha256 `99827833...213a` in `environment.netlist_closure`). The merged body adds only
+`.option scale=1`, which a single-corner local run showed leaves I_up/I_dn unchanged. The CP holds
+only HV MOS, so the HBT and MIM axes do not touch it: the 135-point grid collapses to 15 distinct
+points (stage 1, 3.300 V) and the 18 supply sub-corners (stage 2, SLOW/TYP/FAST =
+`mos_ss`/`mos_tt`/`mos_ff` here). Records are append-only under `cp-dc/records/`. Measured at
+V_out = 1.65 V with IREF = 20 uA: I_up, I_dn (limits 100-400 uA, row 6 design range) and mismatch
+(limit 2 %, row 7 lower edge). `vtop_est` is the top of the <= 2 % window assuming mismatch rises
+monotonically from 1.65 V; it is reported, not graded.
+
+Current manifest-cited records (`20261103-221e27b-stage{1,2}.json`, after #67 XBPC 3u -> 4u):
 
 | | stage 1 (15, 3.300 V) | stage 2 (18, 2.970 / 3.630 V) |
 |---|---|---|
-| verdict | 15 pass | 17 pass, **1 fail** |
-| I_up, I_dn at 1.65 V | 195-202 uA (all inside 100-400 uA) | 191-206 uA (all inside) |
-| mismatch at 1.65 V, worst | 0.65 % (`mos_ff`, 125 C) | **2.19 % (FAST, 3.630 V, -40 C)** |
-| window top `vtop_est` | 2.30-2.60 V | 1.90-2.90 V (binding: SLOW/2.970 V/125 C, 1.90 V) |
+| verdict | 15 pass | 18 pass |
+| I_up, I_dn at 1.65 V | 193.2-200.6 uA (all inside 100-400 uA) | 189.4-203.9 uA (all inside) |
+| mismatch at 1.65 V, worst | 0.95 % (`mos_fs`, -40 C) | 1.57 % (SLOW, 2.970 V, 125 C) |
+| window top `vtop_est` | 2.20-2.55 V | 1.80-2.90 V (binding: SLOW/2.970 V/125 C, 1.80 V) |
 
-Finding, not relaxed: FAST at 3.630 V and -40 C exceeds the 2 % row-7 bound at the lower edge
-(2.19 %). Row 6 itself is inside its range at every corner, but the stage-2 envelope reads `fail`
-as a whole, so the manifest cites it and item 5 reads `unmet / check_failed`.
+Historical pre-#67 records (`20261103-aaf7d98-stage{1,2}.json`, XBPC 3u): stage 1 passed 15/15
+(I_up/I_dn 195-202 uA, worst mismatch 0.65 % at `mos_ff`/125 C, `vtop_est` 2.30-2.60 V); stage 2
+had 17 pass and **1 fail** at FAST/3.630 V/-40 C (mismatch 2.19 % > 2 %). PR #75 (#67) widened
+XBPC from 3u to 4u without relaxing the spec, bringing all 33 corners <= 1.57 % (see
+`cp-dc/records/20261103-221e27b-stage2.md`). Both `20261103-221e27b-stage{1,2}.json` are cited in
+`manifests/sg13g2-lc-pll.json` and grade `met`; item 5 stays `unmet / partial_coverage` because
+other rows remain declared gaps.
 
-The window top at 2.97 V is 1.9-2.2 V, far below the VCO window top of 3.30 V. Whether that
-matters is decided by V_hi,req (gate G4, VCO graded f(Vctrl)); it is not graded here.
+The window top `vtop_est` at 2.97 V is 1.80-2.15 V (down 0.05-0.10 V from the pre-#67 1.90-2.20 V),
+far below the VCO window top of 3.30 V. Whether that matters is decided by V_hi,req (gate G4, VCO
+graded f(Vctrl)); it is not graded here.
 
 ## `loop-power/`: row 11 (issue #70)
 
@@ -114,12 +126,13 @@ Some `request-*.json` files are generator output and are no longer tracked (`.gi
 
 | Row | State | Why |
 |---|---|---|
-| 6 | enveloped, in range at all 33 | `cp-dc` |
-| 7 | **gap** | upper edge needs G4; lower edge fails at one corner (above) |
-| 1, 9, 10 | **gap** | benches run on a behavioural VCO/divider stand-in; G4, G2, #61. A stand-in envelope is never reported as a pass |
-| 5 | **gap** | method L (`sim/loop-model`) is not a `klt sim` request |
-| 8 | **gap** | method L partial, method T not run (G6) |
-| 11 | **enveloped, reads `fail`** | `loop-power/`: stage 2 ran (18 corners, 5 divide to 50 MHz, 13 do not); stage 1 complete (135 of 135 returned, 24 divide at 22.4-24.1 mW with nominal PFD/CP/bias, before owed blocks; 111 do not divide; see `loop-power/records/20261104-stage1-complete-135.md`); non-division at 3.630 V / 125 C read as a design finding (#97), not a start-up artifact |
+| 5 | enveloped, passes (method L) | `sim/loop-model/records/20261115-101634-6a08197-row5-envelope.json` (`model-run` envelope cited in manifest, graded `met`) |
+| 6 | enveloped, passes all 33 | `cp-dc` (`20261103-221e27b-stage{1,2}.json`, cited in manifest, graded `met`) |
+| 7 | **gap** | lower edge at 1.65 V passes all 33 corners (worst 1.57 % at SLOW/2.970 V/125 C after #67); upper edge `V_hi,req` needs G4 (`sg13g2-vco#53`, tracked in #86) |
+| 1, 9, 10 | **gap** | benches run on a behavioural VCO/divider stand-in; G4 (`sg13g2-vco#53`), G2 (#173), divider (#97/#199); tracked in #86. A stand-in envelope is never reported as a pass |
+| 8 | **gap** | method L partial (in-band inputs #252/#253), method T not run (G6, #88); tracked in #86 |
+| 11 | **enveloped (sharded), reads `fail`, gap in manifest** | `loop-power/`: stage 2 ran (18 corners, 5 divide to 50 MHz, 13 do not); stage 1 complete (135 of 135 returned, 24 divide at 22.4-24.1 mW with nominal PFD/CP/bias, before owed blocks; 111 do not divide; see `loop-power/records/20261104-stage1-complete-135.md`); non-division at 3.630 V / 125 C read as a design finding (#97, #199), not a start-up artifact |
 
 The prescaler follower Vce against BVCEO (2.2 V min) at the minimum-supply corner is **not**
-reported: the CP netlist contains no prescaler. It belongs to the envelopes that include it.
+reported in `cp-dc` (the CP netlist contains no prescaler); it is recorded over the supply
+sub-corners in `sim/prescaler-g1/records/` (#68).
