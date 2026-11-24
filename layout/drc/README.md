@@ -555,3 +555,30 @@ new stream too. Result: **`status: clean`, 0 violations** — unchanged
 verdict and unchanged coverage (the erased texts are label-layer only: 10/25, 30/25 and the
 stamped 126/0 / 67/0 texts are not DRC geometry). Item 3 stays `met` citing this report; the
 manifest pins were refreshed with the new stream hash.
+
+## Port-label metal text purpose (`/25`) re-run (#416, 2026-11-23)
+
+`layout/cells/common.py` now stamps every loop-block cell's `.subckt` port labels on the SG13G2
+metal text purpose (`<layer>/25`: `8/25`, `67/25`, `126/25` across the six cells) instead of drawing
+`<layer>/0`. `layout/top.gds` was regenerated (`sha256:1c49ad5d…`, was `4b8e6867…` on `main`;
+geometry delta = 42 cell port text shapes moved from `*/0` to `*/25`, zero polygon, route or
+placement changes) and both DRC requests plus ERC were re-run:
+
+```
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 0 = clean
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root /home/ubuntu/share/pdk \
+    --expect-rule-categories-file layout/drc/native_rule_categories.txt \
+    --format json -o layout/drc/top.crosscheck.json                       # exit 0
+klt drc --check layout/drc/top.drc.json                                   # re-hash: match
+klt drc --check layout/drc/top.crosscheck.json                            # re-hash: match
+```
+
+`klt 0.9.3.dev4116+ga9885c2c7fa3`, klayout 0.30.12, PDK `ihp-sg13g2` `fetched:0.3.0`
+(`--pdk-root /home/ubuntu/share/pdk`). Result: **`status: clean`, 0 violations** on both curated
+(68 rules checked) and native (590/590 rule categories asserted), with unchanged coverage (39
+no-rule layers; `8/25`, `67/25` and `126/25` were already present in the stream from the VCO and
+top-level route labels). `layout/erc/top.erc.json` stays `erc_status: clean_partial`, 0 findings,
+1/1 island on all six declared nets (`VDDV`, `VDD`, `VSS`, `REF`, `IREFCP`, `LOCK`), now actively
+verifying cell-pad continuity through the `8/25` and `67/25` cell port stamps. Item 2 and item 3
+manifest pins (`manifests/layout.attest.json`, `manifests/sg13g2-lc-pll.json`) and
+`manifests/sg13g2-lc-pll.signoff.json` (`klayout-tools==0.9.1`) were refreshed to `1c49ad5d…`.

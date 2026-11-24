@@ -207,7 +207,8 @@ def load_cell(ly, name):
 
 def pins(ly, cell):
     """First label per text string -> (layer, DPoint in cell coordinates). Datatype is not kept: a pin
-    is matched by layer number alone (LEVEL), and every pin label here sits on datatype 0."""
+    is matched by layer number alone (LEVEL), while both VCO and loop-block port labels sit on the
+    SG13G2 metal text purpose /25 (#416)."""
     out = {}
     for li in ly.layer_indexes():
         info = ly.get_info(li)

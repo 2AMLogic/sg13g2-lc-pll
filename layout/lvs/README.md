@@ -210,3 +210,23 @@ report's `environment.layout_sha256` is stale or missing, naming the file and bo
 stream bump fails the layout test at the commit that causes it instead of silently stranding the evidence.
 The string-form negative control compares against the unmodified tree's own count, so adding an envelope
 does not break it.
+
+## Re-run after moving stamped cell port labels to `/25` (#416, 2026-11-23, `klt 0.9.3.dev4116+ga9885c2c7fa3`, klayout 0.30.12)
+
+Both the PDK LVS runset (`sg13g2.lvs`: `rule_decks/layers_definitions.lvs` +
+`general_connections.lvs:57-63`) and `klt`'s curated `sg13g2` `EXTRACTION_DECK.metal_labels` attach
+metal pin/net text exclusively from datatype `25` (`8/25`, `10/25`, `30/25`, `50/25`, `67/25`,
+`126/25`, `134/25`) and ignore drawing-purpose `*/0` text. `layout/cells/common.py` now maps every
+cell's `.subckt` port terminal from `<layer>/0` onto `<layer>/25` (uniformly across routed and
+placement-only cells, failing with `PlanError` on any unmapped layer), still stamping strictly one
+direct text shape per port. `layout/top.gds` was regenerated (`sha256:1c49ad5d...`, was
+`4b8e6867...` on `main`), and all eleven committed `*.lvs.json` envelopes pinning `layout/top.gds`
+were re-run from their directories and verified with `klt lvs --check`:
+
+| Report | Engine | Status | Change vs `main` (`4b8e6867...`) |
+|---|---|---|---|
+| `cells/lcpll_loopfilter/lcpll_loopfilter.runset.lvs.json` | `klayout-runset` (`sg13g2.lvs`) | `mismatch` | **`counts.pins.layout` `0 -> 3`** (matches `counts.pins.reference == 3`); layout nets recover their port names (`VCTRL`, `VIN`, `VSS`, leaving only internal `$1` and `$4` anonymous); `mismatch_count` `18 -> 21` (`pin.unmatched` `3 -> 6`: the 3 layout-side pin entries reappear alongside the 3 reference-side entries, with the runset's own compare grading each pin pair `Match`, while device/net mismatch keeps circuit pairing at 0) |
+| `cells/lcpll_loopfilter/lcpll_loopfilter.lvs.json`, `cells/lcpll_cp/{lcpll_cp,lcpll_cp.flatten}.lvs.json`, `cells/lcpll_divider/{lcpll_divider,lcpll_divider.flatten}.lvs.json`, `cells/lcpll_lockdet/lcpll_lockdet.lvs.json`, `cells/lcpll_pfd/lcpll_pfd.lvs.json`, `cells/lcpll_prescaler/{lcpll_prescaler,lcpll_prescaler.flatten}.lvs.json` (9 reports) | curated `sg13g2` | `mismatch` | `counts` (nets / devices / pins), `mismatch_count` and `category_counts` unchanged on all nine; **`warnings` cleared (`[... has no text on the deck's pin label layers. Text is drawn on .../0 ...]` -> `[]`)** on all nine |
+| `top.lvs.json` | `klayout-runset` (`sg13g2.lvs`) | `mismatch` | `counts.nets` (`1746 / 5 / 0`) and `counts.devices` (`666 / 3 / 0`) unchanged; `counts.pins.layout` `19 -> 20` (`pin.unmatched` `21 -> 22`, `mismatch_count` `2441 -> 2442`): the `PSP` route (`lcpll_prescaler.OUTP` -> `lcpll_divider.INP`), whose top-level `67/25` label sat over a Metal4-only segment, is now named `'INP,OUTP'` by its `/25` cell port labels, and existing routed islands pick up their connected cell port names (`VSS` -> `'A0,A1,M0,M1,VSS'`, `VDD` -> `'A2,M2,M3,VDD'`, `VCP` -> `'VCP,VIN,VOUT'`, etc.) |
+
+No LVS verdict moved to `match`; item 4 stays `unmet` with #37 and `2AMLogic/klayout-tools#6960` / `#6961`.

@@ -77,7 +77,9 @@ One table row per block in `layout/gen_cells.py` (`divider`, `charge_pump`, `loo
 is placed first), on shared `cells/common.py`: flatten the `.subckt`, group identical (class, W, L) devices
 (`m=` expanded to units), draw each group with `klt gen mos_array|res_array|cap_array|bjt_array`, place groups with
 `klt gen-compose` (placement only; routing is #35), and put one text label per `.subckt` port on a drawn
-terminal of that net. `layout/cells.provenance.json` holds the cell list, area (bbox), generator command, klt
+terminal of that net — stamped on the SG13G2 metal text purpose `<layer>/25` (`8/25`, `67/25`, `126/25` across
+these six cells), which both the PDK `sg13g2.lvs` runset and `klt`'s curated `sg13g2` `EXTRACTION_DECK.metal_labels`
+read as pin/net text (#416; drawing-purpose `*/0` texts are ignored by `sg13g2.lvs`). `layout/cells.provenance.json` holds the cell list, area (bbox), generator command, klt
 version, netlist sha256 and a geometry digest; `gen_cells.py --check` fails on any difference.
 The digest hashes merged polygons plus label text/position per layer, in sorted `(layer, datatype)`
 order rather than KLayout's layer-enumeration order, so it is stable across a re-save of the stream
@@ -94,9 +96,10 @@ layout file exists to hash-pin.
 
 **Pin check.** `klt interface-check` pairs the labels of two placed blocks, so it cannot compare one cell to
 its `.subckt`; `scripts/test-layout-cells.sh` counts each cell's own labels per port name against the port
-list and the recorded `port_labels` site, with drop/rename/duplicate negative controls (a set-based name
-compare let the routed cell's two labels per port through, #349). It is not in `scripts/ci-harness.sh` (needs
-`klayout`, a PDK and klt).
+list, the SG13G2 `*/25` metal text purpose, and the recorded `port_labels` site, with drop/rename/duplicate and
+drawing-purpose (`/0`) negative controls (a set-based name compare let the routed cell's two labels per port
+through in #349, and stamping on `*/0` hid port pins from `sg13g2.lvs` in #416). It is not in
+`scripts/ci-harness.sh` (needs `klayout`, a PDK and klt).
 
 **Tool pin.** The HBT (`bjt_array`, klayout-tools#4850 -> #4855) and sub-0.42 um MOS (`dogbone_terminals`,
 #4851 -> #4854) fixes are in the installed klt used for the committed provenance (`klt 0.9.2.dev420+gf186e14125ed`;
@@ -200,8 +203,8 @@ full SG13G2 metal stack (labels read only from the pin purposes 8/25 and 67/25; 
 text is deliberately outside the label scope -- the island it names is the `VDDV` branch, and the VCO's own naming
 must not be read as a VDD-VDDV tie), the six named nets and the guard-ring substrate tie. Result
 (`klt erc layout/top.gds layout/erc/supply-spec.json --top lc_pll_top --format json > layout/erc/top.erc.json`,
-2026-11-21, `klt 0.9.3.dev2575`; re-run 2026-11-23 on the #345 stream `sha256:c897060c…` with `klt 0.9.3.dev3808`,
-same verdict): **`erc_status: clean_partial`, 0 findings -- all six nets resolve to exactly their
+2026-11-21, `klt 0.9.3.dev2575`; re-run 2026-11-23 on the #416 stream `sha256:1c49ad5d…` with `klt 0.9.3.dev4116`,
+now actively reading cell port stamps on `8/25` and `67/25` alongside the top-level landings, same verdict): **`erc_status: clean_partial`, 0 findings -- all six nets resolve to exactly their
 declared 1 island** (a first draft's REF route was a real `erc.multiply_driven_net` REF x VSS through the PFD west-pin
 column; it is fixed by forced-approach routing, see `FINAL_HORIZONTAL`/`FINAL_VERTICAL` in the generator). Skipped and
 disclosed, not passed: the guard-ring tie is `degenerate_tap_declaration` (Cont-on-pSD cannot be told from device
