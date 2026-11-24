@@ -42,7 +42,7 @@ awk 'BEGIN{ printf "VFB fb 0 PWL(0 0\n" }
      { printf "+ %dp 0 %dp 3.3 %dp 3.3 %dp 0\n", $4, $4+100, $4+4900+100, $4+5000+100 }
      END{ printf "+ )\n" }' "${WORK}/sched.txt" > "${WORK}/fb.inc"
 
-sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@PFD_NETLIST@@|${PFD_ADOPTED}|g" \
+sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@OSDI_PSP_NQS@@|${OSDI_PSP_NQS}|g" -e "s|@@PFD_NETLIST@@|${PFD_ADOPTED}|g" \
     -e "s|@@CP_NETLIST@@|${CP_NETLIST}|g" -e "s|@@FB_FILE@@|${WORK}/fb.inc|g" -e "s|@@TSTOP@@|${TSTOP_PS}p|g" \
     -e "s|@@DATA_OUT@@|${WORK}/pfd.data|g" "${ROOT}/sim/pfd/pfd_sweep.spice.tmpl" > "${WORK}/pfd_sweep.spice"
 check_deck_placeholders "${WORK}/pfd_sweep.spice"
@@ -60,6 +60,7 @@ set -e
 ELAPSED=$(( $(date +%s) - START ))
 cp "${WORK}/ngspice.log" "${REC_DIR}/${ID}-ngspice.txt"
 [ -s "${WORK}/pfd.data" ] || { echo "run-pfd-sweep: ngspice produced no data (rc=${NG_RC}); see ${REC_DIR}/${ID}-ngspice.txt" >&2; exit 1; }
+check_no_ignored_models "${REC_DIR}/${ID}-ngspice.txt"
 NPTS_T="$(wc -l < "${WORK}/pfd.data")"
 
 # ---- estimator: per-cycle charge = trapezoid integral of i(VO) over that cycle's window.
@@ -144,6 +145,7 @@ fi
   echo "- **Deck**: \`sim/pfd/pfd_sweep.spice.tmpl\` sha256 \`$(sha256sum "${ROOT}/sim/pfd/pfd_sweep.spice.tmpl" | cut -d' ' -f1)\`, placeholder substitution plus the generated FB source (${NCYC} cycles)"
   echo "- **PDK**: IHP-Open-PDK $(jq -r .pdk.release_tag "${PINS}") (model libraries hash-checked against \`sim/pins.json\`); PDK_ROOT \`${PDK_ROOT}\`; PSP103 OSDI sha256 \`$(jq -r .psp103.osdi_sha256 "${PINS}")\` (pinned)"
   echo "- **Simulator**: \`${NG_VER}\` (\`${NGSPICE}\`), one local \`ngspice -b\`, exit status ${NG_RC}, ${ELAPSED} s wall, ${NPTS_T} accepted time points; \`.tran 25p ${TSTOP_PS}p 0 25p\`; scratch \`.spiceinit\` = \`set ngbehavior=hsa\`"
+  echo "- **Model cards**: ngspice log has ${NG_IGNORED_MODELS} 'Unknown model type ... ignored' line(s) (the run is refused otherwise)"
   echo "- **Pin check**: ${NG_PIN_STATUS}"
   echo "- **Commit**: \`${COMMIT}${DIRTY}\` of this repository"
   echo "- **Method**: REF is a fixed 50 MHz clock (T_ref = 20 ns, 100 ps edges). FB is a PWL source whose rising edge in cycle k is delayed by phi_k relative to REF's rising edge (phi > 0: FB lags, PFD pulses UP). The phase is stepped inside the one transient: 10 ps steps for |phi| <= 1 ns, 50 ps steps for 1-3 ns, 250 ps steps for 3 ns to 10 ns; ${NSW} swept cycles after 4 warm-up cycles at +1 ns (excluded). Inputs are never run at different frequencies, so the PFD never sees a cycle slip."

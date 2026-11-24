@@ -51,4 +51,10 @@ rec_dir zz; [ "${REC_DIR}" = "${ROOT}/sim/zz/records" ] && [ -d "${REC_DIR}" ] \
   && echo "ok   rec_dir default" || { echo "FAIL rec_dir default: REC_DIR='${REC_DIR}'"; bad=1; }
 ( RECORD_DIR="${T}/override" ; rec_dir zz; [ "${REC_DIR}" = "${T}/override" ] && [ -d "${REC_DIR}" ] ) \
   && echo "ok   rec_dir honours RECORD_DIR" || { echo "FAIL rec_dir ignored RECORD_DIR"; bad=1; }
+printf 'Unknown model type pspnqs103va - ignored\nUnknown model type pspnqs103va - ignored\n' > "${T}/ign.log"
+printf 'Doing analysis at TEMP = 27\n' > "${T}/clean.log"
+[ "$(ignored_model_count "${T}/ign.log")" = 2 ] && [ "$(ignored_model_count "${T}/clean.log")" = 0 ] \
+  && echo "ok   ignored_model_count" || { echo "FAIL ignored_model_count"; bad=1; }
+if ( check_no_ignored_models "${T}/ign.log" ) 2>/dev/null; then echo "FAIL ignored models accepted"; bad=1; else echo "ok   ignored models refused"; fi
+if ( check_no_ignored_models "${T}/clean.log" ) 2>/dev/null; then echo "ok   clean log accepted"; else echo "FAIL clean log refused"; bad=1; fi
 exit "${bad}"
