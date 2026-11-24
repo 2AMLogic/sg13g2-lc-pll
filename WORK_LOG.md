@@ -4,6 +4,8 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-24
 
+- **PR #422**: fix: remove the stale reset-fix diagnostic mode from run-pfd-sweep.sh
+- **Issue #250** (closed): Remove the PFD_VARIANT=reset-fix mode from run-pfd-sweep.sh: against the current pin it half-applies and would write a mislabeled record
 - **PR #427**: refactor: share verdict, grid and append-only archive helpers across klt sim record writers
 - **Issue #426** (closed): Share verdict, request-grid and append-only report-archive helpers across the four klt sim record writers
 
