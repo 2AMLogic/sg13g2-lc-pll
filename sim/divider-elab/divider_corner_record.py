@@ -14,11 +14,13 @@ Each --part carries the request file alongside its report because the record cit
 file's sha256 for the requested setup.
 """
 import argparse
-import gzip
-import hashlib
 import json
 import sys
 from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parent))
+import record_util as ru  # noqa: E402  (verdict, append-only archive helpers, sim/record_util.py)
 
 LEAD = 0.3e-9
 
@@ -78,13 +80,8 @@ def grade_run(c):
 
 
 def _verdict(states):
-    """One verdict rule for both levels: FAIL dominates, INCOMPLETE for an empty collection or
-    any ungraded row / incomplete part, PASS only for a nonempty collection of passes."""
-    if any(s == "FAIL" for s in states):
-        return "FAIL"
-    if not states or any(s in ("INCOMPLETE", "not-graded") for s in states):
-        return "INCOMPLETE"
-    return "PASS"
+    """One verdict rule for both levels (a row's status, a part's verdict): an ungraded row counts as INCOMPLETE."""
+    return ru.verdict(states, ungraded=("INCOMPLETE", "not-graded"))
 
 
 def grade(report):
@@ -103,7 +100,7 @@ def render(parts, rec_id, commit):
             f"- **Commit**: `{commit}` of this repository", ""]
     for name, g, rep, req in parts:
         env, rem = rep["environment"], rep["environment"].get("remote", {})
-        out += [f"## {name}", "", f"Request `{req.name}` sha256 `{hashlib.sha256(req.read_bytes()).hexdigest()}`; `ngspice-{env.get('engine_version')}`, job `{rem.get('job_id')}`, {rem.get('instance_type')}, {rem.get('lifecycle')}; verdict **{g['verdict']}**.", "",
+        out += [f"## {name}", "", f"Request `{req.name}` sha256 `{ru.sha256_bytes(req.read_bytes())}`; `ngspice-{env.get('engine_version')}`, job `{rem.get('job_id')}`, {rem.get('instance_type')}, {rem.get('lifecycle')}; verdict **{g['verdict']}**.", "",
                 "| corner | fin (MHz) | M | A | FB edges | first window N (start-up, not graded) | CK/window | MC-high | N | expected N | result |", "|---|---|---|---|---|---|---|---|---|---|---|"]
         for r in g["rows"]:
             out.append("| %s | %g | %d | %d | %s | %s | %s | %s | %s | %d | %s%s |" % (r["corner"], r["fin_mhz"], r["m"], r["a"], r["fb_edges"], r["first_n"], r["ck"], r["mc_hi"],
@@ -120,18 +117,16 @@ def main(argv=None):
     ap.add_argument("--commit", default="unknown")
     a = ap.parse_args(argv)
     rec = Path(a.out_dir) / f"{a.id}-corners.md"
-    if rec.exists():
-        sys.exit(f"records are append-only: {rec} exists")
-    Path(a.out_dir).mkdir(parents=True, exist_ok=True)
+    gzs = [Path(a.out_dir) / f"{a.id}-{name}-klt-report.json.gz" for name, _, _ in a.part]
+    ru.ensure_new(rec, *gzs)
+    raws = [Path(rep).read_bytes() for _, rep, _ in a.part]
     parts = []
-    for name, rep, req in a.part:
-        raw = Path(rep).read_bytes()
-        gz = Path(a.out_dir) / f"{a.id}-{name}-klt-report.json.gz"
-        if gz.exists():
-            sys.exit(f"records are append-only: {gz} exists")
-        gz.write_bytes(gzip.compress(raw, 9, mtime=0))
+    for (name, _, req), raw in zip(a.part, raws):
         r = json.loads(raw)
         parts.append((name, grade(r), r, Path(req)))
+    Path(a.out_dir).mkdir(parents=True, exist_ok=True)
+    for gz, raw in zip(gzs, raws):
+        ru.write_report_gz(gz, raw)
     rec.write_text(render(parts, a.id, a.commit))
     print(rec, [g["verdict"] for _, g, _, _ in parts])
     return 0

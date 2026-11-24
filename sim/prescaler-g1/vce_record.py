@@ -10,8 +10,6 @@ A corner that errored is never counted as a pass.
     vce_record.py --report REPORT.json --out-dir sim/prescaler-g1/records [--commit SHA]
 """
 import argparse
-import gzip
-import hashlib
 import json
 import sys
 from pathlib import Path
@@ -19,6 +17,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 import ngpin  # noqa: E402  (the simulator pin check, computed once in sim/ngpin.py)
+import record_util as ru  # noqa: E402  (verdict, request grid, append-only archive helpers)
 
 BVCEO_MIN_V = 2.2
 SUPPLY_LO, SUPPLY_HI = 2.97, 3.63
@@ -52,7 +51,7 @@ def grade(report, bveceo=BVCEO_MIN_V):
         })
     n_err = sum(1 for r in rows if not r["converged"])
     n_exc = sum(1 for r in rows if r["exceeds"])
-    verdict = "FAIL" if n_exc else ("INCOMPLETE" if n_err or not rows else "PASS")
+    verdict = ru.verdict(["FAIL" if r["exceeds"] else ("PASS" if r["converged"] else "INCOMPLETE") for r in rows])
     return {"rows": rows, "verdict": verdict, "n_corners": len(rows), "n_exceeding": n_exc, "n_not_converged": n_err,
             "bveceo_v": bveceo}
 
@@ -69,17 +68,9 @@ def _has_rail(supplies, rail):
     return any(abs(s - rail) < 1e-6 for s in supplies)
 
 
-def _section_of(block, prefix):
-    """The block's section name for the lib whose basename starts with `prefix`; None when it has none."""
-    for s in block.get("sections") or []:
-        if isinstance(s, dict) and s.get("section") and Path(str(s.get("lib", ""))).name.startswith(prefix):
-            return s["section"]
-    return None
-
-
 def _legend_entry(block):
     """'NAME = hbt_x' from the block's cornerHBT section; NAME alone when it has none."""
-    hbt = _section_of(block, "cornerHBT")
+    hbt = ru.section_of(block, "cornerHBT")
     return "%s = %s" % (block["name"], hbt) if hbt else block["name"]
 
 
@@ -93,21 +84,17 @@ def render(g, report, rec_id, commit, report_name, request_path):
     req_bytes = Path(request_path).read_bytes()
     req = json.loads(req_bytes)
     grid = req.get("corners") or {}
-    blocks = [b for b in grid.get("process") or [] if isinstance(b, dict) and "name" in b]
+    blocks, temps, vddv, supplies = ru.request_corners(req)
     procs = [b["name"] for b in blocks]
     legend = ", ".join(_legend_entry(b) for b in blocks)
-    res_named = [r for r in (_section_of(b, "cornerRES") for b in blocks) if r]
+    res_named = [r for r in (ru.section_of(b, "cornerRES") for b in blocks) if r]
     if res_named and len(res_named) == len(blocks):
         res_clause = "the cornerRES section %s is paired with each HBT corner" % "/".join(res_named)
     elif res_named:
         res_clause = "the cornerRES section %s is paired with the HBT corners that carry one" % "/".join(res_named)
     else:
         res_clause = "no cornerRES section is loaded"
-    temps = list(grid.get("temperature_c") or [])
-    params = grid.get("params") or {}
-    vddv = list(params.get("vddv") or [])
-    supplies = sorted(set(vddv))
-    mcv = params.get("mcv")
+    mcv = (grid.get("params") or {}).get("mcv")
     mc_levels = None if mcv is None else sorted(set(mcv))
     n_corners = len(procs) * len(temps) * len(supplies)
     n_req_runs = len(procs) * len(temps) * len(vddv)
@@ -147,7 +134,7 @@ def render(g, report, rec_id, commit, report_name, request_path):
         "- **Simulator**: %s on the Spot batch fleet (`environment.engine_host` = %s), %s. Job `%s`, %s, %s." % (
             ngpin.engine(env.get("engine_version")), env.get("engine_host"), ngpin.verdict(env.get("engine_version")),
             rem.get("job_id"), rem.get("instance_type"), rem.get("lifecycle")),
-        "- **Request**: `%s` sha256 `%s`; report [`%s`](%s) (klt report, gzip) sha256 `%s`" % (Path(request_path).name, hashlib.sha256(req_bytes).hexdigest(), report_name, report_name, report.get("_report_sha256", "see file")),
+        "- **Request**: `%s` sha256 `%s`; report [`%s`](%s) (klt report, gzip) sha256 `%s`" % (Path(request_path).name, ru.sha256_bytes(req_bytes), report_name, report_name, report.get("_report_sha256", "see file")),
         "- **PDK**: `models.pdk` sg13g2 on the fleet image (`/opt/pdk`); model library `cornerHBT.lib` staged from this host's IHP-Open-PDK v0.3.0 install (`environment.staged_model_inputs`)",
         "- **Commit**: `%s` of this repository" % commit,
         "- **Jitter-like numbers**: none (voltage stress only).",
@@ -180,11 +167,10 @@ def main(argv=None):
     report = json.loads(raw)
     gz = Path(args.out_dir) / ("%s-klt-report.json.gz" % args.id)
     rec = Path(args.out_dir) / ("%s-vce.md" % args.id)
-    if gz.exists() or rec.exists():
-        sys.exit("records are append-only: %s exists" % rec)
+    ru.ensure_new(gz, rec)
     gz.parent.mkdir(parents=True, exist_ok=True)
-    gz.write_bytes(gzip.compress(raw, 9, mtime=0))
-    report["_report_sha256"] = hashlib.sha256(raw).hexdigest()
+    ru.write_report_gz(gz, raw)
+    report["_report_sha256"] = ru.sha256_bytes(raw)
     g = grade(report)
     rec.write_text(render(g, report, args.id, args.commit, gz.name, args.request))
     print("%s: %s (%d exceed, %d not converged of %d)" % (rec, g["verdict"], g["n_exceeding"], g["n_not_converged"], g["n_corners"]))
