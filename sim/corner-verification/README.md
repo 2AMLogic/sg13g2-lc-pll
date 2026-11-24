@@ -64,9 +64,21 @@ without them it states the check as `unchecked` rather than guessing a version f
 fleet as sharded jobs (`--max-units-per-job`, the fleet's 3600 s whole-job ceiling); nothing ran on the dispatch host. Simulator: ngspice 46
 on the fleet, pin is 47.
 
-Findings, not relaxed:
+### Stage 2 on November 10 (revision `2022314`)
 
-- **Stage 2 (18 corners, all returned and converged)**: only 5 divide to 50 MHz (all at 2.970 V, mostly -40 and 27 C); 13 do not (every
+The first run converged at 12 corners. The retry converged at the six remaining -40 C corners.
+Together, 15/18 divided to 50 MHz, including 8/9 at 3.630 V. All three misses were at 125 C
+(SLOW at both supplies and TYP at 2.970 V). Across the dividing corners the power subtotal,
+including the nominal 1.71 mW PFD/CP/bias contribution, was 19.85–31.77 mW. FAST at 125 C
+and 3.630 V exceeded the 20 mW target before counting the lock detector, reference and clock
+buffering. The later prescaler change still needs a loop-power rerun.
+[Initial run](loop-power/records/20261110-051905-2022314-stage2.md) ·
+[-40 C retry](loop-power/records/20261110-053343-2022314-stage2.md) ·
+[Prescaler revision](../../design/README.md)
+
+### Historical November 3–4 runs
+
+- **November 3 stage 2 (18 corners, all returned and converged)**: only 5 divide to 50 MHz (all at 2.970 V, mostly -40 and 27 C); 13 do not (every
   3.630 V corner, and 125 C). Those 13 are not-a-row-11-number. Over the 5 dividing corners the sum with the nominal PFD/CP/bias constant is
   18.63-19.96 mW before the owed lock detector, reference and clock buffering, so row 11 is **not** shown to pass.
 - **Start-up caveat**: the HBT prescaler DC operating point did not converge from the powered state at most corners, so the bench ramps the
@@ -126,12 +138,12 @@ Some `request-*.json` files are generator output and are no longer tracked (`.gi
 
 | Row | State | Why |
 |---|---|---|
-| 5 | enveloped, passes (method L) | `sim/loop-model/records/20261115-101634-6a08197-row5-envelope.json` (`model-run` envelope cited in manifest, graded `met`) |
+| 5 | **partial** (method L) | The cited model passed 180 points from 18 supply corners at 2.970 and 3.630 V (I_up and I_dn × five Kvco values). Bandwidth was 0.777–1.248 MHz and minimum phase margin was 52.48°. The 135-point 3.300 V grid, filter R/C spread and local Kvco from G4 remain open. [Model envelope](../loop-model/records/20261115-101634-6a08197-row5-envelope.json) · [Inputs and limits](../loop-model/records/20261115-101634-6a08197-row5-envelope.md) |
 | 6 | enveloped, passes all 33 | `cp-dc` (`20261103-221e27b-stage{1,2}.json`, cited in manifest, graded `met`) |
 | 7 | **gap** | lower edge at 1.65 V passes all 33 corners (worst 1.57 % at SLOW/2.970 V/125 C after #67); upper edge `V_hi,req` needs G4 (`sg13g2-vco#53`, tracked in #86) |
 | 1, 9, 10 | **gap** | benches run on a behavioural VCO/divider stand-in; G4 (`sg13g2-vco#53`), G2 (#173), divider (#97/#199); tracked in #86. A stand-in envelope is never reported as a pass |
 | 8 | **gap** | method L partial (in-band inputs #252/#253), method T not run (G6, #88); tracked in #86 |
-| 11 | **enveloped (sharded), reads `fail`, gap in manifest** | `loop-power/`: stage 2 ran (18 corners, 5 divide to 50 MHz, 13 do not); stage 1 complete (135 of 135 returned, 24 divide at 22.4-24.1 mW with nominal PFD/CP/bias, before owed blocks; 111 do not divide; see `loop-power/records/20261104-stage1-complete-135.md`); non-division at 3.630 V / 125 C read as a design finding (#97, #199), not a start-up artifact |
+| 11 | **fail on recorded revisions, gap open** | November 4 stage 1 had 24/135 dividing corners at 22.41–24.07 mW. November 10 stage 2 had 15/18 at 50 MHz (8/9 at 3.630 V). The subtotal reached 31.77 mW against 20 mW. Loop power still needs a rerun after the prescaler change. [Stage 1 record](loop-power/records/20261104-stage1-complete-135.md) · [Stage 2 results](#stage-2-on-november-10-revision-2022314) |
 
 The prescaler follower Vce against BVCEO (2.2 V min) at the minimum-supply corner is **not**
 reported in `cp-dc` (the CP netlist contains no prescaler); it is recorded over the supply

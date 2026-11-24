@@ -755,7 +755,7 @@
           },
           {
             "id": "11",
-            "gap": "loop power C-grid ran sharded into markdown records (sim/corner-verification/loop-power/records/20261104-stage1-complete-135.md and 20261103-133405-ce1d60d-dirty-stage2.md, #70) and reads fail (divider stops dividing at 3.630 V / 125 C, #97/#199; lock detector and buffers not in deck); no passing klt sim JSON envelope yet"
+            "gap": "stage 1 had 24/135 dividing corners (sim/corner-verification/loop-power/records/20261104-stage1-complete-135.md). Stage 2 on 2022314 had 15/18, including 8/9 at 3.630 V (20261110-051905-2022314-stage2.md and its -40 C retry 20261110-053343-2022314-stage2.md in the same directory). SLOW at 125 C missed on both rails and TYP at 125 C missed at 2.970 V. The subtotal reached 31.77 mW against 20 mW before the lock detector, reference and clock buffering. The later prescaler change still needs a loop-power rerun (design/README.md). A passing klt sim envelope is still owed (#84 power budget, #97/#199 division)."
           }
         ],
         "unratified_rows": [],
