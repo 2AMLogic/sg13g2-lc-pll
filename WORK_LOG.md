@@ -4,6 +4,8 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-24
 
+- **PR #431**: fix: bound-retry transient fetch failures in fetch-vco.sh
+- **Issue #348** (closed): test flake: scripts/ci-harness.sh fetch-pll test fails on signoff when one locked blob is momentarily unreachable
 - **PR #422**: fix: remove the stale reset-fix diagnostic mode from run-pfd-sweep.sh
 - **Issue #250** (closed): Remove the PFD_VARIANT=reset-fix mode from run-pfd-sweep.sh: against the current pin it half-applies and would write a mislabeled record
 - **PR #427**: refactor: share verdict, grid and append-only archive helpers across klt sim record writers

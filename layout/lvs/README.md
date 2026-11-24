@@ -1,7 +1,7 @@
 # layout/lvs: T1 item 4 (LVS) attempt
 
-**Status: item 4 stays `unmet`. No `klt lvs` envelope exists; both engines stop before a compare.**
-Tracker for the current tool gap: `2AMLogic/klayout-tools#5407` (earlier gap #5402 is fixed). Nothing here is a `match`.
+**Item 4 stays `unmet`. Both the earlier top-level report (`top.lvs.json`) and the latest subcircuit-call report (`top.subckt.lvs.json`) record `mismatch` with zero matched nets.**
+Latest top-level run: see "Re-run after klayout-tools#5406 (#37, 2026-11-24)" at the end; generic tool gap `2AMLogic/klayout-tools#7836`. Nothing here is a `match`.
 
 **DRC state changed after the runs below were written.** `layout/drc/top.drc.json` went
 `status: clean` in PR #248 (commit `28cbf88`, 2026-11-13); the dated run sections below keep their
@@ -230,3 +230,38 @@ were re-run from their directories and verified with `klt lvs --check`:
 | `top.lvs.json` | `klayout-runset` (`sg13g2.lvs`) | `mismatch` | `counts.nets` (`1746 / 5 / 0`) and `counts.devices` (`666 / 3 / 0`) unchanged; `counts.pins.layout` `19 -> 20` (`pin.unmatched` `21 -> 22`, `mismatch_count` `2441 -> 2442`): the `PSP` route (`lcpll_prescaler.OUTP` -> `lcpll_divider.INP`), whose top-level `67/25` label sat over a Metal4-only segment, is now named `'INP,OUTP'` by its `/25` cell port labels, and existing routed islands pick up their connected cell port names (`VSS` -> `'A0,A1,M0,M1,VSS'`, `VDD` -> `'A2,M2,M3,VDD'`, `VCP` -> `'VCP,VIN,VOUT'`, etc.) |
 
 No LVS verdict moved to `match`; item 4 stays `unmet` with #37 and `2AMLogic/klayout-tools#6960` / `#6961`.
+
+## Re-run after klayout-tools#5406 (#37, 2026-11-24, `klt 0.9.3.dev5460+g4f5feb9e7fc4`, klayout 0.30.12)
+
+`2AMLogic/klayout-tools#5406` (native-reader conversion of SG13G2 RF calls) is closed. The runset
+request now sets `reference.form: "subckt-call"` (`request.runset.subckt.json`, committed; same layout,
+same item-1-derived `top.reference.spice`, nothing hand-flattened). Single local run, PDK `sg13g2.lvs` as
+`--deck-file`, envelope committed as `top.subckt.lvs.json` (`klt lvs` exit 3 = `mismatch`):
+
+`klt lvs request.runset.subckt.json --deck-file <PDK>/libs.tech/klayout/tech/lvs/sg13g2.lvs --format json -o top.subckt.lvs.json`
+
+| Field | Value |
+|---|---|
+| `status` | **`mismatch`**: 0 nets / 0 devices / 0 pins matched; `device.unmatched` 1518, `net.unmatched` 2202, `pin.unmatched` 28 |
+| `power_connectivity` | `unchecked` (runset extraction carries no instance-level power pins): "does not apply", not "verified" |
+| counts | layout 1746 nets / 666 devices / 20 pins; reference 456 nets / 852 devices / 8 pins |
+| layout `device_census` | `sg13_hv_nmos` 391, `npn13G2v` 139, `rppd` 86, `rhigh` 6, `cap_cmim` 9, `sg13_hv_svaricap` 32, `inductor` 2, `ptap1` 1 |
+| reference `device_census` | `nfet` 365, `pfet` 363, `RPPD` 81, `SG13_HV_SVARICAP` 32, `RHIGH` 6, `CAP_CMIM` 9, `INDUCTOR` 2; **no bipolar class** although `top.reference.spice` has 34 `npn13G2v` calls |
+
+Reading it:
+
+- Progress vs `top.lvs.json`: the reference now expands to devices (852, was 3 unresolved `X` calls), the
+  inductor and HV varactor appear on both sides, and `lc_pll_top` pairs with `pll_top`.
+- **`npn13G2v` recognition is observed only on the layout side (139).** The reference census carries no
+  bipolar class and no dropped/unresolved entry, so the HBT compare is not covered. Not claimed as recognised.
+- Reference MOS appear as generic `nfet`/`pfet` and the layout side as `sg13_hv_nmos` (no layout PMOS class
+  is extracted), so nothing can pair; whether that is class mapping or the layout is not separated here.
+  Tool-side question filed generically as `2AMLogic/klayout-tools#7836`.
+- Not a verdict on the routing: several cells are still placement-level (sections above), so a `match`
+  would not be expected even with the tool gap closed.
+- VCO treatment: flat on both sides in this run (the reference `vco` subckt is expanded by the reader).
+- The swapped-net negative control is not run: it needs a `match` baseline to flip.
+
+`klt lvs --check top.subckt.lvs.json` (from this directory) exits 0 and prints `status: match`; that is the
+input re-hash (`layout_sha256` `1c49ad5d...`, `reference_sha256` `c2b55917...`), **not** the LVS verdict, which is `mismatch`.
+Item 4 stays `unmet`; `manifests/sg13g2-lc-pll.signoff.json` is not touched.
