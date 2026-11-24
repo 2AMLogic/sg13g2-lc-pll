@@ -140,6 +140,9 @@ scripts/ci-harness.sh          # CI: test-fetch-vco.sh (both pins), loop-model p
 scripts/test-ngpin.sh          # local-only: ngspice pin check (PDK + ngspice)
 scripts/test-cp-dc-negative.sh # local-only: skewed CP must be flagged (PDK + ngspice)
 design/netlist.sh --check      # local-only: committed netlist matches the schematic (klt + xschem + PDK)
+scripts/test-layout-cells.sh   # local-only: regenerate loop-block cells vs layout/cells.provenance.json (klt, Python with KLayout, resolvable PDK)
+scripts/test-layout-vco.sh     # local-only: placed VCO layout checks (fetched VCO via scripts/fetch-vco.sh, klt, jq, Python with KLayout)
+scripts/test-layout-top.sh     # local-only: integrated top layout checks (fetched VCO, klt, jq, Python with KLayout; a fresh run also needs the PDK to generate missing cells)
 ```
 
 Testbenches (T1 item 9): the inventory is [`sim/testbench-inventory.json`](sim/testbench-inventory.json) (per-row

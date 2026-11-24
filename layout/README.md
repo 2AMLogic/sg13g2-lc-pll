@@ -101,11 +101,38 @@ drawing-purpose (`/0`) negative controls (a set-based name compare let the route
 through in #349, and stamping on `*/0` hid port pins from `sg13g2.lvs` in #416). It is not in
 `scripts/ci-harness.sh` (needs `klayout`, a PDK and klt).
 
-**Tool pin.** The HBT (`bjt_array`, klayout-tools#4850 -> #4855) and sub-0.42 um MOS (`dogbone_terminals`,
+**Generator reproducibility (measured 2026-11-24, source `fe3e402`; measurement taken in #433's curation, not re-run by the
+builder, who had no `klayout` module on the dispatch host).** `layout/gen_cells.py --blocks lcpll_pfd --check` with the same
+source, KLayout Python 0.30.13 and IHP Open PDK v0.3.0 (archive SHA-256 matches `sim/pins.json`); only the klt build changes:
+
+| klt build | PFD area (um2) | Geometry SHA-256 | `--check` exit |
+|---|---:|---|---:|
+| `0.9.3.dev2575+g6bd18bbc8637` (recorded in `cells.provenance.json`) | 1272.5 | `8a98ba1327ac96644b731776726f5e72ca779ffde3e382be5beb6b7f42951db1` | 0 |
+| `0.9.1` (signoff CI pin) | 1240.3 | `7f9fcabc24ffb225cebe33d1fcee05a43da1ef72eab6c1cd012eea2ae5b102cf` | 1 |
+| `0.9.2.dev111+g978f7464fae1` | 1240.3 | `7f9fcabc24ffb225cebe33d1fcee05a43da1ef72eab6c1cd012eea2ae5b102cf` | 1 |
+
+Shape-level difference: the recursively merged Metal1 polygons (layer 8/0) of the committed PFD and the 0.9.1 regeneration
+have an XOR area of 148,466,400 dbu^2. The klt build alone moves the cell on this PDK; the other five cells and the internal
+generator change were not compared. PR #424 (port-label datatype) changes the digest too; repeat the comparison against the
+current base and name its commit if you re-measure. To repeat (`PDK_ROOT` at the extracted v0.3.0 tree, `LAYOUT_PY` a Python with KLayout 0.30.13):
+
+```bash
+out=$(mktemp -d)
+KLT_CMD="uvx --with klayout==0.30.13 --from git+https://github.com/2AMLogic/klayout-tools@6bd18bbc8637f6d767b3c24e77bd5db7a39e4bbe klt" \
+  "$LAYOUT_PY" layout/gen_cells.py --blocks lcpll_pfd --out "$out/recorded" --check   # recorded build
+KLT_CMD="uvx --with klayout==0.30.13 --from klayout-tools==0.9.1 klt" \
+  "$LAYOUT_PY" layout/gen_cells.py --blocks lcpll_pfd --out "$out/release" --check    # signoff pin
+```
+
+`--check` prints the recorded and running klt and the PDK it can see, and a mismatch line names the cell and field and says
+whether the klt differs. A klt difference alone does not fail the check; a geometry mismatch always exits 1.
+
+**Tool pin (historic workaround).** The HBT (`bjt_array`, klayout-tools#4850 -> #4855) and sub-0.42 um MOS (`dogbone_terminals`,
 #4851 -> #4854) fixes are in the installed klt used for the committed provenance (`klt 0.9.2.dev420+gf186e14125ed`;
 the provenance records the klt version). An older klt refuses the HBT groups and the generator fails; use
 `uvx --from git+https://github.com/2AMLogic/klayout-tools@f94eaa6c00f267e3b58031e6ddaeab0507d2cd9d klt` via `KLT_CMD`
-(a throwaway env). `npn13G2v Nx=<n>` is drawn as n unit PDK HBT cells (an approximation of the multi-emitter device).
+(a throwaway env). That pin is the minimum klt that can draw the HBT and sub-0.42 um MOS cells; it is not the build that
+reproduces the committed geometry (see "Generator reproducibility" below). `npn13G2v Nx=<n>` is drawn as n unit PDK HBT cells (an approximation of the multi-emitter device).
 
 **Devices drawn (2026-11-10).** Every device of the six blocks is drawn (0 `undrawn_devices`) and every `.subckt`
 port is labelled (`scripts/test-layout-cells.sh`: no KNOWN-GAP). The ideal `R` cards were replaced by `rppd`/`rhigh`

@@ -46,6 +46,38 @@ BLOCKS.update({c: _table_block(c, s, n, r) for c, s, n, r in TABLE})
 PROV = os.path.join(common.ROOT, "layout", "cells.provenance.json")
 
 
+def klt_version():
+    """`klt --version` of the klt this run drives ($KLT_CMD or `klt`); a failed probe is reported, not hidden."""
+    try:
+        p = subprocess.run(common.klt_cmd() + ["--version"], capture_output=True, text=True, timeout=300)
+    except (OSError, subprocess.SubprocessError) as e:
+        return f"unknown (version probe failed: {e})"
+    v = p.stdout.strip()
+    if p.returncode != 0 or not v:
+        return f"unknown (version probe exit {p.returncode}: {(p.stderr.strip() or 'no output')[:120]})"
+    return v
+
+
+def pdk_identity():
+    """The PDK klt resolves, as far as this script can see: $PDK_ROOT or ~/share/pdk, plus a git rev when it is a checkout."""
+    root = os.environ.get("PDK_ROOT") or os.path.expanduser("~/share/pdk")
+    path = os.path.join(root, common.PDK)
+    if not os.path.isdir(path):
+        return f"{common.PDK}: not found under {root} (klt may resolve it elsewhere)"
+    p = subprocess.run(["git", "-C", path, "rev-parse", "--short", "HEAD"], capture_output=True, text=True)
+    rev = p.stdout.strip() if p.returncode == 0 else "no revision marker (not a git checkout)"
+    return f"{path} ({rev})"
+
+
+def toolchain_note(recorded, running):
+    """Clause appended to a mismatch line: names a klt difference, or says the klt build is the same."""
+    if recorded in (None, "", "unknown") or running.startswith("unknown"):
+        return f"klt versions not comparable (recorded: {recorded or 'unknown'}; running: {running})"
+    if recorded != running:
+        return f"klt differs: recorded {recorded}, running {running} -- the generator build may explain this"
+    return f"same klt build ({running}): not a toolchain difference"
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--out", default=os.path.join(common.ROOT, "layout/build/cells"))
@@ -71,7 +103,7 @@ def main():
         print(f"gen_cells: {name}: {r['status']}: {r['device_units']} units drawn, {len(r['undrawn_devices'])} undrawn, {r['area_um2']} um2, "
               f"{len(r['port_labels'])}/{len(r['ports'])} ports labelled{route_s}"
               + (f" (UNLABELLED: {r['ports_unlabelled']})" if r["ports_unlabelled"] else ""))
-    klt_v = subprocess.run(common.klt_cmd() + ["--version"], capture_output=True, text=True).stdout.strip()
+    klt_v = klt_version()
     doc = {"schema": 1, "klt": klt_v, "pdk": common.PDK,
            "command": ".venv/bin/python layout/gen_cells.py --write", "cells": recs}
     if a.write:
@@ -82,12 +114,18 @@ def main():
     elif a.check:
         old = json.load(open(PROV))
         bad = 0
+        rec_klt = old.get("klt") or "unknown"
+        print(f"gen_cells: recorded klt: {rec_klt}; running klt: {klt_v}; PDK: {pdk_identity()}")
+        note = toolchain_note(rec_klt, klt_v)
         for r in recs:
             o = next((c for c in old["cells"] if c["cell"] == r["cell"]), None)
             for k in ("geometry_sha256", "area_um2", "netlist_sha256", "device_units"):
                 if o is None or o[k] != r[k]:
-                    print(f"gen_cells: MISMATCH {r['cell']}.{k}: {o and o[k]} != {r[k]}")
+                    print(f"gen_cells: MISMATCH {r['cell']}.{k}: {o and o[k]} != {r[k]} ({note})")
                     bad += 1
+        if bad and rec_klt != klt_v:
+            print("gen_cells: FAIL: geometry does not reproduce under a different klt than recorded; "
+                  "compare with the recorded build via KLT_CMD (see layout/README.md)")
         sys.exit(1 if bad else 0)
 
 
