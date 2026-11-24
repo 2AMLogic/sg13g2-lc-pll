@@ -82,6 +82,10 @@ set -u
 self="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 n="$(( $(cat "${self}/count" 2>/dev/null || echo 0) + 1 ))"; echo "${n}" > "${self}/count"
 [ -f "${self}/always-fail" ] && n=1
+if [ -f "${self}/always-404" ]; then
+  echo "curl: (22) The requested URL returned error: 404" >&2
+  exit 22
+fi
 dest=""
 while [ $# -gt 0 ]; do
   case "$1" in -o) dest="$2"; shift 2 ;; *) shift ;; esac
@@ -95,6 +99,7 @@ STUB
 cat > "${stub}/gh" <<'STUB'
 #!/usr/bin/env bash
 # Test stub: the gh leg must neither succeed nor touch the network.
+if [ -f "$(dirname "${BASH_SOURCE[0]}")/always-404" ]; then echo "gh: Not Found (HTTP 404)" >&2; exit 1; fi
 echo "gh: stub failure (HTTP 403)" >&2
 exit 1
 STUB
@@ -114,5 +119,16 @@ PATH="${stub}:${PATH}" FETCH_VCO_REPO=2AMLogic/stub-repo FETCH_PLL_REPO=2AMLogic
     "refuse:fetch-vco: stub\\.txt missing or unreachable at [0-9a-f]{40} \\(last error: curl: \\(56\\) Recv failure: Connection reset by peer" \
     "${F}"
 rm -f "${stub}/always-fail"
+# Permanent 404 (a bad pin) must not burn the retry loop: one curl call, no backoff sleep.
+printf '0' > "${stub}/count"; : > "${stub}/always-404"
+s0=${SECONDS}
+PATH="${stub}:${PATH}" FETCH_VCO_REPO=2AMLogic/stub-repo FETCH_PLL_REPO=2AMLogic/stub-repo \
+  expect "permanent 404 fails fast" \
+    "refuse:fetch-vco: stub\\.txt missing or unreachable at [0-9a-f]{40} \\(last error: curl: \\(22\\) The requested URL returned error: 404" \
+    "${F}"
+if [ "$(cat "${stub}/count")" = 1 ] && [ $((SECONDS - s0)) -lt 2 ]; then
+  echo "PASS 404 not retried (1 attempt)"; pass=$((pass+1))
+else echo "FAIL 404 retried (attempts=$(cat "${stub}/count"), $((SECONDS - s0))s)"; bad=$((bad+1)); fi
+rm -f "${stub}/always-404"
 
 expect_summary || exit 1
