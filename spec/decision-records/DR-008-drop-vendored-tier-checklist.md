@@ -1,4 +1,4 @@
-# DR-007: Drop the vendored design-evidence tier checklist; the pinned klt selects it
+# DR-008: Drop the vendored design-evidence tier checklist; the pinned klt selects it
 
 - **Status**: accepted (operator ruling)
 - **Date**: 2026-11-24

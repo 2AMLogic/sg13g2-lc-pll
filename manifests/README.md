@@ -22,7 +22,7 @@ record.
   [`docs/design-evidence-tiers.md` @ `v0.9.1`](https://github.com/2AMLogic/klayout-tools/blob/v0.9.1/docs/design-evidence-tiers.md).
   The record's `source_doc_content_hash` pins its bytes, and the CI compare
   below catches a checklist change at a pin bump. (Vendoring was reversed by
-  the operator ruling on #223; see DR-007.)
+  the operator ruling on #223; see DR-008.)
 - **`sg13g2-lc-pll.signoff.json`**: **the verdict of record**, the committed
   output of the command below. Never hand-edit it. Besides the 11 T1 items
   (items 1, 2, 3 and 10 `met`, the rest `unmet` / `check_failed`,
