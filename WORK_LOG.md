@@ -4,6 +4,11 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-25
 
+- **Issue #466** (closed): scripts/ld_tool.py klt sim request omits psp103_nqs.osdi (sibling of #451, not in its scope)
+- **Issue #463** (closed): osdi-preload guard is file-scoped, so a multi-request generator can regress on one of its preload lists
+- **Issue #451** (closed): klt sim request generators still missing psp103_nqs.osdi: cp-mc, cp-dc I_cp corners, loop-power ad-hoc requests
+- **PR #465**: fix(sim): preload psp103_nqs.osdi in 42 loop-power diagnostic requests
+- **PR #455**: docs: refresh top-level LVS envelope for native bipolar/MOS cards
 - **Issue #456** (closed): lock-detector C-grid request generator (scripts/ld_tool.py) still preloads psp103.osdi without psp103_nqs.osdi
 - **Issue #454** (closed): layout: regenerate cells and top.gds after klayout-tools#7531 so pfet arrays carry pSD (0 sg13_hv_pmos extracted in LVS)
 - **Issue #452** (closed): loop-power corner-verification requests abort at parse: no cornerRES/r3_cmc loading for the netlists' rppd resistors
