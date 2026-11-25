@@ -64,14 +64,28 @@ def pdk_identity():
     path = os.path.join(root, common.PDK)
     if not os.path.isdir(path):
         return f"{common.PDK}: not found under {root} (klt may resolve it elsewhere)"
-    p = subprocess.run(["git", "-C", path, "rev-parse", "--short", "HEAD"], capture_output=True, text=True)
-    rev = p.stdout.strip() if p.returncode == 0 else "no revision marker (not a git checkout)"
+    try:
+        p = subprocess.run(
+            ["git", "-C", path, "rev-parse", "--show-toplevel", "--short", "HEAD"],
+            capture_output=True, text=True, timeout=30,
+        )
+    except (OSError, subprocess.SubprocessError) as e:
+        return f"{path} (git probe failed: {e})"
+    lines = p.stdout.strip().splitlines()
+    if p.returncode == 0 and len(lines) == 2 and os.path.realpath(lines[0]) == os.path.realpath(path):
+        rev = lines[1]
+    else:
+        rev = "no revision marker (not a git checkout)"
     return f"{path} ({rev})"
+
+
+def _klt_known(version):
+    return isinstance(version, str) and bool(version.strip()) and not version.strip().startswith("unknown")
 
 
 def toolchain_note(recorded, running):
     """Clause appended to a mismatch line: names a klt difference, or says the klt build is the same."""
-    if recorded in (None, "", "unknown") or running.startswith("unknown"):
+    if not (_klt_known(recorded) and _klt_known(running)):
         return f"klt versions not comparable (recorded: {recorded or 'unknown'}; running: {running})"
     if recorded != running:
         return f"klt differs: recorded {recorded}, running {running} -- the generator build may explain this"
@@ -112,9 +126,11 @@ def main():
             f.write("\n")
         print(f"gen_cells: wrote {PROV}")
     elif a.check:
-        old = json.load(open(PROV))
+        with open(PROV) as f:
+            old = json.load(f)
         bad = 0
-        rec_klt = old.get("klt") or "unknown"
+        raw_rec = old.get("klt")
+        rec_klt = raw_rec.strip() if isinstance(raw_rec, str) and raw_rec.strip() else "unknown"
         print(f"gen_cells: recorded klt: {rec_klt}; running klt: {klt_v}; PDK: {pdk_identity()}")
         note = toolchain_note(rec_klt, klt_v)
         for r in recs:
@@ -123,7 +139,7 @@ def main():
                 if o is None or o[k] != r[k]:
                     print(f"gen_cells: MISMATCH {r['cell']}.{k}: {o and o[k]} != {r[k]} ({note})")
                     bad += 1
-        if bad and rec_klt != klt_v:
+        if bad and _klt_known(rec_klt) and _klt_known(klt_v) and rec_klt != klt_v:
             print("gen_cells: FAIL: geometry does not reproduce under a different klt than recorded; "
                   "compare with the recorded build via KLT_CMD (see layout/README.md)")
         sys.exit(1 if bad else 0)
