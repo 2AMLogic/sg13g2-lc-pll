@@ -11,3 +11,7 @@ scripts/run-loop-power.sh        # writes records/<date>-<sha>.md   (about 3 min
 The record states whether the FB output actually divides to 50 MHz in the window; if it does not, the currents
 are labelled as not a row 11 number. The lock detector, reference and clock buffering have no schematic and are
 listed as owed, not counted as zero.
+
+The issue-84 shared-clock-pair attempt (`records/20261106-issue84-shared-clock-pair-attempt.md`) cites scratch
+scripts, `attempts/issue-84/mkvar.py`, `runvar.sh` and `split-rails.sh`. They no longer elaborate on current
+`main` and were removed (issue #418); the exact scripts remain in git history at `7eaef35`.

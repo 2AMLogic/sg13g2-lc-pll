@@ -354,56 +354,52 @@ def tank_estimate(routes):
     }
 
 
-def main():
-    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--vco", default=os.path.join(ROOT, ".fetched/sg13g2-vco/layout/vco.gds"))
-    ap.add_argument("--prescaler-origin", metavar="TRANSFORM,X,Y",
-                    help="try one floorplan (#345): override the lcpll_prescaler placement, "
-                         "e.g. M0,-291.2,-132.5. Evaluation only -- regenerates "
-                         "layout/build/top.gds and prints the route summary and tank estimate, "
-                         "but never writes layout/top.gds or layout/provenance.json and skips "
-                         "the --check digest comparison (a trial placement is expected to differ).")
-    mode = ap.add_mutually_exclusive_group()
-    mode.add_argument("--write", action="store_true")
-    mode.add_argument("--check", action="store_true")
-    a = ap.parse_args()
+def parse_prescaler_origin(ap, a):
+    """Validate --prescaler-origin (#345) and return the trial (TRANSFORM, (x, y)), or None."""
+    if not a.prescaler_origin:
+        return None
+    parts = a.prescaler_origin.split(",")
+    if len(parts) != 3 or parts[0] not in ("R0", "M0"):
+        ap.error("--prescaler-origin wants TRANSFORM,X,Y with TRANSFORM R0 or M0, "
+                 f"got {a.prescaler_origin!r}")
+    try:
+        trial = (parts[0], (float(parts[1]), float(parts[2])))
+    except ValueError:
+        ap.error(f"--prescaler-origin coordinates are not numbers: {a.prescaler_origin!r}")
+    if a.write:
+        ap.error("--prescaler-origin is evaluation-only and refuses --write; "
+                 "to adopt a placement, edit PLACE in this file")
+    return trial
 
-    trial = None
-    if a.prescaler_origin:
-        parts = a.prescaler_origin.split(",")
-        if len(parts) != 3 or parts[0] not in ("R0", "M0"):
-            ap.error("--prescaler-origin wants TRANSFORM,X,Y with TRANSFORM R0 or M0, "
-                     f"got {a.prescaler_origin!r}")
-        try:
-            trial = (parts[0], (float(parts[1]), float(parts[2])))
-        except ValueError:
-            ap.error(f"--prescaler-origin coordinates are not numbers: {a.prescaler_origin!r}")
-        if a.write:
-            ap.error("--prescaler-origin is evaluation-only and refuses --write; "
-                     "to adopt a placement, edit PLACE in this file")
-        PLACE["lcpll_prescaler"] = trial
 
-    os.makedirs(BUILD, exist_ok=True)
-    base = os.path.join(BUILD, "lc_pll_base.gds")
-    build_base(a.vco, base)
-    # cell streams (gen_cells output); regenerate if missing
-    need = [n for n in PLACE if not os.path.exists(os.path.join(CELLS_DIR, f"{n}.gds"))]
-    if need:
-        subprocess.run([sys.executable, os.path.join(HERE, "gen_cells.py")], check=True, stdout=subprocess.DEVNULL)
+def layer_collisions(dbu, bs, obs, pins_on_layer):
+    """Overlap of the shapes `bs` with the foreign-obstacle region `obs` on one layer, excluding the
+    polygons of `obs` that contain the leg's own pins on that layer (`pins_on_layer`: (x, y) um)."""
+    hit = to_region(bs) & obs
+    for pt in pins_on_layer:
+        pin_poly = db.Region(db.Box(round(pt[0] / dbu) - 1, round(pt[1] / dbu) - 1,
+                                    round(pt[0] / dbu) + 1, round(pt[1] / dbu) + 1))
+        hit = hit - obs.interacting(pin_poly)
+    return hit
 
-    ly = db.Layout()
-    ly.read(base)
-    dbu = ly.dbu
-    top = ly.cell(TOP)
-    vco = ly.cell("vco")
-    pin_tab = {"vco": pins(ly, vco)}
-    for name, (code, org) in PLACE.items():
-        c = load_cell(ly, name)
-        pin_tab[name] = pins(ly, c)
-        top.insert(db.DCellInstArray(c.cell_index(), trans_of(code, org)))
 
-    def gpin(cell, port):
-        layer, p = pin_tab[cell][port]
+class Router:
+    """Routing state for the integrated top: the layout, the pin table, and what this run has drawn.
+
+    Shapes drawn per net (`added_net`, #344): a supply star's shared trunk, its landing tower and the
+    endpoint stacks its legs redraw at the anchor are all one electrical node, so a later leg's
+    overlap with them is not a foreign collision. Only top-level shapes this generator itself drew
+    for the same net are excluded -- never geometry inside the placed cells (the generator is not
+    net-aware there; #37 decides those overlaps)."""
+
+    def __init__(self, ly, top, pin_tab):
+        self.ly, self.top, self.pin_tab, self.dbu = ly, top, pin_tab, ly.dbu
+        self.routes, self.collisions_total, self.added = {}, 0, {}
+        self.added_net = {}
+        self.net_label_cache = {}
+
+    def gpin(self, cell, port):
+        layer, p = self.pin_tab[cell][port]
         if cell == "vco":
             t = db.DTrans()
         else:
@@ -412,35 +408,26 @@ def main():
         q = t * p
         return layer, (round(q.x, 3), round(q.y, 3))
 
-    # obstacle geometry per layer: everything placed so far (VCO, cells, ring, fill)
-    def lidx(l):
-        return ly.layer(l, 0)
+    def lidx(self, l):
+        return self.ly.layer(l, 0)
 
-    routes, collisions_total, added = {}, 0, {}
-    # Shapes this run drew per net (#344): a supply star's shared trunk, its landing tower and the
-    # endpoint stacks its legs redraw at the anchor are all one electrical node, so a later leg's
-    # overlap with them is not a foreign collision. Only top-level shapes this generator itself drew
-    # for the same net are excluded -- never geometry inside the placed cells (the generator is not
-    # net-aware there; #37 decides those overlaps).
-    added_net = {}
-    net_label_cache = {}
-
-    def foreign(k, net):
-        obs = db.Region(top.begin_shapes_rec(lidx(k))).merged()
+    def foreign(self, k, net):
+        """Obstacle geometry on layer `k`: everything placed so far (VCO, cells, ring, fill)."""
+        obs = db.Region(self.top.begin_shapes_rec(self.lidx(k))).merged()
         if net is not None:
-            own_net = to_region(added_net.get(net, {}).get(k, []))
+            own_net = to_region(self.added_net.get(net, {}).get(k, []))
             if not own_net.is_empty():
                 obs = obs - own_net
             # A polygon carrying this net's own label is that net's conductor: overlapping it is a
             # labelled same-net tie, not a foreign collision (e.g. the lock detector's VSS pin is a
             # 46 um Metal5 slab its westward VSS run must cross). The label is evidence, not an
             # assertion -- unlabelled cell internals stay counted, for #37 to resolve.
-            if (k, net) not in net_label_cache:
+            if (k, net) not in self.net_label_cache:
                 marks = db.Region()
-                for li in ly.layer_indexes():
-                    if ly.get_info(li).layer != k:
+                for li in self.ly.layer_indexes():
+                    if self.ly.get_info(li).layer != k:
                         continue
-                    for it in top.begin_shapes_rec(li):
+                    for it in self.top.begin_shapes_rec(li):
                         s = it.shape()
                         if s.is_text() and s.text_string == net:
                             # compose the transforms, then take the displacement: multiplying
@@ -448,26 +435,26 @@ def main():
                             # coordinates, where they mark nothing (or the wrong thing).
                             p = (it.trans() * s.text_trans).disp
                             marks.insert(db.Box(p.x - 500, p.y - 500, p.x + 500, p.y + 500))
-                net_label_cache[(k, net)] = marks
-            marks = net_label_cache[(k, net)]
+                self.net_label_cache[(k, net)] = marks
+            marks = self.net_label_cache[(k, net)]
             if not marks.is_empty():
                 obs = obs - obs.interacting(marks)
         return obs
 
-    def commit(net, allshapes):
+    def commit(self, net, allshapes):
         for k, bs in allshapes.items():
             for b in bs:
-                top.shapes(lidx(k)).insert(b)
-            added.setdefault(k, []).extend(bs)
+                self.top.shapes(self.lidx(k)).insert(b)
+            self.added.setdefault(k, []).extend(bs)
             if net is not None:
-                added_net.setdefault(net, {}).setdefault(k, []).extend(bs)
+                self.added_net.setdefault(net, {}).setdefault(k, []).extend(bs)
 
-    def star(net, base_pin, ends, width, tank=False, tm2=False, span=SPAN_UM, stack_at_base=True):
+    def star(self, net, base_pin, ends, width, tank=False, tm2=False, span=SPAN_UM, stack_at_base=True):
         """Route one net as a star from `base_pin` (a (layer, (x, y)) pin tuple) to each entry of
         `ends` ((cell, port, layer, (x, y))), choosing the least-colliding Manhattan path per leg.
         `stack_at_base=False` (#344 landings): the anchor's via tower is drawn once by the caller,
         so legs only stack at their far endpoint."""
-        nonlocal collisions_total
+        dbu, top, ly = self.dbu, self.top, self.ly
         rec = {"pins": [], "segments": [], "length_um": 0.0, "collisions": []}
         total = 0.0
         for cell, port, l, pt in ends:
@@ -504,17 +491,9 @@ def main():
                 bad = 0
                 for k, bs in allshapes.items():
                     if k not in obs_cache:
-                        obs_cache[k] = foreign(k, net)
-                    own = to_region(bs)
-                    hit = own & obs_cache[k]
-                    # allow overlap with the polygons containing the net's own pins on this layer
-                    for (lay, pt2) in (pa, pb):
-                        if lay == k:
-                            pin_poly = db.Region(db.Box(round(pt2[0] / dbu) - 1, round(pt2[1] / dbu) - 1,
-                                                        round(pt2[0] / dbu) + 1, round(pt2[1] / dbu) + 1))
-                            own_poly = obs_cache[k].interacting(pin_poly)
-                            hit = hit - own_poly
-                    bad += hit.count()
+                        obs_cache[k] = self.foreign(k, net)
+                    bad += layer_collisions(dbu, bs, obs_cache[k],
+                                            [pt2 for (lay, pt2) in (pa, pb) if lay == k]).count()
                 if best is None or bad < best[0]:
                     best = (bad, pts, allshapes)
                 if bad == 0:
@@ -522,26 +501,21 @@ def main():
             bad, pts, allshapes = best
             if os.environ.get("LAYOUT_DEBUG_COLLISIONS"):
                 for k, bs in allshapes.items():
-                    obs = foreign(k, net)
-                    hit = to_region(bs) & obs
-                    for (lay, pt2) in (pa, pb):
-                        if lay == k:
-                            pin_poly = db.Region(db.Box(round(pt2[0] / dbu) - 1, round(pt2[1] / dbu) - 1,
-                                                        round(pt2[0] / dbu) + 1, round(pt2[1] / dbu) + 1))
-                            hit = hit - obs.interacting(pin_poly)
-                    if not hit.is_empty():
-                        for poly in hit.each():
-                            b = poly.bbox()
-                            print(f"DBG {net}->{cell}.{port} layer {k}/{0}: hits foreign polygon "
-                                  f"[{b.left*dbu:.2f},{b.bottom*dbu:.2f},{b.right*dbu:.2f},{b.top*dbu:.2f}]")
-            commit(net, allshapes)
+                    if k not in obs_cache:
+                        obs_cache[k] = self.foreign(k, net)
+                    hit = layer_collisions(dbu, bs, obs_cache[k], [pt2 for (lay, pt2) in (pa, pb) if lay == k])
+                    for poly in hit.each():
+                        b = poly.bbox()
+                        print(f"DBG {net}->{cell}.{port} layer {k}/{0}: hits foreign polygon "
+                              f"[{b.left*dbu:.2f},{b.bottom*dbu:.2f},{b.right*dbu:.2f},{b.top*dbu:.2f}]")
+            self.commit(net, allshapes)
             seglen = length(pts)
             total += seglen
             rec["segments"].append({"from": f"{ends[0][0]}.{ends[0][1]}", "to": f"{cell}.{port}",
                                     "path_um": [list(x) for x in pts], "length_um": round(seglen, 3)})
             if bad:
                 rec["collisions"].append({"to": f"{cell}.{port}", "overlapping_polygons": bad})
-                collisions_total += bad
+                self.collisions_total += bad
         rec["length_um"] = round(total, 3)
         if tank:
             rec["layers"] = "TopMetal1 (126/0), width %.1f um" % W_TANK
@@ -549,19 +523,23 @@ def main():
             rec["layers"] = "TopMetal2 (134/0), width %.1f um" % W_TM2
         else:
             rec["layers"] = "Metal5 horizontal / Metal4 vertical, width %.1f um" % width
-        routes[net] = rec
+        self.routes[net] = rec
         # label the net on the route
         l0 = 126 if tank else 67
         p0 = rec["segments"][0]["path_um"][0]
         top.shapes(ly.layer(l0, 25)).insert(db.Text(f"{net}", round(p0[0] / dbu), round(p0[1] / dbu)))
         return rec
 
+
+def route_all(r, vco):
+    """Signal nets first, then the supplies and external pins (#344), into the Router `r`."""
+    dbu = r.dbu
     for net, ends in sorted(NETS.items(), key=lambda kv: (kv[0] not in TANK, kv[0])):
         tank = net in TANK
         # connect first end to each other end (star from the first pin); UP/DN have three pins
-        base_pin = gpin(*ends[0])
-        resolved = [(c, p, *gpin(c, p)) for c, p in ends]
-        star(net, base_pin, resolved, W_SIG, tank=tank)
+        base_pin = r.gpin(*ends[0])
+        resolved = [(c, p, *r.gpin(c, p)) for c, p in ends]
+        r.star(net, base_pin, resolved, W_SIG, tank=tank)
 
     # ---- supplies and external pins (#344) ----------------------------------------------
     # One labelled landing tower per pll_top external port on the south edge, 20 um below the
@@ -572,7 +550,7 @@ def main():
                           - gen_top.RING_W_UM / 2), 3)
     for net in list(EXT_NETS) + list(SUPPLY_NETS):
         x = LANDING_X[net]
-        commit(net, stack(dbu, (x, LAND_Y), 0, 6 if SUPPLY_NETS.get(net, {}).get("mode") == "tm2" else 4))
+        r.commit(net, stack(dbu, (x, LAND_Y), 0, 6 if SUPPLY_NETS.get(net, {}).get("mode") == "tm2" else 4))
     # VSS also ties the top-level p+ guard ring (the substrate tap this top draws): a stack on the
     # ring's south-arm Metal1, outside the keep-out (bbox + KEEPOUT_UM + RING_GAP_UM).
     ring_pin = (8, (RING_TIE_X, ring_south_y))
@@ -581,23 +559,28 @@ def main():
             # VDDV: its own branch (spec section 5) -- one TopMetal2 strap from the labelled
             # landing straight to the VCO's TopMetal2 VDD bar, never joined on-chip to VDD.
             # TopMetal2/TopVia1/2 are outside the keep-out's forbidden set, so it crosses legally.
-            ends = [("(landing)", net, 67, (LANDING_X[net], LAND_Y)), ("vco", "VDD", *gpin("vco", "VDD"))]
-            star(net, (67, (LANDING_X[net], LAND_Y)), ends, W_TM2, tm2=True, stack_at_base=False)
+            ends = [("(landing)", net, 67, (LANDING_X[net], LAND_Y)), ("vco", "VDD", *r.gpin("vco", "VDD"))]
+            r.star(net, (67, (LANDING_X[net], LAND_Y)), ends, W_TM2, tm2=True, stack_at_base=False)
         else:
             ends = [("(landing)", net, 67, (LANDING_X[net], LAND_Y))]
-            ends += [(c, p, *gpin(c, p)) for c, p in spec["ends"]]
+            ends += [(c, p, *r.gpin(c, p)) for c, p in spec["ends"]]
             if net == "VSS":
                 ends.append(("(guard_ring)", "VSS", *ring_pin))
-            star(net, (67, (LANDING_X[net], LAND_Y)), ends, W_SUP, stack_at_base=False)
+            r.star(net, (67, (LANDING_X[net], LAND_Y)), ends, W_SUP, stack_at_base=False)
+    return ring_south_y
 
-    # Close Metal1 notches that the 0.7 um via-stack pads create against the polygon holding their own pin
-    # (a pad abutting a device Metal1 shape leaves a 5 nm slit, native M1.b). Closing is per merged polygon, so it only
-    # fills inside one net's own polygon and never bridges to a different polygon.
+
+def trim_and_fill_m1_pads(r):
+    """Close Metal1 notches that the 0.7 um via-stack pads create against the polygon holding their own pin
+    (a pad abutting a device Metal1 shape leaves a 5 nm slit, native M1.b). Closing is per merged polygon, so it only
+    fills inside one net's own polygon and never bridges to a different polygon.
+    Returns (notch_fill, pads_trimmed, pads_below_via)."""
+    dbu, top, added = r.dbu, r.top, r.added
     notch_fill = 0
     pads_trimmed = 0
     pads_below_via = []
     if 8 in added:
-        m1l = lidx(8)
+        m1l = r.lidx(8)
         # First trim each pad away from Metal1 of a different polygon (a pad wider than the gap to a
         # neighbouring device terminal leaves < 0.18 um): keep M1.b spacing to polygons the pad does not touch.
         pad_boxes = set((b.left, b.bottom, b.right, b.top) for b in added[8])
@@ -629,12 +612,17 @@ def main():
             fill = pr.sized(g).sized(-g) - pr
             notch_fill += fill.count()
             top.shapes(m1l).insert(fill)
+    return notch_fill, pads_trimmed, pads_below_via
 
-    # remove filler under the wires and under any cell that sits in the fill band (a chip-level
-    # fill tool does this; the placeholder fill here must not short the routes, and a cell moved
-    # up against the guard ring lands inside the band (#345), where its Metal(n) must keep the
-    # native MFil.c 0.42 um filler clearance the same way). The VCO and the ring never trigger
-    # removal: the band starts FILL_GAP_UM (5) outside the ring, beyond the 2 um sizing here.
+
+def clear_filler_under_routes(r):
+    """Remove filler under the wires and under any cell that sits in the fill band (a chip-level
+    fill tool does this; the placeholder fill here must not short the routes, and a cell moved
+    up against the guard ring lands inside the band (#345), where its Metal(n) must keep the
+    native MFil.c 0.42 um filler clearance the same way). The VCO and the ring never trigger
+    removal: the band starts FILL_GAP_UM (5) outside the ring, beyond the 2 um sizing here.
+    Returns the number of filler squares removed."""
+    ly, top, dbu = r.ly, r.top, r.dbu
     fill_removed = 0
     for m in range(1, 6):
         fl = ly.layer(*gen_top.LAYERS[f"Metal{m}.filler"])
@@ -642,36 +630,18 @@ def main():
         fr = db.Region(top.shapes(fl))
         if fr.is_empty():
             continue
-        near = foreign(lay, None).sized(round(2.0 / dbu))
+        near = r.foreign(lay, None).sized(round(2.0 / dbu))
         keep = fr - fr.interacting(near)
         fill_removed += fr.count() - keep.count()
         top.shapes(fl).clear()
         top.shapes(fl).insert(keep)
+    return fill_removed
 
-    # Always produce the fresh stream under layout/build/; --write then publishes it to
-    # layout/top.gds only if the geometry moved (#257).
-    build_gds = os.path.join(BUILD, "top.gds")
-    ly.write(build_gds)
-    chk = db.Layout()
-    chk.read(build_gds)
-    dg = common.digest(chk, chk.cell(TOP))
-    # A --prescaler-origin trial never publishes and never compares: its geometry is expected to
-    # differ from the committed record (that difference is the measurement).
-    replaced = publish_stream(build_gds, OUT_GDS, dg) if (a.write and trial is None) else None
-    # output.sha256 is the hash of the stream as it sits on disk at output.path.
-    out = OUT_GDS if (a.write and trial is None) else build_gds
 
-    # klayout_module describes the writer of `output`. When the committed stream is kept, the
-    # module running now did not produce it, so carry the recorded value forward rather than
-    # re-attributing attested bytes to whichever klayout happens to be installed here (#257).
-    klayout_module = getattr(__import__("klayout"), "__version__", None)
-    if replaced is False and os.path.exists(PROV):
-        try:
-            klayout_module = json.load(open(PROV)).get("klayout_module", klayout_module)
-        except (OSError, ValueError):
-            pass
-
-    rec = {
+def build_provenance(a, r, ring_south_y, klayout_module, dg, out, fill_removed,
+                     pads_trimmed, pads_below_via, notch_fill):
+    routes, added = r.routes, r.added
+    return {
         "schema_version": 1,
         "block": "sg13g2-lc-pll",
         "item": "T1 item 2 (Layout)",
@@ -705,7 +675,7 @@ def main():
         },
         "tank_node_estimate": tank_estimate(routes),
         "not_routed": NOT_ROUTED,
-        "collisions_total": collisions_total,
+        "collisions_total": r.collisions_total,
         "fill_squares_removed_under_routes": fill_removed,
         "metal1_pad_trim": {
             "method": ("each endpoint via-stack Metal1 pad (%.2f um) is trimmed back by the M1.b spacing "
@@ -725,6 +695,75 @@ def main():
             "notch_fill_polygons": notch_fill,
         },
     }
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--vco", default=os.path.join(ROOT, ".fetched/sg13g2-vco/layout/vco.gds"))
+    ap.add_argument("--prescaler-origin", metavar="TRANSFORM,X,Y",
+                    help="try one floorplan (#345): override the lcpll_prescaler placement, "
+                         "e.g. M0,-291.2,-132.5. Evaluation only -- regenerates "
+                         "layout/build/top.gds and prints the route summary and tank estimate, "
+                         "but never writes layout/top.gds or layout/provenance.json and skips "
+                         "the --check digest comparison (a trial placement is expected to differ).")
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--write", action="store_true")
+    mode.add_argument("--check", action="store_true")
+    a = ap.parse_args()
+
+    trial = parse_prescaler_origin(ap, a)
+    if trial:
+        PLACE["lcpll_prescaler"] = trial
+
+    os.makedirs(BUILD, exist_ok=True)
+    base = os.path.join(BUILD, "lc_pll_base.gds")
+    build_base(a.vco, base)
+    # cell streams (gen_cells output); regenerate if missing
+    need = [n for n in PLACE if not os.path.exists(os.path.join(CELLS_DIR, f"{n}.gds"))]
+    if need:
+        subprocess.run([sys.executable, os.path.join(HERE, "gen_cells.py")], check=True, stdout=subprocess.DEVNULL)
+
+    ly = db.Layout()
+    ly.read(base)
+    top = ly.cell(TOP)
+    vco = ly.cell("vco")
+    pin_tab = {"vco": pins(ly, vco)}
+    for name, (code, org) in PLACE.items():
+        c = load_cell(ly, name)
+        pin_tab[name] = pins(ly, c)
+        top.insert(db.DCellInstArray(c.cell_index(), trans_of(code, org)))
+
+    r = Router(ly, top, pin_tab)
+    ring_south_y = route_all(r, vco)
+    notch_fill, pads_trimmed, pads_below_via = trim_and_fill_m1_pads(r)
+    fill_removed = clear_filler_under_routes(r)
+    routes, collisions_total, added = r.routes, r.collisions_total, r.added
+
+    # Always produce the fresh stream under layout/build/; --write then publishes it to
+    # layout/top.gds only if the geometry moved (#257).
+    build_gds = os.path.join(BUILD, "top.gds")
+    ly.write(build_gds)
+    chk = db.Layout()
+    chk.read(build_gds)
+    dg = common.digest(chk, chk.cell(TOP))
+    # A --prescaler-origin trial never publishes and never compares: its geometry is expected to
+    # differ from the committed record (that difference is the measurement).
+    replaced = publish_stream(build_gds, OUT_GDS, dg) if (a.write and trial is None) else None
+    # output.sha256 is the hash of the stream as it sits on disk at output.path.
+    out = OUT_GDS if (a.write and trial is None) else build_gds
+
+    # klayout_module describes the writer of `output`. When the committed stream is kept, the
+    # module running now did not produce it, so carry the recorded value forward rather than
+    # re-attributing attested bytes to whichever klayout happens to be installed here (#257).
+    klayout_module = getattr(__import__("klayout"), "__version__", None)
+    if replaced is False and os.path.exists(PROV):
+        try:
+            klayout_module = json.load(open(PROV)).get("klayout_module", klayout_module)
+        except (OSError, ValueError):
+            pass
+
+    rec = build_provenance(a, r, ring_south_y, klayout_module, dg, out, fill_removed,
+                           pads_trimmed, pads_below_via, notch_fill)
     mismatch = False
     if a.write and trial is None:
         with open(PROV, "w") as f:

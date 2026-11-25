@@ -1,7 +1,7 @@
 # layout/lvs: T1 item 4 (LVS) attempt
 
-**Status: item 4 stays `unmet`. No `klt lvs` envelope exists; both engines stop before a compare.**
-Tracker for the current tool gap: `2AMLogic/klayout-tools#5407` (earlier gap #5402 is fixed). Nothing here is a `match`.
+**Item 4 stays `unmet`. Both the earlier top-level report (`top.lvs.json`) and the latest subcircuit-call report (`top.subckt.lvs.json`) record `mismatch` (`top.lvs.json` with zero matched nets; `top.subckt.lvs.json` with 1 net, 2 devices and 1 pin matched out of 2903 / 1049 / 20 layout and 493 / 975 / 9 reference).**
+Latest top-level run: see "High-voltage pMOS extraction after the pSD implant fix (#454)" at the end, which refreshed the envelope from the "Re-run after klayout-tools#7836" section above it; generic tool gaps `2AMLogic/klayout-tools#7855` and `#7856`. Nothing here is a `match`.
 
 **DRC state changed after the runs below were written.** `layout/drc/top.drc.json` went
 `status: clean` in PR #248 (commit `28cbf88`, 2026-11-13); the dated run sections below keep their
@@ -230,3 +230,87 @@ were re-run from their directories and verified with `klt lvs --check`:
 | `top.lvs.json` | `klayout-runset` (`sg13g2.lvs`) | `mismatch` | `counts.nets` (`1746 / 5 / 0`) and `counts.devices` (`666 / 3 / 0`) unchanged; `counts.pins.layout` `19 -> 20` (`pin.unmatched` `21 -> 22`, `mismatch_count` `2441 -> 2442`): the `PSP` route (`lcpll_prescaler.OUTP` -> `lcpll_divider.INP`), whose top-level `67/25` label sat over a Metal4-only segment, is now named `'INP,OUTP'` by its `/25` cell port labels, and existing routed islands pick up their connected cell port names (`VSS` -> `'A0,A1,M0,M1,VSS'`, `VDD` -> `'A2,M2,M3,VDD'`, `VCP` -> `'VCP,VIN,VOUT'`, etc.) |
 
 No LVS verdict moved to `match`; item 4 stays `unmet` with #37 and `2AMLogic/klayout-tools#6960` / `#6961`.
+
+## Re-run after klayout-tools#5406 (#37, 2026-11-24, `klt 0.9.3.dev5460+g4f5feb9e7fc4`, klayout 0.30.12)
+
+`2AMLogic/klayout-tools#5406` (native-reader conversion of SG13G2 RF calls) is closed. The runset
+request now sets `reference.form: "subckt-call"` (`request.runset.subckt.json`, committed; same layout,
+same item-1-derived `top.reference.spice`, nothing hand-flattened). Single local run, PDK `sg13g2.lvs` as
+`--deck-file`, envelope committed as `top.subckt.lvs.json` (`klt lvs` exit 3 = `mismatch`):
+
+`klt lvs request.runset.subckt.json --deck-file <PDK>/libs.tech/klayout/tech/lvs/sg13g2.lvs --format json -o top.subckt.lvs.json`
+
+| Field | Value |
+|---|---|
+| `status` | **`mismatch`**: 0 nets / 0 devices / 0 pins matched; `device.unmatched` 1518, `net.unmatched` 2202, `pin.unmatched` 28 |
+| `power_connectivity` | `unchecked` (runset extraction carries no instance-level power pins): "does not apply", not "verified" |
+| counts | layout 1746 nets / 666 devices / 20 pins; reference 456 nets / 852 devices / 8 pins |
+| layout `device_census` | `sg13_hv_nmos` 391, `npn13G2v` 139, `rppd` 86, `rhigh` 6, `cap_cmim` 9, `sg13_hv_svaricap` 32, `inductor` 2, `ptap1` 1 |
+| reference `device_census` | `nfet` 365, `pfet` 363, `RPPD` 81, `SG13_HV_SVARICAP` 32, `RHIGH` 6, `CAP_CMIM` 9, `INDUCTOR` 2; **no bipolar class** although `top.reference.spice` has 34 `npn13G2v` calls |
+
+Reading it:
+
+- Progress vs `top.lvs.json`: the reference now expands to devices (852, was 3 unresolved `X` calls), the
+  inductor and HV varactor appear on both sides, and `lc_pll_top` pairs with `pll_top`.
+- **`npn13G2v` recognition is observed only on the layout side (139).** The reference census carries no
+  bipolar class and no dropped/unresolved entry, so the HBT compare is not covered. Not claimed as recognised.
+- Reference MOS appear as generic `nfet`/`pfet` and the layout side as `sg13_hv_nmos` (no layout PMOS class
+  is extracted), so nothing can pair; whether that is class mapping or the layout is not separated here.
+  Tool-side question filed generically as `2AMLogic/klayout-tools#7836`.
+- Not a verdict on the routing: several cells are still placement-level (sections above), so a `match`
+  would not be expected even with the tool gap closed.
+- VCO treatment: flat on both sides in this run (the reference `vco` subckt is expanded by the reader).
+- The swapped-net negative control is not run: it needs a `match` baseline to flip.
+
+`klt lvs --check top.subckt.lvs.json` (from this directory) exited 0 and printed `status: match` on that snapshot; `top.subckt.lvs.json` has since been replaced by the post-`#7836` re-run below.
+
+## Re-run after klayout-tools#7836 (#37, 2026-11-24, `klt 0.9.3.dev5517+g9fff520e45e2`, klayout 0.30.12)
+
+`2AMLogic/klayout-tools#7836` (PR #7841: native `Q`/`M` cards for SG13G2 bipolar and MOS calls under `klayout-runset`) is closed and included in `klt 0.9.3.dev5517+g9fff520e45e2`. Same `request.runset.subckt.json`, the `layout/top.gds` regenerated after the pSD fix (#454; `abf1a394...`, the shipped stream and the pin in the committed envelope), same item-1-derived `top.reference.spice` (`c2b55917...`), same PDK `sg13g2.lvs` (`e01bcb1e...`), nothing hand-flattened or hand-mapped. Single local run, envelope committed as `top.subckt.lvs.json` (`klt lvs` exit 3 = `mismatch`):
+
+`klt lvs request.runset.subckt.json --deck-file <PDK>/libs.tech/klayout/tech/lvs/sg13g2.lvs --format json -o top.subckt.lvs.json`
+
+| Field | Value |
+|---|---|
+| `status` | **`mismatch`**: 1 net (`TAIL` / `VCO_TAIL`), 2 devices, 1 pin matched; `mismatch_count` 5433, `error_count` 5406 (`device.property` 2, `device.unmatched` 2016, `net.unmatched` 3388, `pin.unmatched` 27 warnings) |
+| `power_connectivity` | `unchecked` (runset extraction carries no instance-level power pins): "does not apply", not "verified" |
+| `counts` | layout 2903 nets / 1049 devices / 20 pins; reference 493 nets / 975 devices / 9 pins |
+| layout `device_census` | `sg13_hv_nmos` 391, `sg13_hv_pmos` 383, `npn13G2v` 139, `rppd` 86, `rhigh` 6, `cap_cmim` 9, `sg13_hv_svaricap` 32, `inductor` 2, `ptap1` 1 |
+| reference `device_census` | `sg13_hv_nmos` 365, `sg13_hv_pmos` 363, `NPN13G2V` 121, `RPPD` 83, `SG13_HV_SVARICAP` 32, `CAP_CMIM` 9, `RHIGH` 6, `INDUCTOR` 2 (`reference_source: null`, plus `unnamed_device_instances: 3` for `VCO.RE` / `VCO.REF` / `VCO.TE`) |
+| `declared_not_recognized` | 34 deck classes absent from both sides (`sg13_hv_pmos` is in `coverage.checked` and in `recognized_device_classes` on both sides) |
+
+Reading it (separating tool gaps from layout and upstream gaps):
+
+- **`npn13G2v` is now recognized on both sides and actively pairs across case, with an 18-unit census gap fully accounted for.** The 34 `npn13G2v` cards across `top.reference.spice` subcircuit definitions expand to **121** instances (`NPN13G2V: 121`, converted as `Q<n> C B E S npn13G2v le=<El>u we=120n m=<Nx>` per `sg13g2_pr/npn13G2v.sym`) whose emitter multiplicities sum to **137** (`sum(Nx) = 137`). Two HBTs match (`139 - 137 = 2` layout unmatched deficit, `121 - 119 = 2` reference unmatched deficit). The matched devices are `VCO.XQ3` (tail current source) and `VCO.XQ4` (diode-connected bias reference), reported by KLayout's `each_device_pair` as `527 / VCO.XQ3 / Match` and `529 / VCO.XQ4 / Match`; the cross-coupled pair `VCO.XQ1` and `VCO.XQ2` is *not* matched and is listed as `device.unmatched`. The `TAIL` / `VCO_TAIL` net match is a separate result (1 net matched), so the oscillator's cross-coupled core did not pair in this run. The 139 vs 121 difference is **16** uncombined multi-emitter unit cells (`gen_cells.py` draws `Nx=<n>` as `n` unit HBTs; while `lcpll_prescaler` and `lcpll_divider` remain placement-only, parallel unit emitters are unconnected so `BJTDeviceCombiner` cannot collapse 137 units into 121 devices) plus **2** portless dummy HBTs refilling the prescaler's split-input slots (`layout/cells.provenance.json` `input_pair_split`).
+- **Remaining `klayout-tools` gaps (`2AMLogic/klayout-tools#7855`, `#7856`):**
+  1. `cap_cmim` `X` calls still fall through generic `convert_reference_netlist` (`C... cap_cmim A=... P=...` with `w`/`l` stripped), so `DeviceCustomMIM` sets parameter 0 (`w`) to `0.0` and `sg13g2.lvs`'s `min_caps(1e-18)` purges all 9 reference `CAP_CMIM` before `compare` (`984 - 9 = 975` in `counts.devices.reference`; 0 reference `CAP_CMIM` in `mismatches`).
+  2. `rppd`/`rhigh` 3-terminal `X` calls convert with a positional `0` *before* the model (`R... n1 n2 sub 0 rppd ...`), which `sg13g2.lvs`'s `CustomReader` parses as `n1=n2, n2=sub, sub="0"` (shifting `n1` into the instance prefix).
+  3. `_attach_reference_source` and `_unresolved_reference_calls` re-read `reference_converted.sp` with plain `NetlistSpiceReader` (no `CustomReader`), failing on valueless `C`/`L` cards and leaving `device_census.reference_source: null` (which fails closed in `klt signoff`) and silencing `reference.unresolved_subckt_call` (`#7855`).
+  4. Two paired `sg13_hv_nmos` devices (`314` / `LD.XOR.N4.XMN1`, `338` / `LD.DW.I1.XMN`) have identical primary parameters (`L=0.5, W=2.0, rfmode=0.0`) on both sides yet are reported as `device.property` because `_device_findings` classifies any non-matching two-sided device pair as `device.property` (`#7856`).
+- **Layout and upstream gaps in this block (not tool bugs in `klt lvs`):**
+  1. **Five of six loop cells are placement-only (unrouted):** `lcpll_cp`, `lcpll_pfd`, `lcpll_lockdet`, `lcpll_divider` and `lcpll_prescaler` remain unrouted (`#343`/`#346`, `2AMLogic/klayout-tools#6961`), which also prevents parallel MOS/HBT combination (`sg13_hv_nmos` 391 uncombined layout units vs 365 simplified reference devices).
+  2. **Pinned VCO (`sg13g2-vco@17e49a8`):** VCO ground pin `0` is unrouted at the top level (`2AMLogic/sg13g2-vco#427`), and `design/vco.spice` carries 3 ideal SPICE resistors (`RRE`, `RREF`, `RTE` -> 3 `unnamed_device_instances` on reference) where `vco.gds` draws 3 `rppd` (`86 - 83 = 3`).
+  3. **CI pin:** `.github/workflows/signoff.yml` pins `klayout-tools==0.9.1` (latest PyPI/GitHub release is `v0.9.2`, 2026-11-15; bridge release tracked in `2AMLogic/klayout-tools#6897`), which already contains the `#4309` runset allowlist fix (its allowlist lists the `sha256:e01bcb1e...` digest for IHP v0.3.0), but predates `#7841` (native `Q`/`M` cards for bipolar/MOS), the feature missing from CI.
+- VCO treatment: flat on both sides. Swapped-net negative control: still not run (needs a `match` baseline to flip).
+
+`klt lvs --check top.subckt.lvs.json` (run from `layout/lvs/`) re-hashes inputs only (`environment.layout_sha256`, `environment.reference_sha256`, `provenance.runset.content_hash`); the LVS verdict remains `status: mismatch`. The envelope records an absolute deck path and `--check` re-reads that deck, so on a host without it `--check` exits 4 (seen in review). The envelope now committed is the post-#454 run (`layout_sha256` `abf1a394...`); the replay steps are in the #454 section below. Item 4 stays `unmet`; `manifests/sg13g2-lc-pll.signoff.json` is not touched.
+
+## High-voltage pMOS extraction after the pSD implant fix (#454)
+
+With `klt 0.9.3.dev5517+g9fff520e45e2`, the native runset extracts 383
+`sg13_hv_pmos` devices on the layout side (previously zero) and reports 363 on
+the reference side. In the regenerated stream, `Activ & NWell & pSD`
+(`1/0 & 31/0 & 14/0`) has 33 merged regions in the PFD, 28 in the charge pump,
+18 in the lock detector and 304 in the divider. The runset compare still reports
+`mismatch`. T1 item 4 remains open under #37.
+
+To replay the native deck paths in the refreshed DRC and LVS envelopes, point
+`layout/build/pdk` at the IHP-Open-PDK v0.3.0 install containing `ihp-sg13g2/`.
+Run these commands from the repository root with `PDK_ROOT` set to that install.
+
+```sh
+mkdir -p layout/build
+ln -s "$PDK_ROOT" layout/build/pdk  # once per checkout
+klt drc --check layout/drc/top.crosscheck.json
+(cd layout/lvs && klt lvs --check top.subckt.lvs.json)
+```

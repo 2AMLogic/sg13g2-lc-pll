@@ -49,3 +49,15 @@ assert_new_record() { [ ! -e "$1" ] || die "$1 exists; records are append-only";
 
 # write_spiceinit <dir>  -> the scratch .spiceinit every bench runs ngspice with.
 write_spiceinit() { printf 'set ngbehavior=hsa\n' > "$1/.spiceinit"; }
+
+# ignored_model_count <ngspice-log>  -> prints the number of "Unknown model type ... - ignored" lines (0 if none).
+ignored_model_count() { grep -c 'Unknown model type .* - ignored' "$1" || true; }
+
+# check_no_ignored_models <ngspice-log>  -> sets NG_IGNORED_MODELS and die()s when non-zero: a deck that
+# ran with model cards ignored simulated a different device set than its netlist names, and must not write
+# an append-only record. Call after the log is copied next to the record so the evidence survives the refusal.
+# shellcheck disable=SC2034  # NG_IGNORED_MODELS is read by the sourcing driver
+check_no_ignored_models() {
+  NG_IGNORED_MODELS="$(ignored_model_count "$1")"
+  [ "${NG_IGNORED_MODELS}" -eq 0 ] || die "ngspice ignored ${NG_IGNORED_MODELS} model card(s) ('Unknown model type ... ignored'); a half-loaded device set must not write a record (log kept at $1)"
+}

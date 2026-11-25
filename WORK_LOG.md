@@ -2,8 +2,36 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-11-25
+
+- **Issue #456** (closed): lock-detector C-grid request generator (scripts/ld_tool.py) still preloads psp103.osdi without psp103_nqs.osdi
+- **Issue #454** (closed): layout: regenerate cells and top.gds after klayout-tools#7531 so pfet arrays carry pSD (0 sg13_hv_pmos extracted in LVS)
+- **Issue #452** (closed): loop-power corner-verification requests abort at parse: no cornerRES/r3_cmc loading for the netlists' rppd resistors
+- **Issue #450** (closed): Extract 3 inline Python heredocs (235 lines) from scripts/test-layout-cells.sh into a tracked module
+- **Issue #448** (closed): Simplify layout/gen_integrated.py: decompose 411-line main() and deduplicate collision check
+- **PR #462**: fix(lock-detector): preload psp103_nqs.osdi and guard psp103-only generators
+- **PR #460**: fix(layout): restore pSD implants in loop-block pFET arrays
+- **PR #459**: fix(sim): load cornerRES/r3_cmc in the 42 #97 loop-power requests
+- **PR #458**: refactor: extract test-layout-cells inline Python into a tracked helper
+- **PR #457**: refactor(layout): decompose gen_integrated main() into Router and stage helpers
+- **PR #453**: fix(sim): preload psp103_nqs.osdi in cp-mc generator, I_cp corners request, and flop-toggle request
+- **PR #446**: fix(manifests): cite passing post-retune cp-dc envelopes for item 5
+
 ### 2026-11-24
 
+- **Issue #443** (closed): layout/lvs/README.md header still says no klt lvs envelope exists / engines stop before a compare
+- **Issue #432** (closed): fetch-vco.sh: --retry-all-errors retries HTTP 404, so a wrong pin fails slowly (~13s/file)
+- **Issue #429** (closed): sim/pfd, cp-dc, loop-tran and loop-power decks never load psp103_nqs.osdi: NQS model cards silently ignored, and the PFD bench dies on the pinned ngspice-47
+- **Issue #223** (closed): Drop vendored manifests/design-evidence-tiers.md: the pinned klt 0.8.0 bundles the identical doc
+- **PR #447**: fix: load psp103_nqs in PFD/CP/loop decks and refuse runs with ignored model cards
+- **PR #445**: docs: correct LVS README status to reflect mismatch envelope
+- **PR #444**: chore: drop vendored tier checklist and --tiers-doc, pinned klt selects it
+- **PR #438**: fix: fail fast on permanent 404 in fetch-vco.sh retry loop
+- **Issue #418** (closed): Remove broken one-shot sim/loop-power/attempts/issue-84/ scripts (stale against current divider and loop_power template)
+- **PR #442**: chore: remove broken issue-84 scratch scripts
+- **PR #441**: docs: record top-level LVS re-run with subckt-call reference (mismatch)
+- **Issue #416** (closed): layout: routed cells' stamped port labels are not read as pins by the PDK LVS runset (loop filter: layout pins 3 -> 0)
+- **PR #424**: fix(layout): stamp cell port labels on SG13G2 metal text purpose /25
 - **PR #431**: fix: bound-retry transient fetch failures in fetch-vco.sh
 - **Issue #348** (closed): test flake: scripts/ci-harness.sh fetch-pll test fails on signoff when one locked blob is momentarily unreachable
 - **PR #422**: fix: remove the stale reset-fix diagnostic mode from run-pfd-sweep.sh
