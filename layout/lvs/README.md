@@ -265,3 +265,23 @@ Reading it:
 `klt lvs --check top.subckt.lvs.json` (from this directory) exits 0 and prints `status: match`; that is the
 input re-hash (`layout_sha256` `1c49ad5d...`, `reference_sha256` `c2b55917...`), **not** the LVS verdict, which is `mismatch`.
 Item 4 stays `unmet`; `manifests/sg13g2-lc-pll.signoff.json` is not touched.
+
+## High-voltage pMOS extraction after the pSD implant fix (#454)
+
+With `klt 0.9.3.dev5517+g9fff520e45e2`, the native runset extracts 383
+`sg13_hv_pmos` devices on the layout side (previously zero) and reports 363 on
+the reference side. In the regenerated stream, `Activ & NWell & pSD`
+(`1/0 & 31/0 & 14/0`) has 33 merged regions in the PFD, 28 in the charge pump,
+18 in the lock detector and 304 in the divider. The runset compare still reports
+`mismatch`. T1 item 4 remains open under #37.
+
+To replay the native deck paths in the refreshed DRC and LVS envelopes, point
+`layout/build/pdk` at the IHP-Open-PDK v0.3.0 install containing `ihp-sg13g2/`.
+Run these commands from the repository root with `PDK_ROOT` set to that install.
+
+```sh
+mkdir -p layout/build
+ln -s "$PDK_ROOT" layout/build/pdk  # once per checkout
+klt drc --check layout/drc/top.crosscheck.json
+(cd layout/lvs && klt lvs --check top.subckt.lvs.json)
+```
