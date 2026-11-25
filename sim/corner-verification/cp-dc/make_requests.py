@@ -5,12 +5,15 @@ Run from anywhere: python3 -I sim/corner-verification/cp-dc/make_requests.py
 Writes request-stage1.json and request-stage2.json next to this file.
 """
 import json
-import os
 import sys
+from pathlib import Path
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.abspath(os.path.join(HERE, "..", "..")))
-import corner_set  # noqa: E402  (the spec C-grid, defined once in sim/corner_set.py)
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parents[1]))
+try:
+    import corner_set
+finally:
+    sys.path.pop(0)
 
 
 def req(stage):
@@ -65,7 +68,14 @@ def req(stage):
     return d
 
 
-for s in (1, 2):
-    with open(os.path.join(HERE, "request-stage%d.json" % s), "w") as f:
-        json.dump(req(s), f, indent=1)
-        f.write("\n")
+def build_requests():
+    return {f"request-stage{stage}.json": req(stage) for stage in (1, 2)}
+
+
+def main():
+    for name, request in build_requests().items():
+        (HERE / name).write_text(json.dumps(request, indent=1) + "\n")
+
+
+if __name__ == "__main__":
+    main()
