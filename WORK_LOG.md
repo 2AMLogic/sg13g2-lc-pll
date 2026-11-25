@@ -2,6 +2,146 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-11-25
+
+- **PR #483**: test(sim): verify charge-pump device partition and mask counts
+- **Issue #481** (closed): Strengthen the cp attribution guard: cover check_partition and assert what write_netlist actually masks
+- **PR #480**: test(sim): guard cp-mc attribution schedule and group rejection
+- **Issue #479** (closed): Wire sim/cp-mc into the pytest harness: assert the attribution campaign order and the unknown-group rejection
+- **PR #478**: refactor(sim): derive cp attribution campaign list from attribute.py
+- **Issue #477** (closed): Derive the charge-pump attribution run list from the device groups
+- **PR #475**: test: add pytest coverage for the vco-prescaler-load record writer
+- **Issue #474** (closed): Unit-test vco-prescaler-load make_record.py now that it imports cleanly
+- **PR #473**: refactor(sim): decompose vco-prescaler-load make_record main() and guard entry point
+- **PR #472**: refactor(scripts): extract layout-top negative-control fixtures into a tracked helper
+- **Issue #469** (closed): Simplify sim/corner-verification/vco-prescaler-load/make_record.py: decompose 221-line main() and guard module entry point
+- **Issue #468** (closed): Extract the last inline Python heredoc (111 lines) from scripts/test-layout-top.sh into a tracked helper
+- **PR #437**: feat: report recorded vs running klt and PDK in gen_cells --check
+- **Issue #433** (closed): layout: report the generator used for cell digest checks and document local harnesses
+- **Issue #466** (closed): scripts/ld_tool.py klt sim request omits psp103_nqs.osdi (sibling of #451, not in its scope)
+- **Issue #463** (closed): osdi-preload guard is file-scoped, so a multi-request generator can regress on one of its preload lists
+- **Issue #451** (closed): klt sim request generators still missing psp103_nqs.osdi: cp-mc, cp-dc I_cp corners, loop-power ad-hoc requests
+- **PR #465**: fix(sim): preload psp103_nqs.osdi in 42 loop-power diagnostic requests
+- **PR #455**: docs: refresh top-level LVS envelope for native bipolar/MOS cards
+- **Issue #456** (closed): lock-detector C-grid request generator (scripts/ld_tool.py) still preloads psp103.osdi without psp103_nqs.osdi
+- **Issue #454** (closed): layout: regenerate cells and top.gds after klayout-tools#7531 so pfet arrays carry pSD (0 sg13_hv_pmos extracted in LVS)
+- **Issue #452** (closed): loop-power corner-verification requests abort at parse: no cornerRES/r3_cmc loading for the netlists' rppd resistors
+- **Issue #450** (closed): Extract 3 inline Python heredocs (235 lines) from scripts/test-layout-cells.sh into a tracked module
+- **Issue #448** (closed): Simplify layout/gen_integrated.py: decompose 411-line main() and deduplicate collision check
+- **PR #462**: fix(lock-detector): preload psp103_nqs.osdi and guard psp103-only generators
+- **PR #460**: fix(layout): restore pSD implants in loop-block pFET arrays
+- **PR #459**: fix(sim): load cornerRES/r3_cmc in the 42 #97 loop-power requests
+- **PR #458**: refactor: extract test-layout-cells inline Python into a tracked helper
+- **PR #457**: refactor(layout): decompose gen_integrated main() into Router and stage helpers
+- **PR #453**: fix(sim): preload psp103_nqs.osdi in cp-mc generator, I_cp corners request, and flop-toggle request
+- **PR #446**: fix(manifests): cite passing post-retune cp-dc envelopes for item 5
+
+### 2026-11-24
+
+- **Issue #443** (closed): layout/lvs/README.md header still says no klt lvs envelope exists / engines stop before a compare
+- **Issue #432** (closed): fetch-vco.sh: --retry-all-errors retries HTTP 404, so a wrong pin fails slowly (~13s/file)
+- **Issue #429** (closed): sim/pfd, cp-dc, loop-tran and loop-power decks never load psp103_nqs.osdi: NQS model cards silently ignored, and the PFD bench dies on the pinned ngspice-47
+- **Issue #223** (closed): Drop vendored manifests/design-evidence-tiers.md: the pinned klt 0.8.0 bundles the identical doc
+- **PR #447**: fix: load psp103_nqs in PFD/CP/loop decks and refuse runs with ignored model cards
+- **PR #445**: docs: correct LVS README status to reflect mismatch envelope
+- **PR #444**: chore: drop vendored tier checklist and --tiers-doc, pinned klt selects it
+- **PR #438**: fix: fail fast on permanent 404 in fetch-vco.sh retry loop
+- **Issue #418** (closed): Remove broken one-shot sim/loop-power/attempts/issue-84/ scripts (stale against current divider and loop_power template)
+- **PR #442**: chore: remove broken issue-84 scratch scripts
+- **PR #441**: docs: record top-level LVS re-run with subckt-call reference (mismatch)
+- **Issue #416** (closed): layout: routed cells' stamped port labels are not read as pins by the PDK LVS runset (loop filter: layout pins 3 -> 0)
+- **PR #424**: fix(layout): stamp cell port labels on SG13G2 metal text purpose /25
+- **PR #431**: fix: bound-retry transient fetch failures in fetch-vco.sh
+- **Issue #348** (closed): test flake: scripts/ci-harness.sh fetch-pll test fails on signoff when one locked blob is momentarily unreachable
+- **PR #422**: fix: remove the stale reset-fix diagnostic mode from run-pfd-sweep.sh
+- **Issue #250** (closed): Remove the PFD_VARIANT=reset-fix mode from run-pfd-sweep.sh: against the current pin it half-applies and would write a mislabeled record
+- **PR #427**: refactor: share verdict, grid and append-only archive helpers across klt sim record writers
+- **Issue #426** (closed): Share verdict, request-grid and append-only report-archive helpers across the four klt sim record writers
+
+### 2026-11-23
+
+- **Issue #219** (closed): Remove archived pre-DR-005 prescaler cells (div2_cml, div2_ef_hs, div2_latch_hs, div45_dm): uninstantiated
+- **PR #421**: fix: derive the cornerRES clause, rail-gated Vce headline and div89 grid text from the request
+- **Issue #401** (closed): Three remaining input-immutable spans in emitted record text: the cornerRES legend half, the head's minimum-supply clause, and div89_record's PDK legend
+- **PR #417**: fix(layout): refuse colliding group ids in common.plan()
+- **Issue #415** (closed): layout: split-off HBT group ids are not guaranteed unique in common.plan()
+- **PR #414**: fix(layout): re-pin drifted LVS envelopes to the shipped stream and check them
+- **Issue #413** (closed): layout/lvs: committed envelopes on main pin a superseded layout/top.gds (klt lvs --check reports drifted)
+- **PR #412**: fix: match divider_corner_record.py docstring usage to the real --part CLI
+- **Issue #411** (closed): divider_corner_record.py docstring documents a --report CLI that argparse rejects
+- **PR #410**: fix: drop the fixed speed and count sweep prose from divider corner records
+- **Issue #407** (closed): Remove the fixed speed and count sweep descriptions from divider corner records
+- **PR #409**: test: track the four generated Python helpers from test-layout-top.sh in scripts/
+- **Issue #408** (closed): test-layout-top.sh: four more generated Python helpers are still outside the tracked syntax check
+- **PR #406**: test: extract the inductor clearance checker to scripts/indclear.py
+- **Issue #402** (closed): Move the inductor clearance checker out of the layout harness heredoc
+- **PR #403**: chore(sim): retire the local nominal G2 bench, point the README at batch stage 0
+- **Issue #227** (closed): Retire the local nominal G2 bench (run-vco-prescaler-load.sh): superseded by the batch stage-0 request and cannot elaborate the current prescaler
+- **PR #400**: fix: derive the prescaler Scope-line legend and cp-dc comment counts from the request
+- **Issue #399** (closed): Residual input-immutable text in the prescaler-vce record Scope line and the remaining typed 18-corner comments
+- **PR #357**: fix(layout): erase router net labels on routed cells so ports carry one label
+- **Issue #349** (closed): layout: routed cells get two labels per subckt port, and test-layout-cells.sh set-dedupes so it cannot see it
+- **PR #354**: docs(layout): record routing trials and per-cell LVS evidence for the four remaining cells
+- **Issue #346** (closed): layout: route the remaining cells and LVS each against its own subcircuit (follow-up of #343)
+- **PR #351**: feat(layout): split the prescaler input pair under the tank pins, cutting the tank routes to the geometric floor
+- **Issue #345** (closed): layout: floorplan iteration to cut the tank route (850 um / 612 um) to the keep-out floor, and record the remaining shortfall against the 2.1 fF budget
+
+- **PR #398**: fix: derive the loop-model and prescaler record corner counts from the request
+- **Issue #397** (closed): Two more record writers hard-code the 18-corner count: sim/loop-model/envelope.py and sim/prescaler-g1/vce_record.py
+- **PR #396**: fix: derive the cp-dc record's corner count and grid text from the request
+- **Issue #395** (closed): cp-dc record writer hard-codes the corner count: "18 of 18 corners converged" is printed whatever cp_icp_corners.request.json contains
+- **PR #394**: fix: drop the cp-dc record writer's --request override
+- **Issue #392** (closed): Remove the charge-pump record writer’s alternate request option to prevent false 18-corner summaries
+
+### 2026-11-22
+
+- **PR #390**: fix: score an unset BASE_CLEAR as a failed out-of-tree control
+- **Issue #378** (closed): test-layout-top.sh: BASE_CLEAR is unbound under set -u when the committed-stream clearance check fails
+- **PR #388**: fix: grade each div89 report before combining so an empty report is INCOMPLETE
+- **Issue #386** (closed): Use one verdict rule per report so an empty div89 async voltage sweep cannot pass
+- **PR #387**: fix: grade an empty prescaler-g1 Vce report INCOMPLETE, not PASS
+- **Issue #385** (closed): prescaler-g1 Vce grader also grades an empty corner report PASS
+- **PR #384**: fix: grade an empty divider corner report INCOMPLETE, not PASS
+- **Issue #376** (closed): Use one divider verdict rule so an empty corner report grades INCOMPLETE
+- **PR #377**: test(layout): refuse nested VCO copies in the top-metal clearance checker
+- **Issue #373** (closed): indclear.py's placement guard reads only DIRECT vco instances; a nested extra copy is still accepted
+- **Issue #379** (closed): Share the GDS round-trip test for the top layout and block cells
+- **PR #382**: test: share the GDS round-trip machinery between the layout harnesses
+- **Issue #375** (closed): Remove the duplicate archive-conversion test in sim/loop-model/test_envelope.py
+- **PR #380**: test: drop duplicated load_icp_points archive test definition
+- **Issue #369** (closed): test(layout): require one VCO placement with an identity transform before checking top-metal clearance
+- **PR #372**: test(layout): refuse unsupported VCO placements in the top-metal clearance checker
+- **Issue #368** (closed): Share the I_cp report reader so incomplete corner grids cannot produce a row-5 pass
+- **PR #371**: sim: enforce the I_cp corner grid through one shared report reader
+
+### 2026-11-21
+
+- **PR #370**: fix: ignore Loom daemon account-ranking runtime files in gitignore
+- **Issue #366** (closed): gitignore: .loom/account-ranking.codex (daemon runtime state) is untracked dirt that fails check-main-clean.sh
+- **PR #367**: test(layout): assert top-metal clearance to the VCO inductor exclusion markers
+- **Issue #361** (closed): layout: no test asserts top-metal routes stay clear of the VCO inductor exclusion markers
+- **PR #364**: docs: attribute erc.supply_short skip to the degenerate tap declaration, not the --pdk deck
+- **Issue #362** (closed): layout/README.md: erc.supply_short's skip reason is misattributed to a missing --pdk deck
+- **PR #359**: feat(layout): route supplies, external pins and divider tie-offs from labelled landings
+- **Issue #344** (closed): layout: route VDD / VDDV / VSS, the REF, IREFCP and LOCK pins and the divider tie-offs in gen_integrated.py (ROADMAP Now 5; prerequisite for items 4 and 11)
+- **Issue #353** (closed): Reuse the divider gate evaluator in the prescaler code test
+- **PR #356**: refactor: reuse the divider gate evaluator in the prescaler code test
+- **Issue #358** (closed): WORK_PLAN.md generated-region blurbs drift from render_plan_body()'s literals, defeating the #5890 debounce
+
+### 2026-11-20
+
+- **PR #347**: feat(layout): route loop-filter cell, add per-cell LVS envelopes (not matched)
+
+### 2026-11-19
+
+- **PR #340**: run-lock-detector: rebuild grid records from the saved artifacts alone
+- **Issue #338** (closed): Remove simulation setup from lock-detector report replay
+
+### 2026-11-18
+
+- **PR #334**: ci: add merge_group trigger to harness and signoff workflows
+- **Issue #332** (closed): Merge queue: add the merge_group trigger to the required-check workflow(s)
+
 ### 2026-11-17
 
 - **PR #327**: chore(loom): resync installed Loom to v0.19.1306

@@ -1,0 +1,872 @@
+{
+  "schema_version": 3,
+  "engine": "klayout-runset",
+  "reference_conversion": {
+    "form": "subckt-call",
+    "deck": null,
+    "device_map": null
+  },
+  "layout": {
+    "path": "layout/top.gds",
+    "scope": "repo"
+  },
+  "reference": "../../../../design/netlist/loopfilter.spice",
+  "top": "lcpll_loopfilter",
+  "reference_top": "loopfilter",
+  "deck_file": "../../../build/pdk/ihp-sg13g2/libs.tech/klayout/tech/lvs/sg13g2.lvs",
+  "deck_vars": {},
+  "options": {},
+  "hints_applied": null,
+  "status": "mismatch",
+  "power_connectivity": {
+    "status": "unchecked",
+    "reason": "no subcircuit instance in the runset's extracted netlist declares a power/ground-named pin -- the extraction carries no instance-level power connectivity to check",
+    "power_pins": [],
+    "power_pins_derivation": null,
+    "instance_count": 0,
+    "expected_nets": null,
+    "unchecked_expected_pins": [],
+    "excluded_pins": [],
+    "findings": [],
+    "finding_count": 0
+  },
+  "body_verification": null,
+  "device_parameter_coverage": null,
+  "coverage": {
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "CAP_CMIM",
+      "RPPD",
+      "cap_cmim",
+      "rppd"
+    ],
+    "skipped": [
+      {
+        "id": "dantenna",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "diodevdd_2kv",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "diodevdd_4kv",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "diodevss_2kv",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "diodevss_4kv",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "dpantenna",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "idiodevdd_2kv",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "idiodevdd_4kv",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "idiodevss_2kv",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "idiodevss_4kv",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "inductor",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "inductor3",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "isolbox",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "nmoscl_2",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "nmoscl_4",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "npn13G2",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "npn13G2l",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "npn13G2v",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "ntap1",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "pnpMPA",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "ptap1",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "res_metal1",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "res_metal2",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "res_metal3",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "res_metal4",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "res_metal5",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "res_topmetal1",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "res_topmetal2",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "rfcmim",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "rfnmos",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "rfnmoshv",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "rfpmos",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "rfpmoshv",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "rhigh",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "rsil",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "schottky_nbl1",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "sg13_hv_nmos",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "sg13_hv_pmos",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "sg13_hv_svaricap",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "sg13_lv_nmos",
+        "reason": "declared_not_recognized"
+      },
+      {
+        "id": "sg13_lv_pmos",
+        "reason": "declared_not_recognized"
+      }
+    ],
+    "inapplicable": [],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": [],
+    "declared_device_classes": {
+      "layout": [
+        "cap_cmim",
+        "dantenna",
+        "diodevdd_2kv",
+        "diodevdd_4kv",
+        "diodevss_2kv",
+        "diodevss_4kv",
+        "dpantenna",
+        "idiodevdd_2kv",
+        "idiodevdd_4kv",
+        "idiodevss_2kv",
+        "idiodevss_4kv",
+        "inductor",
+        "inductor3",
+        "isolbox",
+        "nmoscl_2",
+        "nmoscl_4",
+        "npn13G2",
+        "npn13G2l",
+        "npn13G2v",
+        "ntap1",
+        "pnpMPA",
+        "ptap1",
+        "res_metal1",
+        "res_metal2",
+        "res_metal3",
+        "res_metal4",
+        "res_metal5",
+        "res_topmetal1",
+        "res_topmetal2",
+        "rfcmim",
+        "rfnmos",
+        "rfnmoshv",
+        "rfpmos",
+        "rfpmoshv",
+        "rhigh",
+        "rppd",
+        "rsil",
+        "schottky_nbl1",
+        "sg13_hv_nmos",
+        "sg13_hv_pmos",
+        "sg13_hv_svaricap",
+        "sg13_lv_nmos",
+        "sg13_lv_pmos"
+      ],
+      "reference": [
+        "CAP_CMIM",
+        "RPPD"
+      ]
+    },
+    "recognized_device_classes": {
+      "layout": [
+        "cap_cmim",
+        "rppd"
+      ],
+      "reference": [
+        "CAP_CMIM",
+        "RPPD"
+      ]
+    },
+    "declared_not_recognized": [
+      "dantenna",
+      "diodevdd_2kv",
+      "diodevdd_4kv",
+      "diodevss_2kv",
+      "diodevss_4kv",
+      "dpantenna",
+      "idiodevdd_2kv",
+      "idiodevdd_4kv",
+      "idiodevss_2kv",
+      "idiodevss_4kv",
+      "inductor",
+      "inductor3",
+      "isolbox",
+      "nmoscl_2",
+      "nmoscl_4",
+      "npn13G2",
+      "npn13G2l",
+      "npn13G2v",
+      "ntap1",
+      "pnpMPA",
+      "ptap1",
+      "res_metal1",
+      "res_metal2",
+      "res_metal3",
+      "res_metal4",
+      "res_metal5",
+      "res_topmetal1",
+      "res_topmetal2",
+      "rfcmim",
+      "rfnmos",
+      "rfnmoshv",
+      "rfpmos",
+      "rfpmoshv",
+      "rhigh",
+      "rsil",
+      "schottky_nbl1",
+      "sg13_hv_nmos",
+      "sg13_hv_pmos",
+      "sg13_hv_svaricap",
+      "sg13_lv_nmos",
+      "sg13_lv_pmos"
+    ]
+  },
+  "device_census": {
+    "layout": {
+      "rppd": 1,
+      "cap_cmim": 3
+    },
+    "reference": {
+      "RPPD": 2,
+      "CAP_CMIM": 3
+    },
+    "reference_source": null
+  },
+  "sg13g2_passive_pairing": {
+    "status": "insufficient_evidence",
+    "findings": []
+  },
+  "mismatch_count": 21,
+  "error_count": 15,
+  "category_counts": {
+    "device.unmatched": 6,
+    "net.unmatched": 9,
+    "pin.unmatched": 6
+  },
+  "category_error_counts": {
+    "device.unmatched": 6,
+    "net.unmatched": 9
+  },
+  "counts": {
+    "nets": {
+      "layout": 5,
+      "reference": 4,
+      "matched": 0
+    },
+    "devices": {
+      "layout": 4,
+      "reference": 2,
+      "matched": 0
+    },
+    "pins": {
+      "layout": 3,
+      "reference": 3,
+      "matched": 0
+    }
+  },
+  "device_classes": [
+    "cap_cmim",
+    "dantenna",
+    "diodevdd_2kv",
+    "diodevdd_4kv",
+    "diodevss_2kv",
+    "diodevss_4kv",
+    "dpantenna",
+    "idiodevdd_2kv",
+    "idiodevdd_4kv",
+    "idiodevss_2kv",
+    "idiodevss_4kv",
+    "inductor",
+    "inductor3",
+    "isolbox",
+    "nmoscl_2",
+    "nmoscl_4",
+    "npn13G2",
+    "npn13G2l",
+    "npn13G2v",
+    "ntap1",
+    "pnpMPA",
+    "ptap1",
+    "res_metal1",
+    "res_metal2",
+    "res_metal3",
+    "res_metal4",
+    "res_metal5",
+    "res_topmetal1",
+    "res_topmetal2",
+    "rfcmim",
+    "rfnmos",
+    "rfnmoshv",
+    "rfpmos",
+    "rfpmoshv",
+    "rhigh",
+    "rppd",
+    "rsil",
+    "schottky_nbl1",
+    "sg13_hv_nmos",
+    "sg13_hv_pmos",
+    "sg13_hv_svaricap",
+    "sg13_lv_nmos",
+    "sg13_lv_pmos"
+  ],
+  "environment": {
+    "engine": "klayout-runset",
+    "engine_version": "0.30.12",
+    "klayout_binary": "klayout",
+    "netgen_binary": null,
+    "layout_sha256": "abf1a3949635471aa8b7cfcb5a61d55944d01e670aa7e6aa9747244ad1e0a10e",
+    "reference_sha256": "35341299a4ecc524d2c91db5dc5c5f2cb8284a414d70e5b37401c7f85a90ea04",
+    "extracted_netlist": null
+  },
+  "provenance": {
+    "klt_version": "0.9.3.dev5517+g9fff520e45e2",
+    "klt_git_commit": "9fff520e45e2aeefa6af5261bb509248493f2215",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@9fff520e45e2aeefa6af5261bb509248493f2215",
+    "klayout_version": "0.30.12",
+    "pdk": null,
+    "deck": {
+      "name": "sg13g2.lvs",
+      "content_hash": "sha256:e01bcb1ec5858e8069bade8f7fd7ec28c1026fc2fd0590e8f611d3398a5bbbd7",
+      "released": null
+    },
+    "input": {
+      "content_hash": "sha256:abf1a3949635471aa8b7cfcb5a61d55944d01e670aa7e6aa9747244ad1e0a10e",
+      "role": "layout"
+    },
+    "runset": {
+      "deck_file": "../../../build/pdk/ihp-sg13g2/libs.tech/klayout/tech/lvs/sg13g2.lvs",
+      "deck_vars": {},
+      "content_hash": "sha256:e01bcb1ec5858e8069bade8f7fd7ec28c1026fc2fd0590e8f611d3398a5bbbd7",
+      "klayout_application_version": "0.30.12",
+      "exit_status": 0,
+      "engine_error_lines": [],
+      "strict_top_port_mode": true,
+      "xref_log": [
+        {
+          "severity": "error",
+          "message": "Net VIN is not matching any net from reference netlist"
+        },
+        {
+          "severity": "error",
+          "message": "Net $1 is not matching any net from reference netlist"
+        },
+        {
+          "severity": "error",
+          "message": "Net VCTRL is not matching any net from reference netlist"
+        },
+        {
+          "severity": "error",
+          "message": "Net $4 is not matching any net from reference netlist"
+        },
+        {
+          "severity": "error",
+          "message": "Net VSS is not matching any net from reference netlist"
+        }
+      ]
+    }
+  },
+  "mismatches": [
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "layout device '1' (class 'rppd') has no counterpart",
+      "side": "layout",
+      "net": null,
+      "device": {
+        "layout": "1",
+        "reference": null,
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "layout device '2' (class 'cap_cmim') has no counterpart",
+      "side": "layout",
+      "net": null,
+      "device": {
+        "layout": "2",
+        "reference": null,
+        "class": "cap_cmim"
+      },
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "layout device '3' (class 'cap_cmim') has no counterpart",
+      "side": "layout",
+      "net": null,
+      "device": {
+        "layout": "3",
+        "reference": null,
+        "class": "cap_cmim"
+      },
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "layout device '4' (class 'cap_cmim') has no counterpart",
+      "side": "layout",
+      "net": null,
+      "device": {
+        "layout": "4",
+        "reference": null,
+        "class": "cap_cmim"
+      },
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "reference device '1' (class 'RPPD') has no counterpart",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": null,
+        "reference": "1",
+        "class": "RPPD"
+      },
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "reference device '3' (class 'RPPD') has no counterpart",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": null,
+        "reference": "3",
+        "class": "RPPD"
+      },
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$1' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$1",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$4' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$4",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net 'VCTRL' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "VCTRL",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net 'VIN' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "VIN",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net 'VSS' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "VSS",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "reference net 'NZ1' has no counterpart",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "reference": "NZ1"
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "reference net 'VCTRL' has no counterpart",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "reference": "VCTRL"
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "reference net 'VIN' has no counterpart",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "reference": "VIN"
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "reference net 'VSS' has no counterpart",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "reference": "VSS"
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'VCTRL' of circuit 'lcpll_loopfilter' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
+      "side": "layout",
+      "net": {
+        "layout": "VCTRL",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'VIN' of circuit 'lcpll_loopfilter' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
+      "side": "layout",
+      "net": {
+        "layout": "VIN",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'VSS' of circuit 'lcpll_loopfilter' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
+      "side": "layout",
+      "net": {
+        "layout": "VSS",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'VCTRL' of circuit 'lcpll_loopfilter' is present only on the reference side, but the runset's own compare graded the pin pair matched (Match)",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "reference": "VCTRL"
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'VIN' of circuit 'lcpll_loopfilter' is present only on the reference side, but the runset's own compare graded the pin pair matched (Match)",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "reference": "VIN"
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'VSS' of circuit 'lcpll_loopfilter' is present only on the reference side, but the runset's own compare graded the pin pair matched (Match)",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "reference": "VSS"
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    }
+  ],
+  "net_correspondence": [],
+  "mismatches_omitted": false
+}

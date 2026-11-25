@@ -1,0 +1,4 @@
+{
+  "layout": {"file": "../../../top.gds", "top": "lcpll_loopfilter", "deck": "sg13g2"},
+  "reference": {"netlist": "../../../../design/netlist/loopfilter.spice", "top": "loopfilter", "form": "subckt-call", "deck": "sg13g2"}
+}

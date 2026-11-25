@@ -157,6 +157,7 @@ def cmd_request(a):
         "options": {"timeout_s": 1500, "stage_model_inputs": True, "keep_artifacts": False,
                     "ngspice_init": ["set ngbehavior=hsa"],
                     "osdi_preload": ["$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi",
+                                     "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103_nqs.osdi",
                                      "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi"]},
     }
     # one unit is ~10 minutes of ngspice; the fleet kills a job at 3600 s, so shard 2 units per job

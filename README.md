@@ -128,7 +128,7 @@ PDK/ngspice prerequisites and pins: [`sim/pins.json`](sim/pins.json) (an `ihp-sg
 | Closed-loop lock time and spur (rows 10, 9) | `scripts/run-loop-tran.sh` | `sim/loop-tran/records/` | PDK, ngspice, `klt` |
 | Loop power (row 11) | `scripts/run-loop-power.sh` | `sim/loop-power/records/` | PDK, ngspice, `klt` |
 | Jitter, method L (row 8) | `scripts/run-jitter.sh` | `sim/jitter/records/` | python3, numpy, `jq` |
-| Lock detector 50 MHz re-grade | `scripts/run-lock-detector.sh nominal\|closed\|grid1\|grid2` | `sim/lock-detector/records/` | PDK, ngspice, `klt` (batch fleet for the C-grid), network |
+| Lock detector 50 MHz re-grade | `scripts/run-lock-detector.sh nominal\|closed\|grid1\|grid2` | `sim/lock-detector/records/` | PDK, ngspice, `klt` (batch fleet for the C-grid), network; `report <grid dir>`: none (replays the saved request + report) |
 | Loop model (method L) | `python3 sim/loop-model/loop_model.py --out sim/loop-model/results/loop-model.json` | `sim/loop-model/results/loop-model.json` | python3, numpy |
 
 Harness tests. The first group is PDK-free and runs in CI (`.github/workflows/harness.yml`, via
@@ -140,6 +140,9 @@ scripts/ci-harness.sh          # CI: test-fetch-vco.sh (both pins), loop-model p
 scripts/test-ngpin.sh          # local-only: ngspice pin check (PDK + ngspice)
 scripts/test-cp-dc-negative.sh # local-only: skewed CP must be flagged (PDK + ngspice)
 design/netlist.sh --check      # local-only: committed netlist matches the schematic (klt + xschem + PDK)
+scripts/test-layout-cells.sh   # local-only: regenerate loop-block cells vs layout/cells.provenance.json (klt, Python with KLayout, resolvable PDK)
+scripts/test-layout-vco.sh     # local-only: placed VCO layout checks (fetched VCO via scripts/fetch-vco.sh, klt, jq, Python with KLayout)
+scripts/test-layout-top.sh     # local-only: integrated top layout checks (fetched VCO, klt, jq, Python with KLayout; a fresh run also needs the PDK to generate missing cells)
 ```
 
 Testbenches (T1 item 9): the inventory is [`sim/testbench-inventory.json`](sim/testbench-inventory.json) (per-row

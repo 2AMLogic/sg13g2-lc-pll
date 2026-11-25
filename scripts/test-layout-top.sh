@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Integrated layout check (#35): committed layout/top.gds reproduces, still matches the stream hash
-# manifests/layout.attest.json pins (#257), holds the pinned VCO unmodified, keep-out intrusions are
-# exactly the recorded VCTRL pin-access ones, and the checks can fail.
+# manifests/layout.attest.json pins (#257), every committed LVS envelope under layout/lvs/ pins the
+# shipped stream too (#413), holds the pinned VCO unmodified, keep-out intrusions are
+# exactly the recorded VCTRL pin-access ones, top metal keeps clear of the VCO's inductor exclusion
+# markers (#361), and the checks can fail.
 # Needs .fetched/ (scripts/fetch-vco.sh), klt, a python with `klayout` (default .venv/bin/python; LAYOUT_PY).
 set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -15,7 +17,7 @@ VCO="${ROOT}/.fetched/sg13g2-vco/layout/vco.gds"; G="${ROOT}/layout/top.gds"
 # layout/gen_top.py's refusal on a VCO stream whose sha256 differs from reuse.lock.json.
 REFUSAL='gen_top: .* sha256 [0-9a-f]{64} != pinned [0-9a-f]{64}; refusing'
 
-# Preflight: the fixture heredocs and generators below run under `${PY} -I`, which excludes user
+# Preflight: the fixture builder and generators below run under `${PY} -I`, which excludes user
 # site-packages, so a LAYOUT_PY that cannot import klayout there must fail here, naming itself,
 # before it can degrade the negative controls (#282).
 expect "klayout importable under ${PY} -I" ok "${PY}" -I -c 'import klayout.db'
@@ -41,6 +43,39 @@ expect "committed stream == attestation pin" ok pin_check "${G}"
 expect "attestation pin == provenance output.sha256" ok bash -c \
   "[ \"${PIN}\" = \"\$(jq -r .output.sha256 '${ROOT}/layout/provenance.json')\" ]"
 
+# #413: a stream bump (c1e1155) left every committed LVS envelope pinning the previous
+# layout/top.gds, so `klt lvs --check` -- the input-freshness signal layout/lvs/README.md
+# documents -- reported `drifted` on all four and stopped distinguishing "describes the shipped
+# stream" from "describes an older one". The same rule the attestation pin check above states for
+# manifests/layout.attest.json, stated for the LVS evidence tree: discover every committed
+# *.lvs.json under layout/lvs/ whose recorded layout input IS the integrated GDS -- klt has
+# recorded that input in both forms, a report-relative string ("../top.gds") and
+# {"scope":"repo","path":"layout/top.gds"} -- and compare the report's
+# environment.layout_sha256 with one digest of the actual file, naming file and both hashes on a
+# drift. Discovery is by glob over the tree, so a newly committed report for the same input is
+# covered the moment it lands. Nothing here re-runs a compare or touches the PDK: the check
+# needs only the report bytes and the stream bytes (`klt lvs --check` stays the fuller probe).
+LVS_STREAM_SHA="$(sha256sum "${G}" | cut -d' ' -f1)"
+lvs_fresh_check() { local root="$1" stream="$2" f t rel pin found=0
+  while IFS= read -r -d '' f; do
+    t="$(jq -r '.layout | type' "${f}" 2>/dev/null)" || continue
+    case "${t}" in
+      string) rel="$(realpath -m --canonicalize-missing --relative-to="${root}" \
+        "${f%/*}/$(jq -r '.layout' "${f}")")" ;;
+      object) rel=""; [ "$(jq -r '.layout.scope // ""' "${f}")" = repo ] \
+        && rel="$(jq -r '.layout.path // ""' "${f}")" ;;
+      *) continue ;;
+    esac
+    [ "${rel}" = layout/top.gds ] || continue
+    found=$((found+1))
+    pin="$(jq -r '.environment.layout_sha256 // ""' "${f}")"
+    [ -n "${pin}" ] || { echo "lvs-fresh: ${f} records no environment.layout_sha256; refusing"; return 1; }
+    [ "${pin}" = "${stream}" ] || { echo "lvs-fresh: ${f} pins layout sha256 ${pin} != stream ${stream}; refusing"; return 1; }
+  done < <(find "${root}/layout/lvs" -name '*.lvs.json' -print0 | sort -z)
+  [ "${found}" -gt 0 ] || { echo "lvs-fresh: no *.lvs.json under ${root}/layout/lvs names the integrated GDS; refusing"; return 1; }
+  echo "lvs-fresh: ${found} committed report(s) pin the shipped stream ${stream}"; }
+expect "committed LVS envelopes pin the shipped stream" ok lvs_fresh_check "${ROOT}" "${LVS_STREAM_SHA}"
+
 # layout/gen_integrated.py's digest() is billed as writer-independent, so a KLayout read->write->read
 # of the committed stream -- a clip, a merge, a DRC-prep step, an exported sub-cell -- must digest to
 # the recorded value. It did not before #263: digest() hashed per-layer records in ly.layer_indexes()
@@ -48,96 +83,8 @@ expect "attestation pin == provenance output.sha256" ok bash -c \
 # geometry mismatch that was not one. Three guards keep the case from passing vacuously: the round
 # trip must actually permute the enumeration order, the committed stream must itself digest to the
 # recorded value, and an inserted shape must still move the digest.
-cat >"${T}/rt_test.py" <<'RTEOF'
-"""digest() must survive a KLayout re-save of the committed stream (#263).
-
-  python rt_test.py <root> <committed.gds> <tmpdir> [--enumeration-order]
-
---enumeration-order re-runs the assertion against digest() as it was before #263 (per-layer
-records hashed in ly.layer_indexes() order). It must then refuse: that is the negative control
-for the ordering fix itself, so a future change that reinstates enumeration order is caught.
-"""
-import hashlib
-import json
-import os
-import sys
-
-sys.path.insert(0, os.path.join(sys.argv[1], "layout"))
-import klayout.db as db
-import gen_integrated as gi
-import cells.common as cc
-
-root, committed, t = sys.argv[1], sys.argv[2], sys.argv[3]
-enum_order = "--enumeration-order" in sys.argv[4:]
-
-
-def fail(msg):
-    sys.exit("round-trip: " + msg + "; refusing")
-
-
-def enum_digest(ly, cell):
-    """digest() before #263: identical records, hashed in layer_indexes() enumeration order."""
-    h = hashlib.sha256()
-    for li in ly.layer_indexes():
-        info = ly.get_info(li)
-        r = db.Region(cell.begin_shapes_rec(li))
-        r.merge()
-        polys = sorted(str(p) for p in r.each())
-        txt = sorted(f"{s.text_string}@{(it.trans() * s.text_trans.disp).x},{(it.trans() * s.text_trans.disp).y}"
-                     for it in cell.begin_shapes_rec(li) for s in [it.shape()] if s.is_text())
-        if polys or txt:
-            h.update(f"{info.layer}/{info.datatype}|{';'.join(polys)}|{';'.join(txt)}\n".encode())
-    return h.hexdigest()
-
-
-fn = enum_digest if enum_order else cc.digest
-
-
-def read(path):
-    ly = db.Layout()
-    ly.read(path)
-    return ly
-
-
-def dig(path):
-    ly = read(path)
-    return fn(ly, ly.cell(gi.TOP))
-
-
-def order(path):
-    ly = read(path)
-    return [(ly.get_info(i).layer, ly.get_info(i).datatype) for i in ly.layer_indexes()]
-
-
-# A plain KLayout save of the committed stream: same geometry, a different writer.
-rt = os.path.join(t, "rt.gds")
-read(committed).write(rt)
-
-if order(rt) == order(committed):
-    fail("the round trip did not permute the layer-index order, so this case cannot discriminate")
-# Writer-independence first, stated without reference to the record: the stream and its re-save
-# must digest alike. This is the leg --enumeration-order is pointed at, so it is checked before
-# the one that reads layout/provenance.json.
-if dig(rt) != dig(committed):
-    fail("the round-tripped stream digests to " + dig(rt) + ", not the committed stream's " + dig(committed))
-# ... and the value both sides agree on is the one layout/provenance.json records.
-want = json.load(open(os.path.join(root, "layout/provenance.json")))["output"]["geometry_sha256"]
-if dig(committed) != want:
-    fail("the committed stream digests to " + dig(committed) + ", not the recorded " + want)
-
-# Negative control in the same run: a real geometry change must still move the digest, or the
-# assertions above would hold for a digest() that hashes nothing.
-edited = os.path.join(t, "rt_edited.gds")
-ly = read(committed)
-ly.cell(gi.TOP).shapes(ly.layer(8, 0)).insert(db.Box(-320000, 100000, -315000, 105000))
-ly.write(edited)
-if dig(edited) == want:
-    fail("an inserted shape did not move the digest, so it is not hashing the geometry")
-
-print("round-trip: digest " + want + " survives a KLayout re-save; an inserted shape moves it")
-RTEOF
 expect "geometry digest survives a KLayout round trip" ok \
-  "${PY}" "${T}/rt_test.py" "${ROOT}" "${G}" "${T}"
+  "${PY}" "${ROOT}/scripts/rt_test.py" "${ROOT}" "${G}" "${T}"
 
 # The churn this guards against is the GDS timestamp fields and nothing else, so the fixture for it
 # is a byte-level edit of the seconds in every BGNLIB/BGNSTR record -- same size, same geometry,
@@ -145,101 +92,13 @@ expect "geometry digest survives a KLayout round trip" ok \
 # rewrites the whole stream (record layout, cell order, layer-index order), so it isolates nothing.
 # What it no longer does is move the geometry digest -- since #263 digest() hashes layers in sorted
 # (layer, datatype) order, and the round-trip case above is what holds that property.
-cat >"${T}/gds_restamp.py" <<'STAMPEOF'
-"""Shift the seconds field of every GDS BGNLIB/BGNSTR timestamp: a byte churn with no geometry."""
-import sys
-
-src, dst = sys.argv[1], sys.argv[2]
-data = bytearray(open(src, "rb").read())
-i, n, hits = 0, len(data), 0
-while i + 4 <= n:
-    rlen = int.from_bytes(data[i:i + 2], "big")
-    if rlen < 4:
-        break
-    # record type 0x01 = BGNLIB, 0x05 = BGNSTR; data type 0x02 = INT2; 12 int2 = mod/access y m d h m s
-    if data[i + 3] == 0x02 and data[i + 2] in (0x01, 0x05) and rlen >= 28:
-        for off in (i + 14, i + 26):            # the two seconds fields
-            data[off:off + 2] = ((int.from_bytes(data[off:off + 2], "big") + 7) % 60).to_bytes(2, "big")
-        hits += 1
-    i += rlen
-if hits == 0:
-    sys.exit("gds-restamp: no BGNLIB/BGNSTR record found in " + src + "; refusing")
-open(dst, "wb").write(bytes(data))
-print("gds-restamp: re-stamped " + str(hits) + " records")
-STAMPEOF
-expect "timestamp-churn fixture builds" ok "${PY}" -I "${T}/gds_restamp.py" "${G}" "${T}/restamped.gds"
+expect "timestamp-churn fixture builds" ok "${PY}" -I "${ROOT}/scripts/gds_restamp.py" "${G}" "${T}/restamped.gds"
 
 # --write must keep the attested bytes when the geometry is unchanged and replace them when it is
 # not. Exercises layout/gen_integrated.py's publish_stream() on copies under ${T}; nothing in the
 # checkout is written. Both halves carry a guard that fails if the fixture cannot discriminate.
-cat >"${T}/pub_test.py" <<'PUBEOF'
-import hashlib
-import os
-import shutil
-import sys
-
-sys.path.insert(0, os.path.join(sys.argv[1], "layout"))
-import klayout.db as db
-import gen_integrated as gi
-import cells.common as cc
-
-committed, restamped, t = sys.argv[2], sys.argv[3], sys.argv[4]
-
-
-def sha(path):
-    return hashlib.sha256(open(path, "rb").read()).hexdigest()
-
-
-def dig(path):
-    ly = db.Layout()
-    ly.read(path)
-    return cc.digest(ly, ly.cell(gi.TOP))
-
-
-def fail(msg):
-    sys.exit("publish-stream: " + msg + "; refusing")
-
-
-# 1. timestamp churn only: the destination must keep its committed bytes
-dest = os.path.join(t, "pub_dest.gds")
-shutil.copyfile(committed, dest)
-if sha(restamped) == sha(committed):
-    fail("the re-stamped fixture is byte-identical, so this control cannot discriminate")
-if dig(restamped) != dig(committed):
-    fail("the re-stamped fixture moved the geometry digest, so it is not a timestamp-only churn")
-if gi.publish_stream(restamped, dest, dig(restamped)) is not False:
-    fail("replaced a stream whose geometry is unchanged")
-if sha(dest) != sha(committed):
-    fail("churned the bytes of a stream whose geometry is unchanged")
-
-# 2. a real geometry change must be published. Both fixtures are KLayout saves, so they differ by
-#    the inserted box alone; since #263 a save does not move the digest either way.
-plain = os.path.join(t, "pub_plain.gds")
-ly = db.Layout()
-ly.read(committed)
-ly.write(plain)
-edited = os.path.join(t, "pub_edited.gds")
-ly = db.Layout()
-ly.read(committed)
-ly.cell(gi.TOP).shapes(ly.layer(8, 0)).insert(db.Box(-320000, 100000, -315000, 105000))
-ly.write(edited)
-if dig(edited) == dig(plain):
-    fail("the inserted shape did not move the geometry digest, so this control cannot discriminate")
-shutil.copyfile(plain, dest)
-if gi.publish_stream(edited, dest, dig(edited)) is not True:
-    fail("kept a stale stream after the geometry changed")
-if dig(dest) != dig(edited):
-    fail("the published stream does not carry the new geometry")
-
-# 3. an absent destination is created
-missing = os.path.join(t, "pub_missing.gds")
-if gi.publish_stream(restamped, missing, dig(restamped)) is not True or not os.path.exists(missing):
-    fail("did not create an absent destination")
-
-print("publish-stream: timestamp churn kept the attested bytes, geometry change replaced them")
-PUBEOF
 expect "--write keeps attested bytes on churn, replaces them on a geometry change" ok \
-  "${PY}" -I "${T}/pub_test.py" "${ROOT}" "${G}" "${T}/restamped.gds" "${T}"
+  "${PY}" -I "${ROOT}/scripts/pub_test.py" "${ROOT}" "${G}" "${T}/restamped.gds" "${T}"
 
 # keep-out: the only intrusions are the VCTRL pin-access stack (3 shapes, Metal3/4/5), recorded in layout/README.md
 "${PY}" "${ROOT}/layout/gen_top.py" --out "${T}/b.gds" --forbidden-json "${T}/f.json" >/dev/null 2>&1
@@ -248,16 +107,27 @@ n="$(jq '[.. | objects | select(has("kind"))] | length' "${T}/ko.json" 2>/dev/nu
 [ -n "${n}" ] && [ "${n}" = 3 ] && { echo "PASS keep-out: 3 recorded VCTRL intrusions"; pass=$((pass+1)); } \
   || { echo "FAIL keep-out intrusions = '${n}', expected the 3 recorded VCTRL ones"; bad=$((bad+1)); }
 
-# negative controls. The heredoc is guarded: a fixture that did not build is a harness failure,
-# not a passing negative control (the script has no set -e; #282).
-"${PY}" -I - "${G}" "${T}" <<'PYEOF' || { echo "FAIL fixture generation: negative-control streams did not build (see above)"; bad=$((bad+1)); }
-import sys, klayout.db as db
-g, t = sys.argv[1], sys.argv[2]
-ly = db.Layout(); ly.read(g)
-ly.cell("vco").shapes(ly.layer(8, 0)).insert(db.Box(0, 0, 1000, 1000)); ly.write(t + "/edited.gds")
-ly = db.Layout(); ly.read(g)
-ly.cell("lc_pll_top").shapes(ly.layer(8, 0)).insert(db.Box(-320000, 100000, -315000, 105000)); ly.write(t + "/intr.gds")
-PYEOF
+# Top metal vs the VCO's inductor exclusion markers (#361). keepout-check is blind to top metal by
+# design: gen_top.py's FORBIDDEN_LAYERS stops at Metal5 because the tank routes VOP/VON are
+# TopMetal1 and the VDDV strap is TopMetal2, so widening it would turn every tank route into a
+# violation. The clearance of the top cell's OWN 126/0 and 134/0 shapes to the markers the VCO
+# itself draws (27/0 IND, 148/0 NoRCX) is therefore asserted directly by scripts/indclear.py, which
+# prints its result on one line; the PASS line quotes it, so the measured minimum distance is
+# recorded -- the same reason the keep-out count above is hand-rolled rather than an expect() "ok".
+# The success line is the baseline the out-of-tree control below compares against (#373). It is
+# initialised here so that control is still scored when this check fails: under set -u an unassigned
+# BASE_CLEAR aborted the script there and dropped every later case and the tally (#378). Empty
+# means "not measured", never "matches anything".
+BASE_CLEAR=""
+if d="$("${PY}" -I "${ROOT}/scripts/indclear.py" "${G}" 2>&1)"; then
+  echo "PASS ${d}"; pass=$((pass+1)); BASE_CLEAR="${d}"
+else
+  echo "FAIL ${d}"; bad=$((bad+1))
+fi
+
+# negative controls. The fixture builder is guarded: a fixture that did not build is a harness
+# failure, not a passing negative control (the script has no set -e; #282).
+"${PY}" -I "${ROOT}/scripts/layout_top_fixtures.py" "${G}" "${T}" || { echo "FAIL fixture generation: negative-control streams did not build (see above)"; bad=$((bad+1)); }
 klt clip "${T}/edited.gds" --cell vco -o "${T}/edited_clip.gds" >/dev/null 2>&1
 # Must carry klt's own violation status line (rc=3 detection), not merely exit non-zero: a missing
 # input exits rc=1 with `file not found` and no status line, which bare `refuse` scored as a pass
@@ -266,6 +136,51 @@ expect "NEG edited VCO cell detected" "refuse:^status: different" klt diff "${T}
 klt keepout-check "${T}/intr.gds" --forbidden "${T}/f.json" --margin 20 --cells vco --format json >"${T}/ko2.json" 2>/dev/null
 n2="$(jq '[.. | objects | select(has("kind"))] | length' "${T}/ko2.json" 2>/dev/null)"
 [ "${n2}" = 4 ] && { echo "PASS NEG extra keep-out intruder detected (4)"; pass=$((pass+1)); } || { echo "FAIL NEG intruder count '${n2}'"; bad=$((bad+1)); }
+# #361: the clearance check must refuse both the intruding and the merely-touching TopMetal2
+# fixtures with its own refusal text, not just a non-zero exit (the refuse:<ERE> rule, #234/#282).
+expect "NEG TopMetal2 intruder into the IND markers refused" \
+  "refuse:ind-clearance: top-cell top metal overlaps the IND markers \(27/0\) in [0-9]+ place\(s\); refusing" \
+  "${PY}" -I "${ROOT}/scripts/indclear.py" "${T}/ind_intr.gds"
+expect "NEG TopMetal2 touching a marker edge refused (zero clearance)" \
+  "refuse:ind-clearance: minimum distance 0\.000 um to the IND markers \(27/0\) is under the [0-9.]+ um margin; refusing" \
+  "${PY}" -I "${ROOT}/scripts/indclear.py" "${T}/ind_touch.gds"
+# #369: each placement fixture must be refused with the checker's own placement diagnostic --
+# the frame assumption the clearance comparison silently rests on, turned into a refusal before
+# any distance is measured or reported.
+expect "NEG translated VCO placement refused (markers would sit in the wrong frame)" \
+  "refuse:ind-clearance: the 'vco' placement is r0 \*1 0,-50000, not the identity; the markers would be measured in the wrong frame; refusing" \
+  "${PY}" -I "${ROOT}/scripts/indclear.py" "${T}/ind_shift.gds"
+expect "NEG missing VCO placement refused" \
+  "refuse:ind-clearance: the top cell does not directly instantiate 'vco'; the markers cannot be located; refusing" \
+  "${PY}" -I "${ROOT}/scripts/indclear.py" "${T}/ind_missing.gds"
+expect "NEG duplicate VCO placements refused" \
+  "refuse:ind-clearance: the top cell directly places 'vco' 2 times \(r0 \*1 0,0; r0 \*1 281000,-185000\); exactly one placement is supported; refusing" \
+  "${PY}" -I "${ROOT}/scripts/indclear.py" "${T}/ind_dup.gds"
+expect "NEG two-element VCO array at an identity origin refused" \
+  "refuse:ind-clearance: the 'vco' placement is a 2-element array \(r0 \*1 0,0\); a single-copy placement is supported; refusing" \
+  "${PY}" -I "${ROOT}/scripts/indclear.py" "${T}/ind_array.gds"
+expect "NEG rotated VCO placement refused (r90 at the origin)" \
+  "refuse:ind-clearance: the 'vco' placement is r90 \*1 0,0, not the identity; the markers would be measured in the wrong frame; refusing" \
+  "${PY}" -I "${ROOT}/scripts/indclear.py" "${T}/ind_rot.gds"
+expect "NEG mirrored VCO placement refused (m0 at the origin)" \
+  "refuse:ind-clearance: the 'vco' placement is m0 \*1 0,0, not the identity; the markers would be measured in the wrong frame; refusing" \
+  "${PY}" -I "${ROOT}/scripts/indclear.py" "${T}/ind_mirror.gds"
+# #373: the nested copy must be refused with the checker's own hierarchy diagnostic, naming the
+# holder it is reached through, before any clearance is measured or reported.
+expect "NEG nested VCO copy under a holder cell refused" \
+  "refuse:ind-clearance: the top cell reaches 'vco' through 'nest_holder' \(placed r0 \*1 0,0\); a nested copy's markers are not measured; refusing" \
+  "${PY}" -I "${ROOT}/scripts/indclear.py" "${T}/ind_nested.gds"
+# ... and the scoping half of #373: a vco holder outside the lc_pll_top hierarchy leaves the
+# measured result bit-for-bit unchanged.
+d="$("${PY}" -I "${ROOT}/scripts/indclear.py" "${T}/ind_away.gds" 2>&1)"; rc=$?
+if [ -z "${BASE_CLEAR}" ]; then
+  echo "FAIL out-of-tree vco holder control: committed-stream ind-clearance baseline unavailable (not measured above)," \
+    "so the result cannot be compared (rc=${rc}): ${d}"; bad=$((bad+1))
+elif [ "${rc}" = 0 ] && [ "${d}" = "${BASE_CLEAR}" ]; then
+  echo "PASS ${d} -- an out-of-tree vco holder leaves the result unchanged"; pass=$((pass+1))
+else
+  echo "FAIL an out-of-tree vco holder changed the result (rc=${rc}): ${d}"; bad=$((bad+1))
+fi
 mkdir -p "${T}/s/.fetched/sg13g2-vco/layout"; cp "${VCO}" "${T}/s/.fetched/sg13g2-vco/layout/vco.gds"
 printf 'X' | dd of="${T}/s/.fetched/sg13g2-vco/layout/vco.gds" bs=1 seek=100 conv=notrunc 2>/dev/null
 # Must carry gen_top.py's own sha256 refusal (reached through gen_integrated's build_base
@@ -278,67 +193,13 @@ expect "NEG tampered stream: generator refuses" "refuse:${REFUSAL}" \
 # which a re-recorded provenance value would quietly re-satisfy.
 expect "NEG enumeration-order digest fails the round trip" \
   "refuse:round-trip: the round-tripped stream digests to [0-9a-f]{64}, not the committed stream's [0-9a-f]{64}; refusing" \
-  "${PY}" "${T}/rt_test.py" "${ROOT}" "${G}" "${T}" --enumeration-order
+  "${PY}" "${ROOT}/scripts/rt_test.py" "${ROOT}" "${G}" "${T}" --enumeration-order
 # Metal1 pad-trim guard (#245). Drives gen_integrated.trim_pad over synthetic Metal1 so the guard
 # is exercised in BOTH directions: it must stay quiet on a pad whose via survives the trim, and must
 # report a pad cut back past its own Via1. A check that cannot fail is not a check (same reasoning as
 # the refuse:<ERE> note above). Foreign Metal1 is placed NOT touching the pad, because metal that
 # touches it is the pad's own landing polygon and trim_pad excludes it by construction.
-cat >"${T}/trimguard.py" <<'TRIMEOF'
-import sys
-sys.path.insert(0, sys.argv[1] + "/layout")
-import klayout.db as db
-import gen_integrated as g
-
-dbu = 0.001
-PAD, VIA, SP = g.PAD_UM[0], g.VIA_UM[0], g.M1B_SP_UM
-pad = g.box(dbu, 0, 0, PAD, PAD)
-edge = PAD / 2
-
-
-def run(foreign_boxes, sp_um):
-    base = db.Region(pad)
-    for b in foreign_boxes:
-        base.insert(b)
-    base = base.merged()
-    keep, trimmed, unc = g.trim_pad(dbu, pad, base, round(sp_um / dbu))
-    return trimmed, not unc.is_empty()
-
-
-# a 1 um square whose near edge sits `gap` outside the pad, on the +x side
-def near(gap):
-    return g.box(dbu, edge + gap + 0.5, 0, 1.0, 1.0)
-
-
-# (name, foreign shapes, spacing um, expect_trimmed, expect_below_via)
-cases = [
-    ("no foreign metal",        [],                      SP,   False, False),
-    ("foreign clear of M1.b",   [near(SP + 0.02)],       SP,   False, False),
-    ("worst-case 1 nm gap",     [near(0.001)],           SP,   True,  False),
-    ("foreign both sides",      [near(0.001),
-                                 g.box(dbu, -(edge + 0.501), 0, 1.0, 1.0)], SP, True, False),
-    # The guard must arm if the pad/via/spacing relationship ever regresses. At the shipped constants
-    # the trim reaches edge-SP = %.3f um from centre, clear of the via's %.4f um half-width; widening
-    # the spacing past %.3f um takes it past the via and MUST be reported.
-    ("wider spacing cuts via",  [near(0.001)],           0.30, True,  True),
-    ("wider spacing, 2 sides",  [near(0.001),
-                                 g.box(dbu, -(edge + 0.501), 0, 1.0, 1.0)], 0.40, True, True),
-]
-
-print("  pad=%.2fum via=%.2fum M1.b=%.2fum -> trim reaches %.3fum from centre, via half-width %.4fum"
-      % (PAD, VIA, SP, edge - SP, VIA / 2))
-bad = 0
-for name, foreign, sp_um, want_trim, want_below in cases:
-    trimmed, below = run(foreign, sp_um)
-    if (trimmed, below) != (want_trim, want_below):
-        print("  FAIL %-24s sp=%.2f trimmed=%s below_via=%s, want %s/%s"
-              % (name, sp_um, trimmed, below, want_trim, want_below))
-        bad += 1
-    else:
-        print("  ok   %-24s sp=%.2f trimmed=%-5s below_via=%s" % (name, sp_um, trimmed, below))
-sys.exit(1 if bad else 0)
-TRIMEOF
-expect "pad-trim guard discriminates" ok "${PY}" -I "${T}/trimguard.py" "${ROOT}"
+expect "pad-trim guard discriminates" ok "${PY}" -I "${ROOT}/scripts/trimguard.py" "${ROOT}"
 
 # The committed layout must carry the trim record and have no pad cut below its via (#245).
 expect "committed layout records the pad trim" ok jq -e \
@@ -351,4 +212,39 @@ expect "committed layout records the pad trim" ok jq -e \
 expect "NEG timestamp-churned stream fails the attestation pin" \
   "refuse:pin-check: .* sha256 [0-9a-f]{64} != attested [0-9a-f]{64}; refusing" \
   pin_check "${T}/restamped.gds"
+
+# #413's own negative controls, on copies under ${T} (tracked evidence untouched): the stale-hash
+# fixture is the issue as found -- one nested report pinning the previous stream's digest while
+# the rest are fresh; the missing-hash fixture is an envelope with the field absent. Each must be
+# refused with the checker's own text, naming the offending file. The string-form control beside
+# them covers the other recorded shape of the layout input: after the 2026-11 refresh every
+# committed report records {"scope":"repo","path":...}, so the report-relative-string branch is
+# exercised by rewriting the top report's input to the equivalent "../top.gds" on a copy -- the
+# exact-match on the success line asserts the rewritten report was still counted: the expected
+# count is the unmodified tree's own count, taken from the same function, so a branch that silently
+# skipped the rewritten report reports one fewer, and a newly committed envelope never breaks the
+# control by changing the inventory size.
+mkdir -p "${T}/lvstale/layout" "${T}/lvsmiss/layout" "${T}/lvsstr/layout"
+cp -r "${ROOT}/layout/lvs" "${T}/lvstale/layout/"
+cp -r "${ROOT}/layout/lvs" "${T}/lvsmiss/layout/"
+cp -r "${ROOT}/layout/lvs" "${T}/lvsstr/layout/"
+jq '.environment.layout_sha256 = "90fecb47625c46ee680def5c9dd0b8afabb5e15310468f464d1d32fb779c91db"' \
+  "${ROOT}/layout/lvs/cells/lcpll_cp/lcpll_cp.lvs.json" > "${T}/lvstale/layout/lvs/cells/lcpll_cp/lcpll_cp.lvs.json"
+jq 'del(.environment.layout_sha256)' \
+  "${ROOT}/layout/lvs/cells/lcpll_loopfilter/lcpll_loopfilter.lvs.json" \
+  > "${T}/lvsmiss/layout/lvs/cells/lcpll_loopfilter/lcpll_loopfilter.lvs.json"
+jq '.layout = "../top.gds"' "${ROOT}/layout/lvs/top.lvs.json" > "${T}/lvsstr/layout/lvs/top.lvs.json"
+expect "NEG stale LVS layout hash refused, report named" \
+  "refuse:lvs-fresh: .*lcpll_cp\.lvs\.json pins layout sha256 90fecb47[0-9a-f]{56} != stream ${LVS_STREAM_SHA}; refusing" \
+  lvs_fresh_check "${T}/lvstale" "${LVS_STREAM_SHA}"
+expect "NEG missing LVS layout hash refused, report named" \
+  "refuse:lvs-fresh: .*lcpll_loopfilter\.lvs\.json records no environment\.layout_sha256; refusing" \
+  lvs_fresh_check "${T}/lvsmiss" "${LVS_STREAM_SHA}"
+base="$(lvs_fresh_check "${ROOT}" "${LVS_STREAM_SHA}" 2>&1)"
+d="$(lvs_fresh_check "${T}/lvsstr" "${LVS_STREAM_SHA}" 2>&1)"; rc=$?
+if [ "${rc}" = 0 ] && [ "${d}" = "${base}" ] && [[ "${base}" =~ ^lvs-fresh:\ [1-9][0-9]*\ committed ]]; then
+  echo "PASS LVS input recorded as a report-relative string still resolves and counts"; pass=$((pass+1))
+else
+  echo "FAIL report-relative string form (rc=${rc}): ${d}"; bad=$((bad+1))
+fi
 expect_summary || exit 1

@@ -42,10 +42,14 @@ Spec gates (`spec/target-spec.md` §Gates):
 Design findings that are open:
 
 - The divider stops dividing at 125 C; traced to the M-counter terminal-count path (#197, #199, #97).
-- Tank-node routing in the current floorplan is estimated at 73 fF / 53 fF against 2.1 fF
-  (`layout/provenance.json` `tank_node_estimate`; geometric, not extracted).
+- Tank-node routing at the floorplan floor (#345, `layout/tank-floorplan-2026-11-20.md`): 9.5 / 8.9 fF
+  per side, 11.0 fF differential with the 1.837 fF device load, against 2.1 fF. No floorplan of the
+  pinned VCO does better: crossing the 20 um keep-out margin alone is 1.72 fF per side, so the budget
+  needs the OUTP/OUTN edge pins requested in `sg13g2-vco#420` *and* the spec §6 Q1 buffer decision.
+  Geometric, not extracted; PEX delta is #41.
 - Three keep-out violations, all the VCTRL pin-access stack; the upstream change (`sg13g2-vco#314`)
-  and the tool gap (`klayout-tools#5198`) are both closed, but the pin here predates them.
+  and the tool gap (`klayout-tools#5198`) are both closed, but the pin here predates them
+  (a lock bump clears them; see #279).
 
 ## In flight (claimed; not available)
 
@@ -74,9 +78,10 @@ Unblocked, one PR each, none needs the PDK. Item 1 is held at #277 (`loom:operat
    shape. This item is the second only — the re-emission is pure Python, no PDK and no simulator.
    Done when the record exists in the `model-run` shape with a limits-bearing measurement and a test
    covers it. The pin bump that lets the verdict cite it is in review (#304).
-5. **Route the supply nets in `gen_integrated.py`** (VDD, VDDV, VSS; `layout/README.md` lists them as not
-   routed). Done when the nets are routed, `scripts/test-layout-top.sh` passes and DRC is re-run and
-   still `clean`. Needs a PDK host and a re-stamp of items 2 and 3, so it wants a Curator pass to size it.
+5. **Route the supply nets in `gen_integrated.py`** (#344, in review): VDD/VDDV/VSS, the REF/IREFCP/LOCK
+   pins and the divider M/A tie-offs are routed from labelled landings (the first `klt erc` supply run is
+   committed with them, `layout/erc/`). Done when the PR is in review; item 2/3 re-stamps and the DRC
+   re-run are in the same PR. Needs a PDK host.
 
 ## Next
 
@@ -90,7 +95,7 @@ Unblocked, one PR each, none needs the PDK. Item 1 is held at #277 (`loom:operat
 - **VCO pin bump**: after Now 3, if the delta shows a usable change. Done when `reuse.lock.json` moves,
   `scripts/run-vco-smoke.sh` writes a new record, and the keep-out record in `layout/README.md` is re-run.
 - **LVS match** (#37): needs `klayout-tools#5406` (open) for a hierarchical subcircuit-call reference,
-  and Now 5 so the supplies exist in the layout.
+  and the supplies drawn in the layout (#344, in review).
 - **ERC supply spec** (#38) and **PEX delta** (#41): after #37.
 - **Rows 1, 9, 10 with the real VCO, prescaler and counters** (#86): after G4 upstream, G2 and #199.
 
@@ -99,8 +104,12 @@ Unblocked, one PR each, none needs the PDK. Item 1 is held at #277 (`loom:operat
 - **Close row 1 at 5.0 GHz.** Question first: does the band shortfall get fixed in `sg13g2-vco` (a tank
   retarget, request R-VCO-1 of DR-001) or by a superseding record here? No upstream issue was found
   open for it on 2026-11-13.
-- **Tank-node floorplan.** Question first: can the prescaler input sit within tens of micrometres of
-  the tank pins without breaking the 20 um keep-out, or does the loop need the buffer of spec §6 Q1?
+- **Tank-node floorplan.** Answered (#345, `layout/tank-floorplan-2026-11-20.md`): the input pair is
+  split one device per tank pin at the closest clean placement to the ring, and the routes are at
+  the geometric floor (110.8 / 102.8 um, 11.0 fF differential incl. the device load). Tens of
+  micrometres is not enough even in principle - 20 um of margin is 1.72 fF per side - so the loop
+  needs the buffer of spec §6 Q1 (plus the `sg13g2-vco#420` edge pins to get from 11 fF to ~4.3 fF);
+  that decision goes through `spec/`.
 - **G7 supply isolation.** Question first: what quantity and limit grade the VCO branch against VCO
   row 9, given that the pinned VCO does not yet run in band.
 - **Row 11 completeness.** Reference and clock buffering are not in the design

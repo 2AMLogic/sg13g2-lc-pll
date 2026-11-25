@@ -89,7 +89,8 @@ def main():
         "analysis_steps": steps,
         "measurements": meas,
         "options": {"timeout_s": 5, "stage_model_inputs": True,
-                    "osdi_preload": ["$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"],
+                    "osdi_preload": ["$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi",
+                                     "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103_nqs.osdi"],
                     "threads_per_worker": 1,
                     "ngspice_init": ["set ngbehavior=hsa", "set num_threads=1"]},
     }

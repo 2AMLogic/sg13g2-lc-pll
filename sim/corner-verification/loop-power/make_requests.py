@@ -58,7 +58,8 @@ def req(stage):
             "params": {"vddv": list(corner_set.V_STAGE2)},
         }
     d["options"] = {"timeout_s": 600, "keep_artifacts": True,
-                    "osdi_preload": ["$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"]}
+                    "osdi_preload": ["$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi",
+                                     "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103_nqs.osdi"]}
     return d
 
 
