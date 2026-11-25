@@ -4,6 +4,10 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-25
 
+- **PR #483**: test(sim): verify charge-pump device partition and mask counts
+- **Issue #481** (closed): Strengthen the cp attribution guard: cover check_partition and assert what write_netlist actually masks
+- **PR #480**: test(sim): guard cp-mc attribution schedule and group rejection
+- **Issue #479** (closed): Wire sim/cp-mc into the pytest harness: assert the attribution campaign order and the unknown-group rejection
 - **PR #478**: refactor(sim): derive cp attribution campaign list from attribute.py
 - **Issue #477** (closed): Derive the charge-pump attribution run list from the device groups
 - **PR #475**: test: add pytest coverage for the vco-prescaler-load record writer
