@@ -101,11 +101,42 @@ drawing-purpose (`/0`) negative controls (a set-based name compare let the route
 through in #349, and stamping on `*/0` hid port pins from `sg13g2.lvs` in #416). It is not in
 `scripts/ci-harness.sh` (needs `klayout`, a PDK and klt).
 
-**Tool pin.** The HBT (`bjt_array`, klayout-tools#4850 -> #4855) and sub-0.42 um MOS (`dogbone_terminals`,
-#4851 -> #4854) fixes are in the installed klt used for the committed provenance (`klt 0.9.2.dev420+gf186e14125ed`;
-the provenance records the klt version). An older klt refuses the HBT groups and the generator fails; use
+**Generator reproducibility (measured 2026-11-25, `main` base `f17acf6` after PR #424 and PR #455).**
+`layout/gen_cells.py --blocks lcpll_pfd --check` with the same source, KLayout Python `0.30.13` and
+`~/share/pdk/ihp-sg13g2` (IHP Open PDK `v0.3.0`, extracted without `.git`; all 9 SPICE model libraries match
+`sim/pins.json`); only the `klt` build changes:
+
+| klt build | PFD area (um2) | Geometry SHA-256 | `--check` exit |
+|---|---:|---|---:|
+| `0.9.3.dev5517+g9fff520e45e2` (recorded in `cells.provenance.json`) | 1333.0 | `4b07c50b7746bb2882c983b27c6d8d0edf5cf01974ec7bd4b9929b89691f8304` | 0 |
+| `0.9.1` (signoff CI pin) | 1240.3 | `c60518ac9137e0361fa10028edfb5cfbb34f09221498e234745a2d4e4567a7e1` | 1 |
+| `0.9.3.dev5563+g7f4c9a014afd` (dispatch host) | 1333.0 | `4b07c50b7746bb2882c983b27c6d8d0edf5cf01974ec7bd4b9929b89691f8304` | 0 |
+
+Shape-level difference: `lcpll_pfd` in `layout/top.gds` hashes to the `4b07c50b…` row, and against the `0.9.1`
+regeneration its recursively merged Metal1 polygons (layer `8/0`) have an XOR area of `110,069,600` dbu^2
+(`110.0696` um2), while `pSD` (`14/0`) is `376,881,600` dbu^2 vs `0` (`klayout-tools#5231` pSD substrate tap ring).
+The `klt` build alone moves the cell on this PDK; the other five cells were not compared here, and #436 tracks the
+pin vs re-stamp decision. To repeat (`PDK_ROOT` at the extracted `v0.3.0` parent directory, default `~/share/pdk`):
+
+```bash
+out=$(mktemp -d)
+KLT_CMD="uvx --with klayout==0.30.13 --from git+https://github.com/2AMLogic/klayout-tools@9fff520e45e2aeefa6af5261bb509248493f2215 klt" \
+  uv run --no-project --with klayout==0.30.13 python layout/gen_cells.py --blocks lcpll_pfd --out "$out/recorded" --check   # recorded build
+KLT_CMD="uvx --with klayout==0.30.13 --from klayout-tools==0.9.1 klt" \
+  uv run --no-project --with klayout==0.30.13 python layout/gen_cells.py --blocks lcpll_pfd --out "$out/release" --check    # signoff pin
+```
+
+`--check` prints the recorded and running klt builds and the PDK root and version reported by the running klt before
+generating cells. An unavailable probe is reported as unknown. Each mismatch names the cell and field and shows the
+recorded and current values. Geometry digest and area mismatches also compare the klt builds. A mismatch in any checked
+field exits 1. Matching fields pass even when the klt builds differ.
+
+**Tool pin (historic workaround).** The HBT (`bjt_array`, klayout-tools#4850 -> #4855) and sub-0.42 um MOS (`dogbone_terminals`,
+#4851 -> #4854) fixes first landed in an earlier provenance's klt (`klt 0.9.2.dev420+gf186e14125ed`;
+`layout/cells.provenance.json` records the current generator build). An older klt refuses the HBT groups and the generator fails; use
 `uvx --from git+https://github.com/2AMLogic/klayout-tools@f94eaa6c00f267e3b58031e6ddaeab0507d2cd9d klt` via `KLT_CMD`
-(a throwaway env). `npn13G2v Nx=<n>` is drawn as n unit PDK HBT cells (an approximation of the multi-emitter device).
+(a throwaway env). That pin is only the historic minimum klt able to draw the HBT and sub-0.42 um MOS cells, not the build that
+reproduces the committed geometry (see "Generator reproducibility" above). `npn13G2v Nx=<n>` is drawn as n unit PDK HBT cells (an approximation of the multi-emitter device).
 
 **Devices drawn (2026-11-10).** Every device of the six blocks is drawn (0 `undrawn_devices`) and every `.subckt`
 port is labelled (`scripts/test-layout-cells.sh`: no KNOWN-GAP). The ideal `R` cards were replaced by `rppd`/`rhigh`
