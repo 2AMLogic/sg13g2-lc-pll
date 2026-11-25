@@ -35,7 +35,7 @@ NDIV=100; F0=5.0e9; VC0=2.475; KV=480e6; FREF=50e6; VSTART=1.65; PHI0=0.25
 rec_dir loop-tran
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 
-sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@OSDI_R3@@|${OSDI_R3}|g" \
+sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@OSDI_PSP_NQS@@|${OSDI_PSP_NQS}|g" -e "s|@@OSDI_R3@@|${OSDI_R3}|g" \
     -e "s|@@PFD_NETLIST@@|${PFD_NETLIST}|g" -e "s|@@CP_NETLIST@@|${CP_NETLIST}|g" -e "s|@@LF_NETLIST@@|${LF_NETLIST}|g" \
     -e "s|@@NDIV@@|${NDIV}|g" -e "s|@@VC0@@|${VC0}|g" -e "s|@@KV_SIGNED@@|$([ "${KVCO_SIGN}" = 1 ] && echo "${KV}" || echo "-${KV}")|g" \
     -e "s|@@PHI0@@|${PHI0}|g" -e "s|@@VSTART@@|${VSTART}|g" -e "s|@@TSTOP@@|${TSTOP}|g" -e "s|@@TMAX@@|${TMAX}|g" \
@@ -56,6 +56,7 @@ set -e
 WALL=$(( $(date +%s) - T_START ))
 cp "${WORK}/ngspice.log" "${REC_DIR}/${ID}-ngspice.txt"
 [ -s "${WORK}/loop_tran.data" ] || { echo "run-loop-tran: ngspice produced no data (rc=${NG_RC}); see ${REC_DIR}/${ID}-ngspice.txt" >&2; exit 1; }
+check_no_ignored_models "${REC_DIR}/${ID}-ngspice.txt"
 python3 -I "${ROOT}/scripts/loop_tran_analyze.py" "${WORK}/loop_tran.data" "${NDIV}" "${F0}" "${VC0}" "$([ "${KVCO_SIGN}" = 1 ] && echo "${KV}" || echo "-${KV}")" "${FREF}" > "${WORK}/res.json" \
   || { cat "${WORK}/res.json" >&2; die "analysis failed; see ${REC_DIR}/${ID}-ngspice.txt"; }
 
@@ -78,6 +79,7 @@ CPSHA="$(sha256sum "${CP_NETLIST}" | cut -d' ' -f1)"; LFSHA="$(sha256sum "${LF_N
   echo "- **Deck**: \`sim/loop-tran/loop_tran.spice.tmpl\` sha256 \`$(sha256sum "${ROOT}/sim/loop-tran/loop_tran.spice.tmpl" | cut -d' ' -f1)\`, placeholder substitution only. Initial state: Vctrl, the CP output and the R1-C1 node at ${VSTART} V (the window edge farthest from the 5.0 GHz point at ${VC0} V is equally 1.65 V or 3.30 V; the CP cannot reach 3.30 V, so 1.65 V is used); initial FB phase ${PHI0} cycle; REF starts at t = 0 (PFD enabled at t = 0)."
   echo "- **PDK**: IHP-Open-PDK $(jq -r .pdk.release_tag "${PINS}") (model libraries hash-checked against \`sim/pins.json\`); PSP103 OSDI \`psp103.osdi\` sha256 \`$(jq -r .psp103.osdi_sha256 "${PINS}")\` and r3_cmc OSDI (loop-filter rppd) sha256 \`$(jq -r .r3_cmc.osdi_sha256 "${PINS}")\` (both pinned)"
   echo "- **Simulator**: \`${NG_VER}\` (\`${NGSPICE}\`), one local \`ngspice -b\`, exit status ${NG_RC}, wall ${WALL} s, OMP_NUM_THREADS ${OMP_NUM_THREADS}; \`tran 100p ${TSTOP} 0 ${TMAX}\`, reltol 1e-3; scratch \`.spiceinit\` = \`set ngbehavior=hsa\`"
+  echo "- **Model cards**: ngspice log has ${NG_IGNORED_MODELS} 'Unknown model type ... ignored' line(s) (the run is refused otherwise)"
   echo "- **Pin check**: ${NG_PIN_STATUS}"
   echo "- **Commit**: \`${COMMIT}${DIRTY}\` of this repository"
   echo "- **Run length**: ${TSTOP} s = $(J .ref_edges) reference edges; samples $(J .samples)."

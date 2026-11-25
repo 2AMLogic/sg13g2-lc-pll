@@ -12,11 +12,11 @@
  "inputs": {
   "cells_provenance": {
    "path": "layout/cells.provenance.json",
-   "sha256": "63135fafce97477bf745e67578ef5f1e2639080b5cd4062df2eb0103e2dfb0fe"
+   "sha256": "fd8f3751c0a48e5473e7c9d4b8153f44cd6da7a475015990ed866d4473a960aa"
   },
   "gen_integrated": {
    "path": "layout/gen_integrated.py",
-   "sha256": "94ce470207d3121f51a2056b2da63998df7906d04fef477220f577accd6e0975"
+   "sha256": "3780a530b52a10869c12d5a00dfc74a87cc8500cd6f076e9051fbc487f5db758"
   },
   "gen_top": {
    "path": "layout/gen_top.py",
@@ -81,9 +81,9 @@
   "VCO ground (`0`)": "pin-access: the VCO ground pin is Metal1 ~21 um inside the 20 um keep-out with no TopMetal1/2 conductor above it, so a top-level tie needs forbidden metal; upstream pin-access request 2AMLogic/sg13g2-vco#427 (VCTRL is #314)"
  },
  "output": {
-  "geometry_sha256": "5354df8b59f87b0db15d97c46a2b84e85a6959d0f04882ec5da580d371fff22a",
+  "geometry_sha256": "6493bb470a54191c0029b64869f285f1582ff3a158a1a57ba5e837a736ab717f",
   "path": "layout/top.gds",
-  "sha256": "4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
+  "sha256": "abf1a3949635471aa8b7cfcb5a61d55944d01e670aa7e6aa9747244ad1e0a10e",
   "top_cell": "lc_pll_top"
  },
  "placement_um": {

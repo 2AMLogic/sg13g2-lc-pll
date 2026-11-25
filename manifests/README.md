@@ -9,26 +9,26 @@ record.
 
 - **`sg13g2-lc-pll.json`**: the block manifest. `block: sg13g2-lc-pll`,
   `kind: analog` (an integer-N LC PLL with no mixed-signal partition decided
-  today; if that changes, `kind` may change with it). `evidence` cites items 1, 2, 9 and 10 (the four `klt signoff --attest` envelopes `manifests/design-sources.attest.json`, `manifests/layout.attest.json`, `manifests/testbenches.attest.json`, `manifests/repo-hygiene.attest.json`), item 3 (the `klt drc` report `layout/drc/top.drc.json`, graded `met`: `status: clean`, clean for the layers the curated deck covers, #36), item 5 (two `klt sim` corner records for rows 6 and the method-L `model-run` record `sim/loop-model/records/20261115-101634-6a08197-row5-envelope.json` for row 5; graded `unmet` / `check_failed`: the stage-2 corner record fails the row-7 mismatch target, and the item is met only when every cited envelope passes) and item 6 (the `klt yield` report of the
+  today; if that changes, `kind` may change with it). `evidence` cites items 1, 2, 9 and 10 (the four `klt signoff --attest` envelopes `manifests/design-sources.attest.json`, `manifests/layout.attest.json`, `manifests/testbenches.attest.json`, `manifests/repo-hygiene.attest.json`), item 3 (the `klt drc` report `layout/drc/top.drc.json`, graded `met`: `status: clean`, clean for the layers the curated deck covers, #36), and item 5 (two passing `klt sim` corner records `sim/corner-verification/cp-dc/records/20261103-221e27b-stage{1,2}.json` for row 6 — also passing row-7 mismatch at 1.65 V after #67 — and the passing method-L `model-run` record `sim/loop-model/records/20261115-101634-6a08197-row5-envelope.json` for row 5 at 18 supply corners with nominal filter R/C). Item 5 grades `unmet` / `partial_coverage`.
+  Row 5 still needs the 135-point 3.300 V grid, filter R/C spread and local Kvco.
+  The manifest declares gaps for rows 1, 7 (upper edge `V_hi,req`), 8, 9, 10 and 11.
+  Item 6 cites the `klt yield` report of the
   charge-pump Monte Carlo, `sim/cp-mc/records/`, graded `unmet` / `check_failed`:
   the campaign fails the row-7 mismatch target; `spec_rows."6"` declares the two
-  rows' unevidenceable parts as gaps); item 9's envelope is `unmet` /
+  rows' unevidenceable parts as gaps. Item 9's envelope is `unmet` /
   `stale_evidence` at the 0.9.1 pin (see **Current verdict**); every other T1
   item is `unmet` / `no_evidence`. Evidence is added one item at a time, each
   citation pinning the `content_hash` of the artifact it cites.
-- **`design-evidence-tiers.md`**: the T1-T4 checklist the grader parses.
-  Vendored **byte-identical** (no edits, no newline normalisation) from
-  [`2AMLogic/klayout-tools@4d0d29be`](https://github.com/2AMLogic/klayout-tools/blob/4d0d29be4fd991f499d59e783a908082d5e24c56/docs/design-evidence-tiers.md)
-  `docs/design-evidence-tiers.md` — the build commit of the pinned
-  `klayout-tools==0.9.1` wheel (tag `v0.9.1`, 2026-11-05), byte-identical to the
-  copy bundled in that wheel at `klayout_tools/data/design-evidence-tiers.md`.
-  Upstream is MIT-licensed, and this repo's `LICENSE` does not relicense the
-  vendored copy.
-  sha256 `08dcbfd2c3f2df152868d86c0ad2aa6a43d393b1d266f0b1e914cd8f0a329c58`.
-  When upstream moves, re-vendor and regenerate the record in the same PR.
+- **The tier checklist** (T1-T4) is not vendored. The pinned
+  `klayout-tools==0.9.1` wheel bundles it and `klt signoff` selects it on its
+  own; there is no `--tiers-doc` override. Read it at the pinned tag:
+  [`docs/design-evidence-tiers.md` @ `v0.9.1`](https://github.com/2AMLogic/klayout-tools/blob/v0.9.1/docs/design-evidence-tiers.md).
+  The record's `source_doc_content_hash` pins its bytes, and the CI compare
+  below catches a checklist change at a pin bump. (Vendoring was reversed by
+  the operator ruling on #223; see DR-008.)
 - **`sg13g2-lc-pll.signoff.json`**: **the verdict of record**, the committed
   output of the command below. Never hand-edit it. Besides the 11 T1 items
-  (items 1, 2, 3 and 10 `met`, the rest `unmet` / `check_failed`,
+  (items 1, 2, 3 and 10 `met`, the rest `unmet` / `partial_coverage`, `check_failed`,
   `stale_evidence` or `no_evidence`), `klt` 0.9.1 also lists 3 non-T1 rows
   (`tier_not_supported`); these are part of its output, not a design claim.
 
@@ -40,14 +40,13 @@ The `klt` pin is `klayout-tools==0.9.1` (PyPI), the same pin as
 ```console
 uvx --from "klayout-tools==0.9.1" klt signoff \
     --manifest manifests/sg13g2-lc-pll.json \
-    --tiers-doc manifests/design-evidence-tiers.md \
     --format json > manifests/sg13g2-lc-pll.signoff.json
 ```
 
 `klt signoff --manifest` exits `3` when at least one T1 item is `unmet` (a
 valid, clean run) and `0` when every item is `met`. Any other exit is a hard
 error. Any change that affects the verdict (new evidence, a manifest edit, a
-vendored-doc bump, a pin bump) regenerates and commits the record in the same
+pin bump) regenerates and commits the record in the same
 PR.
 
 ## Freshness is CI-enforced

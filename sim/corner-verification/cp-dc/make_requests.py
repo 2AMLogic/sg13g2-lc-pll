@@ -48,7 +48,8 @@ def req(stage):
         "options": {
             "timeout_s": 120,
             "keep_artifacts": True,
-            "osdi_preload": ["$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"],
+            "osdi_preload": ["$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi",
+                            "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103_nqs.osdi"],
         },
     }
     # MOS-only: the stage-1 MIM and HBT axes do not touch this netlist, and the

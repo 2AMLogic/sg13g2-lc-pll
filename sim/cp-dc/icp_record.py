@@ -8,8 +8,6 @@ The corner currents themselves come from the shared reader (icp_report.py), whic
 report covers the request grid exactly once before anything is written.
 """
 import argparse
-import gzip
-import hashlib
 import json
 import sys
 from pathlib import Path
@@ -17,6 +15,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 import ngpin  # noqa: E402  (the simulator pin check, computed once in sim/ngpin.py)
+import record_util as ru  # noqa: E402  (verdict, request grid, append-only archive helpers)
 
 from icp_report import REQUEST_PATH, currents, grid, load_request  # noqa: E402  (the shared reader, same directory)
 
@@ -52,10 +51,9 @@ def main(argv=None):
     n = len(rows)
     out = Path(a.out_dir)
     gz, md = out / ("%s-icp-corners-klt-report.json.gz" % a.id), out / ("%s-icp-corners.md" % a.id)
-    if gz.exists() or md.exists():
-        sys.exit("records are append-only: %s exists" % md)
+    ru.ensure_new(gz, md)
     out.mkdir(parents=True, exist_ok=True)
-    gz.write_bytes(gzip.compress(raw, 9, mtime=0))
+    ru.write_report_gz(gz, raw)
     allv = [v for _, u, d in rows for v in (u, d)]
     lo, hi = min(allv), max(allv)
     env, rem = rep["environment"], rep["environment"].get("remote", {})
@@ -65,7 +63,7 @@ def main(argv=None):
          "- **Method**: `klt sim` corner request `cp_icp_corners.request.json`, `analysis.kind` op, `expr` measurements `-i(VA)` (I_up, copy A with UP on) and `i(VMB)` (I_dn, copy B with DN on); `corners.supply_v` moves VDD and the UP/DN logic-high rail together. Netlist body `cp_icp.cir` includes `design/netlist/cp.spice`.",
          "- **Simulator**: %s on the Spot batch fleet (`engine_host` %s), %s. Job `%s`, %s." % (
              ngpin.engine(env.get("engine_version")), env.get("engine_host"), ngpin.verdict(env.get("engine_version")), rem.get("job_id"), rem.get("instance_type")),
-         "- **Request** sha256 `%s`; report [`%s`](%s) sha256 (uncompressed JSON) `%s`" % (hashlib.sha256(REQUEST_PATH.read_bytes()).hexdigest(), gz.name, gz.name, hashlib.sha256(raw).hexdigest()),
+         "- **Request** sha256 `%s`; report [`%s`](%s) sha256 (uncompressed JSON) `%s`" % (ru.sha256_bytes(REQUEST_PATH.read_bytes()), gz.name, gz.name, ru.sha256_bytes(raw)),
          "- **PDK**: `models.pdk` sg13g2 on the fleet image; `cornerMOShv.lib` and `psp103.osdi` staged from this host's IHP-Open-PDK v0.3.0 install",
          "- **Commit**: `%s` of this repository" % a.commit,
          "- **Jitter-like numbers**: none.", "",

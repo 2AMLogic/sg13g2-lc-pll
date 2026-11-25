@@ -77,7 +77,9 @@ One table row per block in `layout/gen_cells.py` (`divider`, `charge_pump`, `loo
 is placed first), on shared `cells/common.py`: flatten the `.subckt`, group identical (class, W, L) devices
 (`m=` expanded to units), draw each group with `klt gen mos_array|res_array|cap_array|bjt_array`, place groups with
 `klt gen-compose` (placement only; routing is #35), and put one text label per `.subckt` port on a drawn
-terminal of that net. `layout/cells.provenance.json` holds the cell list, area (bbox), generator command, klt
+terminal of that net — stamped on the SG13G2 metal text purpose `<layer>/25` (`8/25`, `67/25`, `126/25` across
+these six cells), which both the PDK `sg13g2.lvs` runset and `klt`'s curated `sg13g2` `EXTRACTION_DECK.metal_labels`
+read as pin/net text (#416; drawing-purpose `*/0` texts are ignored by `sg13g2.lvs`). `layout/cells.provenance.json` holds the cell list, area (bbox), generator command, klt
 version, netlist sha256 and a geometry digest; `gen_cells.py --check` fails on any difference.
 The digest hashes merged polygons plus label text/position per layer, in sorted `(layer, datatype)`
 order rather than KLayout's layer-enumeration order, so it is stable across a re-save of the stream
@@ -94,15 +96,47 @@ layout file exists to hash-pin.
 
 **Pin check.** `klt interface-check` pairs the labels of two placed blocks, so it cannot compare one cell to
 its `.subckt`; `scripts/test-layout-cells.sh` counts each cell's own labels per port name against the port
-list and the recorded `port_labels` site, with drop/rename/duplicate negative controls (a set-based name
-compare let the routed cell's two labels per port through, #349). It is not in `scripts/ci-harness.sh` (needs
-`klayout`, a PDK and klt).
+list, the SG13G2 `*/25` metal text purpose, and the recorded `port_labels` site, with drop/rename/duplicate and
+drawing-purpose (`/0`) negative controls (a set-based name compare let the routed cell's two labels per port
+through in #349, and stamping on `*/0` hid port pins from `sg13g2.lvs` in #416). It is not in
+`scripts/ci-harness.sh` (needs `klayout`, a PDK and klt).
 
-**Tool pin.** The HBT (`bjt_array`, klayout-tools#4850 -> #4855) and sub-0.42 um MOS (`dogbone_terminals`,
-#4851 -> #4854) fixes are in the installed klt used for the committed provenance (`klt 0.9.2.dev420+gf186e14125ed`;
-the provenance records the klt version). An older klt refuses the HBT groups and the generator fails; use
+**Generator reproducibility (measured 2026-11-25, `main` base `f17acf6` after PR #424 and PR #455).**
+`layout/gen_cells.py --blocks lcpll_pfd --check` with the same source, KLayout Python `0.30.13` and
+`~/share/pdk/ihp-sg13g2` (IHP Open PDK `v0.3.0`, extracted without `.git`; all 9 SPICE model libraries match
+`sim/pins.json`); only the `klt` build changes:
+
+| klt build | PFD area (um2) | Geometry SHA-256 | `--check` exit |
+|---|---:|---|---:|
+| `0.9.3.dev5517+g9fff520e45e2` (recorded in `cells.provenance.json`) | 1333.0 | `4b07c50b7746bb2882c983b27c6d8d0edf5cf01974ec7bd4b9929b89691f8304` | 0 |
+| `0.9.1` (signoff CI pin) | 1240.3 | `c60518ac9137e0361fa10028edfb5cfbb34f09221498e234745a2d4e4567a7e1` | 1 |
+| `0.9.3.dev5563+g7f4c9a014afd` (dispatch host) | 1333.0 | `4b07c50b7746bb2882c983b27c6d8d0edf5cf01974ec7bd4b9929b89691f8304` | 0 |
+
+Shape-level difference: `lcpll_pfd` in `layout/top.gds` hashes to the `4b07c50b…` row, and against the `0.9.1`
+regeneration its recursively merged Metal1 polygons (layer `8/0`) have an XOR area of `110,069,600` dbu^2
+(`110.0696` um2), while `pSD` (`14/0`) is `376,881,600` dbu^2 vs `0` (`klayout-tools#5231` pSD substrate tap ring).
+The `klt` build alone moves the cell on this PDK; the other five cells were not compared here, and #436 tracks the
+pin vs re-stamp decision. To repeat (`PDK_ROOT` at the extracted `v0.3.0` parent directory, default `~/share/pdk`):
+
+```bash
+out=$(mktemp -d)
+KLT_CMD="uvx --with klayout==0.30.13 --from git+https://github.com/2AMLogic/klayout-tools@9fff520e45e2aeefa6af5261bb509248493f2215 klt" \
+  uv run --no-project --with klayout==0.30.13 python layout/gen_cells.py --blocks lcpll_pfd --out "$out/recorded" --check   # recorded build
+KLT_CMD="uvx --with klayout==0.30.13 --from klayout-tools==0.9.1 klt" \
+  uv run --no-project --with klayout==0.30.13 python layout/gen_cells.py --blocks lcpll_pfd --out "$out/release" --check    # signoff pin
+```
+
+`--check` prints the recorded and running klt builds and the PDK root and version reported by the running klt before
+generating cells. An unavailable probe is reported as unknown. Each mismatch names the cell and field and shows the
+recorded and current values. Geometry digest and area mismatches also compare the klt builds. A mismatch in any checked
+field exits 1. Matching fields pass even when the klt builds differ.
+
+**Tool pin (historic workaround).** The HBT (`bjt_array`, klayout-tools#4850 -> #4855) and sub-0.42 um MOS (`dogbone_terminals`,
+#4851 -> #4854) fixes first landed in an earlier provenance's klt (`klt 0.9.2.dev420+gf186e14125ed`;
+`layout/cells.provenance.json` records the current generator build). An older klt refuses the HBT groups and the generator fails; use
 `uvx --from git+https://github.com/2AMLogic/klayout-tools@f94eaa6c00f267e3b58031e6ddaeab0507d2cd9d klt` via `KLT_CMD`
-(a throwaway env). `npn13G2v Nx=<n>` is drawn as n unit PDK HBT cells (an approximation of the multi-emitter device).
+(a throwaway env). That pin is only the historic minimum klt able to draw the HBT and sub-0.42 um MOS cells, not the build that
+reproduces the committed geometry (see "Generator reproducibility" above). `npn13G2v Nx=<n>` is drawn as n unit PDK HBT cells (an approximation of the multi-emitter device).
 
 **Devices drawn (2026-11-10).** Every device of the six blocks is drawn (0 `undrawn_devices`) and every `.subckt`
 port is labelled (`scripts/test-layout-cells.sh`: no KNOWN-GAP). The ideal `R` cards were replaced by `rppd`/`rhigh`
@@ -200,8 +234,8 @@ full SG13G2 metal stack (labels read only from the pin purposes 8/25 and 67/25; 
 text is deliberately outside the label scope -- the island it names is the `VDDV` branch, and the VCO's own naming
 must not be read as a VDD-VDDV tie), the six named nets and the guard-ring substrate tie. Result
 (`klt erc layout/top.gds layout/erc/supply-spec.json --top lc_pll_top --format json > layout/erc/top.erc.json`,
-2026-11-21, `klt 0.9.3.dev2575`; re-run 2026-11-23 on the #345 stream `sha256:c897060c…` with `klt 0.9.3.dev3808`,
-same verdict): **`erc_status: clean_partial`, 0 findings -- all six nets resolve to exactly their
+2026-11-21, `klt 0.9.3.dev2575`; re-run 2026-11-23 on the #416 stream `sha256:1c49ad5d…` with `klt 0.9.3.dev4116`,
+now actively reading cell port stamps on `8/25` and `67/25` alongside the top-level landings, same verdict): **`erc_status: clean_partial`, 0 findings -- all six nets resolve to exactly their
 declared 1 island** (a first draft's REF route was a real `erc.multiply_driven_net` REF x VSS through the PFD west-pin
 column; it is fixed by forced-approach routing, see `FINAL_HORIZONTAL`/`FINAL_VERTICAL` in the generator). Skipped and
 disclosed, not passed: the guard-ring tie is `degenerate_tap_declaration` (Cont-on-pSD cannot be told from device

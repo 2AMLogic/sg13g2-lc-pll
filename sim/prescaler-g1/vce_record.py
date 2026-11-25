@@ -10,8 +10,6 @@ A corner that errored is never counted as a pass.
     vce_record.py --report REPORT.json --out-dir sim/prescaler-g1/records [--commit SHA]
 """
 import argparse
-import gzip
-import hashlib
 import json
 import sys
 from pathlib import Path
@@ -19,6 +17,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 import ngpin  # noqa: E402  (the simulator pin check, computed once in sim/ngpin.py)
+import record_util as ru  # noqa: E402  (verdict, request grid, append-only archive helpers)
 
 BVCEO_MIN_V = 2.2
 SUPPLY_LO, SUPPLY_HI = 2.97, 3.63
@@ -52,7 +51,7 @@ def grade(report, bveceo=BVCEO_MIN_V):
         })
     n_err = sum(1 for r in rows if not r["converged"])
     n_exc = sum(1 for r in rows if r["exceeds"])
-    verdict = "FAIL" if n_exc else ("INCOMPLETE" if n_err or not rows else "PASS")
+    verdict = ru.verdict(["FAIL" if r["exceeds"] else ("PASS" if r["converged"] else "INCOMPLETE") for r in rows])
     return {"rows": rows, "verdict": verdict, "n_corners": len(rows), "n_exceeding": n_exc, "n_not_converged": n_err,
             "bveceo_v": bveceo}
 
@@ -71,10 +70,8 @@ def _has_rail(supplies, rail):
 
 def _legend_entry(block):
     """'NAME = hbt_x' from the block's cornerHBT section; NAME alone when it has none."""
-    for s in block.get("sections") or []:
-        if isinstance(s, dict) and s.get("section") and Path(str(s.get("lib", ""))).name.startswith("cornerHBT"):
-            return "%s = %s" % (block["name"], s["section"])
-    return block["name"]
+    hbt = ru.section_of(block, "cornerHBT")
+    return "%s = %s" % (block["name"], hbt) if hbt else block["name"]
 
 
 def render(g, report, rec_id, commit, report_name, request_path):
@@ -87,14 +84,17 @@ def render(g, report, rec_id, commit, report_name, request_path):
     req_bytes = Path(request_path).read_bytes()
     req = json.loads(req_bytes)
     grid = req.get("corners") or {}
-    blocks = [b for b in grid.get("process") or [] if isinstance(b, dict) and "name" in b]
+    blocks, temps, vddv, supplies = ru.request_corners(req)
     procs = [b["name"] for b in blocks]
     legend = ", ".join(_legend_entry(b) for b in blocks)
-    temps = list(grid.get("temperature_c") or [])
-    params = grid.get("params") or {}
-    vddv = list(params.get("vddv") or [])
-    supplies = sorted(set(vddv))
-    mcv = params.get("mcv")
+    res_named = [r for r in (ru.section_of(b, "cornerRES") for b in blocks) if r]
+    if res_named and len(res_named) == len(blocks):
+        res_clause = "the cornerRES section %s is paired with each HBT corner" % "/".join(res_named)
+    elif res_named:
+        res_clause = "the cornerRES section %s is paired with the HBT corners that carry one" % "/".join(res_named)
+    else:
+        res_clause = "no cornerRES section is loaded"
+    mcv = (grid.get("params") or {}).get("mcv")
     mc_levels = None if mcv is None else sorted(set(mcv))
     n_corners = len(procs) * len(temps) * len(supplies)
     n_req_runs = len(procs) * len(temps) * len(vddv)
@@ -107,12 +107,16 @@ def render(g, report, rec_id, commit, report_name, request_path):
     out = ["# prescaler-vce run %s" % rec_id, ""]
     head = ("**Result (simulated, not measured): worst HBT |Vce| against BVCEO(min) %.1f V: **%s**. " % (g["bveceo_v"], g["verdict"]))
     if rows:
-        head += "At the minimum supply %.3f V the worst converged corner is %s V (%s, %s)" % (
-            SUPPLY_LO, _fmt(wlo and wlo["worst_vce_v"]), (wlo and wlo["corner_id"]) or "n/a", (wlo and wlo["worst_device"]) or "n/a")
-        if _has_rail(supplies, SUPPLY_HI):
-            head += "; at %.3f V it is %s V (%s, %s)" % (
+        if _has_rail(supplies, SUPPLY_LO):
+            head += "At the minimum supply %.3f V the worst converged corner is %s V (%s, %s)" % (
+                SUPPLY_LO, _fmt(wlo and wlo["worst_vce_v"]), (wlo and wlo["corner_id"]) or "n/a", (wlo and wlo["worst_device"]) or "n/a")
+            if _has_rail(supplies, SUPPLY_HI):
+                head += "; at %.3f V it is %s V (%s, %s)" % (
+                    SUPPLY_HI, _fmt(whi and whi["worst_vce_v"]), (whi and whi["corner_id"]) or "n/a", (whi and whi["worst_device"]) or "n/a")
+            head += ". "
+        elif _has_rail(supplies, SUPPLY_HI):
+            head += "At %.3f V the worst converged corner is %s V (%s, %s). " % (
                 SUPPLY_HI, _fmt(whi and whi["worst_vce_v"]), (whi and whi["corner_id"]) or "n/a", (whi and whi["worst_device"]) or "n/a")
-        head += ". "
         head += "%d of %d observed runs (%d requested: %s) exceed the rating; %d did not converge and are not graded.**" % (
             g["n_exceeding"], g["n_corners"], n_req_runs, runs_req, g["n_not_converged"])
     else:
@@ -124,13 +128,13 @@ def render(g, report, rec_id, commit, report_name, request_path):
                   "so it is the corner a rating check has to include." % (SUPPLY_HI, SUPPLY_LO)
                   if _has_rail(supplies, SUPPLY_HI) else "")
     out += [
-        "- **Scope**: the %d supply sub-corners of spec section 'Corner set' stage 2: %s (the prescaler has HBTs and PDK rppd resistors only; the cornerRES section res_wcs/res_typ/res_bcs is paired with each HBT corner, so the MOS and MIM members of the bundles do not enter).%s Not covered: the 135-point 3.3 V grid, Monte Carlo, routing parasitics, the VCO driving the input (gate G2), self-heating beyond the model's." % (n_corners, scope_grid, scope_rail),
+        "- **Scope**: the %d supply sub-corners of spec section 'Corner set' stage 2: %s (the prescaler has HBTs and PDK rppd resistors only; %s, so the MOS and MIM members of the bundles do not enter).%s Not covered: the 135-point 3.3 V grid, Monte Carlo, routing parasitics, the VCO driving the input (gate G2), self-heating beyond the model's." % (n_corners, scope_grid, res_clause, scope_rail),
         "- **Method**: `klt sim` corner request `%s` (generated by `scripts/gen_prescaler_vce_request.py` from `design/netlist/prescaler.spice`, one measurement per HBT, %d devices requested per run). Transient `1p 24n 10n 2p`: supply, IREF and MC ramp up over 1 ns, data are recorded from 10 ns (the dividers have settled), 70 input cycles; each measurement is `vecmax(abs(v(collector)-v(emitter)))` over 10-24 ns, so a transient peak counts, not just the DC level. Stimulus as `div89_chain.cir`: 0.4 Vpp differential 5.0 GHz at a common mode equal to the supply, IREF = 50 uA (ideal source), PDK rppd resistors, **MC = 0 (/8) and MC = 1 at the supply level (/9) both run** at every one of the %d supply sub-corners (%d runs requested, %d observed)." % (Path(request_path).name, n_req_dev, n_corners, n_req_runs, g["n_corners"]),
         "- **Limit**: BVCEO %.1f V min (2.5 V typ), the figure from the #44 EE key review, applied to the instantaneous |Vce| of every HBT. BVCEO is an open-base rating; with the base driven the device tolerates more, so a transient excursion over it is a flag for the designer, not a proven breakdown. The record reports it as the issue asks: against 2.2 V." % g["bveceo_v"],
         "- **Simulator**: %s on the Spot batch fleet (`environment.engine_host` = %s), %s. Job `%s`, %s, %s." % (
             ngpin.engine(env.get("engine_version")), env.get("engine_host"), ngpin.verdict(env.get("engine_version")),
             rem.get("job_id"), rem.get("instance_type"), rem.get("lifecycle")),
-        "- **Request**: `%s` sha256 `%s`; report [`%s`](%s) (klt report, gzip) sha256 `%s`" % (Path(request_path).name, hashlib.sha256(req_bytes).hexdigest(), report_name, report_name, report.get("_report_sha256", "see file")),
+        "- **Request**: `%s` sha256 `%s`; report [`%s`](%s) (klt report, gzip) sha256 `%s`" % (Path(request_path).name, ru.sha256_bytes(req_bytes), report_name, report_name, report.get("_report_sha256", "see file")),
         "- **PDK**: `models.pdk` sg13g2 on the fleet image (`/opt/pdk`); model library `cornerHBT.lib` staged from this host's IHP-Open-PDK v0.3.0 install (`environment.staged_model_inputs`)",
         "- **Commit**: `%s` of this repository" % commit,
         "- **Jitter-like numbers**: none (voltage stress only).",
@@ -163,11 +167,10 @@ def main(argv=None):
     report = json.loads(raw)
     gz = Path(args.out_dir) / ("%s-klt-report.json.gz" % args.id)
     rec = Path(args.out_dir) / ("%s-vce.md" % args.id)
-    if gz.exists() or rec.exists():
-        sys.exit("records are append-only: %s exists" % rec)
+    ru.ensure_new(gz, rec)
     gz.parent.mkdir(parents=True, exist_ok=True)
-    gz.write_bytes(gzip.compress(raw, 9, mtime=0))
-    report["_report_sha256"] = hashlib.sha256(raw).hexdigest()
+    ru.write_report_gz(gz, raw)
+    report["_report_sha256"] = ru.sha256_bytes(raw)
     g = grade(report)
     rec.write_text(render(g, report, args.id, args.commit, gz.name, args.request))
     print("%s: %s (%d exceed, %d not converged of %d)" % (rec, g["verdict"], g["n_exceeding"], g["n_not_converged"], g["n_corners"]))

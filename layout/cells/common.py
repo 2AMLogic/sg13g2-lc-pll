@@ -82,6 +82,20 @@ ROUTE_WIDTH_UM = 0.6
 # (metal3 is the topmost role the family resolves), so their trunks never share -- and so
 # never block a via drop on -- the signal planes below.
 ROUTE_RAIL_LAYER_ROLES = ("metal3",)
+# SG13G2 metal pin/net text purpose (#416): both the PDK LVS runset (`sg13g2.lvs`:
+# `rule_decks/layers_definitions.lvs` + `general_connections.lvs:57-63`) and klt's curated
+# `sg13g2` `EXTRACTION_DECK.metal_labels` (`klayout_tools/decks/sg13g2.py`) attach metal labels
+# exclusively from datatype 25 (`Metal1..5.text`, `TopMetal1..2.text`) and ignore drawing `/0`.
+METAL_TEXT_DATATYPE = 25
+METAL_TEXT_LAYERS = {
+    8: METAL_TEXT_DATATYPE,    # Metal1.text
+    10: METAL_TEXT_DATATYPE,   # Metal2.text
+    30: METAL_TEXT_DATATYPE,   # Metal3.text
+    50: METAL_TEXT_DATATYPE,   # Metal4.text
+    67: METAL_TEXT_DATATYPE,   # Metal5.text
+    126: METAL_TEXT_DATATYPE,  # TopMetal1.text
+    134: METAL_TEXT_DATATYPE,  # TopMetal2.text
+}
 
 
 def sha256(path):
@@ -310,18 +324,31 @@ def shelf_pack(sizes, width, gap):
     return org
 
 
-def port_net_label_sites(groups, reports, origins):
-    """{net: (x_um, y_um, layer, datatype)}: the first drawn terminal of each net, block frame."""
+def port_net_label_sites(groups, reports, origins, ports=None):
+    """{net: (x_um, y_um, layer, datatype)}: the first drawn terminal of each port net, block frame,
+    mapped from its drawing layer onto the SG13G2 metal text purpose (<layer>/25, #416)."""
+    want = set(ports) if ports is not None else None
     site = {}
     for g in groups:
         rep = reports[g["id"]]
         pos = {p["name"]: p for p in rep["ports"]}
         for t in g["terminals"]:
-            p = pos.get(t["port"])
-            if p is None or t["net"] in site:
+            net = t["net"]
+            if (want is not None and net not in want) or net in site:
                 continue
+            p = pos.get(t["port"])
+            if p is None:
+                continue
+            la = p["layer"]["layer"]
+            dt = METAL_TEXT_LAYERS.get(la)
+            if dt is None:
+                raise PlanError(
+                    f"{g['id']}.{t['port']} (port {net!r}): terminal layer "
+                    f"{la}/{p['layer']['datatype']} has no SG13G2 metal text purpose "
+                    f"(supported: {sorted(METAL_TEXT_LAYERS)})"
+                )
             o = origins[g["id"]]
-            site[t["net"]] = (o["x"] + p["x_um"], o["y"] + p["y_um"], p["layer"]["layer"], p["layer"]["datatype"])
+            site[net] = (o["x"] + p["x_um"], o["y"] + p["y_um"], la, dt)
     return site
 
 
@@ -535,8 +562,8 @@ def build_block(cell, subckt, netlist, out_dir, input_first=(), hbt_split_bases=
                        else "partial"),
         })
 
-    # Stamp port labels on a drawn terminal of each port net.
-    sites = port_net_label_sites(groups, reports, origins)
+    # Stamp port labels on a drawn terminal of each port net (SG13G2 metal text purpose /25).
+    sites = port_net_label_sites(groups, reports, origins, ports)
     missing = [p for p in ports if p not in sites]
     ly = db.Layout()
     ly.read(os.path.join(out_dir, f"{cell}.raw.gds"))

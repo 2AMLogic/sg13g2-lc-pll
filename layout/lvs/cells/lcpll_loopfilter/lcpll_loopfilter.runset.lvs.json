@@ -13,7 +13,7 @@
   "reference": "../../../../design/netlist/loopfilter.spice",
   "top": "lcpll_loopfilter",
   "reference_top": "loopfilter",
-  "deck_file": "/home/ubuntu/share/pdk/ihp-sg13g2/libs.tech/klayout/tech/lvs/sg13g2.lvs",
+  "deck_file": "../../../build/pdk/ihp-sg13g2/libs.tech/klayout/tech/lvs/sg13g2.lvs",
   "deck_vars": {},
   "options": {},
   "hints_applied": null,
@@ -331,12 +331,12 @@
     "status": "insufficient_evidence",
     "findings": []
   },
-  "mismatch_count": 18,
+  "mismatch_count": 21,
   "error_count": 15,
   "category_counts": {
     "device.unmatched": 6,
     "net.unmatched": 9,
-    "pin.unmatched": 3
+    "pin.unmatched": 6
   },
   "category_error_counts": {
     "device.unmatched": 6,
@@ -354,7 +354,7 @@
       "matched": 0
     },
     "pins": {
-      "layout": 0,
+      "layout": 3,
       "reference": 3,
       "matched": 0
     }
@@ -409,14 +409,14 @@
     "engine_version": "0.30.12",
     "klayout_binary": "klayout",
     "netgen_binary": null,
-    "layout_sha256": "4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
+    "layout_sha256": "abf1a3949635471aa8b7cfcb5a61d55944d01e670aa7e6aa9747244ad1e0a10e",
     "reference_sha256": "35341299a4ecc524d2c91db5dc5c5f2cb8284a414d70e5b37401c7f85a90ea04",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.9.3.dev3910+g8703ad519ff7",
-    "klt_git_commit": "8703ad519ff7cfc76f589d09f77a32545e627477",
-    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@8703ad519ff7cfc76f589d09f77a32545e627477",
+    "klt_version": "0.9.3.dev5517+g9fff520e45e2",
+    "klt_git_commit": "9fff520e45e2aeefa6af5261bb509248493f2215",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@9fff520e45e2aeefa6af5261bb509248493f2215",
     "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
@@ -425,29 +425,52 @@
       "released": null
     },
     "input": {
-      "content_hash": "sha256:4b8e6867c7625e21ce35bdb26a75f291a76111b531b7e8baae71cf1ca8146e2e",
+      "content_hash": "sha256:abf1a3949635471aa8b7cfcb5a61d55944d01e670aa7e6aa9747244ad1e0a10e",
       "role": "layout"
     },
     "runset": {
-      "deck_file": "/home/ubuntu/share/pdk/ihp-sg13g2/libs.tech/klayout/tech/lvs/sg13g2.lvs",
+      "deck_file": "../../../build/pdk/ihp-sg13g2/libs.tech/klayout/tech/lvs/sg13g2.lvs",
       "deck_vars": {},
       "content_hash": "sha256:e01bcb1ec5858e8069bade8f7fd7ec28c1026fc2fd0590e8f611d3398a5bbbd7",
       "klayout_application_version": "0.30.12",
       "exit_status": 0,
-      "engine_error_lines": []
+      "engine_error_lines": [],
+      "strict_top_port_mode": true,
+      "xref_log": [
+        {
+          "severity": "error",
+          "message": "Net VIN is not matching any net from reference netlist"
+        },
+        {
+          "severity": "error",
+          "message": "Net $1 is not matching any net from reference netlist"
+        },
+        {
+          "severity": "error",
+          "message": "Net VCTRL is not matching any net from reference netlist"
+        },
+        {
+          "severity": "error",
+          "message": "Net $4 is not matching any net from reference netlist"
+        },
+        {
+          "severity": "error",
+          "message": "Net VSS is not matching any net from reference netlist"
+        }
+      ]
     }
   },
   "mismatches": [
     {
       "category": "device.unmatched",
       "severity": "error",
-      "description": "reference device '1' (class 'RPPD') has no counterpart",
-      "side": "reference",
+      "description": "layout device '1' (class 'rppd') has no counterpart",
+      "side": "layout",
       "net": null,
       "device": {
-        "layout": null,
-        "reference": "1",
-        "class": "RPPD"
+        "layout": "1",
+        "reference": null,
+        "class": "rppd"
       },
       "property": null,
       "details": null,
@@ -461,13 +484,13 @@
     {
       "category": "device.unmatched",
       "severity": "error",
-      "description": "reference device '3' (class 'RPPD') has no counterpart",
-      "side": "reference",
+      "description": "layout device '2' (class 'cap_cmim') has no counterpart",
+      "side": "layout",
       "net": null,
       "device": {
-        "layout": null,
-        "reference": "3",
-        "class": "RPPD"
+        "layout": "2",
+        "reference": null,
+        "class": "cap_cmim"
       },
       "property": null,
       "details": null,
@@ -521,13 +544,13 @@
     {
       "category": "device.unmatched",
       "severity": "error",
-      "description": "layout device '2' (class 'cap_cmim') has no counterpart",
-      "side": "layout",
+      "description": "reference device '1' (class 'RPPD') has no counterpart",
+      "side": "reference",
       "net": null,
       "device": {
-        "layout": "2",
-        "reference": null,
-        "class": "cap_cmim"
+        "layout": null,
+        "reference": "1",
+        "class": "RPPD"
       },
       "property": null,
       "details": null,
@@ -541,14 +564,109 @@
     {
       "category": "device.unmatched",
       "severity": "error",
-      "description": "layout device '1' (class 'rppd') has no counterpart",
-      "side": "layout",
+      "description": "reference device '3' (class 'RPPD') has no counterpart",
+      "side": "reference",
       "net": null,
       "device": {
-        "layout": "1",
-        "reference": null,
-        "class": "rppd"
+        "layout": null,
+        "reference": "3",
+        "class": "RPPD"
       },
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$1' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$1",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net '$4' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "$4",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net 'VCTRL' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "VCTRL",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net 'VIN' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "VIN",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": {
+        "layout": "lcpll_loopfilter",
+        "reference": "LCPLL_LOOPFILTER"
+      },
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net 'VSS' has no counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "VSS",
+        "reference": null
+      },
+      "device": null,
       "property": null,
       "details": null,
       "circuit": {
@@ -635,12 +753,12 @@
       "subcircuit": null
     },
     {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$1' has no counterpart",
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'VCTRL' of circuit 'lcpll_loopfilter' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
       "side": "layout",
       "net": {
-        "layout": "$1",
+        "layout": "VCTRL",
         "reference": null
       },
       "device": null,
@@ -654,12 +772,12 @@
       "subcircuit": null
     },
     {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$2' has no counterpart",
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'VIN' of circuit 'lcpll_loopfilter' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
       "side": "layout",
       "net": {
-        "layout": "$2",
+        "layout": "VIN",
         "reference": null
       },
       "device": null,
@@ -673,50 +791,12 @@
       "subcircuit": null
     },
     {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$3' has no counterpart",
+      "category": "pin.unmatched",
+      "severity": "warning",
+      "description": "pin 'VSS' of circuit 'lcpll_loopfilter' is present only on the layout side, but the runset's own compare graded the pin pair matched (Match)",
       "side": "layout",
       "net": {
-        "layout": "$3",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$4' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$4",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": {
-        "layout": "lcpll_loopfilter",
-        "reference": "LCPLL_LOOPFILTER"
-      },
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net '$5' has no counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "$5",
+        "layout": "VSS",
         "reference": null
       },
       "device": null,

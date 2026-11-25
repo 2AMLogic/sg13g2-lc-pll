@@ -22,4 +22,5 @@ bash scripts/test-lib-record.sh
 bash scripts/test-lock-detector-report.sh
 bash scripts/test-lib-pdk.sh
 python3 sim/prescaler-div89/gen_requests.py --check
-python3 -m pytest -q -p no:cacheprovider sim/test_ngpin.py sim/cp-dc sim/loop-model sim/prescaler-g1 sim/prescaler-div89 sim/divider-elab sim/corner-verification/loop-power
+bash scripts/test-osdi-preload.sh
+python3 -m pytest -q -p no:cacheprovider sim/test_ngpin.py sim/test_record_util.py sim/cp-dc sim/loop-model sim/prescaler-g1 sim/prescaler-div89 sim/divider-elab sim/cp-mc sim/corner-verification/loop-power sim/corner-verification/vco-prescaler-load

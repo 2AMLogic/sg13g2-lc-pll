@@ -4,7 +4,8 @@
   "Circuit: CML prescaler + M/A divider at N = 100 driven at 5.0 GHz (design/netlist/{prescaler,divider}.spice). PFD + CP + bias, lock detector, reference and clock buffering are NOT in this circuit.",
   "Per corner: ipavg / idavg = mean supply current of each rail over 40n-120n; tfb = 3 FB periods (rise 1 to rise 4 after 40n); 3 x 19.5-20.5 ns means the divider divides to 50 MHz.",
   "Power limits are NOT set on the requests: the 20 mW budget needs PFD+CP+bias added and the owed blocks; the record grades it.",
-  "Issue #97 diagnosis shard: SLOW 125 C 3.63 V, ramped start-up, 300 ns, FB/TC edge times, clock levels, counter state every 1.6 ns from 200 ns; timeout_s 1800."
+  "Issue #97 diagnosis shard: SLOW 125 C 3.63 V, ramped start-up, 300 ns, FB/TC edge times, clock levels, counter state every 1.6 ns from 200 ns; timeout_s 1800.",
+  "RESISTOR LOADING (issue #452): repaired in place -- this deck instantiates PDK rppd/rhigh resistors (PR #169) but carried no resistor model, so ngspice aborted at parse (unknown subckt rppd). Added cornerRES.lib (SLOW/TYP/FAST = res_wcs/res_typ/res_bcs) and the r3_cmc OSDI, as res_stage2() in make_requests.py does (issue #164). Regenerating this file from its make_* generator reintroduces the gap; re-run repair_res_loading.py afterwards."
  ],
  "netlist": "loop_power_body.spice",
  "netlist_source": "schematic",
@@ -1781,6 +1782,10 @@
      {
       "lib": "libs.tech/ngspice/models/cornerHBT.lib",
       "section": "hbt_wcs"
+     },
+     {
+      "lib": "libs.tech/ngspice/models/cornerRES.lib",
+      "section": "res_wcs"
      }
     ]
    }
@@ -1798,7 +1803,12 @@
   "timeout_s": 1800,
   "keep_artifacts": true,
   "osdi_preload": [
-   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"
+   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi",
+   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi",
+   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103_nqs.osdi"
+  ],
+  "ngspice_init": [
+   "set ngbehavior=hsa"
   ]
  }
 }
