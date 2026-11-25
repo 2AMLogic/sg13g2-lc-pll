@@ -8,7 +8,7 @@ The body below is a snapshot of GitHub label state as of the last merged docs-ma
 <!-- Maintained automatically by the Guide triage agent. Manual edits are fine but may be overwritten. -->
 
 <!-- guide:plan-body:start -->
-_Generated: 2026-11-25T05:02:06Z (snapshot; compare against live labels)_
+_Generated: 2026-11-25T09:35:00Z (snapshot; compare against live labels)_
 ## Operator Attention: Merge-Risk-Hold Pileup
 
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
@@ -52,13 +52,13 @@ Issues currently being built (`loom:building`).
 - **#206**: spec: state clock output swing and load for a downstream TX mux
 - **#343**: layout: route the charge-pump and loop-filter cells and LVS each against its own subcircuit (first slice of intra-cell routing for item 4)
 - **#419**: scripts/test-layout-top.sh: lvs_fresh_check silently skips an LVS envelope whose JSON will not parse
-- **#433**: layout: report the generator used for cell digest checks and document local harnesses
+- **#474**: Unit-test vco-prescaler-load make_record.py now that it imports cleanly
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
-_None._
+- **#475**: test: add pytest coverage for the vco-prescaler-load record writer
 
 ## Approved (Awaiting Merge)
 
@@ -86,8 +86,8 @@ Issues carrying `loom:curated`.
 - **#277**: README status line and ladder position contradict the signoff record (still says "Nothing is designed or simulated yet") *(curated)* *(held)*
 - **#343**: layout: route the charge-pump and loop-filter cells and LVS each against its own subcircuit (first slice of intra-cell routing for item 4) *(curated)*
 - **#419**: scripts/test-layout-top.sh: lvs_fresh_check silently skips an LVS envelope whose JSON will not parse *(curated)*
-- **#433**: layout: report the generator used for cell digest checks and document local harnesses *(curated)*
 - **#461**: Re-stamp layout/provenance.json inputs.gen_integrated.sha256 on a PDK host *(curated)* *(held)*
+- **#474**: Unit-test vco-prescaler-load make_record.py now that it imports cleanly *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -108,7 +108,7 @@ _None._
 | Important | 9 |
 | Ready (`loom:issue`) | 1 |
 | In Progress (`loom:building`) | 5 |
-| PRs awaiting review | 0 |
+| PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 4 |
 | Curated | 15 |
 | Architect / Hermit proposals | 3 |

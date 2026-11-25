@@ -4,6 +4,10 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-25
 
+- **PR #473**: refactor(sim): decompose vco-prescaler-load make_record main() and guard entry point
+- **PR #472**: refactor(scripts): extract layout-top negative-control fixtures into a tracked helper
+- **Issue #469** (closed): Simplify sim/corner-verification/vco-prescaler-load/make_record.py: decompose 221-line main() and guard module entry point
+- **Issue #468** (closed): Extract the last inline Python heredoc (111 lines) from scripts/test-layout-top.sh into a tracked helper
 - **PR #437**: feat: report recorded vs running klt and PDK in gen_cells --check
 - **Issue #433** (closed): layout: report the generator used for cell digest checks and document local harnesses
 - **Issue #466** (closed): scripts/ld_tool.py klt sim request omits psp103_nqs.osdi (sibling of #451, not in its scope)
