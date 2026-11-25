@@ -1,12 +1,14 @@
-# divider hot-corner stall trace 20261110-3f59e40 (issue #197)
+# Divider hot-corner stall trace 20261110-3f59e40 (issue #197)
 
-**Result (simulated, not measured): the 7 hot no-toggle units are a setup-timing failure of the M-counter terminal-count path, not a bench artefact and not a loss of swing.** The terminal-count decode `DT` pulses once, after the sampling edge of the `TC` flop and gone before the next edge, so `TC` is never set, `FB` never rises again, and the counter never reloads.
+**Simulation result.** Seven of 54 ramped-start corner runs showed just one startup feedback edge. Two of those seven were traced internally. In each trace the M-counter terminal-count decode (`DT`) pulsed high entirely between successive rising edges of the buffered clock (`CKL`). The first stage to miss the pulse was `XM.XFT`. Its output (`TC`) stayed at or below 0.03 V and the feedback output (`FB`) had no rising edge in the 8–30 ns window. The cause of the other five stalls is open.
 
-- **Scope**: two single units of the real divider chain (`cml2cmos` + `mcounter` + `acounter`, `design/netlist/divider.spice`), M = 12, A = 4, 3.3 V, ideal 0.4 Vpp differential input at 3.18 V common mode: **SLOW/125C at 625 MHz** (hbt_wcs, mos_ss, cap_wcs, res_wcs) and **TYP/125C at 687.5 MHz** (hbt_typ, mos_tt, cap_typ, res_typ). The other five failing units of `20261110-ramped-start-f27b2f0-corners.md` are not traced; they share the symptom (one FB rise near 1.7 ns), not shown to share the cause.
-- **Method**: one local `klt sim --backend local` run per unit (ngspice-46, one process each, no grid), `tran 20p 30n`, `save all`, `options.waveforms`. Bench: the ramped start of PR #198 / issue #166 (`divider_corner.cir` at `f27b2f0`: VDD, IREF and the input common mode ramp from 0 over 3 ns, sine from 3 ns), which this branch does not carry. Requests: `gen_hot_trace_requests.py`; node reader: `trace_raw.py` (1.65 V crossings, interpolated linearly between 20 ps samples). Window 8 to 30 ns, i.e. after start-up. Raw files (160 MB each) are not kept.
-- **Commit**: `3f59e40` of this repository plus the #198 bench files.
+Both traces used the `cml2cmos`, `mcounter` and `acounter` chain at M = 12, A = 4, 3.3 V and 125 °C. The SLOW run used 625 MHz (hbt_wcs, mos_ss, cap_wcs, res_wcs) and the TYP run used 687.5 MHz (hbt_typ, mos_tt, cap_typ, res_typ).
 
-## Which stage stops toggling
+**Drive amplitude.** The [ramped-start corner record](20261110-ramped-start-f27b2f0-corners.md) calls the ideal sine “0.4 Vpp” without specifying the voltage pair. In the [deck](../divider_corner.cir), after the 3 ns ramp, BP and BN drive opposite 0.2 V peak sinusoids around 3.18 V common mode. Each pin sees 0.4 Vpp. Subtracting INN from INP gives ±0.4 V, or **0.8 Vpp differential**. The traces characterize that drive only.
+
+**Method.** The original runs used the circuit at `3f59e40` and the ramped-start bench at `f27b2f0` (PR #198). Each unit ran once with local `klt sim`, ngspice-46, `tran 20p 30n`, `save all` and `options.waveforms`. [gen_hot_trace_requests.py](../gen_hot_trace_requests.py) generates the requests. [trace_raw.py](../trace_raw.py) interpolates 1.65 V crossings between adjacent samples. The original raw waveforms were discarded.
+
+## Which stage misses the pulse
 
 | node | SLOW/125C 625 MHz, 8 to 30 ns | TYP/125C 687.5 MHz, 8 to 30 ns |
 |---|---|---|
@@ -18,10 +20,17 @@
 | `tc` (XFT output) | **never above 0.03 V** | **never above 0.03 V** |
 | `fb`, `mc` | `fb` 0 rises; `mc` 1 fall (19.2 ns) | `fb` 0 rises; `mc` 1 fall |
 
-- Everything up to and including `ckl` and the counter flops toggles rail to rail. The first node that stops toggling is **`tc`**, the output of `XM.XFT` (`dff_tg_hv`, D = `dt`). Its D input is the decode `DT` = inverted `DTN`, built from `q3 q2` (`f32`), `q0 q1n` (`g10`).
-- **Mechanism**: `DT` pulses high once, rising **0.154 ns after** the `ckl` rising (sampling) edge at 26.417 ns and falling **0.489 ns before** the next edge at 28.020 ns (SLOW; period 1.603 ns). TYP: rises 0.139 ns after the edge at 21.379 ns, falls 0.438 ns before the edge at 22.836 ns (period 1.457 ns). The edge samples 0, the next edge samples 0. `TC` and `FB` (`XFB`, D = `TC`) therefore never rise and the counter, which reloads on `TC`, never terminates. Counter flop clock-to-Q measures about 0.9 ns (`ckl` rise to `q0` change, SLOW, 3 edges at 0.90 to 0.96 ns) in a 1.6 ns period, before the 2 to 3 gates of decode and the setup of the next flop.
-- Cause: **missing timing margin (setup) at 125 C, not swing and not a latch stuck by start-up**: `cml2cmos` and `ckl` keep full swing, the counter state advances, and the same SLOW/125C chain divides at 100 MHz (count request of the ramped-start record) and TYP/125C at 625 MHz. The two traced units agree on the mechanism; they differ in `DT` pulse timing by under 20 ps relative to the edge, so one cause is supported for both, not shown for the other five.
+The converter output (`ck`), buffered clock (`ckl`) and observed counter bit (`q0`) kept toggling. The following times use the 1.65 V crossing on each signal.
+
+| Corner | CKL rise (ns) | DT rise (ns) | DT fall (ns) | Next CKL rise (ns) | DT rises after first edge (ps) | DT falls before next edge (ps) |
+|---|---:|---:|---:|---:|---:|---:|
+| SLOW | 26.417 | 26.571 | 27.531 | 28.020 | 154 | 489 |
+| TYP | 21.379 | 21.518 | 22.398 | 22.836 | 139 | 438 |
+
+The rising offsets differ by 15 ps and the falling offsets by 51 ps. In both cases `DT` was low at both edges. In the [divider netlist](../../../design/netlist/divider.spice), XFT samples `DT` on `CKL` and drives `TC`, which XFB samples to produce `FB`. The M-counter load mux uses `TC2` from the separate XFT2 flop. The record gives no `TC2` crossing times.
+
+XT1–XT4 decode count 2. A late count-2 decode is one hypothesis. A transient decode as several counter bits change could also produce a pulse between edges. Three SLOW `q0` transitions followed a `CKL` rising edge by 0.90–0.96 ns, but the recorded data do not identify a `Q[3:0]` transition into count 2, its launch and intended capture edges, or the setup requirement of XFT. A setup violation remains unverified.
 
 ## Disposition
 
-**(a): the divider as sized has a speed failure at 125 C; it is not a bench artefact (the ramped start removed every convergence failure and left these 7) and no speed-target change is proposed.** Candidate fixes (retiming the terminal-count decode, splitting the M counter, sizing the decode gates) are a design change and are filed as a follow-up with its own acceptance criteria, not made here. No design file changed, so the 54-unit grid is not re-run in this issue; the next grid record belongs to the follow-up. The 625 / 687.5 MHz targets in `spec/target-spec.md` row 4 are unchanged.
+Disposition (a) keeps the stage-2 counter speed gate open. The corner grid had 47 expected divides and seven hot stalls. One stall was at SLOW/125 °C, 625 MHz, A = 4 (N = 100), the post-prescaler rate for the required 5.0 GHz channel. Six were at 687.5 MHz, A = 4, 0, 7 at both SLOW and TYP. The SLOW/125 °C count check passed at 100 MHz and TYP/125 °C passed at 625 MHz. [Issue #199](https://github.com/2AMLogic/sg13g2-lc-pll/issues/199) tracks the design work and the post-fix 54-unit grid against the existing 625 and 687.5 MHz targets.

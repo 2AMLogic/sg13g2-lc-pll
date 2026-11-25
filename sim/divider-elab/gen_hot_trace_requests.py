@@ -3,11 +3,11 @@
 
   gen_hot_trace_requests.py [PDK_ROOT]
 
-Units: SLOW/125C 625 MHz A=4 and TYP/125C 687.5 MHz A=4 (cases 0 and 1 of the speed request of gen_corner_requests.py), 30 ns,
-options.waveforms and keep_artifacts on so klt sim writes waveform.raw (ASCII, ~160 MB for 30 ns: delete it after reading).
-Run locally: klt sim hot_trace_slow125.request.json --backend local -o OUT --pdk-root PDK_ROOT
-PDK_ROOT is substituted for $PDK_ROOT in osdi_preload (a local run does not expand it; the batch fleet does). Needs the
-ramped-start divider_corner.cir of PR #198 (issue #166): the trace was taken with that bench. Generated files are not committed.
+The two 30 ns requests use the ramped-start divider_corner.cir from #198 with M=12, A=4.
+They cover SLOW/125C at 625 MHz and TYP/125C at 687.5 MHz and retain the ASCII waveform.raw.
+Pass the local PDK root to generate the OSDI paths. For example, from this directory run
+
+  klt sim hot_trace_slow125.request.json --backend local -o OUT --pdk-root PDK_ROOT
 """
 import json
 import sys

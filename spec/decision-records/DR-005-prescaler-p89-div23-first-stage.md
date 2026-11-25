@@ -177,10 +177,10 @@ The 3.63 V / MC-high XQT Vce FAIL recorded above is closed by a circuit change i
 
 This follow-up does not close the divider grading. This PR's own divider record, `sim/prescaler-div89/records/20261110-013500-268f3ea-pdk-divider.md`, reads **FAIL**, simulated, not measured: 6 of 108 chain corners fail, all SLOW / 125 C / 5.5 GHz, with a ratio of about 10-11 instead of 8 or 9; and 32 of 288 async modulus-timing corners fail, a check first simulated in that record. Both are added to the "Still not done" items above, together with the 16 ungraded divider corner runs and the VCO re-check listed there. The /9 threshold is MC at or above ~0.94 VDD (`sim/prescaler-div89/records/20261109-235500-6fbbf0e-dirty-mc-conv-xqt.md`); below it the divider falls back to /8. This record does not ratify the divider as passing.
 
-- **Appended note (issue #197): counter corner evidence at 125 C (simulated, not measured).** The 7 hot no-toggle divider units of the
-  ramped-start corner record (SLOW/125C 625 MHz and 687.5 MHz A = 4, 0, 7 as listed there, TYP/125C 687.5 MHz A = 4, 0, 7) are traced in
-  `sim/divider-elab/records/20261110-3f59e40-hot-stall-trace.md` on two of them (SLOW/125C 625 MHz A = 4, TYP/125C 687.5 MHz A = 4). In both,
-  `cml2cmos`, `ckl` and the counter flops toggle at full swing; the M counter's terminal-count decode `DT` pulses once, after the sampling
-  edge of the `TC` flop and gone before the next, so `TC` and `FB` never rise again. This is a setup-timing failure of the divider as
-  sized, not a bench artefact. **The stage-2 corner statement for the counters is not extended**: 7 of 54 units still do not divide,
-  the 625 / 687.5 MHz targets are unchanged, and the fix is a design change tracked in a follow-up issue. The ratified text above is not edited.
+- **Appended note (issue #197), simulated counter evidence at 125 °C.** The ramped-start grid produced 47 expected divides and
+  seven hot stalls at 3.3 V. The [internal traces](../../sim/divider-elab/records/20261110-3f59e40-hot-stall-trace.md) cover
+  two M = 12, A = 4 units at 0.8 Vpp differential (0.4 Vpp per pin), SLOW at 625 MHz and TYP at 687.5 MHz. In each,
+  the buffered clock kept toggling. The single `DT` pulse fell between successive rising edges of `CKL`, `TC` stayed at or below
+  0.03 V, and `FB` had no rising edge from 8 to 30 ns. The evidence leaves the setup hypothesis and the causes of the
+  other five stalls open. The stage-2 corner gate stays open at 625 and 687.5 MHz, including the required 5.0 GHz channel
+  at SLOW/125 °C. [Issue #199](https://github.com/2AMLogic/sg13g2-lc-pll/issues/199) tracks the design fix and post-fix grid.
