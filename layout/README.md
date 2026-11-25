@@ -126,8 +126,10 @@ KLT_CMD="uvx --with klayout==0.30.13 --from klayout-tools==0.9.1 klt" \
   uv run --no-project --with klayout==0.30.13 python layout/gen_cells.py --blocks lcpll_pfd --out "$out/release" --check    # signoff pin
 ```
 
-`--check` prints the recorded and running klt and the PDK it can see, and a mismatch line names the cell and field and says
-whether the klt differs (when both versions are known). A klt difference alone does not fail the check; a geometry mismatch always exits 1.
+`--check` prints the recorded and running klt builds and the PDK root and version reported by the running klt before
+generating cells. An unavailable probe is reported as unknown. Each mismatch names the cell and field and shows the
+recorded and current values. Geometry digest and area mismatches also compare the klt builds. A mismatch in any checked
+field exits 1. Matching fields pass even when the klt builds differ.
 
 **Tool pin (historic workaround).** The HBT (`bjt_array`, klayout-tools#4850 -> #4855) and sub-0.42 um MOS (`dogbone_terminals`,
 #4851 -> #4854) fixes first landed in an earlier provenance's klt (`klt 0.9.2.dev420+gf186e14125ed`;
