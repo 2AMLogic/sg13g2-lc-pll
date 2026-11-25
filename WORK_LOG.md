@@ -4,6 +4,10 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-25
 
+- **PR #478**: refactor(sim): derive cp attribution campaign list from attribute.py
+- **Issue #477** (closed): Derive the charge-pump attribution run list from the device groups
+- **PR #475**: test: add pytest coverage for the vco-prescaler-load record writer
+- **Issue #474** (closed): Unit-test vco-prescaler-load make_record.py now that it imports cleanly
 - **PR #473**: refactor(sim): decompose vco-prescaler-load make_record main() and guard entry point
 - **PR #472**: refactor(scripts): extract layout-top negative-control fixtures into a tracked helper
 - **Issue #469** (closed): Simplify sim/corner-verification/vco-prescaler-load/make_record.py: decompose 221-line main() and guard module entry point
