@@ -32,7 +32,7 @@
 | `request-fbcount-97.json` | TYP/27C/2.97V | error | inconclusive: aborted at netlist parse before model setup | 0 (model setup never ran) |
 | `request-fbcount-97-a.json` | TYP/27C/3.63V | error | inconclusive: aborted at netlist parse before model setup | 0 (model setup never ran) |
 | `request-fbcount-97-b.json` | TYP/125C/2.97V | error | inconclusive: aborted at netlist parse before model setup | 0 (model setup never ran) |
-| `request-flop-toggle-97.json` | SLOW/125C/2.97V | pass | **96 -> 0 after the fix** (fixed run completed) | 0 (model setup never ran) |
+| `request-flop-toggle-97.json` | SLOW/125C/2.97V | pass | **96 -> 0 after the fix** (fixed run completed) | 96 (model setup ran; see fix-verification table) |
 | `request-forced-97-SLOW-125-2.97.json` | SLOW/125C/2.97V | error | inconclusive: aborted at netlist parse before model setup | 0 (model setup never ran) |
 | `request-forcedprobe-97-FAST-125-2.97.json` | FAST/125C/2.97V | error | inconclusive: aborted at netlist parse before model setup | 0 (model setup never ran) |
 | `request-forcedprobe-97-SLOW-125-2.97.json` | SLOW/125C/2.97V | error | inconclusive: aborted at netlist parse before model setup | 0 (model setup never ran) |
@@ -56,7 +56,7 @@
 | `request-tclevels-97-SLOW-125-2.97.json` | SLOW/125C/2.97V | error | inconclusive: aborted at netlist parse before model setup | 0 (model setup never ran) |
 | `request-tclevels-97-TYP-125-2.97.json` | TYP/125C/2.97V | error | inconclusive: aborted at netlist parse before model setup | 0 (model setup never ran) |
 
-**Fix verification for the one measurable request** (`request-flop-toggle-97.json`, standalone `flop_toggle_body.spice`, which does not `.include` the prescaler/divider netlists - that is why it alone parses):
+**Fix verification for the one measurable request** (`request-flop-toggle-97.json`, standalone `flop_toggle_body.spice`; it does `.include` `design/netlist/divider.spice`, but it parses because it never *elaborates* a resistor-bearing subcircuit: the `rppd`/`rhigh` instances in `divider.spice` all sit inside `.subckt cml2cmos`, and the deck instantiates only `dff_tg_hv` and `inv_hv`, neither of which reaches `cml2cmos`. The other 42 abort because they elaborate `prescaler.spice`, whose `XRREF ... rppd` (line 14) is instantiated. The predicate for the parse abort is therefore "elaborates a resistor-bearing subckt", not "includes the divider/prescaler netlist"):
 
 | run | osdi_preload | Unknown-model-type lines | run outcome |
 |---|---|---|---|
