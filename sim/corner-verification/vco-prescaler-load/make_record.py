@@ -14,11 +14,11 @@ A corner that errored is listed with its diagnostic code and is never counted as
 row 1 = f in 4.5-5.5 GHz, row 7 = vpp >= 0.40 V (differential, 10-20 ns); startup is only the time v(OUTP)-v(OUTN)
 first reaches 0.2 V from the 10 mV kick (a proxy, not the row 6 g_m / loss ratio).
 """
-import argparse
 import collections
 import csv
 import glob
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -26,8 +26,17 @@ import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.abspath(os.path.join(HERE, "..", "..")))
-import ngpin  # noqa: E402  (the simulator pin check, computed once in sim/ngpin.py)
+
+
+def _load_sibling(name):
+    """Load sim/<name>.py by path, leaving sys.path (the importer's module search order) untouched."""
+    spec = importlib.util.spec_from_file_location(name, os.path.join(HERE, "..", "..", name + ".py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+ngpin = _load_sibling("ngpin")  # the simulator pin check, computed once in sim/ngpin.py
 
 
 def rows(path):
@@ -107,16 +116,21 @@ def prescaler_sha256():
         return hashlib.sha256(f.read()).hexdigest()
 
 
-def parse_args(argv=None):
-    """The CLI in the module docstring. Options may appear anywhere among the positionals (`<id> <label>=<report.json> ...`)."""
-    ap = argparse.ArgumentParser(prog="make_record.py", description="Grade the G2 C-grid klt sim reports into records/<id>.md and records/<id>-corners.csv.")
-    ap.add_argument("--dsubw", action="store_true")
-    ap.add_argument("--control", action="append", default=[], metavar="CSV")
-    ap.add_argument("--request", action="append", default=[], metavar="LABEL=REQUEST.JSON")
-    ap.add_argument("--note", default=None, metavar="FILE")
-    ap.add_argument("rid")
-    ap.add_argument("reports", nargs="*", metavar="LABEL=REPORT.JSON")
-    return ap.parse_intermixed_args(argv)
+def parse_args(argv):
+    """The CLI in the module docstring, split exactly as the pre-refactor script did: `--dsubw` anywhere is the flag;
+    `--control`, `--request` and `--note` each take the next argument verbatim (even one starting with `-`); everything
+    else is positional (`<id> <label>=<report.json> ...`). No prefix abbreviation, no option-looking-positional rejection.
+    -> (dsubw, controls, request_args, note, positional)."""
+    args = list(argv)
+    dsubw = "--dsubw" in args
+    opts = {"--control": [], "--request": [], "--note": []}
+    for flag, vals in opts.items():
+        while flag in args:
+            i = args.index(flag)
+            vals.append(args[i + 1])
+            del args[i:i + 2]
+    note = opts["--note"][-1] if opts["--note"] else None
+    return dsubw, opts["--control"], opts["--request"], note, [x for x in args if x != "--dsubw"]
 
 
 def requested_by_label(request_args):
@@ -378,18 +392,21 @@ def render_provenance(rid, env, note):
 
 
 def main(argv=None):
-    a = parse_args(sys.argv[1:] if argv is None else argv)
-    requested = requested_by_label(a.request)
-    data, env, isup, jobs = load_reports(a.reports)
+    dsubw, controls, request_args, note, pos = parse_args(sys.argv[1:] if argv is None else argv)
+    requested = requested_by_label(request_args)
+    rid = pos[0]
+    data, env, isup, jobs = load_reports(pos[1:])
     allrows = [dict(x, case=l) for l in data for x in data[l]]
-    write_corners_csv(os.path.join(HERE, "records", a.rid + "-corners.csv"), allrows, a.dsubw)
-    L = ["# vco-prescaler-load C-grid %s" % a.rid, ""] + render_header(a.dsubw) + render_case_sections(data, a.dsubw)
-    if not a.dsubw:
+    # render everything first (the provenance footer reads and hashes prescaler.spice): a failed read must not
+    # leave a new CSV beside an old Markdown record
+    L = ["# vco-prescaler-load C-grid %s" % rid, ""] + render_header(dsubw) + render_case_sections(data, dsubw)
+    if not dsubw:
         L += render_load_effect(data)
     else:
-        L += render_control_27c(data, a.control) + render_leakage_bound(isup) + render_g2_125c(data, requested, jobs)
-    L += render_provenance(a.rid, env, a.note)
-    with open(os.path.join(HERE, "records", a.rid + ".md"), "w") as f:
+        L += render_control_27c(data, controls) + render_leakage_bound(isup) + render_g2_125c(data, requested, jobs)
+    L += render_provenance(rid, env, note)
+    write_corners_csv(os.path.join(HERE, "records", rid + "-corners.csv"), allrows, dsubw)
+    with open(os.path.join(HERE, "records", rid + ".md"), "w") as f:
         f.write("\n".join(L))
     print("\n".join(L))
 
