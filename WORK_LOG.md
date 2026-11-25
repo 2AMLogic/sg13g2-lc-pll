@@ -4,6 +4,8 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-25
 
+- **PR #437**: feat: report recorded vs running klt and PDK in gen_cells --check
+- **Issue #433** (closed): layout: report the generator used for cell digest checks and document local harnesses
 - **Issue #466** (closed): scripts/ld_tool.py klt sim request omits psp103_nqs.osdi (sibling of #451, not in its scope)
 - **Issue #463** (closed): osdi-preload guard is file-scoped, so a multi-request generator can regress on one of its preload lists
 - **Issue #451** (closed): klt sim request generators still missing psp103_nqs.osdi: cp-mc, cp-dc I_cp corners, loop-power ad-hoc requests
