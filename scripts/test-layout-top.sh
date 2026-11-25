@@ -58,14 +58,12 @@ expect "attestation pin == provenance output.sha256" ok bash -c \
 LVS_STREAM_SHA="$(sha256sum "${G}" | cut -d' ' -f1)"
 lvs_fresh_check() { local root="$1" stream="$2" f t n rel pin found=0
   while IFS= read -r -d '' f; do
-    # #419: the || continue on the .layout probe below also swallowed unparseable envelopes (jq
-    # exits non-zero on malformed JSON), so the gate covered fewer files than were committed and
-    # still reported success. Parse each envelope up front: an empty or not-JSON file is refused
-    # naming it, while a parsed document that is not a report of a recognised shape (array root,
-    # object without .layout) stays skipped. jq empty exits 0 on input holding zero documents (0-byte
-    # or whitespace-only), so count documents with jq -s: 0 is "empty", a parse error is not JSON.
+    # jq reads a stream of values. Require exactly one per envelope before filtering by
+    # report shape, so an empty file or a report with an appended value cannot disappear
+    # from the freshness count (#419).
     n="$(jq -s 'length' "${f}" 2>/dev/null)" || { echo "lvs-fresh: ${f} is not valid JSON; refusing"; return 1; }
     [ "${n}" != 0 ] || { echo "lvs-fresh: ${f} is empty; refusing"; return 1; }
+    [ "${n}" = 1 ] || { echo "lvs-fresh: ${f} contains multiple JSON values; refusing"; return 1; }
     t="$(jq -r '.layout | type' "${f}" 2>/dev/null)" || continue
     case "${t}" in
       string) rel="$(realpath -m --canonicalize-missing --relative-to="${root}" \
@@ -367,19 +365,18 @@ if [ "${rc}" = 0 ] && [ "${d}" = "${base}" ] && [[ "${base}" =~ ^lvs-fresh:\ [1-
 else
   echo "FAIL report-relative string form (rc=${rc}): ${d}"; bad=$((bad+1))
 fi
-# #419's controls, same copy-tree shape: an unparseable envelope and a 0-byte one must each be
-# refused with the checker's own text naming the file -- before the jq-empty gate both were
-# silently skipped, so the freshness gate covered fewer files than layout/lvs/ held -- while a
-# parsed document that is not a report (an extra {}) must stay skipped, not refused, and leave
-# the success line (and its count) bit-for-bit the unmodified tree's own (base above).
-mkdir -p "${T}/lvsbad/layout" "${T}/lvsempty/layout" "${T}/lvsws/layout" "${T}/lvsnonrep/layout"
+# #419: each invalid envelope must be refused by name. Appending {} to a report makes its
+# envelope invalid, while adding {} as a separate file must preserve the baseline count.
+mkdir -p "${T}/lvsbad/layout" "${T}/lvsempty/layout" "${T}/lvsws/layout" "${T}/lvsmulti/layout" "${T}/lvsnonrep/layout"
 cp -r "${ROOT}/layout/lvs" "${T}/lvsbad/layout/"
 cp -r "${ROOT}/layout/lvs" "${T}/lvsempty/layout/"
 cp -r "${ROOT}/layout/lvs" "${T}/lvsws/layout/"
+cp -r "${ROOT}/layout/lvs" "${T}/lvsmulti/layout/"
 cp -r "${ROOT}/layout/lvs" "${T}/lvsnonrep/layout/"
 printf '{ this is not json' > "${T}/lvsbad/layout/lvs/cells/lcpll_cp/lcpll_cp.lvs.json"
 : > "${T}/lvsempty/layout/lvs/top.lvs.json"
 printf '\n   \n' > "${T}/lvsws/layout/lvs/top.lvs.json"
+printf '\n{}\n' >> "${T}/lvsmulti/layout/lvs/top.lvs.json"
 printf '{}' > "${T}/lvsnonrep/layout/lvs/not-a-report.lvs.json"
 expect "NEG malformed LVS envelope refused as not valid JSON, report named" \
   "refuse:lvs-fresh: .*lcpll_cp\.lvs\.json is not valid JSON; refusing" \
@@ -390,6 +387,9 @@ expect "NEG empty LVS envelope refused, report named" \
 expect "NEG whitespace-only LVS envelope refused as empty, report named" \
   "refuse:lvs-fresh: .*top\.lvs\.json is empty; refusing" \
   lvs_fresh_check "${T}/lvsws" "${LVS_STREAM_SHA}"
+expect "NEG second JSON value in an LVS report refused, report named" \
+  "refuse:lvs-fresh: .*top\.lvs\.json contains multiple JSON values; refusing" \
+  lvs_fresh_check "${T}/lvsmulti" "${LVS_STREAM_SHA}"
 d="$(lvs_fresh_check "${T}/lvsnonrep" "${LVS_STREAM_SHA}" 2>&1)"; rc=$?
 if [ "${rc}" = 0 ] && [ "${d}" = "${base}" ]; then
   echo "PASS a valid non-report *.lvs.json is skipped without changing the count"; pass=$((pass+1))
