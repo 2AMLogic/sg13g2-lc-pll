@@ -1,0 +1,25 @@
+{
+  "_doc": "Generators that preload psp103.osdi without psp103_nqs.osdi, each with why that is safe or out of scope. Checked by scripts/check_osdi_preload.py (stale entries fail). Add an entry only with a measurement (count of 'Unknown model type pspnqs103va' in the ngspice log, method stated) or a scope reason.",
+  "exempt": {
+    "sim/corner-verification/loop-power/repair_res_loading.py": {
+      "reason": "rewrites archived requests by appending r3_cmc.osdi (#452 scope); psp103.osdi appears only in its docstring, it builds no preload list",
+      "evidence": "not a request generator; resistor-loading repair is #452, out of scope here"
+    },
+    "sim/corner-verification/loop-power/test_repair_res_loading.py": {
+      "reason": "unit test of the repair tool: asserts a historical psp103-only request is preserved, builds no request to run",
+      "evidence": "not a request generator; its fixture list mirrors archived requests"
+    },
+    "sim/corner-verification/vco-prescaler-load/make_record.py": {
+      "reason": "writes record prose that names options.osdi_preload; builds no request",
+      "evidence": "text only, no simulation launched by this file"
+    },
+    "sim/corner-verification/vco-prescaler-load/make_requests.py": {
+      "reason": "psp103 + r3_cmc loaded only in the prescaler-loaded case; that deck instantiates no pspnqs103va cards",
+      "evidence": "measured 0 'Unknown model type pspnqs103va' drops (#447)"
+    },
+    "sim/divider-elab/gen_corner_requests.py": {
+      "reason": "out of scope for #456 (declared in the issue; divider-elab owned by #149/#152); not edited here",
+      "evidence": "unmeasured; tracked for follow-up, exemption is a scope deferral not a clean bill"
+    }
+  }
+}
