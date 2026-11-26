@@ -4,6 +4,8 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-25
 
+- **Issue #485** (closed): Simplify vco-prescaler-load and cp-dc make_requests.py: collapse 4 writer functions and guard module entry points
+- **PR #486**: refactor(sim): build VCO and charge-pump corner requests in memory
 - **PR #483**: test(sim): verify charge-pump device partition and mask counts
 - **Issue #481** (closed): Strengthen the cp attribution guard: cover check_partition and assert what write_netlist actually masks
 - **PR #480**: test(sim): guard cp-mc attribution schedule and group rejection
