@@ -835,7 +835,8 @@
   "timeout_s": 600,
   "keep_artifacts": true,
   "osdi_preload": [
-   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi"
+   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi",
+   "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103_nqs.osdi"
   ]
  }
 }

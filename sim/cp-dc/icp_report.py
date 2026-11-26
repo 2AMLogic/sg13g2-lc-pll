@@ -18,9 +18,9 @@ REQUEST_PATH = HERE / "cp_icp_corners.request.json"
 MEASUREMENTS = ("i_up_ua", "i_dn_ua")
 
 
-def load_request(path=None):
-    """The parsed corner request whose grid a report must cover."""
-    return json.loads(Path(path or REQUEST_PATH).read_text())
+def load_request():
+    """The parsed canonical corner request (REQUEST_PATH) whose grid a report must cover."""
+    return json.loads(REQUEST_PATH.read_text())
 
 
 def corner_key(corner):

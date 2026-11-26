@@ -1,0 +1,10 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: * klt sim -- generated corner deck, do not edit
+
+Error: unknown subckt: xps.xrref xps.reref 0 0 rppd w=1u l=9.05u m=1 b=0
+    in line no. 14 from file /home/ubuntu/GitHub/sg13g2-lc-pll/.loom/worktrees/issue-451/sim/corner-verification/loop-power/./../../../design/netlist/prescaler.spice
+    Simulation interrupted due to error!
+

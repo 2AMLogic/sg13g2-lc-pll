@@ -19,7 +19,7 @@ rec_dir cp-mc
 "${ROOT}/design/netlist.sh" --check cp >/dev/null 2>&1 || die "design/netlist/cp.spice is stale against design/cp.sch (run design/netlist.sh cp)"
 python3 "${ROOT}/sim/cp-mc/attribute.py" groups "${NET}" >/dev/null
 if [ -n "${CP_MC_WORK:-}" ]; then WORK="${CP_MC_WORK}"; mkdir -p "${WORK}"; else WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT; fi
-GROUPS_RUN="all bn_ref bn_xbn2 bn_xbns bn_casc bp_ref bp_copy bp_casc leg_p leg_n switches none"
+GROUPS_RUN="$(python3 "${ROOT}/sim/cp-mc/attribute.py" campaign)"
 for g in ${GROUPS_RUN}; do
   n="${N}"; [ "${g}" = none ] && n=10
   python3 "${ROOT}/sim/cp-mc/attribute.py" netlist "${g}" "${NET}" "${WORK}/cp_${g}.spice"

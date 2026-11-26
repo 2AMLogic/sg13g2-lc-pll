@@ -15,7 +15,7 @@
         "check": "stream_readable",
         "role": "layout",
         "passed": true,
-        "content_hash": "sha256:60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005"
+        "content_hash": "sha256:abf1a3949635471aa8b7cfcb5a61d55944d01e670aa7e6aa9747244ad1e0a10e"
       },
       {
         "check": "top_cell_non_empty",
@@ -34,7 +34,7 @@
     ]
   },
   "provenance": {
-    "klt_version": "0.9.3.dev2575+g6bd18bbc8637",
+    "klt_version": "0.9.3.dev5517+g9fff520e45e2",
     "klayout_version": "0.30.12",
     "pdk": null,
     "deck": null,
@@ -43,7 +43,7 @@
         "path": "layout/top.gds",
         "scope": "repo"
       },
-      "content_hash": "sha256:60ad1ed0ff175b3fca298b5fb798f6b25412b0b024674afaf3ccbc10551b8005"
+      "content_hash": "sha256:abf1a3949635471aa8b7cfcb5a61d55944d01e670aa7e6aa9747244ad1e0a10e"
     }
   }
 }

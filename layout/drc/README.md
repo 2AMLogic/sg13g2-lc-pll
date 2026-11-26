@@ -487,3 +487,98 @@ carries `NW.b1` as its one unchecked rule, 14 declared-but-unmodelled rules, the
 voltage-domain warning and a non-empty `layers_in_stream_without_rules` (39 layers, unchanged:
 the VDDV strap's TopMetal2 is 134/0, which the deck already covers -- only its label purposes
 134/23 and 134/25 sit outside it). Clean means clean for covered layers.
+
+### Tank-route floorplan moved against the ring: layout changed, still clean (#345, 2026-11-20; re-run 2026-11-23 after #344 merge)
+
+`layout/top.gds` regenerated for the #345 floorplan on top of #344's supply routing (prescaler
+split input pair under the tank pins, cell top at y = -133.0 against the guard ring; stream
+`sha256:c897060c…`, full `c897060cf0ca5b10bbcce8d976563a13d6c20f251b102bfcc8268eace0144e7d`). Two
+iterations were needed on the initial #345 run, both recorded here because both are DRC findings
+on *new* geometry, not deck churn:
+
+1. The first placement (cell top y = -132.5, a 0.47 um Metal1 clearance to the ring, which is
+   all `M1.b` needs) failed curated `psd.space.1`: the ring's pSD (sized out for Activ
+   enclosure, reaching y = -132.33) sat 0.17 um from the cell's pSD against the 0.31 um rule.
+   Moved to y = -133.0 (0.67 um pSD-to-pSD), the closest placement a clean DRC allows.
+2. With the cell inside `gen_top.py`'s placeholder fill band, native `M1Fil.c`/`M2Fil.c`
+   (filler-to-metal 0.42 um) fired on 111 filler squares under the cell — the old placement
+   (y = -185) was clear of the band. `gen_integrated.py` now removes filler squares near any
+   placed geometry on the matching metal layer, not only near routes (583 squares removed with
+   #344 supply routes included; the VCO and ring still remove none — the band starts 5 um outside
+   the ring, beyond the removal sizing).
+
+```
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 0 = clean
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root "$PDK_ROOT" \
+    --expect-rule-categories-file layout/drc/native_rule_categories.txt \
+    --format json -o layout/drc/top.crosscheck.json                       # exit 0
+klt drc --check layout/drc/top.drc.json                                   # re-hash: match
+klt drc --check layout/drc/top.crosscheck.json                            # re-hash: match
+```
+
+`klt 0.9.3.dev3808+g1ad4a837f657`, klayout 0.30.12 (both python module and the standalone binary
+the native engine shells out to; `/usr/bin/klayout`), PDK `ihp-sg13g2` `fetched:0.3.0`, curated
+deck `sha256:e5459fe9…` (deck revision moves with klt; `provenance.klt_reinstall_spec` names the
+exact build), native deck `sha256:0620b737…`, tree `sha256:3715ff58…` (both unchanged). Both
+engines `clean`: curated 0 violations (68 rules checked), native 0 violations, 590/590 categories
+asserted. Coverage shape unchanged from the run above (same `layers_in_stream_without_rules`
+39-layer list, same `NW.b1` unchecked, same 14 unmodelled rules, same ThickGateOx warning).
+`layout/erc/top.erc.json` re-run on the same stream: `erc_status: clean_partial`, 0 findings,
+all 6 supply/external nets resolve to 1/1 island.
+`scripts/test-layout-top.sh` 30/30 (incl. 23.00 um TopMetal1/TopMetal2 clearance to the VCO
+IND+NoRCX markers), `scripts/test-drc-svaricap-liveness.sh` 4/4 and
+`scripts/test-native-rule-categories.sh` ALL PASS on this stream. Signoff: items 2 and 3
+re-stamped (`manifests/layout.attest.json` over the new stream; manifest pins and
+`sg13g2-lc-pll.signoff.json` regenerated at the `0.9.1` pin); T1 met 4/11, unchanged — this
+layout change claims no new item.
+
+**G8 keep-out is unchanged and still not clean:** 3 violations, all the VCTRL pin-access stack —
+the tank routes are TopMetal1 (outside the forbidden set) and the moved prescaler adds nothing
+(`scripts/test-layout-top.sh` asserts the count is exactly 3). LVS (#37) and PEX (#41) have not
+run on this stream.
+
+## Duplicate port-label fix re-run (#349, 2026-11-23)
+
+`layout/top.gds` was regenerated after the routed loop filter's duplicate port labels were removed
+(`sha256:4b8e6867…`, was `c897060c…` on `main`; geometry delta = three erased texts inside the
+`lcpll_loopfilter` instance — routes and placements are unchanged).
+The curated request was re-run on the new stream:
+
+```
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 0 = clean
+klt drc --check layout/drc/top.drc.json                                   # re-hash: match
+```
+
+`klt 0.9.3.dev3910+g8703ad519ff7`, klayout 0.30.12, PDK `ihp-sg13g2` `fetched:0.3.0`
+(`--pdk-root /home/ubuntu/share/pdk`); the crosscheck (`top.crosscheck.json`) and the ERC report were re-run on the
+new stream too. Result: **`status: clean`, 0 violations** — unchanged
+verdict and unchanged coverage (the erased texts are label-layer only: 10/25, 30/25 and the
+stamped 126/0 / 67/0 texts are not DRC geometry). Item 3 stays `met` citing this report; the
+manifest pins were refreshed with the new stream hash.
+
+## Port-label metal text purpose (`/25`) re-run (#416, 2026-11-23)
+
+`layout/cells/common.py` now stamps every loop-block cell's `.subckt` port labels on the SG13G2
+metal text purpose (`<layer>/25`: `8/25`, `67/25`, `126/25` across the six cells) instead of drawing
+`<layer>/0`. `layout/top.gds` was regenerated (`sha256:1c49ad5d…`, was `4b8e6867…` on `main`;
+geometry delta = 42 cell port text shapes moved from `*/0` to `*/25`, zero polygon, route or
+placement changes) and both DRC requests plus ERC were re-run:
+
+```
+klt drc layout/drc/request.json --format json > layout/drc/top.drc.json   # exit 0 = clean
+klt drc layout/top.gds --deck sg13g2 --engine both --pdk sg13g2 --pdk-root /home/ubuntu/share/pdk \
+    --expect-rule-categories-file layout/drc/native_rule_categories.txt \
+    --format json -o layout/drc/top.crosscheck.json                       # exit 0
+klt drc --check layout/drc/top.drc.json                                   # re-hash: match
+klt drc --check layout/drc/top.crosscheck.json                            # re-hash: match
+```
+
+`klt 0.9.3.dev4116+ga9885c2c7fa3`, klayout 0.30.12, PDK `ihp-sg13g2` `fetched:0.3.0`
+(`--pdk-root /home/ubuntu/share/pdk`). Result: **`status: clean`, 0 violations** on both curated
+(68 rules checked) and native (590/590 rule categories asserted), with unchanged coverage (39
+no-rule layers; `8/25`, `67/25` and `126/25` were already present in the stream from the VCO and
+top-level route labels). `layout/erc/top.erc.json` stays `erc_status: clean_partial`, 0 findings,
+1/1 island on all six declared nets (`VDDV`, `VDD`, `VSS`, `REF`, `IREFCP`, `LOCK`), now actively
+verifying cell-pad continuity through the `8/25` and `67/25` cell port stamps. Item 2 and item 3
+manifest pins (`manifests/layout.attest.json`, `manifests/sg13g2-lc-pll.json`) and
+`manifests/sg13g2-lc-pll.signoff.json` (`klayout-tools==0.9.1`) were refreshed to `1c49ad5d…`.

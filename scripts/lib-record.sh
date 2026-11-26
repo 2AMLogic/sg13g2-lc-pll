@@ -15,10 +15,6 @@
 #   run-vco-smoke.sh     does not call record_stamp or rec_dir, so it sets its own ID and REC_DIR: no repo
 #                        stamp, its record ID is the pinned VCO commit from reuse.lock.json, not HEAD, and it
 #                        deliberately ignores RECORD_DIR.
-#   run-vco-prescaler-load.sh  does not call record_stamp or rec_dir either, so it sets its own ID and REC_DIR:
-#                        it keeps its own `git diff --quiet HEAD -- .` whole-tree stamp (stricter than the
-#                        default, and it does not exclude records), not moved here to leave its IDs unchanged,
-#                        and it deliberately ignores RECORD_DIR.
 
 RECORD_STAMP_PATHS=(design sim scripts reuse.lock.json)
 
@@ -53,3 +49,15 @@ assert_new_record() { [ ! -e "$1" ] || die "$1 exists; records are append-only";
 
 # write_spiceinit <dir>  -> the scratch .spiceinit every bench runs ngspice with.
 write_spiceinit() { printf 'set ngbehavior=hsa\n' > "$1/.spiceinit"; }
+
+# ignored_model_count <ngspice-log>  -> prints the number of "Unknown model type ... - ignored" lines (0 if none).
+ignored_model_count() { grep -c 'Unknown model type .* - ignored' "$1" || true; }
+
+# check_no_ignored_models <ngspice-log>  -> sets NG_IGNORED_MODELS and die()s when non-zero: a deck that
+# ran with model cards ignored simulated a different device set than its netlist names, and must not write
+# an append-only record. Call after the log is copied next to the record so the evidence survives the refusal.
+# shellcheck disable=SC2034  # NG_IGNORED_MODELS is read by the sourcing driver
+check_no_ignored_models() {
+  NG_IGNORED_MODELS="$(ignored_model_count "$1")"
+  [ "${NG_IGNORED_MODELS}" -eq 0 ] || die "ngspice ignored ${NG_IGNORED_MODELS} model card(s) ('Unknown model type ... ignored'); a half-loaded device set must not write a record (log kept at $1)"
+}

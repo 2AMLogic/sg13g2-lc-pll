@@ -1,0 +1,6238 @@
+{
+  "schema_version": 3,
+  "engine": "klayout",
+  "layout": {
+    "path": "layout/top.gds",
+    "scope": "repo"
+  },
+  "reference": {
+    "path": "design/netlist/prescaler.spice",
+    "scope": "repo"
+  },
+  "top": "lcpll_prescaler",
+  "reference_top": "PRESCALER",
+  "reference_conversion": {
+    "form": "subckt-call",
+    "deck": "sg13g2",
+    "device_map": null
+  },
+  "parameter_tolerance": null,
+  "options": {
+    "combine_devices": false,
+    "combine_devices_per_circuit": null,
+    "combine_devices_max_attempts": 5,
+    "flatten_layout": false,
+    "flatten_reference": true,
+    "netgen_setup": null,
+    "parameter_tolerance": null,
+    "compare_parameters": null,
+    "power_connectivity": null,
+    "anchor_top_level_pins": null,
+    "strict_top_level_pin_count": false,
+    "compare_mos_flavour": false,
+    "ignore_mos_bulk": false,
+    "supply_nets": [
+      "GND",
+      "VCC",
+      "VDD",
+      "VGND",
+      "VPWR",
+      "VSS"
+    ],
+    "finfet_bulk": null
+  },
+  "hints_applied": null,
+  "constant_nets_applied": null,
+  "status": "mismatch",
+  "power_connectivity": {
+    "status": "unchecked",
+    "reason": "reference.form is 'subckt-call', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+    "power_pins": [],
+    "power_pins_derivation": null,
+    "instance_count": 0,
+    "expected_nets": null,
+    "unchecked_expected_pins": [],
+    "excluded_pins": [],
+    "findings": [],
+    "finding_count": 0
+  },
+  "body_verification": {
+    "status": "unchecked",
+    "reason": "no MOS device was eligible for the body check: the layout's top circuit extracted no 'nfet' or 'pfet' device, under either the deck's generic class names or their compare_mos_flavour-suffixed variants (e.g. 'nfet__<flavour>'), so there was no body terminal to inspect and this run verified nothing about the device bodies",
+    "device_classes": [],
+    "device_count": 0,
+    "inspected_count": 0,
+    "findings": [],
+    "finding_count": 0
+  },
+  "device_parameter_coverage": [
+    {
+      "class": "rppd",
+      "device_kind": "resistor",
+      "layout_devices": 80,
+      "reference_devices": 80,
+      "compared": [],
+      "not_compared": [
+        {
+          "parameter": "R",
+          "reason": "placeholder_value"
+        },
+        {
+          "parameter": "L",
+          "reason": "secondary"
+        },
+        {
+          "parameter": "W",
+          "reason": "secondary"
+        },
+        {
+          "parameter": "A",
+          "reason": "secondary"
+        },
+        {
+          "parameter": "P",
+          "reason": "secondary"
+        }
+      ]
+    }
+  ],
+  "mismatches_omitted": false,
+  "mismatch_count": 298,
+  "error_count": 251,
+  "category_counts": {
+    "device.geometry_not_compared": 1,
+    "device.placeholder_value": 1,
+    "device.unmatched": 55,
+    "net.merged": 54,
+    "net.split": 110,
+    "net.unmatched": 3,
+    "reference.unresolved_subckt_call": 29,
+    "topology": 44,
+    "topology.flattened": 1
+  },
+  "category_error_counts": {
+    "device.unmatched": 55,
+    "net.merged": 54,
+    "net.split": 110,
+    "net.unmatched": 3,
+    "reference.unresolved_subckt_call": 29
+  },
+  "counts": {
+    "nets": {
+      "layout": 167,
+      "reference": 141,
+      "matched": 52
+    },
+    "devices": {
+      "layout": 80,
+      "reference": 80,
+      "matched": 25
+    },
+    "pins": {
+      "layout": 9,
+      "reference": 8,
+      "matched": 12
+    }
+  },
+  "pin_set_difference": {
+    "deck_synthesized_layout_pins": [
+      "vsubs"
+    ],
+    "layout_only_pins": [],
+    "layout_only_pins_count": 0,
+    "layout_only_pins_truncated": false,
+    "reference_only_pins": [],
+    "reference_only_pins_count": 0,
+    "reference_only_pins_truncated": false
+  },
+  "ignored_layers": [
+    {
+      "layer": 1,
+      "datatype": 20,
+      "shapes": 16
+    },
+    {
+      "layer": 1,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 5,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 8,
+      "datatype": 22,
+      "shapes": 1157
+    },
+    {
+      "layer": 8,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 10,
+      "datatype": 22,
+      "shapes": 1159
+    },
+    {
+      "layer": 10,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 26,
+      "datatype": 0,
+      "shapes": 8
+    },
+    {
+      "layer": 30,
+      "datatype": 22,
+      "shapes": 1363
+    },
+    {
+      "layer": 30,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 32,
+      "datatype": 0,
+      "shapes": 4
+    },
+    {
+      "layer": 40,
+      "datatype": 0,
+      "shapes": 8
+    },
+    {
+      "layer": 50,
+      "datatype": 22,
+      "shapes": 1344
+    },
+    {
+      "layer": 50,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 51,
+      "datatype": 0,
+      "shapes": 16
+    },
+    {
+      "layer": 52,
+      "datatype": 0,
+      "shapes": 6
+    },
+    {
+      "layer": 67,
+      "datatype": 22,
+      "shapes": 1234
+    },
+    {
+      "layer": 67,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 126,
+      "datatype": 2,
+      "shapes": 4
+    },
+    {
+      "layer": 126,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 134,
+      "datatype": 23,
+      "shapes": 2
+    },
+    {
+      "layer": 148,
+      "datatype": 0,
+      "shapes": 2
+    },
+    {
+      "layer": 156,
+      "datatype": 0,
+      "shapes": 8
+    },
+    {
+      "layer": 160,
+      "datatype": 0,
+      "shapes": 1
+    }
+  ],
+  "warnings": [],
+  "sg13g2_passive_pairing": {
+    "status": "insufficient_evidence",
+    "findings": []
+  },
+  "device_classes": [
+    "nfet",
+    "pfet",
+    "cap_cmim",
+    "rfcmim",
+    "cap_cmomi",
+    "cap_cmomf",
+    "resistor",
+    "dantenna",
+    "dpantenna",
+    "inductor"
+  ],
+  "environment": {
+    "engine": "klayout",
+    "engine_version": "0.30.12",
+    "netgen_binary": null,
+    "layout_sha256": "abf1a3949635471aa8b7cfcb5a61d55944d01e670aa7e6aa9747244ad1e0a10e",
+    "reference_sha256": "add4d3b39706242e478f9c4f23a7d7352a63ec877af45d953eb68eba0d78e6ca",
+    "extracted_netlist": null
+  },
+  "provenance": {
+    "klt_version": "0.9.3.dev5517+g9fff520e45e2",
+    "klt_git_commit": "9fff520e45e2aeefa6af5261bb509248493f2215",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@9fff520e45e2aeefa6af5261bb509248493f2215",
+    "klayout_version": "0.30.12",
+    "pdk": null,
+    "deck": {
+      "name": "sg13g2",
+      "content_hash": "sha256:b2634caf6d96c00579ce3340e47a24b84d8671937d9886ff3aa92f7cdc539ea8",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:abf1a3949635471aa8b7cfcb5a61d55944d01e670aa7e6aa9747244ad1e0a10e",
+      "role": "layout"
+    },
+    "klayout_version_mismatch": true
+  },
+  "mismatches": [
+    {
+      "category": "device.geometry_not_compared",
+      "severity": "warning",
+      "description": "device class 'rppd' is a resistor class, whose ['A', 'L', 'P', 'W'] parameter(s) KLayout declares *secondary*: kdb.NetlistComparer compares primary parameters only, so none of them took part in this compare and each is NOT verified -- this resistor's geometry could differ between the two sides by any amount and this run would still report 'match'. No parameter of this class was compared at all: the remaining parameter(s) were separately excluded from this run (see the device.placeholder_value/device.parameter_excluded entries), so the two sides were paired on topology alone. Name them in options.compare_parameters to compare them (see docs/cli/lvs.md, 'device.geometry_not_compared')",
+      "side": "both",
+      "net": null,
+      "device": {
+        "layout": null,
+        "reference": null,
+        "class": "rppd"
+      },
+      "property": null,
+      "details": {
+        "device_kind": "resistor",
+        "compared_parameters": [],
+        "not_compared_parameters": [
+          "A",
+          "L",
+          "P",
+          "W"
+        ],
+        "layout_devices": 80,
+        "reference_devices": 80
+      },
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.placeholder_value",
+      "severity": "warning",
+      "description": "reference device class 'RPPD' was converted from a subcircuit call (request.reference.form: \"subckt-call\"), so its 'R' value is the literal 0 placeholder on all 80 reference instance(s) -- klt lvs has no PDK sheet-resistance/capacitance-per-area data to compute a real one. 'R' was therefore excluded from this compare on both sides (layout: 80 instance(s), R 1207.9810568295115..31251.908548707754) and the two sides were paired on topology alone -- that dimension of the compare is not independently verified. Supply a reference in the plain-element form carrying real 'R' values to compare it (see docs/cli/lvs.md, 'device.placeholder_value')",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": null,
+        "reference": null,
+        "class": "RPPD"
+      },
+      "property": null,
+      "details": {
+        "parameter": "R",
+        "device_kind": "resistor",
+        "reference_devices": 80,
+        "layout_devices": 80,
+        "layout_values": [
+          1207.9810568295115,
+          2085.9045725646124,
+          2408.9662027833,
+          4024.2743538767395,
+          10059.06560636183,
+          12062.047713717693,
+          28189.284294234592,
+          31251.908548707754
+        ]
+      },
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$1",
+        "reference": "REF",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$10",
+        "reference": "89_GM_L2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$11",
+        "reference": "89_GM_T",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$12",
+        "reference": "89_MC_D1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$13",
+        "reference": "89_MC_D2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$14",
+        "reference": "89_MC_L1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$16",
+        "reference": "89_MC_L2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$17",
+        "reference": "89_MC_T",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$18",
+        "reference": "89_MC_B",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$19",
+        "reference": "89_C23_CK_F1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$2",
+        "reference": "89_MCL_F1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$20",
+        "reference": "89_C23_CK_F2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$21",
+        "reference": "89_C23_Q1L_F1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$22",
+        "reference": "89_C23_Q1L_F2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$23",
+        "reference": "89_C23_G1_L1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$24",
+        "reference": "89_C23_G1_L2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$27",
+        "reference": "89_C23_G1_T",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$28",
+        "reference": "89_C23_G2_L1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$3",
+        "reference": "89_MCL_F2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$30",
+        "reference": "89_C23_G2_L2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$32",
+        "reference": "89_C23_G2_T",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$34",
+        "reference": "89_C23_F1_M_L1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$36",
+        "reference": "89_C23_F1_M_L2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$38",
+        "reference": "89_C23_F1_M_T",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$4",
+        "reference": "89_ES_F1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$40",
+        "reference": "89_C23_F1_S_L1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$49",
+        "reference": "89_C23_F1_S_L2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$5",
+        "reference": "89_ES_F2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$50",
+        "reference": "89_C23_F1_S_T",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$51",
+        "reference": "89_C23_F2_M_L1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$52",
+        "reference": "89_C23_F2_M_L2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$53",
+        "reference": "89_C23_F2_M_T",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$54",
+        "reference": "89_C23_F2_S_L1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$55",
+        "reference": "89_C23_F2_S_L2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$56",
+        "reference": "89_C23_F2_S_T",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$57",
+        "reference": "89_S1_EF_F1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$6",
+        "reference": "89_G1_L1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$60",
+        "reference": "89_S1_EF_F2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$61",
+        "reference": "89_S1_M_L1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$62",
+        "reference": "89_S1_M_L2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$64",
+        "reference": "89_S1_M_T",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$65",
+        "reference": "89_S1_S_L1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$66",
+        "reference": "89_S1_S_L2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$67",
+        "reference": "89_S1_S_T",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$68",
+        "reference": "89_S2_EF_F1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$69",
+        "reference": "89_S2_EF_F2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$7",
+        "reference": "89_G1_L2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$70",
+        "reference": "89_S2_M_L1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$71",
+        "reference": "89_S2_M_L2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$72",
+        "reference": "89_S2_M_T",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$73",
+        "reference": "89_S2_S_L1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$74",
+        "reference": "89_S2_S_L2",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$75",
+        "reference": "89_S2_S_T",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$8",
+        "reference": "89_G1_T",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$9",
+        "reference": "89_GM_L1",
+        "class": "rppd"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C1",
+        "reference_id": 21
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C1B",
+        "reference_id": 22
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_CK_F1",
+        "reference_id": 58
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_CK_F2",
+        "reference_id": 60
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_D1",
+        "reference_id": 53
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_D1B",
+        "reference_id": 54
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_D2",
+        "reference_id": 55
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_D2B",
+        "reference_id": 56
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_F1_M",
+        "reference_id": 77
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_F1_MB",
+        "reference_id": 78
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_F1_M_TET",
+        "reference_id": 83
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_F1_S_TET",
+        "reference_id": 88
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_F2_M",
+        "reference_id": 89
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_F2_MB",
+        "reference_id": 90
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_F2_M_TET",
+        "reference_id": 95
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_F2_S_TET",
+        "reference_id": 100
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_G1_TET",
+        "reference_id": 72
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_G2_TET",
+        "reference_id": 76
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_Q1L_F1",
+        "reference_id": 64
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_Q1L_F2",
+        "reference_id": 66
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_Q2",
+        "reference_id": 52
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_C23_Q2B",
+        "reference_id": 51
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_ES_F1",
+        "reference_id": 30
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_ES_F2",
+        "reference_id": 32
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_G",
+        "reference_id": 17
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_G1_TET",
+        "reference_id": 38
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_GB",
+        "reference_id": 18
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_GM_TET",
+        "reference_id": 42
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_M",
+        "reference_id": 19
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_MB",
+        "reference_id": 20
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_MCL_F1",
+        "reference_id": 24
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_MCL_F2",
+        "reference_id": 26
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_MCN",
+        "reference_id": 10
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_MCP",
+        "reference_id": 9
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_MC_TET",
+        "reference_id": 46
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_MC_VR",
+        "reference_id": 44
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_S1",
+        "reference_id": 13
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_S1B",
+        "reference_id": 14
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_S1_EF_F1",
+        "reference_id": 106
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_S1_EF_F2",
+        "reference_id": 108
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_S1_MN",
+        "reference_id": 104
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_S1_MP",
+        "reference_id": 103
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_S1_M_TET",
+        "reference_id": 115
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_S1_S_TET",
+        "reference_id": 120
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_S2_EF_F1",
+        "reference_id": 126
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_S2_EF_F2",
+        "reference_id": 128
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_S2_MN",
+        "reference_id": 124
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_S2_MP",
+        "reference_id": 123
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_S2_M_TET",
+        "reference_id": 135
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "89_S2_S_TET",
+        "reference_id": 140
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "OUTN",
+        "reference_id": 5
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "OUTP",
+        "reference_id": 4
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "REREF",
+        "reference_id": 8
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.merged",
+      "severity": "error",
+      "description": "multiple reference nets were collapsed into one layout net",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "layout_id": null,
+        "reference": "VDD",
+        "reference_id": 6
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "VSS",
+        "layout_id": 22,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$526",
+        "layout_id": 0,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$528",
+        "layout_id": 2,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$529",
+        "layout_id": 3,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$530",
+        "layout_id": 4,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$531",
+        "layout_id": 5,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$532",
+        "layout_id": 6,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$533",
+        "layout_id": 7,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$535",
+        "layout_id": 9,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$536",
+        "layout_id": 10,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$537",
+        "layout_id": 11,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$538",
+        "layout_id": 12,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$539",
+        "layout_id": 13,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$540",
+        "layout_id": 14,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$541",
+        "layout_id": 15,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$542",
+        "layout_id": 16,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$543",
+        "layout_id": 17,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$544",
+        "layout_id": 18,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$545",
+        "layout_id": 19,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$546",
+        "layout_id": 20,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$547",
+        "layout_id": 21,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$549",
+        "layout_id": 23,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$550",
+        "layout_id": 24,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$551",
+        "layout_id": 25,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$552",
+        "layout_id": 26,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$553",
+        "layout_id": 27,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$554",
+        "layout_id": 28,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$555",
+        "layout_id": 29,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$556",
+        "layout_id": 30,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$557",
+        "layout_id": 31,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$558",
+        "layout_id": 32,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$559",
+        "layout_id": 33,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$560",
+        "layout_id": 34,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$561",
+        "layout_id": 35,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$562",
+        "layout_id": 36,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$563",
+        "layout_id": 37,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$564",
+        "layout_id": 38,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$565",
+        "layout_id": 39,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$566",
+        "layout_id": 40,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$567",
+        "layout_id": 41,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$568",
+        "layout_id": 42,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$569",
+        "layout_id": 43,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$570",
+        "layout_id": 44,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$571",
+        "layout_id": 45,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$572",
+        "layout_id": 46,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$573",
+        "layout_id": 47,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$574",
+        "layout_id": 48,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$575",
+        "layout_id": 49,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$576",
+        "layout_id": 50,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$577",
+        "layout_id": 51,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$578",
+        "layout_id": 52,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$579",
+        "layout_id": 53,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$580",
+        "layout_id": 54,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$581",
+        "layout_id": 55,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$582",
+        "layout_id": 56,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$583",
+        "layout_id": 57,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$584",
+        "layout_id": 58,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$585",
+        "layout_id": 59,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$586",
+        "layout_id": 60,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$587",
+        "layout_id": 61,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$588",
+        "layout_id": 62,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$589",
+        "layout_id": 63,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$590",
+        "layout_id": 64,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$591",
+        "layout_id": 65,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$592",
+        "layout_id": 66,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$593",
+        "layout_id": 67,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$594",
+        "layout_id": 68,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$595",
+        "layout_id": 69,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$596",
+        "layout_id": 70,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$597",
+        "layout_id": 71,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$598",
+        "layout_id": 72,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$599",
+        "layout_id": 73,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$600",
+        "layout_id": 74,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$601",
+        "layout_id": 75,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$602",
+        "layout_id": 76,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$603",
+        "layout_id": 77,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$604",
+        "layout_id": 78,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$605",
+        "layout_id": 79,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$648",
+        "layout_id": 122,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$649",
+        "layout_id": 123,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$650",
+        "layout_id": 124,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$651",
+        "layout_id": 125,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$652",
+        "layout_id": 126,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$653",
+        "layout_id": 127,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$654",
+        "layout_id": 128,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$655",
+        "layout_id": 129,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$656",
+        "layout_id": 130,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$657",
+        "layout_id": 131,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$658",
+        "layout_id": 132,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$659",
+        "layout_id": 133,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$660",
+        "layout_id": 134,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$661",
+        "layout_id": 135,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$662",
+        "layout_id": 136,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$663",
+        "layout_id": 137,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$664",
+        "layout_id": 138,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$665",
+        "layout_id": 139,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$670",
+        "layout_id": 144,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$671",
+        "layout_id": 145,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$672",
+        "layout_id": 146,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$673",
+        "layout_id": 147,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$674",
+        "layout_id": 148,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$675",
+        "layout_id": 149,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$678",
+        "layout_id": 152,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$679",
+        "layout_id": 153,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$680",
+        "layout_id": 154,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$681",
+        "layout_id": 155,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$682",
+        "layout_id": 156,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$683",
+        "layout_id": 157,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$684",
+        "layout_id": 158,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.split",
+      "severity": "error",
+      "description": "a reference net's role is divided across multiple layout nets",
+      "side": "layout",
+      "net": {
+        "layout": "\\$685",
+        "layout_id": 159,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net has no reference counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "OUTN",
+        "layout_id": 165,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net has no reference counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "OUTP",
+        "layout_id": 164,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net has no reference counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "VDD",
+        "layout_id": 163,
+        "reference": null,
+        "reference_id": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QREF' in circuit 'PRESCALER' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "PRESCALER"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QREF"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT1' in circuit 'CML_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT2' in circuit 'CML_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QH1' in circuit 'CML_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QH1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QH2' in circuit 'CML_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QH2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QC1' in circuit 'CML_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QC1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QC2' in circuit 'CML_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QC2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT' in circuit 'CML_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=2)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QE1' in circuit 'CML_EF' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_EF"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QE1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QE2' in circuit 'CML_EF' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_EF"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QE2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QF1' in circuit 'CML_EF' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_EF"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QF1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QF2' in circuit 'CML_EF' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_EF"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QF2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'DF1' in circuit 'CML_EF' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_EF"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "DF1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'DF2' in circuit 'CML_EF' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_EF"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "DF2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT1' in circuit 'CML_DFF_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT2' in circuit 'CML_DFF_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QH1' in circuit 'CML_DFF_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QH1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QH2' in circuit 'CML_DFF_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QH2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QC1' in circuit 'CML_DFF_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QC1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QC2' in circuit 'CML_DFF_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QC2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT' in circuit 'CML_DFF_LATCH' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=2)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_DFF_LATCH"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QA1' in circuit 'CML_AND2' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_AND2"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QA1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QA2' in circuit 'CML_AND2' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_AND2"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QA2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QB1' in circuit 'CML_AND2' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_AND2"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QB1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QB2' in circuit 'CML_AND2' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_AND2"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QB2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT' in circuit 'CML_AND2' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=2)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "CML_AND2"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QM1' in circuit 'MC_CONV' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "MC_CONV"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QM1"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QM2' in circuit 'MC_CONV' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=1)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "MC_CONV"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QM2"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "reference.unresolved_subckt_call",
+      "severity": "error",
+      "description": "reference instance 'QT' in circuit 'MC_CONV' calls subcircuit 'NPN13G2V', which is not defined in the reference netlist, was not converted to a device, and has no same-named layout circuit -- the reader substitutes an empty placeholder, so whatever device(s) it stands for are never compared. Define the subcircuit, map it to a device class (reference.form \"subckt-call\" + reference.device_map), or write it as a plain-element card (see docs/cli/lvs.md, \"reference.unresolved_subckt_call\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": {
+        "callee": "NPN13G2V",
+        "reader_circuit": "NPN13G2V(EL=1,NX=2)",
+        "pin_count": 4
+      },
+      "circuit": {
+        "layout": null,
+        "reference": "MC_CONV"
+      },
+      "instance": {
+        "layout": null,
+        "reference": "QT"
+      },
+      "subcircuit": {
+        "layout": null,
+        "reference": "NPN13G2V"
+      }
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$606",
+        "layout_id": 80,
+        "reference": "89_G1_TC",
+        "reference_id": 37
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$608",
+        "layout_id": 82,
+        "reference": "89_G1_T",
+        "reference_id": 36
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$609",
+        "layout_id": 83,
+        "reference": "89_ES_D1",
+        "reference_id": 33
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$610",
+        "layout_id": 84,
+        "reference": "89_GM_T",
+        "reference_id": 40
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$611",
+        "layout_id": 85,
+        "reference": "89_MCL_D1",
+        "reference_id": 27
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$612",
+        "layout_id": 86,
+        "reference": "89_GM_TC",
+        "reference_id": 41
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$614",
+        "layout_id": 88,
+        "reference": "89_MCL_D2",
+        "reference_id": 28
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$615",
+        "layout_id": 89,
+        "reference": "89_S1_EF_D1",
+        "reference_id": 109
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$616",
+        "layout_id": 90,
+        "reference": "89_MCL_QC2",
+        "reference_id": 25
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$618",
+        "layout_id": 92,
+        "reference": "89_ES_D2",
+        "reference_id": 34
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$619",
+        "layout_id": 93,
+        "reference": "89_S1_M_T",
+        "reference_id": 113
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$620",
+        "layout_id": 94,
+        "reference": "89_ES_QC2",
+        "reference_id": 31
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$621",
+        "layout_id": 95,
+        "reference": "89_S1_M_TC",
+        "reference_id": 114
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$622",
+        "layout_id": 96,
+        "reference": "89_S1_S_T",
+        "reference_id": 118
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$623",
+        "layout_id": 97,
+        "reference": "89_S2_EF_D1",
+        "reference_id": 129
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$625",
+        "layout_id": 99,
+        "reference": "89_S1_S_TC",
+        "reference_id": 119
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$626",
+        "layout_id": 100,
+        "reference": "89_S1_EF_QC2",
+        "reference_id": 107
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$627",
+        "layout_id": 101,
+        "reference": "89_S1_EF_D2",
+        "reference_id": 110
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$628",
+        "layout_id": 102,
+        "reference": "89_C23_CK_D1",
+        "reference_id": 61
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$630",
+        "layout_id": 104,
+        "reference": "89_C23_F1_M_T",
+        "reference_id": 81
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$631",
+        "layout_id": 105,
+        "reference": "89_C23_F1_M_TC",
+        "reference_id": 82
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$632",
+        "layout_id": 106,
+        "reference": "89_C23_F1_S_T",
+        "reference_id": 86
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$633",
+        "layout_id": 107,
+        "reference": "89_C23_F1_S_TC",
+        "reference_id": 87
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$634",
+        "layout_id": 108,
+        "reference": "89_C23_F2_M_T",
+        "reference_id": 93
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$635",
+        "layout_id": 109,
+        "reference": "89_C23_F2_M_TC",
+        "reference_id": 94
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$636",
+        "layout_id": 110,
+        "reference": "89_C23_F2_S_T",
+        "reference_id": 98
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$637",
+        "layout_id": 111,
+        "reference": "89_C23_F2_S_TC",
+        "reference_id": 99
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$638",
+        "layout_id": 112,
+        "reference": "89_C23_G1_T",
+        "reference_id": 70
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$639",
+        "layout_id": 113,
+        "reference": "89_C23_G1_TC",
+        "reference_id": 71
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$640",
+        "layout_id": 114,
+        "reference": "89_C23_G2_T",
+        "reference_id": 74
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$641",
+        "layout_id": 115,
+        "reference": "89_C23_G2_TC",
+        "reference_id": 75
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$642",
+        "layout_id": 116,
+        "reference": "89_C23_Q1L_D1",
+        "reference_id": 67
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$644",
+        "layout_id": 118,
+        "reference": "89_C23_Q1L_D2",
+        "reference_id": 68
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$645",
+        "layout_id": 119,
+        "reference": "89_C23_Q1L_QC2",
+        "reference_id": 65
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$646",
+        "layout_id": 120,
+        "reference": "89_C23_CK_D2",
+        "reference_id": 62
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$647",
+        "layout_id": 121,
+        "reference": "89_C23_CK_QC2",
+        "reference_id": 59
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$666",
+        "layout_id": 140,
+        "reference": "89_S2_M_TC",
+        "reference_id": 134
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$667",
+        "layout_id": 141,
+        "reference": "89_S2_M_T",
+        "reference_id": 133
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$668",
+        "layout_id": 142,
+        "reference": "89_S2_S_T",
+        "reference_id": 138
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$669",
+        "layout_id": 143,
+        "reference": "89_S2_S_TC",
+        "reference_id": 139
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$676",
+        "layout_id": 150,
+        "reference": "89_S2_EF_D2",
+        "reference_id": 130
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "both sides pair a net that touches exactly one device terminal and carries no declared pin -- there is no DC path through this node on either side, so this is a real connectivity finding (e.g. an undriven MOS gate), not a routine ambiguous-pairing/hints.same_nets nit; see klt extract's single_terminal_nets[] for the layout-side terminal detail",
+      "side": "both",
+      "net": {
+        "layout": "\\$677",
+        "layout_id": 151,
+        "reference": "89_S2_EF_QC2",
+        "reference_id": 127
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "device class has no counterpart on the other side, but no devices of this class were extracted either -- not a real topology mismatch: 'nfet'",
+      "side": "layout",
+      "net": null,
+      "device": {
+        "layout": null,
+        "reference": null,
+        "class": "nfet"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "device class has no counterpart on the other side, but no devices of this class were extracted either -- not a real topology mismatch: 'pfet'",
+      "side": "layout",
+      "net": null,
+      "device": {
+        "layout": null,
+        "reference": null,
+        "class": "pfet"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology.flattened",
+      "severity": "warning",
+      "description": "options.flatten_reference flattened the reference netlist before comparing: 12 circuit(s) were collapsed into 1 top-level circuit(s), substituting every subcircuit-call instance in place -- this compare verified topology only after removing the original hierarchy boundaries on this side (see docs/cli/lvs.md, \"topology.flattened\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    }
+  ],
+  "net_correspondence": [
+    {
+      "layout": "\\$628",
+      "layout_id": 102,
+      "reference": "89_C23_CK_D1",
+      "reference_id": 61,
+      "pin": false
+    },
+    {
+      "layout": "\\$646",
+      "layout_id": 120,
+      "reference": "89_C23_CK_D2",
+      "reference_id": 62,
+      "pin": false
+    },
+    {
+      "layout": "\\$629",
+      "layout_id": 103,
+      "reference": "89_C23_CK_QC1",
+      "reference_id": 57,
+      "pin": false
+    },
+    {
+      "layout": "\\$647",
+      "layout_id": 121,
+      "reference": "89_C23_CK_QC2",
+      "reference_id": 59,
+      "pin": false
+    },
+    {
+      "layout": "\\$630",
+      "layout_id": 104,
+      "reference": "89_C23_F1_M_T",
+      "reference_id": 81,
+      "pin": false
+    },
+    {
+      "layout": "\\$631",
+      "layout_id": 105,
+      "reference": "89_C23_F1_M_TC",
+      "reference_id": 82,
+      "pin": false
+    },
+    {
+      "layout": "\\$632",
+      "layout_id": 106,
+      "reference": "89_C23_F1_S_T",
+      "reference_id": 86,
+      "pin": false
+    },
+    {
+      "layout": "\\$633",
+      "layout_id": 107,
+      "reference": "89_C23_F1_S_TC",
+      "reference_id": 87,
+      "pin": false
+    },
+    {
+      "layout": "\\$634",
+      "layout_id": 108,
+      "reference": "89_C23_F2_M_T",
+      "reference_id": 93,
+      "pin": false
+    },
+    {
+      "layout": "\\$635",
+      "layout_id": 109,
+      "reference": "89_C23_F2_M_TC",
+      "reference_id": 94,
+      "pin": false
+    },
+    {
+      "layout": "\\$636",
+      "layout_id": 110,
+      "reference": "89_C23_F2_S_T",
+      "reference_id": 98,
+      "pin": false
+    },
+    {
+      "layout": "\\$637",
+      "layout_id": 111,
+      "reference": "89_C23_F2_S_TC",
+      "reference_id": 99,
+      "pin": false
+    },
+    {
+      "layout": "\\$638",
+      "layout_id": 112,
+      "reference": "89_C23_G1_T",
+      "reference_id": 70,
+      "pin": false
+    },
+    {
+      "layout": "\\$639",
+      "layout_id": 113,
+      "reference": "89_C23_G1_TC",
+      "reference_id": 71,
+      "pin": false
+    },
+    {
+      "layout": "\\$640",
+      "layout_id": 114,
+      "reference": "89_C23_G2_T",
+      "reference_id": 74,
+      "pin": false
+    },
+    {
+      "layout": "\\$641",
+      "layout_id": 115,
+      "reference": "89_C23_G2_TC",
+      "reference_id": 75,
+      "pin": false
+    },
+    {
+      "layout": "\\$642",
+      "layout_id": 116,
+      "reference": "89_C23_Q1L_D1",
+      "reference_id": 67,
+      "pin": false
+    },
+    {
+      "layout": "\\$644",
+      "layout_id": 118,
+      "reference": "89_C23_Q1L_D2",
+      "reference_id": 68,
+      "pin": false
+    },
+    {
+      "layout": "\\$643",
+      "layout_id": 117,
+      "reference": "89_C23_Q1L_QC1",
+      "reference_id": 63,
+      "pin": false
+    },
+    {
+      "layout": "\\$645",
+      "layout_id": 119,
+      "reference": "89_C23_Q1L_QC2",
+      "reference_id": 65,
+      "pin": false
+    },
+    {
+      "layout": "\\$609",
+      "layout_id": 83,
+      "reference": "89_ES_D1",
+      "reference_id": 33,
+      "pin": false
+    },
+    {
+      "layout": "\\$618",
+      "layout_id": 92,
+      "reference": "89_ES_D2",
+      "reference_id": 34,
+      "pin": false
+    },
+    {
+      "layout": "\\$607",
+      "layout_id": 81,
+      "reference": "89_ES_QC1",
+      "reference_id": 29,
+      "pin": false
+    },
+    {
+      "layout": "\\$620",
+      "layout_id": 94,
+      "reference": "89_ES_QC2",
+      "reference_id": 31,
+      "pin": false
+    },
+    {
+      "layout": "\\$608",
+      "layout_id": 82,
+      "reference": "89_G1_T",
+      "reference_id": 36,
+      "pin": false
+    },
+    {
+      "layout": "\\$606",
+      "layout_id": 80,
+      "reference": "89_G1_TC",
+      "reference_id": 37,
+      "pin": false
+    },
+    {
+      "layout": "\\$610",
+      "layout_id": 84,
+      "reference": "89_GM_T",
+      "reference_id": 40,
+      "pin": false
+    },
+    {
+      "layout": "\\$612",
+      "layout_id": 86,
+      "reference": "89_GM_TC",
+      "reference_id": 41,
+      "pin": false
+    },
+    {
+      "layout": "\\$611",
+      "layout_id": 85,
+      "reference": "89_MCL_D1",
+      "reference_id": 27,
+      "pin": false
+    },
+    {
+      "layout": "\\$614",
+      "layout_id": 88,
+      "reference": "89_MCL_D2",
+      "reference_id": 28,
+      "pin": false
+    },
+    {
+      "layout": "\\$613",
+      "layout_id": 87,
+      "reference": "89_MCL_QC1",
+      "reference_id": 23,
+      "pin": false
+    },
+    {
+      "layout": "\\$616",
+      "layout_id": 90,
+      "reference": "89_MCL_QC2",
+      "reference_id": 25,
+      "pin": false
+    },
+    {
+      "layout": "\\$615",
+      "layout_id": 89,
+      "reference": "89_S1_EF_D1",
+      "reference_id": 109,
+      "pin": false
+    },
+    {
+      "layout": "\\$627",
+      "layout_id": 101,
+      "reference": "89_S1_EF_D2",
+      "reference_id": 110,
+      "pin": false
+    },
+    {
+      "layout": "\\$617",
+      "layout_id": 91,
+      "reference": "89_S1_EF_QC1",
+      "reference_id": 105,
+      "pin": false
+    },
+    {
+      "layout": "\\$626",
+      "layout_id": 100,
+      "reference": "89_S1_EF_QC2",
+      "reference_id": 107,
+      "pin": false
+    },
+    {
+      "layout": "\\$619",
+      "layout_id": 93,
+      "reference": "89_S1_M_T",
+      "reference_id": 113,
+      "pin": false
+    },
+    {
+      "layout": "\\$621",
+      "layout_id": 95,
+      "reference": "89_S1_M_TC",
+      "reference_id": 114,
+      "pin": false
+    },
+    {
+      "layout": "\\$622",
+      "layout_id": 96,
+      "reference": "89_S1_S_T",
+      "reference_id": 118,
+      "pin": false
+    },
+    {
+      "layout": "\\$625",
+      "layout_id": 99,
+      "reference": "89_S1_S_TC",
+      "reference_id": 119,
+      "pin": false
+    },
+    {
+      "layout": "\\$623",
+      "layout_id": 97,
+      "reference": "89_S2_EF_D1",
+      "reference_id": 129,
+      "pin": false
+    },
+    {
+      "layout": "\\$676",
+      "layout_id": 150,
+      "reference": "89_S2_EF_D2",
+      "reference_id": 130,
+      "pin": false
+    },
+    {
+      "layout": "\\$624",
+      "layout_id": 98,
+      "reference": "89_S2_EF_QC1",
+      "reference_id": 125,
+      "pin": false
+    },
+    {
+      "layout": "\\$677",
+      "layout_id": 151,
+      "reference": "89_S2_EF_QC2",
+      "reference_id": 127,
+      "pin": false
+    },
+    {
+      "layout": "\\$667",
+      "layout_id": 141,
+      "reference": "89_S2_M_T",
+      "reference_id": 133,
+      "pin": false
+    },
+    {
+      "layout": "\\$666",
+      "layout_id": 140,
+      "reference": "89_S2_M_TC",
+      "reference_id": 134,
+      "pin": false
+    },
+    {
+      "layout": "\\$668",
+      "layout_id": 142,
+      "reference": "89_S2_S_T",
+      "reference_id": 138,
+      "pin": false
+    },
+    {
+      "layout": "\\$669",
+      "layout_id": 143,
+      "reference": "89_S2_S_TC",
+      "reference_id": 139,
+      "pin": false
+    },
+    {
+      "layout": "INN",
+      "layout_id": 162,
+      "reference": "INN",
+      "reference_id": 1,
+      "pin": true
+    },
+    {
+      "layout": "INP",
+      "layout_id": 161,
+      "reference": "INP",
+      "reference_id": 0,
+      "pin": true
+    },
+    {
+      "layout": "IREF",
+      "layout_id": 166,
+      "reference": "IREF",
+      "reference_id": 3,
+      "pin": true
+    },
+    {
+      "layout": "MC",
+      "layout_id": 1,
+      "reference": "MC",
+      "reference_id": 2,
+      "pin": true
+    }
+  ]
+}

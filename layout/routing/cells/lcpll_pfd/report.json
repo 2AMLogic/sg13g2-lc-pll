@@ -1,0 +1,377 @@
+{
+ "cell": "lcpll_pfd",
+ "diagnostics": [
+  "net 'XED_DN.ntmp' could not be routed: 2 of 5 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U15_G', 'lcpll_pfd_pfet_w5_l0p5.U15_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_pfet_w5_l0p5.U14_D' -> 'lcpll_pfd_pfet_w5_l0p5.U15_G'): crosses already-routed net 'reset'",
+  "net 'XED_UP.ntmp' could not be routed: 2 of 5 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U7_G', 'lcpll_pfd_pfet_w5_l0p5.U7_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_pfet_w5_l0p5.U6_D' -> 'lcpll_pfd_pfet_w5_l0p5.U7_G'): crosses already-routed net 'reset'",
+  "net 'net1' could not be routed: 3 of 5 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U20_D', 'lcpll_pfd_pfet_w5_l0p5.U20_D', 'lcpll_pfd_pfet_w5_l0p5.U21_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_pfet_w5_l0p5.U20_D' -> 'lcpll_pfd_pfet_w5_l0p5.U21_D'): crosses already-routed net 'UP'",
+  "net 'net2' could not be routed: 3 of 5 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U26_D', 'lcpll_pfd_pfet_w5_l0p5.U26_D', 'lcpll_pfd_pfet_w5_l0p5.U27_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_pfet_w5_l0p5.U26_D' -> 'lcpll_pfd_pfet_w5_l0p5.U27_D'): crosses already-routed net 'DN'",
+  "net 'FB' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_pfd_pfet_w5_l0p5.U8_G', 'lcpll_pfd_pfet_w5_l0p5.U13_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U13_G' -> 'lcpll_pfd_pfet_w5_l0p5.U8_G'): crosses already-routed net 'UP'",
+  "net 'REF' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_pfd_pfet_w5_l0p5.U0_G', 'lcpll_pfd_pfet_w5_l0p5.U5_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U5_G' -> 'lcpll_pfd_pfet_w5_l0p5.U0_G'): crosses already-routed net 'reset'",
+  "net 'XED_DN.XD5' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U12_D', 'lcpll_pfd_pfet_w5_l0p5.U12_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U12_D' -> 'lcpll_pfd_nfet_w2_l0p5.U14_G'): crosses already-routed net 'XED_DN.ntmp'",
+  "net 'XED_DN.d1' could not be routed: 3 of 4 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U9_G', 'lcpll_pfd_pfet_w5_l0p5.U8_D', 'lcpll_pfd_pfet_w5_l0p5.U9_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U8_D' -> 'lcpll_pfd_nfet_w2_l0p5.U9_G'): crosses already-routed net 'reset'",
+  "net 'XED_DN.d2' could not be routed: 3 of 4 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U10_G', 'lcpll_pfd_pfet_w5_l0p5.U9_D', 'lcpll_pfd_pfet_w5_l0p5.U10_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U9_D' -> 'lcpll_pfd_nfet_w2_l0p5.U10_G'): crosses already-routed net 'reset'",
+  "net 'XED_DN.d3' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_pfd_pfet_w5_l0p5.U10_D', 'lcpll_pfd_pfet_w5_l0p5.U11_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U11_G' -> 'lcpll_pfd_pfet_w5_l0p5.U10_D'): comes within 0.21um of already-routed net 'UP' -- closer than the resolved deck's own 'metal2.space.1' minimum same-layer spacing rule (no literal overlap, but still a real `klt drc` violation on the composed layout)",
+  "net 'XED_DN.d4' could not be routed: 3 of 4 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U12_G', 'lcpll_pfd_pfet_w5_l0p5.U11_D', 'lcpll_pfd_pfet_w5_l0p5.U12_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U11_D' -> 'lcpll_pfd_nfet_w2_l0p5.U12_G'): crosses already-routed net 'XED_DN.d3'",
+  "net 'XED_UP.XD5' could not be routed: 1 of 4 pins could not be connected into one net ('lcpll_pfd_pfet_w5_l0p5.U4_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_pfet_w5_l0p5.U4_D' -> 'lcpll_pfd_pfet_w5_l0p5.U6_G'): crosses already-routed net 'reset'",
+  "net 'XED_UP.d1' could not be routed: 3 of 4 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U1_G', 'lcpll_pfd_pfet_w5_l0p5.U0_D', 'lcpll_pfd_pfet_w5_l0p5.U1_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U0_D' -> 'lcpll_pfd_nfet_w2_l0p5.U1_G'): crosses already-routed net 'reset'",
+  "net 'XED_UP.d2' could not be routed: 3 of 4 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U2_G', 'lcpll_pfd_pfet_w5_l0p5.U1_D', 'lcpll_pfd_pfet_w5_l0p5.U2_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U1_D' -> 'lcpll_pfd_nfet_w2_l0p5.U2_G'): crosses already-routed net 'reset'",
+  "net 'XED_UP.d3' could not be routed: 3 of 4 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U3_G', 'lcpll_pfd_pfet_w5_l0p5.U2_D', 'lcpll_pfd_pfet_w5_l0p5.U3_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U2_D' -> 'lcpll_pfd_nfet_w2_l0p5.U3_G'): crosses already-routed net 'reset'",
+  "net 'XED_UP.d4' could not be routed: 3 of 4 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U4_G', 'lcpll_pfd_pfet_w5_l0p5.U3_D', 'lcpll_pfd_pfet_w5_l0p5.U4_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U3_D' -> 'lcpll_pfd_nfet_w2_l0p5.U4_G'): crosses already-routed net 'reset'",
+  "net 'XLD.RB' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U23_D', 'lcpll_pfd_pfet_w5_l0p5.U23_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U23_D' -> 'lcpll_pfd_nfet_w2_l0p5.U26_G'): crosses already-routed net 'DN'",
+  "net 'XLD.SB' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U22_D', 'lcpll_pfd_pfet_w5_l0p5.U22_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U22_D' -> 'lcpll_pfd_nfet_w2_l0p5.U24_G'): crosses already-routed net 'DN'",
+  "net 'XLU.RB' could not be routed: 3 of 4 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U20_G', 'lcpll_pfd_pfet_w5_l0p5.U17_D', 'lcpll_pfd_pfet_w5_l0p5.U20_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U17_D' -> 'lcpll_pfd_nfet_w2_l0p5.U20_G'): crosses already-routed net 'UP'",
+  "net 'XLU.SB' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_pfd_pfet_w5_l0p5.U16_D', 'lcpll_pfd_pfet_w5_l0p5.U18_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_pfet_w5_l0p5.U16_D' -> 'lcpll_pfd_pfet_w5_l0p5.U18_G'): crosses already-routed net 'UP'",
+  "net 'reset_d1' could not be routed: 3 of 4 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U31_G', 'lcpll_pfd_pfet_w5_l0p5.U30_D', 'lcpll_pfd_pfet_w5_l0p5.U31_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U30_D' -> 'lcpll_pfd_nfet_w2_l0p5.U31_G'): crosses already-routed net 'reset_raw'",
+  "net 'reset_d2' could not be routed: 1 of 4 pins could not be connected into one net ('lcpll_pfd_pfet_w5_l0p5.U31_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_pfet_w10_l0p5.U0_G' -> 'lcpll_pfd_pfet_w5_l0p5.U31_D'): crosses already-routed net 'DN'",
+  "net 'set_dn' could not be routed: 3 of 4 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U22_G', 'lcpll_pfd_pfet_w5_l0p5.U15_D', 'lcpll_pfd_pfet_w5_l0p5.U22_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U15_D' -> 'lcpll_pfd_nfet_w2_l0p5.U22_G'): crosses already-routed net 'reset'",
+  "net 'set_up' could not be routed: 3 of 4 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U16_G', 'lcpll_pfd_pfet_w5_l0p5.U7_D', 'lcpll_pfd_pfet_w5_l0p5.U16_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U7_D' -> 'lcpll_pfd_nfet_w2_l0p5.U16_G'): crosses already-routed net 'XED_UP.ntmp'",
+  "net 'XED_DN.XN1.mid1' could not be routed: crosses already-routed net 'XED_DN.ntmp'",
+  "net 'XED_UP.XN1.mid1' could not be routed: crosses already-routed net 'XED_UP.ntmp'",
+  "net 'XLD.XNQ.mid1' could not be routed: crosses already-routed net 'DN'",
+  "net 'XLD.XNQB.mid1' could not be routed: crosses already-routed net 'DN'",
+  "net 'XLU.XNQ.mid1' could not be routed: crosses already-routed net 'UP'",
+  "net 'XLU.XNQB.mid1' could not be routed: crosses already-routed net 'UP'",
+  "net 'XNR.mid1' could not be routed: crosses already-routed net 'reset_raw'",
+  "net 'VDD' could not be routed: 33 of 35 pins could not be connected into one net ('lcpll_pfd_pfet_w10_l0p5.U0_S', 'lcpll_pfd_pfet_w10_l0p5.TAP_N', 'lcpll_pfd_pfet_w5_l0p5.U0_S', 'lcpll_pfd_pfet_w5_l0p5.U1_S', 'lcpll_pfd_pfet_w5_l0p5.U2_S', 'lcpll_pfd_pfet_w5_l0p5.U3_S', 'lcpll_pfd_pfet_w5_l0p5.U4_S', 'lcpll_pfd_pfet_w5_l0p5.U5_S', 'lcpll_pfd_pfet_w5_l0p5.U6_S', 'lcpll_pfd_pfet_w5_l0p5.U7_S', 'lcpll_pfd_pfet_w5_l0p5.U8_S', 'lcpll_pfd_pfet_w5_l0p5.U9_S', 'lcpll_pfd_pfet_w5_l0p5.U10_S', 'lcpll_pfd_pfet_w5_l0p5.U11_S', 'lcpll_pfd_pfet_w5_l0p5.U12_S', 'lcpll_pfd_pfet_w5_l0p5.U13_S', 'lcpll_pfd_pfet_w5_l0p5.U14_S', 'lcpll_pfd_pfet_w5_l0p5.U15_S', 'lcpll_pfd_pfet_w5_l0p5.U16_S', 'lcpll_pfd_pfet_w5_l0p5.U17_S', 'lcpll_pfd_pfet_w5_l0p5.U18_S', 'lcpll_pfd_pfet_w5_l0p5.U19_S', 'lcpll_pfd_pfet_w5_l0p5.U20_S', 'lcpll_pfd_pfet_w5_l0p5.U21_S', 'lcpll_pfd_pfet_w5_l0p5.U23_S', 'lcpll_pfd_pfet_w5_l0p5.U24_S', 'lcpll_pfd_pfet_w5_l0p5.U25_S', 'lcpll_pfd_pfet_w5_l0p5.U26_S', 'lcpll_pfd_pfet_w5_l0p5.U27_S', 'lcpll_pfd_pfet_w5_l0p5.U28_S', 'lcpll_pfd_pfet_w5_l0p5.U29_S', 'lcpll_pfd_pfet_w5_l0p5.U30_S', 'lcpll_pfd_pfet_w5_l0p5.TAP_N') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_pfet_w5_l0p5.U0_S' -> 'lcpll_pfd_pfet_w5_l0p5.U8_S'): crosses already-routed net 'XED_DN.ntmp'",
+  "net 'VSS' could not be routed: 19 of 28 pins could not be connected into one net ('lcpll_pfd_nfet_w2_l0p5.U6_S', 'lcpll_pfd_nfet_w2_l0p5.U7_S', 'lcpll_pfd_nfet_w2_l0p5.U9_S', 'lcpll_pfd_nfet_w2_l0p5.U11_S', 'lcpll_pfd_nfet_w2_l0p5.U14_S', 'lcpll_pfd_nfet_w2_l0p5.U15_S', 'lcpll_pfd_nfet_w2_l0p5.U17_S', 'lcpll_pfd_nfet_w2_l0p5.U19_S', 'lcpll_pfd_nfet_w2_l0p5.U21_S', 'lcpll_pfd_nfet_w2_l0p5.U22_S', 'lcpll_pfd_nfet_w2_l0p5.U23_S', 'lcpll_pfd_nfet_w2_l0p5.U25_S', 'lcpll_pfd_nfet_w2_l0p5.U27_S', 'lcpll_pfd_nfet_w2_l0p5.U29_S', 'lcpll_pfd_nfet_w2_l0p5.U30_S', 'lcpll_pfd_nfet_w2_l0p5.U31_S', 'lcpll_pfd_nfet_w2_l0p5.TAP_N', 'lcpll_pfd_nfet_w4_l0p5.U0_S', 'lcpll_pfd_nfet_w4_l0p5.TAP_N') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_pfd_nfet_w2_l0p5.U1_S' -> 'lcpll_pfd_nfet_w2_l0p5.U9_S'): via-drop landing pad (0.42um square at (1.95, 1) on layer (10, 0)) overlaps already-routed net 'reset' on that plane -- the two terminals' pads touch outright (pitch 0um) -- a 0.42um landing-pad footprint needs >= 0.63um of terminal pitch to clear a neighbouring terminal; 'metal2.space.1' additionally requires >= 0.21um same-layer edge-to-edge clearance to a neighbouring shape -- a generator whose terminal pitch is below the landing-pad footprint cannot be landed on independently: request routing.minimal_ladder (issue #6058) to size this intermediate ladder pad at its own per-pair enclosure floor, or routing.landing_pad_size_um (issue #5803) where the deck's floors allow a smaller pad, or land one of the two nets on another plane"
+ ],
+ "exit_code": 3,
+ "klt": "klt 0.9.3.dev2575+g6bd18bbc8637",
+ "nets": [
+  {
+   "landed_on_block": true,
+   "net": "DN",
+   "pin_count": 7,
+   "route_length_um": 60.19000000000001,
+   "routed": true,
+   "status": "routed"
+  },
+  {
+   "landed_on_block": true,
+   "net": "UP",
+   "pin_count": 7,
+   "route_length_um": 62.850000000000016,
+   "routed": true,
+   "status": "routed"
+  },
+  {
+   "landed_on_block": true,
+   "net": "reset",
+   "pin_count": 6,
+   "route_length_um": 108.24000000000001,
+   "routed": true,
+   "status": "routed"
+  },
+  {
+   "landed_on_block": true,
+   "net": "XED_DN.ntmp",
+   "pin_count": 5,
+   "route_length_um": 42.080000000000005,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "XED_UP.ntmp",
+   "pin_count": 5,
+   "route_length_um": 39.080000000000005,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "net1",
+   "pin_count": 5,
+   "route_length_um": 44.84,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "net2",
+   "pin_count": 5,
+   "route_length_um": 47.84000000000001,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "reset_raw",
+   "pin_count": 5,
+   "route_length_um": 58.8,
+   "routed": true,
+   "status": "routed"
+  },
+  {
+   "landed_on_block": true,
+   "net": "FB",
+   "pin_count": 4,
+   "route_length_um": 18.200000000000003,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "REF",
+   "pin_count": 4,
+   "route_length_um": 18.200000000000003,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "XED_DN.XD5",
+   "pin_count": 4,
+   "route_length_um": 41.84,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XED_DN.d1",
+   "pin_count": 4,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XED_DN.d2",
+   "pin_count": 4,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "XED_DN.d3",
+   "pin_count": 4,
+   "route_length_um": 7.480000000000001,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XED_DN.d4",
+   "pin_count": 4,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "XED_UP.XD5",
+   "pin_count": 4,
+   "route_length_um": 48.3,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XED_UP.d1",
+   "pin_count": 4,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XED_UP.d2",
+   "pin_count": 4,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XED_UP.d3",
+   "pin_count": 4,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XED_UP.d4",
+   "pin_count": 4,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "XLD.RB",
+   "pin_count": 4,
+   "route_length_um": 47.84000000000001,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "XLD.SB",
+   "pin_count": 4,
+   "route_length_um": 47.84000000000001,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XLU.RB",
+   "pin_count": 4,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "XLU.SB",
+   "pin_count": 4,
+   "route_length_um": 4.73,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "reset_d1",
+   "pin_count": 4,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "reset_d2",
+   "pin_count": 4,
+   "route_length_um": 27.47,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "set_dn",
+   "pin_count": 4,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "set_up",
+   "pin_count": 4,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XED_DN.XN1.mid1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XED_UP.XN1.mid1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XLD.XNQ.mid1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XLD.XNQB.mid1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XLU.XNQ.mid1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XLU.XNQB.mid1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XNR.mid1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "VDD",
+   "pin_count": 35,
+   "route_length_um": 8.059999999999995,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "VSS",
+   "pin_count": 28,
+   "route_length_um": 22.96,
+   "routed": false,
+   "status": "partial"
+  }
+ ],
+ "note": "routing report of the gen-compose trial whose request is request.json (this directory). Reproduce via the generator (issue #346 test plan): build the cell with routing enabled -- layout/gen_cells.py's TABLE row flipped to route=True (charge pump: common.build_block route=True) and `--out` a scratch directory -- which runs klt gen per group and then `klt gen-compose <cell>.compose.json` there; exit 3 = partial. request.json is that compose request verbatim; rerunning gen-compose on it in place also needs the per-group block .gds files the klt gen step writes, so they are not committed. Per-leg pin lists and the blocks/pins/ports echo of the raw report are dropped here for size; per-net verdicts, unrouted net names, single-pin nets and every drc_hints diagnostic note are kept verbatim.",
+ "schema": 1,
+ "single_pin_nets": [],
+ "unrouted_nets": [
+  "XED_DN.ntmp",
+  "XED_UP.ntmp",
+  "net1",
+  "net2",
+  "FB",
+  "REF",
+  "XED_DN.XD5",
+  "XED_DN.d1",
+  "XED_DN.d2",
+  "XED_DN.d3",
+  "XED_DN.d4",
+  "XED_UP.XD5",
+  "XED_UP.d1",
+  "XED_UP.d2",
+  "XED_UP.d3",
+  "XED_UP.d4",
+  "XLD.RB",
+  "XLD.SB",
+  "XLU.RB",
+  "XLU.SB",
+  "reset_d1",
+  "reset_d2",
+  "set_dn",
+  "set_up",
+  "XED_DN.XN1.mid1",
+  "XED_UP.XN1.mid1",
+  "XLD.XNQ.mid1",
+  "XLD.XNQB.mid1",
+  "XLU.XNQ.mid1",
+  "XLU.XNQB.mid1",
+  "XNR.mid1",
+  "VDD",
+  "VSS"
+ ],
+ "warnings": []
+}
