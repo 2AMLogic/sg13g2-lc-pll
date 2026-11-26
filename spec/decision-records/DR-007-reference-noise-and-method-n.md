@@ -69,6 +69,17 @@ and the equivalent rms time jitter at the 5.0 GHz output is sigma_t = sqrt(sigma
 | Divider/prescaler | <= 1.0e-4 | 3.183e-15 = **-145.0** dBc/Hz (-144.97 unrounded) | 318 fs |
 | **Sum (unchanged from DR-001)** | **5.0e-4** | 1.592e-14 = **-138.0** dBc/Hz | 712 fs |
 
+**Allocation basis versus pass criterion.** The flat L_in column is the DR-001 brick-wall *allocation*
+arithmetic above; it is **not** the acceptance test. A flat mask that meets R-REF-1 is not guaranteed to meet its
+rad^2 share through the real loop filter: at the design point (200 uA, 480 MHz/V, f_c = 1.000 MHz, committed
+filter) the method-L model (`sim/loop-model/loop_model.py --noise-inputs`) maps a flat point of -142 / -142 /
+-145 dBc/Hz at 10 kHz to 2.967e-4 / 2.967e-4 / 1.487e-4 rad^2 (7.42e-4 total against 5.0e-4). The pass
+criterion for #253 / #86 is therefore: **each term's loop-weighted output variance, integrated through the
+method-L model with the term's actual spectrum, is compared with its own rad^2 limit** (2.0e-4 / 2.0e-4 /
+1.0e-4). The dBc/Hz and femtosecond columns are the allocation read in other units; the 318 fs divider
+figure is the equivalent for a *flat* spectrum, and a shaped divider spectrum is graded by its loop-weighted
+rad^2 against 1.0e-4, not by 318 fs of raw edge jitter.
+
 **This table is an allocation, not a derivation.** No method-N or method-T number exists for any of the three
 terms, so nothing here is evidence that any of them is attainable. The three rad^2 figures sum to exactly
 5.0e-4, the ratified in-band share; the three *rounded* dBc/Hz figures sum to 1.578e-14 = -138.02 dBc/Hz,
@@ -129,8 +140,14 @@ The operating point above has **both** legs steering to VOUT at once, so the S_i
 legs' combined noise for that window and d is the single common overlap fraction. If the two legs' on-times
 differ, each leg is probed with its own switch asserted and the two gated PSDs are added.
 
-**The on-time is an input with a named source, not a constant.** t_on is the UP (and DN) pulse width at zero
-static phase error. Its source is the existing PFD transient `sim/pfd`: `sim/pfd/pfd_sweep.spice.tmpl`
+**The on-time is an input with a named source, not a constant.** t_on is the UP (and DN) pulse width taken at
+**charge balance**, not at aligned edges: the REF-FB phase offset tau_0 at which the pump's average output
+charge per reference cycle is zero at the corner's lock V_ctrl. In lock the loop sits at tau_0, not at zero
+delay -- the `sim/pfd` sweep varies the physical REF-FB delay and its "Linear region" lines
+(`sim/pfd/records/20261124-174920-c7e5a6b-dirty.md`, `20261030-183414-a9600e7.md`) show a non-zero charge per
+cycle at zero delay (-162.5 / -160.7 fC nominal) and an interpolated zero-charge crossing near +945 / +926 ps.
+A per-corner tau_0 is therefore read from that sweep (or its successor) at the chosen V_ctrl, and the UP and DN
+widths are extracted **at tau_0**; unequal widths there take the per-leg rule above. Its source is the existing PFD transient `sim/pfd`: `sim/pfd/pfd_sweep.spice.tmpl`
 already instantiates the pinned `sg13g2-pll` PFD driving `design/cp.sch` at 50 MHz. Neither
 `spec/target-spec.md` nor `design/netlist/cp.spice` states a reset delay or an on-time today, and that deck
 saves only `i(VO)`, so the width is in no record yet -- adding it to the bench's outputs belongs to #253.
@@ -140,7 +157,17 @@ delay is a gate delay and tracks the MOS corner and the temperature, so t_on is 
 **The PFD's own noise is not a method-N term.** The PFD is sequential CMOS logic. Its `.op` solution is a
 static latched state, not the state in which its output edges are formed, so a small-signal noise voltage at
 one of its nodes does not map to the UP/DN edge timing the charge pump converts into charge. The PFD's
-contribution is edge jitter Delta_t on UP/DN, which is exactly a phase error 2 pi x Delta_t / T_ref at the
+contribution is edge jitter on UP/DN, but **the observable is not the jitter of either pulse width alone**:
+UP and DN share a reset, so their widths can fluctuate together, and a common extension of both pulses adds no
+net charge (for ideal matched legs, +10 ps on both at 200 uA nets zero; the same +10 ps on UP alone nets
+2 fC). Delta_t per reference cycle is therefore defined from the **net-charge-producing** part only, by either
+
+- the fluctuation in the signed pulse-width difference (t_UP - t_DN) for matched legs, or
+- the fluctuation in net charge per cycle dQ divided by the local charge-versus-input-delay slope dQ/dtau
+  (C/s) at tau_0, i.e. Delta_t = dQ / (dQ/dtau),
+
+and S_dt(f) is the PSD of that per-cycle series, taken jointly so the UP/DN correlation is preserved (never
+the sum of two independent per-pulse PSDs). Then Delta_t is a phase error 2 pi x Delta_t / T_ref at the
 PFD input:
 
     S_phi,in,pfd(f) = (2 pi f_ref)^2 x S_dt(f)

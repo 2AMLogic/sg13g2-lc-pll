@@ -171,8 +171,12 @@ method T instead (DR-007 §3, §4).
   and R1's thermal noise is already a separate term.
 - **Conversion to the model's input**: S_φ,in(f) = S_i(f)·(t_on/T_ref)·(2π/I_cp)²,
   L_in(f) = S_φ,in(f)/2, referred to the PFD input. **t_on is a per-corner
-  input with a named source** — the UP/DN pulse width at zero static phase
-  error, from the `sim/pfd` transient — not a constant.
+  input with a named source** — the UP/DN pulse width at **charge balance**
+  (the per-corner REF–FB offset τ₀ where average pump charge per cycle is zero
+  at the lock V_ctrl, not at aligned edges), from the `sim/pfd` sweep — not a
+  constant. The PFD's own jitter Δt is the fluctuation in the signed
+  pulse-width difference, or in net charge ÷ dQ/dτ, never a per-pulse width
+  alone (DR-007 §3).
 - **Method fields**: DR-007 §5 lists the ten a method-N number carries next to
   it. The duty-cycle gating is a first-order approximation, weakest on the
   pump's flicker noise, where it is a conservative upper bound (about 1/d
@@ -208,7 +212,9 @@ method T instead (DR-007 §3, §4).
 | R1, CP shaping, supply/substrate coupling, spur-related | ≤ 2.9·10⁻⁴ (remainder) | allocation |
 
 The three in-band sub-rows are DR-001's 5·10⁻⁴ **split**, not a change to it:
-they sum to exactly 5·10⁻⁴ rad², and row 8's limit, the 5 / 2 / 2.9 ·10⁻⁴
+they sum to exactly 5·10⁻⁴ rad² (the flat dBc/Hz and fs columns are the
+allocation basis; the **pass criterion** is each term's loop-weighted output
+variance against its own rad² limit, DR-007 §2), and row 8's limit, the 5 / 2 / 2.9 ·10⁻⁴
 allocation and the −138 dBc/Hz total are unchanged. They are an allocation,
 not a derivation — no method-N or method-T number exists for any of the three
 — and they are stated at **N = 100 and f_c = 1 MHz**; over N = 90-110 the
