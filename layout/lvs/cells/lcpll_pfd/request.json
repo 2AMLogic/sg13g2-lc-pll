@@ -1,0 +1,4 @@
+{
+  "layout": {"file": "../../../top.gds", "top": "lcpll_pfd", "deck": "sg13g2"},
+  "reference": {"netlist": "../../../../design/netlist/pll_top.spice", "top": "pfd", "form": "subckt-call", "deck": "sg13g2"}
+}

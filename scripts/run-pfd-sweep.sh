@@ -9,9 +9,6 @@
 #   scripts/run-pfd-sweep.sh
 #
 # Environment: PDK_ROOT, NGSPICE as for scripts/run-cp-dc.sh; RECORD_DIR (default sim/pfd/records).
-#   PFD_VARIANT  adopted (default): the pinned PFD, unmodified. reset-fix: DIAGNOSTIC ONLY, a
-#                scratch copy whose reset path has one inverter instead of two (XI2 removed),
-#                to show what the adopted PFD's failure is; the record says so in its first line.
 # Exit 0 if the run completed and the record was written (the verdict is in the record).
 set -euo pipefail
 
@@ -22,21 +19,10 @@ source "${ROOT}/scripts/lib-record.sh"
 
 "${ROOT}/scripts/fetch-pll.sh" >/dev/null || die "fetch/verify of the pinned sg13g2-pll PFD failed"
 PFD_ADOPTED="${ROOT}/.fetched/sg13g2-pll/design/netlist/pfd.spice"
-PFD_NETLIST="${PFD_ADOPTED}"
-PFD_VARIANT="${PFD_VARIANT:-adopted}"
 CP_NETLIST="${CP_NETLIST:-${ROOT}/design/netlist/cp.spice}"
 "${ROOT}/design/netlist.sh" --check >/dev/null 2>&1 || die "design/netlist/cp.spice is stale against design/cp.sch (run design/netlist.sh)"
 rec_dir pfd
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
-case "${PFD_VARIANT}" in
-  adopted) ;;
-  reset-fix)
-    sed -e 's/^XI1 reset_raw reset_d1 VDD VSS inv_hv$/XI1 reset_raw reset VDD VSS inv_hv/' -e '/^XI2 reset_d1 reset VDD VSS inv2x_hv$/d' \
-      "${PFD_ADOPTED}" > "${WORK}/pfd_variant.spice"
-    cmp -s "${PFD_ADOPTED}" "${WORK}/pfd_variant.spice" && die "reset-fix edit did not apply to the pinned pfd.spice"
-    PFD_NETLIST="${WORK}/pfd_variant.spice" ;;
-  *) die "PFD_VARIANT must be adopted or reset-fix" ;;
-esac
 
 T_PS=20000          # T_ref = 20 ns (50 MHz)
 IREF_UA=20; ICP_NOM_UA=200
@@ -56,7 +42,7 @@ awk 'BEGIN{ printf "VFB fb 0 PWL(0 0\n" }
      { printf "+ %dp 0 %dp 3.3 %dp 3.3 %dp 0\n", $4, $4+100, $4+4900+100, $4+5000+100 }
      END{ printf "+ )\n" }' "${WORK}/sched.txt" > "${WORK}/fb.inc"
 
-sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@PFD_NETLIST@@|${PFD_NETLIST}|g" \
+sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@OSDI_PSP_NQS@@|${OSDI_PSP_NQS}|g" -e "s|@@PFD_NETLIST@@|${PFD_ADOPTED}|g" \
     -e "s|@@CP_NETLIST@@|${CP_NETLIST}|g" -e "s|@@FB_FILE@@|${WORK}/fb.inc|g" -e "s|@@TSTOP@@|${TSTOP_PS}p|g" \
     -e "s|@@DATA_OUT@@|${WORK}/pfd.data|g" "${ROOT}/sim/pfd/pfd_sweep.spice.tmpl" > "${WORK}/pfd_sweep.spice"
 check_deck_placeholders "${WORK}/pfd_sweep.spice"
@@ -74,6 +60,7 @@ set -e
 ELAPSED=$(( $(date +%s) - START ))
 cp "${WORK}/ngspice.log" "${REC_DIR}/${ID}-ngspice.txt"
 [ -s "${WORK}/pfd.data" ] || { echo "run-pfd-sweep: ngspice produced no data (rc=${NG_RC}); see ${REC_DIR}/${ID}-ngspice.txt" >&2; exit 1; }
+check_no_ignored_models "${REC_DIR}/${ID}-ngspice.txt"
 NPTS_T="$(wc -l < "${WORK}/pfd.data")"
 
 # ---- estimator: per-cycle charge = trapezoid integral of i(VO) over that cycle's window.
@@ -148,18 +135,17 @@ fi
 {
   echo "# pfd-sweep run ${ID}"
   echo
-  [ "${PFD_VARIANT}" = adopted ] || echo "**DIAGNOSTIC RUN, NOT THE ADOPTED PFD**: \`PFD_VARIANT=${PFD_VARIANT}\` edits a scratch copy of the pinned \`pfd.spice\` (the second reset inverter \`XI2\` removed, \`XI1\` drives \`reset\` directly). Nothing here grades the adopted PFD; it shows what its failure is. Not a design."
-  [ "${PFD_VARIANT}" = adopted ] || echo
   echo "**PFD function check: ${FUNC_TXT}**"
   echo
   echo "**Result: ${DZ_HEAD}; charge-vs-phase ${MONO_HEAD}** over phi = -10 ns to +10 ns (T_ref/2 = 10 ns) at 50 MHz. Typical corner only; simulated, not measured."
   echo
   echo "- **Scope**: this is the 50 MHz re-grade of the adopted PFD that spec section 7 conditions its adoption on (gate G5), for dead zone and charge vs phase only. Typical corner (\`mos_tt\`), 27 C, nominal 3.3 V supply, one run. No corner grid, no jitter, no noise number, no spec row 7 grading."
-  echo "- **PFD**: \`2AMLogic/sg13g2-pll@$(jq -r '.imports[] | select(.from=="2AMLogic/sg13g2-pll") | .commit' "${ROOT}/reuse.lock.json")\` \`design/netlist/pfd.spice\` (fetched mode, sha256-verified by \`scripts/fetch-pll.sh\`), sha256 \`$(sha256sum "${PFD_ADOPTED}" | cut -d' ' -f1)\`$([ "${PFD_VARIANT}" = adopted ] && echo ', simulated unmodified' || echo "; simulated with variant ${PFD_VARIANT} (sha256 \`$(sha256sum "${PFD_NETLIST}" | cut -d' ' -f1)\`)")"
+  echo "- **PFD**: \`2AMLogic/sg13g2-pll@$(jq -r '.imports[] | select(.from=="2AMLogic/sg13g2-pll") | .commit' "${ROOT}/reuse.lock.json")\` \`design/netlist/pfd.spice\` (fetched mode, sha256-verified by \`scripts/fetch-pll.sh\`), sha256 \`$(sha256sum "${PFD_ADOPTED}" | cut -d' ' -f1)\`, simulated unmodified"
   echo "- **CP load**: \`${CP_NETLIST#"${ROOT}/"}\` sha256 \`$(sha256sum "${CP_NETLIST}" | cut -d' ' -f1)\` (checked against design/cp.sch), IREF = ${IREF_UA} uA, output held at 2.0 V by an ideal source"
   echo "- **Deck**: \`sim/pfd/pfd_sweep.spice.tmpl\` sha256 \`$(sha256sum "${ROOT}/sim/pfd/pfd_sweep.spice.tmpl" | cut -d' ' -f1)\`, placeholder substitution plus the generated FB source (${NCYC} cycles)"
   echo "- **PDK**: IHP-Open-PDK $(jq -r .pdk.release_tag "${PINS}") (model libraries hash-checked against \`sim/pins.json\`); PDK_ROOT \`${PDK_ROOT}\`; PSP103 OSDI sha256 \`$(jq -r .psp103.osdi_sha256 "${PINS}")\` (pinned)"
   echo "- **Simulator**: \`${NG_VER}\` (\`${NGSPICE}\`), one local \`ngspice -b\`, exit status ${NG_RC}, ${ELAPSED} s wall, ${NPTS_T} accepted time points; \`.tran 25p ${TSTOP_PS}p 0 25p\`; scratch \`.spiceinit\` = \`set ngbehavior=hsa\`"
+  echo "- **Model cards**: ngspice log has ${NG_IGNORED_MODELS} 'Unknown model type ... ignored' line(s) (the run is refused otherwise)"
   echo "- **Pin check**: ${NG_PIN_STATUS}"
   echo "- **Commit**: \`${COMMIT}${DIRTY}\` of this repository"
   echo "- **Method**: REF is a fixed 50 MHz clock (T_ref = 20 ns, 100 ps edges). FB is a PWL source whose rising edge in cycle k is delayed by phi_k relative to REF's rising edge (phi > 0: FB lags, PFD pulses UP). The phase is stepped inside the one transient: 10 ps steps for |phi| <= 1 ns, 50 ps steps for 1-3 ns, 250 ps steps for 3 ns to 10 ns; ${NSW} swept cycles after 4 warm-up cycles at +1 ns (excluded). Inputs are never run at different frequencies, so the PFD never sees a cycle slip."

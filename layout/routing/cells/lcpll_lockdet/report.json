@@ -1,0 +1,235 @@
+{
+ "cell": "lcpll_lockdet",
+ "diagnostics": [
+  "net 'XXOR.n2' could not be routed: 3 of 5 pins could not be connected into one net ('lcpll_lockdet_nfet_w2_l0p5.U2_D', 'lcpll_lockdet_nfet_w2_l0p5.U6_G', 'lcpll_lockdet_pfet_w5_l0p5.U6_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_lockdet_nfet_w2_l0p5.U2_D' -> 'lcpll_lockdet_nfet_w2_l0p5.U6_G'): crosses already-routed net 'ERR'",
+  "net 'XXOR.n3' could not be routed: 4 of 5 pins could not be connected into one net ('lcpll_lockdet_nfet_w2_l0p5.U7_G', 'lcpll_lockdet_pfet_w5_l0p5.U4_D', 'lcpll_lockdet_pfet_w5_l0p5.U5_D', 'lcpll_lockdet_pfet_w5_l0p5.U7_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_lockdet_pfet_w5_l0p5.U5_D' -> 'lcpll_lockdet_pfet_w5_l0p5.U7_G'): crosses already-routed net 'ERR'",
+  "net 'nwide' could not be routed: 3 of 5 pins could not be connected into one net ('lcpll_lockdet_nfet_w2_l0p5.U12_D', 'lcpll_lockdet_pfet_w5_l0p5.U12_D', 'lcpll_lockdet_pfet_w5_l0p5.U13_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_lockdet_pfet_w5_l0p5.U12_D' -> 'lcpll_lockdet_pfet_w5_l0p5.U13_D'): crosses already-routed net 'ERR'",
+  "net 'DN' could not be routed: 1 of 4 pins could not be connected into one net ('lcpll_lockdet_nfet_w2_l0p5.U1_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_lockdet_nfet_w2_l0p5.U1_G' -> 'lcpll_lockdet_nfet_w2_l0p5.U4_G'): comes within 0.21um of already-routed net 'XXOR.n1' -- closer than the resolved deck's own 'metal2.space.1' minimum same-layer spacing rule (no literal overlap, but still a real `klt drc` violation on the composed layout)",
+  "net 'UP' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_lockdet_pfet_w5_l0p5.U0_G', 'lcpll_lockdet_pfet_w5_l0p5.U2_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_lockdet_pfet_w5_l0p5.U0_G' -> 'lcpll_lockdet_pfet_w5_l0p5.U2_G'): crosses already-routed net 'DN'",
+  "net 'XDW.d1' could not be routed: 3 of 4 pins could not be connected into one net ('lcpll_lockdet_nfet_w2_l0p5.U9_G', 'lcpll_lockdet_pfet_w5_l0p5.U8_D', 'lcpll_lockdet_pfet_w5_l0p5.U9_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_lockdet_nfet_w2_l0p5.U8_D' -> 'lcpll_lockdet_nfet_w2_l0p5.U9_G'): crosses already-routed net 'ERR'",
+  "net 'XDW.d2' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_lockdet_nfet_w2_l0p5.U9_D', 'lcpll_lockdet_pfet_w5_l0p5.U9_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_lockdet_nfet_w2_l0p5.U9_D' -> 'lcpll_lockdet_nfet_w2_l0p5.U10_G'): crosses already-routed net 'ERR'",
+  "net 'XDW.d3' could not be routed: 2 of 4 pins could not be connected into one net ('lcpll_lockdet_nfet_w2_l0p5.U10_D', 'lcpll_lockdet_pfet_w5_l0p5.U10_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_lockdet_nfet_w2_l0p5.U10_D' -> 'lcpll_lockdet_nfet_w2_l0p5.U11_G'): crosses already-routed net 'ERRD'",
+  "net 'WIDE' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_lockdet_nfet_w2_l0p5.U14_D', 'lcpll_lockdet_pfet_w5_l0p5.U14_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_lockdet_nfet_w0p25_l12.U0_G' -> 'lcpll_lockdet_nfet_w2_l0p5.U14_D'): crosses already-routed net 'ERR'",
+  "net 'XSCH.nn' could not be routed: 2 of 3 pins could not be connected into one net ('lcpll_lockdet_nfet_w2_l2.U1_D', 'lcpll_lockdet_nfet_w2_l2.U2_S') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_lockdet_nfet_w2_l2.U1_D' -> 'lcpll_lockdet_nfet_w2_l2.U2_S'): crosses already-routed net 'LOCK'",
+  "net 'XSCH.np' could not be routed: 1 of 3 pins could not be connected into one net ('lcpll_lockdet_pfet_w5_l2.U2_S') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_lockdet_pfet_w5_l2.U1_S' -> 'lcpll_lockdet_pfet_w5_l2.U2_S'): crosses already-routed net 'LOCK'",
+  "net 'XNW.mid1' could not be routed: crosses already-routed net 'ERR'",
+  "net 'XXOR.XN1.mid1' could not be routed: comes within 0.21um of already-routed net 'VWIN' -- closer than the resolved deck's own 'metal2.space.1' minimum same-layer spacing rule (no literal overlap, but still a real `klt drc` violation on the composed layout)",
+  "net 'XXOR.XN2.mid1' could not be routed: comes within 0.21um of already-routed net 'VWIN' -- closer than the resolved deck's own 'metal2.space.1' minimum same-layer spacing rule (no literal overlap, but still a real `klt drc` violation on the composed layout)",
+  "net 'XXOR.XN3.mid1' could not be routed: crosses already-routed net 'ERR'",
+  "net 'XXOR.XN4.mid1' could not be routed: crosses already-routed net 'ERR'",
+  "net 'VDD' could not be routed: 17 of 20 pins could not be connected into one net ('lcpll_lockdet_nfet_w2_l2.U2_D', 'lcpll_lockdet_pfet_w5_l0p5.U0_S', 'lcpll_lockdet_pfet_w5_l0p5.U1_S', 'lcpll_lockdet_pfet_w5_l0p5.U2_S', 'lcpll_lockdet_pfet_w5_l0p5.U3_S', 'lcpll_lockdet_pfet_w5_l0p5.U5_S', 'lcpll_lockdet_pfet_w5_l0p5.U6_S', 'lcpll_lockdet_pfet_w5_l0p5.U7_S', 'lcpll_lockdet_pfet_w5_l0p5.U8_S', 'lcpll_lockdet_pfet_w5_l0p5.U10_S', 'lcpll_lockdet_pfet_w5_l0p5.U11_S', 'lcpll_lockdet_pfet_w5_l0p5.U12_S', 'lcpll_lockdet_pfet_w5_l0p5.U13_S', 'lcpll_lockdet_pfet_w5_l0p5.U14_S', 'lcpll_lockdet_pfet_w5_l0p5.TAP_N', 'lcpll_lockdet_pfet_w5_l2.TAP_N', 'lcpll_lockdet_resrhigh_w0p5_l500.R0_A') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_lockdet_pfet_w5_l0p5.U0_S' -> 'lcpll_lockdet_pfet_w5_l0p5.U5_S'): via-drop landing pad (0.42um square at (147.3, 2.5) on layer (10, 0)) overlaps already-routed net 'ERR' on that plane -- the two terminals' pads touch outright (pitch 0um) -- a 0.42um landing-pad footprint needs >= 0.63um of terminal pitch to clear a neighbouring terminal; 'metal2.space.1' additionally requires >= 0.21um same-layer edge-to-edge clearance to a neighbouring shape -- a generator whose terminal pitch is below the landing-pad footprint cannot be landed on independently: request routing.minimal_ladder (issue #6058) to size this intermediate ladder pad at its own per-pair enclosure floor, or routing.landing_pad_size_um (issue #5803) where the deck's floors allow a smaller pad, or land one of the two nets on another plane",
+  "net 'VSS' could not be routed: 17 of 18 pins could not be connected into one net ('lcpll_lockdet_cmim_w45_l45.C1_BOT', 'lcpll_lockdet_nfet_w0p25_l12.U0_S', 'lcpll_lockdet_nfet_w0p25_l12.TAP_N', 'lcpll_lockdet_nfet_w2_l0p5.U1_S', 'lcpll_lockdet_nfet_w2_l0p5.U3_S', 'lcpll_lockdet_nfet_w2_l0p5.U5_S', 'lcpll_lockdet_nfet_w2_l0p5.U7_S', 'lcpll_lockdet_nfet_w2_l0p5.U8_S', 'lcpll_lockdet_nfet_w2_l0p5.U9_S', 'lcpll_lockdet_nfet_w2_l0p5.U10_S', 'lcpll_lockdet_nfet_w2_l0p5.U11_S', 'lcpll_lockdet_nfet_w2_l0p5.U13_S', 'lcpll_lockdet_nfet_w2_l0p5.U14_S', 'lcpll_lockdet_nfet_w2_l0p5.TAP_N', 'lcpll_lockdet_nfet_w2_l2.U1_S', 'lcpll_lockdet_nfet_w2_l2.TAP_N', 'lcpll_lockdet_pfet_w5_l2.U2_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('lcpll_lockdet_nfet_w2_l0p5.U5_S' -> 'lcpll_lockdet_nfet_w2_l0p5.U10_S'): via-drop landing pad (0.42um square at (116.6, 4.32) on layer (30, 0)) sits 0.57um (terminal pitch, centre-to-centre) from already-routed net 'XXOR.n1' on that plane -- a 0.42um landing-pad footprint needs >= 0.63um of terminal pitch to clear a neighbouring terminal; 'metal3.space.1' additionally requires >= 0.21um same-layer edge-to-edge clearance to a neighbouring shape -- a generator whose terminal pitch is below the landing-pad footprint cannot be landed on independently: request routing.landing_pad_size_um (issue #5803) where the deck's floors allow a smaller pad, or land one of the two nets on another plane"
+ ],
+ "exit_code": 3,
+ "klt": "klt 0.9.3.dev2575+g6bd18bbc8637",
+ "nets": [
+  {
+   "landed_on_block": true,
+   "net": "ERR",
+   "pin_count": 7,
+   "route_length_um": 53.94999999999996,
+   "routed": true,
+   "status": "routed"
+  },
+  {
+   "landed_on_block": true,
+   "net": "VWIN",
+   "pin_count": 7,
+   "route_length_um": 532.9200000000001,
+   "routed": true,
+   "status": "routed"
+  },
+  {
+   "landed_on_block": true,
+   "net": "XXOR.n1",
+   "pin_count": 7,
+   "route_length_um": 55.989999999999995,
+   "routed": true,
+   "status": "routed"
+  },
+  {
+   "landed_on_block": true,
+   "net": "ERRD",
+   "pin_count": 5,
+   "route_length_um": 180.44,
+   "routed": true,
+   "status": "routed"
+  },
+  {
+   "landed_on_block": true,
+   "net": "XXOR.n2",
+   "pin_count": 5,
+   "route_length_um": 1.7399999999999807,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XXOR.n3",
+   "pin_count": 5,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "nwide",
+   "pin_count": 5,
+   "route_length_um": 39.620000000000005,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "DN",
+   "pin_count": 4,
+   "route_length_um": 65.62,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "LOCK",
+   "pin_count": 4,
+   "route_length_um": 52.960000000000015,
+   "routed": true,
+   "status": "routed"
+  },
+  {
+   "landed_on_block": true,
+   "net": "UP",
+   "pin_count": 4,
+   "route_length_um": 4.680000000000003,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XDW.d1",
+   "pin_count": 4,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "XDW.d2",
+   "pin_count": 4,
+   "route_length_um": 39.61999999999999,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": true,
+   "net": "XDW.d3",
+   "pin_count": 4,
+   "route_length_um": 39.620000000000005,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "WIDE",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XSCH.nn",
+   "pin_count": 3,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "XSCH.np",
+   "pin_count": 3,
+   "route_length_um": 0.8199999999999932,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XNW.mid1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XXOR.XN1.mid1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XXOR.XN2.mid1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XXOR.XN3.mid1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": null,
+   "net": "XXOR.XN4.mid1",
+   "pin_count": 2,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  },
+  {
+   "landed_on_block": true,
+   "net": "VDD",
+   "pin_count": 20,
+   "route_length_um": 206.45000000000005,
+   "routed": false,
+   "status": "partial"
+  },
+  {
+   "landed_on_block": null,
+   "net": "VSS",
+   "pin_count": 18,
+   "route_length_um": null,
+   "routed": false,
+   "status": "unrouted"
+  }
+ ],
+ "note": "routing report of the gen-compose trial whose request is request.json (this directory). Reproduce via the generator (issue #346 test plan): build the cell with routing enabled -- layout/gen_cells.py's TABLE row flipped to route=True (charge pump: common.build_block route=True) and `--out` a scratch directory -- which runs klt gen per group and then `klt gen-compose <cell>.compose.json` there; exit 3 = partial. request.json is that compose request verbatim; rerunning gen-compose on it in place also needs the per-group block .gds files the klt gen step writes, so they are not committed. Per-leg pin lists and the blocks/pins/ports echo of the raw report are dropped here for size; per-net verdicts, unrouted net names, single-pin nets and every drc_hints diagnostic note are kept verbatim.",
+ "schema": 1,
+ "single_pin_nets": [],
+ "unrouted_nets": [
+  "XXOR.n2",
+  "XXOR.n3",
+  "nwide",
+  "DN",
+  "UP",
+  "XDW.d1",
+  "XDW.d2",
+  "XDW.d3",
+  "WIDE",
+  "XSCH.nn",
+  "XSCH.np",
+  "XNW.mid1",
+  "XXOR.XN1.mid1",
+  "XXOR.XN2.mid1",
+  "XXOR.XN3.mid1",
+  "XXOR.XN4.mid1",
+  "VDD",
+  "VSS"
+ ],
+ "warnings": []
+}

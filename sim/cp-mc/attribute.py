@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Per-device-group mismatch attribution for the charge pump (T1 item 6, issue #78). Stdlib only.
 
-  attribute.py groups                         list the groups and check they partition every MOS in cp.spice
+  attribute.py groups CP.spice                list the groups and check they partition every MOS in cp.spice
+  attribute.py campaign                       print the campaign run names, one per line: all, each group, none
   attribute.py netlist GROUP CP.spice OUT     write CP.spice with mm_ok=0 on every MOS instance NOT in GROUP
   attribute.py report REPORT.json ...         render the attribution table from klt sim reports named GROUP=path
 
@@ -41,7 +42,15 @@ def mos_instances(text):
             out.append((sub, ln.split()[0]))
     return out
 
+CONTROLS = ("all", "none")
+
+def campaign():
+    """Run names in schedule order: the all-on control, every group in GROUPS order, the mismatch-off control."""
+    return [CONTROLS[0], *GROUPS, CONTROLS[1]]
+
 def write_netlist(group, text):
+    if group not in CONTROLS and group not in GROUPS:
+        raise ValueError("unknown group %r (expected one of: %s)" % (group, " ".join(campaign())))
     keep = set(GROUPS[group]) if group in GROUPS else set(mos_instances(text)) if group == "all" else set()
     sub, out = None, []
     for ln in text.splitlines():
@@ -74,7 +83,13 @@ def main():
         n = check_partition(open(sys.argv[2]).read())
         print("ok: %d MOS instances partitioned into %s" % (n, {g: len(v) for g, v in GROUPS.items()}))
     elif cmd == "netlist":
-        open(sys.argv[4], "w").write(write_netlist(sys.argv[2], open(sys.argv[3]).read()))
+        try:
+            text = write_netlist(sys.argv[2], open(sys.argv[3]).read())
+        except ValueError as e:
+            sys.exit("attribute.py: %s" % e)
+        open(sys.argv[4], "w").write(text)
+    elif cmd == "campaign":
+        print("\n".join(campaign()))
     elif cmd == "report":
         # mean-square of mm = systematic^2 + random^2 (cross term averages out). The `none` run (mismatch off everywhere)
         # measures the deterministic part; it is subtracted so each group's number is its random contribution.

@@ -6,41 +6,53 @@ slice; item 5 is `unmet` and stays so (see "Row status").
 
 ## Where the grid ran
 
-Both requests went to the Spot batch fleet (`backend: batch`, `klt sim --wait-for-capacity`), not
-the dispatch host. A first stage-1 submit was refused with `batch_no_capacity` (shared spot vCPU
-quota full); it was retried with a bounded capacity wait and was not run locally. Job ids:
-stage 1 `klt-sim-68a7987fe626`, stage 2 `klt-sim-370cccc80aa5` (an earlier identical-circuit pass,
-`klt-sim-d98401a6c111` / `klt-sim-573cc2fb2559`, ran before the `spec_row` tags were added and gave
-the same verdicts and values). **Simulator: ngspice 46 on the fleet, against the pin of 47**
-(`sim/pins.json`). The records carry the version in `environment`; the pin is not met.
+All `cp-dc` requests went to the Spot batch fleet (`backend: batch`, `klt sim --wait-for-capacity`),
+not the dispatch host. The current manifest-cited records (`20261103-221e27b-stage{1,2}.json`,
+after the #67 XBPC 3u -> 4u retune) ran as stage 1 `klt-sim-edf18b3bafa5` and stage 2
+`klt-sim-2e00c4ef0e97`. Earlier historical pre-#67 records (`20261103-aaf7d98-stage{1,2}.json`,
+stage 1 `klt-sim-68a7987fe626`, stage 2 `klt-sim-370cccc80aa5`, after an initial
+`batch_no_capacity` retry; plus an earlier pre-tag pass `klt-sim-d98401a6c111` /
+`klt-sim-573cc2fb2559`) remain append-only on disk. **Simulator: ngspice 46 on the fleet, against
+the pin of 47** (`sim/pins.json`). The records carry the version in `environment`; the pin is not
+met.
 
 ## `cp-dc/`: charge pump, rows 6 and 7
 
 `make_requests.py` writes `request-stage{1,2}.json`; the circuit body is the shared
 `sim/cp-dc/cp_icp.cir` (the requests reference it as `../../cp-dc/cp_icp.cir`; there is no second
-copy). The records `20261103-*-stage{1,2}` ran against the former `cp_body.spice`
-(`netlist_sha256` `eff5595e...6775`), last changed at `ff3bbf7` and still present at `a4f2611`
-(`git show a4f2611:sim/corner-verification/cp-dc/cp_body.spice`). The merged body adds only
-`.option scale=1`, which a single-corner local run showed leaves I_up/I_dn unchanged. The CP holds only HV MOS, so the HBT and MIM axes do not touch it: the
-135-point grid collapses to 15 distinct points (stage 1, 3.300 V) and the 18 supply sub-corners
-(stage 2, SLOW/TYP/FAST = `mos_ss`/`mos_tt`/`mos_ff` here). Records are append-only under
-`cp-dc/records/`. Measured at V_out = 1.65 V with IREF = 20 uA: I_up, I_dn (limits 100-400 uA, row 6
-design range) and mismatch (limit 2 %, row 7 lower edge). `vtop_est` is the top of the <= 2 %
-window assuming mismatch rises monotonically from 1.65 V; it is reported, not graded.
+copy). The committed records `20261103-*-stage{1,2}.json` ran against the former `cp_body.spice`
+(`netlist_sha256` `eff5595e...6775`, last changed at `ff3bbf7` and still present at `a4f2611`,
+`git show a4f2611:sim/corner-verification/cp-dc/cp_body.spice`), which `.include`d
+`design/netlist/cp.spice` (`20261103-221e27b-stage{1,2}.json` record the current `cp.spice`
+sha256 `99827833...213a` in `environment.netlist_closure`). The merged body adds only
+`.option scale=1`, which a single-corner local run showed leaves I_up/I_dn unchanged. The CP holds
+only HV MOS, so the HBT and MIM axes do not touch it: the 135-point grid collapses to 15 distinct
+points (stage 1, 3.300 V) and the 18 supply sub-corners (stage 2, SLOW/TYP/FAST =
+`mos_ss`/`mos_tt`/`mos_ff` here). Records are append-only under `cp-dc/records/`. Measured at
+V_out = 1.65 V with IREF = 20 uA: I_up, I_dn (limits 100-400 uA, row 6 design range) and mismatch
+(limit 2 %, row 7 lower edge). `vtop_est` is the top of the <= 2 % window assuming mismatch rises
+monotonically from 1.65 V; it is reported, not graded.
+
+Current manifest-cited records (`20261103-221e27b-stage{1,2}.json`, after #67 XBPC 3u -> 4u):
 
 | | stage 1 (15, 3.300 V) | stage 2 (18, 2.970 / 3.630 V) |
 |---|---|---|
-| verdict | 15 pass | 17 pass, **1 fail** |
-| I_up, I_dn at 1.65 V | 195-202 uA (all inside 100-400 uA) | 191-206 uA (all inside) |
-| mismatch at 1.65 V, worst | 0.65 % (`mos_ff`, 125 C) | **2.19 % (FAST, 3.630 V, -40 C)** |
-| window top `vtop_est` | 2.30-2.60 V | 1.90-2.90 V (binding: SLOW/2.970 V/125 C, 1.90 V) |
+| verdict | 15 pass | 18 pass |
+| I_up, I_dn at 1.65 V | 193.2-200.6 uA (all inside 100-400 uA) | 189.4-203.9 uA (all inside) |
+| mismatch at 1.65 V, worst | 0.95 % (`mos_fs`, -40 C) | 1.57 % (SLOW, 2.970 V, 125 C) |
+| window top `vtop_est` | 2.20-2.55 V | 1.80-2.90 V (binding: SLOW/2.970 V/125 C, 1.80 V) |
 
-Finding, not relaxed: FAST at 3.630 V and -40 C exceeds the 2 % row-7 bound at the lower edge
-(2.19 %). Row 6 itself is inside its range at every corner, but the stage-2 envelope reads `fail`
-as a whole, so the manifest cites it and item 5 reads `unmet / check_failed`.
+Historical pre-#67 records (`20261103-aaf7d98-stage{1,2}.json`, XBPC 3u): stage 1 passed 15/15
+(I_up/I_dn 195-202 uA, worst mismatch 0.65 % at `mos_ff`/125 C, `vtop_est` 2.30-2.60 V); stage 2
+had 17 pass and **1 fail** at FAST/3.630 V/-40 C (mismatch 2.19 % > 2 %). PR #75 (#67) widened
+XBPC from 3u to 4u without relaxing the spec, bringing all 33 corners <= 1.57 % (see
+`cp-dc/records/20261103-221e27b-stage2.md`). Both `20261103-221e27b-stage{1,2}.json` are cited in
+`manifests/sg13g2-lc-pll.json` and grade `met`; item 5 stays `unmet / partial_coverage` because
+other rows remain declared gaps.
 
-The window top at 2.97 V is 1.9-2.2 V, far below the VCO window top of 3.30 V. Whether that
-matters is decided by V_hi,req (gate G4, VCO graded f(Vctrl)); it is not graded here.
+The window top `vtop_est` at 2.97 V is 1.80-2.15 V (down 0.05-0.10 V from the pre-#67 1.90-2.20 V),
+far below the VCO window top of 3.30 V. Whether that matters is decided by V_hi,req (gate G4, VCO
+graded f(Vctrl)); it is not graded here.
 
 ## `loop-power/`: row 11 (issue #70)
 
@@ -52,9 +64,21 @@ without them it states the check as `unchecked` rather than guessing a version f
 fleet as sharded jobs (`--max-units-per-job`, the fleet's 3600 s whole-job ceiling); nothing ran on the dispatch host. Simulator: ngspice 46
 on the fleet, pin is 47.
 
-Findings, not relaxed:
+### Stage 2 on November 10 (revision `2022314`)
 
-- **Stage 2 (18 corners, all returned and converged)**: only 5 divide to 50 MHz (all at 2.970 V, mostly -40 and 27 C); 13 do not (every
+The first run converged at 12 corners. The retry converged at the six remaining -40 C corners.
+Together, 15/18 divided to 50 MHz, including 8/9 at 3.630 V. All three misses were at 125 C
+(SLOW at both supplies and TYP at 2.970 V). Across the dividing corners the power subtotal,
+including the nominal 1.71 mW PFD/CP/bias contribution, was 19.85–31.77 mW. FAST at 125 C
+and 3.630 V exceeded the 20 mW target before counting the lock detector, reference and clock
+buffering. The later prescaler change still needs a loop-power rerun.
+[Initial run](loop-power/records/20261110-051905-2022314-stage2.md) ·
+[-40 C retry](loop-power/records/20261110-053343-2022314-stage2.md) ·
+[Prescaler revision](../../design/README.md)
+
+### Historical November 3–4 runs
+
+- **November 3 stage 2 (18 corners, all returned and converged)**: only 5 divide to 50 MHz (all at 2.970 V, mostly -40 and 27 C); 13 do not (every
   3.630 V corner, and 125 C). Those 13 are not-a-row-11-number. Over the 5 dividing corners the sum with the nominal PFD/CP/bias constant is
   18.63-19.96 mW before the owed lock detector, reference and clock buffering, so row 11 is **not** shown to pass.
 - **Start-up caveat**: the HBT prescaler DC operating point did not converge from the powered state at most corners, so the bench ramps the
@@ -108,18 +132,19 @@ Some `request-*.json` files are generator output and are no longer tracked (`.gi
 - `loop-power/request-stage2-97-s-<PROC>-<T>-<VDD>.json` (18): `cd sim/corner-verification/loop-power && python3 -I make_stage2_shards_97.py` (reads the tracked `request-stage2-97-fix1.json`). Run it before any `make_*_97*.py` probe script, which reads these shards from the current directory.
 - `loop-power/request-stage1-missing<i>.json`: `python3 -I make_requests.py --missing <stage-1 records>`. The set that was recorded is two runs: indices 3..21 from the `20261103-133412`, `20261103-193448`, `20261103-215804` records, indices 0..2 from those plus `20261104-032646`.
 - `vco-prescaler-load/request-{loaded,unloaded}-stage{1,2}[-<shard>].json` (16): `scripts/fetch-vco.sh && python3 -I sim/corner-verification/vco-prescaler-load/make_requests.py`.
-- `vco-prescaler-load/{vco_loaded,vco_unloaded,vco_loaded_dsubw,vco_unloaded_dsubw,svar_dsubw125,sg13g2_inductor_em}.spice` (issue #212): written by the same command (its `main()` and `dsubw()`); `sg13g2_inductor_em.spice` is a copy of the pinned `.fetched/` VCO inductor model. Records that name these decks are unchanged; see `vco-prescaler-load/records/20261112-issue212-generated-decks-removed.md`.
+- `vco-prescaler-load/{vco_loaded,vco_unloaded,vco_loaded_dsubw,vco_unloaded_dsubw,svar_dsubw125,sg13g2_inductor_em}.spice` (issue #212): written by the same command. `sg13g2_inductor_em.spice` is a copy of the pinned `.fetched/` VCO inductor model. Records that name these decks are unchanged; see `vco-prescaler-load/records/20261112-issue212-generated-decks-removed.md`.
 
 ## Row status
 
 | Row | State | Why |
 |---|---|---|
-| 6 | enveloped, in range at all 33 | `cp-dc` |
-| 7 | **gap** | upper edge needs G4; lower edge fails at one corner (above) |
-| 1, 9, 10 | **gap** | benches run on a behavioural VCO/divider stand-in; G4, G2, #61. A stand-in envelope is never reported as a pass |
-| 5 | **gap** | method L (`sim/loop-model`) is not a `klt sim` request |
-| 8 | **gap** | method L partial, method T not run (G6) |
-| 11 | **enveloped, reads `fail`** | `loop-power/`: stage 2 ran (18 corners, 5 divide to 50 MHz, 13 do not); stage 1 complete (135 of 135 returned, 24 divide at 22.4-24.1 mW with nominal PFD/CP/bias, before owed blocks; 111 do not divide; see `loop-power/records/20261104-stage1-complete-135.md`); non-division at 3.630 V / 125 C read as a design finding (#97), not a start-up artifact |
+| 5 | **partial** (method L) | The cited model passed 180 points from 18 supply corners at 2.970 and 3.630 V (I_up and I_dn × five Kvco values). Bandwidth was 0.777–1.248 MHz and minimum phase margin was 52.48°. The 135-point 3.300 V grid, filter R/C spread and local Kvco from G4 remain open. [Model envelope](../loop-model/records/20261115-101634-6a08197-row5-envelope.json) · [Inputs and limits](../loop-model/records/20261115-101634-6a08197-row5-envelope.md) |
+| 6 | enveloped, passes all 33 | `cp-dc` (`20261103-221e27b-stage{1,2}.json`, cited in manifest, graded `met`) |
+| 7 | **gap** | lower edge at 1.65 V passes all 33 corners (worst 1.57 % at SLOW/2.970 V/125 C after #67); upper edge `V_hi,req` needs G4 (`sg13g2-vco#53`, tracked in #86) |
+| 1, 9, 10 | **gap** | benches run on a behavioural VCO/divider stand-in; G4 (`sg13g2-vco#53`), G2 (#173), divider (#97/#199); tracked in #86. A stand-in envelope is never reported as a pass |
+| 8 | **gap** | method L partial (in-band inputs #252/#253), method T not run (G6, #88); tracked in #86 |
+| 11 | **fail on recorded revisions, gap open** | November 4 stage 1 had 24/135 dividing corners at 22.41–24.07 mW. November 10 stage 2 had 15/18 at 50 MHz (8/9 at 3.630 V). The subtotal reached 31.77 mW against 20 mW. Loop power still needs a rerun after the prescaler change. [Stage 1 record](loop-power/records/20261104-stage1-complete-135.md) · [Stage 2 results](#stage-2-on-november-10-revision-2022314) |
 
 The prescaler follower Vce against BVCEO (2.2 V min) at the minimum-supply corner is **not**
-reported: the CP netlist contains no prescaler. It belongs to the envelopes that include it.
+reported in `cp-dc` (the CP netlist contains no prescaler); it is recorded over the supply
+sub-corners in `sim/prescaler-g1/records/` (#68).

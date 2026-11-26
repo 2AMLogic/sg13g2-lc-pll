@@ -1,0 +1,2001 @@
+
+Note: Compatibility modes selected: hs a
+
+Warning: m=xx on .subckt line will override multiplier m hierarchy!
+
+Warning: redefinition of .subckt nand2_hv, ignored
+Warning: redefinition of .subckt inv_hv, ignored
+
+Circuit: * klt sim -- generated corner deck, do not edit
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xd1.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xd1.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xd1.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xd1.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xd2.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xd2.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xd2.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xd2.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xd3.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xd3.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xd3.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xd3.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xd4.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xd4.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xd4.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xd4.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xd5.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xd5.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xd5.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xd5.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xn1.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xn1.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xn1.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xn1.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xn1.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xn1.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xn1.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xn1.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xout.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xout.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xout.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xout.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xd1.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xd1.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xd1.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xd1.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xd2.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xd2.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xd2.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xd2.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xd3.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xd3.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xd3.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xd3.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xd4.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xd4.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xd4.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xd4.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xd5.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xd5.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xd5.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xd5.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xn1.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xn1.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xn1.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xn1.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xn1.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xn1.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xn1.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xn1.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xout.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xout.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xout.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xout.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xlu.xis.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xlu.xis.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xlu.xis.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xlu.xis.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xlu.xir.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xlu.xir.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xlu.xir.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xlu.xir.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xlu.xnq.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xlu.xnq.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xlu.xnq.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xlu.xnq.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xlu.xnq.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xlu.xnq.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xlu.xnq.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xlu.xnq.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xlu.xnqb.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xlu.xnqb.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xlu.xnqb.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xlu.xnqb.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xlu.xnqb.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xlu.xnqb.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xlu.xnqb.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xlu.xnqb.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xld.xis.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xld.xis.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xld.xis.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xld.xis.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xld.xir.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xld.xir.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xld.xir.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xld.xir.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xld.xnq.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xld.xnq.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xld.xnq.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xld.xnq.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xld.xnq.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xld.xnq.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xld.xnq.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xld.xnq.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xld.xnqb.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xld.xnqb.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xld.xnqb.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xld.xnqb.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xld.xnqb.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xld.xnqb.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xld.xnqb.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xld.xnqb.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xnr.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xnr.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xnr.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xnr.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xnr.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xnr.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xnr.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xnr.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xi1.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xi1.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xi1.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xi1.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xi1b.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xi1b.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xi1b.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xi1b.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xi2.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xi2.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xi2.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xi2.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn1.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn1.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn1.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn1.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn1.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn1.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn1.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn1.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn2.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn2.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn2.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn2.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn2.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn2.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn2.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn2.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn3.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn3.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn3.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn3.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn3.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn3.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn3.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn3.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn4.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn4.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn4.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn4.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn4.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn4.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn4.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn4.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xdw.xi1.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xdw.xi1.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xdw.xi1.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xdw.xi1.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xdw.xi2.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xdw.xi2.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xdw.xi2.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xdw.xi2.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xdw.xi3.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xdw.xi3.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xdw.xi3.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xdw.xi3.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xdw.xi4.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xdw.xi4.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xdw.xi4.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xdw.xi4.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xnw.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xnw.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xnw.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xnw.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xnw.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xnw.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xnw.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xnw.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xiw.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.6 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xiw.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.6 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xiw.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.6 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xiw.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.6 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xmpd:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60 t ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xmpd:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60 t ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xsch.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xsch.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xsch.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xsch.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xsch.xmp3:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xsch.xmp3:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xsch.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xsch.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xsch.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xsch.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xsch.xmn3:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xsch.xmn3:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Reset re-loads circuit * klt sim -- generated corner deck, do not edit
+
+Circuit: * klt sim -- generated corner deck, do not edit
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xd1.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xd1.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xd1.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xd1.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xd2.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xd2.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xd2.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xd2.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xd3.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xd3.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xd3.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xd3.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xd4.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xd4.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xd4.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xd4.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xd5.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xd5.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xd5.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xd5.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xn1.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xn1.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xn1.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xn1.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xn1.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xn1.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xn1.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xn1.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_up.xout.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_up.xout.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_up.xout.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_up.xout.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xd1.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xd1.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xd1.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xd1.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xd2.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xd2.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xd2.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xd2.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xd3.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xd3.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xd3.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xd3.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xd4.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xd4.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xd4.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xd4.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xd5.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xd5.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xd5.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xd5.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 lev ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xn1.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xn1.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xn1.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xn1.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xn1.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xn1.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xn1.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xn1.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xed_dn.xout.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xed_dn.xout.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xed_dn.xout.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xed_dn.xout.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 le ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xlu.xis.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xlu.xis.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xlu.xis.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xlu.xis.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xlu.xir.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xlu.xir.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xlu.xir.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xlu.xir.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xlu.xnq.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xlu.xnq.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xlu.xnq.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xlu.xnq.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xlu.xnq.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xlu.xnq.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xlu.xnq.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xlu.xnq.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xlu.xnqb.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xlu.xnqb.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xlu.xnqb.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xlu.xnqb.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xlu.xnqb.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xlu.xnqb.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xlu.xnqb.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xlu.xnqb.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xld.xis.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xld.xis.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xld.xis.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xld.xis.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xld.xir.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xld.xir.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xld.xir.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xld.xir.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level= ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xld.xnq.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xld.xnq.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xld.xnq.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xld.xnq.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xld.xnq.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xld.xnq.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xld.xnq.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xld.xnq.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xld.xnqb.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xld.xnqb.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xld.xnqb.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xld.xnqb.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xld.xnqb.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xld.xnqb.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xld.xnqb.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xld.xnqb.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 leve ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xnr.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xnr.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xnr.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xnr.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xnr.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xnr.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xnr.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xnr.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xi1.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xi1.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xi1.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xi1.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xi1b.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xi1b.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xi1b.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xi1b.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xpfd.xi2.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xpfd.xi2.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xpfd.xi2.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xpfd.xi2.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn1.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn1.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn1.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn1.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn1.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn1.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn1.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn1.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn2.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn2.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn2.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn2.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn2.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn2.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn2.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn2.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn3.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn3.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn3.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn3.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn3.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn3.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn3.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn3.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn4.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn4.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xxor.xn4.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xxor.xn4.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn4.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn4.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xxor.xn4.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xxor.xn4.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xdw.xi1.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xdw.xi1.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xdw.xi1.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xdw.xi1.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xdw.xi2.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xdw.xi2.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xdw.xi2.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xdw.xi2.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xdw.xi3.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xdw.xi3.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xdw.xi3.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xdw.xi3.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xdw.xi4.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xdw.xi4.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xdw.xi4.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xdw.xi4.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=1 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xnw.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xnw.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xnw.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xnw.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xnw.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xnw.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xnw.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xnw.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103. ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xiw.xmp:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.6 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xiw.xmp:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.6 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xiw.xmn:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.6 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xiw.xmn:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.6 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xmpd:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103.60 t ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xmpd:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103.60 t ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xsch.xmp1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xsch.xmp1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xsch.xmp2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xsch.xmp2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 349 :
+  .model xld.xsch.xmp3:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 370 :
+  .model xld.xsch.xmp3:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xsch.xmn1:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xsch.xmn1:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xsch.xmn2:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xsch.xmn2:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 240 :
+  .model xld.xsch.xmn3:sg13g2_hv_nmos_psp_rf pspnqs103va type=+1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Warning: Model issue on line 261 :
+  .model xld.xsch.xmn3:sg13g2_hv_pmos_psp_rf pspnqs103va type=-1 level=103 ...
+Unknown model type pspnqs103va - ignored
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+sub!                                         0
+vdd                                        3.3
+ref                                          0
+fb                                           0
+xld.vwin                                     1
+xpfd.xed_up.d1                             3.3
+xpfd.xed_up.d2                     8.88022e-10
+xpfd.xed_up.d3                             3.3
+xpfd.xed_up.d4                     8.88022e-10
+xpfd.xed_up.xd5                            3.3
+xpfd.xed_up.ntmp                           3.3
+xpfd.xed_up.xn1.mid1               8.70163e-11
+xpfd.set_up                        8.88022e-10
+xpfd.xed_dn.d1                             3.3
+xpfd.xed_dn.d2                     8.88022e-10
+xpfd.xed_dn.d3                             3.3
+xpfd.xed_dn.d4                     8.88022e-10
+xpfd.xed_dn.xd5                            3.3
+xpfd.xed_dn.ntmp                           3.3
+xpfd.xed_dn.xn1.mid1               8.70165e-11
+xpfd.set_dn                        8.88022e-10
+xpfd.xlu.sb                                3.3
+xpfd.xlu.rb                                3.3
+xpfd.reset                         8.60883e-10
+up                                 3.55209e-09
+xpfd.net1                                  3.3
+xpfd.xlu.xnq.mid1                  1.77604e-09
+xpfd.xlu.xnqb.mid1                     2.72127
+xpfd.xld.sb                                3.3
+xpfd.xld.rb                                3.3
+dn                                 3.55209e-09
+xpfd.net2                                  3.3
+xpfd.xld.xnq.mid1                  1.77604e-09
+xpfd.xld.xnqb.mid1                     2.72127
+xpfd.reset_raw                             3.3
+xpfd.xnr.mid1                        0.0476395
+xpfd.reset_d1                      8.88022e-10
+xpfd.reset_d2                              3.3
+xld.xxor.n1                                3.3
+xld.xxor.xn1.mid1                    0.0476395
+xld.xxor.n2                                3.3
+xld.xxor.xn2.mid1                  8.70163e-11
+xld.xxor.n3                                3.3
+xld.xxor.xn3.mid1                  8.70163e-11
+xld.err                            3.55209e-09
+xld.xxor.xn4.mid1                  1.77604e-09
+xld.xdw.d1                                 3.3
+xld.xdw.d2                         8.88022e-10
+xld.xdw.d3                                 3.3
+xld.errd                           8.88022e-10
+xld.xdw.xc1.1                      8.88022e-10
+xld.nwide                                  3.3
+xld.xnw.mid1                         0.0476395
+xld.wide                           8.88022e-10
+xld.xrpu.dt                                  0
+xld.xcw.1                                    1
+xld.xsch.np                                3.3
+lock                                       3.3
+xld.xsch.nn                            1.87134
+vh#branch                           1.4203e-06
+vfb#branch                                   0
+vref#branch                                  0
+vdd#branch                        -9.41922e-06
+vsub#branch                                  0
+
+
+No. of Data Rows : 30
+
+  Measurements for Transient Analysis
+
+
+Error: measure  twin_r  trig(TRIG) : out of interval
+ .meas tran twin_r trig v(xld.err) val=    1.650000000000000e+00     rise=1 td=3599000p targ v(xld.errd) val=    1.650000000000000e+00     rise=1 td=3599000p failed!
+
+
+Error: measure  twin_f  trig(TRIG) : out of interval
+ .meas tran twin_f trig v(xld.err) val=    1.650000000000000e+00     fall=1 td=3599000p targ v(xld.errd) val=    1.650000000000000e+00     fall=1 td=3599000p failed!
+
+
+Error: measure  vt_lock_rise_t  when(WHEN) : out of interval
+ .meas tran vt_lock_rise_t when v(lock)=    1.650000000000000e+00     rise=1 td=6060000p failed!
+
+
+Error: measure  vt_lock_fall_t  when(WHEN) : out of interval
+ .meas tran vt_lock_fall_t when v(lock)=    1.650000000000000e+00     fall=1 td=6060000p failed!
+
+q_0_0               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_1               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_2               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_3               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_4               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_5               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_6               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_7               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_8               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_9               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_10              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_11              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_12              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_13              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_14              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_15              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_16              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_17              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_18              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_0_19              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_19              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_18              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_17              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_16              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_15              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_14              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_13              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_12              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_11              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_10              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_9               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_8               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_7               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_6               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_5               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_4               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_3               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_2               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_1               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_1_0               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_2_0               =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_0              =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_0               =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_0               =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_0             =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_0             =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_0              =  0.00000e+00 at=  0.00000e+00
+dmax_0              =  0.00000e+00 at=  0.00000e+00
+q_2_1               =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_1              =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_1               =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_1               =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_1             =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_1             =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_1              =  0.00000e+00 at=  0.00000e+00
+dmax_1              =  0.00000e+00 at=  0.00000e+00
+q_2_2               =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_2              =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_2               =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_2               =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_2             =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_2             =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_2              =  0.00000e+00 at=  0.00000e+00
+dmax_2              =  0.00000e+00 at=  0.00000e+00
+q_2_3               =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_3              =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_3               =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_3               =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_3             =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_3             =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_3              =  0.00000e+00 at=  0.00000e+00
+dmax_3              =  0.00000e+00 at=  0.00000e+00
+q_2_4               =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_4              =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_4               =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_4               =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_4             =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_4             =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_4              =  0.00000e+00 at=  0.00000e+00
+dmax_4              =  0.00000e+00 at=  0.00000e+00
+q_2_5               =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_5              =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_5               =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_5               =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_5             =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_5             =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_5              =  0.00000e+00 at=  0.00000e+00
+dmax_5              =  0.00000e+00 at=  0.00000e+00
+q_2_6               =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_6              =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_6               =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_6               =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_6             =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_6             =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_6              =  0.00000e+00 at=  0.00000e+00
+dmax_6              =  0.00000e+00 at=  0.00000e+00
+q_2_7               =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_7              =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_7               =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_7               =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_7             =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_7             =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_7              =  0.00000e+00 at=  0.00000e+00
+dmax_7              =  0.00000e+00 at=  0.00000e+00
+q_2_8               =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_8              =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_8               =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_8               =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_8             =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_8             =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_8              =  0.00000e+00 at=  0.00000e+00
+dmax_8              =  0.00000e+00 at=  0.00000e+00
+q_2_9               =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_9              =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_9               =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_9               =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_9             =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_9             =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_9              =  0.00000e+00 at=  0.00000e+00
+dmax_9              =  0.00000e+00 at=  0.00000e+00
+q_2_10              =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_10             =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_10              =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_10              =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_10            =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_10            =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_10             =  0.00000e+00 at=  0.00000e+00
+dmax_10             =  0.00000e+00 at=  0.00000e+00
+q_2_11              =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_11             =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_11              =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_11              =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_11            =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_11            =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_11             =  0.00000e+00 at=  0.00000e+00
+dmax_11             =  0.00000e+00 at=  0.00000e+00
+q_2_12              =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_12             =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_12              =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_12              =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_12            =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_12            =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_12             =  0.00000e+00 at=  0.00000e+00
+dmax_12             =  0.00000e+00 at=  0.00000e+00
+q_2_13              =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_13             =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_13              =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_13              =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_13            =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_13            =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_13             =  0.00000e+00 at=  0.00000e+00
+dmax_13             =  0.00000e+00 at=  0.00000e+00
+q_2_14              =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_14             =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_14              =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_14              =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_14            =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_14            =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_14             =  0.00000e+00 at=  0.00000e+00
+dmax_14             =  0.00000e+00 at=  0.00000e+00
+q_2_15              =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_15             =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_15              =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_15              =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_15            =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_15            =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_15             =  0.00000e+00 at=  0.00000e+00
+dmax_15             =  0.00000e+00 at=  0.00000e+00
+q_2_16              =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_16             =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_16              =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_16              =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_16            =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_16            =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_16             =  0.00000e+00 at=  0.00000e+00
+dmax_16             =  0.00000e+00 at=  0.00000e+00
+q_2_17              =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_17             =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_17              =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_17              =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_17            =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_17            =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_17             =  0.00000e+00 at=  0.00000e+00
+dmax_17             =  0.00000e+00 at=  0.00000e+00
+q_2_18              =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_18             =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_18              =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_18              =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_18            =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_18            =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_18             =  0.00000e+00 at=  0.00000e+00
+dmax_18             =  0.00000e+00 at=  0.00000e+00
+q_2_19              =   0.00000e+00 from=  nan to=  1.00000e-09
+werr_19             =   0.00000e+00 from=  nan to=  1.00000e-09
+wup_19              =   0.00000e+00 from=  nan to=  1.00000e-09
+wdn_19              =   0.00000e+00 from=  nan to=  1.00000e-09
+wwide_19            =   0.00000e+00 from=  nan to=  1.00000e-09
+werrd_19            =   0.00000e+00 from=  nan to=  1.00000e-09
+wmax_19             =  0.00000e+00 at=  0.00000e+00
+dmax_19             =  0.00000e+00 at=  0.00000e+00
+q_3_19              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_18              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_17              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_16              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_15              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_14              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_13              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_12              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_11              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_10              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_9               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_8               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_7               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_6               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_5               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_4               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_3               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_2               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_1               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_3_0               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_0               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_1               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_2               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_3               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_4               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_5               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_6               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_7               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_8               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_9               =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_10              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_11              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_12              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_13              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_14              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_15              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_16              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_17              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_18              =   0.00000e+00 from=  nan to=  1.00000e-09
+q_4_19              =   0.00000e+00 from=  nan to=  1.00000e-09
+
+ngspice-47 done

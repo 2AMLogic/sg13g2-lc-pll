@@ -8,14 +8,19 @@ N = 8 x clocks + MC-high (prescaler P = 8/9). The run passes if every window aft
 or that has fewer than 4 FB edges is never a pass: verdict FAIL if any converged run gives a wrong N, else INCOMPLETE
 if any is not graded or the report has no corners, else PASS. The same rule combines the part verdicts into the headline.
 
-    divider_corner_record.py --report R.json [--report R2.json ...] --out-dir DIR --id ID --commit SHA
+    divider_corner_record.py --part NAME REPORT REQUEST [--part ...] --out-dir DIR --id ID [--commit SHA]
+
+Each --part carries the request file alongside its report because the record cites that
+file's sha256 for the requested setup.
 """
 import argparse
-import gzip
-import hashlib
 import json
 import sys
 from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parent))
+import record_util as ru  # noqa: E402  (verdict, append-only archive helpers, sim/record_util.py)
 
 LEAD = 0.3e-9
 
@@ -75,13 +80,8 @@ def grade_run(c):
 
 
 def _verdict(states):
-    """One verdict rule for both levels: FAIL dominates, INCOMPLETE for an empty collection or
-    any ungraded row / incomplete part, PASS only for a nonempty collection of passes."""
-    if any(s == "FAIL" for s in states):
-        return "FAIL"
-    if not states or any(s in ("INCOMPLETE", "not-graded") for s in states):
-        return "INCOMPLETE"
-    return "PASS"
+    """One verdict rule for both levels (a row's status, a part's verdict): an ungraded row counts as INCOMPLETE."""
+    return ru.verdict(states, ungraded=("INCOMPLETE", "not-graded"))
 
 
 def grade(report):
@@ -95,12 +95,12 @@ def render(parts, rec_id, commit):
     verdict = _verdict([g["verdict"] for _, g, _, _ in parts])
     out += [f"**Result (simulated, not measured): **{verdict}**: {sum(r['status']=='pass' for r in allrows)} of {len(allrows)} runs divide to the expected N; "
             f"{sum(r['status']=='FAIL' for r in allrows)} wrong, {sum(r['status']=='not-graded' for r in allrows)} not graded.**", ""]
-    out += ["- **Scope**: the real divider chain (`cml2cmos` + counters, 3-bit `acounter`, `design/netlist/divider.spice`) at SLOW (hbt_wcs, mos_ss, cap_wcs), TYP (hbt_typ, mos_tt, cap_typ) and FAST (hbt_bcs, mos_ff, cap_bcs) x -40 / 27 / 125 C, 3.3 V. TYP/27C is the nominal point. Not covered: supply other than 3.3 V, the real prescaler driving the converter (ideal 0.4 Vpp sine at 3.18 V common mode instead), layout, noise, Monte Carlo, N codes other than those listed.",
-            "- **Method**: `klt sim` corner requests (`gen_corner_requests.py`), batch fleet; tran with crossing measurements of `xd.ck`, `fb` and `mc` at 1.65 V; N = 8 x clocks + MC-high clocks per FB window (MC sampled 0.3 ns before each CK edge), required equal to 8 M + A on every window after the first (the first full window is start-up, shown but not graded; VDD, IREF and the input common mode ramp from 0 V over 3 ns and the sine starts at the end of the ramp), >= 4 FB edges. Speed requests: 160 ns, fin 625 / 687.5 MHz (= 5.0 / 5.5 GHz / 8). Count request: 650 ns at 100 MHz.",
+    out += ["- **Scope**: the real divider chain (`cml2cmos` + counters, 3-bit `acounter`, `design/netlist/divider.spice`), 3.3 V. Each part below names its request and sha256 for the requested setup; that part's table is the observed coverage. Not covered: supply other than 3.3 V, the real prescaler driving the converter (ideal 0.4 Vpp sine at 3.18 V common mode instead), layout, noise, Monte Carlo, N codes other than those listed.",
+            "- **Method**: `klt sim` corner requests (`gen_corner_requests.py`), batch fleet; tran with crossing measurements of `xd.ck`, `fb` and `mc` at 1.65 V; N = 8 x clocks + MC-high clocks per FB window (MC sampled 0.3 ns before each CK edge), required equal to 8 M + A on every window after the first (the first full window is start-up, shown but not graded; VDD, IREF and the input common mode ramp from 0 V over 3 ns and the sine starts at the end of the ramp), >= 4 FB edges.",
             f"- **Commit**: `{commit}` of this repository", ""]
     for name, g, rep, req in parts:
         env, rem = rep["environment"], rep["environment"].get("remote", {})
-        out += [f"## {name}", "", f"Request `{req.name}` sha256 `{hashlib.sha256(req.read_bytes()).hexdigest()}`; `ngspice-{env.get('engine_version')}`, job `{rem.get('job_id')}`, {rem.get('instance_type')}, {rem.get('lifecycle')}; verdict **{g['verdict']}**.", "",
+        out += [f"## {name}", "", f"Request `{req.name}` sha256 `{ru.sha256_bytes(req.read_bytes())}`; `ngspice-{env.get('engine_version')}`, job `{rem.get('job_id')}`, {rem.get('instance_type')}, {rem.get('lifecycle')}; verdict **{g['verdict']}**.", "",
                 "| corner | fin (MHz) | M | A | FB edges | first window N (start-up, not graded) | CK/window | MC-high | N | expected N | result |", "|---|---|---|---|---|---|---|---|---|---|---|"]
         for r in g["rows"]:
             out.append("| %s | %g | %d | %d | %s | %s | %s | %s | %s | %d | %s%s |" % (r["corner"], r["fin_mhz"], r["m"], r["a"], r["fb_edges"], r["first_n"], r["ck"], r["mc_hi"],
@@ -117,18 +117,16 @@ def main(argv=None):
     ap.add_argument("--commit", default="unknown")
     a = ap.parse_args(argv)
     rec = Path(a.out_dir) / f"{a.id}-corners.md"
-    if rec.exists():
-        sys.exit(f"records are append-only: {rec} exists")
-    Path(a.out_dir).mkdir(parents=True, exist_ok=True)
+    gzs = [Path(a.out_dir) / f"{a.id}-{name}-klt-report.json.gz" for name, _, _ in a.part]
+    ru.ensure_new(rec, *gzs)
+    raws = [Path(rep).read_bytes() for _, rep, _ in a.part]
     parts = []
-    for name, rep, req in a.part:
-        raw = Path(rep).read_bytes()
-        gz = Path(a.out_dir) / f"{a.id}-{name}-klt-report.json.gz"
-        if gz.exists():
-            sys.exit(f"records are append-only: {gz} exists")
-        gz.write_bytes(gzip.compress(raw, 9, mtime=0))
+    for (name, _, req), raw in zip(a.part, raws):
         r = json.loads(raw)
         parts.append((name, grade(r), r, Path(req)))
+    Path(a.out_dir).mkdir(parents=True, exist_ok=True)
+    for gz, raw in zip(gzs, raws):
+        ru.write_report_gz(gz, raw)
     rec.write_text(render(parts, a.id, a.commit))
     print(rec, [g["verdict"] for _, g, _, _ in parts])
     return 0

@@ -14,6 +14,7 @@ from pathlib import Path
 
 import pytest
 
+import icp_record
 import icp_report
 
 HERE = Path(__file__).resolve().parent
@@ -96,3 +97,75 @@ def test_cli_refuses_an_altered_grid_before_writing(tmp_path, case):
     assert r.returncode != 0, r.stdout + r.stderr
     assert "corner" in (r.stderr + r.stdout)
     assert not out.exists() or not any(out.iterdir())
+
+
+def test_cli_has_no_request_override_so_a_partial_report_cannot_pass(tmp_path):
+    d = _report()
+    _single_row(d)
+    report = tmp_path / "one-corner.json"
+    report.write_text(json.dumps(d))
+    req = icp_report.load_request()
+    first = d["corners"][0]
+    req["corners"]["process"] = [p for p in req["corners"]["process"] if p["name"] == first["process"]]
+    req["corners"]["supply_v"] = {r: [v for v in vs if v == first["supply_v"][r]]
+                                  for r, vs in req["corners"]["supply_v"].items()}
+    req["corners"]["temperature_c"] = [t for t in req["corners"]["temperature_c"]
+                                       if t == first["temperature_c"]]
+    narrowed = tmp_path / "narrowed.request.json"
+    narrowed.write_text(json.dumps(req))
+    out = tmp_path / "out"
+    r = _cli("--report", str(report), "--request", str(narrowed),
+             "--out-dir", str(out), "--id", "t")
+    assert r.returncode != 0, r.stdout + r.stderr
+    assert "unrecognized arguments" in r.stderr
+    assert not out.exists() or not any(out.iterdir())
+
+
+def _narrowed_request(d, tmp_path):
+    """A request copy cut down to the single grid point of the report's first corner."""
+    req = icp_report.load_request()
+    first = d["corners"][0]
+    req["corners"]["process"] = [p for p in req["corners"]["process"] if p["name"] == first["process"]]
+    req["corners"]["supply_v"] = {r: [v for v in vs if v == first["supply_v"][r]]
+                                  for r, vs in req["corners"]["supply_v"].items()}
+    req["corners"]["temperature_c"] = [t for t in req["corners"]["temperature_c"]
+                                       if t == first["temperature_c"]]
+    narrowed = tmp_path / "narrowed.request.json"
+    narrowed.write_text(json.dumps(req))
+    return narrowed
+
+
+def test_writer_derives_the_count_and_grid_from_a_narrowed_request(tmp_path, monkeypatch):
+    d = _report()
+    d["corners"] = d["corners"][:1]
+    report = tmp_path / "one-corner.json"
+    report.write_text(json.dumps(d))
+    monkeypatch.setattr(icp_report, "REQUEST_PATH", _narrowed_request(d, tmp_path))
+    out = tmp_path / "out"
+    assert icp_record.main(["--report", str(report), "--out-dir", str(out), "--id", "t"]) == 0
+    md = (out / "t-icp-corners.md").read_text()
+    assert "1 of 1 corners converged" in md
+    assert "over the 1 supply sub-corners" in md
+    assert "{2.970} V x {SLOW} x {-40} C" in md
+    assert "18 of 18" not in md
+    assert "the 18 supply sub-corners" not in md
+
+
+def test_writer_derives_the_count_from_a_wider_request_grid(tmp_path, monkeypatch):
+    d = _report()
+    req = icp_report.load_request()
+    req["corners"]["temperature_c"] = req["corners"]["temperature_c"] + [85]
+    widened = tmp_path / "widened.request.json"
+    widened.write_text(json.dumps(req))
+    d["corners"] = d["corners"] + [dict(c, temperature_c=85) for c in d["corners"]
+                                   if c["temperature_c"] == -40]
+    report = tmp_path / "24-corner.json"
+    report.write_text(json.dumps(d))
+    monkeypatch.setattr(icp_report, "REQUEST_PATH", widened)
+    out = tmp_path / "out"
+    assert icp_record.main(["--report", str(report), "--out-dir", str(out), "--id", "t"]) == 0
+    md = (out / "t-icp-corners.md").read_text()
+    assert "24 of 24 corners converged" in md
+    assert "over the 24 supply sub-corners" in md
+    assert "{-40, 27, 125, 85} C" in md
+    assert "18 of 18" not in md

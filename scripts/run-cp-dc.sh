@@ -30,7 +30,7 @@ CP_NETLIST="${CP_NETLIST:-${ROOT}/design/netlist/cp.spice}"
 rec_dir cp-dc
 WORK="$(mktemp -d)"; trap 'rm -rf "${WORK}"' EXIT
 
-sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" \
+sed -e "s|@@MODELS_DIR@@|${MODELS}|g" -e "s|@@OSDI_PSP@@|${OSDI_PSP}|g" -e "s|@@OSDI_PSP_NQS@@|${OSDI_PSP_NQS}|g" \
     -e "s|@@CP_NETLIST@@|${CP_NETLIST}|g" -e "s|@@DATA_OUT@@|${WORK}/cp_dc.data|g" \
     "${ROOT}/sim/cp-dc/cp_dc.spice.tmpl" > "${WORK}/cp_dc.spice"
 check_deck_placeholders "${WORK}/cp_dc.spice"
@@ -46,6 +46,7 @@ NG_RC=$?
 set -e
 cp "${WORK}/ngspice.log" "${REC_DIR}/${ID}-ngspice.txt"
 [ -s "${WORK}/cp_dc.data" ] || { echo "run-cp-dc: ngspice produced no data (rc=${NG_RC}); see ${REC_DIR}/${ID}-ngspice.txt" >&2; exit 1; }
+check_no_ignored_models "${REC_DIR}/${ID}-ngspice.txt"
 
 ICP_NOM=200e-6; TOL=2.0
 # cols: V, i(VA), V, i(VMB).  mismatch % = |I_up - I_dn| / I_cp,nom * 100
@@ -77,6 +78,7 @@ CPSHA="$(sha256sum "${CP_NETLIST}" | cut -d' ' -f1)"
   echo "- **Deck**: \`sim/cp-dc/cp_dc.spice.tmpl\` sha256 \`$(sha256sum "${ROOT}/sim/cp-dc/cp_dc.spice.tmpl" | cut -d' ' -f1)\`, placeholder substitution only"
   echo "- **PDK**: IHP-Open-PDK $(jq -r .pdk.release_tag "${PINS}") (model libraries hash-checked against \`sim/pins.json\`); PDK_ROOT \`${PDK_ROOT}\`; PSP103 OSDI \`psp103.osdi\` sha256 \`$(jq -r .psp103.osdi_sha256 "${PINS}")\` (pinned)"
   echo "- **Simulator**: \`${NG_VER}\` (\`${NGSPICE}\`), one local \`ngspice -b\`, exit status ${NG_RC}; scratch \`.spiceinit\` = \`set ngbehavior=hsa\`"
+  echo "- **Model cards**: ngspice log has ${NG_IGNORED_MODELS} 'Unknown model type ... ignored' line(s) (the run is refused otherwise)"
   echo "- **Pin check**: ${NG_PIN_STATUS}"
   echo "- **Commit**: \`${COMMIT}${DIRTY}\` of this repository"
   echo "- **Method**: one \`.dc\` sweep of V_out, 1.0 V to 3.3 V in 0.05 V steps (${NPTS} points). Two copies of \`cp\` in the same deck: copy A has UP=1, DN=0 (I_up = current it sources into the output node); copy B has UP=0, DN=1 (I_dn = current it sinks), its output tied to copy A's by a unity VCVS. IREF = 20 uA into each copy (I_cp = ~10 x IREF; 100-400 uA is IREF 10-40 uA, not exercised here)."
