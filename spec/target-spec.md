@@ -133,7 +133,8 @@ length, window, estimator, and the linear model's inputs.
   the free-running input is the 1/f² line through −105 dBc/Hz @ 1 MHz, a
   target, and every L result says so); the **charge pump** from ngspice
   small-signal `.noise` (method **N** below), reported per C-grid corner,
-  plus the **PFD**'s own UP/DN edge jitter by method T; the
+  plus the **PFD**'s own UP/DN edge jitter by method T (not yet run; needs
+  hand-instantiated `trnoise()` sources, DR-007 §4); the
   **divider/prescaler** by method T on the divider alone (method N is
   withdrawn for it, DR-007 §4); R1 from 4kT·R1; the reference-source phase
   noise as the stated requirement **R-REF-1** (DR-007 §1) — ≤ **−142.0
@@ -174,12 +175,18 @@ method T instead (DR-007 §3, §4).
   error, from the `sim/pfd` transient — not a constant.
 - **Method fields**: DR-007 §5 lists the ten a method-N number carries next to
   it. The duty-cycle gating is a first-order approximation, weakest on the
-  pump's flicker noise; every method-N number says so, and method T is the
-  cross-check that bounds it.
+  pump's flicker noise, where it is a conservative upper bound (about 1/d
+  over-estimate of the flicker part, exact for the white part; DR-007
+  Limits); every method-N number says so. Switching-transient terms are
+  unbounded by that argument; method T is not yet a demonstrated bound.
 
 ### Cross-check: transient noise (method **T**)
 
-- ngspice transient noise on the loop with noise sources enabled; **window
+- **ngspice-47 injects no model-derived transient noise** (`.option TRANNOISE`
+  is a silent no-op; DR-007 §4): a method-T run needs explicitly instantiated
+  `trnoise()` sources per noise-contributing device, densities named and
+  sourced. Not yet run here.
+- ngspice transient noise on the loop with those sources enabled; **window
   ≥ 100 µs** (one period of the 10 kHz lower integration edge), **≥ 8
   non-overlapping windows** averaged (Welch-style) for variance;
   time-interval-error from the output (or the ÷N output) zero crossings.
@@ -195,8 +202,8 @@ method T instead (DR-007 §3, §4).
 |---|---|---|
 | In-band (reference, PFD/CP, divider) | ≤ 5·10⁻⁴ | ⇒ ≤ −98 dBc/Hz at the output in-band ⇒ ≤ −138 dBc/Hz referred to the PFD input |
 | — reference (R-REF-1, external source), DR-007 | ≤ 2·10⁻⁴ | flat ≤ **−142.0 dBc/Hz** at the PFD input over 10 kHz−10 MHz; 450 fs rms |
-| — PFD/CP, DR-007 | ≤ 2·10⁻⁴ | flat ≤ **−142.0 dBc/Hz** at the PFD input; 450 fs rms; method N (pump) + method T (PFD edges) |
-| — divider/prescaler, DR-007 | ≤ 1·10⁻⁴ | flat ≤ **−145.0 dBc/Hz** at the PFD input; 318 fs rms of ÷N-output edge jitter; method T |
+| — PFD/CP, DR-007 | ≤ 2·10⁻⁴ | flat ≤ **−142.0 dBc/Hz** at the PFD input; 450 fs rms; method N (pump) + method T (PFD edges; not yet run) |
+| — divider/prescaler, DR-007 | ≤ 1·10⁻⁴ | flat ≤ **−145.0 dBc/Hz** at the PFD input; 318 fs rms of ÷N-output edge jitter; target, method T not yet run |
 | VCO outside f_c | ≤ 2·10⁻⁴ | 1/f² line at −105 dBc/Hz @ 1 MHz needs f_c ≥ 0.32 MHz |
 | R1, CP shaping, supply/substrate coupling, spur-related | ≤ 2.9·10⁻⁴ (remainder) | allocation |
 

@@ -145,7 +145,7 @@ PFD input:
 
     S_phi,in,pfd(f) = (2 pi f_ref)^2 x S_dt(f)
 
-and is supplied by **method T** on the PFD alone, with section 4's transient-noise method fields. A
+and is supplied by **method T** on the PFD alone, with section 4's transient-noise method fields (not yet run; see section 4, method T-div). A
 `pfd_cp_x_N2` input that carries only the charge-pump part is a **floor** and says so.
 
 ### 4. The divider/prescaler: method N is withdrawn
@@ -167,8 +167,20 @@ as every other term is
 Its method fields are section 4's **method T** fields (window >= 100 us, >= 8 non-overlapping windows,
 estimator named), not method N's.
 
+**Method T has no model-derived device noise on the pinned ngspice-47.** The `.option TRANNOISE` switch
+is accepted silently and injects nothing: a reviewer's probe of a 100 kOhm / 100 kOhm divider under
+`.tran 1n 2u` returned a peak-to-peak of exactly zero over 2008 rows, whereas an explicitly instantiated
+`trnoise()` current source on the same deck produced 8.8 uV p-p (reviewer-measured on this host, nominal,
+a tool-capability probe; recorded in the PR #262 review, **not committed under `sim/`, method T not run
+in this repository**). Transient noise exists in ngspice-47 only through `trnoise()` sources the author
+instantiates by hand, so a method-T run needs one such source per noise-contributing device, with its
+density named and sourced (e.g. from the `.noise` probe). Until a probe settles it, method T is a *named
+but unexercised* method.
+
 **Acceptance against the allocation**: the divider's 1.0e-4 rad^2 share is **318 fs rms** of /N-output edge
-jitter integrated over the in-band noise bandwidth -- the testable number #253 and #88 can grade against.
+jitter integrated over the in-band noise bandwidth. This is the **target** #253 and #88 grade against; it
+is **not yet gradable**, because the method that would produce the number needs hand-instantiated
+`trnoise()` sources (above) and has never been run here.
 
 Whether ngspice's transient noise is affordable on the divider chain alone is **not** settled here. The chain
 takes 5 GHz in and puts 50 MHz out, far cheaper than the full-loop run behind gate G6, but it is still owed a
@@ -221,7 +233,7 @@ With the probe's integral of S_i df from 10 kHz to BW_n = 1.5708 MHz = 1.0424e-1
 
 | t_on | d = t_on/T_ref | sigma_phi,out^2 (rad^2) | flat-equivalent L_in (dBc/Hz) |
 |---|---|---|---|
-| 200 ps | 0.010 | 1.03e-4 | -144.9 |
+| 200 ps | 0.010 | 1.03e-4 | -144.8 |
 | 300 ps | 0.015 | 1.54e-4 | -143.1 |
 | 400 ps | 0.020 | 2.06e-4 | -141.8 |
 | 500 ps | 0.025 | 2.57e-4 | -140.9 |
@@ -238,12 +250,23 @@ its source.
 
 ## Limits
 
-- **The gating model d x S_i is the textbook duty-cycle approximation**, derived for a *white*, stationary
-  process gated by a periodic window. The probe shows this charge pump is flicker-dominated over most of the
-  in-band range, and that is where the approximation is weakest: periodically switched flicker noise folds and
-  upconverts across harmonics of f_ref rather than simply scaling by d. ngspice has no periodic-noise analysis
-  to do better (`spec/target-spec.md:119`). A method-N number is therefore a **first-order estimate with a
-  bias of unknown sign**, and must say so; section 4's method-T cross-check is what bounds the error.
+- **The gating model d x S_i is a first-order duty-cycle approximation, and for the flicker portion it is a
+  conservative upper bound.** Gating a stationary current noise by a periodic window with duty d and
+  Fourier coefficients c_k gives S_g(f) = sum_k |c_k|^2 S_i(f - k f_ref). The k = 0 term is d^2 S_i(f) -- the
+  only term that reaches baseband for slowly varying noise, since flicker has no energy near k f_ref; the
+  k != 0 terms fold in the white floor, (d - d^2) S_white. So S_g(f) ~ d^2 S_flicker(f) + d S_white, and
+  d x S_i(total) over-estimates the flicker part by 1/d while being exact for the white part. This pump is
+  current-steering (section 3): the tails conduct continuously and the switches route the current, a
+  stationary flicker current only routed, which is the c_0 = d case. On the probe's integral (a K/f + W fit
+  splits it roughly 70-75 % flicker / 25-30 % white, d = 0.01945 at t_on = 389 ps) the two-term form gives
+  t_on of about 1.23 ns for the pump's 2.0e-4 rad^2 share and about 2.6 ns for the whole 5.0e-4, against
+  389 ps and 972 ps under d x S_i: the table above is **pessimistic by roughly 3x**, not unbiased. This is
+  re-derivation plus arithmetic on the committed probe log, not a simulation, and the split is a fit
+  (+4.6 % on the measured integral), so treat the ratios as approximate. ngspice has no periodic-noise
+  analysis to do better (`spec/target-spec.md:119`). A method-N number is a **first-order estimate whose
+  flicker part is an upper bound**, and must say so.
+- **The genuinely unknown-sign terms** are the next bullet's switching transients: they are not bounded by
+  the duty-cycle argument, and no cross-check in this record bounds them while method T is unexercised.
 - `.noise` about the overlap point ignores the switching transients at the edges of the window -- charge
   injection, clock feedthrough, the finite rise of the steering switch -- all of which are large-signal.
 - The evidence is **one corner and one operating point**. Nothing here is a C-grid grade.
