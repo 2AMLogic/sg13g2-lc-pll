@@ -4,6 +4,8 @@ Chronological record of merged PRs and closed issues, maintained by the Guide tr
 
 ### 2026-11-26
 
+- **PR #420**: test(lvs): refuse unparseable envelopes in the freshness gate
+- **Issue #419** (closed): scripts/test-layout-top.sh: lvs_fresh_check silently skips an LVS envelope whose JSON will not parse
 - **Issue #487** (closed): Decouple lock-detector ramp timing from measurement-card generation
 - **PR #490**: refactor: compute lock-detector ramp timing directly
 
