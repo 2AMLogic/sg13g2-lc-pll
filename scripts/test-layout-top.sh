@@ -56,24 +56,9 @@ expect "attestation pin == provenance output.sha256" ok bash -c \
 # covered the moment it lands. Nothing here re-runs a compare or touches the PDK: the check
 # needs only the report bytes and the stream bytes (`klt lvs --check` stays the fuller probe).
 LVS_STREAM_SHA="$(sha256sum "${G}" | cut -d' ' -f1)"
-lvs_fresh_check() { local root="$1" stream="$2" f t rel pin found=0
-  while IFS= read -r -d '' f; do
-    t="$(jq -r '.layout | type' "${f}" 2>/dev/null)" || continue
-    case "${t}" in
-      string) rel="$(realpath -m --canonicalize-missing --relative-to="${root}" \
-        "${f%/*}/$(jq -r '.layout' "${f}")")" ;;
-      object) rel=""; [ "$(jq -r '.layout.scope // ""' "${f}")" = repo ] \
-        && rel="$(jq -r '.layout.path // ""' "${f}")" ;;
-      *) continue ;;
-    esac
-    [ "${rel}" = layout/top.gds ] || continue
-    found=$((found+1))
-    pin="$(jq -r '.environment.layout_sha256 // ""' "${f}")"
-    [ -n "${pin}" ] || { echo "lvs-fresh: ${f} records no environment.layout_sha256; refusing"; return 1; }
-    [ "${pin}" = "${stream}" ] || { echo "lvs-fresh: ${f} pins layout sha256 ${pin} != stream ${stream}; refusing"; return 1; }
-  done < <(find "${root}/layout/lvs" -name '*.lvs.json' -print0 | sort -z)
-  [ "${found}" -gt 0 ] || { echo "lvs-fresh: no *.lvs.json under ${root}/layout/lvs names the integrated GDS; refusing"; return 1; }
-  echo "lvs-fresh: ${found} committed report(s) pin the shipped stream ${stream}"; }
+lvs_fresh_check() {
+  "${PY}" -I "${ROOT}/scripts/lvs_fresh_check.py" "$@"
+}
 expect "committed LVS envelopes pin the shipped stream" ok lvs_fresh_check "${ROOT}" "${LVS_STREAM_SHA}"
 
 # layout/gen_integrated.py's digest() is billed as writer-independent, so a KLayout read->write->read
@@ -246,5 +231,51 @@ if [ "${rc}" = 0 ] && [ "${d}" = "${base}" ] && [[ "${base}" =~ ^lvs-fresh:\ [1-
   echo "PASS LVS input recorded as a report-relative string still resolves and counts"; pass=$((pass+1))
 else
   echo "FAIL report-relative string form (rc=${rc}): ${d}"; bad=$((bad+1))
+fi
+# #419: each invalid envelope must be refused by name. Appending {} to a report makes its
+# envelope invalid, while adding {} as a separate file must preserve the baseline count.
+mkdir -p "${T}/lvsbad/layout" "${T}/lvsempty/layout" "${T}/lvsws/layout" "${T}/lvsbadtop/layout" "${T}/lvsnonrep/layout"
+cp -r "${ROOT}/layout/lvs" "${T}/lvsbad/layout/"
+cp -r "${ROOT}/layout/lvs" "${T}/lvsempty/layout/"
+cp -r "${ROOT}/layout/lvs" "${T}/lvsws/layout/"
+cp -r "${ROOT}/layout/lvs" "${T}/lvsbadtop/layout/"
+cp -r "${ROOT}/layout/lvs" "${T}/lvsnonrep/layout/"
+printf '{ this is not json' > "${T}/lvsbad/layout/lvs/cells/lcpll_cp/lcpll_cp.lvs.json"
+: > "${T}/lvsempty/layout/lvs/top.lvs.json"
+printf '\n   \n' > "${T}/lvsws/layout/lvs/top.lvs.json"
+bad_top="${T}/lvsbadtop/layout/lvs/top.lvs.json"
+printf '\n{}\n' >> "${bad_top}"
+printf '{}' > "${T}/lvsnonrep/layout/lvs/not-a-report.lvs.json"
+expect "NEG malformed LVS envelope refused as not valid JSON, report named" \
+  "refuse:lvs-fresh: .*lcpll_cp\.lvs\.json is not valid JSON; refusing" \
+  lvs_fresh_check "${T}/lvsbad" "${LVS_STREAM_SHA}"
+expect "NEG empty LVS envelope refused, report named" \
+  "refuse:lvs-fresh: .*top\.lvs\.json is empty; refusing" \
+  lvs_fresh_check "${T}/lvsempty" "${LVS_STREAM_SHA}"
+expect "NEG whitespace-only LVS envelope refused as empty, report named" \
+  "refuse:lvs-fresh: .*top\.lvs\.json is empty; refusing" \
+  lvs_fresh_check "${T}/lvsws" "${LVS_STREAM_SHA}"
+expect "NEG second JSON value in an LVS report refused, report named" \
+  "refuse:lvs-fresh: .*top\.lvs\.json is not valid JSON; refusing \(Extra data" \
+  lvs_fresh_check "${T}/lvsbadtop" "${LVS_STREAM_SHA}"
+sed -E 's/("schema_version": )([0-9]+)/\10\2/' "${ROOT}/layout/lvs/top.lvs.json" > "${bad_top}"
+expect "NEG leading zero in an LVS report refused, report named" \
+  "refuse:lvs-fresh: .*top\.lvs\.json is not valid JSON; refusing" \
+  lvs_fresh_check "${T}/lvsbadtop" "${LVS_STREAM_SHA}"
+LC_ALL=C sed $'s/"engine": "./"engine": "\xff/' "${ROOT}/layout/lvs/top.lvs.json" > "${bad_top}"
+expect "NEG invalid UTF-8 in an LVS report refused, report named" \
+  "refuse:lvs-fresh: .*top\.lvs\.json is not valid JSON; refusing" \
+  lvs_fresh_check "${T}/lvsbadtop" "${LVS_STREAM_SHA}"
+for invalid_number in 01 NaN Infinity -Infinity; do
+  printf '%s\n' "${invalid_number}" > "${bad_top}"
+  expect "NEG standalone ${invalid_number} refused before report discovery" \
+    "refuse:lvs-fresh: .*top\.lvs\.json is not valid JSON; refusing" \
+    lvs_fresh_check "${T}/lvsbadtop" "${LVS_STREAM_SHA}"
+done
+d="$(lvs_fresh_check "${T}/lvsnonrep" "${LVS_STREAM_SHA}" 2>&1)"; rc=$?
+if [ "${rc}" = 0 ] && [ "${d}" = "${base}" ]; then
+  echo "PASS a valid non-report *.lvs.json is skipped without changing the count"; pass=$((pass+1))
+else
+  echo "FAIL non-report envelope changed the result (rc=${rc}): ${d}"; bad=$((bad+1))
 fi
 expect_summary || exit 1
