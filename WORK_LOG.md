@@ -2,6 +2,11 @@
 
 Chronological record of merged PRs and closed issues, maintained by the Guide triage agent.
 
+### 2026-11-26
+
+- **Issue #487** (closed): Decouple lock-detector ramp timing from measurement-card generation
+- **PR #490**: refactor: compute lock-detector ramp timing directly
+
 ### 2026-11-25
 
 - **Issue #485** (closed): Simplify vco-prescaler-load and cp-dc make_requests.py: collapse 4 writer functions and guard module entry points
