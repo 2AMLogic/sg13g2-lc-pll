@@ -151,12 +151,32 @@ already a separate model term (`r1_thermal`); including the filter here would do
 
 **Formula.** With d = t_on / T_ref the fraction of each reference period the leg's switch is on
 (T_ref = 1/f_ref = 20 ns at row 2's 50 MHz), the time-averaged PSD of a white process gated on for a fraction
-d of each period is d times the ungated PSD, and the pump's gain from phase error at the PFD input to average
-output current is I_cp / (2 pi) A/rad. So
+d of each period is d times the ungated PSD, and the detector's gain from phase error at the PFD input to
+average output current is K_pd = I_eff / (2 pi) A/rad. So
 
-    S_phi,in(f) = S_i(f) x (t_on / T_ref) x (2 pi / I_cp)^2      [rad^2/Hz]
+    S_phi,in(f) = S_i(f) x (t_on / T_ref) x (2 pi / I_eff)^2     [rad^2/Hz]
     L_in(f)     = S_phi,in(f) / 2                                [1/Hz, single sideband]
     L_in,dBc    = 10 log10(L_in(f))                              [dBc/Hz at the PFD input]
+
+**One detector gain for every conversion: I_eff.** Average output current is Q / T_ref and input phase is
+2 pi tau / T_ref, so the local gain is K_pd = (dQ/dtau) / (2 pi), and
+
+    I_eff = dQ/dtau at tau_0 and the corner's lock V_ctrl            [A = C/s]
+
+is the effective detector current. The pump conversion above, the PFD conversion below (Delta_t = dQ / I_eff)
+and the method-L transfer all use this one K_pd. A graded corner sets the model's `I_cp` input to I_eff, so
+the noise terms and the loop gain share the same plane. I_eff is not assumed equal to the design current:
+with both legs on, the net current changes with delay only while the pulses overlap, and a charge-balanced
+pump sits where the slope is set by the pulse edges, not by the DC leg current. **Source:** the local
+charge-versus-delay sweep (`sim/pfd`), the central difference of Q across tau_0 from the two bracketing
+points, at the corner and V_ctrl being graded. For the nominal record the bracket (940 ps: -0.0478 uA;
+950 ps: +0.0437 uA, 20 ns period) gives (0.0437 + 0.0478) uA x 20 ns / 10 ps = 183 uA, and
+(200 / 183)^2 = 1.194 times the 200 uA design-current result. The probe's 196.273 uA sourcing-leg DC current
+would still differ by about 15 %, so neither the design current nor a leg's DC current stands in for I_eff.
+Using the design I_cp is allowed only as a stated approximation: the record then carries
+(I_cp / I_eff)^2 from the sweep as the bound on the input-referred error, and a grade uses the product. The
+200 uA brick-wall illustration in the Evidence section keeps its stated assumption of I_cp = 200 uA and is
+not a grade.
 
 The both-on spectrum includes the correlation between the sourcing and sinking legs through their shared
 bias. For unequal pulses, read their **actual overlap** and their UP-only and DN-only durations from the
@@ -268,7 +288,8 @@ Next to the number, per CLAUDE.md "Noise needs its method". A number missing any
    netlist revision do not substitute; cite the run that produced them and its netlist hash.
 4. **Analysis** and its frequency range and point density (`.noise`, 10 kHz-10 MHz, points per decade).
 5. **The quantity read**, its node, and **its units**, with the calibration that fixed the units.
-6. **The conversion formula with the numeric value of every input**: I_cp, T_ref (= 1/f_ref), N and
+6. **The conversion formula with the numeric value of every input**: I_eff = dQ/dtau at tau_0 (in A) with its source record, corner, V_ctrl and tau_0 bracket, or the design
+   I_cp with the bound (I_cp / I_eff)^2; T_ref (= 1/f_ref), N and
    the durations and VOUT spectra (or bounds) for the occupied steering states.
 7. **The source of the durations**: the record, corner, charge-balance offset and UP/DN overlap.
 8. **What is excluded**: the PFD's edge-jitter term, the loop filter, and anything else not in the deck.

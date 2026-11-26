@@ -18,8 +18,10 @@ python3 -m venv .venv && .venv/bin/pip install numpy pytest     # once
 PYTHON=.venv/bin/python scripts/run-jitter.sh                    # writes records/<date>-<sha>.md
 PYTHON=.venv/bin/python scripts/test-jitter-negative.sh          # C2 = C1 must fail the gate; inputs must be stated
 
-# With the external reference mask from DR-007:
-NOISE_INPUTS=sim/jitter/r-ref-1.json PYTHON=.venv/bin/python scripts/run-jitter.sh
+# R-REF-1: check the external reference mask with the replay in DR-007 section 1
+# (python3 sim/loop-model/loop_model.py --noise-inputs sim/jitter/r-ref-1.json ..., then its jq gate).
+# That replay is the verified route. The generator's own record text below does not attribute
+# the in-band terms to a method: PFD and divider timing are method T (DR-007 sections 3-4).
 ```
 
 With `NOISE_INPUTS` set the record states the inputs rather than only naming the file. It gives the file's

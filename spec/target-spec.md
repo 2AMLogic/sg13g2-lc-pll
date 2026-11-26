@@ -172,8 +172,11 @@ method T instead (DR-007 §3, §4).
   amplitude density (calibrate the units; see `sim/noise-probe/`). The loop
   filter is **not** in the deck: the method-L model applies the loop shaping,
   and R1's thermal noise is already a separate term.
-- **Conversion to the model's input**: S_φ,in(f) = S_i(f)·(t_on/T_ref)·(2π/I_cp)²,
-  L_in(f) = S_φ,in(f)/2, referred to the PFD input. **t_on is a per-corner
+- **Conversion to the model's input**: S_φ,in(f) = S_i(f)·(t_on/T_ref)·(2π/I_eff)²,
+  L_in(f) = S_φ,in(f)/2, referred to the PFD input. **I_eff = dQ/dτ at τ₀** (detector gain
+  (dQ/dτ)/2π), read from the `sim/pfd` charge-versus-delay sweep at the graded corner and
+  lock V_ctrl; the PFD conversion and the method-L I_cp input use the same value. The design
+  I_cp is allowed only with its bound (I_cp/I_eff)² stated (DR-007 §3). **t_on is a per-corner
   input with a named source** — the UP/DN pulse width at **charge balance**
   (the per-corner REF–FB offset τ₀ where average pump charge per cycle is zero
   at the lock V_ctrl), from the `sim/pfd` sweep. For unequal pulses use the
@@ -318,7 +321,7 @@ The loop is graded on the **same grid** as the VCO so the two are comparable.
 ## Appended updates (ratified text above is unchanged)
 
 - **Section 4 method text, edited in place (PR #262, DR-007).** No ratified *row* changes, and rows 1-13, the
-  5 / 2 / 2.9 e-4 in-band / reference-spur / other split and the -138 dBc/Hz total are untouched. What changed is
+  5 / 2 / 2.9 e-4 in-band / VCO outside f_c / other split and the -138 dBc/Hz total are untouched. What changed is
   section 4's method prose, which DR-001 ratified as method, not as a row: the method-L "Inputs" bullet now names
   the reference term's source and its value, a "Component noise: ngspice `.noise` (method **N**)" subsection is
   added, and the in-band budget line gains three sub-rows carrying DR-001's 5e-4 rad^2 split
