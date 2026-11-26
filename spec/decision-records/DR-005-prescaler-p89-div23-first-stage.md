@@ -180,7 +180,7 @@ This follow-up does not close the divider grading. This PR's own divider record,
 - **Appended note (issue #197), simulated counter evidence at 125 °C.** The ramped-start grid produced 47 expected divides and
   seven hot stalls at 3.3 V. The [internal traces](../../sim/divider-elab/records/20261110-3f59e40-hot-stall-trace.md) cover
   two M = 12, A = 4 units at 0.8 Vpp differential (0.4 Vpp per pin), SLOW at 625 MHz and TYP at 687.5 MHz. In each,
-  the buffered clock kept toggling. The single `DT` pulse fell between successive rising edges of `CKL`, `TC` stayed at or below
+  the buffered clock kept toggling. The single `DT` pulse fell between successive rising edges of `CKL`, `TC` peaked at about
   0.03 V, and `FB` had no rising edge from 8 to 30 ns. The evidence leaves the setup hypothesis and the causes of the
   other five stalls open. The stage-2 corner gate stays open at 625 and 687.5 MHz, including the required 5.0 GHz channel
   at SLOW/125 °C. [Issue #199](https://github.com/2AMLogic/sg13g2-lc-pll/issues/199) tracks the design fix and post-fix grid.

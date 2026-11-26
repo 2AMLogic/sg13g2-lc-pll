@@ -1,6 +1,6 @@
 # Divider hot-corner stall trace 20261110-3f59e40 (issue #197)
 
-**Simulation result.** Seven of 54 ramped-start corner runs showed just one startup feedback edge. Two of those seven were traced internally. In each trace the M-counter terminal-count decode (`DT`) pulsed high entirely between successive rising edges of the buffered clock (`CKL`). The first stage to miss the pulse was `XM.XFT`. Its output (`TC`) stayed at or below 0.03 V and the feedback output (`FB`) had no rising edge in the 8–30 ns window. The cause of the other five stalls is open.
+**Simulation result.** Seven of 54 ramped-start corner runs showed just one startup feedback edge. Two of those seven were traced internally. In each trace the M-counter terminal-count decode (`DT`) pulsed high entirely between successive rising edges of the buffered clock (`CKL`). The first stage to miss the pulse was `XM.XFT`. Its output (`TC`) peaked at about 0.03 V and the feedback output (`FB`) had no rising edge in the 8–30 ns window. The cause of the other five stalls is open.
 
 Both traces used the `cml2cmos`, `mcounter` and `acounter` chain at M = 12, A = 4, 3.3 V and 125 °C. The SLOW run used 625 MHz (hbt_wcs, mos_ss, cap_wcs, res_wcs) and the TYP run used 687.5 MHz (hbt_typ, mos_tt, cap_typ, res_typ).
 
@@ -17,7 +17,7 @@ Both traces used the `cml2cmos`, `mcounter` and `acounter` chain at M = 12, A = 
 | `ckl` (buffered counter clock) | 0.09 to 3.32 V, 14 rises | 0.10 to 3.31 V, 15 rises |
 | M counter `q0` | changes every ckl period (13 crossings) | changes every ckl period |
 | `dt` (terminal-count decode) | **one pulse: rise 26.571 ns, fall 27.531 ns** | **one pulse: rise 21.518 ns, fall 22.398 ns** |
-| `tc` (XFT output) | **never above 0.03 V** | **never above 0.03 V** |
+| `tc` (XFT output) | **peak about 0.03 V** | **peak about 0.03 V** |
 | `fb`, `mc` | `fb` 0 rises; `mc` 1 fall (19.2 ns) | `fb` 0 rises; `mc` 1 fall |
 
 The converter output (`ck`), buffered clock (`ckl`) and observed counter bit (`q0`) kept toggling. The following times use the 1.65 V crossing on each signal.
