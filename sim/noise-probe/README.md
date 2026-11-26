@@ -1,6 +1,6 @@
 # sim/noise-probe
 
-One feasibility probe behind
+The method-N feasibility probe behind
 [DR-007](../../spec/decision-records/DR-007-reference-noise-and-method-n.md): does
 ngspice-47's small-signal `.noise` return device noise for the model families this loop's
 switching blocks use, and in what units?
@@ -14,7 +14,19 @@ PFD/CP term -- is **issue #253**, and nothing here is a method-N result.
 
 `records/` is dated and append-only.
 
-## Reproduce
+## Transient source check
+
+Run `ngspice -n -b sim/noise-probe/trannoise.spice` from the repository root.
+The deck places two identical 100 kΩ dividers on a 1 V DC rail at 27 °C under
+`.option TRANNOISE=1`. Only the second has an explicit `trnoise(40p 1n 0 0)`
+current source. It takes the peak-to-peak voltage of each midpoint over the same 2 µs.
+The ngspice-47 run produced 0 V and 8.95 µV, respectively. The random span can
+vary on replay. The check is zero span on the first midpoint and nonzero span on
+the second. This tool check uses ideal components and an illustrative source
+amplitude. The PFD and divider still need calibrated noise sources and timing
+runs for method T. [Simulated output](records/20261126-083942-a8f665e-trannoise.txt)
+
+## Reproduce the method-N probe
 
 Needs an `ihp-sg13g2` install and `ngspice`. Substitute the placeholders by hand (there is
 no driver script on purpose -- a driver would make this a bench):

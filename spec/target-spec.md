@@ -140,7 +140,8 @@ length, window, estimator, and the linear model's inputs.
   reference**, R-REF-1 requires a flat SSB mask over 10 kHz−10 MHz at every
   C-grid temperature. Size it for the largest method-L noise bandwidth
   across the designed grid so the reference contributes ≤ 2·10⁻⁴ rad²
-  everywhere. The full 25-point committed filter sweep gives **−148.0 dBc/Hz**.
+  everywhere. With the filter elements held nominal, the 25-point design
+  sweep gives **−148.0 dBc/Hz**. [Method-L sweep record](../sim/jitter/records/20261126-083754-a8f665e-r-ref-1.json)
   Use the mask or the source's documented spectrum in method L (DR-007 §1–2).
   Every input is single-sideband dBc/Hz **referred to the PFD input**, or
   states its conversion to that plane (DR-007 §2).
@@ -156,7 +157,7 @@ Defined by [DR-007](decision-records/DR-007-reference-noise-and-method-n.md),
 which **narrows method N to the charge pump**. The PFD and the
 divider/prescaler have no DC operating point that represents the edge their
 noise acts on — a latched `.op` solution carries no path to output-edge
-timing — so `.noise` is not meaningful for them and their terms come from
+timing — so a single static `.noise` run cannot supply their terms. They come from
 method T instead (DR-007 §3, §4).
 
 - **Operating point**: the `.op` solution of `design/netlist/cp.spice` with
@@ -193,10 +194,12 @@ method T instead (DR-007 §3, §4).
 
 ### Cross-check: transient noise (method **T**)
 
-- **ngspice-47 injects no model-derived transient noise** (`.option TRANNOISE`
-  is a silent no-op; DR-007 §4): a method-T run needs explicitly instantiated
-  `trnoise()` sources per noise-contributing device, densities named and
-  sourced. Not yet run here.
+- **Device noise sources** must be instantiated explicitly on ngspice-47.
+  The resistor probe with `.option TRANNOISE=1` gave zero transient noise
+  until a source was supplied. For each device, calibrate its noise over
+  its switching trajectory or bound the error of a stationary approximation
+  (DR-007 §4). Method T on the PLL blocks is still unrun.
+  [Transient probe result](../sim/noise-probe/records/20261126-083942-a8f665e-trannoise.txt)
 - ngspice transient noise on the loop with those sources enabled; **window
   ≥ 100 µs** (one period of the 10 kHz lower integration edge), **≥ 8
   non-overlapping windows** averaged (Welch-style) for variance;

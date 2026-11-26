@@ -1,0 +1,304 @@
+{
+  "schema_version": 1,
+  "kind": "model-run",
+  "status": "pass",
+  "method": "Method L (simulated, not measured). External 50 MHz reference at the PFD input, N = 100. Shape flat one-sided SSB density L by N^2 |G/(1+G)|^2 and integrate twice the result from 10 kHz to 10 MHz using the model's log-frequency trapezoid, 30 points per decade. Pass applies only to the reference variance on this design grid.",
+  "provenance": {
+    "model_commit": "a8f665e3cab04480b1a5c931e2d08e8ac3644396",
+    "model": {
+      "path": "sim/loop-model/loop_model.py",
+      "content_hash": "sha256:05a414f614af64e49952339b5ea6dfd73a7b9914e69153728bc31108b44a916b"
+    },
+    "filter": {
+      "path": "sim/loop-model/loop-filter.json",
+      "content_hash": "sha256:4caddf618beb06cdd374c1273c555203666be51ad336449efd18f3f3f037ad3d"
+    },
+    "input": {
+      "path": "sim/jitter/r-ref-1.json",
+      "content_hash": "sha256:60b23c52e4dca6585f37d5a5e63ebddd0bc67cf78d84425eb040104bff162e77"
+    }
+  },
+  "loop_filter": {
+    "r1_ohm": 7035.647142611697,
+    "c1_f": 9.048489207366109e-11,
+    "c2_f": 6.032326138244074e-12,
+    "r3_ohm": 7035.647142611697,
+    "c3_f": 2.827652877301909e-12
+  },
+  "measurements": [
+    {
+      "name": "reference_x_N2",
+      "unit": "rad^2",
+      "limits": {
+        "max": 0.0002
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "400uA/606MHz_per_V",
+        "value": 0.00019604418840791759,
+        "margin": 3.955811592082424e-06
+      }
+    }
+  ],
+  "sizing": {
+    "b_eff_from_flat_input": "reference_x_N2_rad2 / (2 N^2 10^(mask_dbc_per_hz/10))",
+    "max_grid_b_eff_hz": 6184776.025931728,
+    "max_grid_corner_id": "400uA/606MHz_per_V",
+    "unrounded_limit_dbc_per_hz": -147.91323976808602,
+    "rounding": "Floor to the next more negative tenth of a dB when between tenths.",
+    "mask_dbc_per_hz": -148.0
+  },
+  "not_covered": "R1, R3, C1, C2 and C3 are held nominal across all 25 design points. No PVT or temperature variation of the filter, realized I_cp/Kvco corner pairing, reference-buffer noise, oscillator qualification or complete row 8 result. The binding point fails row 5 independently.",
+  "corners": [
+    {
+      "corner_id": "100uA/381MHz_per_V",
+      "icp_a": 0.0001,
+      "kvco_hz_per_v": 381000000.0,
+      "f_c_hz": 453161.21041178965,
+      "pm_deg": 51.40979339525045,
+      "reference_x_N2_rad2": 3.627435155046613e-05,
+      "b_eff_hz": 1144378.4263511563,
+      "status": "pass"
+    },
+    {
+      "corner_id": "100uA/430MHz_per_V",
+      "icp_a": 0.0001,
+      "kvco_hz_per_v": 430000000.0,
+      "f_c_hz": 499844.83924625756,
+      "pm_deg": 52.729779554363105,
+      "reference_x_N2_rad2": 3.934026410998065e-05,
+      "b_eff_hz": 1241101.4286991442,
+      "status": "pass"
+    },
+    {
+      "corner_id": "100uA/480MHz_per_V",
+      "icp_a": 0.0001,
+      "kvco_hz_per_v": 480000000.0,
+      "f_c_hz": 547532.8492547951,
+      "pm_deg": 53.749164550728544,
+      "reference_x_N2_rad2": 4.249987943394407e-05,
+      "b_eff_hz": 1340780.5534184885,
+      "status": "pass"
+    },
+    {
+      "corner_id": "100uA/540MHz_per_V",
+      "icp_a": 0.0001,
+      "kvco_hz_per_v": 540000000.0,
+      "f_c_hz": 604782.3805462201,
+      "pm_deg": 54.62021663251472,
+      "reference_x_N2_rad2": 4.633360668787336e-05,
+      "b_eff_hz": 1461726.471798517,
+      "status": "pass"
+    },
+    {
+      "corner_id": "100uA/606MHz_per_V",
+      "icp_a": 0.0001,
+      "kvco_hz_per_v": 606000000.0,
+      "f_c_hz": 667700.1524018781,
+      "pm_deg": 55.225399289802375,
+      "reference_x_N2_rad2": 5.060483105349489e-05,
+      "b_eff_hz": 1596474.4909691003,
+      "status": "pass"
+    },
+    {
+      "corner_id": "150uA/381MHz_per_V",
+      "icp_a": 0.00015,
+      "kvco_hz_per_v": 381000000.0,
+      "f_c_hz": 634825.0386324362,
+      "pm_deg": 54.94993986778463,
+      "reference_x_N2_rad2": 4.83650059391434e-05,
+      "b_eff_hz": 1525812.785656537,
+      "status": "pass"
+    },
+    {
+      "corner_id": "150uA/430MHz_per_V",
+      "icp_a": 0.00015,
+      "kvco_hz_per_v": 430000000.0,
+      "f_c_hz": 704807.9866886839,
+      "pm_deg": 55.4422008453861,
+      "reference_x_N2_rad2": 5.315584426417515e-05,
+      "b_eff_hz": 1676953.5170263357,
+      "status": "pass"
+    },
+    {
+      "corner_id": "150uA/480MHz_per_V",
+      "icp_a": 0.00015,
+      "kvco_hz_per_v": 480000000.0,
+      "f_c_hz": 775926.9544504354,
+      "pm_deg": 55.62347187902511,
+      "reference_x_N2_rad2": 5.811930131859093e-05,
+      "b_eff_hz": 1833540.0011511191,
+      "status": "pass"
+    },
+    {
+      "corner_id": "150uA/540MHz_per_V",
+      "icp_a": 0.00015,
+      "kvco_hz_per_v": 540000000.0,
+      "f_c_hz": 860682.0589953648,
+      "pm_deg": 55.519366075112046,
+      "reference_x_N2_rad2": 6.417775240055201e-05,
+      "b_eff_hz": 2024671.2114679853,
+      "status": "pass"
+    },
+    {
+      "corner_id": "150uA/606MHz_per_V",
+      "icp_a": 0.00015,
+      "kvco_hz_per_v": 606000000.0,
+      "f_c_hz": 952940.7472192898,
+      "pm_deg": 55.106948470661074,
+      "reference_x_N2_rad2": 7.097457110073758e-05,
+      "b_eff_hz": 2239096.345367106,
+      "status": "pass"
+    },
+    {
+      "corner_id": "200uA/381MHz_per_V",
+      "icp_a": 0.0002,
+      "kvco_hz_per_v": 381000000.0,
+      "f_c_hz": 815571.1240936206,
+      "pm_deg": 55.61271499373147,
+      "reference_x_N2_rad2": 6.0932519861509125e-05,
+      "b_eff_hz": 1922291.0462152245,
+      "status": "pass"
+    },
+    {
+      "corner_id": "200uA/430MHz_per_V",
+      "icp_a": 0.0002,
+      "kvco_hz_per_v": 430000000.0,
+      "f_c_hz": 907418.6827860582,
+      "pm_deg": 55.344020088799766,
+      "reference_x_N2_rad2": 6.759287962638832e-05,
+      "b_eff_hz": 2132411.1917417697,
+      "status": "pass"
+    },
+    {
+      "corner_id": "200uA/480MHz_per_V",
+      "icp_a": 0.0002,
+      "kvco_hz_per_v": 480000000.0,
+      "f_c_hz": 999999.9999999995,
+      "pm_deg": 54.802496715245255,
+      "reference_x_N2_rad2": 7.453153538387147e-05,
+      "b_eff_hz": 2351310.9822919588,
+      "status": "pass"
+    },
+    {
+      "corner_id": "200uA/540MHz_per_V",
+      "icp_a": 0.0002,
+      "kvco_hz_per_v": 540000000.0,
+      "f_c_hz": 1109307.1820293518,
+      "pm_deg": 53.90505738315054,
+      "reference_x_N2_rad2": 8.305428917356553e-05,
+      "b_eff_hz": 2620185.6872321526,
+      "status": "pass"
+    },
+    {
+      "corner_id": "200uA/606MHz_per_V",
+      "icp_a": 0.0002,
+      "kvco_hz_per_v": 606000000.0,
+      "f_c_hz": 1227023.061624765,
+      "pm_deg": 52.71024083085892,
+      "reference_x_N2_rad2": 9.268631052749449e-05,
+      "b_eff_hz": 2924055.41800473,
+      "status": "pass"
+    },
+    {
+      "corner_id": "300uA/381MHz_per_V",
+      "icp_a": 0.0003,
+      "kvco_hz_per_v": 381000000.0,
+      "f_c_hz": 1165833.3944175185,
+      "pm_deg": 53.35634766312921,
+      "reference_x_N2_rad2": 8.761713591897425e-05,
+      "b_eff_hz": 2764133.7705198117,
+      "status": "pass"
+    },
+    {
+      "corner_id": "300uA/430MHz_per_V",
+      "icp_a": 0.0003,
+      "kvco_hz_per_v": 430000000.0,
+      "f_c_hz": 1295256.9214773227,
+      "pm_deg": 51.936090383309505,
+      "reference_x_N2_rad2": 9.8509136186606e-05,
+      "b_eff_hz": 3107753.1487669363,
+      "status": "pass"
+    },
+    {
+      "corner_id": "300uA/480MHz_per_V",
+      "icp_a": 0.0003,
+      "kvco_hz_per_v": 480000000.0,
+      "f_c_hz": 1423595.756389521,
+      "pm_deg": 50.35903059987557,
+      "reference_x_N2_rad2": 0.00010999187100963837,
+      "b_eff_hz": 3470008.942332474,
+      "status": "pass"
+    },
+    {
+      "corner_id": "300uA/540MHz_per_V",
+      "icp_a": 0.0003,
+      "kvco_hz_per_v": 540000000.0,
+      "f_c_hz": 1572507.208966871,
+      "pm_deg": 48.38501718729575,
+      "reference_x_N2_rad2": 0.00012428935798764807,
+      "b_eff_hz": 3921064.163151732,
+      "status": "pass"
+    },
+    {
+      "corner_id": "300uA/606MHz_per_V",
+      "icp_a": 0.0003,
+      "kvco_hz_per_v": 606000000.0,
+      "f_c_hz": 1729905.902462006,
+      "pm_deg": 46.187723869780136,
+      "reference_x_N2_rad2": 0.00014071007814263632,
+      "b_eff_hz": 4439102.862323921,
+      "status": "pass"
+    },
+    {
+      "corner_id": "400uA/381MHz_per_V",
+      "icp_a": 0.0004,
+      "kvco_hz_per_v": 381000000.0,
+      "f_c_hz": 1493782.0121540406,
+      "pm_deg": 49.44445815738575,
+      "reference_x_N2_rad2": 0.00011659180972381382,
+      "b_eff_hz": 3678222.932573883,
+      "status": "pass"
+    },
+    {
+      "corner_id": "400uA/430MHz_per_V",
+      "icp_a": 0.0004,
+      "kvco_hz_per_v": 430000000.0,
+      "f_c_hz": 1652832.5313085725,
+      "pm_deg": 47.27478585413362,
+      "reference_x_N2_rad2": 0.00013248889115504803,
+      "b_eff_hz": 4179741.9468157296,
+      "status": "pass"
+    },
+    {
+      "corner_id": "400uA/480MHz_per_V",
+      "icp_a": 0.0004,
+      "kvco_hz_per_v": 480000000.0,
+      "f_c_hz": 1808423.258167392,
+      "pm_deg": 45.06341137205876,
+      "reference_x_N2_rad2": 0.00014946896468247522,
+      "b_eff_hz": 4715427.051912925,
+      "status": "pass"
+    },
+    {
+      "corner_id": "400uA/540MHz_per_V",
+      "icp_a": 0.0004,
+      "kvco_hz_per_v": 540000000.0,
+      "f_c_hz": 1986537.571883299,
+      "pm_deg": 42.47116266561011,
+      "reference_x_N2_rad2": 0.0001709352552060905,
+      "b_eff_hz": 5392642.735143958,
+      "status": "pass"
+    },
+    {
+      "corner_id": "400uA/606MHz_per_V",
+      "icp_a": 0.0004,
+      "kvco_hz_per_v": 606000000.0,
+      "f_c_hz": 2172277.6005301466,
+      "pm_deg": 39.738376057602416,
+      "reference_x_N2_rad2": 0.00019604418840791759,
+      "b_eff_hz": 6184776.025931728,
+      "status": "pass"
+    }
+  ]
+}

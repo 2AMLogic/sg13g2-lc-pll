@@ -39,10 +39,24 @@ section 3 Kvco range, including the operating charge-pump current at that corner
     B_eff = integral from 10 kHz to 10 MHz of |G(f) / (1 + G(f))|^2 df
     L_ref,max [dBc/Hz] = 10 log10(2.0e-4 / max_grid(2 N^2 B_eff))
 
-Round the resulting limit toward more negative dBc/Hz when quoting tenths.
-Section 2 gives the design-point and sweep values. Recalculate when the filter or graded operating range
-changes. This bounds the loop-weighted variance of any source meeting the mask by the reference's
-2.0e-4 rad^2 share. Row 8 sets the integration band.
+Round the resulting limit toward more negative dBc/Hz when quoting tenths. The
+[method-L run](../../sim/jitter/records/20261126-083754-a8f665e-r-ref-1.json) records the inputs, all 25
+reference variances and bandwidths, and the worst point. R1, R3 and C1–C3 are held nominal throughout.
+Recalculate when the filter or graded operating range changes. Temperature qualification requires the
+realized loop parameters at each corner and a source spectrum bounded across the band at that temperature.
+
+Run from the repository root with Python, NumPy and jq. The second command checks the reference share
+at all 25 design points, including those outside row 5. The model's own exit code grades row 5.
+
+```bash
+python3 sim/loop-model/loop_model.py --noise-inputs sim/jitter/r-ref-1.json --out r-ref-1-run.json
+jq -e '[.points[].sigma_phi_sq_rad2_by_term.reference_x_N2] |
+  length == 25 and all(.[]; type == "number" and . >= 0 and . <= 2.0e-4)' r-ref-1-run.json
+```
+
+For a flat trial input of M dBc/Hz, recover each B_eff by dividing the reported reference variance
+by `2 N² × 10^(M/10)`. Use the largest B_eff in the sizing formula above. Equivalently, add
+`10 log10(2.0e-4 / largest reference variance)` to M before rounding. Section 2 gives the worked values.
 
 The source carrier and the PFD reference input are both at 50 MHz. Enter the mask directly in the model's
 `reference_x_N2` input for a worst-case calculation, or enter the source's documented spectrum for its
@@ -92,12 +106,11 @@ terms, so nothing here is evidence that any of them is attainable. The three rad
 5.0e-4, the ratified in-band share; the three *rounded* dBc/Hz figures sum to 1.578e-14 = -138.02 dBc/Hz,
 marginally inside the -137.98 dBc/Hz that 5.0e-4 rad^2 gives on the same brick-wall basis.
 
-**Why this split.** DR-001 wrote one -138 dBc/Hz figure as "a requirement on the reference and the PFD/CP"
-and named the divider in the row without quantifying it. Absent any evidence that one of those two is cheaper
-than the other, equal halves is the neutral split; the divider takes the remainder. The illustration below is
-the only datum pointing either way, and it puts the charge pump inside 2.0e-4 for a reset overlap under about
-390 ps, which is the range a 50 MHz PFD reset chain is designed in. A superseding record moves the split once
-method-N and method-T numbers exist.
+**Why this split.** DR-001 gave the reference and PFD/CP a common budget and named the divider without
+assigning it a share. Reserving 1.0e-4 rad^2 for the divider leaves 4.0e-4 rad^2. We divide that remainder
+equally because the relative cost of the reference and PFD/CP terms is unknown. The nominal PFD transient
+in §3 finds charge balance at a nonzero REF–FB offset and does not record the pulse widths. The equal-pulse
+illustration below therefore cannot establish how much of the shared allowance the pump uses in lock.
 
 **Row 8's limit, the 5 / 2 / 2.9 e-4 allocation and the -138 dBc/Hz total are unchanged.** This record splits
 the in-band share; it does not relax it. DR-001 is not edited (records are append-only, `spec/README.md`).
@@ -218,15 +231,18 @@ as every other term is
 Its method fields are section 4's **method T** fields (window >= 100 us, >= 8 non-overlapping windows,
 estimator named), not method N's.
 
-**Method T has no model-derived device noise on the pinned ngspice-47.** The `.option TRANNOISE` switch
-is accepted silently and injects nothing: a reviewer's probe of a 100 kOhm / 100 kOhm divider under
-`.tran 1n 2u` returned a peak-to-peak of exactly zero over 2008 rows, whereas an explicitly instantiated
-`trnoise()` current source on the same deck produced 8.8 uV p-p (reviewer-measured on this host, nominal,
-a tool-capability probe; recorded in the PR #262 review, **not committed under `sim/`, method T not run
-in this repository**). Transient noise exists in ngspice-47 only through `trnoise()` sources the author
-instantiates by hand, so a method-T run needs one such source per noise-contributing device, with its
-density named and sourced (e.g. from the `.noise` probe). Until a probe settles it, method T is a *named
-but unexercised* method.
+**Method T needs an explicit device-noise model.** On the pinned ngspice-47, a 100 kOhm / 100 kOhm
+divider at 27 °C with `.option TRANNOISE=1` produced 0 V peak-to-peak in a 2 us transient. A matched
+copy in the same run with an explicit `trnoise()` current source produced 8.95 uV peak-to-peak.
+This checks source injection only. [Deck](../../sim/noise-probe/trannoise.spice) and
+[simulated output](../../sim/noise-probe/records/20261126-083942-a8f665e-trannoise.txt).
+
+For each contributing device, source the noise density over its switching trajectory, including
+relevant correlations, or bound the error of using a stationary density. A single-bias `.noise`
+probe alone does not establish that bound. The GF180 PLL rejected that shortcut after finding that
+its transistor noise varied strongly with gate bias. The SG13G2 PFD and divider still need their own
+calibration and a transient with a demonstrated timing resolution. Method T on these blocks remains
+unrun. [GF180 PLL DR-023](https://github.com/2AMLogic/gf180-pll/blob/0221efb98ed5803ba36472a3dd51efa7df1ec6f7/spec/decision-records/DR-023-random-period-jitter-owner-and-cyclostationary-gap.md)
 
 **Acceptance against the allocation.** At each graded corner #253 and #88 feed the /N-edge spectrum above
 through the local method-L transfer (section 2). The target is <= 1.0e-4 rad^2 at the 5 GHz output,
@@ -280,6 +296,8 @@ operating-point argument alone.
 
 ## Illustration (not a grade, and not a method-N number)
 
+Assume equal UP/DN pulses, only the both-on state contributes, and the both-dumped output noise is
+negligible. At charge balance, §3 also requires the spectrum and duration of any exclusive interval.
 With the f_c = 1 MHz brick-wall allocation and the probe's integral of S_i df from 10 kHz to
 BW_n = 1.5708 MHz = 1.0424e-15 A^2, I_cp = 200 uA
 (row 6 typical), T_ref = 20 ns and N = 100, the formula in section 3 gives:
@@ -336,11 +354,13 @@ its source.
   splitting it is what this record exists to do.
 - **Write the method into the bench issue (#253) instead of `spec/`.** Rejected: CLAUDE.md requires a spec
   change to go through a decision record, and `spec/target-spec.md:134` is the text that is wrong.
-- **Keep method N for the divider via `.noise` at a frozen mid-transition bias, divided by the edge slew
-  rate.** Rejected: the frozen bias is not a solution of the circuit (it has to be forced into place), the
-  slew rate is a large-signal quantity the linearisation does not produce, and the result would have no
-  falsifier -- a number with an invented operating point and no way of being wrong. Section 4 already has a
-  method for timing noise, with stated run-length and estimator rules.
+- **Bound divider timing noise using static cell noise and transient slew.** GF180 PLL DR-033 bounded
+  period jitter by sweeping cell bias, checking the worst noise against the measured slew and verifying
+  which stages set each edge. It chose this route because the expected in-band contribution was below
+  its transient solver floor. A latched `.op` alone supplies none of those checks. Applying that bound
+  here would require the SG13G2 prescaler's regenerative timing paths and a transfer to row 8's
+  band-integrated phase variance. Until such a bound is demonstrated, §4 specifies method T-div.
+  [GF180 PLL DR-033](https://github.com/2AMLogic/gf180-pll/blob/0221efb98ed5803ba36472a3dd51efa7df1ec6f7/spec/decision-records/DR-033-in-band-random-period-jitter-bounded-over-the-grid.md)
 - **Leave the PFD's own noise inside method N.** Rejected for the same operating-point reason as the divider.
 - **Give the reference a 1/f-cornered mask instead of a flat floor.** Rejected for now: row 8's band starts at
   10 kHz, where a 50 MHz crystal source is already near its floor, so the flat form costs nothing and is

@@ -1,0 +1,6 @@
+{
+  "reference_x_N2": {
+    "ssb_dbc_per_hz": [[10000, -148.0], [10000000, -148.0]],
+    "source": "DR-007 R-REF-1. Flat qualification mask for the external 50 MHz reference at the PFD input."
+  }
+}
