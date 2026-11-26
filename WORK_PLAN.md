@@ -8,15 +8,13 @@ The body below is a snapshot of GitHub label state as of the last merged docs-ma
 <!-- Maintained automatically by the Guide triage agent. Manual edits are fine but may be overwritten. -->
 
 <!-- guide:plan-body:start -->
-_Generated: 2026-11-25T10:54:45Z (snapshot; compare against live labels)_
+_Generated: 2026-11-26T00:13:10Z (snapshot; compare against live labels)_
 ## Operator Attention: Merge-Risk-Hold Pileup
 
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
 
-- **#200**: docs(sim): trace 125C divider stall to M-counter terminal-count setup path
 - **#207**: docs(spec): add clock-output interface row 15 and DR-006, stated as not met
 - **#262**: docs(spec): add DR-007 — reference noise mask, in-band split, method N narrowed to the charge pump
-- **#420**: test(lvs): refuse unparseable envelopes in the freshness gate
 
 ## Very Important
 
@@ -57,13 +55,12 @@ Issues currently being built (`loom:building`).
 
 PRs waiting on Judge (`loom:review-requested`).
 
-_None._
+- **#200**: docs(sim): trace two missed terminal-count captures in the hot divider
 
 ## Approved (Awaiting Merge)
 
 PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 
-- **#200**: docs(sim): trace 125C divider stall to M-counter terminal-count setup path
 - **#207**: docs(spec): add clock-output interface row 15 and DR-006, stated as not met
 - **#262**: docs(spec): add DR-007 — reference noise mask, in-band split, method N narrowed to the charge pump
 - **#420**: test(lvs): refuse unparseable envelopes in the freshness gate
@@ -92,6 +89,7 @@ Issues carrying `loom:curated`.
 - **#143**: Stop tracking 19 regenerable loop-power probe request JSONs (extends #106) *(hermit)* *(held)*
 - **#146**: Consolidate crossing-probe boilerplate across 11 loop-power make_*_97 generators *(hermit)* *(held)*
 - **#435**: Remove archived /4/5 prescaler cells (div45_dm, div2_cml and its two sub-cells): unused since DR-005 *(hermit)* *(held)*
+- **#487**: Decouple lock-detector ramp timing from measurement-card generation *(hermit)*
 
 ## Epics
 
@@ -101,14 +99,14 @@ _None._
 
 | Bucket | Count |
 |------|-------|
-| Operator merge-risk holds | 4 |
+| Operator merge-risk holds | 2 |
 | Very important | 1 |
 | Important | 9 |
 | Ready (`loom:issue`) | 1 |
 | In Progress (`loom:building`) | 4 |
-| PRs awaiting review | 0 |
-| Approved PRs awaiting merge | 4 |
+| PRs awaiting review | 1 |
+| Approved PRs awaiting merge | 3 |
 | Curated | 14 |
-| Architect / Hermit proposals | 3 |
+| Architect / Hermit proposals | 4 |
 | Active epics | 0 |
 <!-- guide:plan-body:end -->
