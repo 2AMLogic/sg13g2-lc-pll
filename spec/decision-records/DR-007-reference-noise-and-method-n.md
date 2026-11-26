@@ -29,27 +29,29 @@ method-L model (#247) has no input, so the row 8 result stays a floor of two ter
 
 ### 1. The reference phase-noise requirement (R-REF-1)
 
-**R-REF-1.** The reference source presented at the chip's reference input shall have single-sideband phase
-noise
+**R-REF-1.** At 50 MHz (row 2), the external source shall satisfy **L_ref(f) <= L_ref,max** (single-sideband
+phase noise at the PFD reference input) over **10 kHz to 10 MHz**, at every C-grid temperature. Qualify the
+source against the loop as designed across row 5's f_c range of 0.5-2.0 MHz. For the committed filter over
+its full 25-point design sweep the mask is **-148.0 dBc/Hz**.
+To obtain the mask for a design, compute the method-L bandwidth at each graded C-grid point across the
+section 3 Kvco range, including the operating charge-pump current at that corner. With G the open-loop gain,
 
-> L_ref(f) <= **-142.0 dBc/Hz** for 10 kHz <= f <= 10 MHz, at f_ref = 50 MHz (spec row 2), at every C-grid
-> temperature.
+    B_eff = integral from 10 kHz to 10 MHz of |G(f) / (1 + G(f))|^2 df
+    L_ref,max [dBc/Hz] = 10 log10(2.0e-4 / max_grid(2 N^2 B_eff))
 
-This is a requirement on an **external source**, not a property of any part designed in this repository.
-Below 10 kHz and above 10 MHz it is unconstrained: row 8 integrates 10 kHz to 10 MHz and nothing else in the
-spec grades the reference.
+Round the resulting limit toward more negative dBc/Hz when quoting tenths.
+Section 2 gives the design-point and sweep values. Recalculate when the filter or graded operating range
+changes. This bounds the loop-weighted variance of any source meeting the mask by the reference's
+2.0e-4 rad^2 share. Row 8 sets the integration band.
 
-The plane is the **PFD reference input**, expressed as single-sideband dBc/Hz -- the one input form #247
-gives the method-L model -- and at f_ref = 50 MHz that plane is the reference's own carrier, so the term
-needs **no conversion**. The model's `reference_x_N2` input is R-REF-1's mask read directly, which takes the
-on-chip reference buffering between the pad and the PFD as noiseless; that assumption is recorded in the
-model's method block and is listed in "Not decided here".
+The source carrier and the PFD reference input are both at 50 MHz. Enter the mask directly in the model's
+`reference_x_N2` input for a worst-case calculation, or enter the source's documented spectrum for its
+contribution. Both take the on-chip reference buffer as noiseless (see "Not decided here").
 
-**Reachability (a datasheet figure, not a measurement, and not a part choice).** The Crystek CCHD-575 family
-of ultra-low-phase-noise crystal oscillators publishes a typical noise floor of -168 to -165 dBc/Hz, with the
-10 kHz figure for a 50 MHz part given only as a plot, which was not read. So the far-out end of R-REF-1 sits
-more than 20 dB inside a commodity part's published floor and is not a mask only an exotic source can meet;
-the close-in (10 kHz) end is **not** shown reachable here. No part is chosen or qualified by this record.
+**Catalog comparison.** At 50 MHz and 3.3 V the Statek CXOXLPN lists typical phase noise of -159 dBc/Hz at
+10 kHz offset and -162 dBc/Hz at 100 kHz, 1 MHz and 5 MHz. These datasheet points sit 11 to 14 dB below
+the design-sweep mask. Qualification requires a bound over the full offset band and all specified
+temperatures. [Statek CXOXLPN datasheet, rev. F](https://statek.com/wp-content/uploads/2020/07/CXOXLPN-10226_REV-F.pdf)
 
 ### 2. The in-band split
 
@@ -62,29 +64,33 @@ brick-wall noise bandwidth BW_n = (pi/2) x f_c = 1.5708 MHz and the 20 log10(N) 
 
 and the equivalent rms time jitter at the 5.0 GHz output is sigma_t = sqrt(sigma_phi,out^2) / (2 pi x 5 GHz).
 
-| Share of the in-band 5e-4 rad^2 | rad^2 (output-referred) | flat L_in at the PFD input, 10 kHz-10 MHz | equivalent rms time jitter |
+| Share of the in-band 5e-4 rad^2 | rad^2 (output-referred) | DR-001 brick-wall flat equivalent at N = 100, f_c = 1 MHz (PFD input) | Output rms at 5 GHz |
 |---|---|---|---|
-| Reference (R-REF-1, external source) | <= 2.0e-4 | 6.366e-15 = **-142.0** dBc/Hz (-141.96 unrounded) | 450 fs |
+| Reference (external source) | <= 2.0e-4 | 6.366e-15 = **-142.0** dBc/Hz (-141.96 unrounded) | 450 fs |
 | PFD/CP | <= 2.0e-4 | 6.366e-15 = **-142.0** dBc/Hz (-141.96 unrounded) | 450 fs |
 | Divider/prescaler | <= 1.0e-4 | 3.183e-15 = **-145.0** dBc/Hz (-144.97 unrounded) | 318 fs |
 | **Sum (unchanged from DR-001)** | **5.0e-4** | 1.592e-14 = **-138.0** dBc/Hz | 712 fs |
 
-**Allocation basis versus pass criterion.** The flat L_in column is the DR-001 brick-wall *allocation*
-arithmetic above; it is **not** the acceptance test. A flat mask that meets R-REF-1 is not guaranteed to meet its
-rad^2 share through the real loop filter: at the design point (200 uA, 480 MHz/V, f_c = 1.000 MHz, committed
-filter) the method-L model (`sim/loop-model/loop_model.py --noise-inputs`) maps a flat point of -142 / -142 /
--145 dBc/Hz at 10 kHz to 2.967e-4 / 2.967e-4 / 1.487e-4 rad^2 (7.42e-4 total against 5.0e-4). The pass
-criterion for #253 / #86 is therefore: **each term's loop-weighted output variance, integrated through the
-method-L model with the term's actual spectrum, is compared with its own rad^2 limit** (2.0e-4 / 2.0e-4 /
-1.0e-4). The dBc/Hz and femtosecond columns are the allocation read in other units; the 318 fs divider
-figure is the equivalent for a *flat* spectrum, and a shaped divider spectrum is graded by its loop-weighted
-rad^2 against 1.0e-4, not by 318 fs of raw edge jitter.
+**Method-L acceptance (#253 / #86).** At **every graded C-grid point across the section 3 Kvco range**,
+integrate each term's PFD-input spectrum over 10 kHz to 10 MHz with the local gain
+`2 N^2 |G/(1+G)|^2`. Compare the three output variances with 2.0e-4, 2.0e-4 and 1.0e-4 rad^2 respectively.
+For the middle term, the pump and PFD edge contributions together must fit 2.0e-4. Report the worst point
+for each term. Check row 5's bandwidth and phase margin independently.
+
+For example, with the committed `loop-filter.json`, enter one constant point per term (-142 / -142 /
+-145 dBc/Hz at 10 kHz) in `sim/loop-model/loop_model.py --noise-inputs`. At 200 uA, 480 MHz/V,
+f_c = 1.000 MHz, the model gives 2.967e-4 / 2.967e-4 / 1.487e-4 rad^2 by trapezoidal integration on
+its 30-points/decade log grid. Here B_eff = 2.3513 MHz, so the flat limits rounded down to tenths are
+-143.8 / -143.8 / -146.8 dBc/Hz. At -142 dBc/Hz the reference variance spans 1.444e-4 to 7.805e-4 rad^2
+over the full 100-400 uA by 381-606 MHz/V design sweep. Its largest B_eff is 6.1848 MHz at 400 uA,
+606 MHz/V (f_c = 2.172 MHz, PM = 39.7 degrees), giving -147.913 dBc/Hz before rounding. Including that
+row-5 failure gives a conservative mask. At -148.0 dBc/Hz the largest reference variance over the 25
+points is 1.9604e-4 rad^2. C-grid qualification uses the realized corner inputs.
 
 **This table is an allocation, not a derivation.** No method-N or method-T number exists for any of the three
 terms, so nothing here is evidence that any of them is attainable. The three rad^2 figures sum to exactly
 5.0e-4, the ratified in-band share; the three *rounded* dBc/Hz figures sum to 1.578e-14 = -138.02 dBc/Hz,
-marginally inside the -137.98 dBc/Hz that 5.0e-4 rad^2 gives, so reading the rounded column does not overspend
-the budget either.
+marginally inside the -137.98 dBc/Hz that 5.0e-4 rad^2 gives on the same brick-wall basis.
 
 **Why this split.** DR-001 wrote one -138 dBc/Hz figure as "a requirement on the reference and the PFD/CP"
 and named the divider in the row without quantifying it. Absent any evidence that one of those two is cheaper
@@ -96,7 +102,11 @@ method-N and method-T numbers exist.
 **Row 8's limit, the 5 / 2 / 2.9 e-4 allocation and the -138 dBc/Hz total are unchanged.** This record splits
 the in-band share; it does not relax it. DR-001 is not edited (records are append-only, `spec/README.md`).
 
-**Stated at N = 100 and f_c = 1 MHz only.** Over the stretch band N = 90-110 the rad^2 shares are unchanged
+**Bandwidth and division-ratio sensitivity.** At N = 100, all brick-wall dBc/Hz equivalents shift by
+-10 log10(f_c / 1 MHz) through row 5's 0.5-2.0 MHz band. The 2.0e-4 share reads -139.0, -142.0 and
+-145.0 dBc/Hz at 0.5, 1.0 and 2.0 MHz, respectively (nearest tenth). The rad^2 shares and their 5 GHz
+output-time equivalents stay fixed. R-REF-1 uses the actual B_eff, which also depends on loop shape.
+Over the stretch band N = 90-110 the rad^2 shares are unchanged
 and only the dBc/Hz column moves: holding f_c at 1 MHz it moves as -20 log10(N/100) (+0.92 dB at N = 90,
 -0.83 dB at N = 110); letting f_c track N through row 5's design equation f_c = I_cp x R1 x Kvco / (2 pi N) at
 fixed I_cp x R1 x Kvco, N^2 x BW_n is proportional to N and it moves as -10 log10(N/100) (+0.46 dB at N = 90,
@@ -109,11 +119,10 @@ UP/DN reset-overlap state the pump is in during t_on in lock -- with its output 
 voltage V_ctrl by an ideal voltage source and its bias at the corner's IREF.
 
 The pump is **current-steering**: `design/cp_leg_p.sch` and `design/cp_leg_n.sch` keep both tails conducting
-at all times and switch them between VOUT and VDUMP. So during the overlap window both legs steer to VOUT and
-the pump's device noise reaches the loop filter; outside it both steer to VDUMP and it does not. That window
-is a genuine DC solution -- unlike a latch's -- because no node in it is bistable: the probe below balances to
-a 2.1 uA residual between two legs that are both live at the output, measured in the probe's own deck at
-the probed netlist: I_up = 196.273 uA, I_dn = 198.353 uA, I_up - I_dn = -2.080 uA.
+at all times and switch them between VOUT and VDUMP. During overlap both legs steer to VOUT. During a
+single-leg interval only the asserted leg steers to VOUT. With both switches released the tails steer to
+VDUMP. The overlap state has a DC solution because neither leg is bistable. The nominal probe simulates
+I_up = 196.273 uA and I_dn = 198.353 uA on the same netlist, giving I_up - I_dn = -2.080 uA.
 
 V_ctrl in lock is per corner and comes from the VCO's graded f(V_ctrl) grid (**gate G4**). Until G4 closes, a
 method-N number states the V_ctrl it used and is **not** a C-grid grade.
@@ -136,9 +145,21 @@ output current is I_cp / (2 pi) A/rad. So
     L_in(f)     = S_phi,in(f) / 2                                [1/Hz, single sideband]
     L_in,dBc    = 10 log10(L_in(f))                              [dBc/Hz at the PFD input]
 
-The operating point above has **both** legs steering to VOUT at once, so the S_i it returns is already the two
-legs' combined noise for that window and d is the single common overlap fraction. If the two legs' on-times
-differ, each leg is probed with its own switch asserted and the two gated PSDs are added.
+The both-on spectrum includes the correlation between the sourcing and sinking legs through their shared
+bias. For unequal pulses, read their **actual overlap** and their UP-only and DN-only durations from the
+same charge-balanced waveform. For each occupied state s, let d_s be its duration divided by T_ref.
+Probe the **net VOUT current** in that state at the same forced V_ctrl and bias. In the first-order formula
+replace `d S_i` with
+
+    d_both S_both + d_up_only S_up_only + d_dn_only S_dn_only + d_off S_off .
+
+Each duration counts once. Use the joint both-on spectrum throughout overlap, even when the pulses have
+different widths. A sum of independent leg PSDs there loses the cross term. The simple overlap formula
+assumes negligible both-dumped output noise. Record that state's spectrum or bound its contribution before
+omitting it. The duration weighting applies directly to white noise. For slow flicker, the baseband PSD
+depends on correlations between states. Within the stationary flicker approximation in Limits,
+`(sum_s d_s sqrt(S_s,flicker))^2` bounds it for arbitrary correlation and is at most
+`sum_s d_s S_s,flicker` (Cauchy-Schwarz). The equal-window 1/d factor below applies to one active state.
 
 **The on-time is an input with a named source, not a constant.** t_on is the UP (and DN) pulse width taken at
 **charge balance**, not at aligned edges: the REF-FB phase offset tau_0 at which the pump's average output
@@ -147,8 +168,8 @@ delay -- the `sim/pfd` sweep varies the physical REF-FB delay and its "Linear re
 (`sim/pfd/records/20261124-174920-c7e5a6b-dirty.md`, `20261030-183414-a9600e7.md`) show a non-zero charge per
 cycle at zero delay (-162.5 / -160.7 fC nominal) and an interpolated zero-charge crossing near +945 / +926 ps.
 A per-corner tau_0 is therefore read from that sweep (or its successor) at the chosen V_ctrl, and the UP and DN
-widths are extracted **at tau_0**; unequal widths there take the per-leg rule above. Its source is the existing PFD transient `sim/pfd`: `sim/pfd/pfd_sweep.spice.tmpl`
-already instantiates the pinned `sg13g2-pll` PFD driving `design/cp.sch` at 50 MHz. Neither
+widths and overlap are extracted **at tau_0** for the state weighting above. The existing PFD transient
+`sim/pfd/pfd_sweep.spice.tmpl` instantiates the pinned `sg13g2-pll` PFD driving `design/cp.sch` at 50 MHz. Neither
 `spec/target-spec.md` nor `design/netlist/cp.spice` states a reset delay or an on-time today, and that deck
 saves only `i(VO)`, so the width is in no record yet -- adding it to the bench's outputs belongs to #253.
 A method-N number states **the t_on it used, the record it came from, and the corner**: the reset chain's
@@ -173,7 +194,10 @@ PFD input:
     S_phi,in,pfd(f) = (2 pi f_ref)^2 x S_dt(f)
 
 and is supplied by **method T** on the PFD alone, with section 4's transient-noise method fields (not yet run; see section 4, method T-div). A
-`pfd_cp_x_N2` input that carries only the charge-pump part is a **floor** and says so.
+`pfd_cp_x_N2` input that carries only the charge-pump part is a **floor** and says so. For grading,
+combine the pump and PFD input spectra in linear power (include their cross spectrum if correlated).
+The remaining allowance for PFD noise is the shared 2.0e-4 rad^2 less the loop-weighted pump contribution
+when the two noise sources are independent.
 
 ### 4. The divider/prescaler: method N is withdrawn
 
@@ -204,10 +228,10 @@ instantiates by hand, so a method-T run needs one such source per noise-contribu
 density named and sourced (e.g. from the `.noise` probe). Until a probe settles it, method T is a *named
 but unexercised* method.
 
-**Acceptance against the allocation**: the divider's 1.0e-4 rad^2 share is **318 fs rms** of /N-output edge
-jitter integrated over the in-band noise bandwidth. This is the **target** #253 and #88 grade against; it
-is **not yet gradable**, because the method that would produce the number needs hand-instantiated
-`trnoise()` sources (above) and has never been run here.
+**Acceptance against the allocation.** At each graded corner #253 and #88 feed the /N-edge spectrum above
+through the local method-L transfer (section 2). The target is <= 1.0e-4 rad^2 at the 5 GHz output,
+equivalent to 318 fs rms **after loop weighting**. Raw band-integrated /N-edge jitter depends on the
+spectrum and the corner bandwidth. Grading awaits the method-T source model and run described above.
 
 Whether ngspice's transient noise is affordable on the divider chain alone is **not** settled here. The chain
 takes 5 GHz in and puts 50 MHz out, far cheaper than the full-loop run behind gate G6, but it is still owed a
@@ -228,8 +252,9 @@ Next to the number, per CLAUDE.md "Noise needs its method". A number missing any
    netlist revision do not substitute; cite the run that produced them and its netlist hash.
 4. **Analysis** and its frequency range and point density (`.noise`, 10 kHz-10 MHz, points per decade).
 5. **The quantity read**, its node, and **its units**, with the calibration that fixed the units.
-6. **The conversion formula with the numeric value of every input**: I_cp, t_on, T_ref (= 1/f_ref), N.
-7. **The source of t_on**: the record and the corner it was read from.
+6. **The conversion formula with the numeric value of every input**: I_cp, T_ref (= 1/f_ref), N and
+   the durations and VOUT spectra (or bounds) for the occupied steering states.
+7. **The source of the durations**: the record, corner, charge-balance offset and UP/DN overlap.
 8. **What is excluded**: the PFD's edge-jitter term, the loop filter, and anything else not in the deck.
 9. **Simulator version and the PDK / OSDI pins.**
 10. The words **"simulated, not measured"**.
@@ -255,7 +280,8 @@ operating-point argument alone.
 
 ## Illustration (not a grade, and not a method-N number)
 
-With the probe's integral of S_i df from 10 kHz to BW_n = 1.5708 MHz = 1.0424e-15 A^2, I_cp = 200 uA
+With the f_c = 1 MHz brick-wall allocation and the probe's integral of S_i df from 10 kHz to
+BW_n = 1.5708 MHz = 1.0424e-15 A^2, I_cp = 200 uA
 (row 6 typical), T_ref = 20 ns and N = 100, the formula in section 3 gives:
 
 | t_on | d = t_on/T_ref | sigma_phi,out^2 (rad^2) | flat-equivalent L_in (dBc/Hz) |
@@ -266,8 +292,9 @@ With the probe's integral of S_i df from 10 kHz to BW_n = 1.5708 MHz = 1.0424e-1
 | 500 ps | 0.025 | 2.57e-4 | -140.9 |
 | 1000 ps | 0.050 | 5.14e-4 | -137.9 |
 
-The charge pump alone fills its 2.0e-4 rad^2 share at t_on = 389 ps, and the whole 5.0e-4 in-band share at
-972 ps.
+At t_on = 389 ps the pump alone consumes the entire **joint PFD/CP** share of 2.0e-4 rad^2 in this
+illustration, leaving zero allowance for independent PFD edge noise. At 972 ps it consumes the whole
+5.0e-4 in-band share.
 
 **Why this is not a grade**: one corner; a probe operating point at V_ctrl = 2.0 V rather than a per-corner
 lock point; the PFD's own term excluded; an assumed t_on rather than a measured one; and -- the weakest step
@@ -286,7 +313,7 @@ its source.
   current-steering (section 3): the tails conduct continuously and the switches route the current, a
   stationary flicker current only routed, which is the c_0 = d case. On the probe's integral (a K/f + W fit
   splits it roughly 70-75 % flicker / 25-30 % white, d = 0.01945 at t_on = 389 ps) the two-term form gives
-  t_on of about 1.23 ns for the pump's 2.0e-4 rad^2 share and about 2.6 ns for the whole 5.0e-4, against
+  t_on of about 1.23 ns for the pump alone to fill the joint PFD/CP share and about 2.6 ns for the whole 5.0e-4, against
   389 ps and 972 ps under d x S_i: the table above is **pessimistic by roughly 3x**, not unbiased. This is
   re-derivation plus arithmetic on the committed probe log, not a simulation, and the split is a fit
   (+4.6 % on the measured integral), so treat the ratios as approximate. ngspice has no periodic-noise
@@ -302,6 +329,9 @@ its source.
 
 ## Alternatives considered
 
+- **Exclude external source quality.** The sibling GF180 PLL assigns reference-source quality to the
+  integrator. Here row 2 explicitly includes source noise in the budget and row 8 grades its transferred
+  variance, so method L needs a bounded reference input. [GF180 PLL DR-019](https://github.com/2AMLogic/gf180-pll/blob/0221efb98ed5803ba36472a3dd51efa7df1ec6f7/spec/decision-records/DR-019-reference-input-contract-owner-and-source-quality-exclusion.md)
 - **Keep one combined figure for reference plus PFD/CP.** Rejected: that is what DR-001 already has, and
   splitting it is what this record exists to do.
 - **Write the method into the bench issue (#253) instead of `spec/`.** Rejected: CLAUDE.md requires a spec
@@ -332,5 +362,5 @@ its source.
   (row 11 allocates it 4 mW together with the clock buffering).
 - Choosing or qualifying a reference oscillator part.
 - Whether transient noise is affordable, for the loop (gate G6) or for the divider chain alone (#253, #88).
-- The split at the stretch band N = 90-110: it is stated at N = 100 and f_c = 1 MHz, with the under-1-dB
-  sensitivity in section 2.
+- Qualification of the stretch band N = 90-110: section 2 gives the brick-wall sensitivity about the
+  nominal N = 100, f_c = 1 MHz point. A stretch design recalculates its loop-weighted mask and grade.

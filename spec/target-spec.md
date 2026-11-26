@@ -136,10 +136,12 @@ length, window, estimator, and the linear model's inputs.
   plus the **PFD**'s own UP/DN edge jitter by method T (not yet run; needs
   hand-instantiated `trnoise()` sources, DR-007 §4); the
   **divider/prescaler** by method T on the divider alone (method N is
-  withdrawn for it, DR-007 §4); R1 from 4kT·R1; the reference-source phase
-  noise as the stated requirement **R-REF-1** (DR-007 §1) — ≤ **−142.0
-  dBc/Hz** single-sideband over 10 kHz−10 MHz at f_ref = 50 MHz, a
-  requirement on an **external source**, not on any part designed here.
+  withdrawn for it, DR-007 §4); R1 from 4kT·R1. For the **external 50 MHz
+  reference**, R-REF-1 requires a flat SSB mask over 10 kHz−10 MHz at every
+  C-grid temperature. Size it for the largest method-L noise bandwidth
+  across the designed grid so the reference contributes ≤ 2·10⁻⁴ rad²
+  everywhere. The full 25-point committed filter sweep gives **−148.0 dBc/Hz**.
+  Use the mask or the source's documented spectrum in method L (DR-007 §1–2).
   Every input is single-sideband dBc/Hz **referred to the PFD input**, or
   states its conversion to that plane (DR-007 §2).
 - **Estimator**: integrate L(f) over 10 kHz-10 MHz on a log grid, ≥ 10
@@ -173,16 +175,21 @@ method T instead (DR-007 §3, §4).
   L_in(f) = S_φ,in(f)/2, referred to the PFD input. **t_on is a per-corner
   input with a named source** — the UP/DN pulse width at **charge balance**
   (the per-corner REF–FB offset τ₀ where average pump charge per cycle is zero
-  at the lock V_ctrl, not at aligned edges), from the `sim/pfd` sweep — not a
-  constant. The PFD's own jitter Δt is the fluctuation in the signed
+  at the lock V_ctrl), from the `sim/pfd` sweep. For unequal pulses use the
+  joint VOUT spectrum during the actual overlap and the corresponding net
+  spectrum during each UP-only, DN-only and both-dumped interval, weighted
+  by its duration/T_ref. Record or bound the both-dumped contribution.
+  The both-on spectrum includes leg correlation (DR-007 §3).
+  The PFD's own jitter Δt is the fluctuation in the signed
   pulse-width difference, or in net charge ÷ dQ/dτ, never a per-pulse width
   alone (DR-007 §3).
 - **Method fields**: DR-007 §5 lists the ten a method-N number carries next to
   it. The duty-cycle gating is a first-order approximation, weakest on the
   pump's flicker noise, where it is a conservative upper bound (about 1/d
-  over-estimate of the flicker part, exact for the white part; DR-007
-  Limits); every method-N number says so. Switching-transient terms are
-  unbounded by that argument; method T is not yet a demonstrated bound.
+  over-estimate of the flicker part for one active state, exact for the white
+  part under the stated gating assumptions, DR-007 §3 and Limits). Every
+  method-N number says so. Switching-transient terms are unbounded by that
+  argument; method T is not yet a demonstrated bound.
 
 ### Cross-check: transient noise (method **T**)
 
@@ -205,21 +212,19 @@ method T instead (DR-007 §3, §4).
 | Share | rad² (of 9.87·10⁻⁴ = 1 ps at 5 GHz) | Basis |
 |---|---|---|
 | In-band (reference, PFD/CP, divider) | ≤ 5·10⁻⁴ | ⇒ ≤ −98 dBc/Hz at the output in-band ⇒ ≤ −138 dBc/Hz referred to the PFD input |
-| — reference (R-REF-1, external source), DR-007 | ≤ 2·10⁻⁴ | flat ≤ **−142.0 dBc/Hz** at the PFD input over 10 kHz−10 MHz; 450 fs rms |
-| — PFD/CP, DR-007 | ≤ 2·10⁻⁴ | flat ≤ **−142.0 dBc/Hz** at the PFD input; 450 fs rms; method N (pump) + method T (PFD edges; not yet run) |
-| — divider/prescaler, DR-007 | ≤ 1·10⁻⁴ | flat ≤ **−145.0 dBc/Hz** at the PFD input; 318 fs rms of ÷N-output edge jitter; target, method T not yet run |
+| — reference (external source), DR-007 | ≤ 2·10⁻⁴ | 450 fs output rms. Nominal 1 MHz brick-wall equivalent −142.0 dBc/Hz. Qualify the source to R-REF-1 above. |
+| — PFD/CP, DR-007 | ≤ 2·10⁻⁴ | 450 fs output rms. Nominal 1 MHz brick-wall equivalent −142.0 dBc/Hz. Pump (N) and PFD edges (T, pending) share this limit. |
+| — divider/prescaler, DR-007 | ≤ 1·10⁻⁴ | 318 fs output rms after loop weighting of ÷N-edge noise. Nominal 1 MHz brick-wall equivalent −145.0 dBc/Hz. Method T pending. |
 | VCO outside f_c | ≤ 2·10⁻⁴ | 1/f² line at −105 dBc/Hz @ 1 MHz needs f_c ≥ 0.32 MHz |
 | R1, CP shaping, supply/substrate coupling, spur-related | ≤ 2.9·10⁻⁴ (remainder) | allocation |
 
-The three in-band sub-rows are DR-001's 5·10⁻⁴ **split**, not a change to it:
-they sum to exactly 5·10⁻⁴ rad² (the flat dBc/Hz and fs columns are the
-allocation basis; the **pass criterion** is each term's loop-weighted output
-variance against its own rad² limit, DR-007 §2), and row 8's limit, the 5 / 2 / 2.9 ·10⁻⁴
-allocation and the −138 dBc/Hz total are unchanged. They are an allocation,
-not a derivation — no method-N or method-T number exists for any of the three
-— and they are stated at **N = 100 and f_c = 1 MHz**; over N = 90-110 the
-rad² column is unchanged and the dBc/Hz column moves by under 1 dB
-(DR-007 §2).
+The three sub-rows allocate DR-001's full 5·10⁻⁴ rad². At **every graded C-grid point
+across the §3 Kvco range**, integrate each term's spectrum through its local method-L
+transfer over 10 kHz−10 MHz and compare with its rad² limit (DR-007 §2). The fs values
+express those output variances at 5 GHz. The PFD-input dBc/Hz equivalents use DR-001's
+brick-wall arithmetic at N = 100 and f_c = 1 MHz. They shift by −10 log₁₀(f_c / 1 MHz)
+over row 5's 0.5–2.0 MHz band (+3.01 to −3.01 dB) and by under 1 dB over N = 90–110
+under the conditions in DR-007 §2. The rad² allocations apply throughout.
 
 A free-running VCO at the same L(f) integrates to ≈ 2.5 ps over 10 kHz-10
 MHz (6.3·10⁻³ rad²), so the loop is required, not optional.
