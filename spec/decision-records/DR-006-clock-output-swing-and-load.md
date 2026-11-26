@@ -10,7 +10,10 @@
 A downstream 10 Gb/s half-rate SerDes TX mux (`2AMLogic/sg13g2-serdes`, `spec/decisions/DR-009-mux-clock-swing.md`
 and `spec/clock-requirement.md`, Level / load row; cited via the issue and read at `f72fa11`; the consumer's own grading, not re-verified here)
 needs the 5.0 GHz clock at **≥ 0.4 V per side (0.8 Vpp differential), common mode ≈ 0.6 V**, into a self-biased,
-AC-coupled squarer. The requester reports that at ss / 1.08 V the mux output was not switched with 0.4 V per side, so the
+AC-coupled squarer. In the consumer's pinned bench (`sim/tx/tx_mos_mux2to1_cml.sp` at `f72fa11`, lines 70–71) `ckp` is
+driven 0.4 → 0.8 V and `ckn` 0.8 → 0.4 V (0.4 Vpp per pin, 0.8 Vpp differential, 0.6 V common mode) at the mux's `ckp/ckn`
+input pins, which sit on the external side of the coupling capacitors `XCca/XCcb` (lines 46 and 52) and connect to the
+mux instance (line 77). The receiver is a circuit load whose equivalent 5 GHz input impedance is unspecified. The requester reports that at ss / 1.08 V the mux output was not switched with 0.4 V per side, so the
 real need is higher; no higher figure was given. DR-009 is proposed there, not ratified (read at `f72fa11`).
 
 `spec/target-spec.md` had no row for the clock at an output interface. I6 (VCO row 7) is a **target**: no output buffer
@@ -26,12 +29,14 @@ at f_osc 3.686–4.298 GHz, none at 5.0 GHz; the 125 °C points did not converge
 ## Decision
 
 1. `spec/target-spec.md` gains **row 15**, a clock-output interface row: node (not yet defined), swing per side and
-   differential, common mode, load (self-biased AC-coupled squarer; **load value not provided**), supply, corner set
+   differential, common mode, load (the consumer's self-biased AC-coupled squarer circuit; its **5 GHz input impedance is not specified**), supply, corner set
    (C-grid), and method owed (T). The request is recorded as the requester gave it. Figures are the requester's
    request or the VCO's target; none is simulated or measured here.
 2. **Status: not met / not claimed.** No swing at a 5 GHz output into the squarer is graded, so no pass and no measured
-   failure is claimed. The row must not be read as met. Where swing is observed, and which side of the AC coupling owns the
-   ≈ 0.6 V common mode, are undefined (the coupling blocks DC). The requester's 1.08 V is the receiver's supply in a coupled
+   failure is claimed. The row must not be read as met. The consumer applies the swing at its mux `ckp/ckn` pins, outside the coupling capacitors, so the driver
+   side owns the ≈ 0.6 V common mode (the coupling blocks DC). **Open:** the future PLL output pins, the common mode this
+   block's driver must provide, and the swing it delivers into the mux input; `VOP/VON` are connected only internally
+   (`XVCO` to `XPS`, `design/netlist/pll_top.spice`). The requester's 1.08 V is the receiver's supply in a coupled
    test, separate from this block's own 2.97–3.63 V grid (§5).
 3. I6 and every other ratified row are **unchanged**. The request is not folded into I6 and I6 is not reworded to fit it.
 
@@ -53,5 +58,5 @@ at f_osc 3.686–4.298 GHz, none at 5.0 GHz; the 125 °C points did not converge
 
 ## Not done
 
-No buffer is designed or simulated. No swing is graded at an output node or into the squarer. The load value is not
-known, nor is the receiver's sufficient input swing (consumer DR-009 is proposed, pinned `f72fa11`). The consumer's ss / 1.08 V requirement is not quantified. Row 15 is unratified.
+No buffer is designed or simulated. No swing is graded at an output node or into the squarer. The receiver's equivalent 5 GHz input
+impedance is not specified, nor is its sufficient input swing (consumer DR-009 is proposed, pinned `f72fa11`). The consumer's ss / 1.08 V requirement is not quantified. Row 15 is unratified.
