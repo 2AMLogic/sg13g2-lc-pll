@@ -14,3 +14,4 @@ Evidence and pins. See the repo README for scope.
 - [`jitter/`](jitter/README.md) — row 8 method-L jitter record with its section 4 method fields (method T not run).
 - [`testbench-inventory.json`](testbench-inventory.json) / [`.md`](testbench-inventory.md) — T1 item 9 inventory (`klt signoff --attest 9`) and the per-row bench map with owner issues.
 - [`lock-detector/`](lock-detector/README.md) — gate G5, lock detector half: the pinned `sg13g2-pll` PFD driving the pinned `lock_detector` at 50 MHz; delay window, LOCK trip phase errors, nominal then the C-grid through `klt sim` (batch); records are append-only.
+- [`noise-probe/`](noise-probe/README.md) — DR-007's ngspice-47 probes for small-signal device noise and transient source injection. The method-N corner bench belongs to #253.

@@ -131,19 +131,79 @@ length, window, estimator, and the linear model's inputs.
 - **Inputs, each with its source**: VCO L(f) from `sg13g2-vco` row 4's
   measurement (**the method of that row is open there**; until it closes,
   the free-running input is the 1/f² line through −105 dBc/Hz @ 1 MHz, a
-  target, and every L result says so); CP, PFD and prescaler noise from
-  ngspice small-signal `.noise` at the locked operating point (N), reported
-  per C-grid corner; R1 from 4kT·R1; the reference-source phase noise as a
-  stated requirement.
+  target, and every L result says so); the **charge pump** from ngspice
+  small-signal `.noise` (method **N** below), reported per C-grid corner,
+  plus the **PFD**'s own UP/DN edge jitter by method T (not yet run; needs
+  hand-instantiated `trnoise()` sources, DR-007 §4); the
+  **divider/prescaler** by method T on the divider alone (method N is
+  withdrawn for it, DR-007 §4); R1 from 4kT·R1. For the **external 50 MHz
+  reference**, R-REF-1 requires a flat SSB mask over 10 kHz−10 MHz at every
+  C-grid temperature. Size it for the largest method-L noise bandwidth
+  across the designed grid so the reference contributes ≤ 2·10⁻⁴ rad²
+  everywhere. With the filter elements held nominal, the 25-point design
+  sweep gives **−148.0 dBc/Hz**. [Method-L sweep record](../sim/jitter/records/20261126-083754-a8f665e-r-ref-1.json)
+  Use the mask or the source's documented spectrum in method L (DR-007 §1–2).
+  Every input is single-sideband dBc/Hz **referred to the PFD input**, or
+  states its conversion to that plane (DR-007 §2).
 - **Estimator**: integrate L(f) over 10 kHz-10 MHz on a log grid, ≥ 10
   points per decade, trapezoid on log-f, σ_φ² = 2∫L df.
 - **Variance and limits**: deterministic given its inputs; its error is
   the inputs' error. It does not capture supply or substrate coupling
   into the tank: those are graded post-layout with the VCO in place.
 
+### Component noise: ngspice `.noise` (method **N**)
+
+Defined by [DR-007](decision-records/DR-007-reference-noise-and-method-n.md),
+which **narrows method N to the charge pump**. The PFD and the
+divider/prescaler have no DC operating point that represents the edge their
+noise acts on — a latched `.op` solution carries no path to output-edge
+timing — so a single static `.noise` run cannot supply their terms. They come from
+method T instead (DR-007 §3, §4).
+
+- **Operating point**: the `.op` solution of `design/netlist/cp.spice` with
+  UP and DN **both asserted** (the reset-overlap state in lock, in which this
+  current-steering pump routes both tails to VOUT), the output held at the
+  lock `Vctrl` by an ideal source, bias at the corner's IREF. `Vctrl` in lock
+  is per corner and comes from **gate G4**; until G4 closes a method-N number
+  states the `Vctrl` it used and is **not** a C-grid grade.
+- **Quantity read**: the pump's **short-circuit output current noise** S_i(f)
+  [A²/Hz] at VOUT over 10 kHz−10 MHz, taken through a noiseless 0 V sense
+  source and a 1 V/A CCVS, because ngspice's `.noise` reports a *voltage*
+  amplitude density (calibrate the units; see `sim/noise-probe/`). The loop
+  filter is **not** in the deck: the method-L model applies the loop shaping,
+  and R1's thermal noise is already a separate term.
+- **Conversion to the model's input**: S_φ,in(f) = S_i(f)·(t_on/T_ref)·(2π/I_eff)²,
+  L_in(f) = S_φ,in(f)/2, referred to the PFD input. **I_eff = dQ/dτ at τ₀** (detector gain
+  (dQ/dτ)/2π), read from the `sim/pfd` charge-versus-delay sweep at the graded corner and
+  lock V_ctrl; the PFD conversion and the method-L I_cp input use the same value. The design
+  I_cp is allowed only with its bound (I_cp/I_eff)² stated (DR-007 §3). **t_on is a per-corner
+  input with a named source** — the UP/DN pulse width at **charge balance**
+  (the per-corner REF–FB offset τ₀ where average pump charge per cycle is zero
+  at the lock V_ctrl), from the `sim/pfd` sweep. For unequal pulses use the
+  joint VOUT spectrum during the actual overlap and the corresponding net
+  spectrum during each UP-only, DN-only and both-dumped interval, weighted
+  by its duration/T_ref. Record or bound the both-dumped contribution.
+  The both-on spectrum includes leg correlation (DR-007 §3).
+  The PFD's own jitter Δt is the fluctuation in the signed
+  pulse-width difference, or in net charge ÷ dQ/dτ, never a per-pulse width
+  alone (DR-007 §3).
+- **Method fields**: DR-007 §5 lists the ten a method-N number carries next to
+  it. The duty-cycle gating is a first-order approximation, weakest on the
+  pump's flicker noise, where it is a conservative upper bound (about 1/d
+  over-estimate of the flicker part for one active state, exact for the white
+  part under the stated gating assumptions, DR-007 §3 and Limits). Every
+  method-N number says so. Switching-transient terms are unbounded by that
+  argument; method T is not yet a demonstrated bound.
+
 ### Cross-check: transient noise (method **T**)
 
-- ngspice transient noise on the loop with noise sources enabled; **window
+- **Device noise sources** must be instantiated explicitly on ngspice-47.
+  The resistor probe with `.option TRANNOISE=1` gave zero transient noise
+  until a source was supplied. For each device, calibrate its noise over
+  its switching trajectory or bound the error of a stationary approximation
+  (DR-007 §4). Method T on the PLL blocks is still unrun.
+  [Transient probe result](../sim/noise-probe/records/20261126-083942-a8f665e-trannoise.txt)
+- ngspice transient noise on the loop with those sources enabled; **window
   ≥ 100 µs** (one period of the 10 kHz lower integration edge), **≥ 8
   non-overlapping windows** averaged (Welch-style) for variance;
   time-interval-error from the output (or the ÷N output) zero crossings.
@@ -158,8 +218,19 @@ length, window, estimator, and the linear model's inputs.
 | Share | rad² (of 9.87·10⁻⁴ = 1 ps at 5 GHz) | Basis |
 |---|---|---|
 | In-band (reference, PFD/CP, divider) | ≤ 5·10⁻⁴ | ⇒ ≤ −98 dBc/Hz at the output in-band ⇒ ≤ −138 dBc/Hz referred to the PFD input |
+| — reference (external source), DR-007 | ≤ 2·10⁻⁴ | 450 fs output rms. Nominal 1 MHz brick-wall equivalent −142.0 dBc/Hz. Qualify the source to R-REF-1 above. |
+| — PFD/CP, DR-007 | ≤ 2·10⁻⁴ | 450 fs output rms. Nominal 1 MHz brick-wall equivalent −142.0 dBc/Hz. Pump (N) and PFD edges (T, pending) share this limit. |
+| — divider/prescaler, DR-007 | ≤ 1·10⁻⁴ | 318 fs output rms after loop weighting of ÷N-edge noise. Nominal 1 MHz brick-wall equivalent −145.0 dBc/Hz. Method T pending. |
 | VCO outside f_c | ≤ 2·10⁻⁴ | 1/f² line at −105 dBc/Hz @ 1 MHz needs f_c ≥ 0.32 MHz |
 | R1, CP shaping, supply/substrate coupling, spur-related | ≤ 2.9·10⁻⁴ (remainder) | allocation |
+
+The three sub-rows allocate DR-001's full 5·10⁻⁴ rad². At **every graded C-grid point
+across the §3 Kvco range**, integrate each term's spectrum through its local method-L
+transfer over 10 kHz−10 MHz and compare with its rad² limit (DR-007 §2). The fs values
+express those output variances at 5 GHz. The PFD-input dBc/Hz equivalents use DR-001's
+brick-wall arithmetic at N = 100 and f_c = 1 MHz. They shift by −10 log₁₀(f_c / 1 MHz)
+over row 5's 0.5–2.0 MHz band (+3.01 to −3.01 dB) and by under 1 dB over N = 90–110
+under the conditions in DR-007 §2. The rad² allocations apply throughout.
 
 A free-running VCO at the same L(f) integrates to ≈ 2.5 ps over 10 kHz-10
 MHz (6.3·10⁻³ rad²), so the loop is required, not optional.
@@ -249,6 +320,14 @@ The loop is graded on the **same grid** as the VCO so the two are comparable.
 
 ## Appended updates (ratified text above is unchanged)
 
+- **Section 4 method text, edited in place (PR #262, DR-007).** No ratified *row* changes, and rows 1-13, the
+  5 / 2 / 2.9 e-4 in-band / VCO outside f_c / other split and the -138 dBc/Hz total are untouched. What changed is
+  section 4's method prose, which DR-001 ratified as method, not as a row: the method-L "Inputs" bullet now names
+  the reference term's source and its value, a "Component noise: ngspice `.noise` (method **N**)" subsection is
+  added, and the in-band budget line gains three sub-rows carrying DR-001's 5e-4 rad^2 split
+  2 / 2 / 1 e-4 across reference, PFD/CP and divider/prescaler. The replaced text is quoted in
+  [DR-007](decision-records/DR-007-reference-noise-and-method-n.md) "Context"; each edited passage cites DR-007.
+  This entry keeps the heading above true -- the edit is in place, not appended.
 - **Row 4, appended (PR #161, DR-005).** The row 4 text above describes the pre-DR-005 arrangement (fixed ÷2 first
   stage, then ÷4/5). The topology that supersedes it is in
   [DR-005](decision-records/DR-005-prescaler-p89-div23-first-stage.md): a **÷2/3 dual-modulus** HBT CML first stage on

@@ -9,16 +9,19 @@ Five terms. Two are computed here: the VCO's target 1/f^2 line and R1 thermal no
 referred to the PFD input, each with its source, in an optional `NOISE_INPUTS` file. **A term with no input is
 reported as missing** - `null` in `sigma_phi_sq_rad2_by_term`, named in `missing_terms`, and named in the
 record's result line - **never as 0.0**, so a partial result cannot be summed as if it were complete. No input
-file is committed: the reference requirement is #252 and the method-N bench that measures the PFD/CP and
-divider terms is #253, so today every run is partial and says so.
+file is needed for the default run. [The R-REF-1 input](r-ref-1.json) supplies the external reference alone.
+Its [method-L record](records/20261126-083754-a8f665e-r-ref-1.json) checks that share across the 25-point design
+sweep. The pump, PFD and divider still need their component noise inputs for a complete row 8 result.
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install numpy pytest     # once
 PYTHON=.venv/bin/python scripts/run-jitter.sh                    # writes records/<date>-<sha>.md
 PYTHON=.venv/bin/python scripts/test-jitter-negative.sh          # C2 = C1 must fail the gate; inputs must be stated
 
-# with in-band inputs (none committed; what the record carries is described below):
-NOISE_INPUTS=path/to/in-band.json PYTHON=.venv/bin/python scripts/run-jitter.sh
+# R-REF-1: check the external reference mask with the replay in DR-007 section 1
+# (python3 sim/loop-model/loop_model.py --noise-inputs sim/jitter/r-ref-1.json ..., then its jq gate).
+# That replay is the verified route. The generator's own record text below does not attribute
+# the in-band terms to a method: PFD and divider timing are method T (DR-007 sections 3-4).
 ```
 
 With `NOISE_INPUTS` set the record states the inputs rather than only naming the file. It gives the file's

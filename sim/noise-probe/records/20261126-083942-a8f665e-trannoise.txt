@@ -1,0 +1,25 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: ngspice-47 transient noise capability probe: two matched resistive dividers
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+rail                                         1
+quiet                                      0.5
+driven                                     0.5
+vdd#branch                              -1e-05
+
+
+No. of Data Rows : 10004
+option_only_pp      =  0.00000e+00 from=  0.00000e+00 to=  2.00000e-06
+explicit_source_pp  =  8.94836e-06 from=  0.00000e+00 to=  2.00000e-06
+ngspice-47 done

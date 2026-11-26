@@ -1,0 +1,19 @@
+ngspice-47 transient noise capability probe: two matched resistive dividers
+.temp 27
+.option TRANNOISE=1
+Vdd rail 0 1
+R1 rail quiet 100k
+R2 quiet 0 100k
+R3 rail driven 100k
+R4 driven 0 100k
+* Explicit source on the second copy only. Amplitude is illustrative.
+Inz driven 0 DC 0 trnoise(40p 1n 0 0)
+.tran 1n 2u
+.control
+setseed 262
+run
+meas tran option_only_pp PP v(quiet) FROM=0 TO=2u
+meas tran explicit_source_pp PP v(driven) FROM=0 TO=2u
+quit
+.endc
+.end

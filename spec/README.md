@@ -9,6 +9,8 @@
   `DR-003` proposes the row 11 loop-power fallback (<= 30 mW); proposed, not ratified.
   `DR-005` supersedes row 4's prescaler arrangement with a div-2/3 first stage plus
   a fixed div-4 (P = 8/9), restoring contiguous N; proposed, not ratified.
+  `DR-007` states the reference phase-noise requirement (R-REF-1), splits DR-001's
+  in-band share three ways, and defines method N (charge pump only); proposed.
   `DR-008` drops the vendored design-evidence tier checklist and the `--tiers-doc`
   override; the pinned `klt` selects it (operator ruling of 2026-11-23 on #223).
   This index lists only records on `main`. A `DR-NNN` number is claimed by the PR
